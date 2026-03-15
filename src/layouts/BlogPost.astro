@@ -1,19 +1,37 @@
 ---
-import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
+import GiscusComments from '../components/GiscusComments.astro';
 import Header from '../components/Header.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, date, thumbnail, category, tags } = Astro.props;
+
+const categoryLabel: Record<string, string> = {
+	ai: 'AI',
+	medicine: '의학',
+	education: '교육',
+	dev: '개발',
+	life: '일상',
+};
+
+const pageUrl = Astro.url.href;
+const encodedUrl = encodeURIComponent(pageUrl);
+const encodedTitle = encodeURIComponent(title);
+
+const shareLinks = {
+	twitter: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+	linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+	kakao: null, // 카카오는 SDK 필요 - JS에서 처리
+};
 ---
 
-<html lang="en">
+<html lang="ko">
 	<head>
-		<BaseHead title={title} description={description} />
+		<BaseHead title={title} description={description} image={thumbnail} />
 		<style>
 			main {
 				width: calc(100% - 2em);
@@ -28,6 +46,9 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				margin: 0 auto;
 				border-radius: 12px;
 				box-shadow: var(--box-shadow);
+				max-height: 400px;
+				width: 100%;
+				object-fit: cover;
 			}
 			.prose {
 				width: 720px;
@@ -45,13 +66,74 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			.title h1 {
 				margin: 0 0 0.5em 0;
 			}
-			.date {
+			.meta {
 				margin-bottom: 0.5em;
 				color: rgb(var(--gray));
+				display: flex;
+				gap: 0.75rem;
+				align-items: center;
+				justify-content: center;
+				flex-wrap: wrap;
 			}
-			.last-updated-on {
-				font-style: italic;
+			.category-badge {
+				display: inline-block;
+				font-size: 0.75rem;
+				font-weight: 600;
+				padding: 2px 10px;
+				border-radius: 999px;
+				background: rgb(var(--accent));
+				color: white;
 			}
+			.tags {
+				display: flex;
+				gap: 0.4rem;
+				flex-wrap: wrap;
+				justify-content: center;
+				margin-top: 0.5rem;
+			}
+			.tag {
+				font-size: 0.75rem;
+				padding: 2px 8px;
+				border-radius: 999px;
+				background: rgb(var(--gray-light));
+				color: rgb(var(--gray-dark));
+			}
+			/* 소셜 공유 버튼 */
+			.share-section {
+				margin-top: 2.5rem;
+				padding-top: 1.5rem;
+				border-top: 1px solid rgb(var(--gray-light));
+				text-align: center;
+			}
+			.share-section p {
+				font-size: 0.9rem;
+				color: rgb(var(--gray));
+				margin-bottom: 0.75rem;
+			}
+			.share-buttons {
+				display: flex;
+				gap: 0.75rem;
+				justify-content: center;
+				flex-wrap: wrap;
+			}
+			.share-btn {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.4rem;
+				padding: 0.4rem 1rem;
+				border-radius: 8px;
+				font-size: 0.875rem;
+				font-weight: 600;
+				text-decoration: none;
+				border: none;
+				cursor: pointer;
+				transition: opacity 0.2s;
+			}
+			.share-btn:hover { opacity: 0.8; }
+			.share-btn.twitter { background: #1da1f2; color: white; }
+			.share-btn.linkedin { background: #0077b5; color: white; }
+			.share-btn.kakao { background: #fee500; color: #3c1e1e; }
+			.share-btn.copy { background: rgb(var(--gray-light)); color: rgb(var(--gray-dark)); }
 		</style>
 	</head>
 
@@ -59,28 +141,121 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 		<Header />
 		<main>
 			<article>
-				<div class="hero-image">
-					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
-				</div>
+				{thumbnail && (
+					<div class="hero-image">
+						<img src={thumbnail} alt={title} />
+					</div>
+				)}
 				<div class="prose">
 					<div class="title">
-						<div class="date">
-							<FormattedDate date={pubDate} />
-							{
-								updatedDate && (
-									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
+						<div class="meta">
+							{category && (
+								<span class="category-badge">
+									{categoryLabel[category] ?? category}
+								</span>
+							)}
+							<FormattedDate date={date} />
 						</div>
 						<h1>{title}</h1>
+						{tags && tags.length > 0 && (
+							<div class="tags">
+								{tags.map((tag) => <span class="tag">#{tag}</span>)}
+							</div>
+						)}
 						<hr />
 					</div>
 					<slot />
+
+					<!-- 소셜 공유 버튼 -->
+					<div class="share-section">
+						<p>이 글이 도움이 됐나요? 공유해 주세요.</p>
+						<div class="share-buttons">
+							<a
+								href={shareLinks.twitter}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="share-btn twitter"
+							>
+								𝕏 트위터
+							</a>
+							<a
+								href={shareLinks.linkedin}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="share-btn linkedin"
+							>
+								LinkedIn
+							</a>
+							<button
+								id="kakao-share-btn"
+								class="share-btn kakao"
+							>
+								카카오톡
+							</button>
+							<button
+								id="copy-link-btn"
+								class="share-btn copy"
+							>
+								링크 복사
+							</button>
+						</div>
+					</div>
+
+					<GiscusComments />
 				</div>
 			</article>
 		</main>
 		<Footer />
+
+		<script define:vars={{ pageUrl, title }}>
+			// 링크 복사
+			document.getElementById('copy-link-btn')?.addEventListener('click', () => {
+				navigator.clipboard.writeText(pageUrl).then(() => {
+					const btn = document.getElementById('copy-link-btn');
+					if (btn) {
+						btn.textContent = '복사됨!';
+						setTimeout(() => { btn.textContent = '링크 복사'; }, 2000);
+					}
+				});
+			});
+
+			// 카카오 공유 (SDK 미설치 시 fallback)
+			document.getElementById('kakao-share-btn')?.addEventListener('click', () => {
+				if (typeof Kakao !== 'undefined' && Kakao.isInitialized()) {
+					Kakao.Share.sendDefault({
+						objectType: 'feed',
+						content: {
+							title: title,
+							webUrl: pageUrl,
+							mobileWebUrl: pageUrl,
+						},
+					});
+				} else {
+					// 카카오 SDK 미설치 시 링크 복사로 대체
+					navigator.clipboard.writeText(pageUrl).then(() => {
+						alert('카카오 SDK 미설치 상태입니다. 링크가 복사되었습니다.\n카카오톡에서 직접 붙여넣어 공유하세요.');
+					});
+				}
+			});
+
+			// 우클릭 방지 (콘텐츠 보호)
+			document.addEventListener('contextmenu', (e) => e.preventDefault());
+			document.addEventListener('selectstart', (e) => {
+				const target = e.target;
+				if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') return;
+				e.preventDefault();
+			});
+			document.addEventListener('dragstart', (e) => e.preventDefault());
+			document.addEventListener('keydown', (e) => {
+				// Ctrl+C, Ctrl+S, Ctrl+U, F12, Ctrl+Shift+I 차단
+				if (
+					(e.ctrlKey && ['c', 's', 'u'].includes(e.key.toLowerCase())) ||
+					e.key === 'F12' ||
+					(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i')
+				) {
+					e.preventDefault();
+				}
+			});
+		</script>
 	</body>
 </html>
