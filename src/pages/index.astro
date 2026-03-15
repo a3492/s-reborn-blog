@@ -1,49 +1,313 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { CATEGORIES, SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+const recentPosts = (await getCollection('blog', ({ data }) => !data.draft))
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+	.slice(0, 3);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			/* 핑크 테마 변수 */
+			:root {
+				--pink-main: #e91e8c;
+				--pink-light: #ff6eb4;
+				--pink-bg: #fff0f6;
+				--pink-card: #ffd6e7;
+				--pink-text: #c2185b;
+			}
+
+			/* 히어로 섹션 */
+			.hero {
+				background: linear-gradient(135deg, var(--pink-bg) 0%, #fff 100%);
+				padding: 5rem 1.5rem 4rem;
+				text-align: center;
+			}
+			.hero h1 {
+				font-size: clamp(2rem, 6vw, 3.5rem);
+				font-weight: 800;
+				color: var(--pink-main);
+				margin: 0 0 1rem;
+				line-height: 1.1;
+			}
+			.hero p {
+				font-size: 1.2rem;
+				color: rgb(var(--gray));
+				margin: 0 auto 2rem;
+				max-width: 600px;
+			}
+			.hero-btns {
+				display: flex;
+				gap: 1rem;
+				justify-content: center;
+				flex-wrap: wrap;
+			}
+			.btn-primary {
+				background: var(--pink-main);
+				color: white;
+				padding: 0.7rem 1.8rem;
+				border-radius: 999px;
+				text-decoration: none;
+				font-weight: 700;
+				font-size: 1rem;
+				transition: opacity 0.2s;
+			}
+			.btn-primary:hover { opacity: 0.85; }
+			.btn-secondary {
+				background: white;
+				color: var(--pink-main);
+				padding: 0.7rem 1.8rem;
+				border-radius: 999px;
+				text-decoration: none;
+				font-weight: 700;
+				font-size: 1rem;
+				border: 2px solid var(--pink-main);
+				transition: all 0.2s;
+			}
+			.btn-secondary:hover {
+				background: var(--pink-bg);
+			}
+
+			/* 프로필 섹션 */
+			.profile-section {
+				padding: 3.5rem 1.5rem;
+				text-align: center;
+				border-bottom: 1px solid rgb(var(--gray-light));
+			}
+			.profile-avatar {
+				width: 100px;
+				height: 100px;
+				border-radius: 50%;
+				background: var(--pink-card);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 2.5rem;
+				margin: 0 auto 1.25rem;
+				border: 3px solid var(--pink-main);
+			}
+			.profile-section h2 {
+				font-size: 1.5rem;
+				font-weight: 700;
+				color: rgb(var(--black));
+				margin: 0 0 0.5rem;
+			}
+			.profile-section p {
+				color: rgb(var(--gray));
+				max-width: 480px;
+				margin: 0 auto 1rem;
+				line-height: 1.7;
+			}
+			.profile-tags {
+				display: flex;
+				gap: 0.5rem;
+				justify-content: center;
+				flex-wrap: wrap;
+			}
+			.profile-tag {
+				background: var(--pink-card);
+				color: var(--pink-text);
+				padding: 4px 12px;
+				border-radius: 999px;
+				font-size: 0.85rem;
+				font-weight: 600;
+			}
+
+			/* 카테고리 섹션 */
+			.section {
+				padding: 3.5rem 1.5rem;
+				max-width: 960px;
+				margin: 0 auto;
+			}
+			.section-title {
+				font-size: 1.5rem;
+				font-weight: 700;
+				color: rgb(var(--black));
+				margin: 0 0 1.5rem;
+				text-align: center;
+			}
+			.section-title span {
+				color: var(--pink-main);
+			}
+			.category-grid {
+				display: flex;
+				gap: 1rem;
+				flex-wrap: wrap;
+				justify-content: center;
+			}
+			.category-card {
+				background: white;
+				border: 2px solid var(--pink-card);
+				border-radius: 16px;
+				padding: 1.5rem 2rem;
+				text-align: center;
+				text-decoration: none;
+				color: rgb(var(--black));
+				transition: all 0.2s;
+				min-width: 120px;
+			}
+			.category-card:hover {
+				border-color: var(--pink-main);
+				background: var(--pink-bg);
+				transform: translateY(-3px);
+				box-shadow: 0 6px 20px rgba(233,30,140,0.12);
+			}
+			.category-icon { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
+			.category-label { font-size: 0.95rem; font-weight: 600; }
+
+			/* 최근 글 섹션 */
+			.recent-section {
+				background: var(--pink-bg);
+				padding: 3.5rem 1.5rem;
+			}
+			.recent-inner {
+				max-width: 960px;
+				margin: 0 auto;
+			}
+			.post-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+				gap: 1.5rem;
+				margin-bottom: 2rem;
+			}
+			.post-card {
+				background: white;
+				border-radius: 16px;
+				padding: 1.5rem;
+				text-decoration: none;
+				color: rgb(var(--black));
+				border: 1px solid var(--pink-card);
+				transition: all 0.2s;
+				display: block;
+			}
+			.post-card:hover {
+				box-shadow: 0 6px 24px rgba(233,30,140,0.1);
+				transform: translateY(-2px);
+			}
+			.post-card-badge {
+				display: inline-block;
+				background: var(--pink-card);
+				color: var(--pink-text);
+				font-size: 0.75rem;
+				font-weight: 700;
+				padding: 2px 10px;
+				border-radius: 999px;
+				margin-bottom: 0.75rem;
+			}
+			.post-card h3 {
+				font-size: 1.05rem;
+				font-weight: 700;
+				margin: 0 0 0.5rem;
+				line-height: 1.4;
+			}
+			.post-card p {
+				font-size: 0.875rem;
+				color: rgb(var(--gray));
+				margin: 0 0 0.75rem;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+			}
+			.post-card-date {
+				font-size: 0.8rem;
+				color: rgb(var(--gray));
+			}
+			.view-all {
+				text-align: center;
+			}
+			.view-all a {
+				color: var(--pink-main);
+				font-weight: 700;
+				text-decoration: none;
+				font-size: 1rem;
+			}
+			.view-all a:hover { text-decoration: underline; }
+
+			@media (max-width: 720px) {
+				.hero { padding: 3.5rem 1rem 3rem; }
+				.category-card { min-width: 90px; padding: 1rem 1.2rem; }
+			}
+		</style>
 	</head>
 	<body>
 		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
+
+		<!-- 히어로 섹션 -->
+		<section class="hero">
+			<h1>S-Reborn World</h1>
+			<p>{SITE_DESCRIPTION}</p>
+			<div class="hero-btns">
+				<a href="/blog" class="btn-primary">블로그 보기 →</a>
+				<a href="/about" class="btn-secondary">About</a>
+			</div>
+		</section>
+
+		<!-- 프로필 섹션 -->
+		<section class="profile-section">
+			<div class="profile-avatar">👨‍⚕️</div>
+			<h2>S-Reborn</h2>
+			<p>의사이자 AI 연구자입니다. 의학, AI, 그리고 배움에 관한 이야기를 씁니다.</p>
+			<div class="profile-tags">
+				<span class="profile-tag">#의사</span>
+				<span class="profile-tag">#AI연구</span>
+				<span class="profile-tag">#평생학습</span>
+			</div>
+		</section>
+
+		<!-- 카테고리 탐색 섹션 -->
+		<div class="section">
+			<h2 class="section-title">주제별 <span>탐색</span></h2>
+			<div class="category-grid">
+				{CATEGORIES.map((cat) => (
+					<a href={`/blog?category=${cat.id}`} class="category-card">
+						<span class="category-icon">{cat.icon}</span>
+						<span class="category-label">{cat.label}</span>
+					</a>
+				))}
+			</div>
+		</div>
+
+		<!-- 최근 글 섹션 -->
+		<section class="recent-section">
+			<div class="recent-inner">
+				<h2 class="section-title">최근 <span>글</span></h2>
+				{recentPosts.length > 0 ? (
+					<>
+						<div class="post-grid">
+							{recentPosts.map((post) => (
+								<a href={`/blog/${post.id}/`} class="post-card">
+									{post.data.category && (
+										<span class="post-card-badge">
+											{CATEGORIES.find(c => c.id === post.data.category)?.label ?? post.data.category}
+										</span>
+									)}
+									<h3>{post.data.title}</h3>
+									<p>{post.data.description}</p>
+									<span class="post-card-date">
+										<FormattedDate date={post.data.date} />
+									</span>
+								</a>
+							))}
+						</div>
+						<div class="view-all">
+							<a href="/blog">전체 글 보기 →</a>
+						</div>
+					</>
+				) : (
+					<p style="text-align:center; color: rgb(var(--gray));">아직 작성된 글이 없습니다.</p>
+				)}
+			</div>
+		</section>
+
 		<Footer />
 	</body>
 </html>

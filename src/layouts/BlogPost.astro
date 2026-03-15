@@ -6,19 +6,12 @@ import FormattedDate from '../components/FormattedDate.astro';
 import GiscusComments from '../components/GiscusComments.astro';
 import Header from '../components/Header.astro';
 import PostStats from '../components/PostStats.astro';
+import { CATEGORIES } from '../consts';
 
 type Props = CollectionEntry<'blog'>['data'] & { slug?: string };
 
 const { title, description, date, thumbnail, category, tags } = Astro.props;
 const slug = Astro.url.pathname.replace(/^\/blog\//, '').replace(/\/$/, '');
-
-const categoryLabel: Record<string, string> = {
-	ai: 'AI',
-	medicine: '의학',
-	education: '교육',
-	dev: '개발',
-	life: '일상',
-};
 
 const pageUrl = Astro.url.href;
 const encodedUrl = encodeURIComponent(pageUrl);
@@ -153,7 +146,7 @@ const shareLinks = {
 						<div class="meta">
 							{category && (
 								<span class="category-badge">
-									{categoryLabel[category] ?? category}
+									{CATEGORIES.find(c => c.id === category)?.label ?? category}
 								</span>
 							)}
 							<FormattedDate date={date} />
