@@ -17,7 +17,8 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
 			main {
-				width: min(960px, 100%);
+				width: 100%;
+				max-width: 960px;
 				padding: 0 1rem;
 				box-sizing: border-box;
 			}

@@ -250,6 +250,15 @@ const recentPosts = (await getCollection('blog', ({ data }) => !data.draft))
 				.post-grid { grid-template-columns: 1fr; }
 				.profile-section { padding: 2.5rem 1rem; }
 			}
+			@media (max-width: 360px) {
+				.hero h1 { font-size: 1.6rem; }
+				.hero p { font-size: 0.9rem; }
+				.category-card { min-width: 70px; padding: 0.7rem 0.8rem; }
+				.category-icon { font-size: 1.4rem; }
+				.category-label { font-size: 0.78rem; }
+				.section { padding: 2rem 0.75rem; }
+				.recent-section { padding: 2rem 0.75rem; }
+			}
 		</style>
 	</head>
 	<body>
