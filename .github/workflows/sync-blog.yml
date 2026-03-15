@@ -1,0 +1,30 @@
+﻿name: Sync Blog Posts
+
+on:
+  repository_dispatch:
+    types: [sync-blog]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout s-reborn-blog
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.BLOG_SYNC_TOKEN }}
+
+      - name: Clone S_Reborn_and_AI
+        run: |
+          git clone https://${{ secrets.BLOG_SYNC_TOKEN }}@github.com/a3492/S_Reborn_and_AI.git vault
+
+      - name: Copy _BLOG posts
+        run: |
+          rsync -av --delete vault/_BLOG/ src/content/blog/ --exclude '_templates'
+
+      - name: Commit and push
+        run: |
+          git config user.email "action@github.com"
+          git config user.name "GitHub Actions"
+          git add .
+          git diff --staged --quiet || git commit -m "sync: blog posts updated"
+          git push
