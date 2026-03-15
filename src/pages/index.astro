@@ -139,8 +139,13 @@ const recentPosts = (await getCollection('blog', ({ data }) => !data.draft))
 			}
 			.category-grid {
 				display: flex;
+				flex-direction: column;
 				gap: 1rem;
-				flex-wrap: wrap;
+				align-items: center;
+			}
+			.category-row {
+				display: flex;
+				gap: 1rem;
 				justify-content: center;
 			}
 			.category-card {
@@ -267,12 +272,22 @@ const recentPosts = (await getCollection('blog', ({ data }) => !data.draft))
 		<div class="section">
 			<h2 class="section-title">주제별 <span>탐색</span></h2>
 			<div class="category-grid">
-				{CATEGORIES.map((cat) => (
-					<a href={`/blog?category=${cat.id}`} class="category-card">
-						<span class="category-icon">{cat.icon}</span>
-						<span class="category-label">{cat.label}</span>
-					</a>
-				))}
+				<div class="category-row">
+					{CATEGORIES.slice(0, 2).map((cat) => (
+						<a href={`/blog?category=${cat.id}`} class="category-card">
+							<span class="category-icon">{cat.icon}</span>
+							<span class="category-label">{cat.label}</span>
+						</a>
+					))}
+				</div>
+				<div class="category-row">
+					{CATEGORIES.slice(2).map((cat) => (
+						<a href={`/blog?category=${cat.id}`} class="category-card">
+							<span class="category-icon">{cat.icon}</span>
+							<span class="category-label">{cat.label}</span>
+						</a>
+					))}
+				</div>
 			</div>
 		</div>
 
