@@ -46,11 +46,12 @@ const shareLinks = {
 				object-fit: cover;
 			}
 			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
+				width: min(720px, 100%);
+				max-width: 100%;
 				margin: auto;
 				padding: 1em;
 				color: rgb(var(--gray-dark));
+				box-sizing: border-box;
 			}
 			.title {
 				margin-bottom: 1em;
@@ -129,6 +130,12 @@ const shareLinks = {
 			.share-btn.linkedin { background: #0077b5; color: white; }
 			.share-btn.kakao { background: #fee500; color: #3c1e1e; }
 			.share-btn.copy { background: rgb(var(--gray-light)); color: rgb(var(--gray-dark)); }
+			@media (max-width: 480px) {
+				.share-buttons { flex-direction: column; align-items: stretch; }
+				.share-btn { justify-content: center; }
+				.prose { padding: 0.75em; }
+				.title h1 { font-size: 1.4rem; }
+			}
 		</style>
 	</head>
 

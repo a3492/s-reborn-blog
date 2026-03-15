@@ -81,5 +81,23 @@ import HeaderLink from './HeaderLink.astro';
 		.social-links {
 			display: none;
 		}
+		nav {
+			flex-wrap: nowrap;
+			gap: 0;
+		}
+		h2 {
+			flex-shrink: 0;
+			font-size: 0.9em;
+			white-space: nowrap;
+		}
+		.internal-links {
+			display: flex;
+			justify-content: flex-end;
+			flex: 1;
+		}
+		nav a {
+			padding: 1em 0.4em;
+			font-size: 0.9em;
+		}
 	}
 </style>
