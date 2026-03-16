@@ -7,6 +7,8 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout s-reborn-blog
         uses: actions/checkout@v4
@@ -19,6 +21,7 @@ jobs:
 
       - name: Copy _BLOG posts
         run: |
+          mkdir -p src/content/blog
           rsync -av --delete vault/_BLOG/ src/content/blog/ --exclude '_templates'
 
       - name: Commit and push
