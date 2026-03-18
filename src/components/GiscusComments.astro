@@ -1,0 +1,35 @@
+---
+// giscus 댓글 컴포넌트
+// 설정 방법:
+// 1. https://github.com/a3492/s-reborn-blog 에서 Settings → Discussions 활성화
+// 2. https://github.com/apps/giscus 에서 앱 설치 (s-reborn-blog 레포 선택)
+// 3. https://giscus.app 에서 레포 설정 후 data-repo-id, data-category-id 값을 아래에 입력
+---
+
+<section class="giscus-wrapper">
+	<script
+		is:inline
+		src="https://giscus.app/client.js"
+		data-repo="a3492/s-reborn-blog"
+		data-repo-id="R_kgDORnFhoQ"
+		data-category="General"
+		data-category-id="DIC_kwDORnFhoc4C4cVj"
+		data-mapping="pathname"
+		data-strict="0"
+		data-reactions-enabled="1"
+		data-emit-metadata="0"
+		data-input-position="bottom"
+		data-theme="preferred_color_scheme"
+		data-lang="ko"
+		crossorigin="anonymous"
+		async
+	></script>
+</section>
+
+<style>
+	.giscus-wrapper {
+		margin-top: 3rem;
+		padding-top: 2rem;
+		border-top: 1px solid rgb(var(--gray-light));
+	}
+</style>

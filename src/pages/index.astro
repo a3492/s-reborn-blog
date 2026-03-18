@@ -1,557 +1,344 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+import { CATEGORIES, SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
-const allPosts = await getCollection('blog');
-const publishedPosts = allPosts
-  .filter(post => !post.data.draft)
-  .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
-
-// Featured post
-const featuredPost = publishedPosts[0];
-
-// Recent posts for grid
-const recentPosts = publishedPosts.slice(0, 8);
-
-const { SITE_TITLE, SITE_DESCRIPTION } = import.meta.env;
+const recentPosts = (await getCollection('blog', ({ data }) => !data.draft))
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+	.slice(0, 3);
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>S-Reborn World</title>
-  <BaseHead title="S-Reborn World" description="의사이자 AI 연구자의 기록" />
-  <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --pink: #e91e8c;
-      --pink-lo: rgba(233,30,140,0.08);
-      --bg:   #0a0a0a;
-      --bg2:  #111;
-      --bg3:  #131013;
-      --rule: rgba(255,255,255,0.07);
-      --rule2:rgba(255,255,255,0.04);
-      --text: #ede8e4;
-      --t2:   #6e666a;
-      --t3:   #3c3640;
-      --sw: 230px;
-      --display: 'Paperlogy', 'Pretendard', sans-serif;
-      --body:    'Pretendard', 'Apple SD Gothic Neo', sans-serif;
-    }
-    html,body { height:100%; }
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--body);
-      font-size: 14px;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      display: flex;
-    }
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			/* 핑크 테마 변수 */
+			:root {
+				--pink-main: #e91e8c;
+				--pink-light: #ff6eb4;
+				--pink-bg: #fff0f6;
+				--pink-card: #ffd6e7;
+				--pink-text: #c2185b;
+			}
 
-    /* ═══ SIDEBAR ═══ */
-    .sidebar {
-      width: var(--sw);
-      flex-shrink: 0;
-      height: 100vh;
-      position: sticky;
-      top: 0;
-      border-right: 1px solid var(--rule);
-      display: flex;
-      flex-direction: column;
-      padding: 1.4rem 1.2rem 1.2rem;
-      overflow-y: auto;
-      overflow-x: hidden;
-      scrollbar-width: none;
-      background: var(--bg);
-      z-index: 50;
-    }
-    .sidebar::-webkit-scrollbar { display: none; }
+			/* 히어로 섹션 */
+			.hero {
+				background: linear-gradient(135deg, var(--pink-bg) 0%, #fff 100%);
+				padding: 5rem 1.5rem 4rem;
+				text-align: center;
+			}
+			.hero h1 {
+				font-size: clamp(2rem, 6vw, 3.5rem);
+				font-weight: 800;
+				color: var(--pink-main);
+				margin: 0 0 1rem;
+				line-height: 1.1;
+			}
+			.hero p {
+				font-size: 1.2rem;
+				color: rgb(var(--gray));
+				margin: 0 auto 2rem;
+				max-width: 600px;
+			}
+			.hero-btns {
+				display: flex;
+				gap: 1rem;
+				justify-content: center;
+				flex-wrap: wrap;
+			}
+			.btn-primary {
+				background: var(--pink-main);
+				color: white;
+				padding: 0.7rem 1.8rem;
+				border-radius: 999px;
+				text-decoration: none;
+				font-weight: 700;
+				font-size: 1rem;
+				transition: opacity 0.2s;
+			}
+			.btn-primary:hover { opacity: 0.85; }
+			.btn-secondary {
+				background: white;
+				color: var(--pink-main);
+				padding: 0.7rem 1.8rem;
+				border-radius: 999px;
+				text-decoration: none;
+				font-weight: 700;
+				font-size: 1rem;
+				border: 2px solid var(--pink-main);
+				transition: all 0.2s;
+			}
+			.btn-secondary:hover {
+				background: var(--pink-bg);
+			}
 
-    .sb-head { margin-bottom: 1.4rem; }
-    .sb-brand {
-      font-family: var(--display);
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--text);
-      text-decoration: none;
-      letter-spacing: -0.01em;
-      display: block;
-      margin-bottom: 0.3rem;
-    }
-    .sb-tagline {
-      font-size: 0.63rem;
-      color: var(--t3);
-      letter-spacing: 0.03em;
-      line-height: 1.5;
-      font-weight: 400;
-    }
-    .sb-tagline .sep { margin: 0 0.35em; opacity: 0.35; }
-    .sb-rule { height: 1px; background: var(--rule); margin-bottom: 0.9rem; }
+			/* 프로필 섹션 */
+			.profile-section {
+				padding: 3.5rem 1.5rem;
+				text-align: center;
+				border-bottom: 1px solid rgb(var(--gray-light));
+			}
+			.profile-avatar {
+				width: 120px;
+				height: 120px;
+				border-radius: 50%;
+				object-fit: cover;
+				object-position: top;
+				margin: 0 auto 1.25rem;
+				border: 3px solid var(--pink-main);
+				box-shadow: 0 4px 16px rgba(233,30,140,0.15);
+			}
+			.profile-section h2 {
+				font-size: 1.5rem;
+				font-weight: 700;
+				color: rgb(var(--black));
+				margin: 0 0 0.5rem;
+			}
+			.profile-section p {
+				color: rgb(var(--gray));
+				max-width: 480px;
+				margin: 0 auto 1rem;
+				line-height: 1.7;
+			}
+			.profile-tags {
+				display: flex;
+				gap: 0.5rem;
+				justify-content: center;
+				flex-wrap: wrap;
+			}
+			.profile-tag {
+				background: var(--pink-card);
+				color: var(--pink-text);
+				padding: 4px 12px;
+				border-radius: 999px;
+				font-size: 0.85rem;
+				font-weight: 600;
+			}
 
-    .sb-nav { flex: 1; display: flex; flex-direction: column; gap: 1px; }
-    .tree-group { display: flex; flex-direction: column; }
+			/* 카테고리 섹션 */
+			.section {
+				padding: 3.5rem 1.5rem;
+				max-width: 960px;
+				margin: 0 auto;
+			}
+			.section-title {
+				font-size: 1.5rem;
+				font-weight: 700;
+				color: rgb(var(--black));
+				margin: 0 0 1.5rem;
+				text-align: center;
+			}
+			.section-title span {
+				color: var(--pink-main);
+			}
+			.category-grid {
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+				align-items: center;
+			}
+			.category-row {
+				display: flex;
+				gap: 1rem;
+				justify-content: center;
+			}
+			.category-card {
+				background: white;
+				border: 2px solid var(--pink-card);
+				border-radius: 16px;
+				padding: 1.5rem 2rem;
+				text-align: center;
+				text-decoration: none;
+				color: rgb(var(--black));
+				transition: all 0.2s;
+				min-width: 120px;
+			}
+			.category-card:hover {
+				border-color: var(--pink-main);
+				background: var(--pink-bg);
+				transform: translateY(-3px);
+				box-shadow: 0 6px 20px rgba(233,30,140,0.12);
+			}
+			.category-icon { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
+			.category-label { font-size: 0.95rem; font-weight: 600; }
 
-    .tree-row {
-      display: flex;
-      align-items: center;
-      gap: 0.45rem;
-      padding: 0.28rem 0.5rem;
-      border-radius: 4px;
-      cursor: pointer;
-      text-decoration: none;
-      color: var(--t2);
-      font-size: 0.76rem;
-      font-weight: 500;
-      letter-spacing: 0.01em;
-      transition: background 0.1s, color 0.1s;
-      user-select: none;
-      position: relative;
-    }
-    .tree-row:hover { background: rgba(255,255,255,0.04); color: var(--text); }
-    .tree-row.is-active { color: var(--text); }
-    .tree-row.is-active::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 50%;
-      transform: translateY(-50%);
-      width: 2px; height: 12px;
-      background: var(--pink);
-      border-radius: 1px;
-    }
+			/* 최근 글 섹션 */
+			.recent-section {
+				background: var(--pink-bg);
+				padding: 3.5rem 1.5rem;
+			}
+			.recent-inner {
+				max-width: 960px;
+				margin: 0 auto;
+			}
+			.post-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+				gap: 1.5rem;
+				margin-bottom: 2rem;
+			}
+			.post-card {
+				background: white;
+				border-radius: 16px;
+				padding: 1.5rem;
+				text-decoration: none;
+				color: rgb(var(--black));
+				border: 1px solid var(--pink-card);
+				transition: all 0.2s;
+				display: block;
+			}
+			.post-card:hover {
+				box-shadow: 0 6px 24px rgba(233,30,140,0.1);
+				transform: translateY(-2px);
+			}
+			.post-card-badge {
+				display: inline-block;
+				background: var(--pink-card);
+				color: var(--pink-text);
+				font-size: 0.75rem;
+				font-weight: 700;
+				padding: 2px 10px;
+				border-radius: 999px;
+				margin-bottom: 0.75rem;
+			}
+			.post-card h3 {
+				font-size: 1.05rem;
+				font-weight: 700;
+				margin: 0 0 0.5rem;
+				line-height: 1.4;
+			}
+			.post-card p {
+				font-size: 0.875rem;
+				color: rgb(var(--gray));
+				margin: 0 0 0.75rem;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+			}
+			.post-card-date {
+				font-size: 0.8rem;
+				color: rgb(var(--gray));
+			}
+			.view-all {
+				text-align: center;
+			}
+			.view-all a {
+				color: var(--pink-main);
+				font-weight: 700;
+				text-decoration: none;
+				font-size: 1rem;
+			}
+			.view-all a:hover { text-decoration: underline; }
 
-    .tree-dot {
-      width: 4px; height: 4px;
-      border-radius: 50%;
-      background: var(--t3);
-      flex-shrink: 0;
-      transition: background 0.1s;
-    }
-    .tree-row:hover .tree-dot,
-    .tree-row.is-active .tree-dot { background: var(--pink); }
+			@media (max-width: 720px) {
+				.hero { padding: 3rem 1rem 2.5rem; }
+				.hero p { font-size: 1rem; }
+				.btn-primary, .btn-secondary { width: 100%; text-align: center; justify-content: center; }
+				.hero-btns { flex-direction: column; align-items: center; }
+				.section { padding: 2.5rem 1rem; }
+				.category-card { min-width: 80px; padding: 0.9rem 1rem; flex: 1 1 80px; }
+				.category-icon { font-size: 1.6rem; }
+				.category-label { font-size: 0.85rem; }
+				.recent-section { padding: 2.5rem 1rem; }
+				.post-grid { grid-template-columns: 1fr; }
+				.profile-section { padding: 2.5rem 1rem; }
+			}
+			@media (max-width: 360px) {
+				.hero h1 { font-size: 1.6rem; }
+				.hero p { font-size: 0.9rem; }
+				.category-card { min-width: 70px; padding: 0.7rem 0.8rem; }
+				.category-icon { font-size: 1.4rem; }
+				.category-label { font-size: 0.78rem; }
+				.section { padding: 2rem 0.75rem; }
+				.recent-section { padding: 2rem 0.75rem; }
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
 
-    .chevron {
-      width: 10px; height: 10px;
-      flex-shrink: 0;
-      margin-left: auto;
-      opacity: 0.3;
-      transition: transform 0.18s ease, opacity 0.18s;
-    }
-    .tree-group.open > .tree-row .chevron { transform: rotate(90deg); opacity: 0.6; }
+		<!-- 히어로 섹션 -->
+		<section class="hero">
+			<h1>S-Reborn World</h1>
+			<p>{SITE_DESCRIPTION}</p>
+			<div class="hero-btns">
+				<a href="/blog" class="btn-primary">블로그 보기 →</a>
+				<a href="/about" class="btn-secondary">About</a>
+			</div>
+		</section>
 
-    .tree-section {
-      display: none;
-      flex-direction: column;
-      margin: 1px 0 3px 1.1rem;
-      border-left: 1px solid var(--rule2);
-      padding-left: 0;
-    }
-    .tree-group.open > .tree-section { display: flex; }
+		<!-- 프로필 섹션 -->
+		<section class="profile-section">
+			<img class="profile-avatar" src="/profile.jpg" alt="김도위 원장" />
+			<h2>S-Reborn</h2>
+			<p>의사이자 AI 연구자입니다. 의학, AI, 그리고 배움에 관한 이야기를 씁니다.</p>
+			<div class="profile-tags">
+				<span class="profile-tag">#의사</span>
+				<span class="profile-tag">#AI연구</span>
+				<span class="profile-tag">#평생학습</span>
+			</div>
+		</section>
 
-    .tree-sect-head {
-      font-size: 0.63rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--t3);
-      padding: 0.5rem 0.6rem 0.18rem;
-      user-select: none;
-    }
+		<!-- 카테고리 탐색 섹션 -->
+		<div class="section">
+			<h2 class="section-title">주제별 <span>탐색</span></h2>
+			<div class="category-grid">
+				<div class="category-row">
+					{CATEGORIES.slice(0, 2).map((cat) => (
+						<a href={`/blog?category=${cat.id}`} class="category-card">
+							<span class="category-icon">{cat.icon}</span>
+							<span class="category-label">{cat.label}</span>
+						</a>
+					))}
+				</div>
+				<div class="category-row">
+					{CATEGORIES.slice(2).map((cat) => (
+						<a href={`/blog?category=${cat.id}`} class="category-card">
+							<span class="category-icon">{cat.icon}</span>
+							<span class="category-label">{cat.label}</span>
+						</a>
+					))}
+				</div>
+			</div>
+		</div>
 
-    .tree-leaf {
-      display: flex;
-      align-items: center;
-      gap: 0.45rem;
-      padding: 0.22rem 0.6rem;
-      border-radius: 3px;
-      cursor: pointer;
-      text-decoration: none;
-      color: var(--t3);
-      font-size: 0.72rem;
-      font-weight: 400;
-      letter-spacing: 0.01em;
-      transition: color 0.1s, background 0.1s;
-    }
-    .tree-leaf:hover { color: var(--text); background: rgba(255,255,255,0.03); }
-    .tree-leaf.is-active { color: var(--pink); }
+		<!-- 최근 글 섹션 -->
+		<section class="recent-section">
+			<div class="recent-inner">
+				<h2 class="section-title">최근 <span>글</span></h2>
+				{recentPosts.length > 0 ? (
+					<>
+						<div class="post-grid">
+							{recentPosts.map((post) => (
+								<a href={`/blog/${post.id}/`} class="post-card">
+									{post.data.category && (
+										<span class="post-card-badge">
+											{CATEGORIES.find(c => c.id === post.data.category)?.label ?? post.data.category}
+										</span>
+									)}
+									<h3>{post.data.title}</h3>
+									<p>{post.data.description}</p>
+									<span class="post-card-date">
+										<FormattedDate date={post.data.date} />
+									</span>
+								</a>
+							))}
+						</div>
+						<div class="view-all">
+							<a href="/blog">전체 글 보기 →</a>
+						</div>
+					</>
+				) : (
+					<p style="text-align:center; color: rgb(var(--gray));">아직 작성된 글이 없습니다.</p>
+				)}
+			</div>
+		</section>
 
-    .leaf-dash {
-      width: 7px; height: 1px;
-      background: var(--t3);
-      flex-shrink: 0;
-      transition: background 0.1s;
-    }
-    .tree-leaf:hover .leaf-dash,
-    .tree-leaf.is-active .leaf-dash { background: var(--pink); }
-
-    .sb-foot {
-      margin-top: auto;
-      padding-top: 1rem;
-      font-size: 0.6rem;
-      color: var(--t3);
-      letter-spacing: 0.02em;
-    }
-
-    /* ═══ MAIN ═══ */
-    .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
-
-    .topbar {
-      height: 42px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding: 0 2rem;
-      border-bottom: 1px solid var(--rule);
-      position: sticky; top: 0; z-index: 40;
-      background: rgba(10,10,10,0.97);
-      backdrop-filter: blur(16px);
-      gap: 1.5rem;
-    }
-    .topbar-link {
-      font-size: 0.67rem;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--t3);
-      text-decoration: none;
-      transition: color 0.12s;
-    }
-    .topbar-link:hover { color: var(--text); }
-    .topbar-link.active { color: var(--pink); }
-
-    /* FEATURED */
-    .featured-wrap {
-      padding: 2rem 2rem 0;
-      display: grid;
-      grid-template-columns: 1fr 290px;
-      gap: 0;
-      border-bottom: 1px solid var(--rule);
-    }
-    @media (max-width: 800px) { .featured-wrap { grid-template-columns: 1fr; } }
-
-    .featured-main {
-      padding-right: 2rem;
-      border-right: 1px solid var(--rule);
-      padding-bottom: 2rem;
-      cursor: pointer;
-    }
-    .f-kicker { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.85rem; }
-    .f-tag {
-      font-size: 0.57rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--pink); background: var(--pink-lo); padding: 0.17rem 0.52rem; border-radius: 2px;
-    }
-    .f-label { font-size: 0.57rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--t3); }
-    .f-title {
-      font-family: var(--display);
-      font-size: clamp(1.6rem, 2.6vw, 2.3rem);
-      line-height: 1.2;
-      color: var(--text);
-      margin-bottom: 0.95rem;
-      letter-spacing: -0.02em;
-      font-weight: 700;
-    }
-    .f-excerpt {
-      font-size: 0.83rem; color: var(--t2); line-height: 1.82;
-      margin-bottom: 1.1rem; max-width: 50ch; font-weight: 300;
-    }
-    .f-foot { display: flex; align-items: center; gap: 1rem; }
-    .f-date { font-size: 0.65rem; color: var(--t3); letter-spacing: 0.04em; }
-    .read-link {
-      font-size: 0.67rem; font-weight: 600; color: var(--pink); text-decoration: none;
-      letter-spacing: 0.04em; display: inline-flex; align-items: center; gap: 0.3rem;
-      transition: gap 0.15s;
-    }
-    .read-link:hover { gap: 0.55rem; }
-
-    .featured-side {
-      padding-left: 1.6rem; padding-bottom: 2rem; display: flex; flex-direction: column;
-    }
-    .side-post {
-      padding: 0.9rem 0; border-bottom: 1px solid var(--rule2);
-      text-decoration: none; display: block; transition: opacity 0.15s;
-    }
-    .side-post:first-child { padding-top: 0; }
-    .side-post:last-child { border-bottom: none; }
-    .side-post:hover { opacity: 0.6; }
-    .side-cat {
-      font-size: 0.56rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--pink); display: block; margin-bottom: 0.32rem;
-    }
-    .side-title {
-      font-family: var(--display); font-size: 0.88rem; line-height: 1.38;
-      color: var(--text); margin-bottom: 0.28rem; font-weight: 600;
-    }
-    .side-exc { font-size: 0.72rem; color: var(--t2); line-height: 1.65; margin-bottom: 0.3rem; font-weight: 300; }
-    .side-date { font-size: 0.62rem; color: var(--t3); }
-
-    /* SECTION RULE */
-    .sec-rule {
-      padding: 0.65rem 2rem; border-bottom: 1px solid var(--rule2);
-      display: flex; align-items: center; gap: 1rem;
-    }
-    .sec-label { font-size: 0.58rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--t3); white-space: nowrap; }
-    .sec-line { flex: 1; height: 1px; background: var(--rule2); }
-    .sec-all { font-size: 0.62rem; color: var(--pink); text-decoration: none; font-weight: 500; white-space: nowrap; transition: opacity 0.15s; }
-    .sec-all:hover { opacity: 0.65; }
-
-    /* POST GRID */
-    .grid-wrap { padding: 0 0 3rem; }
-    .post-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border-left: 1px solid var(--rule2);
-      border-top: 1px solid var(--rule2);
-    }
-    @media (max-width: 1000px) { .post-grid { grid-template-columns: repeat(3,1fr); } }
-    @media (max-width: 680px)  { .post-grid { grid-template-columns: repeat(2,1fr); } }
-
-    .post-card {
-      padding: 1.05rem 1.2rem;
-      border-right: 1px solid var(--rule2);
-      border-bottom: 1px solid var(--rule2);
-      text-decoration: none;
-      display: flex; flex-direction: column;
-      position: relative; overflow: hidden;
-      transition: background 0.15s;
-    }
-    .post-card::after {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1.5px;
-      background: var(--pink); transform: scaleX(0); transform-origin: left;
-      transition: transform 0.22s ease;
-    }
-    .post-card:hover { background: var(--bg3); }
-    .post-card:hover::after { transform: scaleX(1); }
-    .card-cat {
-      font-size: 0.56rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--pink); display: block; margin-bottom: 0.48rem;
-    }
-    .card-title {
-      font-family: var(--display); font-size: 0.86rem; line-height: 1.42;
-      color: var(--text); margin-bottom: 0.42rem; flex: 1; font-weight: 600;
-    }
-    .card-exc { font-size: 0.71rem; color: var(--t2); line-height: 1.68; margin-bottom: 0.65rem; font-weight: 300; }
-    .card-date { font-size: 0.61rem; color: var(--t3); margin-top: auto; }
-
-    footer {
-      border-top: 1px solid var(--rule2); padding: 0.9rem 2rem;
-      display: flex; align-items: center; justify-content: space-between; margin-top: auto;
-    }
-    .foot-copy { font-size: 0.63rem; color: var(--t3); }
-    .foot-brand { font-family: var(--display); font-size: 0.73rem; color: var(--t3); font-weight: 600; }
-
-    .hidden { display: none !important; }
-  </style>
-</head>
-<body>
-
-<!-- ═══ SIDEBAR ═══ -->
-<aside class="sidebar">
-  <div class="sb-head">
-    <a class="sb-brand" href="/">S-Reborn World</a>
-    <p class="sb-tagline">
-      의사이자 AI 연구자의 기록<span class="sep">—</span>진료실과 연구실에서부터 강단까지
-    </p>
-  </div>
-
-  <div class="sb-rule"></div>
-
-  <nav class="sb-nav">
-    <!-- Home -->
-    <div class="tree-group">
-      <a class="tree-row is-active" href="/">
-        <span class="tree-dot"></span>
-        Home
-      </a>
-    </div>
-
-    <!-- Blog -->
-    <div class="tree-group open" id="g-blog">
-      <div class="tree-row" onclick="toggleGroup('g-blog')">
-        <span class="tree-dot"></span>
-        Blog
-        <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
-      </div>
-      <div class="tree-section">
-        <!-- AI -->
-        <div class="tree-group" id="g-ai">
-          <div class="tree-row" onclick="toggleGroup('g-ai');filterCat(event,'ai')">
-            <span class="tree-dot"></span>
-            AI
-            <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
-          </div>
-          <div class="tree-section">
-            <span class="tree-sect-head">입문</span>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>LLM 기초 개념</a>
-            <span class="tree-sect-head">실전</span>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>의료 AI 활용</a>
-            <span class="tree-sect-head">프론티어</span>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>에이전트 시스템</a>
-            <span class="tree-sect-head">방법론</span>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>4축 프롬프팅</a>
-          </div>
-        </div>
-
-        <!-- 의학 -->
-        <div class="tree-group" id="g-medicine">
-          <div class="tree-row" onclick="toggleGroup('g-medicine');filterCat(event,'의학')">
-            <span class="tree-dot"></span>
-            의학
-            <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
-          </div>
-          <div class="tree-section">
-            <span class="tree-sect-head">미용의학</span>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>레이저 물리학</a>
-            <span class="tree-sect-head">기초과학</span>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>분자생물학</a>
-            <span class="tree-sect-head">물리 · 화학</span>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>광학</a>
-            <span class="tree-sect-head">임상</span>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>피부과학</a>
-          </div>
-        </div>
-
-        <!-- 학습 -->
-        <div class="tree-group" id="g-learn">
-          <div class="tree-row" onclick="toggleGroup('g-learn');filterCat(event,'학습')">
-            <span class="tree-dot"></span>
-            학습
-            <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
-          </div>
-          <div class="tree-section">
-            <span class="tree-sect-head">총론</span>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>학습과학</a>
-            <span class="tree-sect-head">용어의 역사</span>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>의학 어원</a>
-            <span class="tree-sect-head">실천</span>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>독서법</a>
-          </div>
-        </div>
-
-        <!-- 개발 -->
-        <div class="tree-group" id="g-dev">
-          <div class="tree-row" onclick="toggleGroup('g-dev');filterCat(event,'개발')">
-            <span class="tree-dot"></span>
-            개발
-            <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
-          </div>
-          <div class="tree-section">
-            <span class="tree-sect-head">PKM</span>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>Zettelkasten</a>
-            <span class="tree-sect-head">방법론</span>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>시스템 사고</a>
-            <span class="tree-sect-head">깨달음</span>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>존재론적 성찰</a>
-          </div>
-        </div>
-
-        <!-- 에세이 -->
-        <div class="tree-group" id="g-essay">
-          <div class="tree-row" onclick="toggleGroup('g-essay');filterCat(event,'에세이')">
-            <span class="tree-dot"></span>
-            에세이
-            <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
-          </div>
-          <div class="tree-section">
-            <span class="tree-sect-head">감각 · 예술</span>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>요리 · 미각</a>
-            <span class="tree-sect-head">몸 · 움직임</span>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>스포츠</a>
-            <span class="tree-sect-head">연결 · 패턴</span>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>학제간 통찰</a>
-          </div>
-        </div>
-
-        <!-- 전체 보기 leaf -->
-        <a class="tree-leaf is-active" href="#" data-cat="all" onclick="filterCat(event,'all')" style="margin-top:4px">
-          <span class="leaf-dash"></span>전체 보기
-        </a>
-      </div>
-    </div>
-
-    <!-- About -->
-    <div class="tree-group">
-      <a class="tree-row" href="/about"><span class="tree-dot"></span>About</a>
-    </div>
-  </nav>
-
-  <div class="sb-foot">© 2026 S-Reborn clinic</div>
-</aside>
-
-<!-- ═══ MAIN ═══ -->
-<div class="main">
-  <header class="topbar">
-    <a href="/" class="topbar-link active">Home</a>
-    <a href="/about" class="topbar-link">About</a>
-  </header>
-
-  {featuredPost && (
-    <div class="featured-wrap">
-      <article class="featured-main" onclick={`location.href='/blog/${featuredPost.slug}'`}>
-        <div class="f-kicker">
-          <span class="f-tag">{featuredPost.data.category}</span>
-          <span class="f-label">Featured</span>
-        </div>
-        <h1 class="f-title">{featuredPost.data.title}</h1>
-        <p class="f-excerpt">{featuredPost.data.description}</p>
-        <div class="f-foot">
-          <time class="f-date">{new Date(featuredPost.data.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</time>
-          <a href={`/blog/${featuredPost.slug}`} class="read-link" onclick="event.stopPropagation()">읽기 →</a>
-        </div>
-      </article>
-      <aside class="featured-side">
-        {recentPosts.slice(1, 4).map(post => (
-          <a href={`/blog/${post.slug}`} class="side-post">
-            <span class="side-cat">{post.data.category}</span>
-            <h2 class="side-title">{post.data.title}</h2>
-            <p class="side-exc">{post.data.description}</p>
-            <span class="side-date">{new Date(post.data.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
-          </a>
-        ))}
-      </aside>
-    </div>
-  )}
-
-  <div class="sec-rule">
-    <span class="sec-label">최근 글</span>
-    <div class="sec-line"></div>
-    <a href="/blog" class="sec-all">전체 보기 →</a>
-  </div>
-
-  <div class="grid-wrap">
-    <div class="post-grid" id="post-grid">
-      {recentPosts.map(post => (
-        <a href={`/blog/${post.slug}`} class="post-card" data-cat={post.data.category}>
-          <span class="card-cat">{post.data.category}</span>
-          <h3 class="card-title">{post.data.title}</h3>
-          <p class="card-exc">{post.data.description}</p>
-          <time class="card-date">{new Date(post.data.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</time>
-        </a>
-      ))}
-    </div>
-  </div>
-
-  <footer>
-    <span class="foot-copy">© 2026 S-Reborn clinic. All rights reserved.</span>
-    <span class="foot-brand">S-Reborn World</span>
-  </footer>
-</div>
-
-<script>
-function toggleGroup(id) {
-  document.getElementById(id).classList.toggle('open');
-}
-function filterCat(e, cat) {
-  e.preventDefault();
-  document.querySelectorAll('#post-grid .post-card').forEach(c => {
-    c.classList.toggle('hidden', cat !== 'all' && c.dataset.cat !== cat);
-  });
-}
-</script>
-
-</body>
+		<Footer />
+	</body>
 </html>
