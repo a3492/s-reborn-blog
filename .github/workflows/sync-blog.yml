@@ -1,8 +1,13 @@
-﻿name: Sync Blog Posts
+name: Sync Blog Posts
 
 on:
   repository_dispatch:
     types: [sync-blog]
+  workflow_dispatch:
+
+concurrency:
+  group: blog-sync
+  cancel-in-progress: false
 
 jobs:
   sync:
@@ -12,22 +17,48 @@ jobs:
     steps:
       - name: Checkout s-reborn-blog
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.BLOG_SYNC_TOKEN }}
 
-      - name: Clone S_Reborn_and_AI
+      - name: Validate BLOG_SYNC_TOKEN
+        shell: bash
+        env:
+          BLOG_SYNC_TOKEN: ${{ secrets.BLOG_SYNC_TOKEN }}
         run: |
-          git clone https://${{ secrets.BLOG_SYNC_TOKEN }}@github.com/a3492/S_Reborn_and_AI.git vault
+          set -euo pipefail
+          if [ -z "${BLOG_SYNC_TOKEN}" ]; then
+            echo "BLOG_SYNC_TOKEN secret is missing"
+            exit 1
+          fi
+
+      - name: Checkout S_Reborn_and_AI
+        uses: actions/checkout@v4
+        with:
+          repository: a3492/S_Reborn_and_AI
+          token: ${{ secrets.BLOG_SYNC_TOKEN }}
+          path: vault
+
+      - name: Validate source blog directory
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -d vault/_BLOG
 
       - name: Copy _BLOG posts
+        shell: bash
         run: |
+          set -euo pipefail
           mkdir -p src/content/blog
-          rsync -av --delete vault/_BLOG/ src/content/blog/ --exclude '_templates'
+          rsync -av --delete --exclude '_templates' vault/_BLOG/ src/content/blog/
 
       - name: Commit and push
+        shell: bash
         run: |
+          set -euo pipefail
           git config user.email "action@github.com"
           git config user.name "GitHub Actions"
-          git add .
-          git diff --staged --quiet || git commit -m "sync: blog posts updated"
+          git add src/content/blog
+          if git diff --staged --quiet; then
+            echo "No blog changes detected"
+            exit 0
+          fi
+          git commit -m "sync: blog posts updated"
           git push
