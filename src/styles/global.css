@@ -46,7 +46,7 @@ body {
 	overflow-wrap: break-word;
 	overflow-x: hidden;
 	color: rgb(var(--gray-dark));
-	font-size: 20px;
+	font-size: 16px;
 	line-height: 1.7;
 }
 main {
@@ -66,19 +66,19 @@ h6 {
 	line-height: 1.2;
 }
 h1 {
-	font-size: 3.052em;
+	font-size: 1.75em;
 }
 h2 {
-	font-size: 2.441em;
+	font-size: 1.5em;
 }
 h3 {
-	font-size: 1.953em;
+	font-size: 1.3em;
 }
 h4 {
-	font-size: 1.563em;
+	font-size: 1.15em;
 }
 h5 {
-	font-size: 1.25em;
+	font-size: 1.05em;
 }
 strong,
 b {
@@ -128,7 +128,7 @@ blockquote {
 	border-left: 4px solid var(--accent);
 	padding: 0 0 0 20px;
 	margin: 0;
-	font-size: 1.333em;
+	font-size: 1.1em;
 }
 hr {
 	border: none;
@@ -136,7 +136,7 @@ hr {
 }
 @media (max-width: 720px) {
 	body {
-		font-size: 18px;
+		font-size: 15px;
 	}
 	main {
 		padding: 1em;
@@ -144,7 +144,7 @@ hr {
 }
 @media (max-width: 360px) {
 	body {
-		font-size: 16px;
+		font-size: 14px;
 	}
 	main {
 		padding: 0.75em;
