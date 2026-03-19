@@ -1,19 +1,7 @@
 ---
-const today = new Date();
 ---
 
 <footer>
-	&copy; {today.getFullYear()} S-Reborn clinic. All rights reserved.
+  <span class="foot-copy">© 2026 S-Reborn clinic. All rights reserved.</span>
+  <span class="foot-brand">S-Reborn World</span>
 </footer>
-<style>
-	footer {
-		padding: 2em 1em 6em 1em;
-		background: linear-gradient(var(--gray-gradient)) no-repeat;
-		color: rgb(var(--gray));
-		text-align: center;
-	}
-	@media (max-width: 480px) {
-		footer { padding: 1.5em 1em 4em; }
-		.social-links svg { width: 26px; height: 26px; }
-	}
-</style>

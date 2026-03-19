@@ -1,0 +1,214 @@
+---
+---
+
+<aside class="sidebar">
+  <div class="sb-head">
+    <a class="sb-brand" href="/">S-Reborn World</a>
+    <p class="sb-tagline">
+      의사이자 AI 연구자의 기록<span class="sep">—</span>진료실과 연구실에서부터 강단까지
+    </p>
+  </div>
+
+  <div class="sb-rule"></div>
+
+  <nav class="sb-nav">
+    <!-- Home -->
+    <div class="tree-group">
+      <a class="tree-row is-active" href="/">
+        <span class="tree-dot"></span>
+        Home
+      </a>
+    </div>
+
+    <!-- Blog -->
+    <div class="tree-group open" id="g-blog">
+      <div class="tree-row" onclick="toggleGroup('g-blog')" style="cursor: pointer;">
+        <span class="tree-dot"></span>
+        Blog
+        <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
+      </div>
+      <div class="tree-section">
+
+        <!-- AI -->
+        <div class="tree-group" id="g-ai">
+          <div class="tree-row" onclick="toggleGroup('g-ai');filterCat(event,'ai')" style="cursor: pointer;">
+            <span class="tree-dot"></span>
+            AI
+            <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
+          </div>
+          <div class="tree-section">
+            <span class="tree-sect-head">입문</span>
+            <a class="tree-leaf" href="#">
+              <span class="leaf-dash"></span>LLM 기초 개념
+            </a>
+            <a class="tree-leaf" href="#">
+              <span class="leaf-dash"></span>토큰과 임베딩
+            </a>
+            <a class="tree-leaf" href="#">
+              <span class="leaf-dash"></span>프롬프트 원리
+            </a>
+            <span class="tree-sect-head">실전</span>
+            <a class="tree-leaf" href="#">
+              <span class="leaf-dash"></span>의료 AI 활용
+            </a>
+            <a class="tree-leaf" href="#">
+              <span class="leaf-dash"></span>RAG · 검색증강생성
+            </a>
+            <a class="tree-leaf" href="#">
+              <span class="leaf-dash"></span>워크플로우 자동화
+            </a>
+            <span class="tree-sect-head">프론티어</span>
+            <a class="tree-leaf" href="#">
+              <span class="leaf-dash"></span>에이전트 시스템
+            </a>
+            <a class="tree-leaf" href="#">
+              <span class="leaf-dash"></span>멀티모달
+            </a>
+            <a class="tree-leaf" href="#">
+              <span class="leaf-dash"></span>연구 동향
+            </a>
+            <span class="tree-sect-head">방법론</span>
+            <a class="tree-leaf" href="#">
+              <span class="leaf-dash"></span>4축 프롬팅
+            </a>
+            <a class="tree-leaf" href="#">
+              <span class="leaf-dash"></span>온톨로지컬 스캐폴딩
+            </a>
+            <a class="tree-leaf" href="#">
+              <span class="leaf-dash"></span>할루시네이션 제어
+            </a>
+          </div>
+        </div>
+
+        <!-- 의학 -->
+        <div class="tree-group" id="g-medicine">
+          <div class="tree-row" onclick="toggleGroup('g-medicine');filterCat(event,'의학')" style="cursor: pointer;">
+            <span class="tree-dot"></span>
+            의학
+            <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
+          </div>
+          <div class="tree-section">
+            <span class="tree-sect-head">미용의학</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>레이저 물리학</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>RF · 고주파</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>PDO 실 · 리프팅</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>모발이식</a>
+            <span class="tree-sect-head">기초과학</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>분자생물학</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>생화학</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>유기화학</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>세포생물학</a>
+            <span class="tree-sect-head">물리 · 화학</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>광학 · 선택적 광열분해</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>열역학</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>콜라겐 화학</a>
+            <span class="tree-sect-head">임상</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>피부과학</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>조직학 · 시술 기전</a>
+          </div>
+        </div>
+
+        <!-- 학습 -->
+        <div class="tree-group" id="g-learn">
+          <div class="tree-row" onclick="toggleGroup('g-learn');filterCat(event,'학습')" style="cursor: pointer;">
+            <span class="tree-dot"></span>
+            학습
+            <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
+          </div>
+          <div class="tree-section">
+            <span class="tree-sect-head">총론</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>학습과학 · 인지과학</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>메타학습</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>망각곡선 · 간격반복</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>능동적 회상</a>
+            <span class="tree-sect-head">용어의 역사</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>의학 어원</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>AI 용어 계보</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>라틴 · 그리스어 어근</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>과학 개념의 족보</a>
+            <span class="tree-sect-head">실천</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>독서법</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>강의 설계</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>글쓰기</a>
+          </div>
+        </div>
+
+        <!-- 개발 -->
+        <div class="tree-group" id="g-dev">
+          <div class="tree-row" onclick="toggleGroup('g-dev');filterCat(event,'개발')" style="cursor: pointer;">
+            <span class="tree-dot"></span>
+            개발
+            <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
+          </div>
+          <div class="tree-section">
+            <span class="tree-sect-head">PKM</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>Zettelkasten</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>PARA 방법론</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>Obsidian</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>Notion</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>Second Brain</a>
+            <span class="tree-sect-head">방법론</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>시스템 사고</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>프레임워크 설계</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>습관 설계</a>
+            <span class="tree-sect-head">깨달음</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>존재론적 성찰</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>의식 · 메타인지</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>철학적 사유</a>
+          </div>
+        </div>
+
+        <!-- 에세이 → 연결·패턴 -->
+        <div class="tree-group" id="g-essay">
+          <div class="tree-row" onclick="toggleGroup('g-essay');filterCat(event,'연결·패턴')" style="cursor: pointer;">
+            <span class="tree-dot"></span>
+            연결·패턴
+            <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
+          </div>
+          <div class="tree-section">
+            <span class="tree-sect-head">감각 · 예술</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>요리 · 미각</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>음악 · 청각</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>시각예술</a>
+            <span class="tree-sect-head">몸 · 움직임</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>스포츠</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>신체 인식</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>운동과학</a>
+            <span class="tree-sect-head">연결 · 패턴</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>학제간 통찰</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>의학과 예술의 교차</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>일상의 발견</a>
+          </div>
+        </div>
+
+        <!-- 전체 보기 leaf -->
+        <a class="tree-leaf is-active" href="#" data-cat="all" onclick="filterCat(event,'all')" style="margin-top:4px">
+          <span class="leaf-dash"></span>전체 보기
+        </a>
+
+      </div>
+    </div>
+
+    <!-- About -->
+    <div class="tree-group">
+      <a class="tree-row" href="/about"><span class="tree-dot"></span>About</a>
+    </div>
+
+    <!-- Projects -->
+    <div class="tree-group" id="g-proj">
+      <div class="tree-row" onclick="toggleGroup('g-proj')" style="cursor: pointer;">
+        <span class="tree-dot"></span>
+        Projects
+        <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
+      </div>
+      <div class="tree-section">
+        <a class="tree-leaf" href="#"><span class="leaf-dash"></span>ELIOS</a>
+        <a class="tree-leaf" href="#"><span class="leaf-dash"></span>KFERA 2026</a>
+        <a class="tree-leaf" href="#"><span class="leaf-dash"></span>S-Reborn Academy</a>
+      </div>
+    </div>
+
+  </nav>
+
+  <div class="sb-foot">© 2026 S-Reborn clinic</div>
+</aside>

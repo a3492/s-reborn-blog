@@ -1,0 +1,51 @@
+---
+import '../styles/design.css';
+import BaseHead from '../components/BaseHead.astro';
+import Sidebar from '../components/Sidebar.astro';
+import Topbar from '../components/Topbar.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const { title, description = SITE_DESCRIPTION } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ko">
+	<head>
+		<BaseHead title={title ? `${title} | ${SITE_TITLE}` : SITE_TITLE} description={description} />
+	</head>
+	<body>
+		<Sidebar />
+		<div class="main">
+			<Topbar />
+			<slot />
+			<Footer />
+		</div>
+
+		<script>
+			function toggleGroup(id: string) {
+				const group = document.getElementById(id);
+				if (group) {
+					group.classList.toggle('open');
+				}
+			}
+
+			function filterCat(e: Event, cat: string) {
+				e.preventDefault();
+				document.querySelectorAll('#post-grid .post-card').forEach((c) => {
+					const card = c as HTMLElement;
+					const cardCat = (c as HTMLElement).getAttribute('data-cat');
+					card.classList.toggle('hidden', cat !== 'all' && cardCat !== cat);
+				});
+			}
+
+			(window as any).toggleGroup = toggleGroup;
+			(window as any).filterCat = filterCat;
+		</script>
+	</body>
+</html>
