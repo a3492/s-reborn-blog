@@ -20,6 +20,8 @@ const { title, description = SITE_DESCRIPTION } = Astro.props;
 		<BaseHead title={title ? `${title} | ${SITE_TITLE}` : SITE_TITLE} description={description} />
 	</head>
 	<body>
+		<!-- 모바일 사이드바 오버레이 dim -->
+		<div class="sb-overlay" id="sb-overlay"></div>
 		<Sidebar />
 		<div class="main">
 			<Topbar />
@@ -46,6 +48,34 @@ const { title, description = SITE_DESCRIPTION } = Astro.props;
 
 			(window as any).toggleGroup = toggleGroup;
 			(window as any).filterCat = filterCat;
+
+			// ── 모바일 사이드바 토글 ──
+			const sbToggle = document.getElementById('sb-toggle');
+			const sidebar = document.querySelector('.sidebar');
+			const overlay = document.getElementById('sb-overlay');
+
+			function openSidebar() {
+				sidebar?.classList.add('is-open');
+				overlay?.classList.add('is-open');
+				document.body.style.overflow = 'hidden';
+			}
+
+			function closeSidebar() {
+				sidebar?.classList.remove('is-open');
+				overlay?.classList.remove('is-open');
+				document.body.style.overflow = '';
+			}
+
+			sbToggle?.addEventListener('click', () => {
+				sidebar?.classList.contains('is-open') ? closeSidebar() : openSidebar();
+			});
+
+			overlay?.addEventListener('click', closeSidebar);
+
+			// ESC 키로 닫기
+			document.addEventListener('keydown', (e) => {
+				if (e.key === 'Escape') closeSidebar();
+			});
 		</script>
 	</body>
 </html>
