@@ -6,7 +6,7 @@ export const CATEGORIES = [
 	{ id: 'medicine', label: '의학', icon: '🏥' },
 	{ id: '학습',    label: '학습',  icon: '📚' },
 	{ id: 'dev',     label: '개발',  icon: '💻' },
-	{ id: '에세이',  label: '에세이', icon: '✍️' },
+	{ id: '연결·패턴',  label: '연결·패턴', icon: '✍️' },
 ] as const;
 
 // 카테고리 추가: CATEGORIES 배열에 항목 추가 후 Obsidian _BLOG/ 폴더에 동일 이름 폴더 생성
