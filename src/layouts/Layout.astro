@@ -24,7 +24,7 @@ const { title, description = SITE_DESCRIPTION } = Astro.props;
 		<div class="sb-overlay" id="sb-overlay"></div>
 		<Sidebar />
 		<div class="main">
-			<Topbar />
+			<Topbar showHamburger={true} />
 			<slot />
 			<Footer />
 		</div>

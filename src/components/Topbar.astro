@@ -1,15 +1,25 @@
 ---
+interface Props {
+  showHamburger?: boolean;
+}
+const { showHamburger = false } = Astro.props;
+const path = Astro.url.pathname;
+
+const isHome  = path === '/';
+const isBlog  = path.startsWith('/blog');
+const isAbout = path.startsWith('/about');
 ---
 
 <header class="topbar">
-  <!-- 모바일 햄버거 버튼 -->
-  <button class="hamburger" id="sb-toggle" aria-label="메뉴 열기">
-    <span></span><span></span><span></span>
-  </button>
+  {showHamburger && (
+    <button class="hamburger" id="sb-toggle" aria-label="메뉴 열기">
+      <span></span><span></span><span></span>
+    </button>
+  )}
 
   <div style="display:flex;align-items:center;gap:1.5rem;margin-left:auto;">
-    <a href="/" class="topbar-link active">Home</a>
-    <a href="/blog" class="topbar-link">Blog</a>
-    <a href="/about" class="topbar-link">About</a>
+    <a href="/"      class={`topbar-link${isHome  ? ' active' : ''}`}>Home</a>
+    <a href="/blog"  class={`topbar-link${isBlog  ? ' active' : ''}`}>Blog</a>
+    <a href="/about" class={`topbar-link${isAbout ? ' active' : ''}`}>About</a>
   </div>
 </header>

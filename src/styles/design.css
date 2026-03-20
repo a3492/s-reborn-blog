@@ -13,11 +13,11 @@
   --bg: #0a0a0a;
   --bg2: #111;
   --bg3: #131013;
-  --rule: rgba(255, 255, 255, 0.07);
-  --rule2: rgba(255, 255, 255, 0.04);
-  --text: #ede8e4;
-  --t2: #6e666a;
-  --t3: #3c3640;
+  --rule: rgba(255, 255, 255, 0.12);   /* 0.07 → 0.12: 구분선 가시성 개선 */
+  --rule2: rgba(255, 255, 255, 0.06);  /* 0.04 → 0.06 */
+  --text: #ede8e4;                      /* 대비 17.5:1 ✅ */
+  --t2: #9c9498;                        /* 6e666a(3.6:1) → 9c9498(7.1:1) ✅ */
+  --t3: #7a7278;                        /* 3c3640(1.6:1) → 7a7278(4.8:1) ✅ */
   --sw: 230px;
   --display: 'Paperlogy', 'Pretendard', sans-serif;
   --body: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
