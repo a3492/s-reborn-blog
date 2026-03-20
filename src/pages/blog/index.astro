@@ -1,127 +1,128 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseHead from '../../components/BaseHead.astro';
-import Footer from '../../components/Footer.astro';
+import Layout from '../../layouts/Layout.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
-import Header from '../../components/Header.astro';
-import { CATEGORIES, SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { CATEGORIES, SITE_DESCRIPTION } from '../../consts';
 
-const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
-	(a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-);
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
-<!doctype html>
-<html lang="ko">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				width: 100%;
-				max-width: 960px;
-				padding: 0 1rem;
-				box-sizing: border-box;
-			}
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
-			ul li {
-				width: calc(50% - 1rem);
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 1.4rem;
-			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
-				width: 100%;
-				height: 180px;
-				object-fit: cover;
-			}
-			ul li a {
-				display: block;
-			}
-			.title {
-				margin: 0;
-				color: rgb(var(--black));
-				line-height: 1;
-			}
-			.date {
-				margin: 0;
-				color: rgb(var(--gray));
-			}
-			.category-badge {
-				display: inline-block;
-				font-size: 0.75rem;
-				font-weight: 600;
-				padding: 2px 8px;
-				border-radius: 999px;
-				background: rgb(var(--accent));
-				color: white;
-				margin-bottom: 0.4rem;
-			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
-			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
-			}
-			@media (max-width: 720px) {
-				main { padding: 0 0.75rem; }
-				ul { gap: 1rem; }
-				ul li { width: 100%; text-align: left; }
-				ul li:first-child { margin-bottom: 0; }
-				ul li:first-child .title { font-size: 1.2em; }
-				ul li img { height: 160px; }
-			}
-		</style>
-	</head>
-	<body>
-		<Header />
-		<main>
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									{post.data.thumbnail && (
-										<img src={post.data.thumbnail} alt={post.data.title} />
-									)}
-									{post.data.category && (
-										<span class="category-badge">
-											{CATEGORIES.find(c => c.id === post.data.category)?.label ?? post.data.category}
-										</span>
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.date} />
-									</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
-			</section>
-		</main>
-		<Footer />
-	</body>
-</html>
+<Layout title="Blog" description={SITE_DESCRIPTION}>
+	<section class="blog-list-section">
+		<div class="blog-list-header">
+			<h1 class="blog-list-title">전체 글</h1>
+			<span class="blog-count">{posts.length}개</span>
+		</div>
+
+		<ul class="blog-list">
+			{posts.map((post) => (
+				<li>
+					<a href={`/blog/${post.id}/`} class="blog-item">
+						{post.data.category && (
+							<span class="card-cat">
+								{CATEGORIES.find(c => c.id === post.data.category)?.label ?? post.data.category}
+							</span>
+						)}
+						<h3 class="blog-item-title">{post.data.title}</h3>
+						{post.data.description && (
+							<p class="blog-item-desc">{post.data.description}</p>
+						)}
+						<span class="blog-item-date">
+							<FormattedDate date={post.data.date} />
+						</span>
+					</a>
+				</li>
+			))}
+		</ul>
+	</section>
+</Layout>
+
+<style>
+	.blog-list-section {
+		padding: 2rem 1.5rem 4rem;
+		max-width: 760px;
+		margin: 0 auto;
+	}
+
+	.blog-list-header {
+		display: flex;
+		align-items: baseline;
+		gap: 0.75rem;
+		margin-bottom: 1.75rem;
+		padding-bottom: 0.75rem;
+		border-bottom: 1px solid var(--rule);
+	}
+
+	.blog-list-title {
+		font-size: 1.4rem;
+		font-weight: 700;
+		color: var(--text);
+		margin: 0;
+	}
+
+	.blog-count {
+		font-size: 0.82rem;
+		color: var(--t3);
+	}
+
+	.blog-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+	}
+
+	.blog-item {
+		display: block;
+		padding: 1.1rem 1rem;
+		border-bottom: 1px solid var(--rule);
+		text-decoration: none;
+		transition: background 0.15s;
+		border-radius: 6px;
+	}
+
+	.blog-item:hover {
+		background: rgba(255, 255, 255, 0.04);
+	}
+
+	.blog-item-title {
+		font-size: 1rem;
+		font-weight: 600;
+		color: var(--text);
+		margin: 0.3rem 0 0.4rem;
+		line-height: 1.4;
+		transition: color 0.15s;
+	}
+
+	.blog-item:hover .blog-item-title {
+		color: var(--accent);
+	}
+
+	.blog-item-desc {
+		font-size: 0.875rem;
+		color: var(--t2);
+		margin: 0 0 0.4rem;
+		line-height: 1.5;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	.blog-item-date {
+		font-size: 0.78rem;
+		color: var(--t3);
+	}
+
+	@media (max-width: 480px) {
+		.blog-list-section {
+			padding: 1.25rem 0.75rem 3rem;
+		}
+		.blog-list-title {
+			font-size: 1.2rem;
+		}
+	}
+</style>

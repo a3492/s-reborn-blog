@@ -1,7 +1,8 @@
 ---
+import '../styles/design.css';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
+import Topbar from '../components/Topbar.astro';
 ---
 
 <!doctype html>
@@ -48,7 +49,7 @@ import Header from '../components/Header.astro';
 			}
 			.profile-hero .role {
 				font-size: 1rem;
-				color: rgb(var(--gray));
+				color: var(--t2);
 				margin: 0 0 1rem;
 			}
 			.profile-tags {
@@ -91,7 +92,7 @@ import Header from '../components/Header.astro';
 			.intro-text {
 				font-size: 1rem;
 				line-height: 1.85;
-				color: rgb(var(--gray-dark));
+				color: var(--t2);
 			}
 
 			/* 현직 카드 */
@@ -105,12 +106,12 @@ import Header from '../components/Header.astro';
 			.current-card .title {
 				font-weight: 700;
 				font-size: 1.05rem;
-				color: rgb(var(--black));
+				color: #1a1a1a;
 				margin-bottom: 0.2rem;
 			}
 			.current-card .sub {
 				font-size: 0.875rem;
-				color: rgb(var(--gray));
+				color: #6b7a99;
 			}
 
 			/* 이력 타임라인 */
@@ -134,7 +135,7 @@ import Header from '../components/Header.astro';
 				padding: 0.5rem 0 0.5rem 2rem;
 				position: relative;
 				font-size: 0.95rem;
-				color: rgb(var(--gray-dark));
+				color: var(--t2);
 				line-height: 1.5;
 			}
 			.timeline li::before {
@@ -173,11 +174,11 @@ import Header from '../components/Header.astro';
 			.map-info .clinic-name {
 				font-weight: 700;
 				font-size: 1.05rem;
-				color: rgb(var(--black));
+				color: #1a1a1a;
 			}
 			.map-info .clinic-addr {
 				font-size: 0.875rem;
-				color: rgb(var(--gray));
+				color: #6b7a99;
 				margin-top: 0.3rem;
 				line-height: 1.6;
 			}
@@ -218,7 +219,7 @@ import Header from '../components/Header.astro';
 		</style>
 	</head>
 	<body>
-		<Header />
+		<Topbar />
 
 		<div class="about-wrap">
 

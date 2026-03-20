@@ -2,7 +2,7 @@
 title: "AI를 시작한 이유"
 description: "알렉산더 도서관부터 스마트폰, 그리고 AI까지. 지식에 닿는 속도가 빨라져온 역사 속에서 내가 AI를 시작하게 된 이유를 이야기합니다."
 date: 2026-03-19
-category: "에세이"
+category: "연결·패턴"
 subcategory: "연결-패턴"
 tags: ["AI", "회고", "시작"]
 draft: false
