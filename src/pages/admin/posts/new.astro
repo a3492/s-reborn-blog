@@ -1,0 +1,123 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+---
+
+<AdminLayout
+  title="New Post"
+  pageTitle="New Post"
+  pageDescription="Phase 1용 작성 폼 스캐폴드입니다. 저장 동작은 아직 연결하지 않았고, 필드 구조만 먼저 고정합니다."
+  status="Draft Ready"
+>
+  <div class="admin-split">
+    <section class="admin-card pad-lg">
+      <h2 class="admin-section-title">Editor</h2>
+      <p class="admin-section-desc">Markdown-first 에디터 구조를 기준으로 설계했습니다.</p>
+
+      <form class="admin-form-grid">
+        <div class="admin-field full">
+          <label class="admin-label" for="title">제목</label>
+          <input id="title" class="admin-input" type="text" placeholder="글 제목을 입력하세요." />
+        </div>
+
+        <div class="admin-field full">
+          <label class="admin-label" for="description">설명</label>
+          <textarea id="description" class="admin-textarea" style="min-height: 100px;" placeholder="목록과 SEO에 사용할 설명"></textarea>
+        </div>
+
+        <div class="admin-field">
+          <label class="admin-label" for="slug">Slug</label>
+          <input id="slug" class="admin-input" type="text" placeholder="my-new-post" />
+        </div>
+
+        <div class="admin-field">
+          <label class="admin-label" for="category">카테고리</label>
+          <select id="category" class="admin-select">
+            <option>ai</option>
+            <option>essay</option>
+            <option>clinic</option>
+          </select>
+        </div>
+
+        <div class="admin-field">
+          <label class="admin-label" for="date">발행일</label>
+          <input id="date" class="admin-input" type="datetime-local" />
+        </div>
+
+        <div class="admin-field">
+          <label class="admin-label" for="status">상태</label>
+          <select id="status" class="admin-select">
+            <option>draft</option>
+            <option>review</option>
+            <option>scheduled</option>
+          </select>
+        </div>
+
+        <div class="admin-field full">
+          <label class="admin-label" for="tags">태그</label>
+          <input id="tags" class="admin-input" type="text" placeholder="ai, workflow, clinic" />
+          <span class="admin-help">쉼표 기준 저장 예정</span>
+        </div>
+
+        <div class="admin-field full">
+          <label class="admin-label" for="body">본문 Markdown</label>
+          <textarea id="body" class="admin-textarea" placeholder="# 글 제목&#10;&#10;여기에 Markdown 본문을 작성합니다."></textarea>
+        </div>
+      </form>
+    </section>
+
+    <div class="admin-panel-stack">
+      <section class="admin-card pad-md">
+        <h2 class="admin-section-title">Publish Settings</h2>
+        <p class="admin-section-desc">Phase 1에서는 초안 저장만 우선 연결합니다.</p>
+        <ul class="admin-list">
+          <li class="admin-list-row">
+            <div>
+              <p class="admin-item-title">Draft save</p>
+              <p class="admin-item-meta">`posts` + `post_revisions` 저장 예정</p>
+            </div>
+            <div><span class="admin-status ready">P1</span></div>
+          </li>
+          <li class="admin-list-row">
+            <div>
+              <p class="admin-item-title">Preview route</p>
+              <p class="admin-item-meta">관리자 전용 렌더링 경로 추가 예정</p>
+            </div>
+            <div><span class="admin-status warn">P2</span></div>
+          </li>
+          <li class="admin-list-row">
+            <div>
+              <p class="admin-item-title">Git publish</p>
+              <p class="admin-item-meta">Pages Function + GitHub token 사용</p>
+            </div>
+            <div><span class="admin-status warn">P3</span></div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="admin-card pad-md">
+        <h2 class="admin-section-title">Validation Checklist</h2>
+        <p class="admin-section-desc">저장 전에 점검할 규칙들</p>
+        <ul class="admin-list">
+          <li class="admin-list-row">
+            <div>
+              <p class="admin-item-title">필수 메타</p>
+              <p class="admin-item-meta">title, description, slug, date</p>
+            </div>
+          </li>
+          <li class="admin-list-row">
+            <div>
+              <p class="admin-item-title">SEO 최소 기준</p>
+              <p class="admin-item-meta">설명 길이, canonical 후보, 썸네일</p>
+            </div>
+          </li>
+          <li class="admin-list-row">
+            <div>
+              <p class="admin-item-title">콘텐츠 품질</p>
+              <p class="admin-item-meta">빈 본문, 깨진 이미지, 잘못된 slug 방지</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </div>
+</AdminLayout>

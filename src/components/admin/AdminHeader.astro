@@ -1,0 +1,21 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  status?: string;
+}
+
+const { title, description, status = 'Phase 1' } = Astro.props;
+---
+
+<header class="admin-topbar">
+  <div>
+    <h1 class="admin-topbar-title">{title}</h1>
+    {description && <p class="admin-topbar-desc">{description}</p>}
+  </div>
+
+  <div class="admin-topbar-actions">
+    <span class="admin-status ready">{status}</span>
+    <span class="admin-user-pill">Owner · S-Reborn</span>
+  </div>
+</header>

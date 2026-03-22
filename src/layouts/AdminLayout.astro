@@ -1,0 +1,40 @@
+---
+import '../styles/admin.css';
+import BaseHead from '../components/BaseHead.astro';
+import AdminSidebar from '../components/admin/AdminSidebar.astro';
+import AdminHeader from '../components/admin/AdminHeader.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  pageTitle: string;
+  pageDescription?: string;
+  status?: string;
+}
+
+const {
+  title,
+  description = 'S-Reborn World 관리자 패널',
+  pageTitle,
+  pageDescription,
+  status,
+} = Astro.props;
+
+const pathname = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="ko" class="admin-shell">
+  <head>
+    <BaseHead title={`${title} | Admin`} description={description} />
+  </head>
+  <body class="admin-shell">
+    <div class="admin-app">
+      <AdminSidebar pathname={pathname} />
+      <main class="admin-main">
+        <AdminHeader title={pageTitle} description={pageDescription} status={status} />
+        <slot />
+      </main>
+    </div>
+  </body>
+</html>

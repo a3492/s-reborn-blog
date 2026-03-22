@@ -1,0 +1,70 @@
+---
+interface NavItem {
+  href: string;
+  label: string;
+  badge?: string;
+}
+
+interface NavSection {
+  label: string;
+  items: NavItem[];
+}
+
+interface Props {
+  pathname: string;
+}
+
+const { pathname } = Astro.props;
+
+const sections: NavSection[] = [
+  {
+    label: 'Overview',
+    items: [
+      { href: '/admin', label: 'Dashboard' },
+      { href: '/admin/posts', label: 'Posts', badge: 'P1' },
+    ],
+  },
+  {
+    label: 'Planned',
+    items: [
+      { href: '/admin/media', label: 'Media', badge: 'P2' },
+      { href: '/admin/settings', label: 'Settings', badge: 'P2' },
+      { href: '/admin/jobs', label: 'Jobs', badge: 'P3' },
+    ],
+  },
+];
+---
+
+<aside class="admin-sidebar">
+  <a href="/admin" class="admin-brand">
+    <span class="admin-brand-kicker">Admin</span>
+    <span class="admin-brand-title">S-Reborn World</span>
+    <span class="admin-brand-subtitle">운영 패널 Phase 1 scaffold</span>
+  </a>
+
+  {sections.map((section) => (
+    <section class="admin-nav-section">
+      <h2 class="admin-nav-label">{section.label}</h2>
+      <ul class="admin-nav-list">
+        {section.items.map((item) => {
+          const active = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href));
+          return (
+            <li>
+              <a href={item.href} class:list={['admin-nav-link', { 'is-active': active }]}>
+                <span>{item.label}</span>
+                {item.badge && <span class="admin-nav-badge">{item.badge}</span>}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  ))}
+
+  <div class="admin-aside-note">
+    <p class="admin-aside-note-title">Deferred UI reminders</p>
+    <p class="admin-aside-note-text">
+      Topbar 검색 UX, About 색상 통합, BlogPost 보호 스크립트 정리, 공통 스타일 재구성은 별도 후속 작업으로 유지합니다.
+    </p>
+  </div>
+</aside>

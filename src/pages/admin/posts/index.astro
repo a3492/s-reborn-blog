@@ -1,0 +1,60 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+
+const rows = [
+  {
+    title: 'AI와 의료 워크플로우 메모',
+    slug: 'ai-clinic-workflow-note',
+    status: 'draft',
+    updatedAt: '2026-03-22 11:40',
+    category: 'ai',
+  },
+  {
+    title: '블로그 운영 메타 정리',
+    slug: 'blog-ops-meta-notes',
+    status: 'draft',
+    updatedAt: '2026-03-21 21:10',
+    category: 'essay',
+  },
+];
+---
+
+<AdminLayout
+  title="Posts"
+  pageTitle="Posts"
+  pageDescription="Phase 1에서는 draft 목록과 새 글 작성 진입점을 먼저 고정합니다."
+  status="Phase 1"
+>
+  <div class="admin-card pad-lg">
+    <div class="admin-topbar-actions" style="justify-content: space-between; margin-bottom: 1rem;">
+      <div>
+        <h2 class="admin-section-title">Draft List</h2>
+        <p class="admin-section-desc">실제 DB 연결 전 예시 데이터입니다.</p>
+      </div>
+      <a href="/admin/posts/new" class="admin-btn primary">새 글 작성</a>
+    </div>
+
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Slug</th>
+          <th>Category</th>
+          <th>Status</th>
+          <th>Updated</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row) => (
+          <tr>
+            <td>{row.title}</td>
+            <td>{row.slug}</td>
+            <td>{row.category}</td>
+            <td><span class="admin-status draft">{row.status}</span></td>
+            <td>{row.updatedAt}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</AdminLayout>
