@@ -1,16 +1,8 @@
 ---
 import AdminLayout from '../../layouts/AdminLayout.astro';
 
-const recentDrafts = [
-  { title: 'AI와 의료 워크플로우 메모', meta: 'draft · 마지막 수정 2시간 전' },
-  { title: '블로그 운영 메타 정리', meta: 'draft · 마지막 수정 어제' },
-];
-
-const nextSteps = [
-  { title: '관리자 인증 연결', meta: 'Supabase Auth + role gating' },
-  { title: '글 저장 API 연결', meta: 'draft 저장과 revision 테이블 연결' },
-  { title: 'Preview route 추가', meta: 'Markdown 미리보기 렌더링' },
-];
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 ---
 
 <AdminLayout
@@ -24,8 +16,8 @@ const nextSteps = [
       <h2 class="admin-section-title">Draft Posts</h2>
       <p class="admin-section-desc">임시 저장된 글 수</p>
       <div class="admin-kpi">
-        <strong class="admin-kpi-value">2</strong>
-        <span class="admin-kpi-label">초기 더미 데이터</span>
+        <strong class="admin-kpi-value" data-admin-kpi-drafts>-</strong>
+        <span class="admin-kpi-label">Supabase 연결 후 실시간 집계</span>
       </div>
     </section>
 
@@ -49,38 +41,116 @@ const nextSteps = [
 
     <section class="admin-card pad-lg span-7">
       <h2 class="admin-section-title">Recent Drafts</h2>
-      <p class="admin-section-desc">실제 연결 전까지는 예시 행으로 구성했습니다.</p>
-      <ul class="admin-list">
-        {recentDrafts.map((item) => (
-          <li class="admin-list-row">
-            <div>
-              <p class="admin-item-title">{item.title}</p>
-              <p class="admin-item-meta">{item.meta}</p>
-            </div>
-            <div>
-              <span class="admin-status draft">Draft</span>
-            </div>
-          </li>
-        ))}
+      <p class="admin-section-desc">최근 저장된 글을 실시간으로 보여줍니다.</p>
+      <p class="admin-inline-note" data-admin-dashboard-message hidden></p>
+      <ul class="admin-list" data-admin-dashboard-drafts>
+        <li class="admin-list-row">
+          <div>
+            <p class="admin-item-title">불러오는 중...</p>
+            <p class="admin-item-meta">Supabase에서 최근 글을 가져옵니다.</p>
+          </div>
+        </li>
       </ul>
     </section>
 
     <section class="admin-card pad-lg span-5">
       <h2 class="admin-section-title">Immediate Next Steps</h2>
-      <p class="admin-section-desc">Phase 1 구현 순서입니다.</p>
+      <p class="admin-section-desc">지금 남은 구현 순서입니다.</p>
       <ul class="admin-list">
-        {nextSteps.map((item) => (
-          <li class="admin-list-row">
-            <div>
-              <p class="admin-item-title">{item.title}</p>
-              <p class="admin-item-meta">{item.meta}</p>
-            </div>
-            <div>
-              <span class="admin-status warn">Todo</span>
-            </div>
-          </li>
-        ))}
+        <li class="admin-list-row">
+          <div>
+            <p class="admin-item-title">로그인 후 역할 검증</p>
+            <p class="admin-item-meta">`admin_profiles`와 세션 role 표시 연결</p>
+          </div>
+          <div><span class="admin-status warn">Next</span></div>
+        </li>
+        <li class="admin-list-row">
+          <div>
+            <p class="admin-item-title">Draft 상세 편집</p>
+            <p class="admin-item-meta">기존 글 불러오기와 update 흐름 추가</p>
+          </div>
+          <div><span class="admin-status warn">Next</span></div>
+        </li>
+        <li class="admin-list-row">
+          <div>
+            <p class="admin-item-title">Preview route</p>
+            <p class="admin-item-meta">Markdown 미리보기 렌더링</p>
+          </div>
+          <div><span class="admin-status warn">P2</span></div>
+        </li>
       </ul>
     </section>
   </div>
+
+  <script type="module" define:vars={{ supabaseUrl, supabaseKey }}>
+    import { createClient } from '@supabase/supabase-js';
+
+    const draftsKpi = document.querySelector('[data-admin-kpi-drafts]');
+    const list = document.querySelector('[data-admin-dashboard-drafts]');
+    const message = document.querySelector('[data-admin-dashboard-message]');
+
+    const setMessage = (text, state = 'info') => {
+      if (!message) return;
+      message.hidden = false;
+      message.textContent = text;
+      message.dataset.state = state;
+    };
+
+    const formatDate = (value) => {
+      if (!value) return '-';
+      return new Intl.DateTimeFormat('ko-KR', {
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit'
+      }).format(new Date(value));
+    };
+
+    const renderDrafts = (rows) => {
+      if (!list) return;
+      if (!rows.length) {
+        list.innerHTML = '<li class="admin-list-row"><div><p class="admin-item-title">저장된 draft가 없습니다.</p><p class="admin-item-meta">/admin/posts/new 에서 첫 글을 만들어 보세요.</p></div></li>';
+        return;
+      }
+
+      list.innerHTML = rows.map((row) => `
+        <li class="admin-list-row">
+          <div>
+            <p class="admin-item-title">${row.title}</p>
+            <p class="admin-item-meta">${row.slug} · ${formatDate(row.updated_at)}</p>
+          </div>
+          <div><span class="admin-status draft">${row.status}</span></div>
+        </li>
+      `).join('');
+    };
+
+    if (!supabaseUrl || !supabaseKey) {
+      if (draftsKpi) draftsKpi.textContent = '-';
+      renderDrafts([]);
+      setMessage('Supabase 환경 변수가 없어 대시보드를 불러올 수 없습니다.', 'error');
+    } else {
+      const supabase = createClient(supabaseUrl, supabaseKey, {
+        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
+      });
+
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (!sessionData.session) {
+        window.location.replace('/admin/login?redirectTo=/admin');
+      } else {
+        const { data, error } = await supabase
+          .from('posts')
+          .select('title, slug, status, updated_at')
+          .order('updated_at', { ascending: false })
+          .limit(5);
+
+        if (error) {
+          if (draftsKpi) draftsKpi.textContent = '-';
+          renderDrafts([]);
+          setMessage(error.message, 'error');
+        } else {
+          const rows = data ?? [];
+          if (draftsKpi) draftsKpi.textContent = String(rows.filter((row) => row.status === 'draft').length);
+          renderDrafts(rows);
+        }
+      }
+    }
+  </script>
 </AdminLayout>

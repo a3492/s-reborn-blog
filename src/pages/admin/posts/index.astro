@@ -1,38 +1,26 @@
 ---
 import AdminLayout from '../../../layouts/AdminLayout.astro';
 
-const rows = [
-  {
-    title: 'AI와 의료 워크플로우 메모',
-    slug: 'ai-clinic-workflow-note',
-    status: 'draft',
-    updatedAt: '2026-03-22 11:40',
-    category: 'ai',
-  },
-  {
-    title: '블로그 운영 메타 정리',
-    slug: 'blog-ops-meta-notes',
-    status: 'draft',
-    updatedAt: '2026-03-21 21:10',
-    category: 'essay',
-  },
-];
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 ---
 
 <AdminLayout
   title="Posts"
   pageTitle="Posts"
-  pageDescription="Phase 1에서는 draft 목록과 새 글 작성 진입점을 먼저 고정합니다."
-  status="Phase 1"
+  pageDescription="Phase 1에서는 Supabase의 draft 목록과 새 글 작성 진입점을 먼저 연결합니다."
+  status="Draft List"
 >
   <div class="admin-card pad-lg">
-    <div class="admin-topbar-actions" style="justify-content: space-between; margin-bottom: 1rem;">
+    <div class="admin-actions-row">
       <div>
         <h2 class="admin-section-title">Draft List</h2>
-        <p class="admin-section-desc">실제 DB 연결 전 예시 데이터입니다.</p>
+        <p class="admin-section-desc">현재 로그인한 관리자 기준으로 최신 글을 불러옵니다.</p>
       </div>
       <a href="/admin/posts/new" class="admin-btn primary">새 글 작성</a>
     </div>
+
+    <p class="admin-inline-note" data-admin-posts-message hidden></p>
 
     <table class="admin-table">
       <thead>
@@ -44,17 +32,83 @@ const rows = [
           <th>Updated</th>
         </tr>
       </thead>
-      <tbody>
-        {rows.map((row) => (
-          <tr>
-            <td>{row.title}</td>
-            <td>{row.slug}</td>
-            <td>{row.category}</td>
-            <td><span class="admin-status draft">{row.status}</span></td>
-            <td>{row.updatedAt}</td>
-          </tr>
-        ))}
+      <tbody data-admin-posts-body>
+        <tr>
+          <td colspan="5">불러오는 중...</td>
+        </tr>
       </tbody>
     </table>
   </div>
+
+  <script type="module" define:vars={{ supabaseUrl, supabaseKey }}>
+    import { createClient } from '@supabase/supabase-js';
+
+    const tbody = document.querySelector('[data-admin-posts-body]');
+    const message = document.querySelector('[data-admin-posts-message]');
+
+    const setMessage = (text, state = 'info') => {
+      if (!message) return;
+      message.hidden = false;
+      message.textContent = text;
+      message.dataset.state = state;
+    };
+
+    const formatDate = (value) => {
+      if (!value) return '-';
+      return new Intl.DateTimeFormat('ko-KR', {
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit'
+      }).format(new Date(value));
+    };
+
+    const renderRows = (rows) => {
+      if (!tbody) return;
+      if (!rows.length) {
+        tbody.innerHTML = '<tr><td colspan="5">아직 저장된 draft가 없습니다.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = rows.map((row) => `
+        <tr>
+          <td>${row.title}</td>
+          <td>${row.slug}</td>
+          <td>${row.category ?? '-'}</td>
+          <td><span class="admin-status draft">${row.status}</span></td>
+          <td>${formatDate(row.updated_at)}</td>
+        </tr>
+      `).join('');
+    };
+
+    if (!supabaseUrl || !supabaseKey) {
+      renderRows([]);
+      setMessage('Supabase 환경 변수가 없어 목록을 불러올 수 없습니다.', 'error');
+    } else {
+      const supabase = createClient(supabaseUrl, supabaseKey, {
+        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
+      });
+
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('saved') === '1') {
+        setMessage('draft가 저장되었습니다.', 'success');
+      }
+
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (!sessionData.session) {
+        window.location.replace('/admin/login?redirectTo=/admin/posts');
+      } else {
+        const { data, error } = await supabase
+          .from('posts')
+          .select('title, slug, category, status, updated_at')
+          .order('updated_at', { ascending: false })
+          .limit(20);
+
+        if (error) {
+          renderRows([]);
+          setMessage(error.message, 'error');
+        } else {
+          renderRows(data ?? []);
+        }
+      }
+    }
+  </script>
 </AdminLayout>

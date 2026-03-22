@@ -463,3 +463,133 @@ body.admin-shell {
   .admin-form-grid { grid-template-columns: 1fr; }
   .admin-list-row { grid-template-columns: 1fr; }
 }
+
+[hidden] {
+  display: none !important;
+}
+
+.admin-auth-loading {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+}
+
+.admin-auth-loading-card,
+.admin-login-card {
+  width: min(100%, 460px);
+  display: grid;
+  gap: 0.65rem;
+  padding: 1.5rem;
+  border: 1px solid var(--admin-border);
+  border-radius: 24px;
+  background: rgba(255, 253, 252, 0.94);
+  box-shadow: 0 22px 48px rgba(28, 25, 23, 0.06);
+}
+
+.admin-auth-loading-card strong {
+  font-size: 1rem;
+}
+
+.admin-auth-loading-card span {
+  color: var(--admin-text-3);
+  font-size: 0.9rem;
+}
+
+.admin-login-body {
+  display: grid;
+  place-items: center;
+}
+
+.admin-login-shell {
+  width: 100%;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 2rem 1rem;
+}
+
+.admin-login-title {
+  margin: 0;
+  font-family: var(--admin-display);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  letter-spacing: -0.03em;
+}
+
+.admin-login-desc {
+  margin: 0;
+  color: var(--admin-text-2);
+  line-height: 1.7;
+}
+
+.admin-login-form {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 0.8rem;
+}
+
+.admin-login-submit,
+.admin-login-magic {
+  width: 100%;
+}
+
+.admin-login-message {
+  margin: 0;
+  padding: 0.8rem 0.9rem;
+  border-radius: 14px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.admin-login-message[data-state='info'] {
+  background: rgba(184, 149, 106, 0.12);
+  color: var(--admin-accent-strong);
+}
+
+.admin-login-message[data-state='success'] {
+  background: rgba(39, 122, 75, 0.12);
+  color: var(--admin-success);
+}
+
+.admin-login-message[data-state='error'] {
+  background: rgba(184, 66, 53, 0.12);
+  color: var(--admin-danger);
+}
+
+.admin-actions-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.admin-inline-note {
+  margin: 0 0 1rem;
+  padding: 0.8rem 0.9rem;
+  border-radius: 14px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.admin-inline-note[data-state='info'] {
+  background: rgba(184, 149, 106, 0.12);
+  color: var(--admin-accent-strong);
+}
+
+.admin-inline-note[data-state='success'] {
+  background: rgba(39, 122, 75, 0.12);
+  color: var(--admin-success);
+}
+
+.admin-inline-note[data-state='error'] {
+  background: rgba(184, 66, 53, 0.12);
+  color: var(--admin-danger);
+}
+
+@media (max-width: 720px) {
+  .admin-actions-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

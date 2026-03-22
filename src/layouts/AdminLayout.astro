@@ -21,6 +21,8 @@ const {
 } = Astro.props;
 
 const pathname = Astro.url.pathname;
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 ---
 
 <!doctype html>
@@ -28,13 +30,82 @@ const pathname = Astro.url.pathname;
   <head>
     <BaseHead title={`${title} | Admin`} description={description} />
   </head>
-  <body class="admin-shell">
-    <div class="admin-app">
+  <body class="admin-shell admin-guarded">
+    <div class="admin-auth-loading" data-admin-auth-loading>
+      <div class="admin-auth-loading-card">
+        <strong>관리자 세션 확인 중</strong>
+        <span>Supabase 로그인 상태를 확인하고 있습니다.</span>
+      </div>
+    </div>
+
+    <div class="admin-app" data-admin-app hidden>
       <AdminSidebar pathname={pathname} />
       <main class="admin-main">
         <AdminHeader title={pageTitle} description={pageDescription} status={status} />
         <slot />
       </main>
     </div>
+
+    <script type="module" define:vars={{ supabaseUrl, supabaseKey }}>
+      import { createClient } from '@supabase/supabase-js';
+
+      const loading = document.querySelector('[data-admin-auth-loading]');
+      const app = document.querySelector('[data-admin-app]');
+      const logoutButton = document.querySelector('[data-admin-logout]');
+      const userPill = document.querySelector('[data-admin-user]');
+      const loginPath = '/admin/login';
+
+      const finish = () => {
+        loading?.setAttribute('hidden', '');
+        app?.removeAttribute('hidden');
+      };
+
+      if (!supabaseUrl || !supabaseKey) {
+        if (loading) {
+          loading.innerHTML = '<div class="admin-auth-loading-card"><strong>환경 변수 누락</strong><span>`PUBLIC_SUPABASE_URL`과 `PUBLIC_SUPABASE_ANON_KEY`가 필요합니다.</span></div>';
+        }
+      } else {
+        const supabase = createClient(supabaseUrl, supabaseKey, {
+          auth: {
+            persistSession: true,
+            autoRefreshToken: true,
+            detectSessionInUrl: true,
+          },
+        });
+
+        const applyUser = (session) => {
+          const email = session?.user?.email;
+          if (userPill && email) {
+            userPill.textContent = email;
+          }
+        };
+
+        const ensureSession = async () => {
+          const { data } = await supabase.auth.getSession();
+          const session = data.session;
+          if (!session) {
+            window.location.replace(`${loginPath}?redirectTo=${encodeURIComponent(window.location.pathname)}`);
+            return;
+          }
+          applyUser(session);
+          finish();
+        };
+
+        logoutButton?.addEventListener('click', async () => {
+          await supabase.auth.signOut();
+          window.location.replace(loginPath);
+        });
+
+        supabase.auth.onAuthStateChange((_event, session) => {
+          if (!session) {
+            window.location.replace(loginPath);
+            return;
+          }
+          applyUser(session);
+        });
+
+        ensureSession();
+      }
+    </script>
   </body>
 </html>

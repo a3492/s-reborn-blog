@@ -16,6 +16,7 @@ const { title, description, status = 'Phase 1' } = Astro.props;
 
   <div class="admin-topbar-actions">
     <span class="admin-status ready">{status}</span>
-    <span class="admin-user-pill">Owner · S-Reborn</span>
+    <span class="admin-user-pill" data-admin-user>Owner · S-Reborn</span>
+    <button type="button" class="admin-btn" data-admin-logout>로그아웃</button>
   </div>
 </header>

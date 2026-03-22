@@ -1,88 +1,99 @@
 ---
 import AdminLayout from '../../../layouts/AdminLayout.astro';
+
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 ---
 
 <AdminLayout
   title="New Post"
   pageTitle="New Post"
-  pageDescription="Phase 1용 작성 폼 스캐폴드입니다. 저장 동작은 아직 연결하지 않았고, 필드 구조만 먼저 고정합니다."
-  status="Draft Ready"
+  pageDescription="Phase 1용 작성 폼입니다. Supabase에 draft 저장과 revision 생성까지 연결합니다."
+  status="Draft Save"
 >
   <div class="admin-split">
     <section class="admin-card pad-lg">
-      <h2 class="admin-section-title">Editor</h2>
-      <p class="admin-section-desc">Markdown-first 에디터 구조를 기준으로 설계했습니다.</p>
+      <div class="admin-actions-row">
+        <div>
+          <h2 class="admin-section-title">Editor</h2>
+          <p class="admin-section-desc">Markdown-first 에디터 구조를 기준으로 설계했습니다.</p>
+        </div>
+        <button type="submit" form="admin-post-form" class="admin-btn primary">Draft 저장</button>
+      </div>
 
-      <form class="admin-form-grid">
+      <form id="admin-post-form" class="admin-form-grid" data-admin-post-form>
         <div class="admin-field full">
           <label class="admin-label" for="title">제목</label>
-          <input id="title" class="admin-input" type="text" placeholder="글 제목을 입력하세요." />
+          <input id="title" name="title" class="admin-input" type="text" placeholder="글 제목을 입력하세요." required />
         </div>
 
         <div class="admin-field full">
           <label class="admin-label" for="description">설명</label>
-          <textarea id="description" class="admin-textarea" style="min-height: 100px;" placeholder="목록과 SEO에 사용할 설명"></textarea>
+          <textarea id="description" name="description" class="admin-textarea" style="min-height: 100px;" placeholder="목록과 SEO에 사용할 설명" required></textarea>
         </div>
 
         <div class="admin-field">
           <label class="admin-label" for="slug">Slug</label>
-          <input id="slug" class="admin-input" type="text" placeholder="my-new-post" />
+          <input id="slug" name="slug" class="admin-input" type="text" placeholder="my-new-post" />
+          <span class="admin-help">비워두면 제목 기준으로 자동 생성합니다.</span>
         </div>
 
         <div class="admin-field">
           <label class="admin-label" for="category">카테고리</label>
-          <select id="category" class="admin-select">
-            <option>ai</option>
-            <option>essay</option>
-            <option>clinic</option>
+          <select id="category" name="category" class="admin-select">
+            <option value="ai">ai</option>
+            <option value="essay">essay</option>
+            <option value="clinic">clinic</option>
           </select>
         </div>
 
         <div class="admin-field">
           <label class="admin-label" for="date">발행일</label>
-          <input id="date" class="admin-input" type="datetime-local" />
+          <input id="date" name="date" class="admin-input" type="datetime-local" />
         </div>
 
         <div class="admin-field">
           <label class="admin-label" for="status">상태</label>
-          <select id="status" class="admin-select">
-            <option>draft</option>
-            <option>review</option>
-            <option>scheduled</option>
+          <select id="status" name="status" class="admin-select">
+            <option value="draft">draft</option>
+            <option value="review">review</option>
+            <option value="scheduled">scheduled</option>
           </select>
         </div>
 
         <div class="admin-field full">
           <label class="admin-label" for="tags">태그</label>
-          <input id="tags" class="admin-input" type="text" placeholder="ai, workflow, clinic" />
-          <span class="admin-help">쉼표 기준 저장 예정</span>
+          <input id="tags" name="tags" class="admin-input" type="text" placeholder="ai, workflow, clinic" />
+          <span class="admin-help">쉼표 기준으로 분리합니다.</span>
         </div>
 
         <div class="admin-field full">
           <label class="admin-label" for="body">본문 Markdown</label>
-          <textarea id="body" class="admin-textarea" placeholder="# 글 제목&#10;&#10;여기에 Markdown 본문을 작성합니다."></textarea>
+          <textarea id="body" name="body" class="admin-textarea" placeholder="# 글 제목&#10;&#10;여기에 Markdown 본문을 작성합니다."></textarea>
         </div>
       </form>
+
+      <p class="admin-inline-note" data-admin-post-message hidden></p>
     </section>
 
     <div class="admin-panel-stack">
       <section class="admin-card pad-md">
-        <h2 class="admin-section-title">Publish Settings</h2>
-        <p class="admin-section-desc">Phase 1에서는 초안 저장만 우선 연결합니다.</p>
+        <h2 class="admin-section-title">Save Flow</h2>
+        <p class="admin-section-desc">지금 단계에서 실제로 연결된 흐름입니다.</p>
         <ul class="admin-list">
           <li class="admin-list-row">
             <div>
-              <p class="admin-item-title">Draft save</p>
-              <p class="admin-item-meta">`posts` + `post_revisions` 저장 예정</p>
+              <p class="admin-item-title">`posts` insert</p>
+              <p class="admin-item-meta">기본 메타와 본문을 draft로 저장합니다.</p>
             </div>
-            <div><span class="admin-status ready">P1</span></div>
+            <div><span class="admin-status ready">Live</span></div>
           </li>
           <li class="admin-list-row">
             <div>
-              <p class="admin-item-title">Preview route</p>
-              <p class="admin-item-meta">관리자 전용 렌더링 경로 추가 예정</p>
+              <p class="admin-item-title">`post_revisions` insert</p>
+              <p class="admin-item-meta">첫 저장 시 revision 스냅샷도 같이 남깁니다.</p>
             </div>
-            <div><span class="admin-status warn">P2</span></div>
+            <div><span class="admin-status ready">Live</span></div>
           </li>
           <li class="admin-list-row">
             <div>
@@ -96,28 +107,138 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
 
       <section class="admin-card pad-md">
         <h2 class="admin-section-title">Validation Checklist</h2>
-        <p class="admin-section-desc">저장 전에 점검할 규칙들</p>
+        <p class="admin-section-desc">저장 전에 점검하는 규칙들</p>
         <ul class="admin-list">
           <li class="admin-list-row">
             <div>
               <p class="admin-item-title">필수 메타</p>
-              <p class="admin-item-meta">title, description, slug, date</p>
+              <p class="admin-item-meta">title, description, body</p>
             </div>
           </li>
           <li class="admin-list-row">
             <div>
-              <p class="admin-item-title">SEO 최소 기준</p>
-              <p class="admin-item-meta">설명 길이, canonical 후보, 썸네일</p>
+              <p class="admin-item-title">slug 정규화</p>
+              <p class="admin-item-meta">영문 소문자와 하이픈 기준으로 자동 보정합니다.</p>
             </div>
           </li>
           <li class="admin-list-row">
             <div>
-              <p class="admin-item-title">콘텐츠 품질</p>
-              <p class="admin-item-meta">빈 본문, 깨진 이미지, 잘못된 slug 방지</p>
+              <p class="admin-item-title">revision 생성</p>
+              <p class="admin-item-meta">본문과 메타 스냅샷을 함께 기록합니다.</p>
             </div>
           </li>
         </ul>
       </section>
     </div>
   </div>
+
+  <script type="module" define:vars={{ supabaseUrl, supabaseKey }}>
+    import { createClient } from '@supabase/supabase-js';
+
+    const form = document.querySelector('[data-admin-post-form]');
+    const message = document.querySelector('[data-admin-post-message]');
+
+    const slugify = (value) =>
+      value
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+
+    const setMessage = (text, state = 'info') => {
+      if (!message) return;
+      message.hidden = false;
+      message.textContent = text;
+      message.dataset.state = state;
+    };
+
+    if (!supabaseUrl || !supabaseKey) {
+      setMessage('Supabase 환경 변수가 없어 저장 기능을 초기화할 수 없습니다.', 'error');
+    } else {
+      const supabase = createClient(supabaseUrl, supabaseKey, {
+        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
+      });
+
+      form?.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        setMessage('draft를 저장하는 중입니다...', 'info');
+
+        const { data: sessionData } = await supabase.auth.getSession();
+        const session = sessionData.session;
+        if (!session) {
+          window.location.replace('/admin/login?redirectTo=/admin/posts/new');
+          return;
+        }
+
+        const formData = new FormData(form);
+        const title = String(formData.get('title') || '').trim();
+        const description = String(formData.get('description') || '').trim();
+        const rawSlug = String(formData.get('slug') || '').trim();
+        const body = String(formData.get('body') || '').trim();
+        const slug = slugify(rawSlug || title);
+        const tags = String(formData.get('tags') || '')
+          .split(',')
+          .map((tag) => tag.trim())
+          .filter(Boolean);
+
+        if (!title || !description || !body) {
+          setMessage('제목, 설명, 본문은 필수입니다.', 'error');
+          return;
+        }
+
+        if (!slug) {
+          setMessage('slug를 생성할 수 없습니다. 제목 또는 slug를 확인하세요.', 'error');
+          return;
+        }
+
+        const payload = {
+          title,
+          description,
+          slug,
+          category: String(formData.get('category') || '') || null,
+          body_markdown: body,
+          status: String(formData.get('status') || 'draft'),
+          tags,
+          published_at: String(formData.get('date') || '') || null,
+          created_by: session.user.id,
+          updated_by: session.user.id,
+        };
+
+        const { data: post, error: postError } = await supabase
+          .from('posts')
+          .insert(payload)
+          .select('id, slug')
+          .single();
+
+        if (postError) {
+          setMessage(postError.message, 'error');
+          return;
+        }
+
+        const revisionPayload = {
+          post_id: post.id,
+          body_markdown: body,
+          meta_snapshot: {
+            title,
+            description,
+            slug,
+            category: payload.category,
+            tags,
+            status: payload.status,
+          },
+          created_by: session.user.id,
+        };
+
+        const { error: revisionError } = await supabase.from('post_revisions').insert(revisionPayload);
+        if (revisionError) {
+          setMessage(`글은 저장됐지만 revision 생성에 실패했습니다: ${revisionError.message}`, 'error');
+          return;
+        }
+
+        window.location.replace('/admin/posts?saved=1');
+      });
+    }
+  </script>
 </AdminLayout>
