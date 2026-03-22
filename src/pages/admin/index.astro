@@ -62,14 +62,14 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
             <p class="admin-item-title">로그인 후 역할 검증</p>
             <p class="admin-item-meta">`admin_profiles`와 세션 role 표시 연결</p>
           </div>
-          <div><span class="admin-status warn">Next</span></div>
+          <div><span class="admin-status ready">Done</span></div>
         </li>
         <li class="admin-list-row">
           <div>
             <p class="admin-item-title">Draft 상세 편집</p>
             <p class="admin-item-meta">기존 글 불러오기와 update 흐름 추가</p>
           </div>
-          <div><span class="admin-status warn">Next</span></div>
+          <div><span class="admin-status ready">Done</span></div>
         </li>
         <li class="admin-list-row">
           <div>
@@ -104,6 +104,13 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       }).format(new Date(value));
     };
 
+    const escapeHtml = (value) => String(value ?? '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#39;');
+
     const renderDrafts = (rows) => {
       if (!list) return;
       if (!rows.length) {
@@ -114,10 +121,10 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       list.innerHTML = rows.map((row) => `
         <li class="admin-list-row">
           <div>
-            <p class="admin-item-title">${row.title}</p>
-            <p class="admin-item-meta">${row.slug} · ${formatDate(row.updated_at)}</p>
+            <p class="admin-item-title"><a class="admin-table-link" href="/admin/posts/edit?slug=${encodeURIComponent(row.slug)}">${escapeHtml(row.title)}</a></p>
+            <p class="admin-item-meta">${escapeHtml(row.slug)} · ${formatDate(row.updated_at)}</p>
           </div>
-          <div><span class="admin-status draft">${row.status}</span></div>
+          <div><span class="admin-status ${escapeHtml(row.status)}">${escapeHtml(row.status)}</span></div>
         </li>
       `).join('');
     };
@@ -154,3 +161,4 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     }
   </script>
 </AdminLayout>
+

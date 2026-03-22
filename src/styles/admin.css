@@ -593,3 +593,13 @@ body.admin-shell {
     align-items: stretch;
   }
 }
+
+.admin-table-link {
+  color: var(--admin-accent-strong);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.admin-table-link:hover {
+  text-decoration: underline;
+}

@@ -61,6 +61,13 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       }).format(new Date(value));
     };
 
+    const escapeHtml = (value) => String(value ?? '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#39;');
+
     const renderRows = (rows) => {
       if (!tbody) return;
       if (!rows.length) {
@@ -70,10 +77,10 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
       tbody.innerHTML = rows.map((row) => `
         <tr>
-          <td>${row.title}</td>
-          <td>${row.slug}</td>
-          <td>${row.category ?? '-'}</td>
-          <td><span class="admin-status draft">${row.status}</span></td>
+          <td><a class="admin-table-link" href="/admin/posts/edit?slug=${encodeURIComponent(row.slug)}">${escapeHtml(row.title)}</a></td>
+          <td>${escapeHtml(row.slug)}</td>
+          <td>${escapeHtml(row.category ?? '-')}</td>
+          <td><span class="admin-status ${escapeHtml(row.status)}">${escapeHtml(row.status)}</span></td>
           <td>${formatDate(row.updated_at)}</td>
         </tr>
       `).join('');
@@ -90,6 +97,9 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       const params = new URLSearchParams(window.location.search);
       if (params.get('saved') === '1') {
         setMessage('draft가 저장되었습니다.', 'success');
+      }
+      if (params.get('updated') === '1') {
+        setMessage('draft가 수정되었습니다.', 'success');
       }
 
       const { data: sessionData } = await supabase.auth.getSession();
@@ -112,3 +122,4 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     }
   </script>
 </AdminLayout>
+

@@ -41,6 +41,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     <div class="admin-app" data-admin-app hidden>
       <AdminSidebar pathname={pathname} />
       <main class="admin-main">
+        <p class="admin-inline-note" data-admin-role-warning hidden></p>
         <AdminHeader title={pageTitle} description={pageDescription} status={status} />
         <slot />
       </main>
@@ -53,11 +54,19 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       const app = document.querySelector('[data-admin-app]');
       const logoutButton = document.querySelector('[data-admin-logout]');
       const userPill = document.querySelector('[data-admin-user]');
+      const roleWarning = document.querySelector('[data-admin-role-warning]');
       const loginPath = '/admin/login';
 
       const finish = () => {
         loading?.setAttribute('hidden', '');
         app?.removeAttribute('hidden');
+      };
+
+      const setRoleWarning = (text, state = 'warn') => {
+        if (!roleWarning) return;
+        roleWarning.hidden = false;
+        roleWarning.textContent = text;
+        roleWarning.dataset.state = state;
       };
 
       if (!supabaseUrl || !supabaseKey) {
@@ -73,11 +82,30 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           },
         });
 
-        const applyUser = (session) => {
+        const applyUser = async (session) => {
           const email = session?.user?.email;
-          if (userPill && email) {
-            userPill.textContent = email;
+          const userId = session?.user?.id;
+          if (!userPill || !email || !userId) return;
+
+          userPill.textContent = email;
+
+          const { data: profile, error } = await supabase
+            .from('admin_profiles')
+            .select('display_name, role, email')
+            .eq('id', userId)
+            .maybeSingle();
+
+          if (error) {
+            setRoleWarning(`admin_profiles 조회 실패: ${error.message}`, 'error');
+            return;
           }
+
+          if (!profile) {
+            setRoleWarning('admin_profiles에 현재 계정이 없습니다. SQL migration 적용 후 owner/editor 프로필을 먼저 추가해야 합니다.', 'warn');
+            return;
+          }
+
+          userPill.textContent = `${profile.display_name || profile.email} · ${profile.role}`;
         };
 
         const ensureSession = async () => {
@@ -87,7 +115,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
             window.location.replace(`${loginPath}?redirectTo=${encodeURIComponent(window.location.pathname)}`);
             return;
           }
-          applyUser(session);
+          await applyUser(session);
           finish();
         };
 
@@ -96,12 +124,12 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           window.location.replace(loginPath);
         });
 
-        supabase.auth.onAuthStateChange((_event, session) => {
+        supabase.auth.onAuthStateChange(async (_event, session) => {
           if (!session) {
             window.location.replace(loginPath);
             return;
           }
-          applyUser(session);
+          await applyUser(session);
         });
 
         ensureSession();

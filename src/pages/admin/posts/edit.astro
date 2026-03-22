@@ -1,0 +1,227 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+const slug = Astro.url.searchParams.get('slug') ?? ''; 
+---
+
+<AdminLayout
+  title="Edit Post"
+  pageTitle="Edit Post"
+  pageDescription="기존 draft를 수정하고 revision을 추가합니다."
+  status="Draft Edit"
+>
+  <div class="admin-split">
+    <section class="admin-card pad-lg">
+      <div class="admin-actions-row">
+        <div>
+          <h2 class="admin-section-title">Editor</h2>
+          <p class="admin-section-desc">선택한 글을 불러와 수정합니다.</p>
+        </div>
+        <button type="submit" form="admin-edit-post-form" class="admin-btn primary">변경 저장</button>
+      </div>
+
+      <form id="admin-edit-post-form" class="admin-form-grid" data-admin-edit-post-form>
+        <div class="admin-field full">
+          <label class="admin-label" for="title">제목</label>
+          <input id="title" name="title" class="admin-input" type="text" required />
+        </div>
+
+        <div class="admin-field full">
+          <label class="admin-label" for="description">설명</label>
+          <textarea id="description" name="description" class="admin-textarea" style="min-height: 100px;" required></textarea>
+        </div>
+
+        <div class="admin-field">
+          <label class="admin-label" for="slug">Slug</label>
+          <input id="slug" name="slug" class="admin-input" type="text" required />
+        </div>
+
+        <div class="admin-field">
+          <label class="admin-label" for="category">카테고리</label>
+          <select id="category" name="category" class="admin-select">
+            <option value="ai">ai</option>
+            <option value="essay">essay</option>
+            <option value="clinic">clinic</option>
+          </select>
+        </div>
+
+        <div class="admin-field">
+          <label class="admin-label" for="date">발행일</label>
+          <input id="date" name="date" class="admin-input" type="datetime-local" />
+        </div>
+
+        <div class="admin-field">
+          <label class="admin-label" for="status">상태</label>
+          <select id="status" name="status" class="admin-select">
+            <option value="draft">draft</option>
+            <option value="review">review</option>
+            <option value="scheduled">scheduled</option>
+            <option value="published">published</option>
+            <option value="archived">archived</option>
+          </select>
+        </div>
+
+        <div class="admin-field full">
+          <label class="admin-label" for="tags">태그</label>
+          <input id="tags" name="tags" class="admin-input" type="text" />
+        </div>
+
+        <div class="admin-field full">
+          <label class="admin-label" for="body">본문 Markdown</label>
+          <textarea id="body" name="body" class="admin-textarea"></textarea>
+        </div>
+      </form>
+
+      <p class="admin-inline-note" data-admin-edit-post-message hidden></p>
+    </section>
+
+    <div class="admin-panel-stack">
+      <section class="admin-card pad-md">
+        <h2 class="admin-section-title">Entry Meta</h2>
+        <p class="admin-section-desc">불러온 글의 핵심 메타를 요약합니다.</p>
+        <ul class="admin-list" data-admin-edit-meta>
+          <li class="admin-list-row">
+            <div>
+              <p class="admin-item-title">불러오는 중...</p>
+              <p class="admin-item-meta">선택한 draft의 메타를 읽습니다.</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="admin-card pad-md">
+        <h2 class="admin-section-title">Revision Policy</h2>
+        <p class="admin-section-desc">저장 시마다 현재 본문과 메타 스냅샷을 revision으로 남깁니다.</p>
+        <ul class="admin-list">
+          <li class="admin-list-row"><div><p class="admin-item-title">본문 변경 추적</p><p class="admin-item-meta">post_revisions에 body_markdown 저장</p></div></li>
+          <li class="admin-list-row"><div><p class="admin-item-title">메타 변경 추적</p><p class="admin-item-meta">title, description, slug, tags, status 스냅샷 저장</p></div></li>
+        </ul>
+      </section>
+    </div>
+  </div>
+
+  <script type="module" define:vars={{ supabaseUrl, supabaseKey, slug }}>
+    import { createClient } from '@supabase/supabase-js';
+
+    const form = document.querySelector('[data-admin-edit-post-form]');
+    const message = document.querySelector('[data-admin-edit-post-message]');
+    const metaList = document.querySelector('[data-admin-edit-meta]');
+    let currentPostId = null;
+
+    const setMessage = (text, state = 'info') => {
+      if (!message) return;
+      message.hidden = false;
+      message.textContent = text;
+      message.dataset.state = state;
+    };
+
+    const formatDateInput = (value) => {
+      if (!value) return '';
+      const date = new Date(value);
+      const pad = (n) => String(n).padStart(2, '0');
+      return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+    };
+
+    const fillMeta = (post) => {
+      if (!metaList) return;
+      metaList.innerHTML = `
+        <li class="admin-list-row"><div><p class="admin-item-title">${post.title}</p><p class="admin-item-meta">slug: ${post.slug}</p></div><div><span class="admin-status ${post.status}">${post.status}</span></div></li>
+        <li class="admin-list-row"><div><p class="admin-item-title">카테고리</p><p class="admin-item-meta">${post.category ?? '-'}</p></div></li>
+        <li class="admin-list-row"><div><p class="admin-item-title">최근 수정</p><p class="admin-item-meta">${post.updated_at ?? '-'}</p></div></li>
+      `;
+    };
+
+    if (!supabaseUrl || !supabaseKey) {
+      setMessage('Supabase 환경 변수가 없어 편집 기능을 초기화할 수 없습니다.', 'error');
+    } else {
+      const supabase = createClient(supabaseUrl, supabaseKey, {
+        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
+      });
+
+      const { data: sessionData } = await supabase.auth.getSession();
+      const session = sessionData.session;
+      if (!session) {
+        window.location.replace(`/admin/login?redirectTo=${encodeURIComponent(window.location.pathname)}`);
+      } else {
+        const { data: post, error } = await supabase
+          .from('posts')
+          .select('id, title, description, slug, category, tags, body_markdown, status, published_at, updated_at')
+          .eq('slug', slug)
+          .single();
+
+        if (error || !post) {
+          setMessage(error?.message || '글을 찾을 수 없습니다.', 'error');
+        } else {
+          currentPostId = post.id;
+          form.elements.title.value = post.title || '';
+          form.elements.description.value = post.description || '';
+          form.elements.slug.value = post.slug || '';
+          form.elements.category.value = post.category || 'ai';
+          form.elements.tags.value = (post.tags || []).join(', ');
+          form.elements.body.value = post.body_markdown || '';
+          form.elements.status.value = post.status || 'draft';
+          form.elements.date.value = formatDateInput(post.published_at);
+          fillMeta(post);
+        }
+
+        form?.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          if (!currentPostId) {
+            setMessage('현재 글 ID를 확인할 수 없습니다.', 'error');
+            return;
+          }
+
+          setMessage('변경 사항을 저장하는 중입니다...', 'info');
+          const formData = new FormData(form);
+          const title = String(formData.get('title') || '').trim();
+          const description = String(formData.get('description') || '').trim();
+          const nextSlug = String(formData.get('slug') || '').trim();
+          const body = String(formData.get('body') || '').trim();
+          const tags = String(formData.get('tags') || '').split(',').map((tag) => tag.trim()).filter(Boolean);
+          const status = String(formData.get('status') || 'draft');
+          const category = String(formData.get('category') || '') || null;
+          const publishedAt = String(formData.get('date') || '') || null;
+
+          const payload = {
+            title,
+            description,
+            slug: nextSlug,
+            body_markdown: body,
+            tags,
+            status,
+            category,
+            published_at: publishedAt,
+            updated_by: session.user.id,
+          };
+
+          const { error: updateError } = await supabase
+            .from('posts')
+            .update(payload)
+            .eq('id', currentPostId);
+
+          if (updateError) {
+            setMessage(updateError.message, 'error');
+            return;
+          }
+
+          const { error: revisionError } = await supabase.from('post_revisions').insert({
+            post_id: currentPostId,
+            body_markdown: body,
+            meta_snapshot: { title, description, slug: nextSlug, category, tags, status },
+            created_by: session.user.id,
+          });
+
+          if (revisionError) {
+            setMessage(`수정은 저장됐지만 revision 생성에 실패했습니다: ${revisionError.message}`, 'error');
+            return;
+          }
+
+          window.location.replace('/admin/posts?updated=1');
+        });
+      }
+    }
+  </script>
+</AdminLayout>
+
