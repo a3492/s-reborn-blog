@@ -292,9 +292,9 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       await supabase.from('audit_logs').insert({
         actor_id: session.user.id,
         action: 'media_asset_created',
-        target_type: 'media_asset',
-        target_id: asset.id,
-        meta: {
+        resource_type: 'media_asset',
+        resource_id: asset.id,
+        after_json: {
           file_name: payload.file_name,
           public_url: payload.public_url,
           storage_provider: payload.storage_provider,
@@ -308,3 +308,4 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     });
   }
 </script>
+

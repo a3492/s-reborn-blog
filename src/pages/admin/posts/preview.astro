@@ -1,4 +1,6 @@
 ---
+import '../../../styles/design.css';
+import '../../../styles/global.css';
 import AdminLayout from '../../../layouts/AdminLayout.astro';
 
 const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
@@ -8,30 +10,208 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 <AdminLayout
   title="Preview"
   pageTitle="Preview"
-  pageDescription="저장된 글 또는 현재 작성 중인 draft를 미리 봅니다."
+  pageDescription="저장된 글 또는 현재 작성 중인 draft를 실제 블로그 글 구조에 가깝게 미리 봅니다."
   status="Preview"
 >
-  <div class="admin-card pad-lg">
-    <div class="admin-actions-row">
-      <div>
-        <h2 class="admin-section-title">Preview</h2>
-        <p class="admin-section-desc">`slug` 쿼리가 있으면 Supabase에서, 없으면 로컬 draft 미리보기 데이터를 사용합니다.</p>
+  <div class="admin-panel-stack">
+    <div class="admin-card pad-lg">
+      <div class="admin-actions-row">
+        <div>
+          <h2 class="admin-section-title">Blog Preview</h2>
+          <p class="admin-section-desc">실제 글 페이지의 제목, 메타, 태그, 본문 흐름과 유사한 구조로 확인합니다.</p>
+        </div>
+        <div class="admin-actions-cluster">
+          <a href="/admin/posts" class="admin-btn">목록으로</a>
+        </div>
       </div>
-      <a href="/admin/posts" class="admin-btn">목록으로</a>
+
+      <p class="admin-inline-note" data-admin-preview-message hidden></p>
     </div>
 
-    <p class="admin-inline-note" data-admin-preview-message hidden></p>
+    <article class="admin-post-preview-shell" data-admin-preview-root hidden>
+      <div class="admin-post-preview-main">
+        <div class="hero-image" data-admin-preview-hero hidden>
+          <img data-admin-preview-image alt="" />
+        </div>
 
-    <article class="admin-preview" data-admin-preview-root hidden>
-      <header class="admin-preview-head">
-        <span class="admin-status draft" data-admin-preview-status>draft</span>
-        <h1 class="admin-preview-title" data-admin-preview-title></h1>
-        <p class="admin-preview-desc" data-admin-preview-desc></p>
-        <p class="admin-preview-meta" data-admin-preview-meta></p>
-      </header>
-      <div class="admin-preview-body" data-admin-preview-body></div>
+        <div class="prose admin-post-preview-prose">
+          <div class="title admin-post-preview-titleblock">
+            <div class="meta admin-post-preview-meta-row">
+              <span class="category-badge" data-admin-preview-category hidden></span>
+              <span data-admin-preview-date></span>
+            </div>
+
+            <h1 data-admin-preview-title></h1>
+            <p class="admin-post-preview-desc" data-admin-preview-desc hidden></p>
+
+            <div class="tags" data-admin-preview-tags hidden></div>
+
+            <div class="admin-post-preview-stats">
+              <span>조회수 미리보기</span>
+              <span>·</span>
+              <span>좋아요 미리보기</span>
+            </div>
+
+            <hr />
+          </div>
+
+          <div class="admin-preview-body" data-admin-preview-body></div>
+
+          <div class="share-section admin-post-preview-share">
+            <p>이 글이 도움이 됐나요? 공유해 주세요.</p>
+            <div class="share-buttons">
+              <button class="share-btn copy" type="button">링크 복사</button>
+              <button class="share-btn linkedin" type="button">LinkedIn</button>
+              <button class="share-btn twitter" type="button">𝕏 트위터</button>
+            </div>
+          </div>
+
+          <section class="admin-post-preview-comments">
+            <h2>댓글 영역 미리보기</h2>
+            <p>실제 배포 페이지에서는 Giscus가 이 위치에 렌더링됩니다.</p>
+          </section>
+        </div>
+      </div>
     </article>
   </div>
+
+  <style>
+    .admin-post-preview-shell {
+      border: 1px solid var(--admin-border);
+      border-radius: 30px;
+      background:
+        radial-gradient(circle at top, rgba(184, 149, 106, 0.1), transparent 24%),
+        rgba(255, 253, 252, 0.96);
+      box-shadow: 0 24px 56px rgba(28, 25, 23, 0.08);
+      overflow: hidden;
+    }
+
+    .admin-post-preview-main {
+      padding: 1.4rem;
+    }
+
+    .admin-post-preview-prose {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 1.2rem 1rem 1.8rem;
+      color: var(--text);
+    }
+
+    .admin-post-preview-titleblock {
+      padding-top: 0.5rem;
+    }
+
+    .admin-post-preview-desc {
+      margin: 0.9rem auto 0;
+      max-width: 640px;
+      color: var(--t2);
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    .admin-post-preview-meta-row {
+      margin-bottom: 0.8rem;
+    }
+
+    .admin-post-preview-stats {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      color: var(--t3);
+      font-size: 0.88rem;
+      margin: 0.35rem 0 1rem;
+    }
+
+    .admin-preview-body {
+      line-height: 1.9;
+      word-break: keep-all;
+    }
+
+    .admin-preview-body p {
+      margin-bottom: 1.4rem;
+    }
+
+    .admin-preview-body ul,
+    .admin-preview-body ol {
+      padding-left: 1.4rem;
+      margin: 0 0 1.4rem;
+    }
+
+    .admin-preview-body li + li {
+      margin-top: 0.35rem;
+    }
+
+    .admin-preview-body pre {
+      background: #161311;
+      color: #f8f3ec;
+      border-radius: 18px;
+      padding: 1.1rem 1.2rem;
+      overflow-x: auto;
+      margin: 0 0 1.5rem;
+    }
+
+    .admin-preview-body code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    .admin-preview-body pre code {
+      background: transparent;
+      padding: 0;
+      color: inherit;
+    }
+
+    .admin-preview-body blockquote {
+      margin: 0 0 1.5rem;
+      padding: 0.2rem 0 0.2rem 1rem;
+      border-left: 4px solid var(--accent);
+      color: var(--t2);
+      background: rgba(184, 149, 106, 0.08);
+      border-radius: 0 14px 14px 0;
+    }
+
+    .admin-preview-body img {
+      display: block;
+      max-width: 100%;
+      margin: 1.5rem auto 0.6rem;
+      border-radius: 18px;
+      box-shadow: 0 18px 42px rgba(28, 25, 23, 0.12);
+    }
+
+    .admin-preview-body .image-caption {
+      display: block;
+      margin-bottom: 1.2rem;
+      color: var(--t3);
+      text-align: center;
+      font-size: 0.88rem;
+    }
+
+    .admin-post-preview-share {
+      margin-top: 3rem;
+    }
+
+    .admin-post-preview-comments {
+      margin-top: 2.2rem;
+      padding: 1.2rem 1.3rem;
+      border: 1px dashed var(--rule);
+      border-radius: 18px;
+      background: rgba(240, 237, 232, 0.55);
+    }
+
+    .admin-post-preview-comments h2 {
+      margin-bottom: 0.45rem;
+      font-size: 1.05rem;
+    }
+
+    @media (max-width: 720px) {
+      .admin-post-preview-main {
+        padding: 0.85rem;
+      }
+
+      .admin-post-preview-prose {
+        padding: 0.7rem 0.45rem 1.2rem;
+      }
+    }
+  </style>
 
   <script type="module" define:vars={{ supabaseUrl, supabaseKey }}>
     import { createClient } from '@supabase/supabase-js';
@@ -40,11 +220,14 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     const slug = params.get('slug');
     const root = document.querySelector('[data-admin-preview-root]');
     const message = document.querySelector('[data-admin-preview-message]');
-    const statusEl = document.querySelector('[data-admin-preview-status]');
     const titleEl = document.querySelector('[data-admin-preview-title]');
     const descEl = document.querySelector('[data-admin-preview-desc]');
-    const metaEl = document.querySelector('[data-admin-preview-meta]');
+    const dateEl = document.querySelector('[data-admin-preview-date]');
+    const categoryEl = document.querySelector('[data-admin-preview-category]');
+    const tagsEl = document.querySelector('[data-admin-preview-tags]');
     const bodyEl = document.querySelector('[data-admin-preview-body]');
+    const heroEl = document.querySelector('[data-admin-preview-hero]');
+    const imageEl = document.querySelector('[data-admin-preview-image]');
 
     const setMessage = (text, state = 'info') => {
       if (!message) return;
@@ -60,30 +243,188 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       .replaceAll('"', '&quot;')
       .replaceAll("'", '&#39;');
 
-    const renderBody = (markdown) => {
-      const lines = String(markdown || '').split('\n');
-      return lines.map((line) => {
-        const escaped = escapeHtml(line);
-        if (!line.trim()) return '<p class="admin-preview-empty"></p>';
-        if (line.startsWith('### ')) return `<h3>${escapeHtml(line.slice(4))}</h3>`;
-        if (line.startsWith('## ')) return `<h2>${escapeHtml(line.slice(3))}</h2>`;
-        if (line.startsWith('# ')) return `<h1>${escapeHtml(line.slice(2))}</h1>`;
-        if (line.startsWith('- ')) return `<li>${escapeHtml(line.slice(2))}</li>`;
-        return `<p>${escaped}</p>`;
-      }).join('');
+    const formatDate = (value) => {
+      if (!value) return '날짜 미지정';
+      return new Intl.DateTimeFormat('ko-KR', {
+        year: 'numeric', month: 'long', day: 'numeric'
+      }).format(new Date(value));
+    };
+
+    const parseInline = (value) => {
+      let html = escapeHtml(value);
+      html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+      html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+      html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+      html = html.replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]+)")?\)/g, (_m, alt, src, title) => {
+        const safeAlt = escapeHtml(alt);
+        const safeSrc = escapeHtml(src);
+        const caption = title ? `<span class="image-caption">${escapeHtml(title)}</span>` : '';
+        return `<img src="${safeSrc}" alt="${safeAlt}" loading="lazy" />${caption}`;
+      });
+      html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noreferrer">$1</a>');
+      return html;
+    };
+
+    const renderMarkdown = (markdown) => {
+      const lines = String(markdown || '').replace(/\r\n/g, '\n').split('\n');
+      const parts = [];
+      let paragraph = [];
+      let listItems = [];
+      let listType = '';
+      let codeLines = [];
+      let inCode = false;
+      let codeLang = '';
+      let quoteLines = [];
+
+      const flushParagraph = () => {
+        if (!paragraph.length) return;
+        parts.push(`<p>${parseInline(paragraph.join(' '))}</p>`);
+        paragraph = [];
+      };
+
+      const flushList = () => {
+        if (!listItems.length) return;
+        parts.push(`<${listType}>${listItems.map((item) => `<li>${parseInline(item)}</li>`).join('')}</${listType}>`);
+        listItems = [];
+        listType = '';
+      };
+
+      const flushQuote = () => {
+        if (!quoteLines.length) return;
+        parts.push(`<blockquote><p>${parseInline(quoteLines.join(' '))}</p></blockquote>`);
+        quoteLines = [];
+      };
+
+      const flushCode = () => {
+        if (!inCode) return;
+        parts.push(`<pre><code class="language-${escapeHtml(codeLang)}">${escapeHtml(codeLines.join('\n'))}</code></pre>`);
+        codeLines = [];
+        codeLang = '';
+        inCode = false;
+      };
+
+      for (const rawLine of lines) {
+        const line = rawLine.trimEnd();
+        const trimmed = line.trim();
+
+        if (trimmed.startsWith('```')) {
+          flushParagraph();
+          flushList();
+          flushQuote();
+
+          if (inCode) {
+            flushCode();
+          } else {
+            inCode = true;
+            codeLang = trimmed.slice(3).trim();
+          }
+          continue;
+        }
+
+        if (inCode) {
+          codeLines.push(rawLine);
+          continue;
+        }
+
+        if (!trimmed) {
+          flushParagraph();
+          flushList();
+          flushQuote();
+          continue;
+        }
+
+        if (/^---+$/.test(trimmed)) {
+          flushParagraph();
+          flushList();
+          flushQuote();
+          parts.push('<hr />');
+          continue;
+        }
+
+        if (trimmed.startsWith('> ')) {
+          flushParagraph();
+          flushList();
+          quoteLines.push(trimmed.slice(2));
+          continue;
+        }
+
+        flushQuote();
+
+        if (/^#{1,6}\s+/.test(trimmed)) {
+          flushParagraph();
+          flushList();
+          const level = Math.min(6, trimmed.match(/^#+/)[0].length);
+          const text = trimmed.slice(level).trim();
+          parts.push(`<h${level}>${parseInline(text)}</h${level}>`);
+          continue;
+        }
+
+        const unordered = trimmed.match(/^[-*]\s+(.*)$/);
+        if (unordered) {
+          flushParagraph();
+          if (listType && listType !== 'ul') flushList();
+          listType = 'ul';
+          listItems.push(unordered[1]);
+          continue;
+        }
+
+        const ordered = trimmed.match(/^\d+\.\s+(.*)$/);
+        if (ordered) {
+          flushParagraph();
+          if (listType && listType !== 'ol') flushList();
+          listType = 'ol';
+          listItems.push(ordered[1]);
+          continue;
+        }
+
+        paragraph.push(trimmed);
+      }
+
+      flushParagraph();
+      flushList();
+      flushQuote();
+      flushCode();
+
+      return parts.join('');
     };
 
     const renderPreview = (post) => {
       if (!root) return;
       root.hidden = false;
-      if (statusEl) {
-        statusEl.textContent = post.status || 'draft';
-        statusEl.className = `admin-status ${post.status || 'draft'}`;
-      }
+
       if (titleEl) titleEl.textContent = post.title || '(제목 없음)';
-      if (descEl) descEl.textContent = post.description || '';
-      if (metaEl) metaEl.textContent = [post.category, (post.tags || []).join(', ')].filter(Boolean).join(' · ');
-      if (bodyEl) bodyEl.innerHTML = renderBody(post.body_markdown || post.body || '');
+      if (descEl) {
+        const desc = post.description || '';
+        descEl.hidden = !desc;
+        descEl.textContent = desc;
+      }
+
+      if (dateEl) dateEl.textContent = formatDate(post.published_at || post.date);
+
+      if (categoryEl) {
+        const category = post.category || '';
+        categoryEl.hidden = !category;
+        categoryEl.textContent = category;
+      }
+
+      if (tagsEl) {
+        const tags = Array.isArray(post.tags) ? post.tags : [];
+        tagsEl.hidden = tags.length === 0;
+        tagsEl.innerHTML = tags.map((tag) => `<span class="tag">#${escapeHtml(tag)}</span>`).join('');
+      }
+
+      const thumbnail = post.thumbnail_url || post.thumbnail || '';
+      if (heroEl && imageEl) {
+        heroEl.hidden = !thumbnail;
+        if (thumbnail) {
+          imageEl.src = thumbnail;
+          imageEl.alt = post.title || 'preview image';
+        }
+      }
+
+      if (bodyEl) {
+        bodyEl.innerHTML = renderMarkdown(post.body_markdown || post.body || '');
+      }
     };
 
     if (slug) {
@@ -96,7 +437,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
         const { data, error } = await supabase
           .from('posts')
-          .select('title, description, category, tags, body_markdown, status')
+          .select('title, description, category, tags, body_markdown, status, published_at, thumbnail_url')
           .eq('slug', slug)
           .single();
 

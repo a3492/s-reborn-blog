@@ -11,18 +11,40 @@ function isoNow() {
   return new Date().toISOString();
 }
 
+async function safeJson(response: Response) {
+  const text = await response.text();
+  if (!text) return null;
+  try {
+    return JSON.parse(text);
+  } catch {
+    return { raw: text };
+  }
+}
+
+function jsonResponse(body: Record<string, unknown>, status = 200) {
+  return Response.json(body, { status });
+}
+
+function requiredEnv(env: Record<string, unknown>) {
+  return ['SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'GITHUB_TOKEN', 'GITHUB_REPO'].filter((key) => !env[key]);
+}
+
+function escapeYamlString(value: unknown) {
+  return String(value ?? '').replaceAll('\\', '\\\\').replaceAll('"', '\\"').replaceAll('\n', '\\n');
+}
+
 function buildFrontmatter(post: any) {
   const tags = Array.isArray(post.tags) ? `[${post.tags.map((tag: string) => `"${tag}"`).join(', ')}]` : '[]';
   const parts = [
     '---',
-    `title: "${String(post.title ?? '').replaceAll('"', '\\"')}"`,
-    `description: "${String(post.description ?? '').replaceAll('"', '\\"')}"`,
+    `title: "${escapeYamlString(post.title)}"`,
+    `description: "${escapeYamlString(post.description)}"`,
     `date: ${post.published_at ?? isoNow()}`,
-    `category: "${String(post.category ?? '').replaceAll('"', '\\"')}"`,
-    post.subcategory ? `subcategory: "${String(post.subcategory).replaceAll('"', '\\"')}"` : '',
+    `category: "${escapeYamlString(post.category)}"`,
+    post.subcategory ? `subcategory: "${escapeYamlString(post.subcategory)}"` : '',
     `tags: ${tags}`,
     `draft: ${post.status !== 'published'}`,
-    post.thumbnail_url ? `thumbnail: "${String(post.thumbnail_url).replaceAll('"', '\\"')}"` : '',
+    post.thumbnail_url ? `thumbnail: "${escapeYamlString(post.thumbnail_url)}"` : '',
     '---',
     '',
   ].filter(Boolean);
@@ -55,39 +77,80 @@ async function createPublishJob(env: any, payload: any) {
     headers: { Prefer: 'return=representation' },
     body: JSON.stringify(payload),
   });
-  const data = await res.json();
+
+  if (!res.ok) {
+    const error = await safeJson(res);
+    throw new Error(`publish_jobs insert failed: ${error?.message || JSON.stringify(error)}`);
+  }
+
+  const data = await safeJson(res);
   return Array.isArray(data) ? data[0] : data;
 }
 
 async function patchPublishJob(env: any, id: string, payload: any) {
-  await supabaseFetch(env, `publish_jobs?id=eq.${id}`, {
+  const res = await supabaseFetch(env, `publish_jobs?id=eq.${id}`, {
     method: 'PATCH',
     body: JSON.stringify(payload),
   });
+
+  if (!res.ok) {
+    const error = await safeJson(res);
+    throw new Error(`publish_jobs patch failed: ${error?.message || JSON.stringify(error)}`);
+  }
+}
+
+async function patchPost(env: any, id: string, payload: any) {
+  const res = await supabaseFetch(env, `posts?id=eq.${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(payload),
+  });
+
+  if (!res.ok) {
+    const error = await safeJson(res);
+    throw new Error(`posts patch failed: ${error?.message || JSON.stringify(error)}`);
+  }
+}
+
+async function insertAuditLog(env: any, payload: any) {
+  const res = await supabaseFetch(env, 'audit_logs', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+
+  if (!res.ok) {
+    const error = await safeJson(res);
+    throw new Error(`audit_logs insert failed: ${error?.message || JSON.stringify(error)}`);
+  }
 }
 
 export const onRequestPost = async (context: any) => {
   const { request, env } = context;
+  const missingEnv = requiredEnv(env);
 
-  if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY || !env.GITHUB_TOKEN || !env.GITHUB_REPO) {
-    return Response.json({ error: 'Missing required env bindings for publish pipeline.' }, { status: 500 });
+  if (missingEnv.length > 0) {
+    return jsonResponse({ error: `Missing required env bindings: ${missingEnv.join(', ')}` }, 500);
   }
 
   const body = await request.json().catch(() => null);
-  const slug = body?.slug;
+  const slug = String(body?.slug ?? '').trim();
   const dryRun = Boolean(body?.dryRun);
   const requestedBy = body?.requestedBy ?? null;
 
   if (!slug) {
-    return Response.json({ error: 'slug is required.' }, { status: 400 });
+    return jsonResponse({ error: 'slug is required.' }, 400);
   }
 
   const postRes = await supabaseFetch(env, `posts?slug=eq.${encodeURIComponent(slug)}&select=*`);
-  const posts = await postRes.json();
+  if (!postRes.ok) {
+    const error = await safeJson(postRes);
+    return jsonResponse({ error: error?.message || 'Failed to fetch post from Supabase.' }, 502);
+  }
+
+  const posts = await safeJson(postRes);
   const post = Array.isArray(posts) ? posts[0] : null;
 
   if (!post) {
-    return Response.json({ error: 'Post not found.' }, { status: 404 });
+    return jsonResponse({ error: 'Post not found.' }, 404);
   }
 
   const frontmatter = buildFrontmatter(post);
@@ -97,11 +160,12 @@ export const onRequestPost = async (context: any) => {
   const commitMessage = `publish: ${post.slug}`;
 
   if (dryRun) {
-    return Response.json({
+    return jsonResponse({
       dryRun: true,
       targetPath,
       branch,
       commitMessage,
+      postStatus: post.status,
       markdownPreview: markdown.slice(0, 1200),
     });
   }
@@ -109,7 +173,7 @@ export const onRequestPost = async (context: any) => {
   const job = await createPublishJob(env, {
     post_id: post.id,
     job_type: 'publish',
-    status: 'processing',
+    status: 'pending',
     target_repo: env.GITHUB_REPO,
     target_branch: branch,
     target_path: targetPath,
@@ -117,6 +181,13 @@ export const onRequestPost = async (context: any) => {
   });
 
   try {
+    await patchPublishJob(env, job.id, {
+      status: 'processing',
+      target_repo: env.GITHUB_REPO,
+      target_branch: branch,
+      target_path: targetPath,
+    });
+
     const headers = {
       Authorization: `Bearer ${env.GITHUB_TOKEN}`,
       Accept: 'application/vnd.github+json',
@@ -128,8 +199,11 @@ export const onRequestPost = async (context: any) => {
 
     const existing = await fetch(`${contentUrl}?ref=${encodeURIComponent(branch)}`, { headers });
     if (existing.ok) {
-      const existingJson = await existing.json();
+      const existingJson = await safeJson(existing);
       sha = existingJson.sha;
+    } else if (existing.status !== 404) {
+      const existingError = await safeJson(existing);
+      throw new Error(existingError?.message || `GitHub lookup failed with status ${existing.status}.`);
     }
 
     const githubRes = await fetch(contentUrl, {
@@ -146,10 +220,16 @@ export const onRequestPost = async (context: any) => {
       }),
     });
 
-    const githubJson = await githubRes.json();
+    const githubJson = await safeJson(githubRes);
     if (!githubRes.ok) {
-      throw new Error(githubJson?.message || 'GitHub publish failed.');
+      throw new Error(githubJson?.message || `GitHub publish failed with status ${githubRes.status}.`);
     }
+
+    const publishedAt = post.published_at ?? isoNow();
+    await patchPost(env, post.id, {
+      status: 'published',
+      published_at: publishedAt,
+    });
 
     await patchPublishJob(env, job.id, {
       status: 'success',
@@ -157,19 +237,55 @@ export const onRequestPost = async (context: any) => {
       completed_at: isoNow(),
     });
 
-    return Response.json({
+    await insertAuditLog(env, {
+      actor_id: requestedBy,
+      action: 'post_published',
+      resource_type: 'post',
+      resource_id: post.id,
+      after_json: {
+        slug: post.slug,
+        target_path: targetPath,
+        target_repo: env.GITHUB_REPO,
+        target_branch: branch,
+        commit_sha: githubJson?.commit?.sha ?? null,
+      },
+    });
+
+    return jsonResponse({
       ok: true,
       jobId: job.id,
       targetPath,
       commitSha: githubJson?.commit?.sha ?? null,
+      publishedAt,
     });
   } catch (error: any) {
-    await patchPublishJob(env, job.id, {
-      status: 'failed',
-      error_message: error?.message || 'Unknown publish error',
-      completed_at: isoNow(),
-    });
+    try {
+      await patchPublishJob(env, job.id, {
+        status: 'failed',
+        error_message: error?.message || 'Unknown publish error',
+        completed_at: isoNow(),
+      });
+    } catch {}
 
-    return Response.json({ error: error?.message || 'Unknown publish error' }, { status: 500 });
+    try {
+      await insertAuditLog(env, {
+        actor_id: requestedBy,
+        action: 'post_publish_failed',
+        resource_type: 'post',
+        resource_id: post.id,
+        after_json: {
+          slug: post.slug,
+          target_path: targetPath,
+          error_message: error?.message || 'Unknown publish error',
+        },
+      });
+    } catch {}
+
+    return jsonResponse({
+      error: error?.message || 'Unknown publish error',
+      jobId: job.id,
+      targetPath,
+      branch,
+    }, 500);
   }
 };
