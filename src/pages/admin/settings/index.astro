@@ -1,0 +1,33 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+---
+
+<AdminLayout
+  title="Settings"
+  pageTitle="Settings"
+  pageDescription="사이트 전역 설정과 소개/SEO 설정을 이 화면으로 모을 예정입니다."
+  status="Planned"
+>
+  <div class="admin-grid">
+    <section class="admin-card pad-lg span-7">
+      <h2 class="admin-section-title">Planned Settings Modules</h2>
+      <p class="admin-section-desc">반복 수정이 잦은 텍스트와 메타부터 관리 대상으로 올립니다.</p>
+      <ul class="admin-list">
+        <li class="admin-list-row"><div><p class="admin-item-title">About 페이지 텍스트</p><p class="admin-item-meta">원장 소개, 현직, 지도 카드</p></div></li>
+        <li class="admin-list-row"><div><p class="admin-item-title">홈 Featured 규칙</p><p class="admin-item-meta">고정 featured, 최근 글 우선 규칙</p></div></li>
+        <li class="admin-list-row"><div><p class="admin-item-title">SEO 기본값</p><p class="admin-item-meta">기본 title, description, og 이미지</p></div></li>
+        <li class="admin-list-row"><div><p class="admin-item-title">소셜 링크</p><p class="admin-item-meta">Footer, 공유 버튼, 외부 링크</p></div></li>
+      </ul>
+    </section>
+
+    <section class="admin-card pad-lg span-5">
+      <h2 class="admin-section-title">Recommended Order</h2>
+      <p class="admin-section-desc">Settings는 publish pipeline이 안정화된 뒤 붙이는 편이 맞습니다.</p>
+      <ul class="admin-list">
+        <li class="admin-list-row"><div><p class="admin-item-title">1. site_settings 테이블</p><p class="admin-item-meta">key/value_json 구조</p></div></li>
+        <li class="admin-list-row"><div><p class="admin-item-title">2. About 모델링</p><p class="admin-item-meta">긴 텍스트와 리스트형 이력 분리</p></div></li>
+        <li class="admin-list-row"><div><p class="admin-item-title">3. UI 폼 연결</p><p class="admin-item-meta">저장 후 미리보기 확인</p></div></li>
+      </ul>
+    </section>
+  </div>
+</AdminLayout>

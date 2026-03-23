@@ -1,0 +1,31 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+---
+
+<AdminLayout
+  title="Media"
+  pageTitle="Media"
+  pageDescription="썸네일과 본문 이미지 업로드/관리 화면의 스텁입니다."
+  status="Planned"
+>
+  <div class="admin-grid">
+    <section class="admin-card pad-lg span-7">
+      <h2 class="admin-section-title">Media Roadmap</h2>
+      <p class="admin-section-desc">Phase 2에서 파일 업로드와 alt 텍스트 관리까지 붙일 예정입니다.</p>
+      <ul class="admin-list">
+        <li class="admin-list-row"><div><p class="admin-item-title">Storage 선택</p><p class="admin-item-meta">Supabase Storage 또는 Cloudflare R2</p></div></li>
+        <li class="admin-list-row"><div><p class="admin-item-title">Asset 테이블</p><p class="admin-item-meta">file_name, url, mime_type, alt_text, uploaded_by</p></div></li>
+        <li class="admin-list-row"><div><p class="admin-item-title">본문 삽입 UX</p><p class="admin-item-meta">Markdown 이미지 문법 자동 생성</p></div></li>
+      </ul>
+    </section>
+
+    <section class="admin-card pad-lg span-5">
+      <h2 class="admin-section-title">Current Rule</h2>
+      <p class="admin-section-desc">지금은 글 frontmatter와 Markdown에서 수동으로 자산 경로를 관리합니다.</p>
+      <ul class="admin-list">
+        <li class="admin-list-row"><div><p class="admin-item-title">Thumbnail</p><p class="admin-item-meta">frontmatter `thumbnail` 직접 입력</p></div></li>
+        <li class="admin-list-row"><div><p class="admin-item-title">본문 이미지</p><p class="admin-item-meta">Markdown 본문에 직접 경로 기입</p></div></li>
+      </ul>
+    </section>
+  </div>
+</AdminLayout>
