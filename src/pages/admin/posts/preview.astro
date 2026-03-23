@@ -10,7 +10,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 <AdminLayout
   title="Preview"
   pageTitle="Preview"
-  pageDescription="저장된 글 또는 현재 작성 중인 draft를 실제 블로그 글 구조에 가깝게 미리 봅니다."
+  pageDescription="저장된 글 또는 현재 작성 중인 draft를 Astro의 Markdown 파이프라인에 더 가깝게 미리 봅니다."
   status="Preview"
 >
   <div class="admin-panel-stack">
@@ -18,7 +18,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       <div class="admin-actions-row">
         <div>
           <h2 class="admin-section-title">Blog Preview</h2>
-          <p class="admin-section-desc">실제 글 페이지의 제목, 메타, 태그, 본문 흐름과 유사한 구조로 확인합니다.</p>
+          <p class="admin-section-desc">Astro가 사용하는 remark/rehype 계열 Markdown 렌더링에 가깝게 본문을 처리합니다.</p>
         </div>
         <div class="admin-actions-cluster">
           <a href="/admin/posts" class="admin-btn">목록으로</a>
@@ -177,12 +177,46 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       box-shadow: 0 18px 42px rgba(28, 25, 23, 0.12);
     }
 
+    .admin-preview-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0 0 1.5rem;
+      display: block;
+      overflow-x: auto;
+    }
+
+    .admin-preview-body th,
+    .admin-preview-body td {
+      padding: 0.72rem 0.85rem;
+      border: 1px solid var(--rule);
+      text-align: left;
+      vertical-align: top;
+      white-space: nowrap;
+    }
+
+    .admin-preview-body th {
+      background: rgba(184, 149, 106, 0.08);
+      font-weight: 700;
+    }
+
     .admin-preview-body .image-caption {
       display: block;
       margin-bottom: 1.2rem;
       color: var(--t3);
       text-align: center;
       font-size: 0.88rem;
+    }
+
+    .admin-preview-body .footnotes {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--rule);
+      color: var(--t2);
+      font-size: 0.95rem;
+    }
+
+    .admin-preview-body a[href] {
+      word-break: break-word;
     }
 
     .admin-post-preview-share {
@@ -215,6 +249,13 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
   <script type="module" define:vars={{ supabaseUrl, supabaseKey }}>
     import { createClient } from '@supabase/supabase-js';
+    import { unified } from 'unified';
+    import remarkParse from 'remark-parse';
+    import remarkGfm from 'remark-gfm';
+    import remarkSmartypants from 'remark-smartypants';
+    import remarkRehype from 'remark-rehype';
+    import rehypeRaw from 'rehype-raw';
+    import rehypeStringify from 'rehype-stringify';
 
     const params = new URLSearchParams(window.location.search);
     const slug = params.get('slug');
@@ -228,6 +269,14 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     const bodyEl = document.querySelector('[data-admin-preview-body]');
     const heroEl = document.querySelector('[data-admin-preview-hero]');
     const imageEl = document.querySelector('[data-admin-preview-image]');
+
+    const processor = unified()
+      .use(remarkParse)
+      .use(remarkGfm)
+      .use(remarkSmartypants)
+      .use(remarkRehype, { allowDangerousHtml: true })
+      .use(rehypeRaw)
+      .use(rehypeStringify, { allowDangerousHtml: true });
 
     const setMessage = (text, state = 'info') => {
       if (!message) return;
@@ -250,145 +299,26 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       }).format(new Date(value));
     };
 
-    const parseInline = (value) => {
-      let html = escapeHtml(value);
-      html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
-      html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-      html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
-      html = html.replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]+)")?\)/g, (_m, alt, src, title) => {
-        const safeAlt = escapeHtml(alt);
-        const safeSrc = escapeHtml(src);
-        const caption = title ? `<span class="image-caption">${escapeHtml(title)}</span>` : '';
-        return `<img src="${safeSrc}" alt="${safeAlt}" loading="lazy" />${caption}`;
+    const decorateRenderedBody = () => {
+      if (!bodyEl) return;
+
+      bodyEl.querySelectorAll('a[href]').forEach((anchor) => {
+        anchor.setAttribute('target', '_blank');
+        anchor.setAttribute('rel', 'noreferrer');
       });
-      html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noreferrer">$1</a>');
-      return html;
+
+      bodyEl.querySelectorAll('img').forEach((image) => {
+        image.setAttribute('loading', 'lazy');
+      });
     };
 
-    const renderMarkdown = (markdown) => {
-      const lines = String(markdown || '').replace(/\r\n/g, '\n').split('\n');
-      const parts = [];
-      let paragraph = [];
-      let listItems = [];
-      let listType = '';
-      let codeLines = [];
-      let inCode = false;
-      let codeLang = '';
-      let quoteLines = [];
-
-      const flushParagraph = () => {
-        if (!paragraph.length) return;
-        parts.push(`<p>${parseInline(paragraph.join(' '))}</p>`);
-        paragraph = [];
-      };
-
-      const flushList = () => {
-        if (!listItems.length) return;
-        parts.push(`<${listType}>${listItems.map((item) => `<li>${parseInline(item)}</li>`).join('')}</${listType}>`);
-        listItems = [];
-        listType = '';
-      };
-
-      const flushQuote = () => {
-        if (!quoteLines.length) return;
-        parts.push(`<blockquote><p>${parseInline(quoteLines.join(' '))}</p></blockquote>`);
-        quoteLines = [];
-      };
-
-      const flushCode = () => {
-        if (!inCode) return;
-        parts.push(`<pre><code class="language-${escapeHtml(codeLang)}">${escapeHtml(codeLines.join('\n'))}</code></pre>`);
-        codeLines = [];
-        codeLang = '';
-        inCode = false;
-      };
-
-      for (const rawLine of lines) {
-        const line = rawLine.trimEnd();
-        const trimmed = line.trim();
-
-        if (trimmed.startsWith('```')) {
-          flushParagraph();
-          flushList();
-          flushQuote();
-
-          if (inCode) {
-            flushCode();
-          } else {
-            inCode = true;
-            codeLang = trimmed.slice(3).trim();
-          }
-          continue;
-        }
-
-        if (inCode) {
-          codeLines.push(rawLine);
-          continue;
-        }
-
-        if (!trimmed) {
-          flushParagraph();
-          flushList();
-          flushQuote();
-          continue;
-        }
-
-        if (/^---+$/.test(trimmed)) {
-          flushParagraph();
-          flushList();
-          flushQuote();
-          parts.push('<hr />');
-          continue;
-        }
-
-        if (trimmed.startsWith('> ')) {
-          flushParagraph();
-          flushList();
-          quoteLines.push(trimmed.slice(2));
-          continue;
-        }
-
-        flushQuote();
-
-        if (/^#{1,6}\s+/.test(trimmed)) {
-          flushParagraph();
-          flushList();
-          const level = Math.min(6, trimmed.match(/^#+/)[0].length);
-          const text = trimmed.slice(level).trim();
-          parts.push(`<h${level}>${parseInline(text)}</h${level}>`);
-          continue;
-        }
-
-        const unordered = trimmed.match(/^[-*]\s+(.*)$/);
-        if (unordered) {
-          flushParagraph();
-          if (listType && listType !== 'ul') flushList();
-          listType = 'ul';
-          listItems.push(unordered[1]);
-          continue;
-        }
-
-        const ordered = trimmed.match(/^\d+\.\s+(.*)$/);
-        if (ordered) {
-          flushParagraph();
-          if (listType && listType !== 'ol') flushList();
-          listType = 'ol';
-          listItems.push(ordered[1]);
-          continue;
-        }
-
-        paragraph.push(trimmed);
-      }
-
-      flushParagraph();
-      flushList();
-      flushQuote();
-      flushCode();
-
-      return parts.join('');
+    const renderMarkdown = async (markdown) => {
+      const source = String(markdown || '');
+      const file = await processor.process(source);
+      return String(file);
     };
 
-    const renderPreview = (post) => {
+    const renderPreview = async (post) => {
       if (!root) return;
       root.hidden = false;
 
@@ -423,7 +353,8 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       }
 
       if (bodyEl) {
-        bodyEl.innerHTML = renderMarkdown(post.body_markdown || post.body || '');
+        bodyEl.innerHTML = await renderMarkdown(post.body_markdown || post.body || '');
+        decorateRenderedBody();
       }
     };
 
@@ -444,7 +375,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
         if (error || !data) {
           setMessage(error?.message || '미리볼 글을 찾을 수 없습니다.', 'error');
         } else {
-          renderPreview(data);
+          await renderPreview(data);
         }
       }
     } else {
@@ -452,7 +383,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       if (!raw) {
         setMessage('작성 중인 draft 미리보기 데이터가 없습니다.', 'warn');
       } else {
-        renderPreview(JSON.parse(raw));
+        await renderPreview(JSON.parse(raw));
       }
     }
   </script>
