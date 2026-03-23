@@ -62,7 +62,7 @@ const shareLinks = {
 					<slot />
 
 					<div class="blog-post-share-section share-section">
-						<p>이 글이 도움이 됐나요? 공유해 주세요.</p>
+						<p>이 글이 도움이 됐다면 링크를 남겨 두거나 바로 공유할 수 있습니다.</p>
 						<div class="blog-post-share-buttons share-buttons">
 							<a
 								href={shareLinks.twitter}
@@ -83,16 +83,19 @@ const shareLinks = {
 							<button
 								id="kakao-share-btn"
 								class="blog-post-share-btn share-btn kakao"
+								type="button"
 							>
 								카카오톡
 							</button>
 							<button
 								id="copy-link-btn"
 								class="blog-post-share-btn share-btn copy"
+								type="button"
 							>
 								링크 복사
 							</button>
 						</div>
+						<p id="share-feedback" class="blog-post-share-feedback" aria-live="polite"></p>
 					</div>
 
 					<GiscusComments />
@@ -102,17 +105,29 @@ const shareLinks = {
 		<Footer />
 
 		<script define:vars={{ pageUrl, title }}>
-			document.getElementById('copy-link-btn')?.addEventListener('click', () => {
-				navigator.clipboard.writeText(pageUrl).then(() => {
-					const btn = document.getElementById('copy-link-btn');
-					if (btn) {
-						btn.textContent = '복사됨!';
-						setTimeout(() => { btn.textContent = '링크 복사'; }, 2000);
+			const copyButton = document.getElementById('copy-link-btn');
+			const kakaoButton = document.getElementById('kakao-share-btn');
+			const feedback = document.getElementById('share-feedback');
+
+			const setFeedback = (text) => {
+				if (!feedback) return;
+				feedback.textContent = text;
+			};
+
+			copyButton?.addEventListener('click', async () => {
+				try {
+					await navigator.clipboard.writeText(pageUrl);
+					if (copyButton) {
+						copyButton.textContent = '복사됨!';
+						setTimeout(() => { copyButton.textContent = '링크 복사'; }, 2000);
 					}
-				});
+					setFeedback('현재 글 링크를 클립보드에 복사했습니다.');
+				} catch {
+					setFeedback('링크 복사에 실패했습니다. 브라우저 권한을 확인해 주세요.');
+				}
 			});
 
-			document.getElementById('kakao-share-btn')?.addEventListener('click', () => {
+			kakaoButton?.addEventListener('click', async () => {
 				if (typeof Kakao !== 'undefined' && Kakao.isInitialized()) {
 					Kakao.Share.sendDefault({
 						objectType: 'feed',
@@ -122,27 +137,15 @@ const shareLinks = {
 							mobileWebUrl: pageUrl,
 						},
 					});
-				} else {
-					navigator.clipboard.writeText(pageUrl).then(() => {
-						alert('카카오 SDK 미설치 상태입니다. 링크가 복사되었습니다.\n카카오톡에서 직접 붙여넣어 공유하세요.');
-					});
+					setFeedback('카카오톡 공유 창을 열었습니다.');
+					return;
 				}
-			});
 
-			document.addEventListener('contextmenu', (e) => e.preventDefault());
-			document.addEventListener('selectstart', (e) => {
-				const target = e.target;
-				if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') return;
-				e.preventDefault();
-			});
-			document.addEventListener('dragstart', (e) => e.preventDefault());
-			document.addEventListener('keydown', (e) => {
-				if (
-					(e.ctrlKey && ['c', 's', 'u'].includes(e.key.toLowerCase())) ||
-					e.key === 'F12' ||
-					(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i')
-				) {
-					e.preventDefault();
+				try {
+					await navigator.clipboard.writeText(pageUrl);
+					setFeedback('카카오 SDK가 없어 링크를 대신 복사했습니다. 카카오톡에 붙여넣어 공유할 수 있습니다.');
+				} catch {
+					setFeedback('카카오 공유를 열 수 없고 링크 복사에도 실패했습니다.');
 				}
 			});
 		</script>
