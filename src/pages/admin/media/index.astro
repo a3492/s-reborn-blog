@@ -1,31 +1,310 @@
 ---
 import AdminLayout from '../../../layouts/AdminLayout.astro';
+
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 ---
 
 <AdminLayout
   title="Media"
   pageTitle="Media"
-  pageDescription="썸네일과 본문 이미지 업로드/관리 화면의 스텁입니다."
-  status="Planned"
+  pageDescription="외부 URL 또는 저장소 자산을 등록하고 Markdown 삽입 코드를 관리합니다."
+  status="Registry"
 >
-  <div class="admin-grid">
-    <section class="admin-card pad-lg span-7">
-      <h2 class="admin-section-title">Media Roadmap</h2>
-      <p class="admin-section-desc">Phase 2에서 파일 업로드와 alt 텍스트 관리까지 붙일 예정입니다.</p>
-      <ul class="admin-list">
-        <li class="admin-list-row"><div><p class="admin-item-title">Storage 선택</p><p class="admin-item-meta">Supabase Storage 또는 Cloudflare R2</p></div></li>
-        <li class="admin-list-row"><div><p class="admin-item-title">Asset 테이블</p><p class="admin-item-meta">file_name, url, mime_type, alt_text, uploaded_by</p></div></li>
-        <li class="admin-list-row"><div><p class="admin-item-title">본문 삽입 UX</p><p class="admin-item-meta">Markdown 이미지 문법 자동 생성</p></div></li>
-      </ul>
+  <div class="admin-split">
+    <section class="admin-card pad-lg">
+      <div class="admin-actions-row">
+        <div>
+          <h2 class="admin-section-title">Asset Registry</h2>
+          <p class="admin-section-desc">우선은 URL 기반 자산 등록부터 운영하고, 이후 R2/Supabase Storage 업로드를 같은 UI에 연결합니다.</p>
+        </div>
+        <button type="submit" form="admin-media-form" class="admin-btn primary">자산 등록</button>
+      </div>
+
+      <form id="admin-media-form" class="admin-form-grid" data-admin-media-form>
+        <div class="admin-field">
+          <label class="admin-label" for="file_name">파일명</label>
+          <input id="file_name" name="file_name" class="admin-input" type="text" placeholder="hero-cover.webp" required />
+        </div>
+
+        <div class="admin-field">
+          <label class="admin-label" for="mime_type">MIME Type</label>
+          <input id="mime_type" name="mime_type" class="admin-input" type="text" placeholder="image/webp" />
+        </div>
+
+        <div class="admin-field full">
+          <label class="admin-label" for="public_url">Public URL</label>
+          <input id="public_url" name="public_url" class="admin-input" type="url" placeholder="https://cdn.example.com/blog/hero-cover.webp" required />
+          <span class="admin-help">우선은 업로드 대신 공개 URL을 등록합니다. 이후 스토리지 업로드를 여기에 연결합니다.</span>
+        </div>
+
+        <div class="admin-field">
+          <label class="admin-label" for="storage_provider">Storage Provider</label>
+          <select id="storage_provider" name="storage_provider" class="admin-select">
+            <option value="manual">manual</option>
+            <option value="r2">r2</option>
+            <option value="supabase-storage">supabase-storage</option>
+            <option value="external-cdn">external-cdn</option>
+          </select>
+        </div>
+
+        <div class="admin-field">
+          <label class="admin-label" for="storage_bucket">Bucket / Group</label>
+          <input id="storage_bucket" name="storage_bucket" class="admin-input" type="text" placeholder="blog-images" />
+        </div>
+
+        <div class="admin-field full">
+          <label class="admin-label" for="file_path">File Path</label>
+          <input id="file_path" name="file_path" class="admin-input" type="text" placeholder="2026/03/hero-cover.webp" />
+        </div>
+
+        <div class="admin-field full">
+          <label class="admin-label" for="alt_text">Alt Text</label>
+          <input id="alt_text" name="alt_text" class="admin-input" type="text" placeholder="대체 텍스트를 입력하세요." />
+        </div>
+
+        <div class="admin-field full">
+          <label class="admin-label" for="caption">Caption</label>
+          <input id="caption" name="caption" class="admin-input" type="text" placeholder="선택 사항" />
+        </div>
+
+        <div class="admin-field">
+          <label class="admin-label" for="width">Width</label>
+          <input id="width" name="width" class="admin-input" type="number" min="0" placeholder="1600" />
+        </div>
+
+        <div class="admin-field">
+          <label class="admin-label" for="height">Height</label>
+          <input id="height" name="height" class="admin-input" type="number" min="0" placeholder="900" />
+        </div>
+      </form>
+
+      <p class="admin-inline-note" data-admin-media-message hidden></p>
+
+      <section class="admin-card pad-md" style="margin-top: 1rem;">
+        <h3 class="admin-section-title">Markdown Helper</h3>
+        <p class="admin-section-desc">등록 직후 바로 본문이나 frontmatter에 붙여 넣을 수 있는 코드를 생성합니다.</p>
+        <div class="admin-panel-stack">
+          <label class="admin-field">
+            <span class="admin-label">본문용 이미지 코드</span>
+            <textarea class="admin-textarea" style="min-height: 88px;" readonly data-admin-media-markdown></textarea>
+          </label>
+          <label class="admin-field">
+            <span class="admin-label">frontmatter thumbnail 값</span>
+            <input class="admin-input" type="text" readonly data-admin-media-thumbnail />
+          </label>
+        </div>
+      </section>
     </section>
 
-    <section class="admin-card pad-lg span-5">
-      <h2 class="admin-section-title">Current Rule</h2>
-      <p class="admin-section-desc">지금은 글 frontmatter와 Markdown에서 수동으로 자산 경로를 관리합니다.</p>
-      <ul class="admin-list">
-        <li class="admin-list-row"><div><p class="admin-item-title">Thumbnail</p><p class="admin-item-meta">frontmatter `thumbnail` 직접 입력</p></div></li>
-        <li class="admin-list-row"><div><p class="admin-item-title">본문 이미지</p><p class="admin-item-meta">Markdown 본문에 직접 경로 기입</p></div></li>
-      </ul>
-    </section>
+    <div class="admin-panel-stack">
+      <section class="admin-card pad-md">
+        <h2 class="admin-section-title">Current Flow</h2>
+        <p class="admin-section-desc">파일 업로드보다 먼저 메타데이터 추적을 안정화합니다.</p>
+        <ul class="admin-list">
+          <li class="admin-list-row"><div><p class="admin-item-title">Asset registry</p><p class="admin-item-meta">public URL, alt text, mime type, size를 저장합니다.</p></div><div><span class="admin-status ready">Live</span></div></li>
+          <li class="admin-list-row"><div><p class="admin-item-title">Audit log</p><p class="admin-item-meta">등록 이력을 `audit_logs`에 남깁니다.</p></div><div><span class="admin-status ready">Live</span></div></li>
+          <li class="admin-list-row"><div><p class="admin-item-title">Binary upload</p><p class="admin-item-meta">다음 단계에서 R2 또는 Supabase Storage에 연결합니다.</p></div><div><span class="admin-status warn">Next</span></div></li>
+        </ul>
+      </section>
+
+      <section class="admin-card pad-md">
+        <h2 class="admin-section-title">Recent Assets</h2>
+        <p class="admin-section-desc">최근 등록 자산을 바로 복사해 에디터에 넣을 수 있습니다.</p>
+        <div class="admin-panel-stack" data-admin-media-list>
+          <p class="admin-help">목록을 불러오는 중입니다.</p>
+        </div>
+      </section>
+
+      <section class="admin-card pad-md">
+        <h2 class="admin-section-title">Rule</h2>
+        <p class="admin-section-desc">당분간은 수동 URL 등록이 기본입니다.</p>
+        <ul class="admin-list">
+          <li class="admin-list-row"><div><p class="admin-item-title">Thumbnail</p><p class="admin-item-meta">frontmatter `thumbnail`에 public URL을 그대로 사용합니다.</p></div></li>
+          <li class="admin-list-row"><div><p class="admin-item-title">본문 이미지</p><p class="admin-item-meta">Markdown helper가 생성한 문법을 붙여 넣습니다.</p></div></li>
+          <li class="admin-list-row"><div><p class="admin-item-title">Alt text</p><p class="admin-item-meta">등록 단계에서 alt를 관리해 본문 품질을 일정하게 맞춥니다.</p></div></li>
+        </ul>
+      </section>
+    </div>
   </div>
 </AdminLayout>
+
+<script type="module" define:vars={{ supabaseUrl, supabaseKey }}>
+  import { createClient } from '@supabase/supabase-js';
+
+  const form = document.querySelector('[data-admin-media-form]');
+  const message = document.querySelector('[data-admin-media-message]');
+  const markdownField = document.querySelector('[data-admin-media-markdown]');
+  const thumbnailField = document.querySelector('[data-admin-media-thumbnail]');
+  const list = document.querySelector('[data-admin-media-list]');
+
+  const setMessage = (text, state = 'info') => {
+    if (!message) return;
+    message.hidden = false;
+    message.textContent = text;
+    message.dataset.state = state;
+  };
+
+  const escapeHtml = (value) =>
+    String(value || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+
+  const buildMarkdown = ({ alt_text, public_url, caption }) => {
+    const alt = String(alt_text || '').trim() || 'image';
+    const url = String(public_url || '').trim();
+    const body = `![${alt}](${url})`;
+    return caption ? `${body}\n*${caption}*` : body;
+  };
+
+  const syncHelpers = () => {
+    if (!form) return;
+    const data = new FormData(form);
+    const asset = {
+      alt_text: String(data.get('alt_text') || ''),
+      public_url: String(data.get('public_url') || ''),
+      caption: String(data.get('caption') || ''),
+    };
+
+    if (markdownField) markdownField.value = buildMarkdown(asset);
+    if (thumbnailField) thumbnailField.value = asset.public_url;
+  };
+
+  const renderAssetList = (assets) => {
+    if (!list) return;
+
+    if (!assets?.length) {
+      list.innerHTML = '<p class="admin-help">아직 등록된 자산이 없습니다.</p>';
+      return;
+    }
+
+    list.innerHTML = assets
+      .map((asset) => {
+        const markdown = escapeHtml(buildMarkdown(asset));
+        const title = escapeHtml(asset.file_name);
+        const provider = escapeHtml(asset.storage_provider || 'manual');
+        const mimeType = escapeHtml(asset.mime_type || 'mime 미등록');
+        const url = escapeHtml(asset.public_url || '');
+        const size = asset.width && asset.height ? `${asset.width}×${asset.height}` : 'size 미등록';
+
+        return `
+          <article class="admin-card pad-md">
+            <div class="admin-actions-row">
+              <div>
+                <h3 class="admin-section-title">${title}</h3>
+                <p class="admin-section-desc">${provider} · ${mimeType} · ${size}</p>
+              </div>
+              <a class="admin-btn" href="${url}" target="_blank" rel="noreferrer">열기</a>
+            </div>
+            <div class="admin-panel-stack">
+              <label class="admin-field">
+                <span class="admin-label">Markdown</span>
+                <textarea class="admin-textarea" style="min-height: 76px;" readonly>${markdown}</textarea>
+              </label>
+              <label class="admin-field">
+                <span class="admin-label">Thumbnail URL</span>
+                <input class="admin-input" type="text" readonly value="${url}" />
+              </label>
+            </div>
+          </article>
+        `;
+      })
+      .join('');
+  };
+
+  if (!supabaseUrl || !supabaseKey) {
+    setMessage('Supabase 환경 변수가 없어 media registry를 초기화할 수 없습니다.', 'error');
+  } else {
+    const supabase = createClient(supabaseUrl, supabaseKey, {
+      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
+    });
+
+    const loadAssets = async () => {
+      const { data, error } = await supabase
+        .from('media_assets')
+        .select('id, file_name, storage_provider, mime_type, public_url, alt_text, caption, width, height, created_at')
+        .order('created_at', { ascending: false })
+        .limit(12);
+
+      if (error) {
+        if (list) {
+          list.innerHTML = `<p class="admin-inline-note" data-state="error">${escapeHtml(error.message)}</p>`;
+        }
+        return;
+      }
+
+      renderAssetList(data || []);
+    };
+
+    form?.addEventListener('input', syncHelpers);
+    syncHelpers();
+    loadAssets();
+
+    form?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      setMessage('media asset를 등록하는 중입니다...', 'info');
+
+      const { data: sessionData } = await supabase.auth.getSession();
+      const session = sessionData.session;
+
+      if (!session) {
+        window.location.replace('/admin/login?redirectTo=/admin/media');
+        return;
+      }
+
+      const formData = new FormData(form);
+      const publicUrl = String(formData.get('public_url') || '').trim();
+      const fileName = String(formData.get('file_name') || '').trim();
+
+      if (!publicUrl || !fileName) {
+        setMessage('파일명과 Public URL은 필수입니다.', 'error');
+        return;
+      }
+
+      const payload = {
+        file_name: fileName,
+        storage_provider: String(formData.get('storage_provider') || 'manual'),
+        storage_bucket: String(formData.get('storage_bucket') || '').trim() || null,
+        file_path: String(formData.get('file_path') || '').trim() || null,
+        public_url: publicUrl,
+        mime_type: String(formData.get('mime_type') || '').trim() || null,
+        alt_text: String(formData.get('alt_text') || '').trim() || null,
+        caption: String(formData.get('caption') || '').trim() || null,
+        width: Number(formData.get('width') || 0) || null,
+        height: Number(formData.get('height') || 0) || null,
+        uploaded_by: session.user.id,
+      };
+
+      const { data: asset, error: assetError } = await supabase
+        .from('media_assets')
+        .insert(payload)
+        .select('id')
+        .single();
+
+      if (assetError) {
+        setMessage(assetError.message, 'error');
+        return;
+      }
+
+      await supabase.from('audit_logs').insert({
+        actor_id: session.user.id,
+        action: 'media_asset_created',
+        target_type: 'media_asset',
+        target_id: asset.id,
+        meta: {
+          file_name: payload.file_name,
+          public_url: payload.public_url,
+          storage_provider: payload.storage_provider,
+        },
+      });
+
+      setMessage('자산을 등록했습니다. 아래 목록과 Markdown helper를 바로 사용할 수 있습니다.', 'success');
+      form.reset();
+      syncHelpers();
+      loadAssets();
+    });
+  }
+</script>

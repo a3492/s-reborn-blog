@@ -1,33 +1,181 @@
 ---
 import AdminLayout from '../../../layouts/AdminLayout.astro';
+
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 ---
 
 <AdminLayout
   title="Settings"
   pageTitle="Settings"
-  pageDescription="사이트 전역 설정과 소개/SEO 설정을 이 화면으로 모을 예정입니다."
-  status="Planned"
+  pageDescription="사이트 전역 설정과 소개/SEO 설정을 이 화면에서 저장합니다."
+  status="Settings"
 >
-  <div class="admin-grid">
-    <section class="admin-card pad-lg span-7">
-      <h2 class="admin-section-title">Planned Settings Modules</h2>
-      <p class="admin-section-desc">반복 수정이 잦은 텍스트와 메타부터 관리 대상으로 올립니다.</p>
-      <ul class="admin-list">
-        <li class="admin-list-row"><div><p class="admin-item-title">About 페이지 텍스트</p><p class="admin-item-meta">원장 소개, 현직, 지도 카드</p></div></li>
-        <li class="admin-list-row"><div><p class="admin-item-title">홈 Featured 규칙</p><p class="admin-item-meta">고정 featured, 최근 글 우선 규칙</p></div></li>
-        <li class="admin-list-row"><div><p class="admin-item-title">SEO 기본값</p><p class="admin-item-meta">기본 title, description, og 이미지</p></div></li>
-        <li class="admin-list-row"><div><p class="admin-item-title">소셜 링크</p><p class="admin-item-meta">Footer, 공유 버튼, 외부 링크</p></div></li>
-      </ul>
+  <div class="admin-split">
+    <section class="admin-card pad-lg">
+      <div class="admin-actions-row">
+        <div>
+          <h2 class="admin-section-title">Site Settings</h2>
+          <p class="admin-section-desc">기본 메타, 소개 텍스트, featured slug를 저장합니다.</p>
+        </div>
+        <button type="submit" form="admin-settings-form" class="admin-btn primary">설정 저장</button>
+      </div>
+
+      <form id="admin-settings-form" class="admin-form-grid" data-admin-settings-form>
+        <div class="admin-field full">
+          <label class="admin-label" for="site-title">사이트 제목</label>
+          <input id="site-title" name="site_title" class="admin-input" type="text" placeholder="S-Reborn World" />
+        </div>
+
+        <div class="admin-field full">
+          <label class="admin-label" for="site-description">기본 설명</label>
+          <textarea id="site-description" name="site_description" class="admin-textarea" style="min-height: 110px;" placeholder="사이트 기본 메타 설명"></textarea>
+        </div>
+
+        <div class="admin-field">
+          <label class="admin-label" for="featured-slug">Featured slug</label>
+          <input id="featured-slug" name="featured_slug" class="admin-input" type="text" placeholder="ai-agent-explained" />
+        </div>
+
+        <div class="admin-field">
+          <label class="admin-label" for="default-og-image">기본 OG 이미지</label>
+          <input id="default-og-image" name="default_og_image" class="admin-input" type="text" placeholder="/blog-og-default.jpg" />
+        </div>
+
+        <div class="admin-field full">
+          <label class="admin-label" for="about-intro">About 소개문</label>
+          <textarea id="about-intro" name="about_intro" class="admin-textarea" style="min-height: 180px;" placeholder="About 페이지 핵심 소개문"></textarea>
+        </div>
+
+        <div class="admin-field full">
+          <label class="admin-label" for="social-links">소셜 링크(JSON)</label>
+          <textarea id="social-links" name="social_links" class="admin-textarea" style="min-height: 160px;" placeholder='{"github":"https://...","linkedin":"https://..."}'></textarea>
+          <span class="admin-help">유효한 JSON이어야 합니다.</span>
+        </div>
+      </form>
+
+      <p class="admin-inline-note" data-admin-settings-message hidden></p>
     </section>
 
-    <section class="admin-card pad-lg span-5">
-      <h2 class="admin-section-title">Recommended Order</h2>
-      <p class="admin-section-desc">Settings는 publish pipeline이 안정화된 뒤 붙이는 편이 맞습니다.</p>
+    <section class="admin-card pad-lg">
+      <h2 class="admin-section-title">Stored Keys</h2>
+      <p class="admin-section-desc">현재 화면은 아래 key들을 `site_settings`에 저장합니다.</p>
       <ul class="admin-list">
-        <li class="admin-list-row"><div><p class="admin-item-title">1. site_settings 테이블</p><p class="admin-item-meta">key/value_json 구조</p></div></li>
-        <li class="admin-list-row"><div><p class="admin-item-title">2. About 모델링</p><p class="admin-item-meta">긴 텍스트와 리스트형 이력 분리</p></div></li>
-        <li class="admin-list-row"><div><p class="admin-item-title">3. UI 폼 연결</p><p class="admin-item-meta">저장 후 미리보기 확인</p></div></li>
+        <li class="admin-list-row"><div><p class="admin-item-title">`site_meta`</p><p class="admin-item-meta">title, description, default_og_image</p></div></li>
+        <li class="admin-list-row"><div><p class="admin-item-title">`homepage`</p><p class="admin-item-meta">featured_slug</p></div></li>
+        <li class="admin-list-row"><div><p class="admin-item-title">`about_page`</p><p class="admin-item-meta">about_intro</p></div></li>
+        <li class="admin-list-row"><div><p class="admin-item-title">`social_links`</p><p class="admin-item-meta">JSON object</p></div></li>
       </ul>
     </section>
   </div>
+
+  <script type="module" define:vars={{ supabaseUrl, supabaseKey }}>
+    import { createClient } from '@supabase/supabase-js';
+
+    const form = document.querySelector('[data-admin-settings-form]');
+    const message = document.querySelector('[data-admin-settings-message]');
+
+    const setMessage = (text, state = 'info') => {
+      if (!message) return;
+      message.hidden = false;
+      message.textContent = text;
+      message.dataset.state = state;
+    };
+
+    const parseJson = (value) => {
+      if (!value.trim()) return {};
+      return JSON.parse(value);
+    };
+
+    const upsertSetting = async (supabase, key, valueJson, userId) => {
+      return supabase.from('site_settings').upsert({
+        key,
+        value_json: valueJson,
+        updated_by: userId,
+      }, { onConflict: 'key' });
+    };
+
+    if (!supabaseUrl || !supabaseKey) {
+      setMessage('Supabase 환경 변수가 없어 settings를 초기화할 수 없습니다.', 'error');
+    } else {
+      const supabase = createClient(supabaseUrl, supabaseKey, {
+        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
+      });
+
+      const { data: sessionData } = await supabase.auth.getSession();
+      const session = sessionData.session;
+      if (!session) {
+        window.location.replace('/admin/login?redirectTo=/admin/settings');
+      } else {
+        const { data, error } = await supabase
+          .from('site_settings')
+          .select('key, value_json')
+          .in('key', ['site_meta', 'homepage', 'about_page', 'social_links']);
+
+        if (error) {
+          setMessage(error.message, 'error');
+        } else {
+          const map = new Map((data ?? []).map((item) => [item.key, item.value_json || {}]));
+          const siteMeta = map.get('site_meta') || {};
+          const homepage = map.get('homepage') || {};
+          const aboutPage = map.get('about_page') || {};
+          const socialLinks = map.get('social_links') || {};
+
+          form.elements.site_title.value = siteMeta.title || '';
+          form.elements.site_description.value = siteMeta.description || '';
+          form.elements.default_og_image.value = siteMeta.default_og_image || '';
+          form.elements.featured_slug.value = homepage.featured_slug || '';
+          form.elements.about_intro.value = aboutPage.intro || '';
+          form.elements.social_links.value = JSON.stringify(socialLinks, null, 2);
+        }
+
+        form?.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          setMessage('settings를 저장하는 중입니다...', 'info');
+
+          const formData = new FormData(form);
+          let socialLinks;
+          try {
+            socialLinks = parseJson(String(formData.get('social_links') || ''));
+          } catch {
+            setMessage('소셜 링크 JSON 형식이 올바르지 않습니다.', 'error');
+            return;
+          }
+
+          const tasks = [
+            upsertSetting(supabase, 'site_meta', {
+              title: String(formData.get('site_title') || '').trim(),
+              description: String(formData.get('site_description') || '').trim(),
+              default_og_image: String(formData.get('default_og_image') || '').trim(),
+            }, session.user.id),
+            upsertSetting(supabase, 'homepage', {
+              featured_slug: String(formData.get('featured_slug') || '').trim(),
+            }, session.user.id),
+            upsertSetting(supabase, 'about_page', {
+              intro: String(formData.get('about_intro') || '').trim(),
+            }, session.user.id),
+            upsertSetting(supabase, 'social_links', socialLinks, session.user.id),
+          ];
+
+          const results = await Promise.all(tasks);
+          const failed = results.find((result) => result.error);
+          if (failed?.error) {
+            setMessage(failed.error.message, 'error');
+            return;
+          }
+
+          await supabase.from('audit_logs').insert({
+            actor_id: session.user.id,
+            action: 'settings_updated',
+            resource_type: 'site_settings',
+            after_json: {
+              keys: ['site_meta', 'homepage', 'about_page', 'social_links'],
+            },
+          });
+
+          setMessage('settings가 저장되었습니다.', 'success');
+        });
+      }
+    }
+  </script>
 </AdminLayout>

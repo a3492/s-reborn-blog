@@ -433,6 +433,13 @@ body.admin-shell {
   gap: 1rem;
 }
 
+.admin-actions-cluster {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
 @media (max-width: 1080px) {
   .admin-app { grid-template-columns: 1fr; }
   .admin-sidebar {
