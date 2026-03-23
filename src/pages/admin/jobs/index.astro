@@ -15,7 +15,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     <div class="admin-actions-row">
       <div>
         <h2 class="admin-section-title">Publish Jobs</h2>
-        <p class="admin-section-desc">최근 발행 요청 상태를 시간순으로 조회합니다.</p>
+        <p class="admin-section-desc">최근 발행 요청 상태와 실패 사유를 시간순으로 조회합니다.</p>
       </div>
       <a href="/admin/posts" class="admin-btn">Posts로 이동</a>
     </div>
@@ -27,8 +27,8 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
         <tr>
           <th>Status</th>
           <th>Path</th>
-          <th>Repo</th>
-          <th>Commit</th>
+          <th>Repo / Branch</th>
+          <th>Commit / Error</th>
           <th>Created</th>
         </tr>
       </thead>
@@ -71,15 +71,20 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
         body.innerHTML = '<tr><td colspan="5">아직 publish job이 없습니다.</td></tr>';
         return;
       }
-      body.innerHTML = rows.map((row) => `
-        <tr>
-          <td><span class="admin-status ${escapeHtml(row.status)}">${escapeHtml(row.status)}</span></td>
-          <td>${escapeHtml(row.target_path ?? '-')}</td>
-          <td>${escapeHtml(row.target_repo ?? '-')}</td>
-          <td>${escapeHtml(row.commit_sha ?? '-')}</td>
-          <td>${formatDate(row.created_at)}</td>
-        </tr>
-      `).join('');
+      body.innerHTML = rows.map((row) => {
+        const commitOrError = row.status === 'failed'
+          ? `<span class="admin-cell-error">${escapeHtml(row.error_message ?? 'unknown error')}</span>`
+          : escapeHtml(row.commit_sha ?? '-');
+        return `
+          <tr>
+            <td><span class="admin-status ${escapeHtml(row.status)}">${escapeHtml(row.status)}</span></td>
+            <td>${escapeHtml(row.target_path ?? '-')}</td>
+            <td>${escapeHtml(row.target_repo ?? '-')}<br /><span class="admin-cell-subtle">${escapeHtml(row.target_branch ?? '-')}</span></td>
+            <td>${commitOrError}</td>
+            <td>${formatDate(row.created_at)}</td>
+          </tr>
+        `;
+      }).join('');
     };
 
     if (!supabaseUrl || !supabaseKey) {
@@ -96,7 +101,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       } else {
         const { data, error } = await supabase
           .from('publish_jobs')
-          .select('status, target_path, target_repo, commit_sha, created_at')
+          .select('status, target_path, target_repo, target_branch, commit_sha, error_message, created_at')
           .order('created_at', { ascending: false })
           .limit(20);
 

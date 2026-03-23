@@ -666,3 +666,34 @@ body.admin-shell {
   min-height: 0.8rem;
   margin: 0;
 }
+
+.admin-status.processing {
+  background: rgba(174, 110, 21, 0.14);
+  color: var(--admin-warn);
+}
+
+.admin-status.pending {
+  background: rgba(107, 114, 128, 0.14);
+  color: #5B6577;
+}
+
+.admin-status.success {
+  background: rgba(39, 122, 75, 0.14);
+  color: var(--admin-success);
+}
+
+.admin-status.failed {
+  background: rgba(184, 66, 53, 0.14);
+  color: var(--admin-danger);
+}
+
+.admin-cell-subtle {
+  color: var(--admin-text-3);
+  font-size: 0.8rem;
+}
+
+.admin-cell-error {
+  color: var(--admin-danger);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
