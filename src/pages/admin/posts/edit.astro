@@ -3,7 +3,7 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
 
 const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
 const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
-const slug = Astro.url.searchParams.get('slug') ?? ''; 
+const slug = Astro.url.searchParams.get('slug') ?? '';
 ---
 
 <AdminLayout
@@ -17,9 +17,14 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
       <div class="admin-actions-row">
         <div>
           <h2 class="admin-section-title">Editor</h2>
-          <p class="admin-section-desc">선택한 글을 불러와 수정합니다.</p>
+          <p class="admin-section-desc">선택한 글을 불러와 수정하고, preview 또는 publish 요청을 실행합니다.</p>
         </div>
-        <div class="admin-actions-cluster"><a href="/admin/posts/preview?slug=" class="admin-btn">저장본 미리보기</a><button type="submit" form="admin-edit-post-form" class="admin-btn primary">변경 저장</button></div>
+        <div class="admin-actions-cluster">
+          <a href="/admin/posts/preview" class="admin-btn" data-admin-edit-preview-link>저장본 미리보기</a>
+          <button type="button" class="admin-btn" data-admin-publish-dryrun>Publish Dry Run</button>
+          <button type="button" class="admin-btn" data-admin-publish-live>Publish 요청</button>
+          <button type="submit" form="admin-edit-post-form" class="admin-btn primary">변경 저장</button>
+        </div>
       </div>
 
       <form id="admin-edit-post-form" class="admin-form-grid" data-admin-edit-post-form>
@@ -92,11 +97,11 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
       </section>
 
       <section class="admin-card pad-md">
-        <h2 class="admin-section-title">Revision Policy</h2>
-        <p class="admin-section-desc">저장 시마다 현재 본문과 메타 스냅샷을 revision으로 남깁니다.</p>
+        <h2 class="admin-section-title">Publish Pipeline</h2>
+        <p class="admin-section-desc">Cloudflare Pages Function 초안과 연결됩니다.</p>
         <ul class="admin-list">
-          <li class="admin-list-row"><div><p class="admin-item-title">본문 변경 추적</p><p class="admin-item-meta">post_revisions에 body_markdown 저장</p></div></li>
-          <li class="admin-list-row"><div><p class="admin-item-title">메타 변경 추적</p><p class="admin-item-meta">title, description, slug, tags, status 스냅샷 저장</p></div></li>
+          <li class="admin-list-row"><div><p class="admin-item-title">Dry Run</p><p class="admin-item-meta">Markdown preview와 target path만 확인</p></div></li>
+          <li class="admin-list-row"><div><p class="admin-item-title">Live Publish</p><p class="admin-item-meta">publish_jobs 기록 후 GitHub Contents API 호출</p></div></li>
         </ul>
       </section>
     </div>
@@ -108,7 +113,11 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
     const form = document.querySelector('[data-admin-edit-post-form]');
     const message = document.querySelector('[data-admin-edit-post-message]');
     const metaList = document.querySelector('[data-admin-edit-meta]');
+    const previewLink = document.querySelector('[data-admin-edit-preview-link]');
+    const dryRunButton = document.querySelector('[data-admin-publish-dryrun]');
+    const livePublishButton = document.querySelector('[data-admin-publish-live]');
     let currentPostId = null;
+    let currentSlug = slug;
 
     const setMessage = (text, state = 'info') => {
       if (!message) return;
@@ -124,6 +133,13 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
       return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
     };
 
+    const updatePreviewHref = (value) => {
+      currentSlug = value || currentSlug;
+      if (previewLink) {
+        previewLink.href = `/admin/posts/preview?slug=${encodeURIComponent(currentSlug)}`;
+      }
+    };
+
     const fillMeta = (post) => {
       if (!metaList) return;
       metaList.innerHTML = `
@@ -131,6 +147,34 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
         <li class="admin-list-row"><div><p class="admin-item-title">카테고리</p><p class="admin-item-meta">${post.category ?? '-'}</p></div></li>
         <li class="admin-list-row"><div><p class="admin-item-title">최근 수정</p><p class="admin-item-meta">${post.updated_at ?? '-'}</p></div></li>
       `;
+      updatePreviewHref(post.slug);
+    };
+
+    const requestPublish = async (requestedSlug, requestedBy, dryRun) => {
+      setMessage(dryRun ? 'publish dry-run을 실행하는 중입니다...' : 'publish 요청을 실행하는 중입니다...', 'info');
+      const response = await fetch('/api/admin/publish', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug: requestedSlug, requestedBy, dryRun }),
+      });
+
+      let payload = null;
+      try {
+        payload = await response.json();
+      } catch {
+        payload = null;
+      }
+
+      if (!response.ok) {
+        setMessage(payload?.error || 'publish 요청에 실패했습니다. Pages Functions 환경을 확인하세요.', 'error');
+        return;
+      }
+
+      if (dryRun) {
+        setMessage(`Dry run 완료: ${payload.targetPath}`, 'success');
+      } else {
+        setMessage(`Publish 요청 완료: ${payload.targetPath} (${payload.commitSha || 'commit pending'})`, 'success');
+      }
     };
 
     if (!supabaseUrl || !supabaseKey) {
@@ -143,11 +187,11 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
       const { data: sessionData } = await supabase.auth.getSession();
       const session = sessionData.session;
       if (!session) {
-        window.location.replace(`/admin/login?redirectTo=${encodeURIComponent(window.location.pathname)}`);
+        window.location.replace(`/admin/login?redirectTo=${encodeURIComponent(window.location.pathname + window.location.search)}`);
       } else {
         const { data: post, error } = await supabase
           .from('posts')
-          .select('id, title, description, slug, category, tags, body_markdown, status, published_at, updated_at')
+          .select('id, title, description, slug, category, subcategory, tags, body_markdown, status, published_at, updated_at')
           .eq('slug', slug)
           .single();
 
@@ -165,6 +209,26 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
           form.elements.date.value = formatDateInput(post.published_at);
           fillMeta(post);
         }
+
+        form?.elements?.slug?.addEventListener('input', (event) => {
+          updatePreviewHref(event.target.value.trim());
+        });
+
+        dryRunButton?.addEventListener('click', async () => {
+          if (!currentSlug) {
+            setMessage('먼저 글을 저장해 slug를 확정하세요.', 'error');
+            return;
+          }
+          await requestPublish(currentSlug, session.user.id, true);
+        });
+
+        livePublishButton?.addEventListener('click', async () => {
+          if (!currentSlug) {
+            setMessage('먼저 글을 저장해 slug를 확정하세요.', 'error');
+            return;
+          }
+          await requestPublish(currentSlug, session.user.id, false);
+        });
 
         form?.addEventListener('submit', async (event) => {
           event.preventDefault();
@@ -196,11 +260,7 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
             updated_by: session.user.id,
           };
 
-          const { error: updateError } = await supabase
-            .from('posts')
-            .update(payload)
-            .eq('id', currentPostId);
-
+          const { error: updateError } = await supabase.from('posts').update(payload).eq('id', currentPostId);
           if (updateError) {
             setMessage(updateError.message, 'error');
             return;
@@ -212,11 +272,18 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
             meta_snapshot: { title, description, slug: nextSlug, category, tags, status },
             created_by: session.user.id,
           });
-
           if (revisionError) {
             setMessage(`수정은 저장됐지만 revision 생성에 실패했습니다: ${revisionError.message}`, 'error');
             return;
           }
+
+          await supabase.from('audit_logs').insert({
+            actor_id: session.user.id,
+            action: 'post_updated',
+            resource_type: 'post',
+            resource_id: currentPostId,
+            after_json: { title, slug: nextSlug, status },
+          });
 
           window.location.replace('/admin/posts?updated=1');
         });
@@ -224,6 +291,3 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
     }
   </script>
 </AdminLayout>
-
-
-
