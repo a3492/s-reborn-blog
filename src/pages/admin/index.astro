@@ -8,8 +8,8 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 <AdminLayout
   title="Dashboard"
   pageTitle="Dashboard"
-  pageDescription="Phase 1의 기준 화면입니다. 인증, 글 목록, 새 글 작성 흐름을 먼저 연결하는 것을 목표로 합니다."
-  status="Phase 1"
+  pageDescription="관리자 패널의 핵심 상태를 빠르게 확인하고 발행 흐름을 추적합니다."
+  status="Live Ops"
 >
   <div class="admin-grid">
     <section class="admin-card pad-lg span-4">
@@ -17,31 +17,36 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       <p class="admin-section-desc">임시 저장된 글 수</p>
       <div class="admin-kpi">
         <strong class="admin-kpi-value" data-admin-kpi-drafts>-</strong>
-        <span class="admin-kpi-label">Supabase 연결 후 실시간 집계</span>
+        <span class="admin-kpi-label">현재 draft 상태 글 개수</span>
       </div>
     </section>
 
     <section class="admin-card pad-lg span-4">
       <h2 class="admin-section-title">Recent Activity</h2>
-      <p class="admin-section-desc">최근 생성/수정 로그 수</p>
+      <p class="admin-section-desc">최근 작업 로그 수</p>
       <div class="admin-kpi">
         <strong class="admin-kpi-value" data-admin-kpi-logs>-</strong>
-        <span class="admin-kpi-label">audit_logs 기준</span>
+        <span class="admin-kpi-label">audit_logs 최근 5건 기준</span>
       </div>
     </section>
 
     <section class="admin-card pad-lg span-4">
-      <h2 class="admin-section-title">Schema State</h2>
-      <p class="admin-section-desc">DB migration 초안 준비 상태</p>
+      <h2 class="admin-section-title">Running Jobs</h2>
+      <p class="admin-section-desc">현재 처리 중인 publish job</p>
       <div class="admin-kpi">
-        <strong class="admin-kpi-value">Ready</strong>
-        <span class="admin-kpi-label">`supabase/migrations` 초안 추가됨</span>
+        <strong class="admin-kpi-value" data-admin-kpi-jobs>-</strong>
+        <span class="admin-kpi-label">pending + processing</span>
       </div>
     </section>
 
     <section class="admin-card pad-lg span-7">
-      <h2 class="admin-section-title">Recent Drafts</h2>
-      <p class="admin-section-desc">최근 저장된 글을 실시간으로 보여줍니다.</p>
+      <div class="admin-actions-row">
+        <div>
+          <h2 class="admin-section-title">Recent Drafts</h2>
+          <p class="admin-section-desc">최근 저장된 글을 실시간으로 보여줍니다.</p>
+        </div>
+        <span class="admin-live-badge" data-admin-dashboard-live>Auto refresh</span>
+      </div>
       <p class="admin-inline-note" data-admin-dashboard-message hidden></p>
       <ul class="admin-list" data-admin-dashboard-drafts>
         <li class="admin-list-row">
@@ -65,6 +70,24 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
         </li>
       </ul>
     </section>
+
+    <section class="admin-card pad-lg span-12">
+      <div class="admin-actions-row">
+        <div>
+          <h2 class="admin-section-title">Latest Publish Jobs</h2>
+          <p class="admin-section-desc">발행 요청 직후 여기서 success/failed 전환을 바로 확인할 수 있습니다.</p>
+        </div>
+        <a href="/admin/jobs" class="admin-btn">Jobs 전체 보기</a>
+      </div>
+      <ul class="admin-list" data-admin-dashboard-jobs>
+        <li class="admin-list-row">
+          <div>
+            <p class="admin-item-title">불러오는 중...</p>
+            <p class="admin-item-meta">publish_jobs를 가져옵니다.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
   </div>
 
   <script type="module" define:vars={{ supabaseUrl, supabaseKey }}>
@@ -72,9 +95,13 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
     const draftsKpi = document.querySelector('[data-admin-kpi-drafts]');
     const logsKpi = document.querySelector('[data-admin-kpi-logs]');
+    const jobsKpi = document.querySelector('[data-admin-kpi-jobs]');
     const draftList = document.querySelector('[data-admin-dashboard-drafts]');
     const logList = document.querySelector('[data-admin-dashboard-logs]');
+    const jobsList = document.querySelector('[data-admin-dashboard-jobs]');
     const message = document.querySelector('[data-admin-dashboard-message]');
+    const liveBadge = document.querySelector('[data-admin-dashboard-live]');
+    let refreshTimer = null;
 
     const setMessage = (text, state = 'info') => {
       if (!message) return;
@@ -130,24 +157,61 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       `).join('');
     };
 
+    const renderJobs = (rows) => {
+      if (!jobsList) return false;
+      if (!rows.length) {
+        jobsList.innerHTML = '<li class="admin-list-row"><div><p class="admin-item-title">publish job이 없습니다.</p><p class="admin-item-meta">편집 화면에서 Publish 요청을 실행하면 여기에 표시됩니다.</p></div></li>';
+        return false;
+      }
+
+      jobsList.innerHTML = rows.map((row) => {
+        const isRunning = row.status === 'pending' || row.status === 'processing';
+        const detail = row.status === 'failed'
+          ? `<span class="admin-cell-error">${escapeHtml(row.error_message ?? 'unknown error')}</span>`
+          : `<span class="admin-cell-subtle">${escapeHtml(row.target_path ?? '-')} · ${formatDate(row.created_at)}</span>`;
+        const liveState = isRunning ? '<span class="admin-pulse-dot"></span>' : '';
+        return `
+          <li class="admin-list-row">
+            <div>
+              <p class="admin-item-title">${escapeHtml(row.target_repo ?? 'repo 미설정')}</p>
+              <p class="admin-item-meta">${detail}</p>
+            </div>
+            <div><span class="admin-status ${escapeHtml(row.status)}">${liveState}${escapeHtml(row.status)}</span></div>
+          </li>
+        `;
+      }).join('');
+
+      return rows.some((row) => row.status === 'pending' || row.status === 'processing');
+    };
+
+    const toggleAutoRefresh = (active) => {
+      if (!liveBadge) return;
+      liveBadge.dataset.active = active ? 'true' : 'false';
+      liveBadge.textContent = active ? 'Live polling' : 'Auto refresh';
+    };
+
     if (!supabaseUrl || !supabaseKey) {
       if (draftsKpi) draftsKpi.textContent = '-';
       if (logsKpi) logsKpi.textContent = '-';
+      if (jobsKpi) jobsKpi.textContent = '-';
       renderDrafts([]);
       renderLogs([]);
+      renderJobs([]);
       setMessage('Supabase 환경 변수가 없어 대시보드를 불러올 수 없습니다.', 'error');
     } else {
       const supabase = createClient(supabaseUrl, supabaseKey, {
         auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
       });
 
-      const { data: sessionData } = await supabase.auth.getSession();
-      if (!sessionData.session) {
-        window.location.replace('/admin/login?redirectTo=/admin');
-      } else {
-        const [{ data: posts, error: postsError }, { data: logs, error: logsError }] = await Promise.all([
+      const loadDashboard = async (silent = false) => {
+        const [
+          { data: posts, error: postsError },
+          { data: logs, error: logsError },
+          { data: jobs, error: jobsError },
+        ] = await Promise.all([
           supabase.from('posts').select('title, slug, status, updated_at').order('updated_at', { ascending: false }).limit(5),
           supabase.from('audit_logs').select('action, resource_type, created_at').order('created_at', { ascending: false }).limit(5),
+          supabase.from('publish_jobs').select('status, target_repo, target_path, error_message, created_at').order('created_at', { ascending: false }).limit(5),
         ]);
 
         if (postsError) {
@@ -167,6 +231,39 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           if (logsKpi) logsKpi.textContent = String((logs ?? []).length);
           renderLogs(logs ?? []);
         }
+
+        if (jobsError) {
+          if (jobsKpi) jobsKpi.textContent = '-';
+          renderJobs([]);
+        } else {
+          const rows = jobs ?? [];
+          if (jobsKpi) jobsKpi.textContent = String(rows.filter((row) => row.status === 'pending' || row.status === 'processing').length);
+          const hasRunning = renderJobs(rows);
+          toggleAutoRefresh(hasRunning);
+        }
+
+        if (!silent && !postsError && !logsError) {
+          setMessage('대시보드를 새로 불러왔습니다.', 'info');
+        }
+      };
+
+      const scheduleRefresh = () => {
+        if (refreshTimer) window.clearInterval(refreshTimer);
+        refreshTimer = window.setInterval(() => {
+          if (document.hidden) return;
+          loadDashboard(true);
+        }, 8000);
+      };
+
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (!sessionData.session) {
+        window.location.replace('/admin/login?redirectTo=/admin');
+      } else {
+        await loadDashboard();
+        scheduleRefresh();
+        document.addEventListener('visibilitychange', () => {
+          if (!document.hidden) loadDashboard(true);
+        });
       }
     }
   </script>

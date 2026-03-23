@@ -17,10 +17,18 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
         <h2 class="admin-section-title">Publish Jobs</h2>
         <p class="admin-section-desc">최근 발행 요청 상태와 실패 사유를 시간순으로 조회합니다.</p>
       </div>
-      <a href="/admin/posts" class="admin-btn">Posts로 이동</a>
+      <div class="admin-actions-cluster">
+        <span class="admin-live-badge" data-admin-jobs-live>Auto refresh</span>
+        <a href="/admin/posts" class="admin-btn">Posts로 이동</a>
+      </div>
     </div>
 
     <p class="admin-inline-note" data-admin-jobs-message hidden></p>
+
+    <div class="admin-jobs-toolbar">
+      <p class="admin-help">실행 중인 job이 있으면 8초마다 자동 갱신합니다.</p>
+      <button type="button" class="admin-btn" data-admin-jobs-refresh>지금 새로고침</button>
+    </div>
 
     <table class="admin-table">
       <thead>
@@ -43,6 +51,9 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
     const body = document.querySelector('[data-admin-jobs-body]');
     const message = document.querySelector('[data-admin-jobs-message]');
+    const refreshButton = document.querySelector('[data-admin-jobs-refresh]');
+    const liveBadge = document.querySelector('[data-admin-jobs-live]');
+    let refreshTimer = null;
 
     const setMessage = (text, state = 'info') => {
       if (!message) return;
@@ -69,15 +80,19 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       if (!body) return;
       if (!rows.length) {
         body.innerHTML = '<tr><td colspan="5">아직 publish job이 없습니다.</td></tr>';
-        return;
+        return false;
       }
+
       body.innerHTML = rows.map((row) => {
+        const isDone = row.status === 'success' || row.status === 'failed';
         const commitOrError = row.status === 'failed'
           ? `<span class="admin-cell-error">${escapeHtml(row.error_message ?? 'unknown error')}</span>`
-          : escapeHtml(row.commit_sha ?? '-');
+          : `<span class="admin-cell-mono">${escapeHtml(row.commit_sha ?? '-')}</span>`;
+        const liveState = isDone ? '' : '<span class="admin-pulse-dot"></span>';
+
         return `
           <tr>
-            <td><span class="admin-status ${escapeHtml(row.status)}">${escapeHtml(row.status)}</span></td>
+            <td><span class="admin-status ${escapeHtml(row.status)}">${liveState}${escapeHtml(row.status)}</span></td>
             <td>${escapeHtml(row.target_path ?? '-')}</td>
             <td>${escapeHtml(row.target_repo ?? '-')}<br /><span class="admin-cell-subtle">${escapeHtml(row.target_branch ?? '-')}</span></td>
             <td>${commitOrError}</td>
@@ -85,6 +100,14 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           </tr>
         `;
       }).join('');
+
+      return rows.some((row) => row.status === 'pending' || row.status === 'processing');
+    };
+
+    const toggleAutoRefresh = (active) => {
+      if (!liveBadge) return;
+      liveBadge.dataset.active = active ? 'true' : 'false';
+      liveBadge.textContent = active ? 'Live polling' : 'Auto refresh';
     };
 
     if (!supabaseUrl || !supabaseKey) {
@@ -95,10 +118,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
         auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
       });
 
-      const { data: sessionData } = await supabase.auth.getSession();
-      if (!sessionData.session) {
-        window.location.replace('/admin/login?redirectTo=/admin/jobs');
-      } else {
+      const loadJobs = async (silent = false) => {
         const { data, error } = await supabase
           .from('publish_jobs')
           .select('status, target_path, target_repo, target_branch, commit_sha, error_message, created_at')
@@ -108,9 +128,36 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
         if (error) {
           renderRows([]);
           setMessage(error.message, 'error');
-        } else {
-          renderRows(data ?? []);
+          toggleAutoRefresh(false);
+          return;
         }
+
+        const hasRunning = renderRows(data ?? []);
+        toggleAutoRefresh(hasRunning);
+
+        if (!silent) {
+          setMessage(`최근 ${String((data ?? []).length)}개의 publish job을 불러왔습니다.`, 'info');
+        }
+      };
+
+      const scheduleRefresh = () => {
+        if (refreshTimer) window.clearInterval(refreshTimer);
+        refreshTimer = window.setInterval(() => {
+          if (document.hidden) return;
+          loadJobs(true);
+        }, 8000);
+      };
+
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (!sessionData.session) {
+        window.location.replace('/admin/login?redirectTo=/admin/jobs');
+      } else {
+        await loadJobs();
+        scheduleRefresh();
+        refreshButton?.addEventListener('click', () => loadJobs());
+        document.addEventListener('visibilitychange', () => {
+          if (!document.hidden) loadJobs(true);
+        });
       }
     }
   </script>

@@ -97,12 +97,25 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
       </section>
 
       <section class="admin-card pad-md">
-        <h2 class="admin-section-title">Publish Pipeline</h2>
-        <p class="admin-section-desc">Cloudflare Pages Function 초안과 연결됩니다.</p>
+        <div class="admin-actions-row">
+          <div>
+            <h2 class="admin-section-title">Publish Pipeline</h2>
+            <p class="admin-section-desc">요청 직후 current job 상태를 이 패널에서 추적합니다.</p>
+          </div>
+          <a href="/admin/jobs" class="admin-btn">Jobs 보기</a>
+        </div>
         <ul class="admin-list">
           <li class="admin-list-row"><div><p class="admin-item-title">Dry Run</p><p class="admin-item-meta">Markdown preview와 target path만 확인</p></div></li>
-          <li class="admin-list-row"><div><p class="admin-item-title">Live Publish</p><p class="admin-item-meta">publish_jobs 기록 후 GitHub Contents API 호출</p></div></li>
+          <li class="admin-list-row"><div><p class="admin-item-title">Live Publish</p><p class="admin-item-meta">publish_jobs 생성 후 GitHub Contents API 호출</p></div></li>
         </ul>
+        <div class="admin-job-card" data-admin-current-job hidden>
+          <div class="admin-job-card-head">
+            <strong data-admin-current-job-title>현재 publish job</strong>
+            <span class="admin-status pending" data-admin-current-job-status>pending</span>
+          </div>
+          <p class="admin-job-card-path" data-admin-current-job-path>-</p>
+          <p class="admin-job-card-meta" data-admin-current-job-meta>job 상태를 기다리는 중입니다.</p>
+        </div>
       </section>
     </div>
   </div>
@@ -116,8 +129,14 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
     const previewLink = document.querySelector('[data-admin-edit-preview-link]');
     const dryRunButton = document.querySelector('[data-admin-publish-dryrun]');
     const livePublishButton = document.querySelector('[data-admin-publish-live]');
+    const jobCard = document.querySelector('[data-admin-current-job]');
+    const jobTitle = document.querySelector('[data-admin-current-job-title]');
+    const jobStatus = document.querySelector('[data-admin-current-job-status]');
+    const jobPath = document.querySelector('[data-admin-current-job-path]');
+    const jobMeta = document.querySelector('[data-admin-current-job-meta]');
     let currentPostId = null;
     let currentSlug = slug;
+    let publishPollTimer = null;
 
     const setMessage = (text, state = 'info') => {
       if (!message) return;
@@ -131,6 +150,13 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
       const date = new Date(value);
       const pad = (n) => String(n).padStart(2, '0');
       return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+    };
+
+    const formatDate = (value) => {
+      if (!value) return '-';
+      return new Intl.DateTimeFormat('ko-KR', {
+        year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
+      }).format(new Date(value));
     };
 
     const updatePreviewHref = (value) => {
@@ -150,30 +176,23 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
       updatePreviewHref(post.slug);
     };
 
-    const requestPublish = async (requestedSlug, requestedBy, dryRun) => {
-      setMessage(dryRun ? 'publish dry-run을 실행하는 중입니다...' : 'publish 요청을 실행하는 중입니다...', 'info');
-      const response = await fetch('/api/admin/publish', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug: requestedSlug, requestedBy, dryRun }),
-      });
-
-      let payload = null;
-      try {
-        payload = await response.json();
-      } catch {
-        payload = null;
+    const renderCurrentJob = (job, extraText) => {
+      if (!jobCard) return;
+      jobCard.hidden = false;
+      if (jobTitle) jobTitle.textContent = `Publish job ${job.id?.slice(0, 8) || ''}`.trim();
+      if (jobStatus) {
+        jobStatus.className = `admin-status ${job.status || 'pending'}`;
+        jobStatus.textContent = job.status || 'pending';
       }
-
-      if (!response.ok) {
-        setMessage(payload?.error || 'publish 요청에 실패했습니다. Pages Functions 환경을 확인하세요.', 'error');
-        return;
-      }
-
-      if (dryRun) {
-        setMessage(`Dry run 완료: ${payload.targetPath}`, 'success');
-      } else {
-        setMessage(`Publish 요청 완료: ${payload.targetPath} (${payload.commitSha || 'commit pending'})`, 'success');
+      if (jobPath) jobPath.textContent = job.target_path || '-';
+      if (jobMeta) {
+        const parts = [
+          extraText || null,
+          job.commit_sha ? `commit ${job.commit_sha}` : null,
+          job.error_message || null,
+          job.completed_at ? formatDate(job.completed_at) : null,
+        ].filter(Boolean);
+        jobMeta.textContent = parts.join(' · ') || 'job 상태를 기다리는 중입니다.';
       }
     };
 
@@ -184,31 +203,116 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
         auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
       });
 
+      const loadPost = async () => {
+        const { data: post, error } = await supabase
+          .from('posts')
+          .select('id, title, description, slug, category, subcategory, tags, body_markdown, status, published_at, updated_at')
+          .eq('slug', currentSlug)
+          .single();
+
+        if (error || !post) {
+          setMessage(error?.message || '글을 찾을 수 없습니다.', 'error');
+          return null;
+        }
+
+        currentPostId = post.id;
+        form.elements.title.value = post.title || '';
+        form.elements.description.value = post.description || '';
+        form.elements.slug.value = post.slug || '';
+        form.elements.category.value = post.category || 'ai';
+        form.elements.tags.value = (post.tags || []).join(', ');
+        form.elements.body.value = post.body_markdown || '';
+        form.elements.status.value = post.status || 'draft';
+        form.elements.date.value = formatDateInput(post.published_at);
+        fillMeta(post);
+        return post;
+      };
+
+      const stopPublishPolling = () => {
+        if (publishPollTimer) {
+          window.clearInterval(publishPollTimer);
+          publishPollTimer = null;
+        }
+      };
+
+      const pollPublishJob = async (jobId) => {
+        const { data: job, error } = await supabase
+          .from('publish_jobs')
+          .select('id, status, target_path, commit_sha, error_message, completed_at')
+          .eq('id', jobId)
+          .single();
+
+        if (error || !job) {
+          setMessage(error?.message || 'publish job 상태를 읽을 수 없습니다.', 'error');
+          stopPublishPolling();
+          return;
+        }
+
+        renderCurrentJob(job, '최신 상태 반영');
+
+        if (job.status === 'success') {
+          stopPublishPolling();
+          await loadPost();
+          setMessage(`Publish 완료: ${job.target_path}. Jobs 화면에서도 이력이 보입니다.`, 'success');
+        }
+
+        if (job.status === 'failed') {
+          stopPublishPolling();
+          setMessage(job.error_message || 'publish job이 실패했습니다.', 'error');
+        }
+      };
+
+      const startPublishPolling = (jobId) => {
+        stopPublishPolling();
+        pollPublishJob(jobId);
+        publishPollTimer = window.setInterval(() => {
+          if (document.hidden) return;
+          pollPublishJob(jobId);
+        }, 5000);
+      };
+
+      const requestPublish = async (requestedSlug, requestedBy, dryRun) => {
+        setMessage(dryRun ? 'publish dry-run을 실행하는 중입니다...' : 'publish 요청을 실행하는 중입니다...', 'info');
+        const response = await fetch('/api/admin/publish', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ slug: requestedSlug, requestedBy, dryRun }),
+        });
+
+        let payload = null;
+        try {
+          payload = await response.json();
+        } catch {
+          payload = null;
+        }
+
+        if (!response.ok) {
+          if (payload?.jobId) {
+            renderCurrentJob({ id: payload.jobId, status: 'failed', target_path: payload.targetPath, error_message: payload.error }, 'publish 요청 실패');
+          }
+          setMessage(payload?.error || 'publish 요청에 실패했습니다. Pages Functions 환경을 확인하세요.', 'error');
+          return;
+        }
+
+        if (dryRun) {
+          renderCurrentJob({ id: 'dry-run', status: 'success', target_path: payload.targetPath, commit_sha: null, completed_at: new Date().toISOString() }, `Dry run 완료 · status ${payload.postStatus || '-'}`);
+          setMessage(`Dry run 완료: ${payload.targetPath}`, 'success');
+          return;
+        }
+
+        renderCurrentJob({ id: payload.jobId, status: 'processing', target_path: payload.targetPath }, 'publish job 생성됨');
+        setMessage(`Publish 요청 완료: ${payload.targetPath}. job 상태를 추적합니다.`, 'info');
+        if (payload.jobId) {
+          startPublishPolling(payload.jobId);
+        }
+      };
+
       const { data: sessionData } = await supabase.auth.getSession();
       const session = sessionData.session;
       if (!session) {
         window.location.replace(`/admin/login?redirectTo=${encodeURIComponent(window.location.pathname + window.location.search)}`);
       } else {
-        const { data: post, error } = await supabase
-          .from('posts')
-          .select('id, title, description, slug, category, subcategory, tags, body_markdown, status, published_at, updated_at')
-          .eq('slug', slug)
-          .single();
-
-        if (error || !post) {
-          setMessage(error?.message || '글을 찾을 수 없습니다.', 'error');
-        } else {
-          currentPostId = post.id;
-          form.elements.title.value = post.title || '';
-          form.elements.description.value = post.description || '';
-          form.elements.slug.value = post.slug || '';
-          form.elements.category.value = post.category || 'ai';
-          form.elements.tags.value = (post.tags || []).join(', ');
-          form.elements.body.value = post.body_markdown || '';
-          form.elements.status.value = post.status || 'draft';
-          form.elements.date.value = formatDateInput(post.published_at);
-          fillMeta(post);
-        }
+        await loadPost();
 
         form?.elements?.slug?.addEventListener('input', (event) => {
           updatePreviewHref(event.target.value.trim());
@@ -286,6 +390,16 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
           });
 
           window.location.replace('/admin/posts?updated=1');
+        });
+
+        document.addEventListener('visibilitychange', () => {
+          if (!document.hidden && publishPollTimer && jobCard && !jobCard.hidden) {
+            const text = jobTitle?.textContent || '';
+            const jobId = text.replace('Publish job', '').trim();
+            if (jobId && jobId !== 'dry-run') {
+              // no-op here; polling interval will pick up immediately on next tick
+            }
+          }
         });
       }
     }
