@@ -18,7 +18,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           <h2 class="admin-section-title">Editor</h2>
           <p class="admin-section-desc">Markdown-first 에디터 구조를 기준으로 설계했습니다.</p>
         </div>
-        <button type="submit" form="admin-post-form" class="admin-btn primary">Draft 저장</button>
+        <div class="admin-actions-cluster"><a href="/admin/posts/preview" class="admin-btn" data-admin-preview-link>미리보기</a><button type="submit" form="admin-post-form" class="admin-btn primary">Draft 저장</button></div>
       </div>
 
       <form id="admin-post-form" class="admin-form-grid" data-admin-post-form>
@@ -136,6 +136,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     import { createClient } from '@supabase/supabase-js';
 
     const form = document.querySelector('[data-admin-post-form]');
+    const previewLink = document.querySelector('[data-admin-preview-link]');
     const message = document.querySelector('[data-admin-post-message]');
 
     const slugify = (value) =>
@@ -153,6 +154,24 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       message.textContent = text;
       message.dataset.state = state;
     };
+
+    const syncPreview = () => {
+      if (!form) return;
+      const data = new FormData(form);
+      const preview = {
+        title: String(data.get('title') || ''),
+        description: String(data.get('description') || ''),
+        category: String(data.get('category') || ''),
+        tags: String(data.get('tags') || '').split(',').map((tag) => tag.trim()).filter(Boolean),
+        status: String(data.get('status') || 'draft'),
+        body: String(data.get('body') || ''),
+      };
+      localStorage.setItem('admin_post_draft_preview', JSON.stringify(preview));
+    };
+
+    form?.addEventListener('input', syncPreview);
+    previewLink?.addEventListener('click', syncPreview);
+    syncPreview();
 
     if (!supabaseUrl || !supabaseKey) {
       setMessage('Supabase 환경 변수가 없어 저장 기능을 초기화할 수 없습니다.', 'error');
@@ -242,3 +261,5 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     }
   </script>
 </AdminLayout>
+
+

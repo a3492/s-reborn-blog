@@ -1,0 +1,118 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+---
+
+<AdminLayout
+  title="Preview"
+  pageTitle="Preview"
+  pageDescription="저장된 글 또는 현재 작성 중인 draft를 미리 봅니다."
+  status="Preview"
+>
+  <div class="admin-card pad-lg">
+    <div class="admin-actions-row">
+      <div>
+        <h2 class="admin-section-title">Preview</h2>
+        <p class="admin-section-desc">`slug` 쿼리가 있으면 Supabase에서, 없으면 로컬 draft 미리보기 데이터를 사용합니다.</p>
+      </div>
+      <a href="/admin/posts" class="admin-btn">목록으로</a>
+    </div>
+
+    <p class="admin-inline-note" data-admin-preview-message hidden></p>
+
+    <article class="admin-preview" data-admin-preview-root hidden>
+      <header class="admin-preview-head">
+        <span class="admin-status draft" data-admin-preview-status>draft</span>
+        <h1 class="admin-preview-title" data-admin-preview-title></h1>
+        <p class="admin-preview-desc" data-admin-preview-desc></p>
+        <p class="admin-preview-meta" data-admin-preview-meta></p>
+      </header>
+      <div class="admin-preview-body" data-admin-preview-body></div>
+    </article>
+  </div>
+
+  <script type="module" define:vars={{ supabaseUrl, supabaseKey }}>
+    import { createClient } from '@supabase/supabase-js';
+
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get('slug');
+    const root = document.querySelector('[data-admin-preview-root]');
+    const message = document.querySelector('[data-admin-preview-message]');
+    const statusEl = document.querySelector('[data-admin-preview-status]');
+    const titleEl = document.querySelector('[data-admin-preview-title]');
+    const descEl = document.querySelector('[data-admin-preview-desc]');
+    const metaEl = document.querySelector('[data-admin-preview-meta]');
+    const bodyEl = document.querySelector('[data-admin-preview-body]');
+
+    const setMessage = (text, state = 'info') => {
+      if (!message) return;
+      message.hidden = false;
+      message.textContent = text;
+      message.dataset.state = state;
+    };
+
+    const escapeHtml = (value) => String(value ?? '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#39;');
+
+    const renderBody = (markdown) => {
+      const lines = String(markdown || '').split('\n');
+      return lines.map((line) => {
+        const escaped = escapeHtml(line);
+        if (!line.trim()) return '<p class="admin-preview-empty"></p>';
+        if (line.startsWith('### ')) return `<h3>${escapeHtml(line.slice(4))}</h3>`;
+        if (line.startsWith('## ')) return `<h2>${escapeHtml(line.slice(3))}</h2>`;
+        if (line.startsWith('# ')) return `<h1>${escapeHtml(line.slice(2))}</h1>`;
+        if (line.startsWith('- ')) return `<li>${escapeHtml(line.slice(2))}</li>`;
+        return `<p>${escaped}</p>`;
+      }).join('');
+    };
+
+    const renderPreview = (post) => {
+      if (!root) return;
+      root.hidden = false;
+      if (statusEl) {
+        statusEl.textContent = post.status || 'draft';
+        statusEl.className = `admin-status ${post.status || 'draft'}`;
+      }
+      if (titleEl) titleEl.textContent = post.title || '(제목 없음)';
+      if (descEl) descEl.textContent = post.description || '';
+      if (metaEl) metaEl.textContent = [post.category, (post.tags || []).join(', ')].filter(Boolean).join(' · ');
+      if (bodyEl) bodyEl.innerHTML = renderBody(post.body_markdown || post.body || '');
+    };
+
+    if (slug) {
+      if (!supabaseUrl || !supabaseKey) {
+        setMessage('Supabase 환경 변수가 없어 저장된 글 미리보기를 불러올 수 없습니다.', 'error');
+      } else {
+        const supabase = createClient(supabaseUrl, supabaseKey, {
+          auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
+        });
+
+        const { data, error } = await supabase
+          .from('posts')
+          .select('title, description, category, tags, body_markdown, status')
+          .eq('slug', slug)
+          .single();
+
+        if (error || !data) {
+          setMessage(error?.message || '미리볼 글을 찾을 수 없습니다.', 'error');
+        } else {
+          renderPreview(data);
+        }
+      }
+    } else {
+      const raw = localStorage.getItem('admin_post_draft_preview');
+      if (!raw) {
+        setMessage('작성 중인 draft 미리보기 데이터가 없습니다.', 'warn');
+      } else {
+        renderPreview(JSON.parse(raw));
+      }
+    }
+  </script>
+</AdminLayout>

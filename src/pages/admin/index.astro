@@ -22,11 +22,11 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     </section>
 
     <section class="admin-card pad-lg span-4">
-      <h2 class="admin-section-title">Publish Jobs</h2>
-      <p class="admin-section-desc">Phase 3에서 GitHub 발행 파이프라인과 연결</p>
+      <h2 class="admin-section-title">Recent Activity</h2>
+      <p class="admin-section-desc">최근 생성/수정 로그 수</p>
       <div class="admin-kpi">
-        <strong class="admin-kpi-value">0</strong>
-        <span class="admin-kpi-label">아직 구현 전</span>
+        <strong class="admin-kpi-value" data-admin-kpi-logs>-</strong>
+        <span class="admin-kpi-label">audit_logs 기준</span>
       </div>
     </section>
 
@@ -54,29 +54,14 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     </section>
 
     <section class="admin-card pad-lg span-5">
-      <h2 class="admin-section-title">Immediate Next Steps</h2>
-      <p class="admin-section-desc">지금 남은 구현 순서입니다.</p>
-      <ul class="admin-list">
+      <h2 class="admin-section-title">Recent Activity Feed</h2>
+      <p class="admin-section-desc">최근 audit log 5개를 표시합니다.</p>
+      <ul class="admin-list" data-admin-dashboard-logs>
         <li class="admin-list-row">
           <div>
-            <p class="admin-item-title">로그인 후 역할 검증</p>
-            <p class="admin-item-meta">`admin_profiles`와 세션 role 표시 연결</p>
+            <p class="admin-item-title">불러오는 중...</p>
+            <p class="admin-item-meta">최근 작업 로그를 가져옵니다.</p>
           </div>
-          <div><span class="admin-status ready">Done</span></div>
-        </li>
-        <li class="admin-list-row">
-          <div>
-            <p class="admin-item-title">Draft 상세 편집</p>
-            <p class="admin-item-meta">기존 글 불러오기와 update 흐름 추가</p>
-          </div>
-          <div><span class="admin-status ready">Done</span></div>
-        </li>
-        <li class="admin-list-row">
-          <div>
-            <p class="admin-item-title">Preview route</p>
-            <p class="admin-item-meta">Markdown 미리보기 렌더링</p>
-          </div>
-          <div><span class="admin-status warn">P2</span></div>
         </li>
       </ul>
     </section>
@@ -86,7 +71,9 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     import { createClient } from '@supabase/supabase-js';
 
     const draftsKpi = document.querySelector('[data-admin-kpi-drafts]');
-    const list = document.querySelector('[data-admin-dashboard-drafts]');
+    const logsKpi = document.querySelector('[data-admin-kpi-logs]');
+    const draftList = document.querySelector('[data-admin-dashboard-drafts]');
+    const logList = document.querySelector('[data-admin-dashboard-logs]');
     const message = document.querySelector('[data-admin-dashboard-message]');
 
     const setMessage = (text, state = 'info') => {
@@ -99,8 +86,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     const formatDate = (value) => {
       if (!value) return '-';
       return new Intl.DateTimeFormat('ko-KR', {
-        year: 'numeric', month: '2-digit', day: '2-digit',
-        hour: '2-digit', minute: '2-digit'
+        year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
       }).format(new Date(value));
     };
 
@@ -112,13 +98,12 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       .replaceAll("'", '&#39;');
 
     const renderDrafts = (rows) => {
-      if (!list) return;
+      if (!draftList) return;
       if (!rows.length) {
-        list.innerHTML = '<li class="admin-list-row"><div><p class="admin-item-title">저장된 draft가 없습니다.</p><p class="admin-item-meta">/admin/posts/new 에서 첫 글을 만들어 보세요.</p></div></li>';
+        draftList.innerHTML = '<li class="admin-list-row"><div><p class="admin-item-title">저장된 draft가 없습니다.</p><p class="admin-item-meta">/admin/posts/new 에서 첫 글을 만들어 보세요.</p></div></li>';
         return;
       }
-
-      list.innerHTML = rows.map((row) => `
+      draftList.innerHTML = rows.map((row) => `
         <li class="admin-list-row">
           <div>
             <p class="admin-item-title"><a class="admin-table-link" href="/admin/posts/edit?slug=${encodeURIComponent(row.slug)}">${escapeHtml(row.title)}</a></p>
@@ -129,9 +114,27 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       `).join('');
     };
 
+    const renderLogs = (rows) => {
+      if (!logList) return;
+      if (!rows.length) {
+        logList.innerHTML = '<li class="admin-list-row"><div><p class="admin-item-title">로그가 없습니다.</p><p class="admin-item-meta">글 생성/수정 후 기록됩니다.</p></div></li>';
+        return;
+      }
+      logList.innerHTML = rows.map((row) => `
+        <li class="admin-list-row">
+          <div>
+            <p class="admin-item-title">${escapeHtml(row.action)}</p>
+            <p class="admin-item-meta">${escapeHtml(row.resource_type)} · ${formatDate(row.created_at)}</p>
+          </div>
+        </li>
+      `).join('');
+    };
+
     if (!supabaseUrl || !supabaseKey) {
       if (draftsKpi) draftsKpi.textContent = '-';
+      if (logsKpi) logsKpi.textContent = '-';
       renderDrafts([]);
+      renderLogs([]);
       setMessage('Supabase 환경 변수가 없어 대시보드를 불러올 수 없습니다.', 'error');
     } else {
       const supabase = createClient(supabaseUrl, supabaseKey, {
@@ -142,23 +145,29 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       if (!sessionData.session) {
         window.location.replace('/admin/login?redirectTo=/admin');
       } else {
-        const { data, error } = await supabase
-          .from('posts')
-          .select('title, slug, status, updated_at')
-          .order('updated_at', { ascending: false })
-          .limit(5);
+        const [{ data: posts, error: postsError }, { data: logs, error: logsError }] = await Promise.all([
+          supabase.from('posts').select('title, slug, status, updated_at').order('updated_at', { ascending: false }).limit(5),
+          supabase.from('audit_logs').select('action, resource_type, created_at').order('created_at', { ascending: false }).limit(5),
+        ]);
 
-        if (error) {
+        if (postsError) {
           if (draftsKpi) draftsKpi.textContent = '-';
           renderDrafts([]);
-          setMessage(error.message, 'error');
+          setMessage(postsError.message, 'error');
         } else {
-          const rows = data ?? [];
+          const rows = posts ?? [];
           if (draftsKpi) draftsKpi.textContent = String(rows.filter((row) => row.status === 'draft').length);
           renderDrafts(rows);
+        }
+
+        if (logsError) {
+          if (logsKpi) logsKpi.textContent = '-';
+          renderLogs([]);
+        } else {
+          if (logsKpi) logsKpi.textContent = String((logs ?? []).length);
+          renderLogs(logs ?? []);
         }
       }
     }
   </script>
 </AdminLayout>
-
