@@ -9,314 +9,99 @@ import Topbar from '../components/Topbar.astro';
 <html lang="ko">
 	<head>
 		<BaseHead title="About — S-Reborn World" description="에스리본의원 홍대점 대표원장 김도위 원장의 소개 페이지입니다." />
-		<style>
-			:root {
-				--pink-main: #e91e8c;
-				--pink-light: #ff6eb4;
-				--pink-bg: #fff0f6;
-				--pink-card: #ffd6e7;
-				--pink-text: #c2185b;
-			}
-
-			.about-wrap {
-				max-width: 760px;
-				margin: 0 auto;
-				padding: 3rem 1.5rem 5rem;
-			}
-
-			/* 프로필 헤더 */
-			.profile-hero {
-				text-align: center;
-				padding: 2.5rem 0 2rem;
-				border-bottom: 1px solid var(--pink-card);
-				margin-bottom: 2.5rem;
-			}
-			.avatar {
-				width: 140px;
-				height: 140px;
-				border-radius: 50%;
-				object-fit: cover;
-				object-position: top;
-				margin: 0 auto 1.25rem;
-				border: 3px solid var(--pink-main);
-				box-shadow: 0 4px 16px rgba(233,30,140,0.15);
-			}
-			.profile-hero h1 {
-				font-size: 1.8rem;
-				font-weight: 800;
-				color: var(--pink-main);
-				margin: 0 0 0.4rem;
-			}
-			.profile-hero .role {
-				font-size: 1rem;
-				color: var(--t2);
-				margin: 0 0 1rem;
-			}
-			.profile-tags {
-				display: flex;
-				gap: 0.5rem;
-				justify-content: center;
-				flex-wrap: wrap;
-			}
-			.profile-tag {
-				background: var(--pink-card);
-				color: var(--pink-text);
-				padding: 4px 12px;
-				border-radius: 999px;
-				font-size: 0.82rem;
-				font-weight: 600;
-			}
-
-			/* 섹션 공통 */
-			.section {
-				margin-bottom: 2.5rem;
-			}
-			.section h2 {
-				font-size: 1.25rem;
-				font-weight: 700;
-				color: var(--pink-main);
-				margin: 0 0 1rem;
-				display: flex;
-				align-items: center;
-				gap: 0.5rem;
-			}
-			.section h2::after {
-				content: '';
-				flex: 1;
-				height: 2px;
-				background: var(--pink-card);
-				border-radius: 1px;
-			}
-
-			/* 소개 텍스트 */
-			.intro-text {
-				font-size: 1rem;
-				line-height: 1.85;
-				color: var(--t2);
-			}
-
-			/* 현직 카드 */
-			.current-card {
-				background: linear-gradient(135deg, var(--pink-bg), #fff);
-				border: 2px solid var(--pink-card);
-				border-radius: 16px;
-				padding: 1.4rem 1.6rem;
-				margin-bottom: 0.75rem;
-			}
-			.current-card .title {
-				font-weight: 700;
-				font-size: 1.05rem;
-				color: #1a1a1a;
-				margin-bottom: 0.2rem;
-			}
-			.current-card .sub {
-				font-size: 0.875rem;
-				color: #6b7a99;
-			}
-
-			/* 이력 타임라인 */
-			.timeline {
-				list-style: none;
-				padding: 0;
-				margin: 0;
-				position: relative;
-			}
-			.timeline::before {
-				content: '';
-				position: absolute;
-				left: 8px;
-				top: 4px;
-				bottom: 4px;
-				width: 2px;
-				background: var(--pink-card);
-				border-radius: 1px;
-			}
-			.timeline li {
-				padding: 0.5rem 0 0.5rem 2rem;
-				position: relative;
-				font-size: 0.95rem;
-				color: var(--t2);
-				line-height: 1.5;
-			}
-			.timeline li::before {
-				content: '';
-				position: absolute;
-				left: 3px;
-				top: 10px;
-				width: 10px;
-				height: 10px;
-				border-radius: 50%;
-				background: var(--pink-main);
-				border: 2px solid white;
-				box-shadow: 0 0 0 2px var(--pink-card);
-			}
-			.timeline li .year {
-				font-size: 0.78rem;
-				color: var(--pink-main);
-				font-weight: 700;
-				display: block;
-				margin-bottom: 0.1rem;
-			}
-
-			/* 지도 섹션 */
-			.map-card {
-				border: 2px solid var(--pink-card);
-				border-radius: 16px;
-				overflow: hidden;
-				background: var(--pink-bg);
-				padding: 1.6rem 1.8rem;
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-				flex-wrap: wrap;
-				gap: 1rem;
-			}
-			.map-info .clinic-name {
-				font-weight: 700;
-				font-size: 1.05rem;
-				color: #1a1a1a;
-			}
-			.map-info .clinic-addr {
-				font-size: 0.875rem;
-				color: #6b7a99;
-				margin-top: 0.3rem;
-				line-height: 1.6;
-			}
-			.map-btn {
-				display: inline-flex;
-				align-items: center;
-				gap: 0.4rem;
-				background: #03C75A;
-				color: white;
-				padding: 0.6rem 1.3rem;
-				border-radius: 10px;
-				font-size: 0.9rem;
-				font-weight: 700;
-				text-decoration: none;
-				transition: opacity 0.2s;
-				white-space: nowrap;
-			}
-			.map-btn:hover { opacity: 0.85; }
-
-			@media (max-width: 600px) {
-				.about-wrap { padding: 1.5rem 1rem 3rem; }
-				.profile-hero h1 { font-size: 1.4rem; }
-				.profile-hero { padding: 1.5rem 0 1.5rem; }
-				.current-card { padding: 1rem 1.2rem; }
-				.section h2 { font-size: 1.1rem; }
-				.map-card { flex-direction: column; align-items: flex-start; padding: 1.2rem; }
-				.map-btn { width: 100%; justify-content: center; }
-				.avatar { width: 100px; height: 100px; }
-			}
-			@media (max-width: 360px) {
-				.about-wrap { padding: 1rem 0.75rem 2.5rem; }
-				.profile-hero h1 { font-size: 1.2rem; }
-				.profile-hero .role { font-size: 0.85rem; }
-				.current-card { padding: 0.8rem 1rem; font-size: 0.9rem; }
-				.timeline li { font-size: 0.875rem; padding-left: 1.6rem; }
-				.map-btn { font-size: 0.85rem; }
-			}
-		</style>
 	</head>
 	<body>
 		<Topbar />
 
 		<div class="about-wrap">
-
-			<!-- 프로필 헤더 -->
-			<div class="profile-hero">
-				<img class="avatar" src="/profile.jpg" alt="김도위 원장" />
+			<div class="about-hero">
+				<img class="about-avatar" src="/profile.jpg" alt="김도위 원장" />
 				<h1>김도위 원장</h1>
-				<p class="role">가정의학과 전문의 · 에스리본의원 홍대점 대표원장</p>
-				<div class="profile-tags">
-					<span class="profile-tag">#가정의학과</span>
-					<span class="profile-tag">#미용의학</span>
-					<span class="profile-tag">#AI의료</span>
-					<span class="profile-tag">#평생학습</span>
+				<p class="about-role">가정의학과 전문의 · 에스리본의원 홍대점 대표원장</p>
+				<div class="about-tags">
+					<span class="about-tag">#가정의학과</span>
+					<span class="about-tag">#미용의학</span>
+					<span class="about-tag">#AI의료</span>
+					<span class="about-tag">#평생학습</span>
 				</div>
 			</div>
 
-			<!-- 소개 -->
-			<div class="section">
+			<section class="about-section">
 				<h2>안녕하세요</h2>
-				<p class="intro-text">
+				<p class="about-intro-text">
 					의사로 시작해서 AI 연구자가 되어가는 중입니다.<br /><br />
 					진료실에서 환자를 만나면서, AI가 의료를 어떻게 바꿀 수 있을지 끊임없이 고민합니다.
 					의학·기술·배움이 교차하는 지점에서 새로운 가능성을 탐구하고,
 					그 여정을 이 블로그에 솔직하게 기록합니다.<br /><br />
 					거창한 답보다는 작은 발견을 나누고 싶어서 글을 씁니다.
 				</p>
-			</div>
+			</section>
 
-			<!-- 현직 -->
-			<div class="section">
+			<section class="about-section">
 				<h2>현재</h2>
-				<div class="current-card">
-					<div class="title">에스리본의원 홍대점 대표원장</div>
-					<div class="sub">가정의학과 전문의 · 미용의학 전반</div>
+				<div class="about-current-card">
+					<div class="about-current-title">에스리본의원 홍대점 대표원장</div>
+					<div class="about-current-sub">가정의학과 전문의 · 미용의학 전반</div>
 				</div>
-				<div class="current-card">
-					<div class="title">대한필러학회 학술이사</div>
-					<div class="sub"></div>
+				<div class="about-current-card">
+					<div class="about-current-title">대한필러학회 학술이사</div>
+					<div class="about-current-sub"></div>
 				</div>
-				<div class="current-card">
-					<div class="title">한국피부비만성형학회 학술이사</div>
-					<div class="sub"></div>
+				<div class="about-current-card">
+					<div class="about-current-title">한국피부비만성형학회 학술이사</div>
+					<div class="about-current-sub"></div>
 				</div>
-				<div class="current-card">
-					<div class="title">D&PS 미용의학잡지 연재</div>
-					<div class="sub">우리가 몰랐던 다양한 사실들을 꼬리에 꼬리를 물면서 의학 지식과 연결시키는 글을 씁니다</div>
+				<div class="about-current-card">
+					<div class="about-current-title">D&PS 미용의학잡지 연재</div>
+					<div class="about-current-sub">우리가 몰랐던 다양한 사실들을 꼬리에 꼬리를 물면서 의학 지식과 연결시키는 글을 씁니다</div>
 				</div>
-				<div class="current-card">
-					<div class="title">한국 AI 리터러시 협회 의료분과 전문위원</div>
-					<div class="sub">의료인의 AI 활용 역량을 높이기 위한 활동</div>
+				<div class="about-current-card">
+					<div class="about-current-title">한국 AI 리터러시 협회 의료분과 전문위원</div>
+					<div class="about-current-sub">의료인의 AI 활용 역량을 높이기 위한 활동</div>
 				</div>
-			</div>
+			</section>
 
-			<!-- 이력 -->
-			<div class="section">
+			<section class="about-section">
 				<h2>이력</h2>
-				<ul class="timeline">
+				<ul class="about-timeline">
 					<li>
-						<span class="year">학력</span>
+						<span class="about-year">학력</span>
 						한양대학교 의과대학 졸업
 					</li>
 					<li>
-						<span class="year">수련</span>
+						<span class="about-year">수련</span>
 						한양대학교병원 인턴 수료
 					</li>
 					<li>
-						<span class="year">수련</span>
+						<span class="about-year">수련</span>
 						서울의료원 레지던트 수료 (가정의학과)
 					</li>
 					<li>
-						<span class="year">수상</span>
+						<span class="about-year">수상</span>
 						삼성메디슨 의료기기 공모전 전문가 부문 <strong>대상</strong>
 					</li>
 					<li>
-						<span class="year">개발</span>
+						<span class="about-year">개발</span>
 						'부스트리(Boostree)' 병원 프로그램 개발팀 활동
 					</li>
 				</ul>
-			</div>
+			</section>
 
-			<!-- 병원 위치 -->
-			<div class="section">
+			<section class="about-section">
 				<h2>병원 위치</h2>
-				<div class="map-card">
-					<div class="map-info">
-						<div class="clinic-name">에스리본의원 홍대점</div>
-						<div class="clinic-addr">
+				<div class="about-map-card">
+					<div class="about-map-info">
+						<div class="about-clinic-name">에스리본의원 홍대점</div>
+						<div class="about-clinic-addr">
 							서울 마포구 홍대 인근<br />
 							🕐 진료시간 네이버 지도에서 확인
 						</div>
 					</div>
-					<a href="https://naver.me/5GpoDRLh" target="_blank" rel="noopener noreferrer" class="map-btn">
+					<a href="https://naver.me/5GpoDRLh" target="_blank" rel="noopener noreferrer" class="about-map-btn">
 						📍 네이버 지도 열기 →
 					</a>
 				</div>
-			</div>
-
+			</section>
 		</div>
 
 		<Footer />

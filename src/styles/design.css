@@ -886,3 +886,260 @@ footer {
     padding: 0.95rem 1rem;
   }
 }
+
+.search-dropdown {
+  position: fixed;
+  background: rgba(250, 248, 245, 0.98);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  box-shadow: 0 18px 42px rgba(28, 25, 23, 0.12);
+  z-index: 100;
+  overflow: hidden;
+  backdrop-filter: blur(18px);
+}
+
+.search-status {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--rule2);
+  color: var(--t3);
+  font-size: 0.8rem;
+}
+
+.search-result-item.is-active {
+  background: var(--bg2);
+}
+
+.about-wrap {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+}
+
+.about-hero {
+  text-align: center;
+  padding: 2.5rem 0 2rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 2.5rem;
+}
+
+.about-avatar {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
+  margin: 0 auto 1.25rem;
+  border: 3px solid var(--pink);
+  box-shadow: 0 12px 28px rgba(184, 149, 106, 0.18);
+}
+
+.about-hero h1 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 0.4rem;
+}
+
+.about-role {
+  font-size: 1rem;
+  color: var(--t2);
+  margin: 0 0 1rem;
+}
+
+.about-tags {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.about-tag {
+  background: var(--pink-lo);
+  color: var(--pink);
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.about-section {
+  margin-bottom: 2.5rem;
+}
+
+.about-section h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.about-section h2::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: var(--rule);
+  border-radius: 1px;
+}
+
+.about-intro-text {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--t2);
+}
+
+.about-current-card {
+  background: linear-gradient(135deg, rgba(184, 149, 106, 0.1), #fff);
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.about-current-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text);
+  margin-bottom: 0.2rem;
+}
+
+.about-current-sub {
+  font-size: 0.875rem;
+  color: var(--t3);
+}
+
+.about-timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+.about-timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  background: var(--rule);
+  border-radius: 1px;
+}
+
+.about-timeline li {
+  padding: 0.5rem 0 0.5rem 2rem;
+  position: relative;
+  font-size: 0.95rem;
+  color: var(--t2);
+  line-height: 1.5;
+}
+
+.about-timeline li::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--pink);
+  border: 2px solid white;
+  box-shadow: 0 0 0 2px rgba(184, 149, 106, 0.16);
+}
+
+.about-year {
+  font-size: 0.78rem;
+  color: var(--pink);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 0.1rem;
+}
+
+.about-map-card {
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(184, 149, 106, 0.08), rgba(255,255,255,0.95));
+  padding: 1.6rem 1.8rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.about-clinic-name {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text);
+}
+
+.about-clinic-addr {
+  font-size: 0.875rem;
+  color: var(--t3);
+  margin-top: 0.3rem;
+  line-height: 1.6;
+}
+
+.about-map-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--pink);
+  color: #fffdfb;
+  padding: 0.6rem 1.3rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: opacity 0.2s, transform 0.15s;
+  white-space: nowrap;
+}
+
+.about-map-btn:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 600px) {
+  .about-wrap { padding: 1.5rem 1rem 3rem; }
+  .about-hero h1 { font-size: 1.4rem; }
+  .about-hero { padding: 1.5rem 0; }
+  .about-current-card { padding: 1rem 1.2rem; }
+  .about-section h2 { font-size: 1.1rem; }
+  .about-map-card { flex-direction: column; align-items: flex-start; padding: 1.2rem; }
+  .about-map-btn { width: 100%; justify-content: center; }
+  .about-avatar { width: 100px; height: 100px; }
+}
+
+@media (max-width: 480px) {
+  .tb-search-wrap {
+    max-width: none;
+    min-width: 0;
+  }
+
+  .tb-search {
+    height: 34px;
+    padding-right: 0.9rem;
+  }
+
+  .tb-nav {
+    gap: 0.55rem;
+  }
+
+  .search-dropdown {
+    width: calc(100vw - 1.5rem) !important;
+    left: 0.75rem !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .about-wrap { padding: 1rem 0.75rem 2.5rem; }
+  .about-hero h1 { font-size: 1.2rem; }
+  .about-role { font-size: 0.85rem; }
+  .about-current-card { padding: 0.8rem 1rem; font-size: 0.9rem; }
+  .about-timeline li { font-size: 0.875rem; padding-left: 1.6rem; }
+  .about-map-btn { font-size: 0.85rem; }
+}

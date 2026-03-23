@@ -1,10 +1,10 @@
 ---
 import '../styles/design.css';
 import BaseHead from '../components/BaseHead.astro';
-import Sidebar from '../components/Sidebar.astro';
 import Topbar from '../components/Topbar.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { getCollection } from 'astro:content';
 
 interface Props {
 	title?: string;
@@ -12,6 +12,17 @@ interface Props {
 }
 
 const { title, description = SITE_DESCRIPTION } = Astro.props;
+
+const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const searchIndex = allPosts.map(post => ({
+  id: post.id,
+  title: post.data.title,
+  description: post.data.description ?? '',
+  category: post.data.category ?? '',
+  url: `/blog/${post.id}/`,
+}));
 ---
 
 <!doctype html>
@@ -20,62 +31,196 @@ const { title, description = SITE_DESCRIPTION } = Astro.props;
 		<BaseHead title={title ? `${title} | ${SITE_TITLE}` : SITE_TITLE} description={description} />
 	</head>
 	<body>
-		<!-- 모바일 사이드바 오버레이 dim -->
-		<div class="sb-overlay" id="sb-overlay"></div>
-		<Sidebar />
-		<div class="main">
-			<Topbar showHamburger={true} />
-			<slot />
+		<div class="site-wrap">
+			<Topbar />
+			<main class="site-main">
+				<slot />
+			</main>
 			<Footer />
 		</div>
 
-		<script>
-			function toggleGroup(id: string) {
-				const group = document.getElementById(id);
-				if (group) {
-					group.classList.toggle('open');
-				}
-			}
+		<script define:vars={{ searchIndex }}>
+		(function() {
+      const input = document.getElementById('search-input');
+      const wrap = document.querySelector('[data-search-wrap]');
+      const dropdown = document.getElementById('search-dropdown');
+      const resultsEl = document.getElementById('search-results');
+      const emptyEl = document.getElementById('search-empty');
+      const statusEl = document.getElementById('search-status');
+      const aiBtn = document.getElementById('ai-generate-btn');
 
-			function filterCat(e: Event, cat: string) {
-				e.preventDefault();
-				document.querySelectorAll('#post-grid .post-card').forEach((c) => {
-					const card = c as HTMLElement;
-					const cardCat = (c as HTMLElement).getAttribute('data-cat');
-					card.classList.toggle('hidden', cat !== 'all' && cardCat !== cat);
-				});
-			}
+      if (!input || !dropdown || !wrap || !resultsEl || !emptyEl || !statusEl) return;
 
-			(window as any).toggleGroup = toggleGroup;
-			(window as any).filterCat = filterCat;
+      let fuse = null;
+      let activeIndex = -1;
+      let renderedItems = [];
 
-			// ── 모바일 사이드바 토글 ──
-			const sbToggle = document.getElementById('sb-toggle');
-			const sidebar = document.querySelector('.sidebar');
-			const overlay = document.getElementById('sb-overlay');
+      const setExpanded = (expanded) => {
+        input.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      };
 
-			function openSidebar() {
-				sidebar?.classList.add('is-open');
-				overlay?.classList.add('is-open');
-				document.body.style.overflow = 'hidden';
-			}
+      const setStatus = (text, visible) => {
+        statusEl.textContent = text;
+        statusEl.classList.toggle('hidden', !visible);
+      };
 
-			function closeSidebar() {
-				sidebar?.classList.remove('is-open');
-				overlay?.classList.remove('is-open');
-				document.body.style.overflow = '';
-			}
+      const positionDropdown = () => {
+        const rect = wrap.getBoundingClientRect();
+        dropdown.style.width = `${rect.width}px`;
+        dropdown.style.left = `${rect.left}px`;
+        dropdown.style.top = `${rect.bottom + 8}px`;
+      };
 
-			sbToggle?.addEventListener('click', () => {
-				sidebar?.classList.contains('is-open') ? closeSidebar() : openSidebar();
-			});
+      const showDropdown = () => {
+        positionDropdown();
+        dropdown.classList.remove('hidden');
+        setExpanded(true);
+      };
 
-			overlay?.addEventListener('click', closeSidebar);
+      const hideDropdown = () => {
+        dropdown.classList.add('hidden');
+        setExpanded(false);
+        activeIndex = -1;
+        input.setAttribute('aria-activedescendant', '');
+      };
 
-			// ESC 키로 닫기
-			document.addEventListener('keydown', (e) => {
-				if (e.key === 'Escape') closeSidebar();
-			});
+      const syncActiveItem = () => {
+        renderedItems.forEach((item, index) => {
+          item.classList.toggle('is-active', index === activeIndex);
+          if (index === activeIndex) {
+            input.setAttribute('aria-activedescendant', item.id);
+            item.scrollIntoView({ block: 'nearest' });
+          }
+        });
+
+        if (activeIndex < 0) {
+          input.setAttribute('aria-activedescendant', '');
+        }
+      };
+
+      const renderResults = (query) => {
+        const normalized = query.trim();
+        if (!normalized) {
+          resultsEl.innerHTML = '';
+          emptyEl.classList.add('hidden');
+          hideDropdown();
+          return;
+        }
+
+        const results = fuse ? fuse.search(normalized).slice(0, 6) : [];
+        resultsEl.innerHTML = '';
+        renderedItems = [];
+        activeIndex = -1;
+
+        if (results.length > 0) {
+          emptyEl.classList.add('hidden');
+          resultsEl.classList.remove('hidden');
+          results.forEach(({ item }, index) => {
+            const a = document.createElement('a');
+            a.className = 'search-result-item';
+            a.href = item.url;
+            a.id = `search-result-${index}`;
+            a.setAttribute('role', 'option');
+            a.innerHTML = `
+              ${item.category ? `<span class="sr-cat">${item.category}</span>` : ''}
+              <span class="sr-title">${item.title}</span>
+              ${item.description ? `<span class="sr-desc">${item.description}</span>` : ''}
+            `;
+            a.addEventListener('mouseenter', () => {
+              activeIndex = index;
+              syncActiveItem();
+            });
+            resultsEl.appendChild(a);
+            renderedItems.push(a);
+          });
+        } else {
+          resultsEl.classList.add('hidden');
+          emptyEl.classList.remove('hidden');
+          if (aiBtn) {
+            aiBtn.dataset.query = normalized;
+            aiBtn.textContent = `✨ "${normalized}" 주제의 글 AI로 생성하기`;
+          }
+        }
+
+        showDropdown();
+      };
+
+      setStatus('검색 인덱스를 준비하는 중입니다...', true);
+      import('/node_modules/fuse.js/dist/fuse.esm.js').then(m => {
+        const Fuse = m.default;
+        fuse = new Fuse(searchIndex, {
+          keys: ['title', 'description', 'category'],
+          threshold: 0.35,
+          minMatchCharLength: 1,
+        });
+        setStatus('', false);
+      }).catch(() => {
+        fuse = {
+          search: (q) => searchIndex
+            .filter((p) => [p.title, p.description, p.category].some((field) => field?.toLowerCase().includes(q.toLowerCase())))
+            .map((item) => ({ item })),
+        };
+        setStatus('', false);
+      });
+
+      let timer;
+      input.addEventListener('input', (e) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => renderResults(e.target.value), 120);
+      });
+
+      input.addEventListener('focus', () => {
+        if (input.value.trim()) renderResults(input.value);
+      });
+
+      input.addEventListener('keydown', (e) => {
+        if (dropdown.classList.contains('hidden')) return;
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          activeIndex = Math.min(renderedItems.length - 1, activeIndex + 1);
+          syncActiveItem();
+        }
+        if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          activeIndex = Math.max(0, activeIndex - 1);
+          syncActiveItem();
+        }
+        if (e.key === 'Enter' && activeIndex >= 0 && renderedItems[activeIndex]) {
+          e.preventDefault();
+          renderedItems[activeIndex].click();
+        }
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!dropdown.contains(e.target) && !wrap.contains(e.target)) hideDropdown();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+          e.preventDefault();
+          input.focus();
+          input.select();
+        }
+        if (e.key === 'Escape') {
+          hideDropdown();
+          input.blur();
+        }
+      });
+
+      window.addEventListener('resize', () => {
+        if (!dropdown.classList.contains('hidden')) positionDropdown();
+      });
+      window.addEventListener('scroll', () => {
+        if (!dropdown.classList.contains('hidden')) positionDropdown();
+      }, true);
+
+      if (aiBtn) {
+        aiBtn.addEventListener('click', () => {
+          const query = aiBtn.dataset.query || input.value;
+          window.location.href = `/generate?topic=${encodeURIComponent(query)}`;
+        });
+      }
+    })();
 		</script>
 	</body>
 </html>
