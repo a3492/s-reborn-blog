@@ -3,17 +3,20 @@ import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import { CATEGORIES, SITE_DESCRIPTION } from '../../consts';
+import { getPublicSiteSettings } from '../../lib/site-settings';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
 	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const siteSettings = await getPublicSiteSettings();
 ---
 
-<Layout title="Blog" description={SITE_DESCRIPTION}>
+<Layout title="Blog" description={siteSettings.siteDescription || SITE_DESCRIPTION}>
 	<section class="blog-list-section">
 		<div class="blog-list-header">
 			<div>
 				<p class="blog-list-kicker">Archive</p>
 				<h1 class="blog-list-title">전체 글</h1>
+        <p class="blog-list-subtitle">{siteSettings.siteTitle}의 전체 글 아카이브입니다.</p>
 			</div>
 			<span class="blog-count">{posts.length}개</span>
 		</div>
@@ -80,6 +83,13 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
 		color: var(--text);
 		margin: 0;
 	}
+
+  .blog-list-subtitle {
+    margin: 0.45rem 0 0;
+    color: var(--t2);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
 
 	.blog-count {
 		display: inline-flex;

@@ -66,6 +66,34 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
         <li class="admin-list-row"><div><p class="admin-item-title">`about_page`</p><p class="admin-item-meta">about_intro</p></div></li>
         <li class="admin-list-row"><div><p class="admin-item-title">`social_links`</p><p class="admin-item-meta">JSON object</p></div></li>
       </ul>
+
+      <div class="admin-panel-stack" style="margin-top: 1rem;">
+        <section class="admin-preview-card">
+          <div class="admin-preview-kicker">Resolved Preview</div>
+          <h3 class="admin-preview-title" data-settings-preview-title>S-Reborn World</h3>
+          <p class="admin-preview-desc" data-settings-preview-description>사이트 기본 메타 설명</p>
+          <div class="admin-preview-meta">
+            <span data-settings-preview-featured>featured: 미설정</span>
+            <span data-settings-preview-og>OG: 미설정</span>
+          </div>
+        </section>
+
+        <section class="admin-card pad-md">
+          <h3 class="admin-section-title">Social Preview</h3>
+          <p class="admin-section-desc">푸터와 About에 노출될 링크 미리보기입니다.</p>
+          <div class="admin-link-chips" data-settings-social-preview>
+            <span class="admin-chip muted">등록된 소셜 링크가 없습니다.</span>
+          </div>
+        </section>
+
+        <section class="admin-card pad-md">
+          <h3 class="admin-section-title">Validation</h3>
+          <p class="admin-section-desc">저장 전에 settings 데이터 상태를 빠르게 확인합니다.</p>
+          <ul class="admin-list" data-settings-validation>
+            <li class="admin-list-row"><div><p class="admin-item-title">대기 중</p><p class="admin-item-meta">입력값을 읽는 중입니다.</p></div></li>
+          </ul>
+        </section>
+      </div>
     </section>
   </div>
 
@@ -74,6 +102,12 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
     const form = document.querySelector('[data-admin-settings-form]');
     const message = document.querySelector('[data-admin-settings-message]');
+    const previewTitle = document.querySelector('[data-settings-preview-title]');
+    const previewDescription = document.querySelector('[data-settings-preview-description]');
+    const previewFeatured = document.querySelector('[data-settings-preview-featured]');
+    const previewOg = document.querySelector('[data-settings-preview-og]');
+    const socialPreview = document.querySelector('[data-settings-social-preview]');
+    const validationList = document.querySelector('[data-settings-validation]');
 
     const setMessage = (text, state = 'info') => {
       if (!message) return;
@@ -85,6 +119,122 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     const parseJson = (value) => {
       if (!value.trim()) return {};
       return JSON.parse(value);
+    };
+
+    const escapeHtml = (value) =>
+      String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+
+    const isProbablyUrl = (value) => /^https?:\/\//i.test(String(value || '').trim()) || String(value || '').trim().startsWith('/');
+
+    const normalizeSocialLinks = (value) => {
+      const parsed = parseJson(value);
+      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+        throw new Error('소셜 링크 JSON은 key/value object여야 합니다.');
+      }
+
+      return Object.fromEntries(
+        Object.entries(parsed)
+          .map(([key, url]) => [String(key || '').trim().toLowerCase(), String(url || '').trim()])
+          .filter(([key, url]) => key && url),
+      );
+    };
+
+    const renderValidation = ({ siteTitle, siteDescription, featuredSlug, defaultOgImage, aboutIntro, socialLinks }) => {
+      if (!validationList) return;
+
+      const items = [
+        {
+          title: siteTitle ? '사이트 제목 준비됨' : '사이트 제목 필요',
+          meta: siteTitle ? 'Topbar, footer, SEO title에 반영됩니다.' : '브랜드 제목이 비어 있습니다.',
+          state: siteTitle ? 'success' : 'warn',
+        },
+        {
+          title: siteDescription ? '기본 설명 준비됨' : '기본 설명 필요',
+          meta: siteDescription ? '기본 메타 description으로 사용됩니다.' : 'RSS/기본 SEO 설명이 비어 있습니다.',
+          state: siteDescription ? 'success' : 'warn',
+        },
+        {
+          title: featuredSlug ? '홈 featured 지정됨' : '홈 featured 미지정',
+          meta: featuredSlug ? `${featuredSlug}가 홈 메인 카드 우선 후보입니다.` : '최신 글 기준 기본 featured를 사용합니다.',
+          state: featuredSlug ? 'success' : 'muted',
+        },
+        {
+          title: defaultOgImage ? '기본 OG 이미지 준비됨' : '기본 OG 이미지 미설정',
+          meta: defaultOgImage ? '개별 글 썸네일이 없을 때 fallback으로 사용됩니다.' : '공유 이미지 fallback이 없습니다.',
+          state: defaultOgImage ? 'success' : 'warn',
+        },
+        {
+          title: aboutIntro ? 'About 소개문 준비됨' : 'About 소개문 미설정',
+          meta: aboutIntro ? 'About 상단 소개문에 바로 반영됩니다.' : '기본 소개문 fallback을 사용합니다.',
+          state: aboutIntro ? 'success' : 'muted',
+        },
+        {
+          title: Object.keys(socialLinks).length ? '소셜 링크 준비됨' : '소셜 링크 없음',
+          meta: Object.keys(socialLinks).length ? `${Object.keys(socialLinks).length}개 링크가 footer/About에 노출됩니다.` : '푸터 소셜 영역이 비어 있습니다.',
+          state: Object.keys(socialLinks).length ? 'success' : 'muted',
+        },
+      ];
+
+      validationList.innerHTML = items
+        .map(
+          (item) => `
+            <li class="admin-list-row">
+              <div>
+                <p class="admin-item-title">${escapeHtml(item.title)}</p>
+                <p class="admin-item-meta">${escapeHtml(item.meta)}</p>
+              </div>
+              <span class="admin-status ${item.state === 'success' ? 'ready' : item.state === 'warn' ? 'warn' : 'draft'}">
+                ${item.state}
+              </span>
+            </li>
+          `,
+        )
+        .join('');
+    };
+
+    const renderPreview = () => {
+      if (!form) return null;
+
+      let socialLinks = {};
+      try {
+        socialLinks = normalizeSocialLinks(String(form.elements.social_links.value || ''));
+      } catch {
+        socialLinks = {};
+      }
+
+      const siteTitle = String(form.elements.site_title.value || '').trim();
+      const siteDescription = String(form.elements.site_description.value || '').trim();
+      const featuredSlug = String(form.elements.featured_slug.value || '').trim();
+      const defaultOgImage = String(form.elements.default_og_image.value || '').trim();
+      const aboutIntro = String(form.elements.about_intro.value || '').trim();
+
+      if (previewTitle) previewTitle.textContent = siteTitle || '사이트 제목이 비어 있습니다.';
+      if (previewDescription) previewDescription.textContent = siteDescription || '기본 메타 설명이 비어 있습니다.';
+      if (previewFeatured) previewFeatured.textContent = featuredSlug ? `featured: ${featuredSlug}` : 'featured: 자동 선택';
+      if (previewOg) previewOg.textContent = defaultOgImage ? `OG: ${defaultOgImage}` : 'OG: 미설정';
+
+      if (socialPreview) {
+        const entries = Object.entries(socialLinks);
+        socialPreview.innerHTML = entries.length
+          ? entries
+              .map(
+                ([key, url]) => `
+                  <a class="admin-chip" href="${escapeHtml(url)}" target="_blank" rel="noreferrer">
+                    ${escapeHtml(key)}
+                  </a>
+                `,
+              )
+              .join('')
+          : '<span class="admin-chip muted">등록된 소셜 링크가 없습니다.</span>';
+      }
+
+      renderValidation({ siteTitle, siteDescription, featuredSlug, defaultOgImage, aboutIntro, socialLinks });
+      return { siteTitle, siteDescription, featuredSlug, defaultOgImage, aboutIntro, socialLinks };
     };
 
     const upsertSetting = async (supabase, key, valueJson, userId) => {
@@ -127,7 +277,12 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           form.elements.featured_slug.value = homepage.featured_slug || '';
           form.elements.about_intro.value = aboutPage.intro || '';
           form.elements.social_links.value = JSON.stringify(socialLinks, null, 2);
+          renderPreview();
         }
+
+        form?.addEventListener('input', () => {
+          renderPreview();
+        });
 
         form?.addEventListener('submit', async (event) => {
           event.preventDefault();
@@ -136,9 +291,15 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           const formData = new FormData(form);
           let socialLinks;
           try {
-            socialLinks = parseJson(String(formData.get('social_links') || ''));
-          } catch {
-            setMessage('소셜 링크 JSON 형식이 올바르지 않습니다.', 'error');
+            socialLinks = normalizeSocialLinks(String(formData.get('social_links') || ''));
+          } catch (error) {
+            setMessage(error instanceof Error ? error.message : '소셜 링크 JSON 형식이 올바르지 않습니다.', 'error');
+            return;
+          }
+
+          const defaultOgImage = String(formData.get('default_og_image') || '').trim();
+          if (defaultOgImage && !isProbablyUrl(defaultOgImage)) {
+            setMessage('기본 OG 이미지는 절대 URL 또는 `/path` 형식이어야 합니다.', 'error');
             return;
           }
 

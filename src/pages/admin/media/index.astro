@@ -101,6 +101,21 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           </label>
         </div>
       </section>
+
+      <section class="admin-card pad-md" style="margin-top: 1rem;">
+        <h3 class="admin-section-title">Upload Preview</h3>
+        <p class="admin-section-desc">선택한 파일과 최종 경로를 업로드 전에 확인합니다.</p>
+        <div class="admin-media-preview">
+          <div class="admin-media-preview-frame" data-admin-media-preview-frame>
+            <span class="admin-help">미리볼 이미지가 없습니다.</span>
+          </div>
+          <div class="admin-panel-stack">
+            <p class="admin-item-title" data-admin-media-preview-name>선택된 파일 없음</p>
+            <p class="admin-item-meta" data-admin-media-preview-meta>PNG, JPG, WEBP 등 이미지 파일을 올릴 수 있습니다.</p>
+            <p class="admin-item-meta" data-admin-media-preview-path>업로드 경로 미지정</p>
+          </div>
+        </div>
+      </section>
     </section>
 
     <div class="admin-panel-stack">
@@ -144,6 +159,11 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
   const thumbnailField = document.querySelector('[data-admin-media-thumbnail]');
   const list = document.querySelector('[data-admin-media-list]');
   const fileInput = document.querySelector('#binary_file');
+  const previewFrame = document.querySelector('[data-admin-media-preview-frame]');
+  const previewName = document.querySelector('[data-admin-media-preview-name]');
+  const previewMeta = document.querySelector('[data-admin-media-preview-meta]');
+  const previewPath = document.querySelector('[data-admin-media-preview-path]');
+  let localPreviewUrl = null;
 
   const setMessage = (text, state = 'info') => {
     if (!message) return;
@@ -167,6 +187,33 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     return caption ? `${body}\n*${caption}*` : body;
   };
 
+  const clearLocalPreview = () => {
+    if (localPreviewUrl) {
+      URL.revokeObjectURL(localPreviewUrl);
+      localPreviewUrl = null;
+    }
+  };
+
+  const renderPreview = ({ file = null, url = '', path = '', width = '', height = '' } = {}) => {
+    if (!previewFrame || !previewName || !previewMeta || !previewPath) return;
+
+    const meta = [];
+    if (file?.type) meta.push(file.type);
+    if (file?.size) meta.push(`${(file.size / 1024 / 1024).toFixed(2)} MB`);
+    if (width && height) meta.push(`${width}×${height}`);
+
+    previewName.textContent = file?.name || '선택된 파일 없음';
+    previewMeta.textContent = meta.join(' · ') || 'PNG, JPG, WEBP 등 이미지 파일을 올릴 수 있습니다.';
+    previewPath.textContent = path ? `target: ${path}` : '업로드 경로 미지정';
+
+    if (!url) {
+      previewFrame.innerHTML = '<span class="admin-help">미리볼 이미지가 없습니다.</span>';
+      return;
+    }
+
+    previewFrame.innerHTML = `<img src="${escapeHtml(url)}" alt="${escapeHtml(file?.name || 'media preview')}" />`;
+  };
+
   const syncHelpers = () => {
     if (!form) return;
     const data = new FormData(form);
@@ -178,6 +225,13 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
     if (markdownField) markdownField.value = buildMarkdown(asset);
     if (thumbnailField) thumbnailField.value = asset.public_url;
+    renderPreview({
+      file: fileInput?.files?.[0] || null,
+      url: localPreviewUrl || asset.public_url,
+      path: String(data.get('file_path') || ''),
+      width: String(data.get('width') || ''),
+      height: String(data.get('height') || ''),
+    });
   };
 
   const buildStoragePath = (fileName) => {
@@ -196,23 +250,32 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     if (!form.file_name.value) form.file_name.value = file.name;
     if (!form.mime_type.value) form.mime_type.value = file.type || '';
     if (!form.file_path.value) form.file_path.value = buildStoragePath(file.name);
+    if (form.storage_provider.value === 'manual') form.storage_provider.value = 'supabase-storage';
+
+    clearLocalPreview();
+    localPreviewUrl = URL.createObjectURL(file);
+    renderPreview({ file, url: localPreviewUrl, path: form.file_path.value });
 
     if (!file.type.startsWith('image/')) return;
 
-    const objectUrl = URL.createObjectURL(file);
     try {
       const image = new Image();
       await new Promise((resolve, reject) => {
         image.onload = resolve;
         image.onerror = reject;
-        image.src = objectUrl;
+        image.src = localPreviewUrl;
       });
       if (!form.width.value) form.width.value = String(image.naturalWidth || '');
       if (!form.height.value) form.height.value = String(image.naturalHeight || '');
+      renderPreview({
+        file,
+        url: localPreviewUrl,
+        path: form.file_path.value,
+        width: image.naturalWidth,
+        height: image.naturalHeight,
+      });
     } catch {
       // Ignore dimension detection failure; upload can still continue.
-    } finally {
-      URL.revokeObjectURL(objectUrl);
     }
   };
 
@@ -327,19 +390,31 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           return;
         }
 
-        const { error: uploadError } = await supabase.storage
+        let resolvedPath = filePath;
+        let { error: uploadError } = await supabase.storage
           .from(storageBucket)
-          .upload(filePath, binaryFile, {
+          .upload(resolvedPath, binaryFile, {
             upsert: false,
             contentType: binaryFile.type || undefined,
           });
+
+        if (uploadError && /exists|duplicate|already/i.test(uploadError.message || '')) {
+          resolvedPath = buildStoragePath(binaryFile.name);
+          form.file_path.value = resolvedPath;
+          ({ error: uploadError } = await supabase.storage
+            .from(storageBucket)
+            .upload(resolvedPath, binaryFile, {
+              upsert: false,
+              contentType: binaryFile.type || undefined,
+            }));
+        }
 
         if (uploadError) {
           setMessage(`스토리지 업로드에 실패했습니다: ${uploadError.message}`, 'error');
           return;
         }
 
-        const { data: publicData } = supabase.storage.from(storageBucket).getPublicUrl(filePath);
+        const { data: publicData } = supabase.storage.from(storageBucket).getPublicUrl(resolvedPath);
         publicUrl = publicData?.publicUrl || '';
 
         if (!publicUrl) {
@@ -348,6 +423,14 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
         }
 
         form.public_url.value = publicUrl;
+        form.file_path.value = resolvedPath;
+        renderPreview({
+          file: binaryFile,
+          url: publicUrl,
+          path: resolvedPath,
+          width: form.width.value,
+          height: form.height.value,
+        });
       }
 
       const payload = {
@@ -390,6 +473,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       setMessage('자산을 등록했습니다. 아래 목록과 Markdown helper를 바로 사용할 수 있습니다.', 'success');
       form.reset();
       if (fileInput) fileInput.value = '';
+      clearLocalPreview();
       syncHelpers();
       loadAssets();
     });
