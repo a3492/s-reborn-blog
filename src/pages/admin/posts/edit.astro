@@ -117,6 +117,19 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
       </section>
 
       <section class="admin-card pad-md">
+        <h2 class="admin-section-title">Release State</h2>
+        <p class="admin-section-desc">현재 저장본 기준의 발행 가능 상태와 최근 배포 결과를 요약합니다.</p>
+        <ul class="admin-list" data-admin-release-state>
+          <li class="admin-list-row">
+            <div>
+              <p class="admin-item-title">불러오는 중...</p>
+              <p class="admin-item-meta">status, published_at, canonical URL을 계산합니다.</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="admin-card pad-md">
         <div class="admin-actions-row">
           <div>
             <h2 class="admin-section-title">Publish Pipeline</h2>
@@ -146,6 +159,7 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
     const form = document.querySelector('[data-admin-edit-post-form]');
     const message = document.querySelector('[data-admin-edit-post-message]');
     const metaList = document.querySelector('[data-admin-edit-meta]');
+    const releaseState = document.querySelector('[data-admin-release-state]');
     const previewLink = document.querySelector('[data-admin-edit-preview-link]');
     const dryRunButton = document.querySelector('[data-admin-publish-dryrun]');
     const livePublishButton = document.querySelector('[data-admin-publish-live]');
@@ -158,6 +172,8 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
     let currentPostId = null;
     let currentSlug = slug;
     let publishPollTimer = null;
+    let hasUnsavedChanges = false;
+    let formSnapshot = '';
 
     const setMessage = (text, state = 'info') => {
       if (!message) return;
@@ -207,6 +223,18 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
       }
     };
 
+    const serializeForm = () => {
+      if (!form) return '';
+      return JSON.stringify(Object.fromEntries(new FormData(form).entries()));
+    };
+
+    const updateDirtyState = () => {
+      hasUnsavedChanges = serializeForm() !== formSnapshot;
+      if (saveButton) {
+        saveButton.dataset.dirty = hasUnsavedChanges ? 'true' : 'false';
+      }
+    };
+
     const fillMeta = (post) => {
       if (!metaList) return;
       metaList.innerHTML = `
@@ -215,6 +243,43 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
         <li class="admin-list-row"><div><p class="admin-item-title">최근 수정</p><p class="admin-item-meta">${post.updated_at ?? '-'}</p></div></li>
       `;
       updatePreviewHref(post.slug);
+    };
+
+    const fillReleaseState = (post, publishMeta = {}) => {
+      if (!releaseState) return;
+      const canonical = post.canonical_url || '-';
+      const publishStatusClass = post.status === 'published' ? 'ready' : post.status;
+      const lastPublish = publishMeta.completedAt || post.published_at || null;
+      const commit = publishMeta.commitSha || '-';
+      const targetPath = publishMeta.targetPath || `src/content/blog/${post.category ?? 'uncategorized'}/${post.slug}.md`;
+
+      releaseState.innerHTML = `
+        <li class="admin-list-row">
+          <div>
+            <p class="admin-item-title">현재 상태</p>
+            <p class="admin-item-meta">마지막 발행 ${lastPublish ? formatDate(lastPublish) : '없음'}</p>
+          </div>
+          <div><span class="admin-status ${publishStatusClass}">${post.status || 'draft'}</span></div>
+        </li>
+        <li class="admin-list-row">
+          <div>
+            <p class="admin-item-title">Canonical URL</p>
+            <p class="admin-item-meta">${canonical}</p>
+          </div>
+        </li>
+        <li class="admin-list-row">
+          <div>
+            <p class="admin-item-title">Target Path</p>
+            <p class="admin-item-meta admin-cell-mono">${targetPath}</p>
+          </div>
+        </li>
+        <li class="admin-list-row">
+          <div>
+            <p class="admin-item-title">Latest Commit</p>
+            <p class="admin-item-meta admin-cell-mono">${commit}</p>
+          </div>
+        </li>
+      `;
     };
 
     const renderCurrentJob = (job, extraText) => {
@@ -270,6 +335,10 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
         form.elements.seo_description.value = post.seo_description || '';
         form.elements.canonical_url.value = post.canonical_url || '';
         fillMeta(post);
+        fillReleaseState(post);
+        formSnapshot = serializeForm();
+        hasUnsavedChanges = false;
+        if (saveButton) saveButton.dataset.dirty = 'false';
         return post;
       };
 
@@ -299,7 +368,14 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
         if (job.status === 'success') {
           stopPublishPolling();
           setActionBusy('publish', false);
-          await loadPost();
+          const post = await loadPost();
+          if (post) {
+            fillReleaseState(post, {
+              completedAt: job.completed_at,
+              commitSha: job.commit_sha,
+              targetPath: job.target_path,
+            });
+          }
           setMessage(`Publish 완료: ${job.target_path}. Jobs 화면에서도 이력이 보입니다.`, 'success');
         }
 
@@ -340,13 +416,27 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
           if (payload?.jobId) {
             renderCurrentJob({ id: payload.jobId, status: 'failed', target_path: payload.targetPath, error_message: payload.error }, 'publish 요청 실패');
           }
-          setMessage(payload?.error || 'publish 요청에 실패했습니다. Pages Functions 환경을 확인하세요.', 'error');
+          const validationText = Array.isArray(payload?.validationIssues) && payload.validationIssues.length
+            ? ` (${payload.validationIssues.join(', ')})`
+            : '';
+          setMessage((payload?.error || 'publish 요청에 실패했습니다. Pages Functions 환경을 확인하세요.') + validationText, 'error');
           return;
         }
 
         if (dryRun) {
           setActionBusy('publish', false);
           renderCurrentJob({ id: 'dry-run', status: 'success', target_path: payload.targetPath, commit_sha: null, completed_at: new Date().toISOString() }, `Dry run 완료 · status ${payload.postStatus || '-'}`);
+          fillReleaseState({
+            status: payload.postStatus || 'draft',
+            published_at: null,
+            canonical_url: form.elements.canonical_url?.value || null,
+            category: form.elements.category?.value || null,
+            slug: currentSlug,
+          }, {
+            completedAt: new Date().toISOString(),
+            targetPath: payload.targetPath,
+            commitSha: null,
+          });
           setMessage(`Dry run 완료: ${payload.targetPath}`, 'success');
           return;
         }
@@ -376,10 +466,20 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
         form?.elements?.slug?.addEventListener('input', (event) => {
           updatePreviewHref(event.target.value.trim());
         });
+        form?.addEventListener('input', updateDirtyState);
+        window.addEventListener('beforeunload', (event) => {
+          if (!hasUnsavedChanges) return;
+          event.preventDefault();
+          event.returnValue = '';
+        });
 
         dryRunButton?.addEventListener('click', async () => {
           if (!currentSlug) {
             setMessage('먼저 글을 저장해 slug를 확정하세요.', 'error');
+            return;
+          }
+          if (hasUnsavedChanges) {
+            setMessage('미저장 변경이 있습니다. 먼저 저장한 뒤 dry run을 실행하세요.', 'error');
             return;
           }
           await requestPublish(currentSlug, session.user.id, true);
@@ -388,6 +488,10 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
         livePublishButton?.addEventListener('click', async () => {
           if (!currentSlug) {
             setMessage('먼저 글을 저장해 slug를 확정하세요.', 'error');
+            return;
+          }
+          if (hasUnsavedChanges) {
+            setMessage('미저장 변경이 있습니다. 먼저 저장한 뒤 발행 요청을 실행하세요.', 'error');
             return;
           }
           await requestPublish(currentSlug, session.user.id, false);
@@ -491,6 +595,9 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
           });
 
           setActionBusy('save', false);
+          formSnapshot = serializeForm();
+          hasUnsavedChanges = false;
+          if (saveButton) saveButton.dataset.dirty = 'false';
           if (nextSlug && nextSlug !== currentSlug) {
             window.location.replace(`/admin/posts/edit?slug=${encodeURIComponent(nextSlug)}&updated=1`);
           } else {

@@ -37,7 +37,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           <th>Path</th>
           <th>Repo / Branch</th>
           <th>Commit / Error</th>
-          <th>Created</th>
+          <th>Created / Finished</th>
         </tr>
       </thead>
       <tbody data-admin-jobs-body>
@@ -89,6 +89,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           ? `<span class="admin-cell-error">${escapeHtml(row.error_message ?? 'unknown error')}</span>`
           : `<span class="admin-cell-mono">${escapeHtml(row.commit_sha ?? '-')}</span>`;
         const liveState = isDone ? '' : '<span class="admin-pulse-dot"></span>';
+        const dateCell = `${formatDate(row.created_at)}<br /><span class="admin-cell-subtle">${row.completed_at ? formatDate(row.completed_at) : 'in progress'}</span>`;
 
         return `
           <tr>
@@ -96,7 +97,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
             <td>${escapeHtml(row.target_path ?? '-')}</td>
             <td>${escapeHtml(row.target_repo ?? '-')}<br /><span class="admin-cell-subtle">${escapeHtml(row.target_branch ?? '-')}</span></td>
             <td>${commitOrError}</td>
-            <td>${formatDate(row.created_at)}</td>
+            <td>${dateCell}</td>
           </tr>
         `;
       }).join('');
@@ -121,7 +122,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       const loadJobs = async (silent = false) => {
         const { data, error } = await supabase
           .from('publish_jobs')
-          .select('status, target_path, target_repo, target_branch, commit_sha, error_message, created_at')
+          .select('status, target_path, target_repo, target_branch, commit_sha, error_message, created_at, completed_at')
           .order('created_at', { ascending: false })
           .limit(20);
 

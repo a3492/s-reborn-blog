@@ -45,6 +45,9 @@ function buildFrontmatter(post: any) {
     `tags: ${tags}`,
     `draft: ${post.status !== 'published'}`,
     post.thumbnail_url ? `thumbnail: "${escapeYamlString(post.thumbnail_url)}"` : '',
+    post.seo_title ? `seoTitle: "${escapeYamlString(post.seo_title)}"` : '',
+    post.seo_description ? `seoDescription: "${escapeYamlString(post.seo_description)}"` : '',
+    post.canonical_url ? `canonicalURL: "${escapeYamlString(post.canonical_url)}"` : '',
     '---',
     '',
   ].filter(Boolean);
@@ -57,6 +60,17 @@ function buildTargetPath(post: any) {
   if (post.subcategory) segments.push(post.subcategory);
   segments.push(`${post.slug}.md`);
   return segments.join('/');
+}
+
+function validatePublishablePost(post: any) {
+  const issues: string[] = [];
+  if (!post?.title?.trim()) issues.push('title');
+  if (!post?.description?.trim()) issues.push('description');
+  if (!post?.slug?.trim()) issues.push('slug');
+  if (!post?.category?.trim()) issues.push('category');
+  if (!post?.body_markdown?.trim()) issues.push('body_markdown');
+  if (post?.status === 'archived') issues.push('archived_status');
+  return issues;
 }
 
 async function supabaseFetch(env: any, path: string, init?: RequestInit) {
@@ -158,6 +172,16 @@ export const onRequestPost = async (context: any) => {
   const targetPath = buildTargetPath(post);
   const branch = env.GITHUB_BRANCH || 'main';
   const commitMessage = `publish: ${post.slug}`;
+  const validationIssues = validatePublishablePost(post);
+
+  if (validationIssues.length > 0) {
+    return jsonResponse({
+      error: `Post is not publishable: ${validationIssues.join(', ')}`,
+      validationIssues,
+      targetPath,
+      branch,
+    }, 400);
+  }
 
   if (dryRun) {
     return jsonResponse({
@@ -166,6 +190,7 @@ export const onRequestPost = async (context: any) => {
       branch,
       commitMessage,
       postStatus: post.status,
+      validationIssues,
       markdownPreview: markdown.slice(0, 1200),
     });
   }
@@ -255,6 +280,8 @@ export const onRequestPost = async (context: any) => {
       ok: true,
       jobId: job.id,
       targetPath,
+      targetRepo: env.GITHUB_REPO,
+      branch,
       commitSha: githubJson?.commit?.sha ?? null,
       publishedAt,
     });

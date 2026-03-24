@@ -818,3 +818,6 @@ body.admin-shell {
   border-color: rgba(184, 66, 53, 0.2);
   background: rgba(184, 66, 53, 0.06);
 }
+.admin-btn[data-dirty='true'] {
+  box-shadow: 0 0 0 3px rgba(184, 149, 106, 0.16);
+}
