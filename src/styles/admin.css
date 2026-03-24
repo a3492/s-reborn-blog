@@ -821,3 +821,16 @@ body.admin-shell {
 .admin-btn[data-dirty='true'] {
   box-shadow: 0 0 0 3px rgba(184, 149, 106, 0.16);
 }
+.admin-status-stack {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+}
+
+.admin-list-row-rich .admin-item-subtle {
+  margin: 0.4rem 0 0;
+  color: var(--admin-text-3);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}

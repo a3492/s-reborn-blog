@@ -12,7 +12,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
   status="Live Ops"
 >
   <div class="admin-grid">
-    <section class="admin-card pad-lg span-4">
+    <section class="admin-card pad-lg span-3">
       <h2 class="admin-section-title">Draft Posts</h2>
       <p class="admin-section-desc">임시 저장된 글 수</p>
       <div class="admin-kpi">
@@ -21,7 +21,16 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       </div>
     </section>
 
-    <section class="admin-card pad-lg span-4">
+    <section class="admin-card pad-lg span-3">
+      <h2 class="admin-section-title">Published Posts</h2>
+      <p class="admin-section-desc">현재 published 상태 글 수</p>
+      <div class="admin-kpi">
+        <strong class="admin-kpi-value" data-admin-kpi-published>-</strong>
+        <span class="admin-kpi-label">최신 게시 상태 기준</span>
+      </div>
+    </section>
+
+    <section class="admin-card pad-lg span-3">
       <h2 class="admin-section-title">Recent Activity</h2>
       <p class="admin-section-desc">최근 작업 로그 수</p>
       <div class="admin-kpi">
@@ -30,7 +39,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       </div>
     </section>
 
-    <section class="admin-card pad-lg span-4">
+    <section class="admin-card pad-lg span-3">
       <h2 class="admin-section-title">Running Jobs</h2>
       <p class="admin-section-desc">현재 처리 중인 publish job</p>
       <div class="admin-kpi">
@@ -43,7 +52,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       <div class="admin-actions-row">
         <div>
           <h2 class="admin-section-title">Recent Drafts</h2>
-          <p class="admin-section-desc">최근 저장된 글을 실시간으로 보여줍니다.</p>
+          <p class="admin-section-desc">최근 저장된 글과 최신 배포 상태를 함께 보여줍니다.</p>
         </div>
         <span class="admin-live-badge" data-admin-dashboard-live>Auto refresh</span>
       </div>
@@ -94,6 +103,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     import { createClient } from '@supabase/supabase-js';
 
     const draftsKpi = document.querySelector('[data-admin-kpi-drafts]');
+    const publishedKpi = document.querySelector('[data-admin-kpi-published]');
     const logsKpi = document.querySelector('[data-admin-kpi-logs]');
     const jobsKpi = document.querySelector('[data-admin-kpi-jobs]');
     const draftList = document.querySelector('[data-admin-dashboard-drafts]');
@@ -124,21 +134,40 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       .replaceAll('"', '&quot;')
       .replaceAll("'", '&#39;');
 
-    const renderDrafts = (rows) => {
+    const indexLatestJobs = (rows) => {
+      const map = new Map();
+      for (const row of rows ?? []) {
+        if (!row.post_id || map.has(row.post_id)) continue;
+        map.set(row.post_id, row);
+      }
+      return map;
+    };
+
+    const renderDrafts = (rows, latestJobs) => {
       if (!draftList) return;
       if (!rows.length) {
         draftList.innerHTML = '<li class="admin-list-row"><div><p class="admin-item-title">저장된 draft가 없습니다.</p><p class="admin-item-meta">/admin/posts/new 에서 첫 글을 만들어 보세요.</p></div></li>';
         return;
       }
-      draftList.innerHTML = rows.map((row) => `
-        <li class="admin-list-row">
-          <div>
-            <p class="admin-item-title"><a class="admin-table-link" href="/admin/posts/edit?slug=${encodeURIComponent(row.slug)}">${escapeHtml(row.title)}</a></p>
-            <p class="admin-item-meta">${escapeHtml(row.slug)} · ${formatDate(row.updated_at)}</p>
-          </div>
-          <div><span class="admin-status ${escapeHtml(row.status)}">${escapeHtml(row.status)}</span></div>
-        </li>
-      `).join('');
+      draftList.innerHTML = rows.map((row) => {
+        const latestJob = latestJobs.get(row.id);
+        const publishMeta = latestJob
+          ? `${escapeHtml(latestJob.status)} · ${formatDate(latestJob.created_at)}`
+          : 'publish 이력 없음';
+        return `
+          <li class="admin-list-row admin-list-row-rich">
+            <div>
+              <p class="admin-item-title"><a class="admin-table-link" href="/admin/posts/edit?slug=${encodeURIComponent(row.slug)}">${escapeHtml(row.title)}</a></p>
+              <p class="admin-item-meta">${escapeHtml(row.slug)} · ${formatDate(row.updated_at)}</p>
+              <p class="admin-item-subtle">최근 publish ${publishMeta}</p>
+            </div>
+            <div class="admin-status-stack">
+              <span class="admin-status ${escapeHtml(row.status)}">${escapeHtml(row.status)}</span>
+              ${latestJob ? `<span class="admin-status ${escapeHtml(latestJob.status)}">${escapeHtml(latestJob.status)}</span>` : ''}
+            </div>
+          </li>
+        `;
+      }).join('');
     };
 
     const renderLogs = (rows) => {
@@ -170,11 +199,15 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           ? `<span class="admin-cell-error">${escapeHtml(row.error_message ?? 'unknown error')}</span>`
           : `<span class="admin-cell-subtle">${escapeHtml(row.target_path ?? '-')} · ${formatDate(row.created_at)}</span>`;
         const liveState = isRunning ? '<span class="admin-pulse-dot"></span>' : '';
+        const postLink = row.post_slug
+          ? `<a class="admin-table-link" href="/admin/posts/edit?slug=${encodeURIComponent(row.post_slug)}">${escapeHtml(row.post_slug)}</a>`
+          : escapeHtml(row.target_repo ?? 'repo 미설정');
         return `
-          <li class="admin-list-row">
+          <li class="admin-list-row admin-list-row-rich">
             <div>
-              <p class="admin-item-title">${escapeHtml(row.target_repo ?? 'repo 미설정')}</p>
-              <p class="admin-item-meta">${detail}</p>
+              <p class="admin-item-title">${postLink}</p>
+              <p class="admin-item-meta">${escapeHtml(row.target_repo ?? 'repo 미설정')} · ${escapeHtml(row.target_branch ?? '-')}</p>
+              <p class="admin-item-subtle">${detail}</p>
             </div>
             <div><span class="admin-status ${escapeHtml(row.status)}">${liveState}${escapeHtml(row.status)}</span></div>
           </li>
@@ -192,9 +225,10 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
     if (!supabaseUrl || !supabaseKey) {
       if (draftsKpi) draftsKpi.textContent = '-';
+      if (publishedKpi) publishedKpi.textContent = '-';
       if (logsKpi) logsKpi.textContent = '-';
       if (jobsKpi) jobsKpi.textContent = '-';
-      renderDrafts([]);
+      renderDrafts([], new Map());
       renderLogs([]);
       renderJobs([]);
       setMessage('Supabase 환경 변수가 없어 대시보드를 불러올 수 없습니다.', 'error');
@@ -208,20 +242,25 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           { data: posts, error: postsError },
           { data: logs, error: logsError },
           { data: jobs, error: jobsError },
+          { data: recentJobs, error: recentJobsError },
         ] = await Promise.all([
-          supabase.from('posts').select('title, slug, status, updated_at').order('updated_at', { ascending: false }).limit(5),
+          supabase.from('posts').select('id, title, slug, status, updated_at').order('updated_at', { ascending: false }).limit(5),
           supabase.from('audit_logs').select('action, resource_type, created_at').order('created_at', { ascending: false }).limit(5),
-          supabase.from('publish_jobs').select('status, target_repo, target_path, error_message, created_at').order('created_at', { ascending: false }).limit(5),
+          supabase.from('publish_jobs').select('status, target_repo, target_branch, target_path, error_message, created_at, post_id, posts(slug)').order('created_at', { ascending: false }).limit(5),
+          supabase.from('publish_jobs').select('post_id, status, created_at').order('created_at', { ascending: false }).limit(30),
         ]);
 
         if (postsError) {
           if (draftsKpi) draftsKpi.textContent = '-';
-          renderDrafts([]);
+          if (publishedKpi) publishedKpi.textContent = '-';
+          renderDrafts([], new Map());
           setMessage(postsError.message, 'error');
         } else {
           const rows = posts ?? [];
+          const latestJobs = indexLatestJobs(recentJobs ?? []);
           if (draftsKpi) draftsKpi.textContent = String(rows.filter((row) => row.status === 'draft').length);
-          renderDrafts(rows);
+          if (publishedKpi) publishedKpi.textContent = String(rows.filter((row) => row.status === 'published').length);
+          renderDrafts(rows, latestJobs);
         }
 
         if (logsError) {
@@ -236,10 +275,17 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           if (jobsKpi) jobsKpi.textContent = '-';
           renderJobs([]);
         } else {
-          const rows = jobs ?? [];
+          const rows = (jobs ?? []).map((row) => ({
+            ...row,
+            post_slug: row.posts?.slug ?? null,
+          }));
           if (jobsKpi) jobsKpi.textContent = String(rows.filter((row) => row.status === 'pending' || row.status === 'processing').length);
           const hasRunning = renderJobs(rows);
-          toggleAutoRefresh(hasRunning);
+          toggleAutoRefresh(hasRunning || (recentJobs ?? []).some((row) => row.status === 'pending' || row.status === 'processing'));
+        }
+
+        if (recentJobsError) {
+          toggleAutoRefresh(false);
         }
 
         if (!silent && !postsError && !logsError) {
