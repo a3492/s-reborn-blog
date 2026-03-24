@@ -23,7 +23,7 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
           <a href="/admin/posts/preview" class="admin-btn" data-admin-edit-preview-link>저장본 미리보기</a>
           <button type="button" class="admin-btn" data-admin-publish-dryrun>Publish Dry Run</button>
           <button type="button" class="admin-btn" data-admin-publish-live>Publish 요청</button>
-          <button type="submit" form="admin-edit-post-form" class="admin-btn primary">변경 저장</button>
+          <button type="submit" form="admin-edit-post-form" class="admin-btn primary" data-admin-save-button>변경 저장</button>
         </div>
       </div>
 
@@ -69,8 +69,28 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
         </div>
 
         <div class="admin-field full">
+          <label class="admin-label" for="thumbnail_url">Thumbnail URL</label>
+          <input id="thumbnail_url" name="thumbnail_url" class="admin-input" type="url" />
+        </div>
+
+        <div class="admin-field full">
           <label class="admin-label" for="tags">태그</label>
           <input id="tags" name="tags" class="admin-input" type="text" />
+        </div>
+
+        <div class="admin-field">
+          <label class="admin-label" for="seo_title">SEO Title</label>
+          <input id="seo_title" name="seo_title" class="admin-input" type="text" />
+        </div>
+
+        <div class="admin-field">
+          <label class="admin-label" for="canonical_url">Canonical URL</label>
+          <input id="canonical_url" name="canonical_url" class="admin-input" type="url" />
+        </div>
+
+        <div class="admin-field full">
+          <label class="admin-label" for="seo_description">SEO Description</label>
+          <textarea id="seo_description" name="seo_description" class="admin-textarea" style="min-height: 110px;"></textarea>
         </div>
 
         <div class="admin-field full">
@@ -129,6 +149,7 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
     const previewLink = document.querySelector('[data-admin-edit-preview-link]');
     const dryRunButton = document.querySelector('[data-admin-publish-dryrun]');
     const livePublishButton = document.querySelector('[data-admin-publish-live]');
+    const saveButton = document.querySelector('[data-admin-save-button]');
     const jobCard = document.querySelector('[data-admin-current-job]');
     const jobTitle = document.querySelector('[data-admin-current-job-title]');
     const jobStatus = document.querySelector('[data-admin-current-job-status]');
@@ -144,6 +165,26 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
       message.textContent = text;
       message.dataset.state = state;
     };
+
+    const setActionBusy = (type, busy) => {
+      if (type === 'save' && saveButton) {
+        saveButton.disabled = busy;
+        saveButton.textContent = busy ? '저장 중...' : '변경 저장';
+      }
+      if (type === 'publish') {
+        if (livePublishButton) livePublishButton.disabled = busy;
+        if (dryRunButton) dryRunButton.disabled = busy;
+      }
+    };
+
+    const slugify = (value) =>
+      value
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
 
     const formatDateInput = (value) => {
       if (!value) return '';
@@ -206,7 +247,7 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
       const loadPost = async () => {
         const { data: post, error } = await supabase
           .from('posts')
-          .select('id, title, description, slug, category, subcategory, tags, body_markdown, status, published_at, updated_at')
+          .select('id, title, description, slug, category, subcategory, tags, body_markdown, status, published_at, updated_at, thumbnail_url, seo_title, seo_description, canonical_url')
           .eq('slug', currentSlug)
           .single();
 
@@ -224,6 +265,10 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
         form.elements.body.value = post.body_markdown || '';
         form.elements.status.value = post.status || 'draft';
         form.elements.date.value = formatDateInput(post.published_at);
+        form.elements.thumbnail_url.value = post.thumbnail_url || '';
+        form.elements.seo_title.value = post.seo_title || '';
+        form.elements.seo_description.value = post.seo_description || '';
+        form.elements.canonical_url.value = post.canonical_url || '';
         fillMeta(post);
         return post;
       };
@@ -245,6 +290,7 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
         if (error || !job) {
           setMessage(error?.message || 'publish job 상태를 읽을 수 없습니다.', 'error');
           stopPublishPolling();
+          setActionBusy('publish', false);
           return;
         }
 
@@ -252,12 +298,14 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
 
         if (job.status === 'success') {
           stopPublishPolling();
+          setActionBusy('publish', false);
           await loadPost();
           setMessage(`Publish 완료: ${job.target_path}. Jobs 화면에서도 이력이 보입니다.`, 'success');
         }
 
         if (job.status === 'failed') {
           stopPublishPolling();
+          setActionBusy('publish', false);
           setMessage(job.error_message || 'publish job이 실패했습니다.', 'error');
         }
       };
@@ -272,6 +320,7 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
       };
 
       const requestPublish = async (requestedSlug, requestedBy, dryRun) => {
+        setActionBusy('publish', true);
         setMessage(dryRun ? 'publish dry-run을 실행하는 중입니다...' : 'publish 요청을 실행하는 중입니다...', 'info');
         const response = await fetch('/api/admin/publish', {
           method: 'POST',
@@ -287,6 +336,7 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
         }
 
         if (!response.ok) {
+          setActionBusy('publish', false);
           if (payload?.jobId) {
             renderCurrentJob({ id: payload.jobId, status: 'failed', target_path: payload.targetPath, error_message: payload.error }, 'publish 요청 실패');
           }
@@ -295,6 +345,7 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
         }
 
         if (dryRun) {
+          setActionBusy('publish', false);
           renderCurrentJob({ id: 'dry-run', status: 'success', target_path: payload.targetPath, commit_sha: null, completed_at: new Date().toISOString() }, `Dry run 완료 · status ${payload.postStatus || '-'}`);
           setMessage(`Dry run 완료: ${payload.targetPath}`, 'success');
           return;
@@ -312,6 +363,14 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
       if (!session) {
         window.location.replace(`/admin/login?redirectTo=${encodeURIComponent(window.location.pathname + window.location.search)}`);
       } else {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('created') === '1') {
+          setMessage('draft가 생성되었습니다. 이어서 메타를 다듬거나 바로 발행할 수 있습니다.', 'success');
+        }
+        if (params.get('updated') === '1') {
+          setMessage('변경 사항이 저장되었습니다. 이어서 preview 또는 publish를 진행할 수 있습니다.', 'success');
+        }
+
         await loadPost();
 
         form?.elements?.slug?.addEventListener('input', (event) => {
@@ -341,16 +400,52 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
             return;
           }
 
+          setActionBusy('save', true);
           setMessage('변경 사항을 저장하는 중입니다...', 'info');
           const formData = new FormData(form);
           const title = String(formData.get('title') || '').trim();
           const description = String(formData.get('description') || '').trim();
-          const nextSlug = String(formData.get('slug') || '').trim();
+          const nextSlug = slugify(String(formData.get('slug') || '').trim() || title);
           const body = String(formData.get('body') || '').trim();
           const tags = String(formData.get('tags') || '').split(',').map((tag) => tag.trim()).filter(Boolean);
           const status = String(formData.get('status') || 'draft');
           const category = String(formData.get('category') || '') || null;
           const publishedAt = String(formData.get('date') || '') || null;
+          const thumbnailUrl = String(formData.get('thumbnail_url') || '').trim() || null;
+          const seoTitle = String(formData.get('seo_title') || '').trim() || null;
+          const seoDescription = String(formData.get('seo_description') || '').trim() || null;
+          const canonicalUrl = String(formData.get('canonical_url') || '').trim() || null;
+
+          if (!title || !description || !body) {
+            setActionBusy('save', false);
+            setMessage('제목, 설명, 본문은 필수입니다.', 'error');
+            return;
+          }
+
+          if (!nextSlug) {
+            setActionBusy('save', false);
+            setMessage('유효한 slug를 생성할 수 없습니다. 제목 또는 slug를 확인하세요.', 'error');
+            return;
+          }
+
+          const { data: duplicatePost, error: duplicateError } = await supabase
+            .from('posts')
+            .select('id')
+            .eq('slug', nextSlug)
+            .neq('id', currentPostId)
+            .maybeSingle();
+
+          if (duplicateError) {
+            setActionBusy('save', false);
+            setMessage(`기존 slug 확인에 실패했습니다: ${duplicateError.message}`, 'error');
+            return;
+          }
+
+          if (duplicatePost) {
+            setActionBusy('save', false);
+            setMessage(`이미 사용 중인 slug입니다: ${nextSlug}`, 'error');
+            return;
+          }
 
           const payload = {
             title,
@@ -361,11 +456,16 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
             status,
             category,
             published_at: publishedAt,
+            thumbnail_url: thumbnailUrl,
+            seo_title: seoTitle,
+            seo_description: seoDescription,
+            canonical_url: canonicalUrl,
             updated_by: session.user.id,
           };
 
           const { error: updateError } = await supabase.from('posts').update(payload).eq('id', currentPostId);
           if (updateError) {
+            setActionBusy('save', false);
             setMessage(updateError.message, 'error');
             return;
           }
@@ -373,10 +473,11 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
           const { error: revisionError } = await supabase.from('post_revisions').insert({
             post_id: currentPostId,
             body_markdown: body,
-            meta_snapshot: { title, description, slug: nextSlug, category, tags, status },
+            meta_snapshot: { title, description, slug: nextSlug, category, tags, status, thumbnail_url: thumbnailUrl, seo_title: seoTitle, seo_description: seoDescription, canonical_url: canonicalUrl },
             created_by: session.user.id,
           });
           if (revisionError) {
+            setActionBusy('save', false);
             setMessage(`수정은 저장됐지만 revision 생성에 실패했습니다: ${revisionError.message}`, 'error');
             return;
           }
@@ -389,16 +490,11 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
             after_json: { title, slug: nextSlug, status },
           });
 
-          window.location.replace('/admin/posts?updated=1');
-        });
-
-        document.addEventListener('visibilitychange', () => {
-          if (!document.hidden && publishPollTimer && jobCard && !jobCard.hidden) {
-            const text = jobTitle?.textContent || '';
-            const jobId = text.replace('Publish job', '').trim();
-            if (jobId && jobId !== 'dry-run') {
-              // no-op here; polling interval will pick up immediately on next tick
-            }
+          setActionBusy('save', false);
+          if (nextSlug && nextSlug !== currentSlug) {
+            window.location.replace(`/admin/posts/edit?slug=${encodeURIComponent(nextSlug)}&updated=1`);
+          } else {
+            window.location.replace('/admin/posts/edit?slug=' + encodeURIComponent(currentSlug) + '&updated=1');
           }
         });
       }

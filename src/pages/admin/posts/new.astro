@@ -8,7 +8,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 <AdminLayout
   title="New Post"
   pageTitle="New Post"
-  pageDescription="Phase 1용 작성 폼입니다. Supabase에 draft 저장과 revision 생성까지 연결합니다."
+  pageDescription="운영용 메타까지 포함한 draft 생성 폼입니다. 저장 후 바로 편집 화면으로 이동합니다."
   status="Draft Save"
 >
   <div class="admin-split">
@@ -16,9 +16,12 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       <div class="admin-actions-row">
         <div>
           <h2 class="admin-section-title">Editor</h2>
-          <p class="admin-section-desc">Markdown-first 에디터 구조를 기준으로 설계했습니다.</p>
+          <p class="admin-section-desc">Markdown 본문과 SEO/frontmatter 메타를 함께 작성합니다.</p>
         </div>
-        <div class="admin-actions-cluster"><a href="/admin/posts/preview" class="admin-btn" data-admin-preview-link>미리보기</a><button type="submit" form="admin-post-form" class="admin-btn primary">Draft 저장</button></div>
+        <div class="admin-actions-cluster">
+          <a href="/admin/posts/preview" class="admin-btn" data-admin-preview-link>미리보기</a>
+          <button type="submit" form="admin-post-form" class="admin-btn primary" data-admin-save-button>Draft 저장</button>
+        </div>
       </div>
 
       <form id="admin-post-form" class="admin-form-grid" data-admin-post-form>
@@ -62,9 +65,29 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
         </div>
 
         <div class="admin-field full">
+          <label class="admin-label" for="thumbnail_url">Thumbnail URL</label>
+          <input id="thumbnail_url" name="thumbnail_url" class="admin-input" type="url" placeholder="https://... 또는 /images/..." />
+        </div>
+
+        <div class="admin-field full">
           <label class="admin-label" for="tags">태그</label>
           <input id="tags" name="tags" class="admin-input" type="text" placeholder="ai, workflow, clinic" />
           <span class="admin-help">쉼표 기준으로 분리합니다.</span>
+        </div>
+
+        <div class="admin-field">
+          <label class="admin-label" for="seo_title">SEO Title</label>
+          <input id="seo_title" name="seo_title" class="admin-input" type="text" placeholder="비우면 제목을 사용합니다." />
+        </div>
+
+        <div class="admin-field">
+          <label class="admin-label" for="canonical_url">Canonical URL</label>
+          <input id="canonical_url" name="canonical_url" class="admin-input" type="url" placeholder="https://..." />
+        </div>
+
+        <div class="admin-field full">
+          <label class="admin-label" for="seo_description">SEO Description</label>
+          <textarea id="seo_description" name="seo_description" class="admin-textarea" style="min-height: 110px;" placeholder="비우면 기본 설명을 사용합니다."></textarea>
         </div>
 
         <div class="admin-field full">
@@ -79,29 +102,11 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     <div class="admin-panel-stack">
       <section class="admin-card pad-md">
         <h2 class="admin-section-title">Save Flow</h2>
-        <p class="admin-section-desc">지금 단계에서 실제로 연결된 흐름입니다.</p>
+        <p class="admin-section-desc">저장 후 글 목록으로 돌아가지 않고, 바로 편집/발행 화면으로 이동합니다.</p>
         <ul class="admin-list">
-          <li class="admin-list-row">
-            <div>
-              <p class="admin-item-title">`posts` insert</p>
-              <p class="admin-item-meta">기본 메타와 본문을 draft로 저장합니다.</p>
-            </div>
-            <div><span class="admin-status ready">Live</span></div>
-          </li>
-          <li class="admin-list-row">
-            <div>
-              <p class="admin-item-title">`post_revisions` insert</p>
-              <p class="admin-item-meta">첫 저장 시 revision 스냅샷도 같이 남깁니다.</p>
-            </div>
-            <div><span class="admin-status ready">Live</span></div>
-          </li>
-          <li class="admin-list-row">
-            <div>
-              <p class="admin-item-title">Git publish</p>
-              <p class="admin-item-meta">Pages Function + GitHub token 사용</p>
-            </div>
-            <div><span class="admin-status warn">P3</span></div>
-          </li>
+          <li class="admin-list-row"><div><p class="admin-item-title">draft insert</p><p class="admin-item-meta">posts + post_revisions + audit_logs를 함께 기록합니다.</p></div><div><span class="admin-status ready">Live</span></div></li>
+          <li class="admin-list-row"><div><p class="admin-item-title">edit redirect</p><p class="admin-item-meta">생성 직후 `/admin/posts/edit`로 이동해 바로 발행/수정합니다.</p></div><div><span class="admin-status ready">Live</span></div></li>
+          <li class="admin-list-row"><div><p class="admin-item-title">SEO meta</p><p class="admin-item-meta">thumbnail, seo title/description, canonical까지 함께 저장합니다.</p></div><div><span class="admin-status ready">Live</span></div></li>
         </ul>
       </section>
 
@@ -109,24 +114,9 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
         <h2 class="admin-section-title">Validation Checklist</h2>
         <p class="admin-section-desc">저장 전에 점검하는 규칙들</p>
         <ul class="admin-list">
-          <li class="admin-list-row">
-            <div>
-              <p class="admin-item-title">필수 메타</p>
-              <p class="admin-item-meta">title, description, body</p>
-            </div>
-          </li>
-          <li class="admin-list-row">
-            <div>
-              <p class="admin-item-title">slug 정규화</p>
-              <p class="admin-item-meta">영문 소문자와 하이픈 기준으로 자동 보정합니다.</p>
-            </div>
-          </li>
-          <li class="admin-list-row">
-            <div>
-              <p class="admin-item-title">revision 생성</p>
-              <p class="admin-item-meta">본문과 메타 스냅샷을 함께 기록합니다.</p>
-            </div>
-          </li>
+          <li class="admin-list-row"><div><p class="admin-item-title">필수 메타</p><p class="admin-item-meta">title, description, body</p></div></li>
+          <li class="admin-list-row"><div><p class="admin-item-title">slug 정규화</p><p class="admin-item-meta">영문 소문자와 하이픈 기준으로 자동 보정합니다.</p></div></li>
+          <li class="admin-list-row"><div><p class="admin-item-title">중복 저장 방지</p><p class="admin-item-meta">저장 중 버튼을 잠가 중복 insert를 막습니다.</p></div></li>
         </ul>
       </section>
     </div>
@@ -138,6 +128,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     const form = document.querySelector('[data-admin-post-form]');
     const previewLink = document.querySelector('[data-admin-preview-link]');
     const message = document.querySelector('[data-admin-post-message]');
+    const saveButton = document.querySelector('[data-admin-save-button]');
 
     const slugify = (value) =>
       value
@@ -155,15 +146,29 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       message.dataset.state = state;
     };
 
+    const setBusy = (busy) => {
+      if (!saveButton) return;
+      saveButton.disabled = busy;
+      saveButton.textContent = busy ? '저장 중...' : 'Draft 저장';
+    };
+
     const syncPreview = () => {
       if (!form) return;
       const data = new FormData(form);
+      const title = String(data.get('title') || '');
+      const rawSlug = String(data.get('slug') || '');
       const preview = {
-        title: String(data.get('title') || ''),
+        title,
         description: String(data.get('description') || ''),
+        slug: slugify(rawSlug || title),
         category: String(data.get('category') || ''),
         tags: String(data.get('tags') || '').split(',').map((tag) => tag.trim()).filter(Boolean),
         status: String(data.get('status') || 'draft'),
+        published_at: String(data.get('date') || '') || null,
+        thumbnail_url: String(data.get('thumbnail_url') || '').trim() || null,
+        seo_title: String(data.get('seo_title') || '').trim() || null,
+        seo_description: String(data.get('seo_description') || '').trim() || null,
+        canonical_url: String(data.get('canonical_url') || '').trim() || null,
         body: String(data.get('body') || ''),
       };
       localStorage.setItem('admin_post_draft_preview', JSON.stringify(preview));
@@ -182,6 +187,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
       form?.addEventListener('submit', async (event) => {
         event.preventDefault();
+        setBusy(true);
         setMessage('draft를 저장하는 중입니다...', 'info');
 
         const { data: sessionData } = await supabase.auth.getSession();
@@ -203,12 +209,32 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           .filter(Boolean);
 
         if (!title || !description || !body) {
+          setBusy(false);
           setMessage('제목, 설명, 본문은 필수입니다.', 'error');
           return;
         }
 
         if (!slug) {
+          setBusy(false);
           setMessage('slug를 생성할 수 없습니다. 제목 또는 slug를 확인하세요.', 'error');
+          return;
+        }
+
+        const { data: existingPost, error: existingPostError } = await supabase
+          .from('posts')
+          .select('id')
+          .eq('slug', slug)
+          .maybeSingle();
+
+        if (existingPostError) {
+          setBusy(false);
+          setMessage(`기존 slug 확인에 실패했습니다: ${existingPostError.message}`, 'error');
+          return;
+        }
+
+        if (existingPost) {
+          setBusy(false);
+          setMessage(`이미 사용 중인 slug입니다: ${slug}`, 'error');
           return;
         }
 
@@ -221,6 +247,10 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           status: String(formData.get('status') || 'draft'),
           tags,
           published_at: String(formData.get('date') || '') || null,
+          thumbnail_url: String(formData.get('thumbnail_url') || '').trim() || null,
+          seo_title: String(formData.get('seo_title') || '').trim() || null,
+          seo_description: String(formData.get('seo_description') || '').trim() || null,
+          canonical_url: String(formData.get('canonical_url') || '').trim() || null,
           created_by: session.user.id,
           updated_by: session.user.id,
         };
@@ -232,11 +262,12 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           .single();
 
         if (postError) {
+          setBusy(false);
           setMessage(postError.message, 'error');
           return;
         }
 
-        const revisionPayload = {
+        const { error: revisionError } = await supabase.from('post_revisions').insert({
           post_id: post.id,
           body_markdown: body,
           meta_snapshot: {
@@ -246,22 +277,30 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
             category: payload.category,
             tags,
             status: payload.status,
+            thumbnail_url: payload.thumbnail_url,
+            seo_title: payload.seo_title,
+            seo_description: payload.seo_description,
+            canonical_url: payload.canonical_url,
           },
           created_by: session.user.id,
-        };
+        });
 
-        const { error: revisionError } = await supabase.from('post_revisions').insert(revisionPayload);
         if (revisionError) {
+          setBusy(false);
           setMessage(`글은 저장됐지만 revision 생성에 실패했습니다: ${revisionError.message}`, 'error');
           return;
         }
 
-        window.location.replace('/admin/posts?saved=1');
+        await supabase.from('audit_logs').insert({
+          actor_id: session.user.id,
+          action: 'post_created',
+          resource_type: 'post',
+          resource_id: post.id,
+          after_json: { title, slug, status: payload.status },
+        });
+
+        window.location.replace(`/admin/posts/edit?slug=${encodeURIComponent(post.slug)}&created=1`);
       });
     }
   </script>
 </AdminLayout>
-
-
-
-
