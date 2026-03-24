@@ -95,10 +95,12 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
             <span class="admin-label">본문용 이미지 코드</span>
             <textarea class="admin-textarea" style="min-height: 88px;" readonly data-admin-media-markdown></textarea>
           </label>
+          <button type="button" class="admin-btn" data-copy-target="markdown">Markdown 복사</button>
           <label class="admin-field">
             <span class="admin-label">frontmatter thumbnail 값</span>
             <input class="admin-input" type="text" readonly data-admin-media-thumbnail />
           </label>
+          <button type="button" class="admin-btn" data-copy-target="thumbnail">Thumbnail 복사</button>
         </div>
       </section>
 
@@ -308,17 +310,33 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
             <div class="admin-panel-stack">
               <label class="admin-field">
                 <span class="admin-label">Markdown</span>
-                <textarea class="admin-textarea" style="min-height: 76px;" readonly>${markdown}</textarea>
+                <textarea class="admin-textarea" style="min-height: 76px;" readonly data-asset-markdown>${markdown}</textarea>
               </label>
+              <button type="button" class="admin-btn" data-copy-asset="markdown">Markdown 복사</button>
               <label class="admin-field">
                 <span class="admin-label">Thumbnail URL</span>
-                <input class="admin-input" type="text" readonly value="${url}" />
+                <input class="admin-input" type="text" readonly value="${url}" data-asset-thumbnail />
               </label>
+              <button type="button" class="admin-btn" data-copy-asset="thumbnail">Thumbnail 복사</button>
             </div>
           </article>
         `;
       })
       .join('');
+  };
+
+  const copyText = async (value, label) => {
+    if (!value) {
+      setMessage(`${label} 값이 비어 있습니다.`, 'error');
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(value);
+      setMessage(`${label}을(를) 클립보드에 복사했습니다.`, 'success');
+    } catch {
+      setMessage(`${label} 복사에 실패했습니다.`, 'error');
+    }
   };
 
   if (!supabaseUrl || !supabaseKey) {
@@ -346,6 +364,35 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     };
 
     form?.addEventListener('input', syncHelpers);
+    form?.addEventListener('click', async (event) => {
+      const button = event.target.closest('[data-copy-target]');
+      if (!button) return;
+
+      if (button.dataset.copyTarget === 'markdown') {
+        await copyText(markdownField?.value || '', 'Markdown');
+      }
+
+      if (button.dataset.copyTarget === 'thumbnail') {
+        await copyText(thumbnailField?.value || '', 'Thumbnail URL');
+      }
+    });
+
+    list?.addEventListener('click', async (event) => {
+      const button = event.target.closest('[data-copy-asset]');
+      if (!button) return;
+
+      const card = button.closest('.admin-card');
+      if (!card) return;
+
+      if (button.dataset.copyAsset === 'markdown') {
+        await copyText(card.querySelector('[data-asset-markdown]')?.value || '', 'Markdown');
+      }
+
+      if (button.dataset.copyAsset === 'thumbnail') {
+        await copyText(card.querySelector('[data-asset-thumbnail]')?.value || '', 'Thumbnail URL');
+      }
+    });
+
     fileInput?.addEventListener('change', async (event) => {
       const file = event.target.files?.[0];
       await fillImageMetaFromFile(file);
