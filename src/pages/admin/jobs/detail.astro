@@ -1,0 +1,239 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+const jobId = Astro.url.searchParams.get('id') ?? '';
+---
+
+<AdminLayout
+  title="Job Detail"
+  pageTitle="Job Detail"
+  pageDescription="선택한 publish job의 상세 이력과 관련 글 정보를 확인합니다."
+  status="Publish Detail"
+>
+  <div class="admin-grid">
+    <section class="admin-card pad-lg span-12">
+      <div class="admin-actions-row">
+        <div>
+          <h2 class="admin-section-title">Publish Job Detail</h2>
+          <p class="admin-section-desc">job 상태, commit, 에러 메시지, 관련 글 메타를 한 화면에서 확인합니다.</p>
+        </div>
+        <div class="admin-actions-cluster">
+          <a href="/admin/jobs" class="admin-btn">Jobs 목록</a>
+          <a href="/admin/posts" class="admin-btn">Posts 목록</a>
+        </div>
+      </div>
+      <p class="admin-inline-note" data-admin-job-detail-message hidden></p>
+      <div class="admin-detail-grid">
+        <section class="admin-detail-card">
+          <h3 class="admin-section-title">Job Summary</h3>
+          <ul class="admin-list" data-admin-job-summary>
+            <li class="admin-list-row">
+              <div>
+                <p class="admin-item-title">불러오는 중...</p>
+                <p class="admin-item-meta">publish job 상세를 읽는 중입니다.</p>
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <section class="admin-detail-card">
+          <h3 class="admin-section-title">Related Post</h3>
+          <ul class="admin-list" data-admin-job-post>
+            <li class="admin-list-row">
+              <div>
+                <p class="admin-item-title">불러오는 중...</p>
+                <p class="admin-item-meta">관련 글 메타를 읽는 중입니다.</p>
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <section class="admin-detail-card admin-detail-card-wide">
+          <div class="admin-actions-row">
+            <div>
+              <h3 class="admin-section-title">Error / Commit Detail</h3>
+              <p class="admin-section-desc">실패 원인 또는 commit hash를 그대로 확인합니다.</p>
+            </div>
+            <button type="button" class="admin-btn admin-btn-sm" data-admin-job-detail-retry hidden>Retry Publish</button>
+          </div>
+          <pre class="admin-code-block" data-admin-job-detail-output>불러오는 중...</pre>
+        </section>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" define:vars={{ supabaseUrl, supabaseKey, jobId }}>
+    import { createClient } from '@supabase/supabase-js';
+
+    const message = document.querySelector('[data-admin-job-detail-message]');
+    const summaryList = document.querySelector('[data-admin-job-summary]');
+    const postList = document.querySelector('[data-admin-job-post]');
+    const output = document.querySelector('[data-admin-job-detail-output]');
+    const retryButton = document.querySelector('[data-admin-job-detail-retry]');
+    let currentUserId = null;
+    let currentSlug = null;
+
+    const setMessage = (text, state = 'info') => {
+      if (!message) return;
+      message.hidden = false;
+      message.textContent = text;
+      message.dataset.state = state;
+    };
+
+    const formatDate = (value) => {
+      if (!value) return '-';
+      return new Intl.DateTimeFormat('ko-KR', {
+        year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
+      }).format(new Date(value));
+    };
+
+    const escapeHtml = (value) => String(value ?? '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#39;');
+
+    const renderDetail = (job) => {
+      if (summaryList) {
+        summaryList.innerHTML = `
+          <li class="admin-list-row">
+            <div>
+              <p class="admin-item-title">Status</p>
+              <p class="admin-item-meta">${escapeHtml(job.status)}</p>
+            </div>
+            <div><span class="admin-status ${escapeHtml(job.status)}">${escapeHtml(job.status)}</span></div>
+          </li>
+          <li class="admin-list-row">
+            <div>
+              <p class="admin-item-title">Job ID</p>
+              <p class="admin-item-meta admin-cell-mono">${escapeHtml(job.id)}</p>
+            </div>
+          </li>
+          <li class="admin-list-row">
+            <div>
+              <p class="admin-item-title">Created / Finished</p>
+              <p class="admin-item-meta">${formatDate(job.created_at)} · ${formatDate(job.completed_at)}</p>
+            </div>
+          </li>
+          <li class="admin-list-row">
+            <div>
+              <p class="admin-item-title">Target</p>
+              <p class="admin-item-meta admin-cell-mono">${escapeHtml(job.target_repo ?? '-')} / ${escapeHtml(job.target_branch ?? '-')}</p>
+            </div>
+          </li>
+        `;
+      }
+
+      const post = job.posts;
+      currentSlug = post?.slug ?? null;
+
+      if (postList) {
+        postList.innerHTML = post ? `
+          <li class="admin-list-row">
+            <div>
+              <p class="admin-item-title"><a class="admin-table-link" href="/admin/posts/edit?slug=${encodeURIComponent(post.slug)}">${escapeHtml(post.title ?? post.slug)}</a></p>
+              <p class="admin-item-meta">${escapeHtml(post.slug)} · ${escapeHtml(post.category ?? '-')}</p>
+            </div>
+            <div><span class="admin-status ${escapeHtml(post.status ?? 'draft')}">${escapeHtml(post.status ?? 'draft')}</span></div>
+          </li>
+          <li class="admin-list-row">
+            <div>
+              <p class="admin-item-title">Updated</p>
+              <p class="admin-item-meta">${formatDate(post.updated_at)}</p>
+            </div>
+          </li>
+        ` : `
+          <li class="admin-list-row">
+            <div>
+              <p class="admin-item-title">연결된 글이 없습니다.</p>
+              <p class="admin-item-meta">삭제되었거나 조회 권한이 없는 상태일 수 있습니다.</p>
+            </div>
+          </li>
+        `;
+      }
+
+      if (output) {
+        output.textContent = job.status === 'failed'
+          ? (job.error_message || 'unknown error')
+          : (job.commit_sha || 'commit sha 없음');
+      }
+
+      if (retryButton) {
+        retryButton.hidden = !(job.status === 'failed' && currentSlug);
+      }
+    };
+
+    if (!jobId) {
+      if (output) output.textContent = 'job id가 필요합니다.';
+      setMessage('`?id=` 쿼리 파라미터가 없습니다.', 'error');
+    } else if (!supabaseUrl || !supabaseKey) {
+      if (output) output.textContent = 'Supabase 환경 변수가 없습니다.';
+      setMessage('Supabase 환경 변수가 없어 job detail을 불러올 수 없습니다.', 'error');
+    } else {
+      const supabase = createClient(supabaseUrl, supabaseKey, {
+        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
+      });
+
+      const loadDetail = async () => {
+        const { data, error } = await supabase
+          .from('publish_jobs')
+          .select('id, status, target_repo, target_branch, target_path, commit_sha, error_message, created_at, completed_at, posts(slug, title, category, status, updated_at)')
+          .eq('id', jobId)
+          .single();
+
+        if (error || !data) {
+          if (output) output.textContent = error?.message || 'job을 찾을 수 없습니다.';
+          setMessage(error?.message || 'job을 찾을 수 없습니다.', 'error');
+          return;
+        }
+
+        renderDetail(data);
+        setMessage('job detail을 불러왔습니다.', 'info');
+      };
+
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (!sessionData.session) {
+        window.location.replace(`/admin/login?redirectTo=${encodeURIComponent(window.location.pathname + window.location.search)}`);
+      } else {
+        currentUserId = sessionData.session.user.id;
+        await loadDetail();
+
+        retryButton?.addEventListener('click', async () => {
+          if (!currentSlug || !currentUserId) return;
+          retryButton.disabled = true;
+          retryButton.textContent = '재시도 중...';
+          setMessage(`${currentSlug} 재발행을 요청하는 중입니다...`, 'info');
+
+          const response = await fetch('/api/admin/publish', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ slug: currentSlug, requestedBy: currentUserId, dryRun: false }),
+          });
+
+          let payload = null;
+          try {
+            payload = await response.json();
+          } catch {
+            payload = null;
+          }
+
+          retryButton.disabled = false;
+          retryButton.textContent = 'Retry Publish';
+
+          if (!response.ok) {
+            const validationText = Array.isArray(payload?.validationIssues) && payload.validationIssues.length
+              ? ` (${payload.validationIssues.join(', ')})`
+              : '';
+            setMessage((payload?.error || '재발행 요청에 실패했습니다.') + validationText, 'error');
+            return;
+          }
+
+          setMessage(`재발행 job이 생성되었습니다. [상세 보기](/admin/jobs/detail?id=${payload.jobId})`, 'success');
+        });
+      }
+    }
+  </script>
+</AdminLayout>

@@ -129,9 +129,11 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
         const postCell = row.post_slug
           ? `<a class="admin-table-link" href="/admin/posts/edit?slug=${encodeURIComponent(row.post_slug)}">${escapeHtml(row.post_slug)}</a>`
           : '<span class="admin-cell-subtle">-</span>';
-        const actionCell = row.status === 'failed' && row.post_slug
+        const detailLink = `<a class="admin-btn admin-btn-sm" href="/admin/jobs/detail?id=${encodeURIComponent(row.id)}">Detail</a>`;
+        const retryButton = row.status === 'failed' && row.post_slug
           ? `<button type="button" class="admin-btn admin-btn-sm" data-admin-job-retry="${escapeHtml(row.post_slug)}" ${retryingSlug === row.post_slug ? 'disabled' : ''}>${retryingSlug === row.post_slug ? '재시도 중...' : 'Retry'}</button>`
-          : '<span class="admin-cell-subtle">-</span>';
+          : '';
+        const actionCell = `<div class="admin-actions-inline">${detailLink}${retryButton}</div>`;
 
         return `
           <tr>
@@ -169,7 +171,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       const loadJobs = async (silent = false) => {
         const { data, error } = await supabase
           .from('publish_jobs')
-          .select('status, target_path, target_repo, target_branch, commit_sha, error_message, created_at, completed_at, posts(slug)')
+          .select('id, status, target_path, target_repo, target_branch, commit_sha, error_message, created_at, completed_at, posts(slug)')
           .order('created_at', { ascending: false })
           .limit(20);
 
