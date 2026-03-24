@@ -834,3 +834,9 @@ body.admin-shell {
   font-size: 0.8rem;
   line-height: 1.5;
 }
+.admin-btn.admin-btn-sm {
+  min-height: 34px;
+  padding: 0 0.75rem;
+  border-radius: 10px;
+  font-size: 0.78rem;
+}

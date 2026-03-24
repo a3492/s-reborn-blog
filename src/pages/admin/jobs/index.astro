@@ -67,10 +67,11 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
             <th>Repo / Branch</th>
             <th>Commit / Error</th>
             <th>Created / Finished</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody data-admin-jobs-body>
-          <tr><td colspan="6">불러오는 중...</td></tr>
+          <tr><td colspan="7">불러오는 중...</td></tr>
         </tbody>
       </table>
     </section>
@@ -87,6 +88,8 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     const failedKpi = document.querySelector('[data-admin-jobs-kpi-failed]');
     const successKpi = document.querySelector('[data-admin-jobs-kpi-success]');
     let refreshTimer = null;
+    let currentUserId = null;
+    let retryingSlug = null;
 
     const setMessage = (text, state = 'info') => {
       if (!message) return;
@@ -112,7 +115,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     const renderRows = (rows) => {
       if (!body) return;
       if (!rows.length) {
-        body.innerHTML = '<tr><td colspan="6">아직 publish job이 없습니다.</td></tr>';
+        body.innerHTML = '<tr><td colspan="7">아직 publish job이 없습니다.</td></tr>';
         return false;
       }
 
@@ -126,6 +129,9 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
         const postCell = row.post_slug
           ? `<a class="admin-table-link" href="/admin/posts/edit?slug=${encodeURIComponent(row.post_slug)}">${escapeHtml(row.post_slug)}</a>`
           : '<span class="admin-cell-subtle">-</span>';
+        const actionCell = row.status === 'failed' && row.post_slug
+          ? `<button type="button" class="admin-btn admin-btn-sm" data-admin-job-retry="${escapeHtml(row.post_slug)}" ${retryingSlug === row.post_slug ? 'disabled' : ''}>${retryingSlug === row.post_slug ? '재시도 중...' : 'Retry'}</button>`
+          : '<span class="admin-cell-subtle">-</span>';
 
         return `
           <tr>
@@ -135,6 +141,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
             <td>${escapeHtml(row.target_repo ?? '-')}<br /><span class="admin-cell-subtle">${escapeHtml(row.target_branch ?? '-')}</span></td>
             <td>${commitOrError}</td>
             <td>${dateCell}</td>
+            <td>${actionCell}</td>
           </tr>
         `;
       }).join('');
@@ -191,6 +198,40 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
         }
       };
 
+      const requestRetry = async (slug) => {
+        if (!slug || !currentUserId) return;
+        retryingSlug = slug;
+        await loadJobs(true);
+        setMessage(`${slug} 재발행을 요청하는 중입니다...`, 'info');
+
+        const response = await fetch('/api/admin/publish', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ slug, requestedBy: currentUserId, dryRun: false }),
+        });
+
+        let payload = null;
+        try {
+          payload = await response.json();
+        } catch {
+          payload = null;
+        }
+
+        retryingSlug = null;
+
+        if (!response.ok) {
+          const validationText = Array.isArray(payload?.validationIssues) && payload.validationIssues.length
+            ? ` (${payload.validationIssues.join(', ')})`
+            : '';
+          setMessage((payload?.error || '재시도 요청에 실패했습니다.') + validationText, 'error');
+          await loadJobs(true);
+          return;
+        }
+
+        setMessage(`${slug} 재발행 job이 생성되었습니다.`, 'success');
+        await loadJobs(true);
+      };
+
       const scheduleRefresh = () => {
         if (refreshTimer) window.clearInterval(refreshTimer);
         refreshTimer = window.setInterval(() => {
@@ -203,9 +244,15 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       if (!sessionData.session) {
         window.location.replace('/admin/login?redirectTo=/admin/jobs');
       } else {
+        currentUserId = sessionData.session.user.id;
         await loadJobs();
         scheduleRefresh();
         refreshButton?.addEventListener('click', () => loadJobs());
+        body?.addEventListener('click', async (event) => {
+          const target = event.target.closest('[data-admin-job-retry]');
+          if (!target) return;
+          await requestRetry(target.dataset.adminJobRetry || '');
+        });
         document.addEventListener('visibilitychange', () => {
           if (!document.hidden) loadJobs(true);
         });
