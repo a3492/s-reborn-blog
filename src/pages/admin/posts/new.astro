@@ -129,6 +129,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     const previewLink = document.querySelector('[data-admin-preview-link]');
     const message = document.querySelector('[data-admin-post-message]');
     const saveButton = document.querySelector('[data-admin-save-button]');
+    const getCurrentRole = () => document.body.dataset.adminRole || '';
 
     const slugify = (value) =>
       value
@@ -187,6 +188,10 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
       form?.addEventListener('submit', async (event) => {
         event.preventDefault();
+        if (!getCurrentRole()) {
+          setMessage('admin_profiles 권한 확인이 끝나기 전에는 저장할 수 없습니다.', 'error');
+          return;
+        }
         setBusy(true);
         setMessage('draft를 저장하는 중입니다...', 'info');
 
