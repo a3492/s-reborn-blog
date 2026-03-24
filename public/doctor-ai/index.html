@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Doctor AI — S-Reborn</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="description" content="의사가 배우는 AI — 임상 현장에서 AI를 안전하게 이해하고 활용하기 위한 실무 중심 교육 허브." />
+  <style>
+:root{--bg:#f4ede2;--paper:rgba(255,252,247,.97);--ink:#1f2a2e;--muted:#5a676c;--line:#dacfbf;--brand:#145b4b;--soft:#e7f0ec;--brand-dark:#0f4235}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:"Segoe UI","Malgun Gothic",sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;background:radial-gradient(circle at top left,#e3efe9 0,transparent 30%),radial-gradient(circle at bottom right,#f8dcc2 0,transparent 28%),linear-gradient(180deg,#f0ece4 0%,#ede5d6 100%);min-height:100vh}
+.wrap{max-width:1100px;margin:0 auto;padding:40px 20px 100px}
+
+/* ── topnav ── */
+.topnav{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 22px;margin-bottom:22px;background:var(--paper);border:1px solid var(--line);border-radius:28px;box-shadow:0 6px 24px rgba(31,42,46,.05)}
+.brandmark{display:inline-flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;font-weight:800;font-size:17px}
+.brandmark img{width:28px;height:28px;border-radius:8px}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted)}
+.breadcrumb a{color:var(--muted);text-decoration:none}
+.breadcrumb a:hover{color:var(--brand)}
+.breadcrumb span{color:var(--brand);font-weight:700}
+.nav-cta{display:inline-flex;align-items:center;padding:8px 18px;border-radius:999px;background:var(--brand);color:#fff;text-decoration:none;font-size:13px;font-weight:700}
+.nav-cta:hover{filter:brightness(1.1)}
+
+/* ── hero ── */
+.hero{border-radius:28px;overflow:hidden;margin-bottom:20px;box-shadow:0 18px 44px rgba(20,91,75,.18);position:relative}
+.hero-bg{background:linear-gradient(135deg,var(--brand-dark) 0%,var(--brand) 55%,#1e7a62 100%);padding:52px 52px 44px;color:#fff;position:relative;overflow:hidden}
+.hero-bg::before{content:"";position:absolute;top:-80px;right:-60px;width:420px;height:420px;background:radial-gradient(circle,rgba(255,255,255,.07) 0,transparent 65%);pointer-events:none}
+.hero-bg::after{content:"";position:absolute;bottom:-100px;left:-40px;width:340px;height:340px;background:radial-gradient(circle,rgba(0,0,0,.1) 0,transparent 70%);pointer-events:none}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:6px;margin-bottom:14px;padding:5px 14px;border-radius:999px;background:rgba(255,255,255,.18);font-size:12px;font-weight:700;letter-spacing:.1em;position:relative;z-index:1}
+.hero h1{font-size:44px;font-weight:800;margin:0 0 14px;line-height:1.15;position:relative;z-index:1;max-width:680px}
+.hero-lead{font-size:17px;opacity:.88;margin:0;max-width:620px;line-height:1.7;position:relative;z-index:1}
+.hero-stats{display:flex;gap:0;margin-top:36px;border-top:1px solid rgba(255,255,255,.18);padding-top:24px;position:relative;z-index:1}
+.hstat{flex:1;padding-right:24px;margin-right:24px;border-right:1px solid rgba(255,255,255,.18)}
+.hstat:last-child{border:none;margin:0;padding:0}
+.hstat strong{display:block;font-size:28px;font-weight:800;line-height:1;margin-bottom:3px}
+.hstat span{font-size:13px;opacity:.78}
+
+/* ── section ── */
+.section{margin-top:18px}
+.sec-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.sec-head h2{font-size:22px;font-weight:700;margin:0}
+.sec-note{font-size:13px;color:var(--muted)}
+
+/* ── mini-site cards ── */
+.mini-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.mini-card{display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);border-radius:24px;box-shadow:0 8px 24px rgba(31,42,46,.06);text-decoration:none;color:inherit;overflow:hidden;transition:transform .18s,box-shadow .18s,border-color .18s}
+.mini-card:hover{transform:translateY(-4px);box-shadow:0 22px 48px rgba(31,42,46,.1);border-color:#cdbda9}
+.mini-card-thumb{min-height:120px;padding:22px 26px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden}
+.mini-card-thumb.fundamentals{background:linear-gradient(135deg,#1a3a32 0%,#1d5244 55%,#145b4b 100%)}
+.mini-card-thumb.coming{background:linear-gradient(135deg,#404040 0%,#5e5e5e 100%);opacity:.5}
+.mini-card-thumb-deco{position:absolute;top:12px;right:18px;font-size:42px;opacity:.2}
+.mini-card-tag{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;background:rgba(255,255,255,.2);font-size:11px;font-weight:700;letter-spacing:.06em;color:#fff;text-transform:uppercase;margin-bottom:7px;width:fit-content}
+.mini-card-thumb h3{font-size:20px;font-weight:800;color:#fff;margin:0;line-height:1.25;position:relative;z-index:1}
+.mini-card-body{padding:20px 24px;flex:1;display:flex;flex-direction:column}
+.mini-card-desc{font-size:14px;color:var(--muted);margin:0 0 14px;line-height:1.65;flex:1}
+.mini-card-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.mini-pills{display:flex;flex-wrap:wrap;gap:6px}
+.mini-pill{padding:4px 10px;border-radius:999px;background:#f2ebdf;color:#38464a;font-size:12px;font-weight:600}
+.mini-arrow{font-size:13px;font-weight:700;color:var(--brand)}
+.mini-coming-badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;background:rgba(255,255,255,.15);font-size:11px;font-weight:700;letter-spacing:.06em;color:#fff}
+
+/* ── topic overview ── */
+.topic-panel{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:30px 34px;box-shadow:0 6px 20px rgba(31,42,46,.04)}
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:18px}
+.topic-item{padding:16px 18px;background:#fafaf5;border:1px solid var(--line);border-radius:16px}
+.topic-icon{font-size:22px;margin-bottom:8px}
+.topic-item h4{font-size:14px;font-weight:700;margin:0 0 5px}
+.topic-item p{font-size:13px;color:var(--muted);margin:0;line-height:1.55}
+
+/* ── series roadmap ── */
+.roadmap{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:30px 34px;box-shadow:0 6px 20px rgba(31,42,46,.04)}
+.roadmap-list{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-direction:column;gap:0}
+.roadmap-item{display:flex;align-items:flex-start;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.roadmap-item:last-child{border:none}
+.roadmap-num{width:32px;height:32px;border-radius:50%;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;margin-top:1px}
+.roadmap-num.done{background:var(--brand)}
+.roadmap-num.future{background:#d9d2c8;color:var(--muted)}
+.roadmap-info h4{font-size:15px;font-weight:700;margin:0 0 3px}
+.roadmap-info p{font-size:13px;color:var(--muted);margin:0}
+.roadmap-status{margin-left:auto;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;flex-shrink:0}
+.status-done{background:var(--soft);color:var(--brand)}
+.status-future{background:#f0ece4;color:var(--muted)}
+
+/* ── footer ── */
+.site-foot{margin-top:48px;text-align:center;font-size:13px;color:var(--muted)}
+
+@media(max-width:820px){.hero-bg{padding:32px 24px}.hero h1{font-size:32px}.hero-stats{flex-wrap:wrap;gap:16px}.hstat{border:none;padding:0;margin:0}}
+@media(max-width:640px){.mini-grid{grid-template-columns:1fr}.topic-grid{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- topnav -->
+    <nav class="topnav">
+      <a class="brandmark" href="/">
+        <img src="/favicon.svg" alt="S-Reborn" />
+        S-Reborn
+      </a>
+      <div class="breadcrumb">
+        <a href="/">홈</a>
+        <span>›</span>
+        <span>Doctor AI</span>
+      </div>
+      <a class="nav-cta" href="/doctor-ai/fundamentals/home.html">지금 바로 읽기 →</a>
+    </nav>
+
+    <!-- hero -->
+    <section class="hero">
+      <div class="hero-bg">
+        <div class="hero-eyebrow">🩺 DOCTOR AI</div>
+        <h1>의사가 배우는 AI</h1>
+        <p class="hero-lead">
+          임상 현장에서 AI를 어떻게 이해하고, 어디에 적용하며, 어디서 반드시 멈춰야 하는지.
+          기술 소개보다 실무 기준과 안전한 활용법을 중심으로 탐구합니다.
+        </p>
+        <div class="hero-stats">
+          <div class="hstat"><strong>1</strong><span>미니사이트</span></div>
+          <div class="hstat"><strong>6편</strong><span>입문 시리즈</span></div>
+          <div class="hstat"><strong>AI 리터러시</strong><span>핵심 주제</span></div>
+          <div class="hstat"><strong>계속</strong><span>업데이트</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- mini-sites -->
+    <section class="section">
+      <div class="sec-head">
+        <h2>미니사이트</h2>
+        <span class="sec-note">주제별 독립 콘텐츠</span>
+      </div>
+      <div class="mini-grid">
+
+        <!-- Fundamentals -->
+        <a class="mini-card" href="/doctor-ai/fundamentals/home.html">
+          <div class="mini-card-thumb fundamentals">
+            <div class="mini-card-thumb-deco">📖</div>
+            <div class="mini-card-tag">입문 시리즈</div>
+            <h3>Fundamentals</h3>
+          </div>
+          <div class="mini-card-body">
+            <p class="mini-card-desc">
+              의사를 위한 AI 기초 입문 시리즈. 환각, AI 강점·한계, 외래 워크플로우,
+              안전한 프롬프트 작성, 전공의 교육까지 6편으로 구성됩니다.
+              수준 진단 퀴즈로 내 레벨에 맞는 글부터 시작할 수 있습니다.
+            </p>
+            <div class="mini-card-footer">
+              <div class="mini-pills">
+                <span class="mini-pill">6편 완성</span>
+                <span class="mini-pill">레벨 진단</span>
+                <span class="mini-pill">입문~중급</span>
+              </div>
+              <span class="mini-arrow">읽기 →</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Coming Soon -->
+        <div class="mini-card" style="opacity:.52;pointer-events:none">
+          <div class="mini-card-thumb coming">
+            <div class="mini-card-thumb-deco">✍️</div>
+            <div class="mini-coming-badge">Coming Soon</div>
+            <h3>Prompts</h3>
+          </div>
+          <div class="mini-card-body">
+            <p class="mini-card-desc">의료 현장별 프롬프트 모음집. 외래·입원·교육·연구 상황별 실전 프롬프트를 정리할 예정입니다.</p>
+            <div class="mini-card-footer">
+              <div class="mini-pills"><span class="mini-pill">준비 중</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- topics -->
+    <section class="section">
+      <div class="topic-panel">
+        <div class="sec-head">
+          <h2>다루는 주제</h2>
+          <span class="sec-note">Doctor AI 카테고리 전체 범위</span>
+        </div>
+        <div class="topic-grid">
+          <div class="topic-item">
+            <div class="topic-icon">🧠</div>
+            <h4>AI 리터러시</h4>
+            <p>환각, 신뢰도, 검증 원칙을 의료 맥락에서 이해하기</p>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon">🏥</div>
+            <h4>임상 워크플로우</h4>
+            <p>외래·입원 전후 업무에서 AI를 보조적으로 붙이는 법</p>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon">✍️</div>
+            <h4>프롬프트 작성</h4>
+            <p>의료 현장 안전 기준에 맞는 입력 문장 설계법</p>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon">🎓</div>
+            <h4>전공의 교육</h4>
+            <p>발표·논문·케이스 준비에 AI를 보조 도구로 활용하기</p>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon">🔬</div>
+            <h4>연구 보조</h4>
+            <p>문헌 검토, 아이디어 구조화, 연구 설계에서의 AI 역할</p>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon">🛡️</div>
+            <h4>안전 기준</h4>
+            <p>환자정보 보호, AI 오류 인식, 의사 검증 원칙</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- roadmap -->
+    <section class="section">
+      <div class="roadmap">
+        <div class="sec-head">
+          <h2>시리즈 로드맵</h2>
+          <span class="sec-note">Doctor AI 발행 계획</span>
+        </div>
+        <ul class="roadmap-list">
+          <li class="roadmap-item">
+            <div class="roadmap-num done">1</div>
+            <div class="roadmap-info">
+              <h4>Fundamentals — 입문 시리즈</h4>
+              <p>AI 기초·리터러시·워크플로우·프롬프트·교육 (6편)</p>
+            </div>
+            <span class="roadmap-status status-done">✓ 완성</span>
+          </li>
+          <li class="roadmap-item">
+            <div class="roadmap-num future">2</div>
+            <div class="roadmap-info">
+              <h4>Prompts — 실전 프롬프트 모음집</h4>
+              <p>상황별 프롬프트 라이브러리 (예정)</p>
+            </div>
+            <span class="roadmap-status status-future">준비 중</span>
+          </li>
+          <li class="roadmap-item">
+            <div class="roadmap-num future">3</div>
+            <div class="roadmap-info">
+              <h4>Cases — 임상 케이스 스터디</h4>
+              <p>실제 업무 장면별 AI 적용 사례 분석 (예정)</p>
+            </div>
+            <span class="roadmap-status status-future">준비 중</span>
+          </li>
+          <li class="roadmap-item">
+            <div class="roadmap-num future">4</div>
+            <div class="roadmap-info">
+              <h4>Tools — AI 툴 리뷰·비교</h4>
+              <p>의료인이 실제 쓸 수 있는 AI 도구 비교 가이드 (예정)</p>
+            </div>
+            <span class="roadmap-status status-future">준비 중</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <p class="site-foot"><a href="/" style="color:var(--muted);text-decoration:none">← S-Reborn 홈으로</a> · Doctor AI 허브</p>
+  </div>
+</body>
+</html>

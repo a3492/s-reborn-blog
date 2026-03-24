@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>의사가 AI를 배워야 하는 이유</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+  <link rel="apple-touch-icon" href="./assets/apple-touch-icon.svg" />
+  <meta name="description" content="의사가 AI를 배워야 하는 이유를 임상 업무, 교육, 연구, 환자 커뮤니케이션 관점에서 정리한 입문 글." />
+  <link rel="canonical" href="./11-doctors-learning-ai-intro.html" />
+  <meta name="thumbnail_alt" content="의사가 AI를 배워야 하는 이유를 소개하는 대표 이미지" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="의사가 AI를 배워야 하는 이유 | S-Reborn" />
+  <meta property="og:description" content="의사가 AI를 배워야 하는 이유를 임상 업무, 교육, 연구, 환자 커뮤니케이션 관점에서 정리한 입문 글." />
+  <meta property="og:image" content="./thumbnails/intro.svg" />
+  <meta property="og:image:alt" content="의사가 AI를 배워야 하는 이유를 소개하는 대표 이미지" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="의사가 AI를 배워야 하는 이유 | S-Reborn" />
+  <meta name="twitter:description" content="의사가 AI를 배워야 하는 이유를 임상 업무, 교육, 연구, 환자 커뮤니케이션 관점에서 정리한 입문 글." />
+  <meta name="twitter:image" content="./thumbnails/intro.svg" />
+  <meta name="twitter:image:alt" content="의사가 AI를 배워야 하는 이유를 소개하는 대표 이미지" />
+  <script type="application/json" class="frontmatter">
+    {
+      "content_id": "doctor-ai-001",
+      "title": "의사가 AI를 배워야 하는 이유",
+      "slug": "why-doctors-should-learn-ai",
+      "content_type": "article",
+      "series": "의사가 배우는 AI",
+      "series_order": 1,
+      "status": "published",
+      "publish_priority": 1,
+      "recommended_order": 2,
+      "primary_keyword": "의사가 배우는 AI",
+      "thumbnail_label": "Intro",
+      "thumbnail_image": "./thumbnails/intro.svg",
+      "thumbnail_alt": "의사가 AI를 배워야 하는 이유를 소개하는 대표 이미지",
+      "audience": ["resident", "fellow", "specialist", "clinic director"],
+      "difficulty": "beginner",
+      "specialty": ["common", "internal medicine", "family medicine", "surgery"],
+      "topic_groups": ["ai literacy", "clinical workflow", "medical education"],
+      "keywords": ["의사가 배우는 AI", "의료 AI 교육", "생성형 AI", "임상 생산성", "의사 업무 효율", "의료 디지털 전환"],
+      "hashtags": ["#의사가배우는AI", "#의료AI", "#생성형AI", "#디지털헬스", "#임상생산성", "#SReborn"],
+      "seo_title": "의사가 AI를 배워야 하는 이유 | S-Reborn",
+      "seo_description": "의사가 AI를 배워야 하는 이유를 임상 업무, 교육, 연구, 환자 커뮤니케이션 관점에서 정리한 입문 글.",
+      "cta": "다음 편에서는 AI가 잘하는 일과 못하는 일을 더 구체적으로 다룹니다.",
+      "updated_at": "2026-03-23",
+      "owner": "codex"
+    }
+  </script>
+  <style>
+    :root {
+      --bg: #fbf7f1;
+      --ink: #1d2328;
+      --muted: #5f6870;
+      --brand: #155d4b;
+      --line: #ddd4c6;
+      --card: #fffdf9;
+      --accent: #bf5f2f;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at left top, #f3ead8 0, transparent 20%),
+        linear-gradient(180deg, #fbf7f1 0%, #f4ede2 100%);
+      color: var(--ink);
+      font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+      line-height: 1.75;
+    }
+    .page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 56px 20px 88px;
+    }
+    .topnav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .brandmark {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .brandmark img {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+    }
+    .hero, .box {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: 0 12px 34px rgba(29, 35, 40, 0.06);
+    }
+    .hero { padding: 36px; }
+    .box {
+      margin-top: 20px;
+      padding: 28px;
+    }
+    .label {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #e9f2ee;
+      color: var(--brand);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+    }
+    h1, h2 { line-height: 1.28; margin: 0 0 14px; }
+    h1 { font-size: 38px; }
+    h2 { font-size: 28px; }
+    p { margin: 0 0 14px; }
+    .lead {
+      font-size: 19px;
+      color: var(--muted);
+    }
+    ul, ol {
+      margin: 0;
+      padding-left: 22px;
+    }
+    li { margin-bottom: 10px; }
+    .prompt {
+      background: #f5efe6;
+      border-radius: 16px;
+      padding: 18px;
+      border: 1px solid #e6d8c8;
+      white-space: pre-wrap;
+      font-family: Consolas, monospace;
+      font-size: 14px;
+    }
+    .warn {
+      padding: 16px 18px;
+      border-left: 4px solid var(--accent);
+      background: #fbf1ea;
+      border-radius: 14px;
+    }
+    .meta {
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .takeaway {
+      margin-top: 20px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: #eef4ef;
+      border: 1px solid #d6e3da;
+    }
+    .takeaway strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--brand);
+    }
+    .series-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 22px;
+      flex-wrap: wrap;
+    }
+    .series-link {
+      color: var(--brand);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    /* ── 시리즈 네비게이션 공통 ── */
+    .breadcrumb{font-size:13px;color:var(--muted);margin-bottom:12px}
+    .breadcrumb a{color:var(--muted);text-decoration:none}
+    .breadcrumb a:hover{color:var(--brand);text-decoration:underline}
+    .series-progress{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:20px;padding:12px 16px;background:var(--card);border:1px solid var(--line);border-radius:14px}
+    .sp-label{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.04em;margin-right:4px;white-space:nowrap}
+    .sp-step{display:inline-flex;align-items:center;justify-content:center;padding:4px 12px;border-radius:999px;font-size:13px;font-weight:600;text-decoration:none;color:var(--muted);border:1px solid var(--line);transition:border-color .15s,color .15s;white-space:nowrap}
+    .sp-step:hover{border-color:var(--brand);color:var(--brand)}
+    .sp-step.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+    .nav-duo{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;margin-top:24px;align-items:stretch}
+    .nav-block{display:flex;flex-direction:column;gap:3px;padding:14px 18px;background:var(--card);border:1px solid var(--line);border-radius:14px;text-decoration:none;color:var(--ink);transition:border-color .15s,box-shadow .15s}
+    .nav-block:hover{border-color:var(--brand);box-shadow:0 4px 14px rgba(21,93,75,.09)}
+    .nav-dir{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+    .nav-title{font-size:14px;font-weight:700;color:var(--brand);line-height:1.3}
+    .nav-r{text-align:right}
+    .nav-home{display:inline-flex;align-items:center;justify-content:center;padding:0 16px;min-width:56px;background:#f0ebe2;border:1px solid var(--line);border-radius:14px;text-decoration:none;color:var(--muted);font-size:13px;font-weight:700;white-space:nowrap}
+    .nav-home:hover{background:var(--brand);color:#fff;border-color:var(--brand)}
+    @media(max-width:600px){.nav-duo{grid-template-columns:1fr}.nav-r{text-align:left}.nav-home{padding:14px}}
+    .sitefoot {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="topnav">
+      <a class="brandmark" href="./home.html"><img src="./assets/s-reborn-logo.svg" alt="S-Reborn 로고" />S-Reborn</a>
+      <a class="series-link" href="./01-doctor-ai-series-landing.html">시리즈 소개</a>
+    </div>
+    <p class="breadcrumb"><a href="./home.html">홈</a> › <a href="./01-doctor-ai-series-landing.html">의사가 배우는 AI</a> › 1편</p>
+    <div class="series-progress">
+      <span class="sp-label">시리즈</span>
+      <a class="sp-step" href="./01-doctor-ai-series-landing.html">소개</a>
+      <a class="sp-step on" href="./11-doctors-learning-ai-intro.html">1편</a>
+      <a class="sp-step" href="./12-ai-strengths-and-limits.html">2편</a>
+      <a class="sp-step" href="./13-ai-in-outpatient-workflow.html">3편</a>
+      <a class="sp-step" href="./14-safe-medical-prompting.html">4편</a>
+      <a class="sp-step" href="./15-ai-for-resident-education-and-research.html">5편</a>
+    </div>
+    <article class="hero">
+      <div class="label">의사가 배우는 AI · 1편</div>
+      <h1>의사가 AI를 배워야 하는 이유</h1>
+      <p class="lead">
+        AI는 의사를 대체하는 기술이라기보다, 반복적이고 구조화 가능한 업무를 줄여
+        의사가 더 중요한 판단과 설명에 집중하도록 돕는 도구에 가깝습니다.
+      </p>
+      <p class="meta">대상: 전공의, 전문의, 개원의 / 난이도: 입문 / 주제: AI 리터러시, 임상 워크플로우</p>
+    </article>
+
+    <section class="takeaway">
+      <strong>이 글의 한 문장 요약</strong>
+      <p>의사가 AI를 배워야 하는 이유는 기술 유행 때문이 아니라, 반복 업무를 줄이고 검증 가능한 방식으로 판단과 설명에 더 집중하기 위해서입니다.</p>
+    </section>
+
+    <section class="box">
+      <h2>왜 지금 의사가 AI를 배워야 할까</h2>
+      <p>
+        의료 현장은 이미 문서, 설명, 검색, 정리, 교육 자료 준비처럼 시간이 많이 드는 작업으로 가득합니다.
+        이런 작업 중 상당수는 초안 작성과 구조화가 가능하기 때문에 AI의 도움을 받기 좋습니다.
+      </p>
+      <p>
+        중요한 점은 최종 의학적 판단은 여전히 의사의 몫이라는 것입니다. 그렇기 때문에 더더욱 의사는
+        AI를 무조건 믿는 법이 아니라, 언제 쓰고 언제 멈춰야 하는지를 배워야 합니다.
+      </p>
+    </section>
+
+    <section class="box">
+      <h2>AI가 의사에게 가장 먼저 도움이 되는 장면</h2>
+      <ul>
+        <li>복잡한 메모나 회의 내용을 짧고 명확한 요약으로 재구성할 때</li>
+        <li>환자 설명문, 검사 안내문, 교육용 자료의 초안을 빠르게 만들 때</li>
+        <li>강의, 학회 발표, 증례 발표의 목차와 핵심 메시지를 정리할 때</li>
+        <li>논문이나 가이드라인을 읽기 전에 구조와 쟁점을 먼저 파악할 때</li>
+        <li>전공의 교육에서 피드백 문안이나 학습 질문을 설계할 때</li>
+      </ul>
+    </section>
+
+    <section class="box">
+      <h2>의사가 꼭 알아야 할 핵심 원칙</h2>
+      <ol>
+        <li>AI는 답을 주는 존재가 아니라 초안을 만드는 보조 도구로 보는 편이 안전합니다.</li>
+        <li>환자 정보, 병원 내부 문서, 민감한 데이터는 보안 기준 없이 입력하면 안 됩니다.</li>
+        <li>근거가 중요한 문장은 반드시 원문, 가이드라인, 실제 데이터로 다시 확인해야 합니다.</li>
+        <li>잘 만든 프롬프트보다 중요한 것은 결과를 검증하는 습관입니다.</li>
+      </ol>
+    </section>
+
+    <section class="box">
+      <h2>AI를 배운 의사와 그렇지 않은 의사의 차이</h2>
+      <p>
+        차이는 단순히 기술 사용 여부에 있지 않습니다. AI를 이해한 의사는 자신의 업무를 더 잘 구조화하고,
+        어디까지 자동화할 수 있는지, 어디서 반드시 직접 판단해야 하는지 구분할 수 있습니다.
+      </p>
+      <p>
+        결국 AI 학습은 소프트웨어를 배우는 일이 아니라, 의료 업무를 더 정교하게 설계하는 훈련에 가깝습니다.
+      </p>
+    </section>
+
+    <section class="box">
+      <h2>주의할 점</h2>
+      <div class="warn">
+        AI가 매끄럽게 쓴 문장은 쉽게 신뢰를 유도합니다. 하지만 자연스러운 문장과 정확한 내용은 다른 문제입니다.
+        의료 정보, 진단 판단, 약물 관련 설명은 반드시 사람이 검토해야 합니다.
+      </div>
+    </section>
+
+    <section class="box">
+      <h2>바로 써볼 프롬프트</h2>
+      <div class="prompt">당신은 의료진의 업무 보조자입니다.
+아래 메모를 바탕으로 환자에게 설명하기 쉬운 언어로 핵심 내용을 5문장 이내로 정리해 주세요.
+전문용어는 쉬운 표현으로 바꾸고, 불확실한 내용은 추정하지 말고 "의료진 확인 필요"라고 표시해 주세요.
+
+[메모 붙여넣기]</div>
+    </section>
+
+    <section class="box">
+      <h2>마무리</h2>
+      <p>
+        의사가 AI를 배워야 하는 이유는 유행을 따라가기 위해서가 아닙니다. 더 정확하고,
+        더 설명 가능하며, 더 지속 가능한 방식으로 의료 업무를 운영하기 위해서입니다.
+      </p>
+      <p>다음 편에서는 AI가 잘하는 일과 못하는 일을 더 구체적으로 다룹니다.</p>
+      <div class="nav-duo">
+      <a class="nav-block" href="./01-doctor-ai-series-landing.html">
+        <span class="nav-dir">← 이전</span>
+        <span class="nav-title">시리즈 소개</span>
+      </a>
+      <a class="nav-home" href="./home.html">목록</a>
+      <a class="nav-block nav-r" href="./12-ai-strengths-and-limits.html">
+        <span class="nav-dir">다음 →</span>
+        <span class="nav-title">AI가 잘하는 일과 못하는 일</span>
+      </a>
+    </div>
+    </section>
+    <p class="sitefoot">Copyright 2026 S-REBORN. 문의 및 운영 조정은 내부 콘텐츠 관리자 기준에 따라 진행합니다.</p>
+  </main>
+</body>
+</html>
