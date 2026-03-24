@@ -355,3 +355,42 @@ hr {
 	color: var(--t3);
 	font-size: 0.85rem;
 }
+.blog-post-prose a {
+	text-decoration-thickness: 0.08em;
+	text-underline-offset: 0.18em;
+	transition: color 0.18s ease, text-decoration-color 0.18s ease;
+}
+
+.blog-post-prose a:hover,
+.blog-post-prose a:focus-visible {
+	color: var(--accent-dark);
+	text-decoration-color: var(--accent-dark);
+}
+
+.blog-post-prose img {
+	transition: transform 0.24s ease, box-shadow 0.24s ease;
+}
+
+.blog-post-prose img:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 18px 38px rgba(28, 25, 23, 0.08);
+}
+
+.blog-post-share-btn {
+	transition: transform 0.18s ease, opacity 0.18s ease, box-shadow 0.18s ease;
+}
+
+.blog-post-share-btn:hover,
+.blog-post-share-btn:focus-visible {
+	opacity: 1;
+	transform: translateY(-2px);
+	box-shadow: 0 10px 22px rgba(28, 25, 23, 0.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.blog-post-prose a,
+	.blog-post-prose img,
+	.blog-post-share-btn {
+		transition: none !important;
+	}
+}
