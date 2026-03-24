@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0d3d30"/>
+      <stop offset="100%" stop-color="#7a3a14"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="18" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="soft">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+  </defs>
+
+  <!-- 배경 -->
+  <rect width="1200" height="720" fill="url(#bg)"/>
+
+  <!-- 배경 장식 원 -->
+  <circle cx="1100" cy="80" r="220" fill="rgba(255,255,255,0.04)"/>
+  <circle cx="100" cy="650" r="180" fill="rgba(255,255,255,0.04)"/>
+  <circle cx="600" cy="360" r="340" fill="rgba(255,255,255,0.025)" filter="url(#soft)"/>
+
+  <!-- 시리즈 경로: 6개 노드를 곡선으로 연결 -->
+  <!-- 연결선 -->
+  <path d="M 160 360 C 260 260, 360 460, 460 360 C 560 260, 660 460, 760 360 C 860 260, 960 460, 1040 360"
+        fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="3" stroke-dasharray="10 8" stroke-linecap="round"/>
+
+  <!-- 노드 1 -->
+  <circle cx="160" cy="360" r="38" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.55)" stroke-width="2.5"/>
+  <circle cx="160" cy="360" r="14" fill="rgba(255,255,255,0.85)"/>
+
+  <!-- 노드 2 -->
+  <circle cx="320" cy="290" r="34" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.45)" stroke-width="2.5"/>
+  <circle cx="320" cy="290" r="12" fill="rgba(255,255,255,0.75)"/>
+
+  <!-- 노드 3 -->
+  <circle cx="490" cy="360" r="34" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.45)" stroke-width="2.5"/>
+  <circle cx="490" cy="360" r="12" fill="rgba(255,255,255,0.75)"/>
+
+  <!-- 노드 4 -->
+  <circle cx="660" cy="290" r="34" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.45)" stroke-width="2.5"/>
+  <circle cx="660" cy="290" r="12" fill="rgba(255,255,255,0.75)"/>
+
+  <!-- 노드 5 -->
+  <circle cx="830" cy="360" r="34" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.45)" stroke-width="2.5"/>
+  <circle cx="830" cy="360" r="12" fill="rgba(255,255,255,0.75)"/>
+
+  <!-- 노드 6 (마지막, 강조) -->
+  <circle cx="1040" cy="360" r="44" fill="rgba(20,91,75,0.30)" stroke="rgba(255,255,255,0.80)" stroke-width="3"/>
+  <circle cx="1040" cy="360" r="18" fill="rgba(255,255,255,0.92)"/>
+
+  <!-- 완료 표시 (마지막 노드 위 체크) -->
+  <path d="M 1026 360 L 1035 370 L 1054 350" fill="none" stroke="#145b4b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- 하단 진행 트랙 -->
+  <rect x="80" y="520" width="1040" height="5" rx="3" fill="rgba(255,255,255,0.08)"/>
+  <rect x="80" y="520" width="1040" height="5" rx="3" fill="rgba(255,255,255,0.28)"/>
+</svg>

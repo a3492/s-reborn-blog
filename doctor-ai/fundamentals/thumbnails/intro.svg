@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f4235"/>
+      <stop offset="100%" stop-color="#6b3215"/>
+    </linearGradient>
+    <filter id="soft"><feGaussianBlur stdDeviation="24"/></filter>
+  </defs>
+  <rect width="1200" height="720" fill="url(#bg)"/>
+  <!-- 배경 글로우 -->
+  <circle cx="600" cy="320" r="260" fill="rgba(255,255,255,0.06)" filter="url(#soft)"/>
+  <circle cx="200" cy="600" r="160" fill="rgba(255,255,255,0.04)"/>
+  <circle cx="1050" cy="120" r="140" fill="rgba(255,255,255,0.04)"/>
+  <!-- 청진기 튜브 -->
+  <path d="M 380 200 C 380 200, 355 285, 378 345 C 400 405, 462 432, 522 432 C 582 432, 644 405, 666 345 C 689 285, 664 200, 664 200"
+        fill="none" stroke="rgba(255,255,255,0.38)" stroke-width="14" stroke-linecap="round"/>
+  <!-- 청진기 헤드 -->
+  <circle cx="522" cy="462" r="52" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="12"/>
+  <circle cx="522" cy="462" r="28" fill="rgba(255,255,255,0.22)"/>
+  <!-- 청진기 이어피스 -->
+  <circle cx="380" cy="190" r="16" fill="rgba(255,255,255,0.65)"/>
+  <circle cx="664" cy="190" r="16" fill="rgba(255,255,255,0.65)"/>
+  <!-- AI 네트워크 중심 노드 -->
+  <circle cx="840" cy="340" r="42" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.65)" stroke-width="3"/>
+  <circle cx="840" cy="340" r="18" fill="rgba(255,255,255,0.85)"/>
+  <!-- 방사 선 -->
+  <line x1="840" y1="298" x2="840" y2="218" stroke="rgba(255,255,255,0.42)" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="840" y1="382" x2="840" y2="462" stroke="rgba(255,255,255,0.42)" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="798" y1="340" x2="718" y2="340" stroke="rgba(255,255,255,0.42)" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="882" y1="340" x2="962" y2="340" stroke="rgba(255,255,255,0.42)" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="810" y1="310" x2="752" y2="252" stroke="rgba(255,255,255,0.28)" stroke-width="2" stroke-linecap="round"/>
+  <line x1="870" y1="310" x2="928" y2="252" stroke="rgba(255,255,255,0.28)" stroke-width="2" stroke-linecap="round"/>
+  <line x1="810" y1="370" x2="752" y2="428" stroke="rgba(255,255,255,0.28)" stroke-width="2" stroke-linecap="round"/>
+  <line x1="870" y1="370" x2="928" y2="428" stroke="rgba(255,255,255,0.28)" stroke-width="2" stroke-linecap="round"/>
+  <!-- 외부 노드 -->
+  <circle cx="840" cy="208" r="13" fill="rgba(255,255,255,0.58)"/>
+  <circle cx="840" cy="472" r="13" fill="rgba(255,255,255,0.58)"/>
+  <circle cx="708" cy="340" r="13" fill="rgba(255,255,255,0.58)"/>
+  <circle cx="972" cy="340" r="13" fill="rgba(255,255,255,0.58)"/>
+  <circle cx="742" cy="242" r="10" fill="rgba(255,255,255,0.42)"/>
+  <circle cx="938" cy="242" r="10" fill="rgba(255,255,255,0.42)"/>
+  <circle cx="742" cy="438" r="10" fill="rgba(255,255,255,0.42)"/>
+  <circle cx="938" cy="438" r="10" fill="rgba(255,255,255,0.42)"/>
+  <!-- 의사-AI 연결 화살표 -->
+  <path d="M 592 445 C 640 420, 680 400, 714 358" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="3" stroke-dasharray="8 6" stroke-linecap="round"/>
+  <polygon points="718,350 703,364 722,368" fill="rgba(255,255,255,0.48)"/>
+</svg>

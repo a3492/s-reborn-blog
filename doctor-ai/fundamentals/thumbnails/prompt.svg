@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b3828"/>
+      <stop offset="100%" stop-color="#6a2e10"/>
+    </linearGradient>
+    <filter id="soft"><feGaussianBlur stdDeviation="26"/></filter>
+  </defs>
+  <rect width="1200" height="720" fill="url(#bg)"/>
+  <!-- 배경 -->
+  <circle cx="500" cy="300" r="280" fill="rgba(255,255,255,0.05)" filter="url(#soft)"/>
+  <circle cx="980" cy="580" r="160" fill="rgba(255,255,255,0.03)"/>
+
+  <!-- 왼쪽: 프롬프트 입력창 -->
+  <rect x="100" y="180" width="580" height="360" rx="22" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.22)" stroke-width="2"/>
+  <!-- 창 상단 바 -->
+  <rect x="100" y="180" width="580" height="44" rx="22" fill="rgba(255,255,255,0.10)"/>
+  <rect x="100" y="202" width="580" height="22" fill="rgba(255,255,255,0.10)"/>
+  <!-- 창 상단 버튼 -->
+  <circle cx="136" cy="202" r="9" fill="rgba(255,255,255,0.30)"/>
+  <circle cx="164" cy="202" r="9" fill="rgba(255,255,255,0.22)"/>
+  <circle cx="192" cy="202" r="9" fill="rgba(255,255,255,0.16)"/>
+  <!-- 프롬프트 라인들 -->
+  <!-- > 커서 -->
+  <path d="M 132 268 L 146 280 L 132 292" fill="none" stroke="rgba(255,255,255,0.70)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="156" y="273" width="200" height="10" rx="5" fill="rgba(255,255,255,0.45)"/>
+  <!-- 커서 블링크 -->
+  <rect x="362" y="272" width="3" height="14" rx="1.5" fill="rgba(255,255,255,0.80)"/>
+
+  <!-- 두 번째 줄 -->
+  <path d="M 132 318 L 146 330 L 132 342" fill="none" stroke="rgba(255,255,255,0.40)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="156" y="323" width="280" height="9" rx="4.5" fill="rgba(255,255,255,0.28)"/>
+
+  <!-- 세 번째 줄 -->
+  <rect x="132" y="366" width="240" height="9" rx="4.5" fill="rgba(255,255,255,0.20)"/>
+
+  <!-- 네 번째 줄 -->
+  <rect x="132" y="390" width="310" height="9" rx="4.5" fill="rgba(255,255,255,0.16)"/>
+
+  <!-- 다섯 번째 줄 -->
+  <rect x="132" y="414" width="180" height="9" rx="4.5" fill="rgba(255,255,255,0.13)"/>
+
+  <!-- 오른쪽: 방패/안전 아이콘 -->
+  <path d="M 840 160 C 840 160, 960 190, 980 200 L 980 340 C 980 430, 840 480, 840 480 C 840 480, 700 430, 700 340 L 700 200 C 720 190, 840 160, 840 160 Z"
+        fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.50)" stroke-width="3" stroke-linejoin="round"/>
+  <!-- 방패 내부 체크 -->
+  <path d="M 800 320 L 828 352 L 888 288" fill="none" stroke="rgba(255,255,255,0.82)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- 연결 화살표 -->
+  <path d="M 692 320 L 720 320" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="2.5" stroke-dasharray="7 5" stroke-linecap="round"/>
+</svg>
