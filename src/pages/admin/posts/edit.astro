@@ -132,6 +132,24 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
       <section class="admin-card pad-md">
         <div class="admin-actions-row">
           <div>
+            <h2 class="admin-section-title">Publish History Summary</h2>
+            <p class="admin-section-desc">최근 성공 commit과 마지막 실패 원인을 여기서 바로 확인합니다.</p>
+          </div>
+          <a href="/admin/jobs" class="admin-btn">Jobs 보기</a>
+        </div>
+        <ul class="admin-list" data-admin-publish-history-summary>
+          <li class="admin-list-row">
+            <div>
+              <p class="admin-item-title">불러오는 중...</p>
+              <p class="admin-item-meta">최근 publish job을 조회합니다.</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="admin-card pad-md">
+        <div class="admin-actions-row">
+          <div>
             <h2 class="admin-section-title">Publish Pipeline</h2>
             <p class="admin-section-desc">요청 직후 current job 상태를 이 패널에서 추적합니다.</p>
           </div>
@@ -160,6 +178,7 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
     const message = document.querySelector('[data-admin-edit-post-message]');
     const metaList = document.querySelector('[data-admin-edit-meta]');
     const releaseState = document.querySelector('[data-admin-release-state]');
+    const publishHistorySummary = document.querySelector('[data-admin-publish-history-summary]');
     const previewLink = document.querySelector('[data-admin-edit-preview-link]');
     const dryRunButton = document.querySelector('[data-admin-publish-dryrun]');
     const livePublishButton = document.querySelector('[data-admin-publish-live]');
@@ -282,6 +301,91 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
       `;
     };
 
+    const fillPublishHistorySummary = (summary) => {
+      if (!publishHistorySummary) return;
+
+      if (!summary) {
+        publishHistorySummary.innerHTML = `
+          <li class="admin-list-row">
+            <div>
+              <p class="admin-item-title">publish 이력이 없습니다.</p>
+              <p class="admin-item-meta">첫 발행 요청을 실행하면 최근 결과가 여기에 표시됩니다.</p>
+            </div>
+          </li>
+        `;
+        return;
+      }
+
+      publishHistorySummary.innerHTML = `
+        <li class="admin-list-row admin-list-row-rich">
+          <div>
+            <p class="admin-item-title">Latest Success Commit</p>
+            <p class="admin-item-meta admin-cell-mono">${summary.successCommit ?? '-'}</p>
+            <p class="admin-item-subtle">${summary.successAt ? `성공 시각 ${formatDate(summary.successAt)}` : '아직 성공 발행 이력이 없습니다.'}</p>
+          </div>
+          <div>${summary.successCommit ? '<span class="admin-status success">success</span>' : '<span class="admin-status draft">empty</span>'}</div>
+        </li>
+        <li class="admin-list-row admin-list-row-rich">
+          <div>
+            <p class="admin-item-title">Last Failure</p>
+            <p class="admin-item-meta">${summary.failureMessage ?? '최근 실패 이력이 없습니다.'}</p>
+            <p class="admin-item-subtle">${summary.failureAt ? `실패 시각 ${formatDate(summary.failureAt)}` : '실패 없음'}</p>
+          </div>
+          <div>${summary.failureMessage ? '<span class="admin-status failed">failed</span>' : '<span class="admin-status success">clean</span>'}</div>
+        </li>
+        <li class="admin-list-row admin-list-row-rich">
+          <div>
+            <p class="admin-item-title">Latest Job</p>
+            <p class="admin-item-meta">${summary.latestStatus ?? '-'}</p>
+            <p class="admin-item-subtle">${summary.latestAt ? `최근 요청 ${formatDate(summary.latestAt)}` : '요청 없음'}${summary.latestTargetPath ? ` · ${summary.latestTargetPath}` : ''}</p>
+          </div>
+          <div><span class="admin-status ${summary.latestStatus ?? 'draft'}">${summary.latestStatus ?? 'draft'}</span></div>
+        </li>
+      `;
+    };
+
+    const loadPublishHistorySummary = async () => {
+      if (!currentPostId) {
+        fillPublishHistorySummary(null);
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from('publish_jobs')
+        .select('status, commit_sha, error_message, created_at, completed_at, target_path')
+        .eq('post_id', currentPostId)
+        .order('created_at', { ascending: false })
+        .limit(10);
+
+      if (error) {
+        fillPublishHistorySummary({
+          successCommit: null,
+          successAt: null,
+          failureMessage: `publish 이력 조회 실패: ${error.message}`,
+          failureAt: null,
+          latestStatus: 'failed',
+          latestAt: null,
+          latestTargetPath: null,
+        });
+        return;
+      }
+
+      const rows = data ?? [];
+      const latest = rows[0] ?? null;
+      const latestSuccess = rows.find((row) => row.status === 'success') ?? null;
+      const latestFailure = rows.find((row) => row.status === 'failed') ?? null;
+
+      fillPublishHistorySummary({
+        successCommit: latestSuccess?.commit_sha ?? null,
+        successAt: latestSuccess?.completed_at ?? latestSuccess?.created_at ?? null,
+        failureMessage: latestFailure?.error_message ?? null,
+        failureAt: latestFailure?.completed_at ?? latestFailure?.created_at ?? null,
+        latestStatus: latest?.status ?? null,
+        latestAt: latest?.created_at ?? null,
+        latestTargetPath: latest?.target_path ?? null,
+      });
+    };
+
     const renderCurrentJob = (job, extraText) => {
       if (!jobCard) return;
       jobCard.hidden = false;
@@ -336,6 +440,7 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
         form.elements.canonical_url.value = post.canonical_url || '';
         fillMeta(post);
         fillReleaseState(post);
+        await loadPublishHistorySummary();
         formSnapshot = serializeForm();
         hasUnsavedChanges = false;
         if (saveButton) saveButton.dataset.dirty = 'false';
@@ -375,6 +480,7 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
               commitSha: job.commit_sha,
               targetPath: job.target_path,
             });
+            await loadPublishHistorySummary();
           }
           setMessage(`Publish 완료: ${job.target_path}. Jobs 화면에서도 이력이 보입니다.`, 'success');
         }
@@ -382,6 +488,7 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
         if (job.status === 'failed') {
           stopPublishPolling();
           setActionBusy('publish', false);
+          await loadPublishHistorySummary();
           setMessage(job.error_message || 'publish job이 실패했습니다.', 'error');
         }
       };
