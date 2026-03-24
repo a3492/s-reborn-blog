@@ -5,6 +5,7 @@ import Topbar from '../components/Topbar.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import { getCollection } from 'astro:content';
+import { getPublicSiteSettings } from '../lib/site-settings';
 
 interface Props {
 	title?: string;
@@ -12,6 +13,9 @@ interface Props {
 }
 
 const { title, description = SITE_DESCRIPTION } = Astro.props;
+const siteSettings = await getPublicSiteSettings();
+const resolvedSiteTitle = siteSettings.siteTitle || SITE_TITLE;
+const resolvedDescription = description || siteSettings.siteDescription || SITE_DESCRIPTION;
 
 const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -28,15 +32,20 @@ const searchIndex = allPosts.map(post => ({
 <!doctype html>
 <html lang="ko">
 	<head>
-		<BaseHead title={title ? `${title} | ${SITE_TITLE}` : SITE_TITLE} description={description} />
+		<BaseHead
+      title={title ? `${title} | ${resolvedSiteTitle}` : resolvedSiteTitle}
+      description={resolvedDescription}
+      image={siteSettings.defaultOgImage || undefined}
+      siteTitle={resolvedSiteTitle}
+    />
 	</head>
 	<body>
 		<div class="site-wrap">
-			<Topbar />
+			<Topbar siteTitle={resolvedSiteTitle} />
 			<main class="site-main">
 				<slot />
 			</main>
-			<Footer />
+			<Footer siteTitle={resolvedSiteTitle} socialLinks={siteSettings.socialLinks} />
 		</div>
 
 		<script define:vars={{ searchIndex }}>

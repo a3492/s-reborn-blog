@@ -1,4 +1,9 @@
 ---
+interface Props {
+  siteTitle?: string;
+}
+
+const { siteTitle = 'S-Reborn World' } = Astro.props;
 const path = Astro.url.pathname;
 const isHome = path === '/';
 const isBlog = path.startsWith('/blog');
@@ -7,7 +12,7 @@ const isDoctorAI = path.startsWith('/doctor-ai');
 ---
 
 <header class="topbar">
-  <a href="/" class="tb-brand">S-Reborn World</a>
+  <a href="/" class="tb-brand">{siteTitle}</a>
 
   <div class="tb-search-wrap" data-search-wrap>
     <svg class="tb-search-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

@@ -2,15 +2,23 @@
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
+import { getPublicSiteSettings } from '../lib/site-settings';
 
+const siteSettings = await getPublicSiteSettings();
 const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
-	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-	.slice(0, 8);
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-const featuredPost = allPosts[0];
-const sidePosts = allPosts.slice(1, 3);
-const gridPosts = allPosts.slice(3);
----
+const configuredFeatured = siteSettings.featuredSlug
+	? allPosts.find((post) => post.slug === siteSettings.featuredSlug || post.id.endsWith(`/${siteSettings.featuredSlug}`) || post.id === siteSettings.featuredSlug)
+	: null;
+const featuredPost = configuredFeatured || allPosts[0];
+const rankedPosts = featuredPost
+	? [featuredPost, ...allPosts.filter((post) => post.id !== featuredPost.id)]
+	: allPosts;
+const visiblePosts = rankedPosts.slice(0, 8);
+const sidePosts = visiblePosts.slice(1, 3);
+const gridPosts = visiblePosts.slice(3);
+--- 
 
 <Layout>
 	{featuredPost ? (

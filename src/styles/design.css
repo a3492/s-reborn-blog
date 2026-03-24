@@ -748,6 +748,23 @@ footer {
   font-weight: 600;
 }
 
+.foot-socials {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.foot-social-link {
+  font-size: 0.78rem;
+  color: var(--pink);
+  text-decoration: none;
+}
+
+.foot-social-link:hover {
+  color: #8C6D45;
+}
+
 .hidden {
   display: none !important;
 }

@@ -1,7 +1,23 @@
 ---
+interface Props {
+  siteTitle?: string;
+  socialLinks?: Record<string, string>;
+}
+
+const { siteTitle = 'S-Reborn World', socialLinks = {} } = Astro.props;
+const socialEntries = Object.entries(socialLinks).filter(([, value]) => value);
 ---
 
 <footer>
   <span class="foot-copy">© 2026 S-Reborn clinic. All rights reserved.</span>
-  <span class="foot-brand">S-Reborn World</span>
+  <span class="foot-brand">{siteTitle}</span>
+  {socialEntries.length > 0 && (
+    <nav class="foot-socials" aria-label="Social links">
+      {socialEntries.map(([label, href]) => (
+        <a href={href} target="_blank" rel="noreferrer" class="foot-social-link">
+          {label}
+        </a>
+      ))}
+    </nav>
+  )}
 </footer>

@@ -3,15 +3,30 @@ import '../styles/design.css';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Topbar from '../components/Topbar.astro';
+import { getPublicSiteSettings } from '../lib/site-settings';
+
+const siteSettings = await getPublicSiteSettings();
+const siteTitle = siteSettings.siteTitle;
+const aboutIntro = siteSettings.aboutIntro;
+const aboutIntroHtml = (aboutIntro || '의사로 시작해서 AI 연구자가 되어가는 중입니다.\n\n진료실에서 환자를 만나면서, AI가 의료를 어떻게 바꿀 수 있을지 끊임없이 고민합니다. 의학·기술·배움이 교차하는 지점에서 새로운 가능성을 탐구하고, 그 여정을 이 블로그에 솔직하게 기록합니다.\n\n거창한 답보다는 작은 발견을 나누고 싶어서 글을 씁니다.')
+  .split(/\n\s*\n/)
+  .map((paragraph) => paragraph.trim())
+  .filter(Boolean)
+  .join('<br /><br />');
 ---
 
 <!doctype html>
 <html lang="ko">
 	<head>
-		<BaseHead title="About — S-Reborn World" description="에스리본의원 홍대점 대표원장 김도위 원장의 소개 페이지입니다." />
+		<BaseHead
+      title={`About — ${siteTitle}`}
+      description="에스리본의원 홍대점 대표원장 김도위 원장의 소개 페이지입니다."
+      image={siteSettings.defaultOgImage || undefined}
+      siteTitle={siteTitle}
+    />
 	</head>
 	<body>
-		<Topbar />
+		<Topbar siteTitle={siteTitle} />
 
 		<div class="about-wrap">
 			<div class="about-hero">
@@ -29,11 +44,7 @@ import Topbar from '../components/Topbar.astro';
 			<section class="about-section">
 				<h2>안녕하세요</h2>
 				<p class="about-intro-text">
-					의사로 시작해서 AI 연구자가 되어가는 중입니다.<br /><br />
-					진료실에서 환자를 만나면서, AI가 의료를 어떻게 바꿀 수 있을지 끊임없이 고민합니다.
-					의학·기술·배움이 교차하는 지점에서 새로운 가능성을 탐구하고,
-					그 여정을 이 블로그에 솔직하게 기록합니다.<br /><br />
-					거창한 답보다는 작은 발견을 나누고 싶어서 글을 씁니다.
+					<Fragment set:html={aboutIntroHtml} />
 				</p>
 			</section>
 
@@ -104,6 +115,6 @@ import Topbar from '../components/Topbar.astro';
 			</section>
 		</div>
 
-		<Footer />
+		<Footer siteTitle={siteTitle} socialLinks={siteSettings.socialLinks} />
 	</body>
 </html>

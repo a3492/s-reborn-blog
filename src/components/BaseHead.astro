@@ -5,11 +5,12 @@ interface Props {
 	title: string;
 	description: string;
 	image?: string;
+	siteTitle?: string;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image } = Astro.props;
+const { title, description, image, siteTitle = SITE_TITLE } = Astro.props;
 
 const ogImage = image
 	? (image.startsWith('http') ? image : new URL(image, Astro.url).href)
@@ -21,11 +22,12 @@ const ogImage = image
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link
 	rel="alternate"
 	type="application/rss+xml"
-	title={SITE_TITLE}
+	title={siteTitle}
 	href={new URL('rss.xml', Astro.site)}
 />
 <meta name="generator" content={Astro.generator} />
@@ -49,7 +51,7 @@ const ogImage = image
 <meta property="og:description" content={description} />
 <meta property="og:image" content={ogImage} />
 <meta property="og:locale" content="ko_KR" />
-<meta property="og:site_name" content={SITE_TITLE} />
+<meta property="og:site_name" content={siteTitle} />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
