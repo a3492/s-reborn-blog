@@ -15,19 +15,26 @@ const gridPosts = allPosts.slice(3);
 <Layout>
 	{featuredPost ? (
 		<div class="featured-wrap">
-			<article class="featured-main" onclick={`location.href='/blog/${featuredPost.id}/'`}>
+			<a class="featured-main" href={`/blog/${featuredPost.id}/`}>
 				<div class="f-kicker">
 					<span class="f-tag">{featuredPost.data.category ?? 'FEATURED'}</span>
-					<span class="f-label">Featured</span>
+					<span class="f-label">Latest Note</span>
 				</div>
 				<h1 class="f-title">{featuredPost.data.title}</h1>
 				<p class="f-excerpt">{featuredPost.data.description}</p>
 				<div class="f-foot">
-					<time class="f-date"><FormattedDate date={featuredPost.data.date} /></time>
-					<a href={`/blog/${featuredPost.id}/`} class="read-link" onclick="event.stopPropagation()">읽기 →</a>
+					<div class="f-meta">
+						<span class="f-meta-label">가장 최근에 발행한 글</span>
+						<time class="f-date"><FormattedDate date={featuredPost.data.date} /></time>
+					</div>
+					<span class="read-link">읽기 →</span>
 				</div>
-			</article>
+			</a>
 			<aside class="featured-side">
+				<div class="side-head">
+					<span class="side-head-label">더 읽어보기</span>
+					<a href="/blog" class="side-head-link">아카이브</a>
+				</div>
 				{sidePosts.map((post) => (
 					<a href={`/blog/${post.id}/`} class="side-post">
 						{post.data.category && <span class="side-cat">{post.data.category}</span>}
@@ -45,7 +52,10 @@ const gridPosts = allPosts.slice(3);
 	)}
 
 	<div class="sec-rule">
-		<span class="sec-label">최근 글</span>
+		<div class="sec-copy">
+			<span class="sec-label">Recent Posts</span>
+			<p class="sec-desc">의학, AI, 그리고 배움의 기록을 최근 순서대로 모았습니다.</p>
+		</div>
 		<div class="sec-line"></div>
 		<a href="/blog" class="sec-all">전체 보기 →</a>
 	</div>
@@ -55,10 +65,15 @@ const gridPosts = allPosts.slice(3);
 			<div class="post-grid" id="post-grid">
 				{gridPosts.map((post) => (
 					<a class="post-card" href={`/blog/${post.id}/`} data-cat={post.data.category ?? ''}>
-						{post.data.category && <span class="card-cat">{post.data.category}</span>}
+						<div class="card-head">
+							{post.data.category && <span class="card-cat">{post.data.category}</span>}
+							<time class="card-date"><FormattedDate date={post.data.date} /></time>
+						</div>
 						<h3 class="card-title">{post.data.title}</h3>
 						<p class="card-exc">{post.data.description}</p>
-						<time class="card-date"><FormattedDate date={post.data.date} /></time>
+						<div class="card-foot">
+							<span class="card-link">자세히 보기</span>
+						</div>
 					</a>
 				))}
 			</div>
