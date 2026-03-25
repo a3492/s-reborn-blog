@@ -1,0 +1,88 @@
+---
+---
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>S-Reborn Context Strategy Plan</title>
+  <style>
+    :root { --bg:#faf8f5; --surface:#fffdf9; --text:#1c1917; --muted:#5d564f; --accent:#8c6d45; --border:rgba(28,25,23,.12); --shadow:0 18px 44px rgba(28,25,23,.06); --radius:20px; --sans:'Pretendard','Apple SD Gothic Neo',sans-serif; --display:'Paperlogy','Pretendard',sans-serif; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:var(--sans); color:var(--text); background:linear-gradient(180deg,#fcfbf8 0%,var(--bg) 100%); line-height:1.7; }
+    .wrap { width:min(1024px, calc(100% - 2rem)); margin:0 auto; padding:2rem 0 4rem; }
+    .hero, .card { background:rgba(255,253,249,.92); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); }
+    .hero { padding:1.4rem; margin-bottom:1rem; }
+    .eyebrow { color:var(--accent); text-transform:uppercase; letter-spacing:.12em; font-size:.8rem; }
+    h1, h2 { font-family:var(--display); line-height:1.15; margin:0; }
+    h1 { font-size:clamp(2rem,4vw,3.8rem); margin:.6rem 0 .9rem; }
+    h2 { font-size:1.35rem; margin-bottom:.75rem; }
+    p { margin:0; color:var(--muted); }
+    .lede { max-width:72ch; }
+    .grid { display:grid; grid-template-columns:repeat(12, minmax(0, 1fr)); gap:1rem; }
+    .card { padding:1.15rem; }
+    .span-12 { grid-column:span 12; } .span-7 { grid-column:span 7; } .span-5 { grid-column:span 5; } .span-6 { grid-column:span 6; } .span-4 { grid-column:span 4; }
+    .list { margin:0; padding-left:1.1rem; color:var(--muted); }
+    .list li + li { margin-top:.35rem; }
+    .mono { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.92rem; background:#f6f1ea; border:1px solid rgba(184,149,106,.22); border-radius:14px; padding:.95rem 1rem; overflow:auto; color:#3f3529; }
+    .table-wrap { overflow:auto; border-radius:18px; border:1px solid var(--border); background:rgba(255,255,255,.75); }
+    table { width:100%; border-collapse:collapse; min-width:740px; }
+    th, td { padding:.85rem .9rem; border-bottom:1px solid rgba(28,25,23,.08); text-align:left; vertical-align:top; }
+    th { color:var(--accent); font-size:.85rem; letter-spacing:.06em; text-transform:uppercase; background:rgba(184,149,106,.08); }
+    a { color:var(--accent); }
+    @media (max-width:920px){ .span-12,.span-7,.span-6,.span-5,.span-4 { grid-column:span 12; } }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <div class="eyebrow">Context Strategy</div>
+      <h1>도구는 많아도 기준은 하나다.</h1>
+      <p class="lede">이 문서는 tmux, cmux, Google AI Studio, git worktree를 언제 쓰고 언제 쓰지 않을지 정리한 도구 선택 기준이다. 목표는 컨텍스트 분산을 줄이고, 긴 설계 검토는 외부 도구에 맡기되, 실제 구현은 리포지토리 안에서 끝내는 것이다.</p>
+    </section>
+    <section class="grid">
+      <article class="card span-7">
+        <h2>결론</h2>
+        <ul class="list">
+          <li><strong>Git worktree</strong>를 1순위로 사용한다. 기능별 작업 공간을 물리적으로 분리하면 컨텍스트가 덜 섞인다.</li>
+          <li><strong>tmux</strong>는 WSL, 리모트 Linux, macOS 같은 Unix 환경에서만 보조적으로 쓴다.</li>
+          <li><strong>cmux</strong>는 현재 Windows 주력 워크플로에 맞지 않는다.</li>
+          <li><strong>Google AI Studio</strong>는 로컬 편집기 대체가 아니라, 긴 문맥 분석과 설계 검토용으로 쓴다.</li>
+        </ul>
+      </article>
+      <article class="card span-5">
+        <h2>핵심 규칙</h2>
+        <div class="mono">public-site
+admin-recovery
+db-migration
+docs</div>
+        <p style="margin-top:.75rem;">한 worktree는 한 책임만 가진다. UI, 관리자, DB, 문서 작업을 섞지 않는다.</p>
+      </article>
+      <article class="card span-6">
+        <h2>비교</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>도구</th><th>역할</th><th>판정</th></tr></thead>
+            <tbody>
+              <tr><td>Git worktree</td><td>작업 분리</td><td>주력</td></tr>
+              <tr><td>tmux</td><td>세션/패널</td><td>보조</td></tr>
+              <tr><td>cmux</td><td>포트 multiplex</td><td>현재 비권장</td></tr>
+              <tr><td>Google AI Studio</td><td>긴 문맥 검토</td><td>검토용</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+      <article class="card span-6">
+        <h2>Sources</h2>
+        <ul class="list">
+          <li><a href="https://github.com/tmux/tmux" target="_blank" rel="noreferrer">tmux/tmux</a></li>
+          <li><a href="https://github.com/soheilhy/cmux" target="_blank" rel="noreferrer">soheilhy/cmux</a></li>
+          <li><a href="https://github.com/manaflow-ai/cmux" target="_blank" rel="noreferrer">manaflow-ai/cmux</a></li>
+          <li><a href="https://ai.google.dev/aistudio/" target="_blank" rel="noreferrer">Google AI Studio</a></li>
+          <li><a href="https://git-scm.com/docs/git-worktree" target="_blank" rel="noreferrer">git worktree</a></li>
+        </ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

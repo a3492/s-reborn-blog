@@ -1,0 +1,98 @@
+---
+---
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>S-Reborn Worktree Operations</title>
+  <style>
+    :root { --bg:#faf8f5; --surface:#fffdf9; --text:#1c1917; --muted:#5d564f; --accent:#8c6d45; --border:rgba(28,25,23,.12); --shadow:0 18px 44px rgba(28,25,23,.06); --radius:20px; --sans:'Pretendard','Apple SD Gothic Neo',sans-serif; --display:'Paperlogy','Pretendard',sans-serif; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:var(--sans); color:var(--text); background:linear-gradient(180deg,#fcfbf8 0%,var(--bg) 100%); line-height:1.7; }
+    .wrap { width:min(1024px, calc(100% - 2rem)); margin:0 auto; padding:2rem 0 4rem; }
+    .hero, .card { background:rgba(255,253,249,.92); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); }
+    .hero { padding:1.4rem; margin-bottom:1rem; }
+    .eyebrow { color:var(--accent); text-transform:uppercase; letter-spacing:.12em; font-size:.8rem; }
+    h1, h2 { font-family:var(--display); line-height:1.15; margin:0; }
+    h1 { font-size:clamp(2rem,4vw,3.8rem); margin:.6rem 0 .9rem; }
+    h2 { font-size:1.35rem; margin-bottom:.75rem; }
+    p { margin:0; color:var(--muted); }
+    .lede { max-width:72ch; }
+    .grid { display:grid; grid-template-columns:repeat(12, minmax(0, 1fr)); gap:1rem; }
+    .card { padding:1.15rem; }
+    .span-12 { grid-column:span 12; } .span-7 { grid-column:span 7; } .span-5 { grid-column:span 5; } .span-6 { grid-column:span 6; }
+    .list { margin:0; padding-left:1.1rem; color:var(--muted); }
+    .list li + li { margin-top:.35rem; }
+    .mono { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.92rem; background:#f6f1ea; border:1px solid rgba(184,149,106,.22); border-radius:14px; padding:.95rem 1rem; overflow:auto; color:#3f3529; }
+    .steps { display:grid; gap:.8rem; }
+    .step { padding:.95rem 1rem; border-radius:16px; border:1px solid var(--border); background:linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.78)); }
+    .step strong { display:block; margin-bottom:.35rem; }
+    .callout { padding:1rem 1.05rem; border-radius:16px; border:1px solid rgba(184,149,106,.22); background:linear-gradient(180deg, rgba(184,149,106,.1), rgba(184,149,106,.04)); color:#4b4031; }
+    .footer { color:var(--muted); font-size:.95rem; }
+    @media (max-width:920px){ .span-12,.span-7,.span-6,.span-5 { grid-column:span 12; } }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <div class="eyebrow">Worktree Operations</div>
+      <h1>컨텍스트가 찼을 때는 분리하고 넘긴다.</h1>
+      <p class="lede">이 문서는 실제 작업을 어디서 어떻게 분리하고, 무엇을 hand-off 문서에 남기며, 언제 병합할지 정리한 운영 규칙이다. 추상 원칙이 아니라 지금 프로젝트에서 바로 쓰는 기준이다.</p>
+    </section>
+    <section class="grid">
+      <article class="card span-7">
+        <h2>분리 기준</h2>
+        <ul class="list">
+          <li><strong>public-site</strong>: 공개 UI와 스타일만 다룬다.</li>
+          <li><strong>admin-recovery</strong>: 관리자 UI, 발행, 로그, 복구 액션을 다룬다.</li>
+          <li><strong>db-migration</strong>: Supabase schema, RLS, migration만 다룬다.</li>
+          <li><strong>docs</strong>: 계획서와 작업 원칙만 다룬다.</li>
+        </ul>
+      </article>
+      <article class="card span-5">
+        <h2>명명</h2>
+        <div class="mono">codex/public-site
+codex/admin-recovery
+codex/db-migration
+codex/docs-handbook</div>
+        <p style="margin-top:.75rem;">worktree와 브랜치 이름을 역할이 보이게 맞추면 돌아왔을 때 바로 판단할 수 있다.</p>
+      </article>
+      <article class="card span-6">
+        <h2>시작 순서</h2>
+        <div class="steps">
+          <div class="step"><strong>1. 현재 상태를 고정한다.</strong><span>진행 중인 작업을 커밋하거나 임시 보관한다.</span></div>
+          <div class="step"><strong>2. 새 worktree를 만든다.</strong><span>기능별로 다른 디렉터리에 체크아웃한다.</span></div>
+          <div class="step"><strong>3. handoff 파일을 둔다.</strong><span>현재 목적, 파일 범위, 다음 액션을 적는다.</span></div>
+          <div class="step"><strong>4. 세션을 분리한다.</strong><span>편집기와 터미널을 worktree 단위로만 운용한다.</span></div>
+        </div>
+      </article>
+      <article class="card span-6">
+        <h2>Hand-off 템플릿</h2>
+        <div class="mono">goal: settings/media diff 화면 완성
+scope: src/pages/admin/settings/*, src/pages/admin/media/*
+done: 목록/상세/복구 구현
+next: diff compact UI 정리
+risks: audit snapshot schema 불일치 확인
+owner: Codex</div>
+      </article>
+      <article class="card span-12">
+        <h2>병합 기준</h2>
+        <ul class="list">
+          <li>한 worktree는 한 목적만 끝내고 병합한다.</li>
+          <li>병합 전에 build와 최소한의 화면 확인을 끝낸다.</li>
+          <li>충돌이 생기면 오래된 worktree를 먼저 버리지 말고 기준 worktree를 정한 뒤 다시 동기화한다.</li>
+        </ul>
+      </article>
+      <article class="card span-12">
+        <div class="callout">
+          최종 결론: 지금 프로젝트의 다음 축은 <strong>Git worktree 기반 분리</strong>다. tmux는 보조, Google AI Studio는 대용량 검토, cmux는 현재 우선순위가 아니다.
+        </div>
+      </article>
+      <article class="card span-12">
+        <p class="footer">이 문서는 <a href="/docs/context-strategy-plan">Context Strategy Plan</a>과 같이 보면 된다.</p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
