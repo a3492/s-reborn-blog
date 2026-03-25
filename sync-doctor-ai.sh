@@ -13,9 +13,8 @@ if [ ! -d "$SRC" ]; then
   exit 1
 fi
 
-mkdir -p "$DST"
-
-rsync -av --delete "$SRC" "$DST"
+rm -rf "$DST"
+cp -r "$SRC" "$DST"
 
 echo ""
 echo "동기화 완료: doctor-ai → public/doctor-ai/"
