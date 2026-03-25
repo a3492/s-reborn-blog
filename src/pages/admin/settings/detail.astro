@@ -1,0 +1,306 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+const auditId = Astro.url.searchParams.get('audit') ?? '';
+---
+
+<AdminLayout
+  title="Settings Detail"
+  pageTitle="Settings Detail"
+  pageDescription="site settings 스냅샷을 보고 diff를 확인한 뒤 복원 또는 저장할 수 있습니다."
+  status="Recovery"
+  requiredRole="owner"
+>
+  <div class="admin-grid">
+    <section class="admin-card pad-lg span-7">
+      <div class="admin-actions-row">
+        <div>
+          <h2 class="admin-section-title">Settings Editor</h2>
+          <p class="admin-section-desc">선택한 snapshot과 현재 설정을 비교한 뒤 복원 또는 저장합니다.</p>
+        </div>
+        <div class="admin-actions-inline">
+          <a class="admin-btn" href="/admin/settings">Back</a>
+          <button type="button" class="admin-btn" data-settings-detail-restore>Snapshot 복원</button>
+          <button type="submit" form="admin-settings-detail-form" class="admin-btn primary">저장</button>
+        </div>
+      </div>
+
+      <form id="admin-settings-detail-form" class="admin-form-grid" data-settings-detail-form>
+        <div class="admin-field full">
+          <label class="admin-label" for="site-title">사이트 제목</label>
+          <input id="site-title" name="site_title" class="admin-input" type="text" required />
+        </div>
+
+        <div class="admin-field full">
+          <label class="admin-label" for="site-description">기본 설명</label>
+          <textarea id="site-description" name="site_description" class="admin-textarea" style="min-height: 110px;" required></textarea>
+        </div>
+
+        <div class="admin-field">
+          <label class="admin-label" for="featured-slug">Featured slug</label>
+          <input id="featured-slug" name="featured_slug" class="admin-input" type="text" />
+        </div>
+
+        <div class="admin-field">
+          <label class="admin-label" for="default-og-image">기본 OG 이미지</label>
+          <input id="default-og-image" name="default_og_image" class="admin-input" type="text" />
+        </div>
+
+        <div class="admin-field full">
+          <label class="admin-label" for="about-intro">About 소개문</label>
+          <textarea id="about-intro" name="about_intro" class="admin-textarea" style="min-height: 180px;"></textarea>
+        </div>
+
+        <div class="admin-field full">
+          <label class="admin-label" for="social-links">소셜 링크(JSON)</label>
+          <textarea id="social-links" name="social_links" class="admin-textarea" style="min-height: 160px;"></textarea>
+        </div>
+      </form>
+
+      <p class="admin-inline-note" data-settings-detail-message hidden></p>
+    </section>
+
+    <div class="admin-panel-stack">
+      <section class="admin-card pad-md">
+        <h2 class="admin-section-title">Diff</h2>
+        <p class="admin-section-desc">현재 값과 선택한 snapshot의 차이를 확인합니다.</p>
+        <div class="admin-panel-stack" data-settings-diff>
+          <p class="admin-help">snapshot을 불러오는 중입니다.</p>
+        </div>
+      </section>
+
+      <section class="admin-card pad-md">
+        <h2 class="admin-section-title">Snapshot Source</h2>
+        <p class="admin-section-desc">복원할 기준 snapshot과 최신 변경 이력을 확인합니다.</p>
+        <ul class="admin-list" data-settings-detail-history>
+          <li class="admin-list-row"><div><p class="admin-item-title">불러오는 중...</p><p class="admin-item-meta">audit log를 조회합니다.</p></div></li>
+        </ul>
+      </section>
+    </div>
+  </div>
+
+  <script type="module" define:vars={{ supabaseUrl, supabaseKey, auditId }}>
+    import { createClient } from '@supabase/supabase-js';
+
+    const form = document.querySelector('[data-settings-detail-form]');
+    const message = document.querySelector('[data-settings-detail-message]');
+    const diffList = document.querySelector('[data-settings-diff]');
+    const historyList = document.querySelector('[data-settings-detail-history]');
+    const restoreButton = document.querySelector('[data-settings-detail-restore]');
+
+    const setMessage = (text, state = 'info') => {
+      if (!message) return;
+      message.hidden = false;
+      message.textContent = text;
+      message.dataset.state = state;
+    };
+
+    const escapeHtml = (value) => String(value ?? '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#39;');
+
+    const formatValue = (value) => {
+      if (value === null || value === undefined || value === '') return '-';
+      if (typeof value === 'object') return JSON.stringify(value, null, 2);
+      return String(value);
+    };
+
+    const readForm = () => ({
+      site_meta: {
+        title: String(form?.elements.site_title.value || '').trim(),
+        description: String(form?.elements.site_description.value || '').trim(),
+        default_og_image: String(form?.elements.default_og_image.value || '').trim(),
+      },
+      homepage: {
+        featured_slug: String(form?.elements.featured_slug.value || '').trim(),
+      },
+      about_page: {
+        intro: String(form?.elements.about_intro.value || '').trim(),
+      },
+      social_links: (() => {
+        try {
+          return JSON.parse(String(form?.elements.social_links.value || '{}') || '{}');
+        } catch {
+          return {};
+        }
+      })(),
+    });
+
+    const applySnapshot = (snapshot) => {
+      if (!form || !snapshot) return;
+      form.elements.site_title.value = snapshot.site_meta?.title || '';
+      form.elements.site_description.value = snapshot.site_meta?.description || '';
+      form.elements.default_og_image.value = snapshot.site_meta?.default_og_image || '';
+      form.elements.featured_slug.value = snapshot.homepage?.featured_slug || '';
+      form.elements.about_intro.value = snapshot.about_page?.intro || '';
+      form.elements.social_links.value = JSON.stringify(snapshot.social_links || {}, null, 2);
+    };
+
+    const renderDiff = (current, snapshot) => {
+      if (!diffList) return;
+      if (!snapshot) {
+        diffList.innerHTML = '<p class="admin-help">비교할 snapshot이 없습니다.</p>';
+        return;
+      }
+
+      const items = [
+        ['site_meta.title', current.site_meta.title, snapshot.site_meta?.title],
+        ['site_meta.description', current.site_meta.description, snapshot.site_meta?.description],
+        ['site_meta.default_og_image', current.site_meta.default_og_image, snapshot.site_meta?.default_og_image],
+        ['homepage.featured_slug', current.homepage.featured_slug, snapshot.homepage?.featured_slug],
+        ['about_page.intro', current.about_page.intro, snapshot.about_page?.intro],
+        ['social_links', current.social_links, snapshot.social_links],
+      ];
+
+      diffList.innerHTML = items.map(([label, currentValue, snapshotValue]) => {
+        const changed = JSON.stringify(currentValue) !== JSON.stringify(snapshotValue);
+        return `
+          <article class="admin-detail-card ${changed ? 'admin-check-warn' : 'admin-check-ok'}">
+            <div class="admin-check-card-head">
+              <strong>${escapeHtml(label)}</strong>
+              <span class="admin-status ${changed ? 'warn' : 'ready'}">${changed ? 'changed' : 'same'}</span>
+            </div>
+            <div class="admin-detail-grid">
+              <div>
+                <p class="admin-item-title">Current</p>
+                <pre class="admin-code-block">${escapeHtml(formatValue(currentValue))}</pre>
+              </div>
+              <div>
+                <p class="admin-item-title">Snapshot</p>
+                <pre class="admin-code-block">${escapeHtml(formatValue(snapshotValue))}</pre>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+    };
+
+    const renderHistory = (rows) => {
+      if (!historyList) return;
+      if (!rows.length) {
+        historyList.innerHTML = '<li class="admin-list-row"><div><p class="admin-item-title">이력이 없습니다.</p><p class="admin-item-meta">첫 settings 저장 후 표시됩니다.</p></div></li>';
+        return;
+      }
+
+      historyList.innerHTML = rows.map((row) => `
+        <li class="admin-list-row">
+          <div>
+            <p class="admin-item-title">${escapeHtml(row.after_json?.keys?.join(', ') || 'site settings')}</p>
+            <p class="admin-item-meta">${escapeHtml(row.created_at)} · actor ${escapeHtml(row.actor_id || '-')}</p>
+          </div>
+          <div class="admin-actions-inline">
+            <button type="button" class="admin-btn admin-btn-sm" data-select-snapshot='${escapeHtml(JSON.stringify(row.after_json?.snapshot || {}))}'>Use</button>
+          </div>
+        </li>
+      `).join('');
+    };
+
+    if (!supabaseUrl || !supabaseKey) {
+      setMessage('Supabase 환경 변수가 없어 detail 페이지를 초기화할 수 없습니다.', 'error');
+    } else {
+      const supabase = createClient(supabaseUrl, supabaseKey, {
+        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
+      });
+
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (!sessionData.session) {
+        window.location.replace('/admin/login?redirectTo=/admin/settings/detail');
+      } else {
+        const [{ data: settingsData }, { data: logsData }] = await Promise.all([
+          supabase.from('site_settings').select('key, value_json').in('key', ['site_meta', 'homepage', 'about_page', 'social_links']),
+          supabase.from('audit_logs').select('id, created_at, actor_id, after_json').eq('action', 'settings_updated').eq('resource_type', 'site_settings').order('created_at', { ascending: false }).limit(12),
+        ]);
+
+        const map = new Map((settingsData ?? []).map((item) => [item.key, item.value_json || {}]));
+        const current = {
+          site_meta: map.get('site_meta') || {},
+          homepage: map.get('homepage') || {},
+          about_page: map.get('about_page') || {},
+          social_links: map.get('social_links') || {},
+        };
+
+        const selected = (() => {
+          if (!auditId) return logsData?.[0]?.after_json?.snapshot || null;
+          return (logsData ?? []).find((row) => row.id === auditId)?.after_json?.snapshot || logsData?.[0]?.after_json?.snapshot || null;
+        })();
+
+        applySnapshot(selected || current);
+        renderDiff(current, selected || current);
+        renderHistory(logsData ?? []);
+
+        restoreButton?.addEventListener('click', () => {
+          applySnapshot(selected || current);
+          setMessage('선택한 snapshot을 폼에 복원했습니다. 저장하면 현재 settings가 덮어써집니다.', 'info');
+        });
+
+        historyList?.addEventListener('click', (event) => {
+          const button = event.target.closest('[data-select-snapshot]');
+          if (!button) return;
+          try {
+            const snapshot = JSON.parse(button.dataset.selectSnapshot || '{}');
+            applySnapshot(snapshot);
+            renderDiff(current, snapshot);
+          } catch {
+            setMessage('snapshot 선택에 실패했습니다.', 'error');
+          }
+        });
+
+        form?.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          const formData = new FormData(form);
+          const socialLinks = (() => {
+            try {
+              return JSON.parse(String(formData.get('social_links') || '{}'));
+            } catch {
+              return {};
+            }
+          })();
+
+          const tasks = [
+            supabase.from('site_settings').upsert({ key: 'site_meta', value_json: { title: String(formData.get('site_title') || '').trim(), description: String(formData.get('site_description') || '').trim(), default_og_image: String(formData.get('default_og_image') || '').trim() }, updated_by: sessionData.session.user.id }, { onConflict: 'key' }),
+            supabase.from('site_settings').upsert({ key: 'homepage', value_json: { featured_slug: String(formData.get('featured_slug') || '').trim() }, updated_by: sessionData.session.user.id }, { onConflict: 'key' }),
+            supabase.from('site_settings').upsert({ key: 'about_page', value_json: { intro: String(formData.get('about_intro') || '').trim() }, updated_by: sessionData.session.user.id }, { onConflict: 'key' }),
+            supabase.from('site_settings').upsert({ key: 'social_links', value_json: socialLinks, updated_by: sessionData.session.user.id }, { onConflict: 'key' }),
+          ];
+
+          const results = await Promise.all(tasks);
+          const failed = results.find((result) => result.error);
+          if (failed?.error) {
+            setMessage(failed.error.message, 'error');
+            return;
+          }
+
+          await supabase.from('audit_logs').insert({
+            actor_id: sessionData.session.user.id,
+            action: 'settings_updated',
+            resource_type: 'site_settings',
+            after_json: {
+              keys: ['site_meta', 'homepage', 'about_page', 'social_links'],
+              snapshot: {
+                site_meta: {
+                  title: String(formData.get('site_title') || '').trim(),
+                  description: String(formData.get('site_description') || '').trim(),
+                  default_og_image: String(formData.get('default_og_image') || '').trim(),
+                },
+                homepage: {
+                  featured_slug: String(formData.get('featured_slug') || '').trim(),
+                },
+                about_page: {
+                  intro: String(formData.get('about_intro') || '').trim(),
+                },
+                social_links: socialLinks,
+              },
+            },
+          });
+
+          setMessage('settings가 저장되었습니다.', 'success');
+        });
+      }
+    }
+  </script>
+</AdminLayout>
