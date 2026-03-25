@@ -163,6 +163,19 @@ body.admin-shell {
   color: var(--admin-text-2);
 }
 
+.admin-aside-note-link {
+  display: inline-flex;
+  margin-top: 0.75rem;
+  color: var(--admin-accent);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.admin-aside-note-link:hover {
+  text-decoration: underline;
+}
+
 .admin-main {
   min-width: 0;
   padding: 1.4rem 1.5rem 2rem;
@@ -979,3 +992,5 @@ body.admin-shell {
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
+
+

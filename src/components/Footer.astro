@@ -10,14 +10,17 @@ const socialEntries = Object.entries(socialLinks).filter(([, value]) => value);
 
 <footer>
   <span class="foot-copy">© 2026 S-Reborn clinic. All rights reserved.</span>
-  <span class="foot-brand">{siteTitle}</span>
-  {socialEntries.length > 0 && (
-    <nav class="foot-socials" aria-label="Social links">
-      {socialEntries.map(([label, href]) => (
-        <a href={href} target="_blank" rel="noreferrer" class="foot-social-link">
-          {label}
-        </a>
-      ))}
-    </nav>
-  )}
+  <nav class="foot-links" aria-label="Footer links">
+    <a href="/docs/" class="foot-link">Docs</a>
+    <span class="foot-brand">{siteTitle}</span>
+    {socialEntries.length > 0 && (
+      <span class="foot-socials">
+        {socialEntries.map(([label, href]) => (
+          <a href={href} target="_blank" rel="noreferrer" class="foot-social-link">
+            {label}
+          </a>
+        ))}
+      </span>
+    )}
+  </nav>
 </footer>

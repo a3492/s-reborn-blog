@@ -741,11 +741,28 @@ footer {
   color: var(--t3);
 }
 
+.foot-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+}
+
 .foot-brand {
   font-family: var(--display);
   font-size: 0.875rem; /* 0.73rem → 0.875rem (14px) */
   color: var(--t3);
   font-weight: 600;
+}
+
+.foot-link {
+  font-size: 0.78rem;
+  color: var(--t3);
+  text-decoration: none;
+}
+
+.foot-link:hover {
+  color: var(--pink);
 }
 
 .foot-socials {
@@ -754,6 +771,8 @@ footer {
   gap: 0.65rem;
   flex-wrap: wrap;
 }
+
+
 
 .foot-social-link {
   font-size: 0.78rem;
@@ -1311,3 +1330,6 @@ footer {
     transition: none !important;
   }
 }
+
+
+
