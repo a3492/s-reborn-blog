@@ -77,6 +77,21 @@ risks: audit snapshot schema 불일치 확인
 owner: Codex</div>
       </article>
       <article class="card span-12">
+        <h2>실행 명령</h2>
+        <div class="mono"># 현재 리포지토리 기준으로 작업트리 분리
+git worktree add ../s-reborn-public codex/public-site
+git worktree add ../s-reborn-admin codex/admin-recovery
+git worktree add ../s-reborn-db codex/db-migration
+
+# 상태 확인
+git worktree list
+
+# 정리
+git worktree remove ../s-reborn-public
+git worktree prune</div>
+        <p style="margin-top: 0.75rem;">Windows PowerShell에서도 그대로 실행 가능하다. 경로만 현재 작업 디렉터리 구조에 맞게 바꾸면 된다.</p>
+      </article>
+      <article class="card span-12">
         <h2>병합 기준</h2>
         <ul class="list">
           <li>한 worktree는 한 목적만 끝내고 병합한다.</li>
