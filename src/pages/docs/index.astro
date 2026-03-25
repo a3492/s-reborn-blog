@@ -18,7 +18,13 @@ git worktree add ../s-reborn-admin codex/admin-recovery
 git worktree add ../s-reborn-db codex/db-migration
 
 # 확인
-git worktree list`;
+git worktree list
+
+# 종료
+git worktree remove ../s-reborn-public
+git worktree remove ../s-reborn-admin
+git worktree remove ../s-reborn-db
+git worktree prune`;
 ---
 <!doctype html>
 <html lang="ko">
