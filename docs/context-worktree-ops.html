@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>S-Reborn Blog Worktree Operations</title>
+  <style>
+    :root {
+      --bg: #faf8f5;
+      --bg2: #f0ede8;
+      --surface: #fffdf9;
+      --text: #1c1917;
+      --muted: #5d564f;
+      --accent: #b8956a;
+      --accent-strong: #8c6d45;
+      --border: rgba(28, 25, 23, 0.12);
+      --shadow: 0 18px 44px rgba(28, 25, 23, 0.06);
+      --radius: 20px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+      --display: 'Paperlogy', 'Pretendard', sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(184, 149, 106, 0.12), transparent 20%),
+        linear-gradient(180deg, #fcfbf8 0%, var(--bg) 42%, #f7f4ef 100%);
+      line-height: 1.7;
+    }
+
+    .wrap {
+      width: min(1120px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 2rem 0 4rem;
+    }
+
+    .hero {
+      display: grid;
+      gap: 1.25rem;
+      grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.7fr);
+      align-items: end;
+      margin-bottom: 1.25rem;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--accent-strong);
+      background: rgba(255, 255, 255, 0.72);
+      width: fit-content;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    h1, h2, h3 {
+      font-family: var(--display);
+      line-height: 1.15;
+      margin: 0;
+    }
+
+    h1 { font-size: clamp(2.2rem, 4vw, 4.2rem); margin-top: 0.75rem; }
+    h2 { font-size: clamp(1.35rem, 2vw, 2rem); margin-bottom: 0.75rem; }
+    p { margin: 0; color: var(--muted); }
+
+    .lede {
+      max-width: 72ch;
+      margin-top: 1rem;
+      font-size: 1.05rem;
+    }
+
+    .hero-note,
+    .card {
+      background: rgba(255, 253, 249, 0.88);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-note {
+      padding: 1.1rem 1.1rem 1rem;
+    }
+
+    .hero-note .label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent-strong);
+      margin-bottom: 0.5rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+
+    .card {
+      padding: 1.15rem;
+    }
+
+    .span-12 { grid-column: span 12; }
+    .span-7 { grid-column: span 7; }
+    .span-6 { grid-column: span 6; }
+    .span-5 { grid-column: span 5; }
+    .span-4 { grid-column: span 4; }
+
+    .list {
+      margin: 0;
+      padding-left: 1.1rem;
+      color: var(--muted);
+    }
+
+    .list li + li { margin-top: 0.35rem; }
+
+    .mono {
+      font-family: var(--mono);
+      font-size: 0.92rem;
+      background: #f6f1ea;
+      border: 1px solid rgba(184, 149, 106, 0.22);
+      border-radius: 14px;
+      padding: 0.95rem 1rem;
+      overflow: auto;
+      color: #3f3529;
+    }
+
+    .steps {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .step {
+      padding: 0.95rem 1rem;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.78));
+    }
+
+    .step strong { display: block; margin-bottom: 0.35rem; }
+
+    .callout {
+      padding: 1rem 1.05rem;
+      border-radius: 16px;
+      border: 1px solid rgba(184, 149, 106, 0.22);
+      background: linear-gradient(180deg, rgba(184,149,106,0.1), rgba(184,149,106,0.04));
+      color: #4b4031;
+    }
+
+    .table-wrap {
+      overflow: auto;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.75);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 740px;
+    }
+
+    th, td {
+      padding: 0.85rem 0.9rem;
+      border-bottom: 1px solid rgba(28,25,23,0.08);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--accent-strong);
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: rgba(184,149,106,0.08);
+    }
+
+    .footer {
+      margin-top: 1.25rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    a { color: var(--accent-strong); }
+
+    @media (max-width: 920px) {
+      .hero,
+      .span-7,
+      .span-6,
+      .span-5,
+      .span-4 { grid-column: span 12; }
+
+      .hero { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Worktree 운영 규칙</div>
+        <h1>컨텍스트가 찼을 때는 새 기능보다 분리부터 한다.</h1>
+        <p class="lede">
+          이 문서는 현재 S-Reborn Blog 작업에 맞춘 실제 운영 규칙이다.
+          핵심 원칙은 단순하다. 한 작업트리에 모든 변경을 몰아넣지 말고,
+          목적별 worktree를 분리해서 컨텍스트 소모와 롤백 비용을 줄인다.
+        </p>
+      </div>
+
+      <aside class="hero-note">
+        <div class="label">Default rule</div>
+        <strong>하나의 worktree = 하나의 책임.</strong>
+        <p style="margin-top:0.5rem;">공개 사이트, 관리자, DB 마이그레이션, 문서를 같은 트리에서 섞지 않는다.</p>
+      </aside>
+    </section>
+
+    <section class="grid">
+      <article class="card span-7">
+        <h2>1. 분리 기준</h2>
+        <ul class="list">
+          <li><strong>public-site</strong>: 공개 화면과 스타일만 다룬다.</li>
+          <li><strong>admin-recovery</strong>: 관리자 UI, 권한, 발행, 로그, 복구 액션을 다룬다.</li>
+          <li><strong>db-migration</strong>: Supabase schema, RLS, migration만 다룬다.</li>
+          <li><strong>docs</strong>: 계획서, 인수인계, 작업 원칙만 다룬다.</li>
+        </ul>
+      </article>
+
+      <article class="card span-5">
+        <h2>2. 추천 명명 규칙</h2>
+        <div class="mono">codex/public-site
+codex/admin-recovery
+codex/db-migration
+codex/docs-handbook</div>
+        <p style="margin-top:0.75rem;">브랜치 prefix는 고정하고, worktree 이름은 역할이 바로 보이게 짧게 유지한다.</p>
+      </article>
+
+      <article class="card span-6">
+        <h2>3. 시작 순서</h2>
+        <div class="steps">
+          <div class="step"><strong>1. 현재 상태를 고정한다.</strong><span>진행 중인 작업을 커밋하거나 임시 보관한다.</span></div>
+          <div class="step"><strong>2. 새 worktree를 만든다.</strong><span>기능별로 다른 디렉터리에 체크아웃한다.</span></div>
+          <div class="step"><strong>3. handoff 파일을 둔다.</strong><span>현재 목적, 파일 범위, 다음 액션을 적는다.</span></div>
+          <div class="step"><strong>4. 세션을 분리한다.</strong><span>편집기, 터미널, AI 검토를 worktree 단위로만 운영한다.</span></div>
+        </div>
+      </article>
+
+      <article class="card span-6">
+        <h2>4. Hand-off 템플릿</h2>
+        <div class="mono">goal: settings/media diff 화면 완성
+scope: src/pages/admin/settings/*, src/pages/admin/media/*
+done: 목록/상세/복구 구현
+next: diff compact UI 정리
+risks: audit snapshot schema 불일치 확인
+owner: Codex</div>
+        <p style="margin-top:0.75rem;">이 템플릿은 worktree마다 복붙해서 사용한다. 컨텍스트를 말이 아니라 파일로 남기는 방식이다.</p>
+      </article>
+
+      <article class="card span-12">
+        <h2>5. 운영 원칙</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>상황</th>
+                <th>권장 동작</th>
+                <th>피해야 할 것</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>공개 UI 수정</td>
+                <td>public-site worktree만 사용</td>
+                <td>admin/db 작업과 같은 트리에 섞기</td>
+              </tr>
+              <tr>
+                <td>마이그레이션 추가</td>
+                <td>db-migration worktree에서만 처리</td>
+                <td>UI 수정과 같은 커밋에 넣기</td>
+              </tr>
+              <tr>
+                <td>긴 설계 검토</td>
+                <td>Google AI Studio에 요약본만 올리기</td>
+                <td>전체 저장소를 무작정 던지기</td>
+              </tr>
+              <tr>
+                <td>Unix/WSL 병렬 작업</td>
+                <td>tmux로 panes만 보조적으로 사용</td>
+                <td>Windows PowerShell에서 tmux를 주력처럼 쓰기</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="card span-6">
+        <h2>6. 병합 기준</h2>
+        <ul class="list">
+          <li>한 worktree는 한 목적만 끝내고 병합한다.</li>
+          <li>병합 전에 build와 최소한의 화면 확인을 끝낸다.</li>
+          <li>충돌이 생기면 오래된 worktree를 먼저 버리지 말고, 기준 worktree를 정한 뒤 다시 동기화한다.</li>
+        </ul>
+      </article>
+
+      <article class="card span-6">
+        <h2>7. 실무 결론</h2>
+        <div class="callout">
+          지금 이 프로젝트에서는 <strong>Git worktree</strong>가 핵심이다.
+          <br />tmux는 보조, cmux는 현재 환경의 우선순위가 아니다.
+          <br />Google AI Studio는 대용량 문맥 검토용으로만 쓰는 편이 맞다.
+        </div>
+      </article>
+
+      <article class="card span-12">
+        <p class="footer">
+          참고 문서는 <a href="./context-strategy-plan.html">context-strategy-plan.html</a> 과 짝으로 보면 된다.
+          이 문서는 운영 규칙, 저 문서는 도구 선택 근거를 정리한 파일이다.
+        </p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
