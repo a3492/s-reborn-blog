@@ -11,6 +11,14 @@ const docs = [
     desc: '컨텍스트가 찼을 때 실제로 worktree를 어떻게 분리하고 넘길지 정리한 운영 규칙 문서.',
   },
 ];
+
+const quickStart = `# worktree 분리
+git worktree add ../s-reborn-public codex/public-site
+git worktree add ../s-reborn-admin codex/admin-recovery
+git worktree add ../s-reborn-db codex/db-migration
+
+# 확인
+git worktree list`;
 ---
 <!doctype html>
 <html lang="ko">
@@ -55,6 +63,49 @@ const docs = [
     .title { font-family: var(--display); font-size: 1.35rem; margin: 0 0 0.35rem; color: var(--text); }
     .desc { margin: 0; color: var(--muted); line-height: 1.65; }
     .link { margin-top: 0.8rem; color: var(--accent); font-weight: 600; }
+    .quick {
+      padding: 1.2rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255, 253, 249, 0.92);
+      box-shadow: var(--shadow);
+    }
+    .quick-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .quick-title {
+      font-family: var(--display);
+      font-size: 1.2rem;
+      margin: 0;
+    }
+    .quick-btn {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--accent);
+      border-radius: 999px;
+      padding: 0.5rem 0.85rem;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .quick-btn:hover { border-color: rgba(140, 109, 69, 0.35); }
+    .quick-code {
+      margin: 0;
+      padding: 1rem;
+      border-radius: 16px;
+      border: 1px solid rgba(184, 149, 106, 0.2);
+      background: #f6f1ea;
+      color: #3f3529;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92rem;
+      line-height: 1.7;
+      overflow: auto;
+      white-space: pre-wrap;
+    }
     .footer { margin-top: 1rem; color: var(--muted); font-size: 0.95rem; }
   </style>
 </head>
@@ -67,6 +118,14 @@ const docs = [
     </section>
 
     <section class="grid">
+      <section class="quick" style="grid-column: 1 / -1;">
+        <div class="quick-head">
+          <h2 class="quick-title">Quick Start</h2>
+          <button class="quick-btn" type="button" data-copy-worktree>복사</button>
+        </div>
+        <pre class="quick-code" data-worktree-snippet>{quickStart}</pre>
+      </section>
+
       {docs.map((doc) => (
         <a class="card" href={doc.href}>
           <h2 class="title">{doc.title}</h2>
@@ -78,5 +137,26 @@ const docs = [
 
     <p class="footer">직접 경로: <code>/docs/context-strategy-plan</code>, <code>/docs/context-worktree-ops</code></p>
   </main>
+
+  <script>
+    const button = document.querySelector('[data-copy-worktree]');
+    const snippet = document.querySelector('[data-worktree-snippet]');
+    if (button && snippet) {
+      button.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(snippet.textContent || '');
+          button.textContent = '복사됨';
+          window.setTimeout(() => {
+            button.textContent = '복사';
+          }, 1200);
+        } catch {
+          button.textContent = '실패';
+          window.setTimeout(() => {
+            button.textContent = '복사';
+          }, 1200);
+        }
+      });
+    }
+  </script>
 </body>
 </html>
