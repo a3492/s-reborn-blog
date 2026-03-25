@@ -170,6 +170,23 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       }).join('');
     };
 
+    const summarizeLog = (row) => {
+      if (row.action === 'settings_updated') {
+        const keys = Array.isArray(row.after_json?.keys) ? row.after_json.keys.join(', ') : 'site settings';
+        return `settings · ${keys}`;
+      }
+      if (row.action === 'media_asset_created') {
+        return `media · ${row.after_json?.file_name ?? 'asset'}`;
+      }
+      if (row.action === 'post_created') {
+        return `post · ${row.after_json?.slug ?? 'new post'}`;
+      }
+      if (row.action === 'publish_succeeded') {
+        return `publish · ${row.after_json?.slug ?? row.resource_type}`;
+      }
+      return `${row.resource_type} · ${row.action}`;
+    };
+
     const renderLogs = (rows) => {
       if (!logList) return;
       if (!rows.length) {
@@ -179,8 +196,8 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       logList.innerHTML = rows.map((row) => `
         <li class="admin-list-row">
           <div>
-            <p class="admin-item-title">${escapeHtml(row.action)}</p>
-            <p class="admin-item-meta">${escapeHtml(row.resource_type)} · ${formatDate(row.created_at)}</p>
+            <p class="admin-item-title">${escapeHtml(summarizeLog(row))}</p>
+            <p class="admin-item-meta">${formatDate(row.created_at)} · actor ${escapeHtml(row.actor_id ?? '-')}</p>
           </div>
         </li>
       `).join('');
@@ -245,7 +262,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           { data: recentJobs, error: recentJobsError },
         ] = await Promise.all([
           supabase.from('posts').select('id, title, slug, status, updated_at').order('updated_at', { ascending: false }).limit(5),
-          supabase.from('audit_logs').select('action, resource_type, created_at').order('created_at', { ascending: false }).limit(5),
+          supabase.from('audit_logs').select('action, resource_type, created_at, actor_id, after_json').order('created_at', { ascending: false }).limit(5),
           supabase.from('publish_jobs').select('status, target_repo, target_branch, target_path, error_message, created_at, post_id, posts(slug)').order('created_at', { ascending: false }).limit(5),
           supabase.from('publish_jobs').select('post_id, status, created_at').order('created_at', { ascending: false }).limit(30),
         ]);
