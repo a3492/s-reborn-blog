@@ -100,6 +100,18 @@ git worktree prune</div>
           <li>충돌이 생기면 오래된 worktree를 먼저 버리지 말고 기준 worktree를 정한 뒤 다시 동기화한다.</li>
         </ul>
       </article>
+
+      <article class="card span-12">
+        <h2>rebase conflict 대응</h2>
+        <div class="steps">
+          <div class="step"><strong>1. 중단</strong><span>충돌 파일을 억지로 넘기지 말고 rebase를 멈춘다.</span></div>
+          <div class="step"><strong>2. 기준 선택</strong><span>원격의 최신 상태와 현재 worktree 중 무엇을 기준으로 둘지 먼저 정한다.</span></div>
+          <div class="step"><strong>3. 병합</strong><span>충돌 마커를 제거하고, 의도한 변경만 남긴다.</span></div>
+          <div class="step"><strong>4. 검증</strong><span>빌드와 핵심 화면을 다시 확인한 뒤 rebase를 계속한다.</span></div>
+        </div>
+        <p style="margin-top: 0.75rem;">충돌이 길어지면 worktree를 새로 만들기보다, 손상되지 않은 기준 브랜치를 먼저 정리하는 편이 더 안전하다.</p>
+      </article>
+
       <article class="card span-12">
         <div class="callout">
           최종 결론: 지금 프로젝트의 다음 축은 <strong>Git worktree 기반 분리</strong>다. tmux는 보조, Google AI Studio는 대용량 검토, cmux는 현재 우선순위가 아니다.
