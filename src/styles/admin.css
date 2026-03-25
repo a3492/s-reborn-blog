@@ -764,6 +764,11 @@ body.admin-shell {
   color: var(--admin-danger);
 }
 
+.admin-status.archived {
+  background: rgba(107, 114, 128, 0.14);
+  color: var(--admin-text-3);
+}
+
 .admin-cell-subtle {
   color: var(--admin-text-3);
   font-size: 0.8rem;

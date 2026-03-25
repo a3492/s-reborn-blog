@@ -248,6 +248,17 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       return { siteTitle, siteDescription, featuredSlug, defaultOgImage, aboutIntro, socialLinks };
     };
 
+    const applySnapshotToForm = (snapshot) => {
+      if (!form || !snapshot) return;
+      form.elements.site_title.value = snapshot.site_meta?.title || '';
+      form.elements.site_description.value = snapshot.site_meta?.description || '';
+      form.elements.default_og_image.value = snapshot.site_meta?.default_og_image || '';
+      form.elements.featured_slug.value = snapshot.homepage?.featured_slug || '';
+      form.elements.about_intro.value = snapshot.about_page?.intro || '';
+      form.elements.social_links.value = JSON.stringify(snapshot.social_links || {}, null, 2);
+      renderPreview();
+    };
+
     const formatDate = (value) => {
       if (!value) return '-';
       return new Intl.DateTimeFormat('ko-KR', {
@@ -280,12 +291,16 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       }
 
       historyList.innerHTML = data.map((row) => {
+        const snapshot = row.after_json?.snapshot || null;
         const keys = Array.isArray(row.after_json?.keys) ? row.after_json.keys.join(', ') : 'site settings';
         return `
           <li class="admin-list-row">
             <div>
               <p class="admin-item-title">${escapeHtml(keys)}</p>
               <p class="admin-item-meta">${formatDate(row.created_at)} · actor ${escapeHtml(row.actor_id || '-')}</p>
+            </div>
+            <div class="admin-actions-inline">
+              ${snapshot ? `<button type="button" class="admin-btn admin-btn-sm" data-settings-restore='${escapeHtml(JSON.stringify(snapshot))}'>복원</button>` : ''}
             </div>
           </li>
         `;
@@ -340,6 +355,18 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           renderPreview();
         });
 
+        historyList?.addEventListener('click', (event) => {
+          const button = event.target.closest('[data-settings-restore]');
+          if (!button) return;
+          try {
+            const snapshot = JSON.parse(button.dataset.settingsRestore || '{}');
+            applySnapshotToForm(snapshot);
+            setMessage('선택한 settings 스냅샷을 폼에 복원했습니다. 저장하면 현재 설정이 덮어써집니다.', 'info');
+          } catch {
+            setMessage('settings 스냅샷 복원에 실패했습니다.', 'error');
+          }
+        });
+
         form?.addEventListener('submit', async (event) => {
           event.preventDefault();
           if (getCurrentRole() !== 'owner') {
@@ -391,6 +418,20 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
             resource_type: 'site_settings',
             after_json: {
               keys: ['site_meta', 'homepage', 'about_page', 'social_links'],
+              snapshot: {
+                site_meta: {
+                  title: String(formData.get('site_title') || '').trim(),
+                  description: String(formData.get('site_description') || '').trim(),
+                  default_og_image: String(formData.get('default_og_image') || '').trim(),
+                },
+                homepage: {
+                  featured_slug: String(formData.get('featured_slug') || '').trim(),
+                },
+                about_page: {
+                  intro: String(formData.get('about_intro') || '').trim(),
+                },
+                social_links: socialLinks,
+              },
             },
           });
 

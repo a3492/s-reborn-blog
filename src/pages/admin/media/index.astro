@@ -133,7 +133,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
       <section class="admin-card pad-md">
         <h2 class="admin-section-title">Recent Assets</h2>
-        <p class="admin-section-desc">최근 등록 자산을 바로 복사해 에디터에 넣을 수 있습니다.</p>
+        <p class="admin-section-desc">최근 등록 자산을 바로 복사하거나 아카이브/복구할 수 있습니다.</p>
         <div class="admin-panel-stack" data-admin-media-list>
           <p class="admin-help">목록을 불러오는 중입니다.</p>
         </div>
@@ -290,43 +290,54 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     }
   };
 
-  const renderAssetList = (assets) => {
-    if (!list) return;
+    const renderAssetList = (assets) => {
+      if (!list) return;
 
-    if (!assets?.length) {
-      list.innerHTML = '<p class="admin-help">아직 등록된 자산이 없습니다.</p>';
-      return;
+      if (!assets?.length) {
+        list.innerHTML = '<p class="admin-help">아직 등록된 자산이 없습니다.</p>';
+        return;
     }
 
-    list.innerHTML = assets
-      .map((asset) => {
+      list.innerHTML = assets
+        .map((asset) => {
         const markdown = escapeHtml(buildMarkdown(asset));
         const title = escapeHtml(asset.file_name);
         const provider = escapeHtml(asset.storage_provider || 'manual');
         const mimeType = escapeHtml(asset.mime_type || 'mime 미등록');
         const url = escapeHtml(asset.public_url || '');
         const size = asset.width && asset.height ? `${asset.width}×${asset.height}` : 'size 미등록';
+        const isArchived = Boolean(asset.deleted_at);
 
         return `
-          <article class="admin-card pad-md">
+          <article class="admin-card pad-md" data-media-asset-card data-media-asset-id="${escapeHtml(asset.id)}" data-media-asset-archived="${isArchived ? 'true' : 'false'}">
             <div class="admin-actions-row">
               <div>
                 <h3 class="admin-section-title">${title}</h3>
                 <p class="admin-section-desc">${provider} · ${mimeType} · ${size}</p>
               </div>
-              <a class="admin-btn" href="${url}" target="_blank" rel="noreferrer">열기</a>
+              <div class="admin-actions-inline">
+                <span class="admin-status ${isArchived ? 'draft' : 'ready'}">${isArchived ? 'archived' : 'active'}</span>
+                <a class="admin-btn" href="${url}" target="_blank" rel="noreferrer">열기</a>
+              </div>
             </div>
             <div class="admin-panel-stack">
               <label class="admin-field">
                 <span class="admin-label">Markdown</span>
                 <textarea class="admin-textarea" style="min-height: 76px;" readonly data-asset-markdown>${markdown}</textarea>
               </label>
-              <button type="button" class="admin-btn" data-copy-asset="markdown">Markdown 복사</button>
+              <div class="admin-actions-inline">
+                <button type="button" class="admin-btn admin-btn-sm" data-copy-asset="markdown">Markdown 복사</button>
+                <button type="button" class="admin-btn admin-btn-sm" data-media-archive-action="${isArchived ? 'restore' : 'archive'}">
+                  ${isArchived ? '복구' : '아카이브'}
+                </button>
+              </div>
               <label class="admin-field">
                 <span class="admin-label">Thumbnail URL</span>
                 <input class="admin-input" type="text" readonly value="${url}" data-asset-thumbnail />
               </label>
-              <button type="button" class="admin-btn" data-copy-asset="thumbnail">Thumbnail 복사</button>
+              <div class="admin-actions-inline">
+                <button type="button" class="admin-btn admin-btn-sm" data-copy-asset="thumbnail">Thumbnail 복사</button>
+              </div>
             </div>
           </article>
         `;
@@ -369,7 +380,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     const loadAssets = async () => {
       const { data, error } = await supabase
         .from('media_assets')
-        .select('id, file_name, storage_provider, mime_type, public_url, alt_text, caption, width, height, created_at')
+        .select('id, file_name, storage_provider, mime_type, public_url, alt_text, caption, width, height, deleted_at, created_at')
         .order('created_at', { ascending: false })
         .limit(12);
 
@@ -406,7 +417,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       historyList.innerHTML = data.map((row) => `
         <li class="admin-list-row">
           <div>
-            <p class="admin-item-title">${escapeHtml(row.after_json?.file_name || 'media asset')}</p>
+            <p class="admin-item-title">${escapeHtml(row.action)} · ${escapeHtml(row.after_json?.file_name || 'media asset')}</p>
             <p class="admin-item-meta">${formatDate(row.created_at)} · ${escapeHtml(row.after_json?.storage_provider || '-')} · actor ${escapeHtml(row.actor_id || '-')}</p>
           </div>
         </li>
@@ -441,6 +452,55 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       if (button.dataset.copyAsset === 'thumbnail') {
         await copyText(card.querySelector('[data-asset-thumbnail]')?.value || '', 'Thumbnail URL');
       }
+    });
+
+    list?.addEventListener('click', async (event) => {
+      const button = event.target.closest('[data-media-archive-action]');
+      if (!button) return;
+
+      const card = button.closest('[data-media-asset-card]');
+      if (!card) return;
+
+      const assetId = card.dataset.mediaAssetId;
+      const action = button.dataset.mediaArchiveAction;
+      if (!assetId || !action) return;
+
+      const { data: sessionData } = await supabase.auth.getSession();
+      const session = sessionData.session;
+      if (!session) {
+        window.location.replace('/admin/login?redirectTo=/admin/media');
+        return;
+      }
+
+      const isRestore = action === 'restore';
+      const { data: asset, error: assetError } = await supabase
+        .from('media_assets')
+        .update({ deleted_at: isRestore ? null : new Date().toISOString() })
+        .eq('id', assetId)
+        .select('id, file_name, public_url, storage_provider, deleted_at')
+        .single();
+
+      if (assetError) {
+        setMessage(assetError.message, 'error');
+        return;
+      }
+
+      await supabase.from('audit_logs').insert({
+        actor_id: session.user.id,
+        action: isRestore ? 'media_asset_restored' : 'media_asset_archived',
+        resource_type: 'media_asset',
+        resource_id: asset.id,
+        after_json: {
+          file_name: asset.file_name,
+          public_url: asset.public_url,
+          storage_provider: asset.storage_provider,
+          deleted_at: asset.deleted_at,
+        },
+      });
+
+      setMessage(isRestore ? '미디어 자산을 복구했습니다.' : '미디어 자산을 아카이브했습니다.', 'success');
+      loadAssets();
+      loadHistory();
     });
 
     fileInput?.addEventListener('change', async (event) => {
