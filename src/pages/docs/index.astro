@@ -25,6 +25,21 @@ git worktree remove ../s-reborn-public
 git worktree remove ../s-reborn-admin
 git worktree remove ../s-reborn-db
 git worktree prune`;
+
+const refCards = [
+  {
+    title: 'Hand-off',
+    body: 'done / next / risks만 남기고 다음 worktree로 넘긴다.',
+  },
+  {
+    title: 'Exit',
+    body: 'commit → hand-off → remove → prune 순서로 닫는다.',
+  },
+  {
+    title: 'Rebase',
+    body: '충돌 시 중단 → 기준 선택 → 해소 → build → continue 순서로 처리한다.',
+  },
+];
 ---
 <!doctype html>
 <html lang="ko">
@@ -99,6 +114,30 @@ git worktree prune`;
       cursor: pointer;
     }
     .quick-btn:hover { border-color: rgba(140, 109, 69, 0.35); }
+    .ref-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .ref-card {
+      padding: 1rem 1.1rem;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255, 253, 249, 0.92);
+      box-shadow: var(--shadow);
+    }
+    .ref-title {
+      margin: 0 0 0.35rem;
+      font-family: var(--display);
+      font-size: 1.02rem;
+    }
+    .ref-body {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
     .quick-code {
       margin: 0;
       padding: 1rem;
@@ -130,6 +169,15 @@ git worktree prune`;
           <button class="quick-btn" type="button" data-copy-worktree>복사</button>
         </div>
         <pre class="quick-code" data-worktree-snippet>{quickStart}</pre>
+      </section>
+
+      <section class="ref-grid" style="grid-column: 1 / -1;">
+        {refCards.map((card) => (
+          <article class="ref-card">
+            <h2 class="ref-title">{card.title}</h2>
+            <p class="ref-body">{card.body}</p>
+          </article>
+        ))}
       </section>
 
       {docs.map((doc) => (
