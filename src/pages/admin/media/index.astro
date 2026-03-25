@@ -140,6 +140,14 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       </section>
 
       <section class="admin-card pad-md">
+        <h2 class="admin-section-title">Recent Upload Logs</h2>
+        <p class="admin-section-desc">최근 media 등록 이력을 함께 확인합니다.</p>
+        <ul class="admin-list" data-admin-media-history>
+          <li class="admin-list-row"><div><p class="admin-item-title">불러오는 중...</p><p class="admin-item-meta">최근 audit log를 조회합니다.</p></div></li>
+        </ul>
+      </section>
+
+      <section class="admin-card pad-md">
         <h2 class="admin-section-title">Rule</h2>
         <p class="admin-section-desc">당분간은 수동 URL 등록이 기본입니다.</p>
         <ul class="admin-list">
@@ -165,6 +173,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
   const previewName = document.querySelector('[data-admin-media-preview-name]');
   const previewMeta = document.querySelector('[data-admin-media-preview-meta]');
   const previewPath = document.querySelector('[data-admin-media-preview-path]');
+  const historyList = document.querySelector('[data-admin-media-history]');
   let localPreviewUrl = null;
 
   const setMessage = (text, state = 'info') => {
@@ -339,6 +348,17 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     }
   };
 
+  const formatDate = (value) => {
+    if (!value) return '-';
+    return new Intl.DateTimeFormat('ko-KR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    }).format(new Date(value));
+  };
+
   if (!supabaseUrl || !supabaseKey) {
     setMessage('Supabase 환경 변수가 없어 media registry를 초기화할 수 없습니다.', 'error');
   } else {
@@ -361,6 +381,36 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       }
 
       renderAssetList(data || []);
+    };
+
+    const loadHistory = async () => {
+      if (!historyList) return;
+      const { data, error } = await supabase
+        .from('audit_logs')
+        .select('created_at, actor_id, after_json')
+        .eq('action', 'media_asset_created')
+        .eq('resource_type', 'media_asset')
+        .order('created_at', { ascending: false })
+        .limit(6);
+
+      if (error) {
+        historyList.innerHTML = `<li class="admin-list-row"><div><p class="admin-item-title">조회 실패</p><p class="admin-item-meta">${escapeHtml(error.message)}</p></div></li>`;
+        return;
+      }
+
+      if (!data?.length) {
+        historyList.innerHTML = '<li class="admin-list-row"><div><p class="admin-item-title">이력이 없습니다.</p><p class="admin-item-meta">첫 media 등록 후 여기에 표시됩니다.</p></div></li>';
+        return;
+      }
+
+      historyList.innerHTML = data.map((row) => `
+        <li class="admin-list-row">
+          <div>
+            <p class="admin-item-title">${escapeHtml(row.after_json?.file_name || 'media asset')}</p>
+            <p class="admin-item-meta">${formatDate(row.created_at)} · ${escapeHtml(row.after_json?.storage_provider || '-')} · actor ${escapeHtml(row.actor_id || '-')}</p>
+          </div>
+        </li>
+      `).join('');
     };
 
     form?.addEventListener('input', syncHelpers);
@@ -400,6 +450,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     });
     syncHelpers();
     loadAssets();
+    loadHistory();
 
     form?.addEventListener('submit', async (event) => {
       event.preventDefault();
@@ -523,6 +574,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       clearLocalPreview();
       syncHelpers();
       loadAssets();
+      loadHistory();
     });
   }
 </script>

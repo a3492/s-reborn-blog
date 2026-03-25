@@ -94,6 +94,14 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
             <li class="admin-list-row"><div><p class="admin-item-title">대기 중</p><p class="admin-item-meta">입력값을 읽는 중입니다.</p></div></li>
           </ul>
         </section>
+
+        <section class="admin-card pad-md">
+          <h3 class="admin-section-title">Recent Changes</h3>
+          <p class="admin-section-desc">최근 settings 저장 이력을 확인합니다.</p>
+          <ul class="admin-list" data-settings-history>
+            <li class="admin-list-row"><div><p class="admin-item-title">불러오는 중...</p><p class="admin-item-meta">최근 audit log를 조회합니다.</p></div></li>
+          </ul>
+        </section>
       </div>
     </section>
   </div>
@@ -109,6 +117,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     const previewOg = document.querySelector('[data-settings-preview-og]');
     const socialPreview = document.querySelector('[data-settings-social-preview]');
     const validationList = document.querySelector('[data-settings-validation]');
+    const historyList = document.querySelector('[data-settings-history]');
     const getCurrentRole = () => document.body.dataset.adminRole || '';
 
     const setMessage = (text, state = 'info') => {
@@ -239,6 +248,50 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       return { siteTitle, siteDescription, featuredSlug, defaultOgImage, aboutIntro, socialLinks };
     };
 
+    const formatDate = (value) => {
+      if (!value) return '-';
+      return new Intl.DateTimeFormat('ko-KR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+      }).format(new Date(value));
+    };
+
+    const loadHistory = async (supabase) => {
+      if (!historyList) return;
+      const { data, error } = await supabase
+        .from('audit_logs')
+        .select('created_at, actor_id, after_json')
+        .eq('action', 'settings_updated')
+        .eq('resource_type', 'site_settings')
+        .order('created_at', { ascending: false })
+        .limit(6);
+
+      if (error) {
+        historyList.innerHTML = `<li class="admin-list-row"><div><p class="admin-item-title">조회 실패</p><p class="admin-item-meta">${escapeHtml(error.message)}</p></div></li>`;
+        return;
+      }
+
+      if (!data?.length) {
+        historyList.innerHTML = '<li class="admin-list-row"><div><p class="admin-item-title">이력이 없습니다.</p><p class="admin-item-meta">첫 settings 저장 후 여기에 표시됩니다.</p></div></li>';
+        return;
+      }
+
+      historyList.innerHTML = data.map((row) => {
+        const keys = Array.isArray(row.after_json?.keys) ? row.after_json.keys.join(', ') : 'site settings';
+        return `
+          <li class="admin-list-row">
+            <div>
+              <p class="admin-item-title">${escapeHtml(keys)}</p>
+              <p class="admin-item-meta">${formatDate(row.created_at)} · actor ${escapeHtml(row.actor_id || '-')}</p>
+            </div>
+          </li>
+        `;
+      }).join('');
+    };
+
     const upsertSetting = async (supabase, key, valueJson, userId) => {
       return supabase.from('site_settings').upsert({
         key,
@@ -280,6 +333,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           form.elements.about_intro.value = aboutPage.intro || '';
           form.elements.social_links.value = JSON.stringify(socialLinks, null, 2);
           renderPreview();
+          loadHistory(supabase);
         }
 
         form?.addEventListener('input', () => {
@@ -341,6 +395,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           });
 
           setMessage('settings가 저장되었습니다.', 'success');
+          loadHistory(supabase);
         });
       }
     }

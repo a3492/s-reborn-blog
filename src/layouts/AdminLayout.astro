@@ -71,6 +71,11 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       const roleWarning = document.querySelector('[data-admin-role-warning]');
       const loginPath = '/admin/login';
       const roleRank = { editor: 1, owner: 2 };
+      const syncOwnerOnlyNavigation = (role) => {
+        document.querySelectorAll('[data-owner-only="true"]').forEach((link) => {
+          link.closest('li')?.toggleAttribute('hidden', role !== 'owner');
+        });
+      };
 
       const finish = () => {
         loading?.setAttribute('hidden', '');
@@ -131,6 +136,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           userPill.textContent = `${profile.display_name || profile.email} · ${profile.role}`;
           document.body.dataset.adminRole = profile.role;
           document.body.dataset.adminUserId = userId;
+          syncOwnerOnlyNavigation(profile.role);
           document.dispatchEvent(new CustomEvent('admin:session-ready', {
             detail: {
               userId,

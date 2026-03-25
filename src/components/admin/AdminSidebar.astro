@@ -3,6 +3,7 @@ interface NavItem {
   href: string;
   label: string;
   badge?: string;
+  requiresOwner?: boolean;
 }
 
 interface NavSection {
@@ -28,8 +29,8 @@ const sections: NavSection[] = [
     label: 'Planned',
     items: [
       { href: '/admin/media', label: 'Media', badge: 'P2' },
-      { href: '/admin/settings', label: 'Settings', badge: 'P2' },
-      { href: '/admin/pipeline', label: 'Pipeline', badge: 'P3' },
+      { href: '/admin/settings', label: 'Settings', badge: 'P2', requiresOwner: true },
+      { href: '/admin/pipeline', label: 'Pipeline', badge: 'P3', requiresOwner: true },
       { href: '/admin/jobs', label: 'Jobs', badge: 'P3' },
     ],
   },
@@ -51,7 +52,11 @@ const sections: NavSection[] = [
           const active = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href));
           return (
             <li>
-              <a href={item.href} class:list={['admin-nav-link', { 'is-active': active }]}>
+              <a
+                href={item.href}
+                class:list={['admin-nav-link', { 'is-active': active }]}
+                data-owner-only={item.requiresOwner ? 'true' : undefined}
+              >
                 <span>{item.label}</span>
                 {item.badge && <span class="admin-nav-badge">{item.badge}</span>}
               </a>
