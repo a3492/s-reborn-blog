@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 시대의 의사 역할 — 대체되는 것과 더 중요해지는 것</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+  <link rel="apple-touch-icon" href="./assets/apple-touch-icon.svg" />
+  <meta name="description" content="AI가 처리할 수 있는 업무가 늘어날수록 의사 고유의 역할이 더 선명해집니다. 시리즈 마지막 편에서 AI 시대 의사의 역량을 정리합니다." />
+  <link rel="canonical" href="./20-doctors-role-in-ai-era.html" />
+  <meta name="thumbnail_alt" content="AI 시대의 의사 역할 — 대체되는 것과 더 중요해지는 것을 보여주는 대표 이미지" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="AI 시대의 의사 역할 — 대체되는 것과 더 중요해지는 것 | S-Reborn" />
+  <meta property="og:description" content="AI가 처리할 수 있는 업무가 늘어날수록 의사 고유의 역할이 더 선명해집니다. 시리즈 마지막 편에서 AI 시대 의사의 역량을 정리합니다." />
+  <meta property="og:image" content="./thumbnails/doctors-role-in-ai-era.svg" />
+  <meta property="og:image:alt" content="AI 시대의 의사 역할 — 대체되는 것과 더 중요해지는 것을 보여주는 대표 이미지" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AI 시대의 의사 역할 — 대체되는 것과 더 중요해지는 것 | S-Reborn" />
+  <meta name="twitter:description" content="AI가 처리할 수 있는 업무가 늘어날수록 의사 고유의 역할이 더 선명해집니다. 시리즈 마지막 편에서 AI 시대 의사의 역량을 정리합니다." />
+  <meta name="twitter:image" content="./thumbnails/doctors-role-in-ai-era.svg" />
+  <meta name="twitter:image:alt" content="AI 시대의 의사 역할 — 대체되는 것과 더 중요해지는 것을 보여주는 대표 이미지" />
+  <script type="application/json" class="frontmatter">
+    {
+      "content_id": "doctor-ai-010",
+      "title": "AI 시대의 의사 역할 — 대체되는 것과 더 중요해지는 것",
+      "slug": "doctors-role-in-ai-era",
+      "content_type": "article",
+      "series": "의사가 배우는 AI",
+      "series_order": 10,
+      "status": "published",
+      "publish_priority": 3,
+      "recommended_order": 11,
+      "primary_keyword": "AI 시대 의사 역할",
+      "thumbnail_label": "Doctor's Role",
+      "thumbnail_image": "./thumbnails/doctors-role-in-ai-era.svg",
+      "thumbnail_alt": "AI 시대의 의사 역할 — 대체되는 것과 더 중요해지는 것을 보여주는 대표 이미지",
+      "audience": ["physician", "resident", "fellow"],
+      "difficulty": "introductory",
+      "specialty": ["common"],
+      "topic_groups": ["future of medicine", "physician competency", "ai strategy"],
+      "keywords": ["AI 시대 의사", "의사 역할", "AI 대체", "임상 역량", "프롬프팅", "비판적 사고"],
+      "hashtags": ["#의사가배우는AI", "#AI시대의사", "#의사역할", "#미래의료", "#SReborn"],
+      "seo_title": "AI 시대의 의사 역할 — 대체되는 것과 더 중요해지는 것 | S-Reborn",
+      "seo_description": "AI가 처리할 수 있는 업무가 늘어날수록 의사 고유의 역할이 더 선명해집니다. 시리즈 마지막 편에서 AI 시대 의사의 역량을 정리합니다.",
+      "cta": "지금 내 업무 중 AI로 대체할 수 있는 것과 없는 것을 직접 구분해 보세요.",
+      "updated_at": "2026-03-25",
+      "owner": "codex"
+    }
+  </script>
+  <style>
+    :root {
+      --bg: #fbf7f1;
+      --ink: #1d2328;
+      --muted: #5f6870;
+      --brand: #155d4b;
+      --line: #ddd4c6;
+      --card: #fffdf9;
+      --accent: #bf5f2f;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at left top, #f3ead8 0, transparent 20%),
+        linear-gradient(180deg, #fbf7f1 0%, #f4ede2 100%);
+      color: var(--ink);
+      font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+      line-height: 1.75;
+    }
+    .page { max-width: 860px; margin: 0 auto; padding: 56px 20px 88px; }
+    .topnav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .brandmark {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .brandmark img {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+    }
+    .hero, .box {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: 0 12px 34px rgba(29, 35, 40, 0.06);
+    }
+    .hero { padding: 36px; }
+    .box { margin-top: 20px; padding: 28px; }
+    .label {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #e9f2ee;
+      color: var(--brand);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+    }
+    .label-final {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #f3e8de;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+    }
+    h1, h2, h3 { line-height: 1.28; margin: 0 0 14px; }
+    h1 { font-size: 38px; }
+    h2 { font-size: 28px; }
+    h3 { font-size: 20px; color: var(--brand); margin-top: 20px; }
+    p { margin: 0 0 14px; }
+    .lead { font-size: 19px; color: var(--muted); }
+    ul, ol { margin: 0; padding-left: 22px; }
+    li { margin-bottom: 10px; }
+    .prompt {
+      background: #f5efe6;
+      border-radius: 16px;
+      padding: 18px;
+      border: 1px solid #e6d8c8;
+      white-space: pre-wrap;
+      font-family: Consolas, monospace;
+      font-size: 14px;
+    }
+    .prompt-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--brand);
+      margin-bottom: 8px;
+      margin-top: 20px;
+    }
+    .warn {
+      padding: 16px 18px;
+      border-left: 4px solid var(--accent);
+      background: #fbf1ea;
+      border-radius: 14px;
+    }
+    .warn strong { color: var(--accent); }
+    .meta { color: var(--muted); font-size: 14px; }
+    .takeaway {
+      margin-top: 20px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: #eef4ef;
+      border: 1px solid #d6e3da;
+    }
+    .takeaway strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--brand);
+    }
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .compare-col {
+      border-radius: 16px;
+      padding: 20px;
+    }
+    .compare-col.replaceable {
+      background: #fdf3ef;
+      border: 1px solid #f0d5c8;
+    }
+    .compare-col.irreplaceable {
+      background: #eef4ef;
+      border: 1px solid #d6e3da;
+    }
+    .compare-col h4 {
+      margin: 0 0 12px;
+      font-size: 15px;
+    }
+    .compare-col.replaceable h4 { color: var(--accent); }
+    .compare-col.irreplaceable h4 { color: var(--brand); }
+    .compare-col ul {
+      padding-left: 18px;
+      margin: 0;
+    }
+    .compare-col li {
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+    @media (max-width: 600px) {
+      .compare-grid { grid-template-columns: 1fr; }
+    }
+    .series-summary {
+      counter-reset: summary;
+      list-style: none;
+      padding-left: 0;
+    }
+    .series-summary li {
+      counter-increment: summary;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      padding: 14px 16px;
+      background: #f5f9f6;
+      border-radius: 14px;
+      border: 1px solid #d6e3da;
+    }
+    .series-summary li::before {
+      content: counter(summary);
+      flex-shrink: 0;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--brand);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+    .series-summary li div strong {
+      display: block;
+      font-size: 14px;
+      color: var(--brand);
+      margin-bottom: 2px;
+    }
+    .series-summary li div span {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .series-nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .series-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--ink);
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .series-nav-item:hover {
+      border-color: var(--brand);
+      box-shadow: 0 4px 14px rgba(21, 93, 75, .09);
+    }
+    .series-nav-num {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #e9f2ee;
+      color: var(--brand);
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .series-nav-item span {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .series-link {
+      color: var(--brand);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .breadcrumb { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+    .breadcrumb a { color: var(--muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--brand); text-decoration: underline; }
+    .series-progress { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; padding: 12px 16px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; }
+    .sp-label { font-size: 12px; color: var(--muted); font-weight: 700; letter-spacing: .04em; margin-right: 4px; white-space: nowrap; }
+    .sp-step { display: inline-flex; align-items: center; justify-content: center; padding: 4px 12px; border-radius: 999px; font-size: 13px; font-weight: 600; text-decoration: none; color: var(--muted); border: 1px solid var(--line); transition: border-color .15s, color .15s; white-space: nowrap; }
+    .sp-step:hover { border-color: var(--brand); color: var(--brand); }
+    .sp-step.on { background: var(--brand); color: #fff; border-color: var(--brand); }
+    .nav-duo { display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; margin-top: 24px; align-items: stretch; }
+    .nav-block { display: flex; flex-direction: column; gap: 3px; padding: 14px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; text-decoration: none; color: var(--ink); transition: border-color .15s, box-shadow .15s; }
+    .nav-block:hover { border-color: var(--brand); box-shadow: 0 4px 14px rgba(21, 93, 75, .09); }
+    .nav-dir { font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+    .nav-title { font-size: 14px; font-weight: 700; color: var(--brand); line-height: 1.3; }
+    .nav-r { text-align: right; }
+    .nav-home { display: inline-flex; align-items: center; justify-content: center; padding: 0 16px; min-width: 56px; background: #f0ebe2; border: 1px solid var(--line); border-radius: 14px; text-decoration: none; color: var(--muted); font-size: 13px; font-weight: 700; white-space: nowrap; }
+    .nav-home:hover { background: var(--brand); color: #fff; border-color: var(--brand); }
+    @media (max-width: 600px) {
+      .nav-duo { grid-template-columns: 1fr; }
+      .nav-r { text-align: left; }
+      .nav-home { padding: 14px; }
+      h1 { font-size: 28px; }
+    }
+    .sitefoot {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="topnav">
+      <a class="brandmark" href="./home.html"><img src="./assets/s-reborn-logo.svg" alt="S-Reborn 로고" />S-Reborn</a>
+      <a class="series-link" href="./01-doctor-ai-series-landing.html">시리즈 소개</a>
+    </div>
+    <p class="breadcrumb"><a href="./home.html">홈</a> › <a href="./01-doctor-ai-series-landing.html">의사가 배우는 AI</a> › 10편</p>
+    <div class="series-progress">
+      <span class="sp-label">시리즈</span>
+      <a class="sp-step" href="./01-doctor-ai-series-landing.html">소개</a>
+      <a class="sp-step" href="./11-doctors-learning-ai-intro.html">1편</a>
+      <a class="sp-step" href="./12-ai-strengths-and-limits.html">2편</a>
+      <a class="sp-step" href="./13-ai-in-outpatient-workflow.html">3편</a>
+      <a class="sp-step" href="./14-safe-medical-prompting.html">4편</a>
+      <a class="sp-step" href="./15-ai-for-resident-education-and-research.html">5편</a>
+      <a class="sp-step" href="./16-ai-tool-comparison.html">6편</a>
+      <a class="sp-step" href="./17-ai-for-medical-records.html">7편</a>
+      <a class="sp-step" href="./18-ai-and-medical-ethics.html">8편</a>
+      <a class="sp-step" href="./19-ai-in-radiology-and-pathology.html">9편</a>
+      <a class="sp-step on" href="./20-doctors-role-in-ai-era.html">10편</a>
+    </div>
+
+    <article class="hero">
+      <div class="label-final">의사가 배우는 AI · 10편 · 시리즈 완결</div>
+      <h1>AI 시대의 의사 역할 — 대체되는 것과 더 중요해지는 것</h1>
+      <p class="lead">AI가 처리할 수 있는 일이 늘어날수록, 의사 고유의 역할은 더 선명해집니다.</p>
+      <p class="meta">대상: 의사, 전공의, 펠로우 / 난이도: 입문~중급 / 주제: 미래 의료, 의사 역량, AI 전략</p>
+    </article>
+
+    <section class="takeaway">
+      <strong>이 글의 한 문장 요약</strong>
+      <p>AI가 처리할 수 있는 일이 늘어날수록, 의사 고유의 역할은 더 선명해집니다.</p>
+    </section>
+
+    <section class="box">
+      <h2>AI가 대체할 수 있는 업무들</h2>
+      <p>의사가 하루에 하는 일들 중에는 반복적이고, 정형화되어 있으며, 방대한 데이터를 처리하는 과제들이 상당 부분을 차지합니다. AI는 바로 이런 영역에서 가장 효과적입니다.</p>
+      <ul>
+        <li><strong>반복적 문서화:</strong> 외래 SOAP note 초안, 소견서 초안, 의뢰서 초안, 퇴원 요약 초안처럼 구조가 정해져 있는 기록 작업은 AI가 빠르게 출발점을 제공할 수 있습니다.</li>
+        <li><strong>정형화된 판독 보조:</strong> 흉부 X선의 폐렴 패턴 감지, 안저 사진의 당뇨망막병증 스크리닝처럼 학습된 패턴을 인식하는 과제는 AI가 인간에 근접한 수준에서 수행합니다.</li>
+        <li><strong>정보 검색과 요약:</strong> 특정 약물의 용량 범위, 진단 기준, 최신 가이드라인 요약 등 방대한 의학 정보에서 필요한 내용을 빠르게 찾는 작업입니다.</li>
+        <li><strong>반복 교육 콘텐츠 생성:</strong> 환자 교육 자료 초안, 증례 요약, 발표 슬라이드 뼈대 작성 등 구조가 명확한 창작 과제입니다.</li>
+        <li><strong>데이터 패턴 분석:</strong> 대규모 환자 데이터에서 통계적 패턴을 찾거나, 특정 집단의 위험도를 예측하는 분석 과제입니다.</li>
+      </ul>
+      <p>이 업무들이 완전히 사라지는 것은 아닙니다. 의사는 AI가 생성한 결과를 검토하고, 최종 판단을 내리는 역할을 여전히 담당합니다. 다만 반복 작업에 쓰이던 시간이 줄어들고, 그 시간을 다른 곳에 쓸 수 있게 됩니다.</p>
+    </section>
+
+    <section class="box">
+      <h2>AI가 대체할 수 없는 의사의 역할</h2>
+      <p>AI가 잘하는 것들을 나열할수록, 반대로 AI가 할 수 없는 것이 더 선명해집니다.</p>
+      <div class="compare-grid">
+        <div class="compare-col replaceable">
+          <h4>AI가 처리할 수 있는 것</h4>
+          <ul>
+            <li>패턴 인식 및 분류</li>
+            <li>정보 검색 및 요약</li>
+            <li>정형 문서 초안 생성</li>
+            <li>확률 및 위험도 계산</li>
+            <li>대규모 데이터 처리</li>
+          </ul>
+        </div>
+        <div class="compare-col irreplaceable">
+          <h4>의사만 할 수 있는 것</h4>
+          <ul>
+            <li>환자와의 공감과 신뢰 형성</li>
+            <li>불확실성 속에서의 임상 판단</li>
+            <li>가치 기반 윤리 결정</li>
+            <li>복잡한 맥락의 통합적 해석</li>
+            <li>최종 책임의 수용</li>
+          </ul>
+        </div>
+      </div>
+      <h3>공감과 관계</h3>
+      <p>환자는 진단만이 아니라 자신의 고통이 이해받는다는 느낌을 원합니다. 불안한 환자를 안심시키고, 나쁜 소식을 전달하며, 치료 결정 과정에 환자를 참여시키는 것은 인간만이 할 수 있는 관계의 영역입니다. AI가 공감적 언어를 흉내낼 수 있어도, 그것이 진짜 관계를 대체하지는 않습니다.</p>
+      <h3>불확실성 속의 판단</h3>
+      <p>실제 임상은 교과서처럼 깔끔하지 않습니다. 검사 결과가 엇갈리고, 증상이 비전형적이며, 환자의 가치관이 표준 치료와 충돌하는 상황에서 의사는 불완전한 정보로 결정을 내려야 합니다. AI는 확률을 제시할 수 있지만, 그 확률 앞에서 어떤 결정을 내릴지는 의사의 판단입니다.</p>
+      <h3>복잡한 윤리적 결정</h3>
+      <p>연명 치료 중단, 희소 자원의 배분, 가족과 환자의 의견 충돌 — 이런 상황은 알고리즘으로 해결되지 않습니다. 의료 윤리는 의학 지식과 인간적 가치 판단이 교차하는 영역으로, AI가 조언을 제공할 수 있어도 결정을 내릴 수는 없습니다.</p>
+    </section>
+
+    <section class="box">
+      <h2>앞으로 더 중요해질 의사의 역량</h2>
+      <p>AI 도구가 일상화되는 시대에, 의사에게 새롭게 요구되는 역량들이 있습니다. 이것들은 의학 지식을 대체하는 것이 아니라, 의학 지식 위에 쌓이는 추가 레이어입니다.</p>
+      <h3>AI 결과 검증 능력</h3>
+      <p>AI가 제시한 감별 진단, 판독 결과, 요약 정보가 맞는지 비판적으로 평가하는 능력입니다. AI를 쓴다는 것은 결과를 그대로 받아들이는 것이 아니라, 그 결과의 타당성을 판단할 수 있어야 한다는 뜻입니다. 이를 위해서는 탄탄한 의학 기초 지식이 오히려 더 중요해집니다.</p>
+      <h3>효과적인 프롬프팅</h3>
+      <p>AI에게 어떻게 질문하느냐에 따라 결과의 품질이 크게 달라집니다. 좋은 프롬프트를 작성하는 능력은 단순한 기술 스킬이 아닙니다. 내가 무엇을 원하는지 명확히 알고, 그것을 구체적으로 표현하는 능력 — 이것은 결국 임상 사고의 연장입니다.</p>
+      <h3>비판적 사고와 메타인지</h3>
+      <p>AI 결과를 접할 때 "이게 정말 맞나"를 묻는 습관이 필요합니다. 편리함이 비판적 사고를 마비시키지 않도록 경계하는 것, AI 오류의 패턴을 이해해서 언제 더 의심해야 하는지 아는 것이 중요합니다.</p>
+      <h3>데이터 리터러시</h3>
+      <p>AI 시스템의 성능 지표(민감도, 특이도, AUC)를 읽고, 내 환자 집단에 해당 모델이 적용 가능한지 판단하는 기초적인 데이터 이해 능력입니다. 이것은 통계 전문가가 되라는 것이 아니라, AI 도구를 선택하고 사용할 때 최소한의 근거를 가지라는 뜻입니다.</p>
+    </section>
+
+    <section class="box">
+      <h2>두려움이 아니라 설계의 문제</h2>
+      <p>"AI가 의사를 대체할 것인가"라는 질문은 잘못된 프레임입니다. 더 정확한 질문은 "AI를 잘 쓰는 의사가 AI를 모르는 의사를 대체할 것인가"입니다. 그리고 그 답은 이미 의료 현장에서 조금씩 드러나고 있습니다.</p>
+      <p>AI를 업무에 통합하는 것은 두려움에 반응하는 문제가 아닙니다. 그것은 설계의 문제입니다. 내가 하루에 하는 업무를 솔직하게 목록으로 만들고, 그 중 어떤 것을 AI가 보조할 수 있는지 판단하고, 그 도구를 안전하게 사용하는 방법을 익히는 과정입니다.</p>
+      <p>이 설계를 스스로 하는 의사와, 그냥 흐름에 맡기는 의사 사이의 차이는 지금 당장은 크지 않아 보여도, 5년 후에는 상당히 달라질 수 있습니다.</p>
+      <div class="warn" style="margin-top: 16px;">
+        <strong>설계하지 않으면, 설계당합니다</strong>
+        <p style="margin: 8px 0 0;">AI 도구의 확산은 멈추지 않습니다. 내가 어떻게 쓸지 스스로 결정하지 않으면, 병원 시스템이나 외부 환경이 그 결정을 대신하게 됩니다. 자신의 진료에서 AI를 어떻게 위치시킬지, 어디까지 맡기고 어디서 직접 판단할지를 의사 스스로 설계하는 것이 전문직 자율성의 핵심입니다.</p>
+      </div>
+    </section>
+
+    <section class="box">
+      <h2>시리즈를 마무리하며 — 10편을 통해 무엇을 배웠나</h2>
+      <p>이 시리즈는 AI 기술의 예찬도, AI에 대한 경고도 아니었습니다. 의사가 AI를 실제로 쓸 수 있도록, 실무 중심으로 정리한 안내서였습니다. 10편에서 다룬 내용을 한 줄씩 되짚어 봅니다.</p>
+      <ol class="series-summary">
+        <li>
+          <div>
+            <strong>1편 — AI 입문: 의사가 AI를 배워야 하는 이유</strong>
+            <span>AI는 이미 의료 현장에 들어와 있습니다. 알아야 쓸 수 있고, 알아야 틀린 것을 잡을 수 있습니다.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>2편 — AI의 강점과 한계</strong>
+            <span>AI는 패턴 인식에 강하지만 맥락 이해, 인과 추론, 희귀 상황에서 취약합니다. 강점과 한계를 모두 아는 것이 올바른 사용의 전제입니다.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>3편 — 외래 워크플로우에서의 AI</strong>
+            <span>감별 진단 보조, 환자 교육, 처방 확인 등 외래의 구체적인 업무에 AI를 어떻게 끼워넣는지를 다뤘습니다.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>4편 — 안전한 의료 프롬프팅</strong>
+            <span>좋은 프롬프트는 좋은 임상 질문과 같습니다. 역할 설정, 맥락 제공, 형식 지정으로 결과의 품질을 높입니다.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>5편 — 전공의 교육과 연구에서의 AI</strong>
+            <span>증례 분석, 문헌 검색, 연구 설계 아이디에이션에서 AI는 학습 파트너가 될 수 있습니다.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>6편 — AI 도구 비교</strong>
+            <span>ChatGPT, Claude, Perplexity는 각각 다른 강점이 있으며, 용도에 맞게 선택하는 것이 중요합니다.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>7편 — AI로 의무기록 작성하기</strong>
+            <span>SOAP note, 소견서, 의뢰서 초안 작성에 AI를 쓸 수 있지만, 익명화와 검토가 필수입니다.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>8편 — AI와 의료 윤리</strong>
+            <span>환자 정보 보호, 책임 소재, 동의 — 윤리는 기술이 해결하지 않습니다. 의사의 판단이 항상 전제입니다.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>9편 — 영상의학·병리에서의 AI</strong>
+            <span>AI는 이미 흉부 X선, 안저 사진, 병리 슬라이드 분석에서 임상 도구로 쓰이고 있습니다. 보조 역할임을 잊지 마세요.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>10편 — AI 시대의 의사 역할 (이 글)</strong>
+            <span>AI가 할 수 있는 것과 없는 것이 분명해질수록, 의사의 역할도 더 선명해집니다.</span>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="box">
+      <h2>다음 단계 추천</h2>
+      <p>시리즈를 모두 읽으셨다면, 이제 직접 써보는 단계입니다. 아래 중 하나를 선택해 오늘 바로 시작해 보세요.</p>
+      <ul>
+        <li><strong>1편부터 다시 읽기:</strong> 처음 읽을 때와 달리, 지금은 전체 그림을 가지고 각 편을 더 깊이 읽을 수 있습니다. 4편의 프롬프트 예시를 직접 따라 해보거나, 7편의 의무기록 초안 작성을 실제로 연습해 보세요.</li>
+        <li><strong>실무 적용 1가지 선택:</strong> 이 시리즈에서 배운 것 중 내일 당장 시도해볼 수 있는 것 하나를 고르세요. 외래에서 감별 진단 보조로 써보거나, 소견서 초안을 AI로 만들어보는 것부터 시작해도 충분합니다.</li>
+        <li><strong>동료와 공유:</strong> AI를 혼자 배우는 것보다 동료와 함께 배우면 훨씬 빠릅니다. 이 시리즈 링크를 동료에게 공유하고, 각자 써본 프롬프트를 비교해 보세요.</li>
+      </ul>
+
+      <h3>시리즈 전체 목록</h3>
+      <nav class="series-nav-list">
+        <a class="series-nav-item" href="./01-doctor-ai-series-landing.html">
+          <span class="series-nav-num">소개</span>
+          <span>시리즈 소개 — 의사가 배우는 AI</span>
+        </a>
+        <a class="series-nav-item" href="./11-doctors-learning-ai-intro.html">
+          <span class="series-nav-num">1</span>
+          <span>AI 입문: 의사가 AI를 배워야 하는 이유</span>
+        </a>
+        <a class="series-nav-item" href="./12-ai-strengths-and-limits.html">
+          <span class="series-nav-num">2</span>
+          <span>AI의 강점과 한계 — 무엇을 믿고 무엇을 의심할까</span>
+        </a>
+        <a class="series-nav-item" href="./13-ai-in-outpatient-workflow.html">
+          <span class="series-nav-num">3</span>
+          <span>외래 워크플로우에서 AI 활용하기</span>
+        </a>
+        <a class="series-nav-item" href="./14-safe-medical-prompting.html">
+          <span class="series-nav-num">4</span>
+          <span>안전한 의료 프롬프팅 — 의사를 위한 프롬프트 작성법</span>
+        </a>
+        <a class="series-nav-item" href="./15-ai-for-resident-education-and-research.html">
+          <span class="series-nav-num">5</span>
+          <span>전공의 교육과 연구에서의 AI 활용</span>
+        </a>
+        <a class="series-nav-item" href="./16-ai-tool-comparison.html">
+          <span class="series-nav-num">6</span>
+          <span>ChatGPT, Claude, Perplexity — AI 도구 비교</span>
+        </a>
+        <a class="series-nav-item" href="./17-ai-for-medical-records.html">
+          <span class="series-nav-num">7</span>
+          <span>AI로 의무기록 작성하기 — 외래 기록, 소견서, 의뢰서 실무</span>
+        </a>
+        <a class="series-nav-item" href="./18-ai-and-medical-ethics.html">
+          <span class="series-nav-num">8</span>
+          <span>AI와 의료 윤리 — 환자 정보 보호, 책임 소재, 동의 문제</span>
+        </a>
+        <a class="series-nav-item" href="./19-ai-in-radiology-and-pathology.html">
+          <span class="series-nav-num">9</span>
+          <span>영상의학·병리에서의 AI — 이미 쓰이고 있는 실제 임상 AI</span>
+        </a>
+        <a class="series-nav-item" href="./20-doctors-role-in-ai-era.html">
+          <span class="series-nav-num">10</span>
+          <span>AI 시대의 의사 역할 — 대체되는 것과 더 중요해지는 것</span>
+        </a>
+      </nav>
+    </section>
+
+    <section class="box">
+      <h2>마지막 프롬프트 — 내 업무를 직접 분류해 보기</h2>
+      <p>시리즈의 마지막 프롬프트입니다. 이 프롬프트는 AI에게 답을 구하는 것이 아니라, AI와 함께 내 업무를 들여다보는 도구로 사용하세요.</p>
+      <p class="prompt-label">업무 분류 프롬프트</p>
+      <div class="prompt">나는 [진료과] 전문의(또는 전공의)입니다.
+아래는 내가 하루에 하는 주요 업무 목록입니다.
+각 업무를 다음 세 가지로 분류해 주세요:
+
+A. AI가 초안·보조·요약을 제공할 수 있는 업무
+B. AI가 참고 정보를 제공할 수 있지만 최종 판단은 반드시 의사가 해야 하는 업무
+C. AI가 개입하기 어렵거나 부적절한 업무
+
+[내 업무 목록]
+1. 외래 진료 후 SOAP note 작성
+2. 환자에게 진단명과 치료 계획 설명
+3. 타과 협진 의뢰서 작성
+4. 영상 판독 결과 해석 및 다음 검사 결정
+5. 치료에 반응 없는 환자의 감별 진단 재검토
+6. 보호자 면담 및 예후 설명
+7. 드문 질환 문헌 검색
+8. 레지던트 교육 자료 준비
+9. 연명 치료 관련 환자·가족 상담
+10. 처방 약물 상호작용 확인
+
+분류 후, 내가 지금 당장 AI를 써볼 수 있는 업무 2~3가지를 구체적인 활용 방법과 함께 추천해 주세요.</div>
+      <p style="margin-top: 16px;">[진료과] 부분을 본인의 전문과로 바꾸고, 업무 목록도 실제 자신의 업무로 교체해서 사용해 보세요.</p>
+    </section>
+
+    <section class="box">
+      <div class="nav-duo">
+        <a class="nav-block" href="./19-ai-in-radiology-and-pathology.html">
+          <span class="nav-dir">← 이전</span>
+          <span class="nav-title">영상의학·병리에서의 AI</span>
+        </a>
+        <a class="nav-home" href="./home.html">목록</a>
+        <a class="nav-block nav-r" href="./01-doctor-ai-series-landing.html">
+          <span class="nav-dir">시리즈 처음부터 →</span>
+          <span class="nav-title">시리즈 소개 페이지로</span>
+        </a>
+      </div>
+    </section>
+
+    <p class="sitefoot">Copyright 2026 S-REBORN.</p>
+  </main>
+</body>
+</html>
