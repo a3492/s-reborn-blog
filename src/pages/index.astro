@@ -87,4 +87,146 @@ const gridPosts = visiblePosts.slice(3);
 			</div>
 		</div>
 	)}
+
+	<!-- Doctor AI 시리즈 섹션 -->
+	<div class="sec-rule">
+		<div class="sec-copy">
+			<span class="sec-label">Doctor AI Series</span>
+			<p class="sec-desc">임상 현장에서 AI를 안전하게 이해하고 활용하기 위한 의사를 위한 실무 교육</p>
+		</div>
+		<div class="sec-line"></div>
+		<a href="/doctor-ai/" class="sec-all">시리즈 보기 →</a>
+	</div>
+
+	<div class="dai-wrap">
+		<a class="dai-hero" href="/doctor-ai/">
+			<div class="dai-hero-text">
+				<span class="dai-eyebrow">Fundamentals · 5편 완성</span>
+				<h2 class="dai-title">의사가 배우는 AI</h2>
+				<p class="dai-desc">AI의 작동 원리부터 외래 진료 워크플로우 적용, 안전한 프롬프팅까지 — 임상의를 위한 첫 번째 AI 교육 시리즈</p>
+				<span class="dai-cta">시리즈 전체 보기 →</span>
+			</div>
+			<div class="dai-hero-articles">
+				<div class="dai-article-list">
+					<span class="dai-item">01 · AI의 강점과 한계</span>
+					<span class="dai-item">02 · 외래 진료 워크플로우</span>
+					<span class="dai-item">03 · 안전한 의료 프롬프팅</span>
+					<span class="dai-item">04 · 레지던트 교육과 연구</span>
+					<span class="dai-item dai-item--more">+ 더 보기</span>
+				</div>
+			</div>
+		</a>
+	</div>
 </Layout>
+
+<style>
+.dai-wrap {
+	padding: 0 0 3rem;
+}
+
+.dai-hero {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0;
+	background: var(--bg2);
+	border: 1px solid var(--rule);
+	border-radius: 16px;
+	overflow: hidden;
+	text-decoration: none;
+	color: inherit;
+	transition: background 0.2s;
+}
+
+.dai-hero:hover {
+	background: var(--bg3);
+}
+
+.dai-hero-text {
+	padding: 2.5rem 2.5rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	border-right: 1px solid var(--rule);
+}
+
+.dai-eyebrow {
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.8px;
+	text-transform: uppercase;
+	color: var(--pink);
+}
+
+.dai-title {
+	font-family: var(--display);
+	font-size: 1.75rem;
+	font-weight: 800;
+	color: var(--text);
+	line-height: 1.2;
+}
+
+.dai-desc {
+	font-size: 0.875rem;
+	color: var(--t2);
+	line-height: 1.7;
+	flex: 1;
+}
+
+.dai-cta {
+	display: inline-block;
+	font-size: 0.8125rem;
+	font-weight: 700;
+	color: var(--pink);
+	margin-top: 0.5rem;
+}
+
+.dai-hero:hover .dai-cta {
+	text-decoration: underline;
+}
+
+.dai-hero-articles {
+	padding: 2.5rem 2rem;
+	display: flex;
+	align-items: center;
+}
+
+.dai-article-list {
+	display: flex;
+	flex-direction: column;
+	gap: 0.625rem;
+	width: 100%;
+}
+
+.dai-item {
+	display: block;
+	padding: 0.625rem 1rem;
+	background: var(--bg);
+	border: 1px solid var(--rule2);
+	border-radius: 8px;
+	font-size: 0.8125rem;
+	color: var(--t2);
+	font-weight: 500;
+}
+
+.dai-item--more {
+	color: var(--pink);
+	font-weight: 700;
+	background: transparent;
+	border-color: transparent;
+	padding-left: 1rem;
+}
+
+@media (max-width: 680px) {
+	.dai-hero {
+		grid-template-columns: 1fr;
+	}
+	.dai-hero-text {
+		border-right: none;
+		border-bottom: 1px solid var(--rule);
+		padding: 1.75rem 1.5rem;
+	}
+	.dai-hero-articles {
+		padding: 1.5rem;
+	}
+}
+</style>
