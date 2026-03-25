@@ -1,0 +1,132 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const topic = Astro.url.searchParams.get('topic') ?? '';
+---
+
+<Layout title={topic ? `"${topic}" 글 작성` : '새 글 작성'}>
+  <div class="gen-wrap">
+    <div class="gen-card">
+      <span class="gen-eyebrow">검색 결과 없음</span>
+
+      {topic ? (
+        <h1 class="gen-title">
+          <span class="gen-quote">"{topic}"</span>에 대한 글이 아직 없습니다
+        </h1>
+        <p class="gen-desc">
+          이 주제로 글을 작성하거나, 다른 검색어를 시도해 보세요.
+        </p>
+      ) : (
+        <h1 class="gen-title">새 글을 작성해 보세요</h1>
+        <p class="gen-desc">관리자 패널에서 새 글을 작성할 수 있습니다.</p>
+      )}
+
+      <div class="gen-actions">
+        <a
+          class="gen-btn primary"
+          href={topic
+            ? `/admin/posts/new?title=${encodeURIComponent(topic)}`
+            : '/admin/posts/new'}
+        >
+          관리자로 글 작성하기 →
+        </a>
+        <a class="gen-btn" href="/blog">전체 글 보기</a>
+        <a class="gen-btn" href="/">홈으로</a>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+.gen-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 5rem 1.5rem 6rem;
+  min-height: 60vh;
+}
+
+.gen-card {
+  max-width: 560px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.gen-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--t3, #888);
+}
+
+.gen-title {
+  font-family: var(--display);
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.gen-quote {
+  color: var(--pink);
+}
+
+.gen-desc {
+  font-size: 0.9375rem;
+  color: var(--t2);
+  line-height: 1.7;
+}
+
+.gen-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  margin-top: 0.5rem;
+}
+
+.gen-btn {
+  display: inline-block;
+  padding: 0.625rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid var(--rule);
+  color: var(--t2);
+  background: var(--bg2);
+  transition: background 0.15s;
+}
+
+.gen-btn:hover {
+  background: var(--bg3);
+  color: var(--text);
+}
+
+.gen-btn.primary {
+  background: var(--pink);
+  color: #fff;
+  border-color: transparent;
+}
+
+.gen-btn.primary:hover {
+  opacity: 0.88;
+}
+
+@media (max-width: 600px) {
+  .gen-wrap {
+    padding: 3rem 1rem 4rem;
+  }
+  .gen-title {
+    font-size: 1.375rem;
+  }
+  .gen-actions {
+    flex-direction: column;
+  }
+  .gen-btn {
+    text-align: center;
+  }
+}
+</style>

@@ -175,6 +175,17 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       localStorage.setItem('admin_post_draft_preview', JSON.stringify(preview));
     };
 
+    // URL 파라미터로 제목 prefill (?title=...)
+    const urlParams = new URLSearchParams(window.location.search);
+    const prefillTitle = urlParams.get('title');
+    if (prefillTitle) {
+      const titleInput = document.getElementById('title');
+      if (titleInput) {
+        titleInput.value = prefillTitle;
+        titleInput.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+    }
+
     form?.addEventListener('input', syncPreview);
     previewLink?.addEventListener('click', syncPreview);
     syncPreview();
