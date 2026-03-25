@@ -69,6 +69,10 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       const logoutButton = document.querySelector('[data-admin-logout]');
       const userPill = document.querySelector('[data-admin-user]');
       const roleWarning = document.querySelector('[data-admin-role-warning]');
+      const roleCopy = document.querySelector('[data-admin-role-copy]');
+      const roleCta = document.querySelector('[data-admin-role-cta]');
+      const roleCtaLabel = document.querySelector('[data-admin-role-cta-label]');
+      const roleCtaLink = document.querySelector('[data-admin-role-cta-link]');
       const loginPath = '/admin/login';
       const roleRank = { editor: 1, owner: 2 };
       const syncOwnerOnlyNavigation = (role) => {
@@ -88,6 +92,18 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
         accessDenied?.removeAttribute('hidden');
         if (slot) slot.innerHTML = '';
         if (accessDeniedText) accessDeniedText.textContent = text;
+      };
+
+      const syncRoleCopy = (role) => {
+        if (!roleCopy || !roleCta || !roleCtaLabel || !roleCtaLink) return;
+        const isOwner = role === 'owner';
+        roleCopy.textContent = isOwner
+          ? 'owner는 site settings, pipeline, media registry를 함께 관리합니다.'
+          : 'editor는 글 작성과 발행 흐름에 집중하세요. owner 전용 설정은 숨겨집니다.';
+        roleCta.hidden = false;
+        roleCtaLabel.textContent = isOwner ? 'owner shortcut' : 'editor shortcut';
+        roleCtaLink.textContent = isOwner ? 'Pipeline 확인' : 'Posts 작성';
+        roleCtaLink.href = isOwner ? '/admin/pipeline' : '/admin/posts';
       };
 
       const setRoleWarning = (text, state = 'warn') => {
@@ -137,6 +153,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           document.body.dataset.adminRole = profile.role;
           document.body.dataset.adminUserId = userId;
           syncOwnerOnlyNavigation(profile.role);
+          syncRoleCopy(profile.role);
           document.dispatchEvent(new CustomEvent('admin:session-ready', {
             detail: {
               userId,
@@ -187,3 +204,4 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     </script>
   </body>
 </html>
+

@@ -947,3 +947,30 @@ body.admin-shell {
   white-space: pre-wrap;
   word-break: break-word;
 }
+
+
+.admin-topbar-role {
+  margin: 0.35rem 0 0;
+  color: var(--admin-text-3);
+  font-size: 0.82rem;
+}
+
+.admin-topbar-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0.25rem 0 1rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(184, 149, 106, 0.16);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(184, 149, 106, 0.1), rgba(255, 253, 252, 0.92));
+}
+
+.admin-topbar-cta-label {
+  color: var(--admin-text-2);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
