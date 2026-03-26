@@ -8,7 +8,6 @@ const path = Astro.url.pathname;
 const isHome = path === '/';
 const isBlog = path.startsWith('/blog');
 const isAbout = path.startsWith('/about');
-const isDocs = path.startsWith('/docs');
 const isDoctorAI = path.startsWith('/doctor-ai');
 ---
 
@@ -38,7 +37,6 @@ const isDoctorAI = path.startsWith('/doctor-ai');
     <a href="/" class={`topbar-link${isHome ? ' active' : ''}`}>Home</a>
     <a href="/blog" class={`topbar-link${isBlog ? ' active' : ''}`}>Blog</a>
     <a href="/about" class={`topbar-link${isAbout ? ' active' : ''}`}>About</a>
-    <a href="/docs/" class={`topbar-link${isDocs ? ' active' : ''}`}>Docs</a>
     <a href="/doctor-ai/" class={`topbar-link doctor-ai-link${isDoctorAI ? ' active' : ''}`}>Doctor AI</a>
   </nav>
 </header>
