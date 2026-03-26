@@ -52,7 +52,7 @@ main {
 	width: 720px;
 	max-width: calc(100% - 2em);
 	margin: auto;
-	padding: 3em 1em;
+	padding: 2em 1em;
 }
 h1,
 h2,
@@ -93,7 +93,7 @@ p {
 	margin-bottom: 1em;
 }
 .prose p {
-	margin-bottom: 2em;
+	margin-bottom: 1.25em;
 }
 textarea {
 	width: 100%;
@@ -236,6 +236,7 @@ hr {
 	align-items: center;
 	justify-content: center;
 	flex-wrap: wrap;
+	font-size: 0.75rem;
 }
 
 .blog-post-category {
