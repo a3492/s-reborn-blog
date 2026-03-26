@@ -98,17 +98,21 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
         <p class="admin-preview-kicker">Hand-off</p>
         <h2 class="admin-section-title">Recent hand-off</h2>
         <p class="admin-section-desc">마지막으로 넘긴 작업의 done / next / risks를 바로 확인합니다.</p>
-        <article class="admin-handoff-card">
-          <div class="admin-handoff-meta">
-            <span>{recentHandOffs[0].date}</span>
-            <span>{recentHandOffs[0].owner}</span>
-          </div>
-          <h3 class="admin-handoff-title">{recentHandOffs[0].title}</h3>
-          <p class="admin-handoff-copy"><strong>done</strong> {recentHandOffs[0].done}</p>
-          <p class="admin-handoff-copy"><strong>next</strong> {recentHandOffs[0].next}</p>
-          <p class="admin-handoff-copy"><strong>risks</strong> {recentHandOffs[0].risks}</p>
-          <a class="admin-handoff-link" href={recentHandOffs[0].link}>관련 문서 열기 →</a>
-        </article>
+        <div class="admin-handoff-list">
+          {recentHandOffs.slice(0, 2).map((item) => (
+            <article class="admin-handoff-card">
+              <div class="admin-handoff-meta">
+                <span>{item.date}</span>
+                <span>{item.owner}</span>
+              </div>
+              <h3 class="admin-handoff-title">{item.title}</h3>
+              <p class="admin-handoff-copy"><strong>done</strong> {item.done}</p>
+              <p class="admin-handoff-copy"><strong>next</strong> {item.next}</p>
+              <p class="admin-handoff-copy"><strong>risks</strong> {item.risks}</p>
+              <a class="admin-handoff-link" href={item.link}>관련 문서 열기 →</a>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
 
