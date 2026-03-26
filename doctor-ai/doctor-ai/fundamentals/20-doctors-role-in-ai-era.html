@@ -62,8 +62,11 @@
     .assess-result.show{display:block}
     .assess-score{font-size:2rem;font-weight:900;color:var(--brand);margin-bottom:.5rem}
     .assess-msg{font-size:.9rem;color:var(--ink);line-height:1.6;font-weight:600}
-    .assess-actions{display:flex;flex-direction:column;gap:.5rem;margin-top:1rem;font-size:.875rem;color:var(--muted);text-align:left}
+    .assess-actions{display:flex;flex-direction:column;gap:.375rem;margin-top:1rem;font-size:.875rem;color:var(--muted);text-align:left}
     .assess-action{padding:.625rem .875rem;background:var(--bg);border-radius:var(--r-sm);border-left:3px solid var(--brand)}
+    .assess-action-header{font-size:.7rem;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--brand);padding:.25rem .25rem .25rem 0;margin-bottom:.125rem}
+    .assess-action-link{display:block;padding:.625rem .875rem;background:var(--bg);border-radius:var(--r-sm);border-left:3px solid var(--brand);text-decoration:none;color:var(--ink);transition:background .1s}
+    .assess-action-link:hover,.assess-action-link:active{background:var(--brand-l)}
     .assess-btn{margin-top:1rem;background:var(--brand);color:#fff;border:none;border-radius:var(--r-sm);padding:.75rem 1.5rem;font-size:.9rem;font-weight:700;cursor:pointer;width:100%}
     .assess-btn:hover{background:var(--brand-d)}
 
@@ -383,6 +386,14 @@
     });
   }
 
+  const epMap={
+    a1:{ep:'2편',title:'AI의 강점과 한계',href:'../../12-ai-strengths-and-limits.html'},
+    a2:{ep:'4편',title:'안전한 의료 프롬프팅',href:'../../14-safe-medical-prompting.html'},
+    a3:{ep:'4편·8편',title:'프롬프팅 & 의료 윤리',href:'../../14-safe-medical-prompting.html'},
+    a4:{ep:'2편',title:'AI의 강점과 한계',href:'../../12-ai-strengths-and-limits.html'},
+    a5:{ep:'8편',title:'AI와 의료 윤리',href:'18-ai-and-medical-ethics.html'},
+  };
+
   function calcAssess(){
     const keys=['a1','a2','a3','a4','a5'];
     const filled=keys.filter(k=>ratings[k]);
@@ -394,19 +405,30 @@
     el.classList.add('show');
     el.style.background=pct>=80?'var(--brand-l)':pct>=50?'#fef9c3':'#fef2f2';
     document.getElementById('assessScore').textContent=total+' / '+max+' ('+pct+'%)';
-    let msg,actions;
+
+    const weakKeys=keys.filter(k=>!ratings[k]||ratings[k]<=3);
+    let msg;
     if(pct>=80){
-      msg='훌륭합니다! AI 리터러시가 충분히 갖춰졌습니다. 지금 바로 임상에서 AI 협력을 시작할 준비가 됐습니다.';
-      actions=['외래에서 한 가지 AI 활용을 이번 주에 직접 시도해보세요','동료에게 이 시리즈를 추천해보세요'];
+      msg='탄탄합니다! AI 리터러시가 충분히 갖춰졌습니다. 임상에서 AI를 파트너로 바로 활용해 보세요.';
     } else if(pct>=50){
-      msg='잘 하고 있습니다! 핵심 개념은 이해했지만 실전 적용 연습이 더 필요합니다.';
-      actions=['낮은 점수를 준 항목의 편을 다시 복습해보세요','실제 프롬프트 작성을 연습해보세요'];
+      msg='핵심 개념은 잡혔습니다. 아래 약점 영역만 보완하면 실전 활용도가 크게 오릅니다.';
     } else {
-      msg='시작이 반입니다! 이 시리즈를 처음부터 다시 한 번 복습해보세요.';
-      actions=['1편부터 차근차근 다시 읽어보세요','핵심 용어(환각, 컨텍스트 한계)를 먼저 정리해보세요'];
+      msg='보완할 영역이 있습니다. 아래 추천 편을 중심으로 다시 읽어보세요.';
     }
     document.getElementById('assessMsg').textContent=msg;
-    document.getElementById('assessActions').innerHTML=actions.map(a=>`<div class="assess-action">→ ${a}</div>`).join('');
+
+    const actEl=document.getElementById('assessActions');
+    if(weakKeys.length===0){
+      actEl.innerHTML=`<div class="assess-action">→ 이번 주 외래에서 AI로 기록 작성을 한 번 시도해보세요</div><div class="assess-action">→ 동료에게 이 시리즈를 공유해보세요</div>`;
+    } else {
+      const links=weakKeys.map(k=>{
+        const info=epMap[k];
+        const labelEl=document.querySelector(`[data-key="${k}"] .assess-label`);
+        const label=labelEl?labelEl.textContent.trim():k;
+        return `<a href="${info.href}" class="assess-action-link">→ <strong>${label}</strong><br><span style="font-size:.78rem;opacity:.75;padding-left:.9rem">${info.ep}: ${info.title} 다시 보기</span></a>`;
+      }).join('');
+      actEl.innerHTML=`<div class="assess-action-header">복습 추천 — 약점 영역</div>${links}`;
+    }
   }
 
   function checkQ(btn,id){
