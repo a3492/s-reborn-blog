@@ -44,7 +44,6 @@ body {
 }
 
 .site-main {
-  flex: 1;
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
@@ -99,7 +98,6 @@ body {
 }
 
 .site-main {
-  flex: 1;
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
@@ -827,6 +825,7 @@ footer {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.9rem;
   margin: 1rem 0 1.25rem;
+  padding: 0 2rem;
 }
 
 .home-signal-card,
@@ -961,6 +960,10 @@ footer {
   .featured-wrap {
     padding: 1.25rem 0 0;
     gap: 1rem;
+  }
+
+  .home-signal {
+    padding: 0;
   }
 
   .featured-main {

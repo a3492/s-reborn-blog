@@ -15,7 +15,7 @@ const featuredPost = configuredFeatured || allPosts[0];
 const rankedPosts = featuredPost
 	? [featuredPost, ...allPosts.filter((post) => post.id !== featuredPost.id)]
 	: allPosts;
-const visiblePosts = rankedPosts.slice(0, 8);
+const visiblePosts = rankedPosts.slice(0, 7);
 const sidePosts = visiblePosts.slice(1, 3);
 const gridPosts = visiblePosts.slice(3);
 const totalPosts = allPosts.length;
