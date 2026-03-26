@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>8편 — AI와 의료 윤리 | 의사를 위한 AI</title>
+  <style>
+    :root{--brand:#155d4b;--brand-d:#0d3d30;--brand-l:#e8f4ef;--bg:#f5f1eb;--surface:#fffcf7;--ink:#18212a;--muted:#4a5562;--rule:#ddd8d0;--warn:#b45309;--danger:#dc2626;--ok:#15803d;--r:12px;--r-sm:8px}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Pretendard','Apple SD Gothic Neo',system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:18px;line-height:1.75}
+    #pbar{position:fixed;top:0;left:0;height:3px;background:var(--brand);width:0%;z-index:200;transition:width .1s}
+    nav{position:sticky;top:0;z-index:100;background:rgba(255,252,247,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.5rem}
+    .nav-series{font-size:13px;color:var(--muted);font-weight:600}
+    .nav-title{font-size:14px;font-weight:700;color:var(--ink)}
+    .nav-ep{font-size:13px;font-weight:700;color:var(--brand);background:var(--brand-l);padding:.2rem .6rem;border-radius:20px}
+    .series-bar{background:var(--surface);border-bottom:1px solid var(--rule);padding:.6rem 1.5rem;display:flex;align-items:center;gap:.5rem;overflow-x:auto}
+    .sp-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;text-decoration:none;transition:transform .15s}
+    .sp-dot:hover{transform:scale(1.15)}
+    .sp-dot.done{background:var(--brand);color:#fff}
+    .sp-dot.active{background:var(--brand-d);color:#fff;box-shadow:0 0 0 3px var(--brand-l)}
+    .sp-dot.todo{background:var(--rule);color:var(--muted)}
+    .sp-line{flex:1;height:2px;background:var(--rule);min-width:8px;flex-shrink:0}
+    .sp-line.done{background:var(--brand)}
+    .hero{background:linear-gradient(135deg,var(--brand-d) 0%,var(--brand) 100%);color:#fff;padding:4rem 1.5rem 3rem;text-align:center}
+    .hero-ep{font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;opacity:.7;margin-bottom:.75rem}
+    .hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;line-height:1.2;margin-bottom:1rem}
+    .hero-sub{font-size:1rem;opacity:.8;max-width:540px;margin:0 auto 1.5rem}
+    .hero-tags{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
+    .hero-tag{font-size:12px;font-weight:700;background:rgba(255,255,255,.18);padding:.25rem .75rem;border-radius:20px}
+    .container{max-width:780px;margin:0 auto;padding:0 1.5rem}
+    section{padding:3rem 0}
+    section+section{border-top:1px solid var(--rule)}
+    .sec-label{font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--brand);margin-bottom:.5rem}
+    h2{font-size:clamp(1.5rem,3vw,1.875rem);font-weight:900;line-height:1.25;margin-bottom:1rem;color:var(--ink)}
+    h3{font-size:1.25rem;font-weight:800;margin-bottom:.625rem;color:var(--ink)}
+    p{margin-bottom:1rem;color:var(--muted)}
+    p:last-child{margin-bottom:0}
+    .callout{background:var(--brand-l);border-left:4px solid var(--brand);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:1.125rem 1.25rem;margin:1.5rem 0;font-size:.95rem;color:var(--ink)}
+    .fade{opacity:0;transform:translateY(22px);transition:opacity .55s,transform .55s}
+    .fade.visible{opacity:1;transform:none}
+
+    /* Ethics Principles */
+    .ethics-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0}
+    .ethics-card{border-radius:var(--r);border:2px solid var(--rule);background:var(--surface);padding:1.25rem;cursor:pointer;transition:.2s}
+    .ethics-card:hover,.ethics-card.active{border-color:var(--brand);box-shadow:0 4px 16px rgba(21,93,75,.1)}
+    .ethics-icon{font-size:2rem;margin-bottom:.625rem}
+    .ethics-name{font-size:1rem;font-weight:800;color:var(--ink);margin-bottom:.375rem}
+    .ethics-ko{font-size:.8rem;color:var(--muted);margin-bottom:.75rem}
+    .ethics-detail{display:none;font-size:.875rem;color:var(--muted);line-height:1.6;border-top:1px solid var(--rule);padding-top:.75rem;margin-top:.5rem}
+    .ethics-ai{font-size:.8rem;background:var(--brand-l);border-radius:6px;padding:.5rem .625rem;margin-top:.5rem;color:var(--ink);display:none}
+    .ethics-card.active .ethics-detail,.ethics-card.active .ethics-ai{display:block}
+
+    /* Dilemma Votes */
+    .dilemma-list{display:flex;flex-direction:column;gap:1.25rem;margin:1.5rem 0}
+    .dilemma-card{background:var(--surface);border:2px solid var(--rule);border-radius:var(--r);padding:1.375rem}
+    .dilemma-num{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--brand);margin-bottom:.5rem}
+    .dilemma-q{font-size:.975rem;font-weight:700;color:var(--ink);line-height:1.55;margin-bottom:1rem}
+    .dilemma-votes{display:flex;gap:.625rem;flex-wrap:wrap;margin-bottom:.875rem}
+    .vote-btn{flex:1;min-width:120px;padding:.625rem 1rem;border-radius:var(--r-sm);border:2px solid var(--rule);background:none;cursor:pointer;font-size:.875rem;font-weight:700;color:var(--ink);transition:.15s}
+    .vote-btn:hover{border-color:var(--brand);background:var(--brand-l)}
+    .vote-btn.selected{border-color:var(--brand);background:var(--brand);color:#fff}
+    .dilemma-insight{display:none;font-size:.875rem;line-height:1.6;padding:.875rem 1rem;border-radius:var(--r-sm);background:var(--bg);border-left:3px solid var(--brand);color:var(--ink)}
+    .dilemma-insight.show{display:block}
+    .dilemma-principle{font-size:.8rem;font-weight:700;color:var(--brand);margin-top:.5rem}
+
+    /* Bias Section */
+    .bias-list{display:flex;flex-direction:column;gap:.875rem;margin:1.5rem 0}
+    .bias-item{border-radius:var(--r);overflow:hidden;border:2px solid var(--rule)}
+    .bias-head{padding:.875rem 1.125rem;display:flex;align-items:center;gap:.875rem;cursor:pointer;background:var(--surface);transition:background .15s}
+    .bias-head:hover,.bias-item.open .bias-head{background:var(--brand-l)}
+    .bias-item.open{border-color:var(--brand)}
+    .bias-icon{font-size:1.375rem;flex-shrink:0}
+    .bias-title{font-size:.95rem;font-weight:800;color:var(--ink);flex:1}
+    .bias-arrow{font-size:.75rem;color:var(--muted);transition:transform .25s}
+    .bias-item.open .bias-arrow{transform:rotate(180deg)}
+    .bias-body{display:none;padding:.875rem 1.125rem;border-top:1px solid var(--rule);font-size:.875rem;color:var(--muted);line-height:1.65}
+    .bias-item.open .bias-body{display:block}
+    .bias-example{margin-top:.625rem;background:var(--bg);border-radius:var(--r-sm);padding:.75rem;border-left:3px solid var(--warn);font-size:.85rem;color:var(--ink)}
+
+    /* quiz */
+    .quiz-block{background:var(--surface);border:2px solid var(--rule);border-radius:var(--r);padding:1.5rem;margin:1rem 0}
+    .quiz-q{font-size:1rem;font-weight:800;color:var(--ink);margin-bottom:1rem;line-height:1.5}
+    .quiz-options{display:flex;flex-direction:column;gap:.5rem}
+    .quiz-opt{padding:.75rem 1rem;border-radius:var(--r-sm);border:2px solid var(--rule);background:none;cursor:pointer;text-align:left;font-size:.9rem;font-weight:600;color:var(--ink);transition:.15s;width:100%}
+    .quiz-opt:hover:not(:disabled){border-color:var(--brand);background:var(--brand-l)}
+    .quiz-opt.correct{border-color:var(--ok)!important;background:#f0fdf4!important;color:var(--ok)!important}
+    .quiz-opt.wrong{border-color:var(--danger)!important;background:#fef2f2!important;color:var(--danger)!important}
+    .quiz-fb{font-size:.875rem;margin-top:.75rem;padding:.75rem 1rem;border-radius:var(--r-sm);display:none;line-height:1.5}
+    .quiz-fb.show{display:block}
+    .quiz-fb.ok{background:#f0fdf4;color:#166534;border-left:3px solid var(--ok)}
+    .quiz-fb.ng{background:#fef2f2;color:#991b1b;border-left:3px solid var(--danger)}
+    .quiz-total{text-align:center;padding:1.25rem;background:var(--brand-l);border-radius:var(--r);display:none;margin-top:.5rem}
+    .quiz-total.show{display:block}
+    .quiz-total-score{font-size:2rem;font-weight:900;color:var(--brand)}
+    .quiz-total-msg{font-size:.9rem;color:var(--brand-d);font-weight:600;margin-top:.25rem}
+
+    .summary{background:var(--brand-d);color:#fff;border-radius:var(--r);padding:2rem;margin:1.5rem 0}
+    .summary h3{color:#fff;font-size:1.125rem;margin-bottom:1rem}
+    .summary-list{display:flex;flex-direction:column;gap:.625rem}
+    .summary-row{display:flex;align-items:flex-start;gap:.75rem;font-size:.9rem;line-height:1.55;opacity:.92}
+    .summary-row::before{content:"✓";color:#4ade80;font-weight:900;flex-shrink:0;margin-top:.1rem}
+    .nav-bottom{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;padding:2rem 0}
+    .nav-btn{padding:.75rem 1.5rem;border-radius:var(--r-sm);font-size:.875rem;font-weight:700;text-decoration:none;border:2px solid var(--rule);color:var(--muted);background:var(--surface);transition:.15s}
+    .nav-btn:hover{border-color:var(--brand);color:var(--brand)}
+    .nav-btn.primary{background:var(--brand);color:#fff;border-color:var(--brand)}
+    .nav-btn.primary:hover{background:var(--brand-d)}
+    @media(max-width:600px){.ethics-grid{grid-template-columns:1fr}nav{padding:.625rem 1rem}.hero{padding:2.5rem 1rem 2rem}}
+  </style>
+</head>
+<body>
+<div id="pbar"></div>
+<nav>
+  <div><div class="nav-series">의사를 위한 AI</div><div class="nav-title">AI와 의료 윤리</div></div>
+  <span class="nav-ep">8편</span>
+</nav>
+<div class="series-bar">
+  <a href="../../11-doctors-learning-ai-intro.html" class="sp-dot done">1</a><div class="sp-line done"></div>
+  <a href="../../12-ai-strengths-and-limits.html" class="sp-dot done">2</a><div class="sp-line done"></div>
+  <a href="../../13-ai-in-outpatient-workflow.html" class="sp-dot done">3</a><div class="sp-line done"></div>
+  <a href="../../14-safe-medical-prompting.html" class="sp-dot done">4</a><div class="sp-line done"></div>
+  <a href="../../15-ai-for-resident-education-and-research.html" class="sp-dot done">5</a><div class="sp-line done"></div>
+  <a href="16-ai-tool-comparison.html" class="sp-dot done">6</a><div class="sp-line done"></div>
+  <a href="17-ai-for-medical-records.html" class="sp-dot done">7</a><div class="sp-line done"></div>
+  <span class="sp-dot active">8</span><div class="sp-line"></div>
+  <a href="19-ai-in-radiology-and-pathology.html" class="sp-dot todo">9</a><div class="sp-line"></div>
+  <a href="20-doctors-role-in-ai-era.html" class="sp-dot todo">10</a>
+</div>
+<div class="hero">
+  <div class="hero-ep">Episode 8</div>
+  <h1>AI 시대, 의료 윤리는<br>어떻게 달라지는가?</h1>
+  <p class="hero-sub">자율성, 선행, 공정성, 책임… 전통적 의료 윤리가 AI와 만나면 어떤 새로운 질문이 생기는지 탐구합니다.</p>
+  <div class="hero-tags">
+    <span class="hero-tag">의료 윤리 4원칙</span>
+    <span class="hero-tag">알고리즘 편향</span>
+    <span class="hero-tag">책임 소재</span>
+    <span class="hero-tag">AI 딜레마</span>
+  </div>
+</div>
+
+<div class="container">
+  <section class="fade">
+    <div class="sec-label">시나리오</div>
+    <h2>AI가 틀렸을 때, 책임은 누구에게 있나?</h2>
+    <p>AI가 권장한 치료 방향을 따랐는데 환자가 악화되었습니다. AI를 개발한 회사인가요? AI를 도입한 병원인가요? 아니면 최종 결정을 내린 의사인가요?</p>
+    <div class="callout">
+      이 질문은 아직 명확한 법적 결론이 없습니다. 현재 대부분의 국가에서는 <strong>AI는 의료기기처럼 취급</strong>되며, 최종 임상 책임은 사용한 의사에게 귀속됩니다. 이것이 AI를 <em>보조 도구</em>로만 사용해야 하는 핵심 이유입니다.
+    </div>
+  </section>
+
+  <!-- 윤리 4원칙 -->
+  <section class="fade">
+    <div class="sec-label">핵심 개념</div>
+    <h2>의료 윤리 4원칙 × AI</h2>
+    <p>Beauchamp & Childress의 의료 윤리 4원칙이 AI 시대에 어떻게 적용되는지 확인하세요. 각 카드를 클릭하세요.</p>
+    <div class="ethics-grid">
+      <div class="ethics-card" onclick="toggleEthics(this)">
+        <div class="ethics-icon">🙋</div>
+        <div class="ethics-name">Autonomy</div>
+        <div class="ethics-ko">자율성 존중</div>
+        <div class="ethics-detail">환자는 자신의 치료에 대해 충분한 정보를 바탕으로 결정할 권리가 있습니다. AI가 진단이나 치료를 보조할 때, 환자는 AI가 사용됐다는 사실을 알 권리가 있을 수 있습니다.</div>
+        <div class="ethics-ai">🤖 AI 적용: "AI가 진단을 보조했습니다"를 환자에게 공개해야 하는가? → 현재 진행 중인 규제 논의 사항입니다.</div>
+      </div>
+      <div class="ethics-card" onclick="toggleEthics(this)">
+        <div class="ethics-icon">❤️</div>
+        <div class="ethics-name">Beneficence</div>
+        <div class="ethics-ko">선행</div>
+        <div class="ethics-detail">환자에게 이로운 행동을 해야 합니다. AI가 진단 정확도를 높이거나 오류를 줄인다면 선행 원칙에 부합하지만, AI 오류가 해를 끼친다면 반합니다.</div>
+        <div class="ethics-ai">🤖 AI 적용: AI 도구가 환자에게 실제로 이득이 되는지 증거 기반으로 검증해야 합니다. "신기해 보여서" 사용하는 것은 충분하지 않습니다.</div>
+      </div>
+      <div class="ethics-card" onclick="toggleEthics(this)">
+        <div class="ethics-icon">🛡️</div>
+        <div class="ethics-name">Non-maleficence</div>
+        <div class="ethics-ko">악행 금지</div>
+        <div class="ethics-detail">해를 끼치지 않아야 합니다. AI 환각, 알고리즘 편향, 지식 시점 한계는 모두 환자에게 해를 줄 수 있는 잠재적 위험입니다.</div>
+        <div class="ethics-ai">🤖 AI 적용: AI 오류가 임상에서 그대로 반영되지 않도록 항상 의사의 검증 단계가 필요합니다.</div>
+      </div>
+      <div class="ethics-card" onclick="toggleEthics(this)">
+        <div class="ethics-icon">⚖️</div>
+        <div class="ethics-name">Justice</div>
+        <div class="ethics-ko">공정성</div>
+        <div class="ethics-detail">의료 자원과 이익이 공정하게 분배되어야 합니다. AI가 특정 인종, 성별, 연령대에 치우친 데이터로 학습되면 불공정한 결과를 낼 수 있습니다.</div>
+        <div class="ethics-ai">🤖 AI 적용: 알고리즘 편향(Algorithmic Bias)은 기존 의료 불평등을 AI가 자동화·증폭할 수 있는 심각한 문제입니다.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 윤리 딜레마 투표 -->
+  <section class="fade">
+    <div class="sec-label">인터랙티브 딜레마</div>
+    <h2>당신이라면 어떻게 결정하겠습니까?</h2>
+    <p>정답이 없는 의료 AI 윤리 딜레마들입니다. 각 상황에서 자신의 판단을 선택하고 윤리적 관점을 확인해보세요.</p>
+    <div class="dilemma-list">
+      <div class="dilemma-card">
+        <div class="dilemma-num">딜레마 01</div>
+        <div class="dilemma-q">AI 진단 시스템이 의사보다 특정 질환 검출률이 높다는 연구 결과가 있습니다. 그러나 이 AI가 틀렸을 때 법적 책임 소재가 불명확합니다. 당신이라면 이 시스템을 도입하겠습니까?</div>
+        <div class="dilemma-votes">
+          <button class="vote-btn" onclick="vote(this,'d1','도입한다')">도입한다</button>
+          <button class="vote-btn" onclick="vote(this,'d1','책임 체계 정비 후 도입')">책임 체계 정비 후 도입</button>
+          <button class="vote-btn" onclick="vote(this,'d1','도입하지 않는다')">도입하지 않는다</button>
+        </div>
+        <div class="dilemma-insight" id="d1">이것은 현재 전 세계 병원들이 직면한 실제 딜레마입니다. 선행(높은 진단율)과 책임 불명확 사이의 긴장입니다. 대부분의 의료윤리학자들은 "AI를 보조 도구로만 사용하고, 최종 결정은 의사가 내리는 구조"를 현실적 해결책으로 봅니다.
+          <div class="dilemma-principle">관련 원칙: 선행 + 책임 소재의 명확화</div>
+        </div>
+      </div>
+
+      <div class="dilemma-card">
+        <div class="dilemma-num">딜레마 02</div>
+        <div class="dilemma-q">AI 예측 모델이 특정 환자의 재입원 위험이 높다고 판단했습니다. 그런데 이 모델이 저소득층에서 더 자주 고위험으로 분류한다는 사실이 밝혀졌습니다. 계속 사용하겠습니까?</div>
+        <div class="dilemma-votes">
+          <button class="vote-btn" onclick="vote(this,'d2','계속 사용')">계속 사용</button>
+          <button class="vote-btn" onclick="vote(this,'d2','편향 수정 후 사용')">편향 수정 후 사용</button>
+          <button class="vote-btn" onclick="vote(this,'d2','즉시 사용 중단')">즉시 사용 중단</button>
+        </div>
+        <div class="dilemma-insight" id="d2">이것은 알고리즘 편향(Algorithmic Bias)의 실제 사례입니다. Obermeyer et al.(2019, Science)은 실제 의료 AI 시스템이 흑인 환자를 더 건강한 것으로 잘못 분류한다는 것을 보여줬습니다. 편향된 AI는 기존 불평등을 자동화합니다.
+          <div class="dilemma-principle">관련 원칙: 공정성(Justice) + 악행 금지</div>
+        </div>
+      </div>
+
+      <div class="dilemma-card">
+        <div class="dilemma-num">딜레마 03</div>
+        <div class="dilemma-q">환자가 "AI한테 물어봤는데 수술 안 해도 된다고 했어요"라고 말합니다. 실제로는 수술이 필요한 상황입니다. 어떻게 대응하겠습니까?</div>
+        <div class="dilemma-votes">
+          <button class="vote-btn" onclick="vote(this,'d3','AI가 틀렸다고 무시')">AI가 틀렸다 설명</button>
+          <button class="vote-btn" onclick="vote(this,'d3','AI 활용 한계 교육')">AI 한계 교육 + 설명</button>
+          <button class="vote-btn" onclick="vote(this,'d3','환자 선택 존중')">환자 선택 존중</button>
+        </div>
+        <div class="dilemma-insight" id="d3">자율성(환자 결정권)과 선행(의학적 최선) 사이의 긴장입니다. 윤리적으로는 AI가 의료 조언을 대체할 수 없음을 설명하며 충분한 정보에 기반한 결정(informed consent)이 이루어지도록 해야 합니다. 환자 AI 리터러시 교육이 중요합니다.
+          <div class="dilemma-principle">관련 원칙: 자율성 + 선행의 균형</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 알고리즘 편향 -->
+  <section class="fade">
+    <div class="sec-label">깊이 이해하기</div>
+    <h2>알고리즘 편향 — AI가 불평등을 강화할 때</h2>
+    <p>AI는 학습 데이터의 편향을 그대로 반영합니다. 의료 AI에서 이 문제가 어떻게 나타나는지 확인하세요.</p>
+    <div class="bias-list">
+      <div class="bias-item" id="b1">
+        <div class="bias-head" onclick="toggleBias('b1')">
+          <div class="bias-icon">📊</div>
+          <div class="bias-title">데이터 대표성 편향 — 특정 집단이 과소 대표될 때</div>
+          <span class="bias-arrow">▼</span>
+        </div>
+        <div class="bias-body">
+          AI가 주로 특정 인종, 성별, 연령대의 데이터로 학습되면, 그 외 집단에서 정확도가 떨어집니다.
+          <div class="bias-example">⚠️ 실제 사례: 피부과 AI 진단 시스템들이 밝은 피부 사진으로 주로 학습되어, 어두운 피부에서 피부암 검출률이 낮게 나타난 연구들이 있습니다.</div>
+        </div>
+      </div>
+      <div class="bias-item" id="b2">
+        <div class="bias-head" onclick="toggleBias('b2')">
+          <div class="bias-icon">🔄</div>
+          <div class="bias-title">역사적 편향 — 과거의 불평등을 AI가 학습할 때</div>
+          <span class="bias-arrow">▼</span>
+        </div>
+        <div class="bias-body">
+          과거 의료 기록에 있던 차별적 패턴(덜 공격적인 치료를 받은 특정 집단 등)을 AI가 그대로 학습해 재현할 수 있습니다.
+          <div class="bias-example">⚠️ 연구 근거: Obermeyer et al., Science 2019 — 미국 대형 병원 AI 시스템이 같은 건강 수준의 흑인 환자를 백인 환자보다 덜 아픈 것으로 평가해 자원 배분에서 불이익을 받게 했습니다.</div>
+        </div>
+      </div>
+      <div class="bias-item" id="b3">
+        <div class="bias-head" onclick="toggleBias('b3')">
+          <div class="bias-icon">🌍</div>
+          <div class="bias-title">지역적 편향 — 다른 의료 환경에서 개발된 AI</div>
+          <span class="bias-arrow">▼</span>
+        </div>
+        <div class="bias-body">
+          미국이나 유럽 데이터로 학습된 AI를 한국 환자에게 그대로 적용하면, 유전적 특성·질병 양상·의료 환경 차이로 인해 성능이 다를 수 있습니다.
+          <div class="bias-example">⚠️ 의미: 해외에서 검증된 AI도 국내 환자군에서 별도 검증이 필요합니다.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 퀴즈 -->
+  <section class="fade">
+    <div class="sec-label">최종 퀴즈</div>
+    <h2>8편 학습 확인</h2>
+    <div class="quiz-block">
+      <div class="quiz-q">Q1. AI 진단 시스템이 특정 인종에서 정확도가 낮은 것은 어떤 윤리 원칙에 주로 위배되는가?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-correct="false" onclick="checkQ(this,'qf1')">자율성(Autonomy)</button>
+        <button class="quiz-opt" data-correct="true"  onclick="checkQ(this,'qf1')">공정성(Justice)</button>
+        <button class="quiz-opt" data-correct="false" onclick="checkQ(this,'qf1')">선행(Beneficence)</button>
+        <button class="quiz-opt" data-correct="false" onclick="checkQ(this,'qf1')">고지된 동의(Informed Consent)</button>
+      </div>
+      <div class="quiz-fb" id="qf1"></div>
+    </div>
+    <div class="quiz-block" style="margin-top:1rem">
+      <div class="quiz-q">Q2. 현재 대부분의 법적·윤리적 프레임에서 AI 의료 오류의 최종 책임은?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-correct="false" onclick="checkQ(this,'qf2')">AI 개발 회사</button>
+        <button class="quiz-opt" data-correct="false" onclick="checkQ(this,'qf2')">병원 경영진</button>
+        <button class="quiz-opt" data-correct="true"  onclick="checkQ(this,'qf2')">AI를 사용해 최종 임상 결정을 내린 의사</button>
+        <button class="quiz-opt" data-correct="false" onclick="checkQ(this,'qf2')">AI 규제 당국</button>
+      </div>
+      <div class="quiz-fb" id="qf2"></div>
+    </div>
+    <div class="quiz-total" id="quizTotal">
+      <div class="quiz-total-score" id="quizTotalScore"></div>
+      <div class="quiz-total-msg" id="quizTotalMsg"></div>
+    </div>
+  </section>
+
+  <section class="fade">
+    <div class="summary">
+      <h3>📋 8편 핵심 요약</h3>
+      <div class="summary-list">
+        <div class="summary-row">의료 윤리 4원칙(자율성·선행·악행금지·공정성)은 AI 시대에도 핵심 프레임이다.</div>
+        <div class="summary-row">알고리즘 편향은 기존 의료 불평등을 자동화·증폭할 수 있다. AI 도입 시 데이터 대표성을 반드시 확인한다.</div>
+        <div class="summary-row">AI 의료 오류의 현재 법적 책임은 최종 임상 결정을 내린 의사에게 귀속된다.</div>
+        <div class="summary-row">환자는 AI가 진단·치료에 사용됐다는 사실을 알 권리가 논의 중이다. 투명성이 중요하다.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="nav-bottom">
+    <a href="17-ai-for-medical-records.html" class="nav-btn">← 7편: 의무기록 자동화</a>
+    <a href="../../index.html" class="nav-btn">🏠 목차</a>
+    <a href="19-ai-in-radiology-and-pathology.html" class="nav-btn primary">9편: 영상·병리 AI →</a>
+  </div>
+</div>
+
+<script>
+  window.addEventListener('scroll',()=>{const h=document.documentElement;document.getElementById('pbar').style.width=((h.scrollTop||document.body.scrollTop)/(h.scrollHeight-h.clientHeight)*100)+'%';});
+  const obs=new IntersectionObserver(e=>{e.forEach(i=>{if(i.isIntersecting){i.target.classList.add('visible');obs.unobserve(i.target);}});},{threshold:.12});
+  document.querySelectorAll('.fade').forEach(el=>obs.observe(el));
+
+  function toggleEthics(card){
+    const was=card.classList.contains('active');
+    document.querySelectorAll('.ethics-card').forEach(c=>c.classList.remove('active'));
+    if(!was) card.classList.add('active');
+  }
+  function vote(btn,id,choice){
+    const card=btn.closest('.dilemma-card');
+    card.querySelectorAll('.vote-btn').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');
+    document.getElementById(id).classList.add('show');
+  }
+  function toggleBias(id){
+    const el=document.getElementById(id);
+    const was=el.classList.contains('open');
+    document.querySelectorAll('.bias-item').forEach(b=>b.classList.remove('open'));
+    if(!was) el.classList.add('open');
+  }
+  function checkQ(btn,id){
+    const block=btn.closest('.quiz-block');
+    if(block.querySelector('.quiz-opt:disabled')) return;
+    block.querySelectorAll('.quiz-opt').forEach(b=>b.disabled=true);
+    const fb=document.getElementById(id);
+    if(btn.dataset.correct==='true'){btn.classList.add('correct');fb.className='quiz-fb show ok';fb.textContent='✅ 정답!';}
+    else{btn.classList.add('wrong');fb.className='quiz-fb show ng';fb.textContent='❌ 오답.';block.querySelectorAll('[data-correct="true"]').forEach(b=>b.classList.add('correct'));}
+    if(id.startsWith('qf')){
+      const all=['qf1','qf2'].every(i=>{const f=document.getElementById(i);return f&&f.classList.contains('show');});
+      if(all){
+        const c=['qf1','qf2'].filter(i=>document.getElementById(i).classList.contains('ok')).length;
+        const el=document.getElementById('quizTotal');el.classList.add('show');
+        document.getElementById('quizTotalScore').textContent=c+' / 2';
+        document.getElementById('quizTotalMsg').textContent=c===2?'완벽합니다!':'다시 한 번 복습해보세요.';
+      }
+    }
+  }
+</script>
+</body>
+</html>

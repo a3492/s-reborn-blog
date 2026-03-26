@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0d3c2c"/>
+      <stop offset="100%" stop-color="#6e3212"/>
+    </linearGradient>
+    <filter id="soft"><feGaussianBlur stdDeviation="24"/></filter>
+  </defs>
+  <rect width="1200" height="720" fill="url(#bg)"/>
+  <!-- 배경 -->
+  <circle cx="600" cy="340" r="290" fill="rgba(255,255,255,0.05)" filter="url(#soft)"/>
+  <circle cx="120" cy="620" r="130" fill="rgba(255,255,255,0.03)"/>
+  <circle cx="1080" cy="100" r="110" fill="rgba(255,255,255,0.03)"/>
+
+  <!-- 연구/교육 네트워크: 중앙 허브 + 위성 노드들 -->
+  <!-- 연결선들 -->
+  <line x1="600" y1="340" x2="320" y2="200" stroke="rgba(255,255,255,0.22)" stroke-width="2.5"/>
+  <line x1="600" y1="340" x2="880" y2="200" stroke="rgba(255,255,255,0.22)" stroke-width="2.5"/>
+  <line x1="600" y1="340" x2="240" y2="420" stroke="rgba(255,255,255,0.22)" stroke-width="2.5"/>
+  <line x1="600" y1="340" x2="960" y2="420" stroke="rgba(255,255,255,0.22)" stroke-width="2.5"/>
+  <line x1="600" y1="340" x2="420" y2="530" stroke="rgba(255,255,255,0.18)" stroke-width="2"/>
+  <line x1="600" y1="340" x2="780" y2="530" stroke="rgba(255,255,255,0.18)" stroke-width="2"/>
+  <line x1="600" y1="340" x2="600" y2="170" stroke="rgba(255,255,255,0.22)" stroke-width="2.5"/>
+
+  <!-- 위성 노드간 연결 (외곽 링) -->
+  <path d="M 320 200 Q 460 140 600 170 Q 740 140 880 200" fill="none" stroke="rgba(255,255,255,0.10)" stroke-width="1.5" stroke-dasharray="6 6"/>
+  <path d="M 240 420 Q 330 530 420 530 Q 510 530 600 560" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" stroke-dasharray="6 6"/>
+
+  <!-- 중앙 허브 -->
+  <circle cx="600" cy="340" r="66" fill="rgba(20,91,75,0.22)" stroke="rgba(255,255,255,0.72)" stroke-width="4"/>
+  <circle cx="600" cy="340" r="36" fill="rgba(255,255,255,0.88)"/>
+  <!-- 중앙 졸업모 아이콘 -->
+  <path d="M 600 322 L 576 334 L 600 346 L 624 334 Z" fill="#0d3c2c" stroke="none"/>
+  <line x1="624" y1="334" x2="624" y2="352" stroke="#0d3c2c" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="624" cy="355" r="4" fill="#0d3c2c"/>
+  <line x1="588" y1="345" x2="588" y2="358" stroke="#0d3c2c" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="612" y1="345" x2="612" y2="358" stroke="#0d3c2c" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- 위성 노드: 연구 (상단) -->
+  <circle cx="600" cy="158" r="36" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.52)" stroke-width="2.5"/>
+  <circle cx="600" cy="158" r="16" fill="rgba(255,255,255,0.68)"/>
+  <!-- 돋보기 -->
+  <circle cx="598" cy="156" r="7" fill="none" stroke="#0d3c2c" stroke-width="2.5"/>
+  <line x1="603" y1="161" x2="609" y2="167" stroke="#0d3c2c" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- 위성 노드: 강의 준비 (좌상) -->
+  <circle cx="320" cy="200" r="34" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.45)" stroke-width="2.5"/>
+  <circle cx="320" cy="200" r="15" fill="rgba(255,255,255,0.62)"/>
+  <!-- 프레젠테이션 아이콘 -->
+  <rect x="312" y="193" width="16" height="11" rx="2" fill="none" stroke="#0d3c2c" stroke-width="2"/>
+  <line x1="320" y1="204" x2="320" y2="209" stroke="#0d3c2c" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- 위성 노드: 논문 읽기 (우상) -->
+  <circle cx="880" cy="200" r="34" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.45)" stroke-width="2.5"/>
+  <circle cx="880" cy="200" r="15" fill="rgba(255,255,255,0.62)"/>
+  <!-- 책 아이콘 -->
+  <rect x="871" y="192" width="18" height="14" rx="1" fill="none" stroke="#0d3c2c" stroke-width="2"/>
+  <line x1="880" y1="192" x2="880" y2="206" stroke="#0d3c2c" stroke-width="1.5"/>
+
+  <!-- 위성 노드: 피드백 (좌중) -->
+  <circle cx="240" cy="420" r="32" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.40)" stroke-width="2.5"/>
+  <circle cx="240" cy="420" r="14" fill="rgba(255,255,255,0.55)"/>
+  <!-- 말풍선 -->
+  <path d="M 232 414 Q 232 409 237 409 L 248 409 Q 253 409 253 414 L 253 421 Q 253 426 248 426 L 245 426 L 243 430 L 241 426 L 237 426 Q 232 426 232 421 Z" fill="none" stroke="#0d3c2c" stroke-width="2" stroke-linejoin="round"/>
+
+  <!-- 위성 노드: 질문 생성 (우중) -->
+  <circle cx="960" cy="420" r="32" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.40)" stroke-width="2.5"/>
+  <circle cx="960" cy="420" r="14" fill="rgba(255,255,255,0.55)"/>
+  <!-- 물음표 -->
+  <path d="M 956 414 Q 956 410 960 410 Q 964 410 964 414 Q 964 418 960 420 L 960 422" fill="none" stroke="#0d3c2c" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="960" cy="426" r="2" fill="#0d3c2c"/>
+
+  <!-- 하단 위성들 -->
+  <circle cx="420" cy="530" r="28" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.32)" stroke-width="2"/>
+  <circle cx="420" cy="530" r="12" fill="rgba(255,255,255,0.45)"/>
+  <circle cx="780" cy="530" r="28" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.32)" stroke-width="2"/>
+  <circle cx="780" cy="530" r="12" fill="rgba(255,255,255,0.45)"/>
+</svg>

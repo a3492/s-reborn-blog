@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>6편 — AI 도구 비교·선택 가이드 | 의사를 위한 AI</title>
+  <style>
+    :root{--brand:#155d4b;--brand-d:#0d3d30;--brand-l:#e8f4ef;--bg:#f5f1eb;--surface:#fffcf7;--ink:#18212a;--muted:#4a5562;--rule:#ddd8d0;--warn:#b45309;--danger:#dc2626;--ok:#15803d;--r:12px;--r-sm:8px}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Pretendard','Apple SD Gothic Neo',system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:18px;line-height:1.75}
+    #pbar{position:fixed;top:0;left:0;height:3px;background:var(--brand);width:0%;z-index:200;transition:width .1s}
+    nav{position:sticky;top:0;z-index:100;background:rgba(255,252,247,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.5rem}
+    .nav-series{font-size:13px;color:var(--muted);font-weight:600}
+    .nav-title{font-size:14px;font-weight:700;color:var(--ink)}
+    .nav-ep{font-size:13px;font-weight:700;color:var(--brand);background:var(--brand-l);padding:.2rem .6rem;border-radius:20px}
+    .series-bar{background:var(--surface);border-bottom:1px solid var(--rule);padding:.6rem 1.5rem;display:flex;align-items:center;gap:.5rem;overflow-x:auto}
+    .sp-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;text-decoration:none;transition:transform .15s}
+    .sp-dot:hover{transform:scale(1.15)}
+    .sp-dot.done{background:var(--brand);color:#fff}
+    .sp-dot.active{background:var(--brand-d);color:#fff;box-shadow:0 0 0 3px var(--brand-l)}
+    .sp-dot.todo{background:var(--rule);color:var(--muted)}
+    .sp-line{flex:1;height:2px;background:var(--rule);min-width:8px;flex-shrink:0}
+    .sp-line.done{background:var(--brand)}
+    .hero{background:linear-gradient(135deg,var(--brand-d) 0%,var(--brand) 100%);color:#fff;padding:4rem 1.5rem 3rem;text-align:center}
+    .hero-ep{font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;opacity:.7;margin-bottom:.75rem}
+    .hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;line-height:1.2;margin-bottom:1rem}
+    .hero-sub{font-size:1rem;opacity:.8;max-width:540px;margin:0 auto 1.5rem}
+    .hero-tags{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
+    .hero-tag{font-size:12px;font-weight:700;background:rgba(255,255,255,.18);padding:.25rem .75rem;border-radius:20px}
+    .container{max-width:780px;margin:0 auto;padding:0 1.5rem}
+    section{padding:3rem 0}
+    section+section{border-top:1px solid var(--rule)}
+    .sec-label{font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--brand);margin-bottom:.5rem}
+    h2{font-size:clamp(1.5rem,3vw,1.875rem);font-weight:900;line-height:1.25;margin-bottom:1rem;color:var(--ink)}
+    p{margin-bottom:1rem;color:var(--muted)}
+    p:last-child{margin-bottom:0}
+    .callout{background:var(--brand-l);border-left:4px solid var(--brand);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:1.125rem 1.25rem;margin:1.5rem 0;font-size:.95rem;color:var(--ink)}
+    .fade{opacity:0;transform:translateY(22px);transition:opacity .55s,transform .55s}
+    .fade.visible{opacity:1;transform:none}
+
+    /* Tool Cards */
+    .tool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin:1.5rem 0}
+    .tool-card{border-radius:var(--r);border:2px solid var(--rule);background:var(--surface);overflow:hidden;cursor:pointer;transition:.2s}
+    .tool-card:hover,.tool-card.active{border-color:var(--brand);transform:translateY(-3px);box-shadow:0 4px 16px rgba(21,93,75,.12)}
+    .tool-card-top{padding:1.125rem 1rem;display:flex;align-items:center;gap:.75rem}
+    .tool-emoji{font-size:2rem;flex-shrink:0}
+    .tool-name{font-size:1rem;font-weight:800;color:var(--ink)}
+    .tool-company{font-size:.8rem;color:var(--muted)}
+    .tool-detail{display:none;padding:0 1rem 1rem;border-top:1px solid var(--rule)}
+    .tool-card.active .tool-detail{display:block}
+    .tool-tags{display:flex;flex-wrap:wrap;gap:.375rem;margin:.625rem 0}
+    .tool-tag{font-size:11px;font-weight:700;padding:.2rem .5rem;border-radius:20px;background:var(--brand-l);color:var(--brand)}
+    .tool-best{font-size:.85rem;color:var(--ink);line-height:1.6;margin-bottom:.5rem}
+    .tool-caution{font-size:.8rem;color:var(--warn);background:#fffbeb;border-radius:6px;padding:.5rem .625rem;line-height:1.5}
+
+    /* Comparison Table */
+    .cmp-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.875rem}
+    .cmp-table th{background:var(--brand-d);color:#fff;padding:.75rem .875rem;text-align:left;font-size:.8rem;font-weight:700}
+    .cmp-table td{padding:.75rem .875rem;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.5}
+    .cmp-table tr:nth-child(even) td{background:var(--bg)}
+    .cmp-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:.375rem;vertical-align:middle}
+    .cmp-dot.good{background:var(--ok)}
+    .cmp-dot.mid{background:var(--warn)}
+    .cmp-dot.low{background:#d1d5db}
+
+    /* Selector Tool */
+    .selector-wrap{background:var(--surface);border:2px solid var(--rule);border-radius:var(--r);padding:1.5rem;margin:1.5rem 0}
+    .selector-title{font-size:1rem;font-weight:800;color:var(--ink);margin-bottom:1rem}
+    .selector-q{font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:.625rem}
+    .selector-opts{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.25rem}
+    .selector-opt{padding:.5rem 1rem;border-radius:var(--r-sm);border:2px solid var(--rule);background:none;cursor:pointer;font-size:.875rem;font-weight:600;color:var(--ink);transition:.15s}
+    .selector-opt:hover,.selector-opt.sel{border-color:var(--brand);background:var(--brand-l);color:var(--brand)}
+    .selector-result{display:none;margin-top:1rem;padding:1.25rem;background:var(--brand-d);color:#fff;border-radius:var(--r)}
+    .selector-result.show{display:block}
+    .selector-rec{font-size:1.125rem;font-weight:800;margin-bottom:.5rem}
+    .selector-why{font-size:.875rem;opacity:.9;line-height:1.6}
+
+    /* quiz */
+    .quiz-block{background:var(--surface);border:2px solid var(--rule);border-radius:var(--r);padding:1.5rem;margin:1rem 0}
+    .quiz-q{font-size:1rem;font-weight:800;color:var(--ink);margin-bottom:1rem;line-height:1.5}
+    .quiz-options{display:flex;flex-direction:column;gap:.5rem}
+    .quiz-opt{padding:.75rem 1rem;border-radius:var(--r-sm);border:2px solid var(--rule);background:none;cursor:pointer;text-align:left;font-size:.9rem;font-weight:600;color:var(--ink);transition:.15s;width:100%}
+    .quiz-opt:hover:not(:disabled){border-color:var(--brand);background:var(--brand-l)}
+    .quiz-opt.correct{border-color:var(--ok)!important;background:#f0fdf4!important;color:var(--ok)!important}
+    .quiz-opt.wrong{border-color:var(--danger)!important;background:#fef2f2!important;color:var(--danger)!important}
+    .quiz-fb{font-size:.875rem;margin-top:.75rem;padding:.75rem 1rem;border-radius:var(--r-sm);display:none;line-height:1.5}
+    .quiz-fb.show{display:block}
+    .quiz-fb.ok{background:#f0fdf4;color:#166534;border-left:3px solid var(--ok)}
+    .quiz-fb.ng{background:#fef2f2;color:#991b1b;border-left:3px solid var(--danger)}
+
+    .summary{background:var(--brand-d);color:#fff;border-radius:var(--r);padding:2rem;margin:1.5rem 0}
+    .summary h3{color:#fff;font-size:1.125rem;margin-bottom:1rem}
+    .summary-list{display:flex;flex-direction:column;gap:.625rem}
+    .summary-row{display:flex;align-items:flex-start;gap:.75rem;font-size:.9rem;line-height:1.55;opacity:.92}
+    .summary-row::before{content:"✓";color:#4ade80;font-weight:900;flex-shrink:0;margin-top:.1rem}
+    .nav-bottom{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;padding:2rem 0}
+    .nav-btn{padding:.75rem 1.5rem;border-radius:var(--r-sm);font-size:.875rem;font-weight:700;text-decoration:none;border:2px solid var(--rule);color:var(--muted);background:var(--surface);transition:.15s}
+    .nav-btn:hover{border-color:var(--brand);color:var(--brand)}
+    .nav-btn.primary{background:var(--brand);color:#fff;border-color:var(--brand)}
+    .nav-btn.primary:hover{background:var(--brand-d)}
+    @media(max-width:600px){
+      .tool-grid{grid-template-columns:1fr 1fr}
+      .cmp-table{font-size:.8rem}
+      nav{padding:.625rem 1rem}
+      .hero{padding:2.5rem 1rem 2rem}
+    }
+  </style>
+</head>
+<body>
+<div id="pbar"></div>
+<nav>
+  <div>
+    <div class="nav-series">의사를 위한 AI</div>
+    <div class="nav-title">AI 도구 비교·선택 가이드</div>
+  </div>
+  <span class="nav-ep">6편</span>
+</nav>
+<div class="series-bar">
+  <a href="../../11-doctors-learning-ai-intro.html" class="sp-dot done">1</a><div class="sp-line done"></div>
+  <a href="../../12-ai-strengths-and-limits.html" class="sp-dot done">2</a><div class="sp-line done"></div>
+  <a href="../../13-ai-in-outpatient-workflow.html" class="sp-dot done">3</a><div class="sp-line done"></div>
+  <a href="../../14-safe-medical-prompting.html" class="sp-dot done">4</a><div class="sp-line done"></div>
+  <a href="../../15-ai-for-resident-education-and-research.html" class="sp-dot done">5</a><div class="sp-line done"></div>
+  <span class="sp-dot active">6</span><div class="sp-line"></div>
+  <a href="17-ai-for-medical-records.html" class="sp-dot todo">7</a><div class="sp-line"></div>
+  <a href="18-ai-and-medical-ethics.html" class="sp-dot todo">8</a><div class="sp-line"></div>
+  <a href="19-ai-in-radiology-and-pathology.html" class="sp-dot todo">9</a><div class="sp-line"></div>
+  <a href="20-doctors-role-in-ai-era.html" class="sp-dot todo">10</a>
+</div>
+<div class="hero">
+  <div class="hero-ep">Episode 6</div>
+  <h1>어떤 AI 도구를<br>언제 써야 할까?</h1>
+  <p class="hero-sub">ChatGPT, Claude, Gemini, 의료 특화 AI까지—각 도구의 특성과 임상 상황별 최적 선택법을 익힙니다.</p>
+  <div class="hero-tags">
+    <span class="hero-tag">도구 비교</span>
+    <span class="hero-tag">ChatGPT</span>
+    <span class="hero-tag">Claude</span>
+    <span class="hero-tag">Gemini</span>
+    <span class="hero-tag">의료 특화 AI</span>
+  </div>
+</div>
+
+<div class="container">
+  <section class="fade">
+    <div class="sec-label">시나리오</div>
+    <h2>도구가 너무 많아 무엇을 써야 할지 모를 때</h2>
+    <p>챗GPT, 클로드, 제미나이… 동료들은 저마다 다른 AI를 쓰고 있습니다. "의사한테는 어떤 게 제일 좋아요?"라는 질문에 정답은 없습니다. <strong>용도에 따라 최적 도구가 다릅니다.</strong></p>
+    <div class="callout">
+      AI 도구 선택의 핵심 원칙: 어떤 AI도 의료 진단이나 처방의 최종 결정 도구가 아닙니다. 모든 AI 도구는 <strong>의사의 인지 부하를 줄이는 보조 도구</strong>입니다.
+    </div>
+  </section>
+
+  <!-- Tool Cards -->
+  <section class="fade">
+    <div class="sec-label">주요 AI 도구 탐색기</div>
+    <h2>각 도구를 클릭해 특징 확인</h2>
+    <div class="tool-grid">
+      <div class="tool-card" onclick="toggleTool(this)">
+        <div class="tool-card-top">
+          <div class="tool-emoji">🤖</div>
+          <div><div class="tool-name">ChatGPT</div><div class="tool-company">OpenAI</div></div>
+        </div>
+        <div class="tool-detail">
+          <div class="tool-tags"><span class="tool-tag">범용</span><span class="tool-tag">플러그인</span><span class="tool-tag">이미지</span></div>
+          <div class="tool-best"><strong>강점:</strong> 범용 능력 최강, 이미지 생성(DALL-E), 코드 실행, 풍부한 플러그인 생태계</div>
+          <div class="tool-caution">⚠️ 의료 정보는 반드시 공식 출처로 교차확인. 무료 버전은 지식 시점이 오래됨.</div>
+        </div>
+      </div>
+      <div class="tool-card" onclick="toggleTool(this)">
+        <div class="tool-card-top">
+          <div class="tool-emoji">🔷</div>
+          <div><div class="tool-name">Claude</div><div class="tool-company">Anthropic</div></div>
+        </div>
+        <div class="tool-detail">
+          <div class="tool-tags"><span class="tool-tag">긴 문서</span><span class="tool-tag">안전성</span><span class="tool-tag">글쓰기</span></div>
+          <div class="tool-best"><strong>강점:</strong> 긴 문서 처리(최대 200K 토큰), 신중하고 정확한 답변 스타일, 논문·기록 요약에 탁월</div>
+          <div class="tool-caution">⚠️ 안전 필터가 강해 의료 정보 답변에 제한이 있을 수 있음.</div>
+        </div>
+      </div>
+      <div class="tool-card" onclick="toggleTool(this)">
+        <div class="tool-card-top">
+          <div class="tool-emoji">🌟</div>
+          <div><div class="tool-name">Gemini</div><div class="tool-company">Google</div></div>
+        </div>
+        <div class="tool-detail">
+          <div class="tool-tags"><span class="tool-tag">Google 연동</span><span class="tool-tag">최신 정보</span><span class="tool-tag">검색</span></div>
+          <div class="tool-best"><strong>강점:</strong> Google 검색 연동으로 최신 정보 접근, Google Workspace 통합, 실시간 웹 검색</div>
+          <div class="tool-caution">⚠️ 답변 일관성이 ChatGPT·Claude 대비 낮을 수 있음.</div>
+        </div>
+      </div>
+      <div class="tool-card" onclick="toggleTool(this)">
+        <div class="tool-card-top">
+          <div class="tool-emoji">🏥</div>
+          <div><div class="tool-name">의료 특화 AI</div><div class="tool-company">병원 도입 솔루션</div></div>
+        </div>
+        <div class="tool-detail">
+          <div class="tool-tags"><span class="tool-tag">EMR 연동</span><span class="tool-tag">개인정보 보호</span><span class="tool-tag">HIPAA</span></div>
+          <div class="tool-best"><strong>강점:</strong> 병원 EMR 직접 연동, 국내 의료 법규 준수, 환자 데이터 입력 가능한 보안 환경</div>
+          <div class="tool-caution">⚠️ 도입 비용 높음, 병원 IT팀과 협력 필요. 아직 도입 병원 제한적.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Table -->
+  <section class="fade">
+    <div class="sec-label">비교 분석</div>
+    <h2>임상 용도별 도구 비교</h2>
+    <div style="overflow-x:auto">
+      <table class="cmp-table">
+        <thead>
+          <tr><th>활용 목적</th><th>ChatGPT</th><th>Claude</th><th>Gemini</th><th>의료특화AI</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>긴 병력 요약</strong></td><td><span class="cmp-dot mid"></span>중간</td><td><span class="cmp-dot good"></span>우수</td><td><span class="cmp-dot mid"></span>중간</td><td><span class="cmp-dot good"></span>우수</td></tr>
+          <tr><td><strong>환자 교육자료</strong></td><td><span class="cmp-dot good"></span>우수</td><td><span class="cmp-dot good"></span>우수</td><td><span class="cmp-dot mid"></span>중간</td><td><span class="cmp-dot mid"></span>중간</td></tr>
+          <tr><td><strong>최신 가이드라인</strong></td><td><span class="cmp-dot mid"></span>중간</td><td><span class="cmp-dot low"></span>제한적</td><td><span class="cmp-dot good"></span>우수</td><td><span class="cmp-dot good"></span>우수</td></tr>
+          <tr><td><strong>개인정보 안전</strong></td><td><span class="cmp-dot low"></span>주의 필요</td><td><span class="cmp-dot low"></span>주의 필요</td><td><span class="cmp-dot low"></span>주의 필요</td><td><span class="cmp-dot good"></span>우수</td></tr>
+          <tr><td><strong>논문 분석</strong></td><td><span class="cmp-dot good"></span>우수</td><td><span class="cmp-dot good"></span>우수</td><td><span class="cmp-dot mid"></span>중간</td><td><span class="cmp-dot low"></span>제한적</td></tr>
+          <tr><td><strong>이미지 분석</strong></td><td><span class="cmp-dot good"></span>우수</td><td><span class="cmp-dot mid"></span>중간</td><td><span class="cmp-dot good"></span>우수</td><td><span class="cmp-dot mid"></span>도구마다 상이</td></tr>
+          <tr><td><strong>무료 사용</strong></td><td><span class="cmp-dot mid"></span>제한 무료</td><td><span class="cmp-dot mid"></span>제한 무료</td><td><span class="cmp-dot good"></span>무료 제공</td><td><span class="cmp-dot low"></span>병원 계약 필요</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:.8rem">※ 각 도구는 지속적으로 업데이트됩니다. 사용 전 최신 버전과 정책을 확인하세요.</p>
+  </section>
+
+  <!-- 도구 선택기 -->
+  <section class="fade">
+    <div class="sec-label">인터랙티브 선택기</div>
+    <h2>나에게 맞는 AI 도구 찾기</h2>
+    <div class="selector-wrap">
+      <div class="selector-title">🔍 상황별 AI 도구 추천기</div>
+      <div class="selector-q">지금 어떤 작업이 필요한가요?</div>
+      <div class="selector-opts">
+        <button class="selector-opt" onclick="recommend(this,'긴 의무기록 요약','Claude','긴 텍스트 처리 능력이 뛰어나며, 방대한 병력 기록을 안정적으로 요약합니다. 단, 익명화된 정보만 사용하세요.')">긴 병력 요약</button>
+        <button class="selector-opt" onclick="recommend(this,'환자 교육자료','ChatGPT / Claude','두 도구 모두 환자 눈높이 교육자료 생성에 탁월합니다. GPT-4는 이미지 생성 기능도 활용 가능합니다.')">환자 교육자료</button>
+        <button class="selector-opt" onclick="recommend(this,'최신 가이드라인 검색','Gemini','Google 검색 연동으로 최신 학회 가이드라인에 접근할 수 있습니다. 단, 공식 학회 웹사이트로 최종 확인하세요.')">최신 가이드라인</button>
+        <button class="selector-opt" onclick="recommend(this,'논문 분석·요약','Claude / ChatGPT','긴 논문 전문을 처리하는 데는 Claude가, 이미지 포함 논문은 ChatGPT가 유리합니다.')">논문 분석</button>
+        <button class="selector-opt" onclick="recommend(this,'실제 환자 데이터 포함 작업','의료 특화 AI (병원 도입 솔루션)','환자 실명·주민번호·진단명이 포함된 작업은 반드시 병원에서 승인된 의료 특화 AI만 사용해야 합니다.')">실환자 데이터 포함</button>
+        <button class="selector-opt" onclick="recommend(this,'코드 작성·데이터 분석','ChatGPT (Code Interpreter)','ChatGPT의 코드 실행 기능(Advanced Data Analysis)을 활용하면 Python 코드 작성과 데이터 시각화가 가능합니다.')">코드·데이터 분석</button>
+      </div>
+      <div class="selector-result" id="selectorResult">
+        <div class="selector-rec" id="selectorRec"></div>
+        <div class="selector-why" id="selectorWhy"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 퀴즈 -->
+  <section class="fade">
+    <div class="sec-label">최종 퀴즈</div>
+    <h2>6편 학습 확인</h2>
+    <div class="quiz-block">
+      <div class="quiz-q">Q1. 실제 환자 개인정보가 포함된 의무기록을 AI로 분석할 때 사용해야 하는 도구는?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-correct="false" onclick="checkQ(this,'qf1')">ChatGPT 무료 버전</button>
+        <button class="quiz-opt" data-correct="false" onclick="checkQ(this,'qf1')">Claude 개인 계정</button>
+        <button class="quiz-opt" data-correct="true"  onclick="checkQ(this,'qf1')">병원에서 승인된 의료 특화 AI 솔루션</button>
+        <button class="quiz-opt" data-correct="false" onclick="checkQ(this,'qf1')">Gemini 무료 버전</button>
+      </div>
+      <div class="quiz-fb" id="qf1"></div>
+    </div>
+    <div class="quiz-block" style="margin-top:1rem">
+      <div class="quiz-q">Q2. 최신 임상 가이드라인 검색에 가장 적합한 AI 도구의 특징은?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-correct="false" onclick="checkQ(this,'qf2')">긴 문서 처리 능력</button>
+        <button class="quiz-opt" data-correct="true"  onclick="checkQ(this,'qf2')">실시간 인터넷 검색·연동 기능</button>
+        <button class="quiz-opt" data-correct="false" onclick="checkQ(this,'qf2')">이미지 생성 능력</button>
+        <button class="quiz-opt" data-correct="false" onclick="checkQ(this,'qf2')">코드 실행 기능</button>
+      </div>
+      <div class="quiz-fb" id="qf2"></div>
+    </div>
+  </section>
+
+  <section class="fade">
+    <div class="summary">
+      <h3>📋 6편 핵심 요약</h3>
+      <div class="summary-list">
+        <div class="summary-row">용도에 따라 최적 도구가 다르다: 요약→Claude, 최신정보→Gemini, 범용→ChatGPT, 실환자데이터→의료특화AI.</div>
+        <div class="summary-row">어떤 AI도 실제 환자 진단·처방의 최종 결정 도구가 아니다. 모든 AI는 보조 수단이다.</div>
+        <div class="summary-row">실명·주민번호가 포함된 환자 데이터는 일반 AI 서비스에 절대 입력하지 않는다.</div>
+        <div class="summary-row">AI 도구는 빠르게 발전한다. 최신 기능과 정책은 해당 서비스 공식 페이지에서 정기적으로 확인한다.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="nav-bottom">
+    <a href="../../15-ai-for-resident-education-and-research.html" class="nav-btn">← 5편: 교육·연구</a>
+    <a href="../../index.html" class="nav-btn">🏠 목차</a>
+    <a href="17-ai-for-medical-records.html" class="nav-btn primary">7편: 의무기록 자동화 →</a>
+  </div>
+</div>
+
+<script>
+  window.addEventListener('scroll',()=>{const h=document.documentElement;document.getElementById('pbar').style.width=((h.scrollTop||document.body.scrollTop)/(h.scrollHeight-h.clientHeight)*100)+'%';});
+  const obs=new IntersectionObserver(e=>{e.forEach(i=>{if(i.isIntersecting){i.target.classList.add('visible');obs.unobserve(i.target);}});},{threshold:.12});
+  document.querySelectorAll('.fade').forEach(el=>obs.observe(el));
+
+  function toggleTool(card){
+    const wasActive=card.classList.contains('active');
+    document.querySelectorAll('.tool-card').forEach(c=>c.classList.remove('active'));
+    if(!wasActive) card.classList.add('active');
+  }
+  function recommend(btn,task,tool,why){
+    document.querySelectorAll('.selector-opt').forEach(b=>b.classList.remove('sel'));
+    btn.classList.add('sel');
+    document.getElementById('selectorRec').textContent='추천 도구: '+tool;
+    document.getElementById('selectorWhy').textContent=why;
+    document.getElementById('selectorResult').classList.add('show');
+  }
+  function checkQ(btn,id){
+    const block=btn.closest('.quiz-block');
+    if(block.querySelector('.quiz-opt:disabled')) return;
+    block.querySelectorAll('.quiz-opt').forEach(b=>b.disabled=true);
+    const fb=document.getElementById(id);
+    if(btn.dataset.correct==='true'){btn.classList.add('correct');fb.className='quiz-fb show ok';fb.textContent='✅ 정답!';}
+    else{btn.classList.add('wrong');fb.className='quiz-fb show ng';fb.textContent='❌ 오답.';block.querySelectorAll('[data-correct="true"]').forEach(b=>b.classList.add('correct'));}
+  }
+</script>
+</body>
+</html>
