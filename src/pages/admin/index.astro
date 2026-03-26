@@ -1,5 +1,6 @@
 ---
 import AdminLayout from '../../layouts/AdminLayout.astro';
+import { recentHandOffs } from '../../lib/admin/handoffs';
 
 const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
 const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
@@ -89,6 +90,25 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
         <div class="admin-link-chips" style="margin-top: 0.9rem;">
           <a href="/docs/context-worktree-ops" class="admin-chip">Ops Guide</a>
         </div>
+      </div>
+    </section>
+
+    <section class="admin-card pad-lg span-4">
+      <div class="admin-preview-card">
+        <p class="admin-preview-kicker">Hand-off</p>
+        <h2 class="admin-section-title">Recent hand-off</h2>
+        <p class="admin-section-desc">마지막으로 넘긴 작업의 done / next / risks를 바로 확인합니다.</p>
+        <article class="admin-handoff-card">
+          <div class="admin-handoff-meta">
+            <span>{recentHandOffs[0].date}</span>
+            <span>{recentHandOffs[0].owner}</span>
+          </div>
+          <h3 class="admin-handoff-title">{recentHandOffs[0].title}</h3>
+          <p class="admin-handoff-copy"><strong>done</strong> {recentHandOffs[0].done}</p>
+          <p class="admin-handoff-copy"><strong>next</strong> {recentHandOffs[0].next}</p>
+          <p class="admin-handoff-copy"><strong>risks</strong> {recentHandOffs[0].risks}</p>
+          <a class="admin-handoff-link" href={recentHandOffs[0].link}>관련 문서 열기 →</a>
+        </article>
       </div>
     </section>
 
