@@ -4,7 +4,7 @@ date: 2026-03-15
 category: ai
 tags: [테스트, AI]
 description: "파이프라인 테스트용 첫 번째 글입니다"
-draft: false
+draft: true
 ---
 
 ## 한줄 요약

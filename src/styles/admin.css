@@ -364,6 +364,16 @@ body.admin-shell {
   color: #fffdfb;
 }
 
+.admin-btn.danger {
+  border-color: rgba(184, 66, 53, 0.3);
+  background: rgba(184, 66, 53, 0.08);
+  color: #b84235;
+}
+
+.admin-btn.danger:hover {
+  background: rgba(184, 66, 53, 0.14);
+}
+
 .admin-preview-card {
   padding: 1rem 1.05rem;
   border: 1px solid rgba(184, 149, 106, 0.2);
