@@ -101,6 +101,26 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       </div>
     </section>
 
+    <section class="admin-card pad-lg span-4">
+      <div class="admin-preview-card">
+        <p class="admin-preview-kicker">Ops</p>
+        <h2 class="admin-section-title">Publish summary</h2>
+        <p class="admin-section-desc">최근 성공과 실패를 같이 보면 운영 흐름이 바로 보입니다.</p>
+        <div class="admin-ops-stack" data-admin-ops-summary>
+          <article class="admin-ops-card">
+            <span class="admin-ops-label">Latest success</span>
+            <strong class="admin-ops-title">불러오는 중...</strong>
+            <p class="admin-ops-copy">publish_jobs를 확인합니다.</p>
+          </article>
+          <article class="admin-ops-card">
+            <span class="admin-ops-label">Latest failure</span>
+            <strong class="admin-ops-title">불러오는 중...</strong>
+            <p class="admin-ops-copy">publish_jobs를 확인합니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section class="admin-card pad-lg span-7">
       <div class="admin-actions-row">
         <div>
@@ -162,6 +182,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     const draftList = document.querySelector('[data-admin-dashboard-drafts]');
     const logList = document.querySelector('[data-admin-dashboard-logs]');
     const jobsList = document.querySelector('[data-admin-dashboard-jobs]');
+    const opsSummary = document.querySelector('[data-admin-ops-summary]');
     const message = document.querySelector('[data-admin-dashboard-message]');
     const liveBadge = document.querySelector('[data-admin-dashboard-live]');
     let refreshTimer = null;
@@ -260,7 +281,38 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       if (!jobsList) return false;
       if (!rows.length) {
         jobsList.innerHTML = '<li class="admin-list-row"><div><p class="admin-item-title">publish job이 없습니다.</p><p class="admin-item-meta">편집 화면에서 Publish 요청을 실행하면 여기에 표시됩니다.</p></div></li>';
+        if (opsSummary) {
+          opsSummary.innerHTML = `
+            <article class="admin-ops-card">
+              <span class="admin-ops-label">Latest success</span>
+              <strong class="admin-ops-title">없음</strong>
+              <p class="admin-ops-copy">아직 성공한 publish가 없습니다.</p>
+            </article>
+            <article class="admin-ops-card">
+              <span class="admin-ops-label">Latest failure</span>
+              <strong class="admin-ops-title">없음</strong>
+              <p class="admin-ops-copy">아직 실패한 publish가 없습니다.</p>
+            </article>
+          `;
+        }
         return false;
+      }
+
+      if (opsSummary) {
+        const latestSuccess = rows.find((row) => row.status === 'success');
+        const latestFailure = rows.find((row) => row.status === 'failed');
+        opsSummary.innerHTML = `
+          <article class="admin-ops-card">
+            <span class="admin-ops-label">Latest success</span>
+            <strong class="admin-ops-title">${latestSuccess ? escapeHtml(latestSuccess.post_slug ?? latestSuccess.target_path ?? 'unknown') : '없음'}</strong>
+            <p class="admin-ops-copy">${latestSuccess ? `${formatDate(latestSuccess.completed_at || latestSuccess.created_at)} · ${escapeHtml(latestSuccess.commit_sha ?? 'commit 없음')}` : '아직 성공한 publish가 없습니다.'}</p>
+          </article>
+          <article class="admin-ops-card">
+            <span class="admin-ops-label">Latest failure</span>
+            <strong class="admin-ops-title">${latestFailure ? escapeHtml(latestFailure.post_slug ?? latestFailure.target_path ?? 'unknown') : '없음'}</strong>
+            <p class="admin-ops-copy">${latestFailure ? `${formatDate(latestFailure.completed_at || latestFailure.created_at)} · ${escapeHtml(latestFailure.error_message ?? 'error 없음')}` : '아직 실패한 publish가 없습니다.'}</p>
+          </article>
+        `;
       }
 
       jobsList.innerHTML = rows.map((row) => {
@@ -316,8 +368,8 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
         ] = await Promise.all([
           supabase.from('posts').select('id, title, slug, status, updated_at').order('updated_at', { ascending: false }).limit(5),
           supabase.from('audit_logs').select('action, resource_type, created_at, actor_id, after_json').order('created_at', { ascending: false }).limit(5),
-          supabase.from('publish_jobs').select('status, target_repo, target_branch, target_path, error_message, created_at, post_id, posts(slug)').order('created_at', { ascending: false }).limit(5),
-          supabase.from('publish_jobs').select('post_id, status, created_at').order('created_at', { ascending: false }).limit(30),
+          supabase.from('publish_jobs').select('status, target_repo, target_branch, target_path, error_message, commit_sha, created_at, completed_at, post_id, posts(slug)').order('created_at', { ascending: false }).limit(5),
+          supabase.from('publish_jobs').select('post_id, status, created_at, completed_at, commit_sha').order('created_at', { ascending: false }).limit(30),
         ]);
 
         if (postsError) {
