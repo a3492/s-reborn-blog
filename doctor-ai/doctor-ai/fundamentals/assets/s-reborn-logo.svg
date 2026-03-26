@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="bg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a8685e"/>
+      <stop offset="100%" stop-color="#7a4035"/>
+    </linearGradient>
+    <linearGradient id="glow1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fdf5ee" stop-opacity="0.13"/>
+      <stop offset="100%" stop-color="#fdf5ee" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="100" height="100" rx="22" fill="url(#bg1)"/>
+  <!-- Soft top-left glow -->
+  <rect width="100" height="100" rx="22" fill="url(#glow1)"/>
+  <!-- Thin ivory inner border -->
+  <rect x="3.5" y="3.5" width="93" height="93" rx="19.5"
+    fill="none" stroke="#fdf5ee" stroke-width="0.8" stroke-opacity="0.25"/>
+  <!-- SW italic serif text -->
+  <text
+    x="50" y="67"
+    font-family="Georgia, 'Palatino Linotype', Palatino, serif"
+    font-size="46"
+    font-weight="700"
+    font-style="italic"
+    fill="#fdf5ee"
+    text-anchor="middle"
+    letter-spacing="-1">SW</text>
+</svg>

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>10편 — AI 시대 의사의 역할 | 의사를 위한 AI</title>
+  <style>
+    :root{--brand:#155d4b;--brand-d:#0d3d30;--brand-l:#e8f4ef;--bg:#f5f1eb;--surface:#fffcf7;--ink:#18212a;--muted:#4a5562;--rule:#ddd8d0;--warn:#b45309;--danger:#dc2626;--ok:#15803d;--r:12px;--r-sm:8px}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Pretendard','Apple SD Gothic Neo',system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:18px;line-height:1.75}
+    #pbar{position:fixed;top:0;left:0;height:3px;background:var(--brand);width:0%;z-index:200;transition:width .1s}
+    nav{position:sticky;top:0;z-index:100;background:rgba(255,252,247,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.5rem}
+    .nav-series{font-size:13px;color:var(--muted);font-weight:600}
+    .nav-title{font-size:14px;font-weight:700;color:var(--ink)}
+    .nav-ep{font-size:13px;font-weight:700;color:var(--brand);background:var(--brand-l);padding:.2rem .6rem;border-radius:20px}
+    .series-bar{background:var(--surface);border-bottom:1px solid var(--rule);padding:.6rem 1.5rem;display:flex;align-items:center;gap:.5rem;overflow-x:auto}
+    .sp-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;text-decoration:none;transition:transform .15s}
+    .sp-dot:hover{transform:scale(1.15)}
+    .sp-dot.done{background:var(--brand);color:#fff}
+    .sp-dot.active{background:var(--brand-d);color:#fff;box-shadow:0 0 0 3px var(--brand-l)}
+    .sp-line{flex:1;height:2px;background:var(--rule);min-width:8px;flex-shrink:0}
+    .sp-line.done{background:var(--brand)}
+    .hero{background:linear-gradient(135deg,var(--brand-d) 0%,var(--brand) 100%);color:#fff;padding:4rem 1.5rem 3rem;text-align:center}
+    .hero-ep{font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;opacity:.7;margin-bottom:.75rem}
+    .hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;line-height:1.2;margin-bottom:1rem}
+    .hero-sub{font-size:1rem;opacity:.8;max-width:560px;margin:0 auto 1.5rem}
+    .hero-tags{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
+    .hero-tag{font-size:12px;font-weight:700;background:rgba(255,255,255,.18);padding:.25rem .75rem;border-radius:20px}
+    .container{max-width:780px;margin:0 auto;padding:0 1.5rem}
+    section{padding:3rem 0}
+    section+section{border-top:1px solid var(--rule)}
+    .sec-label{font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--brand);margin-bottom:.5rem}
+    h2{font-size:clamp(1.5rem,3vw,1.875rem);font-weight:900;line-height:1.25;margin-bottom:1rem;color:var(--ink)}
+    h3{font-size:1.25rem;font-weight:800;margin-bottom:.625rem;color:var(--ink)}
+    p{margin-bottom:1rem;color:var(--muted)}
+    p:last-child{margin-bottom:0}
+    .callout{background:var(--brand-l);border-left:4px solid var(--brand);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:1.125rem 1.25rem;margin:1.5rem 0;font-size:.95rem;color:var(--ink)}
+    .fade{opacity:0;transform:translateY(22px);transition:opacity .55s,transform .55s}
+    .fade.visible{opacity:1;transform:none}
+
+    /* Irreplaceable Skills */
+    .skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin:1.5rem 0}
+    .skill-card{border-radius:var(--r);border:2px solid var(--rule);background:var(--surface);padding:1.25rem;transition:.2s}
+    .skill-card:hover{border-color:var(--brand);transform:translateY(-2px)}
+    .skill-icon{font-size:2rem;margin-bottom:.625rem}
+    .skill-name{font-size:.95rem;font-weight:800;color:var(--ink);margin-bottom:.375rem}
+    .skill-desc{font-size:.85rem;color:var(--muted);line-height:1.6}
+    .skill-why{font-size:.8rem;background:var(--brand-l);border-radius:6px;padding:.5rem .625rem;margin-top:.625rem;color:var(--brand-d);font-weight:600}
+
+    /* Self Assessment */
+    .assess-wrap{background:var(--surface);border:2px solid var(--rule);border-radius:var(--r);padding:1.5rem;margin:1.5rem 0}
+    .assess-title{font-size:1rem;font-weight:800;color:var(--ink);margin-bottom:.25rem}
+    .assess-subtitle{font-size:.875rem;color:var(--muted);margin-bottom:1.25rem}
+    .assess-items{display:flex;flex-direction:column;gap:.875rem}
+    .assess-item{display:flex;align-items:center;gap:.875rem}
+    .assess-label{font-size:.875rem;font-weight:700;color:var(--ink);flex:1;min-width:0}
+    .assess-stars{display:flex;gap:.25rem}
+    .assess-star{font-size:1.375rem;cursor:pointer;color:#d1d5db;transition:color .1s;line-height:1}
+    .assess-star.lit{color:#f59e0b}
+    .assess-result{display:none;margin-top:1.25rem;padding:1.25rem;border-radius:var(--r);text-align:center}
+    .assess-result.show{display:block}
+    .assess-score{font-size:2rem;font-weight:900;color:var(--brand);margin-bottom:.5rem}
+    .assess-msg{font-size:.9rem;color:var(--ink);line-height:1.6;font-weight:600}
+    .assess-actions{display:flex;flex-direction:column;gap:.5rem;margin-top:1rem;font-size:.875rem;color:var(--muted);text-align:left}
+    .assess-action{padding:.625rem .875rem;background:var(--bg);border-radius:var(--r-sm);border-left:3px solid var(--brand)}
+    .assess-btn{margin-top:1rem;background:var(--brand);color:#fff;border:none;border-radius:var(--r-sm);padding:.75rem 1.5rem;font-size:.9rem;font-weight:700;cursor:pointer;width:100%}
+    .assess-btn:hover{background:var(--brand-d)}
+
+    /* Future Vision */
+    .vision-timeline{margin:1.5rem 0;display:flex;flex-direction:column;gap:1rem;position:relative}
+    .vision-timeline::before{content:'';position:absolute;left:20px;top:16px;bottom:16px;width:2px;background:linear-gradient(to bottom,var(--brand),var(--brand-l))}
+    .vt-item{display:flex;gap:1rem;align-items:flex-start}
+    .vt-dot{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.875rem;font-weight:900;flex-shrink:0;z-index:1;border:3px solid var(--bg)}
+    .vt-dot.now{background:var(--brand);color:#fff}
+    .vt-dot.near{background:#7c3aed;color:#fff}
+    .vt-dot.future{background:var(--rule);color:var(--muted)}
+    .vt-content{flex:1;padding-top:.375rem}
+    .vt-period{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--brand);margin-bottom:.25rem}
+    .vt-period.near{color:#7c3aed}
+    .vt-period.future{color:var(--muted)}
+    .vt-title{font-size:.95rem;font-weight:800;color:var(--ink);margin-bottom:.25rem}
+    .vt-desc{font-size:.875rem;color:var(--muted);line-height:1.6}
+
+    /* Series Complete */
+    .complete-banner{background:linear-gradient(135deg,var(--brand-d),var(--brand));color:#fff;border-radius:var(--r);padding:2.5rem 2rem;margin:1.5rem 0;text-align:center}
+    .complete-icon{font-size:3rem;margin-bottom:.75rem}
+    .complete-title{font-size:1.5rem;font-weight:900;margin-bottom:.75rem}
+    .complete-desc{font-size:.95rem;opacity:.88;line-height:1.7;max-width:480px;margin:0 auto 1.5rem}
+    .complete-btns{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+    .complete-btn{padding:.75rem 1.5rem;border-radius:var(--r-sm);font-size:.875rem;font-weight:700;text-decoration:none;transition:.15s}
+    .complete-btn.primary{background:#fff;color:var(--brand)}
+    .complete-btn.primary:hover{background:var(--brand-l)}
+    .complete-btn.secondary{background:rgba(255,255,255,.15);color:#fff;border:2px solid rgba(255,255,255,.3)}
+    .complete-btn.secondary:hover{background:rgba(255,255,255,.25)}
+
+    /* quiz */
+    .quiz-block{background:var(--surface);border:2px solid var(--rule);border-radius:var(--r);padding:1.5rem;margin:1rem 0}
+    .quiz-q{font-size:1rem;font-weight:800;color:var(--ink);margin-bottom:1rem;line-height:1.5}
+    .quiz-options{display:flex;flex-direction:column;gap:.5rem}
+    .quiz-opt{padding:.75rem 1rem;border-radius:var(--r-sm);border:2px solid var(--rule);background:none;cursor:pointer;text-align:left;font-size:.9rem;font-weight:600;color:var(--ink);transition:.15s;width:100%}
+    .quiz-opt:hover:not(:disabled){border-color:var(--brand);background:var(--brand-l)}
+    .quiz-opt.correct{border-color:var(--ok)!important;background:#f0fdf4!important;color:var(--ok)!important}
+    .quiz-opt.wrong{border-color:var(--danger)!important;background:#fef2f2!important;color:var(--danger)!important}
+    .quiz-fb{font-size:.875rem;margin-top:.75rem;padding:.75rem 1rem;border-radius:var(--r-sm);display:none;line-height:1.5}
+    .quiz-fb.show{display:block}
+    .quiz-fb.ok{background:#f0fdf4;color:#166534;border-left:3px solid var(--ok)}
+    .quiz-fb.ng{background:#fef2f2;color:#991b1b;border-left:3px solid var(--danger)}
+
+    .summary{background:var(--brand-d);color:#fff;border-radius:var(--r);padding:2rem;margin:1.5rem 0}
+    .summary h3{color:#fff;font-size:1.125rem;margin-bottom:1rem}
+    .summary-list{display:flex;flex-direction:column;gap:.625rem}
+    .summary-row{display:flex;align-items:flex-start;gap:.75rem;font-size:.9rem;line-height:1.55;opacity:.92}
+    .summary-row::before{content:"✓";color:#4ade80;font-weight:900;flex-shrink:0;margin-top:.1rem}
+    .nav-bottom{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;padding:2rem 0}
+    .nav-btn{padding:.75rem 1.5rem;border-radius:var(--r-sm);font-size:.875rem;font-weight:700;text-decoration:none;border:2px solid var(--rule);color:var(--muted);background:var(--surface);transition:.15s}
+    .nav-btn:hover{border-color:var(--brand);color:var(--brand)}
+    .nav-btn.primary{background:var(--brand);color:#fff;border-color:var(--brand)}
+    .nav-btn.primary:hover{background:var(--brand-d)}
+    @media(max-width:600px){.skills-grid{grid-template-columns:1fr}nav{padding:.625rem 1rem}.hero{padding:2.5rem 1rem 2rem}.complete-btns{flex-direction:column}}
+  </style>
+</head>
+<body>
+<div id="pbar"></div>
+<nav>
+  <div><div class="nav-series">의사를 위한 AI</div><div class="nav-title">AI 시대 의사의 역할</div></div>
+  <span class="nav-ep">10편 · 完</span>
+</nav>
+<div class="series-bar">
+  <a href="../../11-doctors-learning-ai-intro.html" class="sp-dot done">1</a><div class="sp-line done"></div>
+  <a href="../../12-ai-strengths-and-limits.html" class="sp-dot done">2</a><div class="sp-line done"></div>
+  <a href="../../13-ai-in-outpatient-workflow.html" class="sp-dot done">3</a><div class="sp-line done"></div>
+  <a href="../../14-safe-medical-prompting.html" class="sp-dot done">4</a><div class="sp-line done"></div>
+  <a href="../../15-ai-for-resident-education-and-research.html" class="sp-dot done">5</a><div class="sp-line done"></div>
+  <a href="16-ai-tool-comparison.html" class="sp-dot done">6</a><div class="sp-line done"></div>
+  <a href="17-ai-for-medical-records.html" class="sp-dot done">7</a><div class="sp-line done"></div>
+  <a href="18-ai-and-medical-ethics.html" class="sp-dot done">8</a><div class="sp-line done"></div>
+  <a href="19-ai-in-radiology-and-pathology.html" class="sp-dot done">9</a><div class="sp-line done"></div>
+  <span class="sp-dot active">10</span>
+</div>
+<div class="hero">
+  <div class="hero-ep">Episode 10 · 最終回</div>
+  <h1>AI가 할 수 없는 것—<br>그것이 의사의 미래다</h1>
+  <p class="hero-sub">10편 시리즈의 마지막. AI 시대에 의사로서 키워야 할 역량과, 인간 의사만이 가진 본질적 가치를 정리합니다.</p>
+  <div class="hero-tags">
+    <span class="hero-tag">대체 불가 역량</span>
+    <span class="hero-tag">AI 리터러시</span>
+    <span class="hero-tag">미래 의사상</span>
+    <span class="hero-tag">자기평가</span>
+  </div>
+</div>
+
+<div class="container">
+  <section class="fade">
+    <div class="sec-label">마지막 질문</div>
+    <h2>AI가 의사를 대체할까?</h2>
+    <p>이 질문의 답은 단순합니다. <strong>AI를 쓰는 의사가, AI를 모르는 의사를 대체할 것입니다.</strong></p>
+    <div class="callout">
+      AI는 도구입니다. 청진기가 의사를 대체하지 않았듯이, AI도 의사를 대체하지 않습니다. 하지만 청진기를 못 쓰는 의사가 경쟁에서 뒤처지듯, AI를 이해하지 못하는 의사는 점점 더 어려운 환경에 놓일 것입니다.
+    </div>
+  </section>
+
+  <!-- 대체 불가 역량 -->
+  <section class="fade">
+    <div class="sec-label">핵심 개념</div>
+    <h2>AI가 절대 대체할 수 없는 것</h2>
+    <p>10편의 시리즈를 통해 AI의 강점을 배웠습니다. 이제 AI가 결코 가질 수 없는 의사만의 역량을 정리합니다.</p>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-icon">🤝</div>
+        <div class="skill-name">신뢰와 치유적 관계</div>
+        <div class="skill-desc">환자가 의사를 신뢰하는 것, 그 신뢰 속에서 치유가 일어나는 것은 인간 관계에서만 가능합니다.</div>
+        <div class="skill-why">AI는 공감할 수 없고, 책임을 질 수 없습니다.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🧭</div>
+        <div class="skill-name">복잡한 임상 판단</div>
+        <div class="skill-desc">숫자와 패턴 너머의 맥락—가족 상황, 환자의 가치관, 사회적 요인—을 통합해 최선의 결정을 내리는 것.</div>
+        <div class="skill-why">AI는 데이터를 보지만, 의사는 사람을 봅니다.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">⚖️</div>
+        <div class="skill-name">윤리적 책임</div>
+        <div class="skill-desc">어려운 결정에 대한 책임을 지는 것, 나쁜 소식을 전하는 것, 환자와 함께 불확실성을 견디는 것.</div>
+        <div class="skill-why">책임은 사람만이 질 수 있습니다.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🔍</div>
+        <div class="skill-name">AI 출력 비판적 검증</div>
+        <div class="skill-desc">AI가 틀렸는지 판단하고, 언제 AI를 믿고 언제 의심해야 하는지 아는 것은 오직 전문가만 가능합니다.</div>
+        <div class="skill-why">AI를 감독하는 것도 전문 역량입니다.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">💡</div>
+        <div class="skill-name">창의적 문제 해결</div>
+        <div class="skill-desc">기존 패턴에 없는 새로운 임상 문제, 희귀 질환, 복합적 상황에서의 창의적 접근.</div>
+        <div class="skill-why">AI는 학습 데이터 밖을 볼 수 없습니다.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🌱</div>
+        <div class="skill-name">후배 교육과 지식 전수</div>
+        <div class="skill-desc">경험을 통해 쌓은 임상 지혜를 다음 세대에게 전달하고, 의료 문화를 만들어가는 것.</div>
+        <div class="skill-why">의학은 사람이 사람에게 가르치는 것입니다.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 자기 평가 -->
+  <section class="fade">
+    <div class="sec-label">인터랙티브 자기평가</div>
+    <h2>나의 AI 준비도 점검</h2>
+    <p>시리즈를 마친 지금, 각 역량에 대한 자신의 현재 수준을 솔직하게 평가해 보세요.</p>
+    <div class="assess-wrap">
+      <div class="assess-title">AI 리터러시 자기 점검</div>
+      <div class="assess-subtitle">각 항목에 별점을 매겨주세요 (⭐ 1개 = 거의 모름, ⭐⭐⭐⭐⭐ 5개 = 충분히 알고 있음)</div>
+      <div class="assess-items" id="assessItems">
+        <div class="assess-item" data-key="a1">
+          <div class="assess-label">AI 강점과 한계(환각, 컨텍스트 한계 등)를 설명할 수 있다</div>
+          <div class="assess-stars">
+            <span class="assess-star" onclick="rate('a1',1)">★</span>
+            <span class="assess-star" onclick="rate('a1',2)">★</span>
+            <span class="assess-star" onclick="rate('a1',3)">★</span>
+            <span class="assess-star" onclick="rate('a1',4)">★</span>
+            <span class="assess-star" onclick="rate('a1',5)">★</span>
+          </div>
+        </div>
+        <div class="assess-item" data-key="a2">
+          <div class="assess-label">AI 프롬프트를 목적·맥락·형식에 맞게 작성할 수 있다</div>
+          <div class="assess-stars">
+            <span class="assess-star" onclick="rate('a2',1)">★</span>
+            <span class="assess-star" onclick="rate('a2',2)">★</span>
+            <span class="assess-star" onclick="rate('a2',3)">★</span>
+            <span class="assess-star" onclick="rate('a2',4)">★</span>
+            <span class="assess-star" onclick="rate('a2',5)">★</span>
+          </div>
+        </div>
+        <div class="assess-item" data-key="a3">
+          <div class="assess-label">AI에 입력하면 안 되는 정보(개인정보)를 구분할 수 있다</div>
+          <div class="assess-stars">
+            <span class="assess-star" onclick="rate('a3',1)">★</span>
+            <span class="assess-star" onclick="rate('a3',2)">★</span>
+            <span class="assess-star" onclick="rate('a3',3)">★</span>
+            <span class="assess-star" onclick="rate('a3',4)">★</span>
+            <span class="assess-star" onclick="rate('a3',5)">★</span>
+          </div>
+        </div>
+        <div class="assess-item" data-key="a4">
+          <div class="assess-label">AI 출력물을 공식 출처로 교차확인하는 습관이 있다</div>
+          <div class="assess-stars">
+            <span class="assess-star" onclick="rate('a4',1)">★</span>
+            <span class="assess-star" onclick="rate('a4',2)">★</span>
+            <span class="assess-star" onclick="rate('a4',3)">★</span>
+            <span class="assess-star" onclick="rate('a4',4)">★</span>
+            <span class="assess-star" onclick="rate('a4',5)">★</span>
+          </div>
+        </div>
+        <div class="assess-item" data-key="a5">
+          <div class="assess-label">AI 의료 윤리(알고리즘 편향, 책임 소재 등)를 이해하고 있다</div>
+          <div class="assess-stars">
+            <span class="assess-star" onclick="rate('a5',1)">★</span>
+            <span class="assess-star" onclick="rate('a5',2)">★</span>
+            <span class="assess-star" onclick="rate('a5',3)">★</span>
+            <span class="assess-star" onclick="rate('a5',4)">★</span>
+            <span class="assess-star" onclick="rate('a5',5)">★</span>
+          </div>
+        </div>
+      </div>
+      <button class="assess-btn" onclick="calcAssess()">결과 확인하기</button>
+      <div class="assess-result" id="assessResult">
+        <div class="assess-score" id="assessScore"></div>
+        <div class="assess-msg" id="assessMsg"></div>
+        <div class="assess-actions" id="assessActions"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 미래 비전 -->
+  <section class="fade">
+    <div class="sec-label">미래 전망</div>
+    <h2>의료 AI, 앞으로 어디로?</h2>
+    <p>현재 임상에서 일어나는 일과 가까운 미래에 예상되는 변화를 살펴봅니다.</p>
+    <div class="vision-timeline">
+      <div class="vt-item">
+        <div class="vt-dot now">현재</div>
+        <div class="vt-content">
+          <div class="vt-period">지금 (2024~2026)</div>
+          <div class="vt-title">보조 도구로서 AI 일상화</div>
+          <div class="vt-desc">LLM 기반 문서 작성 보조, 영상 판독 AI, ECG 분석 AI가 일부 병원에서 실제 사용 중. AI 리터러시가 의사의 기본 역량으로 요구되기 시작.</div>
+        </div>
+      </div>
+      <div class="vt-item">
+        <div class="vt-dot near">근미래</div>
+        <div class="vt-content">
+          <div class="vt-period near">가까운 미래 (2026~2030)</div>
+          <div class="vt-title">Ambient AI와 EMR 통합</div>
+          <div class="vt-desc">진료실 음성 기반 실시간 기록 자동화, AI가 EMR에 직접 통합되어 의사가 기록보다 환자에 집중할 수 있는 환경. 맞춤형 치료 계획 AI 지원 확산.</div>
+        </div>
+      </div>
+      <div class="vt-item">
+        <div class="vt-dot future">미래</div>
+        <div class="vt-content">
+          <div class="vt-period future">먼 미래 (2030~)</div>
+          <div class="vt-title">AI 협력 의료 생태계</div>
+          <div class="vt-desc">유전체, 생활습관, 환경 데이터를 통합한 개인 맞춤 예방 의학. AI가 환자의 평생 건강 데이터를 관리하고, 의사는 주요 결정 순간에 깊이 개입하는 역할 분화.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 최종 퀴즈 -->
+  <section class="fade">
+    <div class="sec-label">시리즈 최종 퀴즈</div>
+    <h2>10편 학습 확인</h2>
+    <div class="quiz-block">
+      <div class="quiz-q">Q1. "AI가 의사를 대체할 것인가?"에 대한 현재의 가장 적절한 답변은?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-correct="false" onclick="checkQ(this,'qf1')">AI가 모든 의사를 10년 내 대체한다</button>
+        <button class="quiz-opt" data-correct="false" onclick="checkQ(this,'qf1')">AI는 의료에 전혀 영향을 주지 않는다</button>
+        <button class="quiz-opt" data-correct="true"  onclick="checkQ(this,'qf1')">AI를 활용하는 의사가 그렇지 않은 의사와의 경쟁에서 앞서갈 것이다</button>
+        <button class="quiz-opt" data-correct="false" onclick="checkQ(this,'qf1')">AI는 수술 의사만 대체한다</button>
+      </div>
+      <div class="quiz-fb" id="qf1"></div>
+    </div>
+    <div class="quiz-block" style="margin-top:1rem">
+      <div class="quiz-q">Q2. AI 시대에 오히려 더 중요해지는 의사의 역량이 아닌 것은?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-correct="false" onclick="checkQ(this,'qf2')">환자와의 신뢰 관계 형성</button>
+        <button class="quiz-opt" data-correct="false" onclick="checkQ(this,'qf2')">복잡한 윤리적 결정</button>
+        <button class="quiz-opt" data-correct="true"  onclick="checkQ(this,'qf2')">단순 반복적인 데이터 정리 작업</button>
+        <button class="quiz-opt" data-correct="false" onclick="checkQ(this,'qf2')">AI 출력물의 비판적 검증 능력</button>
+      </div>
+      <div class="quiz-fb" id="qf2"></div>
+    </div>
+  </section>
+
+  <!-- 시리즈 핵심 요약 -->
+  <section class="fade">
+    <div class="summary">
+      <h3>📋 시리즈 전체 핵심 정리</h3>
+      <div class="summary-list">
+        <div class="summary-row">AI는 의사의 경쟁자가 아닌 도구다. AI를 이해하고 잘 쓰는 의사가 더 좋은 진료를 할 수 있다.</div>
+        <div class="summary-row">AI의 3대 한계: 환각(Hallucination), 컨텍스트 한계, 지식 시점 한계. 임상 적용 시 항상 공식 출처 교차확인.</div>
+        <div class="summary-row">환자 개인정보는 절대 일반 AI 서비스에 입력하지 않는다. 익명화된 임상 정보만 사용.</div>
+        <div class="summary-row">AI 출력물의 법적·임상적 책임은 사용한 의사에게 있다. AI는 초안, 의사가 최종 결정.</div>
+        <div class="summary-row">의사만의 고유 역량(신뢰·공감·윤리·책임·창의적 판단)은 AI가 결코 대체할 수 없다.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 시리즈 완료 배너 -->
+  <section class="fade">
+    <div class="complete-banner">
+      <div class="complete-icon">🎓</div>
+      <div class="complete-title">시리즈 완주를 축하합니다!</div>
+      <div class="complete-desc">
+        1편부터 10편까지, 의사를 위한 AI 기초 시리즈를 모두 마쳤습니다.<br>
+        이 지식을 바탕으로 AI를 안전하고 효과적인 임상 파트너로 활용하세요.
+      </div>
+      <div class="complete-btns">
+        <a href="../../11-doctors-learning-ai-intro.html" class="complete-btn primary">1편부터 다시 보기</a>
+        <a href="../../index.html" class="complete-btn secondary">목차로 돌아가기</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="nav-bottom">
+    <a href="19-ai-in-radiology-and-pathology.html" class="nav-btn">← 9편: 영상·병리 AI</a>
+    <a href="../../index.html" class="nav-btn primary">🏠 전체 목차</a>
+  </div>
+</div>
+
+<script>
+  window.addEventListener('scroll',()=>{const h=document.documentElement;document.getElementById('pbar').style.width=((h.scrollTop||document.body.scrollTop)/(h.scrollHeight-h.clientHeight)*100)+'%';});
+  const obs=new IntersectionObserver(e=>{e.forEach(i=>{if(i.isIntersecting){i.target.classList.add('visible');obs.unobserve(i.target);}});},{threshold:.12});
+  document.querySelectorAll('.fade').forEach(el=>obs.observe(el));
+
+  const ratings={};
+  function rate(key,val){
+    ratings[key]=val;
+    const item=document.querySelector(`[data-key="${key}"]`);
+    item.querySelectorAll('.assess-star').forEach((s,i)=>{
+      s.classList.toggle('lit',i<val);
+    });
+  }
+
+  function calcAssess(){
+    const keys=['a1','a2','a3','a4','a5'];
+    const filled=keys.filter(k=>ratings[k]);
+    if(filled.length<3){alert('최소 3개 이상 평가해주세요.');return;}
+    const total=keys.reduce((s,k)=>s+(ratings[k]||0),0);
+    const max=25;
+    const pct=Math.round(total/max*100);
+    const el=document.getElementById('assessResult');
+    el.classList.add('show');
+    el.style.background=pct>=80?'var(--brand-l)':pct>=50?'#fef9c3':'#fef2f2';
+    document.getElementById('assessScore').textContent=total+' / '+max+' ('+pct+'%)';
+    let msg,actions;
+    if(pct>=80){
+      msg='훌륭합니다! AI 리터러시가 충분히 갖춰졌습니다. 지금 바로 임상에서 AI 협력을 시작할 준비가 됐습니다.';
+      actions=['외래에서 한 가지 AI 활용을 이번 주에 직접 시도해보세요','동료에게 이 시리즈를 추천해보세요'];
+    } else if(pct>=50){
+      msg='잘 하고 있습니다! 핵심 개념은 이해했지만 실전 적용 연습이 더 필요합니다.';
+      actions=['낮은 점수를 준 항목의 편을 다시 복습해보세요','실제 프롬프트 작성을 연습해보세요'];
+    } else {
+      msg='시작이 반입니다! 이 시리즈를 처음부터 다시 한 번 복습해보세요.';
+      actions=['1편부터 차근차근 다시 읽어보세요','핵심 용어(환각, 컨텍스트 한계)를 먼저 정리해보세요'];
+    }
+    document.getElementById('assessMsg').textContent=msg;
+    document.getElementById('assessActions').innerHTML=actions.map(a=>`<div class="assess-action">→ ${a}</div>`).join('');
+  }
+
+  function checkQ(btn,id){
+    const block=btn.closest('.quiz-block');
+    if(block.querySelector('.quiz-opt:disabled')) return;
+    block.querySelectorAll('.quiz-opt').forEach(b=>b.disabled=true);
+    const fb=document.getElementById(id);
+    if(btn.dataset.correct==='true'){btn.classList.add('correct');fb.className='quiz-fb show ok';fb.textContent='✅ 정답!';}
+    else{btn.classList.add('wrong');fb.className='quiz-fb show ng';fb.textContent='❌ 오답.';block.querySelectorAll('[data-correct="true"]').forEach(b=>b.classList.add('correct'));}
+  }
+</script>
+</body>
+</html>

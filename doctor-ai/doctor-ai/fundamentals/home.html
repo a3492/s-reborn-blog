@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      S-Reborn | 의사가 배우는 AI
+    </title>
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+    <link rel="apple-touch-icon" href="./assets/apple-touch-icon.svg" />
+    <meta name="description" content="S-Reborn의 의사용 AI 교육 시리즈와 발행 문서를 한눈에 볼 수 있는 공개용 홈 페이지" />
+    <style>
+:root{--bg:#f4ede2;--paper:rgba(255,252,247,.95);--ink:#1f2a2e;--muted:#5a676c;--line:#dacfbf;--brand:#145b4b;--soft:#e7f0ec}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:"Segoe UI","Malgun Gothic",sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;background:radial-gradient(circle at top left,#f8dcc2 0,transparent 22%),radial-gradient(circle at top right,#e3efe9 0,transparent 24%),linear-gradient(180deg,#f4ede2 0%,#efe3d2 100%)}
+.wrap{max-width:1180px;margin:0 auto;padding:44px 20px 80px}
+.topnav,.hero,.panel,.card{background:var(--paper);border:1px solid var(--line);border-radius:28px;box-shadow:0 18px 44px rgba(31,42,46,.06)}
+.topnav{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:16px 18px;margin-bottom:18px}
+.brandmark{display:inline-flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;font-weight:700}
+.brandmark img{width:28px;height:28px;border-radius:8px}
+.ghost,.cta{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border-radius:999px;text-decoration:none;font-weight:700}
+.ghost{background:#f3ebde;color:var(--ink);border:1px solid var(--line)}
+.cta{background:var(--brand);color:#fff}
+.hero{padding:42px}
+.eyebrow{display:inline-block;margin-bottom:12px;padding:6px 12px;border-radius:999px;background:var(--soft);color:var(--brand);font-size:13px;font-weight:700;letter-spacing:.04em}
+h1,h2,h3,p{margin-top:0}
+h1{margin-bottom:14px;font-size:46px;line-height:1.14;max-width:760px}
+h2{margin-bottom:12px;font-size:30px}
+h3{margin-bottom:10px;font-size:24px;line-height:1.25}
+.lead{max-width:760px;color:var(--muted);font-size:18px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.stats,.highlights,.cards{display:grid;gap:14px}
+.stats{grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin-top:28px}
+.highlights{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.cards{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.stat,.highlight{padding:18px;border-radius:20px;border:1px solid var(--line);background:rgba(255,255,255,.58)}
+.highlight{background:#fffaf3;padding:20px}
+.stat strong{display:block;margin-bottom:4px;font-size:28px}
+.section{margin-top:24px}
+.panel{padding:28px}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:16px}
+.section-note,.desc,.footer{color:var(--muted)}
+.card{overflow:hidden;display:flex;flex-direction:column;min-height:100%;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;text-decoration:none;color:inherit;cursor:pointer}
+.card:hover{transform:translateY(-4px);box-shadow:0 22px 48px rgba(31,42,46,.1);border-color:#cdbda9}
+.read-hint{display:flex;align-items:center;justify-content:flex-end;gap:5px;margin-top:auto;padding-top:14px;color:var(--brand);font-size:14px;font-weight:700;}
+.thumb{position:relative;min-height:180px;padding:18px;background:radial-gradient(circle at top right,rgba(255,255,255,.35) 0,transparent 30%),linear-gradient(135deg,#145b4b 0%,#c96d2d 100%);color:#fff;display:flex;flex-direction:column;gap:8px;align-items:flex-start;justify-content:flex-end;margin-bottom:16px;background-repeat:no-repeat;overflow:hidden}
+.thumb.has-image::before{content:"";position:absolute;inset:0;background-image:var(--thumb-image);background-size:cover;background-position:center}
+.thumb.has-image::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08) 0%,rgba(0,0,0,.22) 55%,rgba(0,0,0,.62) 100%)}
+.thumb-label{display:flex;align-items:center;gap:8px;position:relative;z-index:1}
+.thumb small{opacity:.9;text-transform:uppercase;letter-spacing:.06em;font-size:11px;background:rgba(255,255,255,.22);padding:2px 10px;border-radius:999px;white-space:nowrap}
+.thumb strong{font-size:22px;line-height:1.18;position:relative;z-index:1}
+.body{padding:22px}
+.meta,.tags{display:flex;flex-wrap:wrap;gap:8px}
+.meta{margin-bottom:12px}
+.tags{margin-top:16px}
+.pill,.tag{display:inline-flex;padding:6px 10px;border-radius:999px;font-size:13px}
+.pill{background:#f2ebdf;color:#38464a}
+.tag{background:#f8f2e8;border:1px solid #e7d9c7}
+.seriesline{margin-bottom:10px;color:var(--brand);font-size:14px;font-weight:700}
+.link{display:inline-block;margin-top:18px;color:var(--brand);font-weight:700;text-decoration:none;text-underline-offset:3px}
+.ghost:hover,.cta:hover{filter:brightness(.98)}
+.link:hover{text-decoration:underline}
+.category-row{display:flex;gap:12px;flex-wrap:nowrap;margin-bottom:12px;overflow-x:auto;padding-bottom:4px}
+.category-pill{padding:4px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.3);font-size:13px;letter-spacing:.06em;text-transform:uppercase;background:rgba(255,255,255,.05);white-space:nowrap;flex-shrink:0}
+@media (max-width:920px){h1{font-size:38px}.hero{padding:30px}}
+@media (max-width:640px){.topnav{justify-content:flex-start}.hero-actions{width:100%}.ghost,.cta{width:100%}}
+
+/* ── Quiz Banner ─────────────────────────────────── */
+.quiz-banner{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:linear-gradient(135deg,#0f4235 0%,#145b4b 100%);color:#fff;padding:20px 28px;border-radius:20px;margin-top:20px;box-shadow:0 8px 28px rgba(20,91,75,.28)}
+.quiz-banner-inner{display:flex;align-items:center;gap:14px}
+.quiz-icon{font-size:26px;flex-shrink:0}
+.quiz-banner-inner strong{display:block;font-size:17px;margin-bottom:3px}
+.quiz-banner-inner span{font-size:14px;opacity:.82}
+.quiz-start-btn{flex-shrink:0;padding:10px 22px;border-radius:999px;border:none;background:#fff;color:#145b4b;font-size:15px;font-weight:700;cursor:pointer;transition:all .15s}
+.quiz-start-btn:hover{background:#e7f0ec}
+
+/* ── Profile Bar ────────────────────────────────── */
+.profile-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--soft);border:1.5px solid #a8c9be;border-radius:20px;padding:14px 22px;margin-top:20px}
+.profile-info{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.profile-role-tag{padding:4px 14px;border-radius:999px;background:var(--brand);color:#fff;font-size:13px;font-weight:700}
+.profile-level-tag{padding:4px 14px;border-radius:999px;border:1.5px solid var(--brand);color:var(--brand);font-size:13px;font-weight:700}
+.profile-rec{font-size:14px;color:var(--muted)}
+.retake-btn{padding:6px 16px;border-radius:999px;border:1.5px solid var(--brand);background:transparent;color:var(--brand);font-size:13px;font-weight:700;cursor:pointer;transition:all .15s}
+.retake-btn:hover{background:var(--brand);color:#fff}
+
+/* ── Recommended Card ───────────────────────────── */
+.card.is-recommended{border:2.5px solid var(--brand);box-shadow:0 0 0 4px rgba(20,91,75,.1),0 18px 44px rgba(31,42,46,.07)}
+.rec-badge{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:999px;background:var(--brand);color:#fff;font-size:12px;font-weight:700;margin-bottom:10px}
+
+/* ── Quiz Modal ─────────────────────────────────── */
+.quiz-overlay{position:fixed;inset:0;background:rgba(31,42,46,.55);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+.quiz-modal{background:#fff;border-radius:28px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,.25)}
+.quiz-mhead{padding:26px 30px 0;display:flex;align-items:center;justify-content:space-between}
+.quiz-mtitle{font-size:18px;font-weight:700;color:var(--ink)}
+.quiz-close{width:36px;height:36px;border:none;background:#f4ede2;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0}
+.quiz-mbody{padding:22px 30px 30px}
+.quiz-step-label{font-size:13px;color:var(--muted);margin-bottom:12px}
+.quiz-prog-bar{height:5px;background:#e9e3d8;border-radius:99px;margin-bottom:20px;overflow:hidden}
+.quiz-prog-fill{height:100%;background:var(--brand);border-radius:99px;transition:width .3s ease}
+.quiz-q{font-size:17px;font-weight:700;line-height:1.5;color:var(--ink);margin-bottom:18px}
+.quiz-choices{display:flex;flex-direction:column;gap:9px}
+.quiz-choice{padding:13px 16px;border:1.5px solid var(--line);border-radius:13px;cursor:pointer;font-size:14px;text-align:left;background:#fafaf8;transition:all .15s;font-family:inherit}
+.quiz-choice:hover{border-color:var(--brand);background:var(--soft)}
+.quiz-choice.selected{border-color:var(--brand);background:var(--soft);font-weight:600}
+.quiz-nav{display:flex;justify-content:flex-end;margin-top:20px}
+.quiz-next-btn{padding:10px 24px;border-radius:999px;border:none;background:var(--brand);color:#fff;font-size:15px;font-weight:700;cursor:pointer;opacity:.42;pointer-events:none;transition:all .15s;font-family:inherit}
+.quiz-next-btn.active{opacity:1;pointer-events:all}
+.quiz-next-btn.active:hover{filter:brightness(1.09)}
+/* role step */
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:4px}
+.role-card{padding:16px;border:1.5px solid var(--line);border-radius:15px;cursor:pointer;background:#fafaf8;transition:all .15s;text-align:center}
+.role-card:hover{border-color:var(--brand);background:var(--soft)}
+.role-card.selected{border-color:var(--brand);background:var(--soft)}
+.role-icon{font-size:26px;margin-bottom:7px}
+.role-name{font-size:15px;font-weight:700;color:var(--ink)}
+.role-desc{font-size:12px;color:var(--muted);margin-top:3px}
+/* result step */
+.result-level-badge{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:999px;background:var(--brand);color:#fff;font-size:20px;font-weight:700;margin-bottom:16px}
+.result-desc{font-size:15px;color:var(--muted);margin-bottom:20px;line-height:1.7}
+.result-rec-box{background:var(--soft);border:1.5px solid #a8c9be;border-radius:15px;padding:16px 20px;margin-bottom:20px}
+.result-rec-label{font-size:13px;color:var(--brand);font-weight:700;margin-bottom:5px}
+.result-rec-title{font-size:15px;font-weight:700;color:var(--ink)}
+.quiz-apply-btn{width:100%;padding:14px;border-radius:999px;border:none;background:var(--brand);color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;transition:filter .15s}
+.quiz-apply-btn:hover{filter:brightness(1.09)}
+  </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="topnav">
+        <a class="brandmark" href="/">
+          <img src="./assets/s-reborn-logo.svg" alt="S-Reborn 로고" />
+          S-Reborn
+        </a>
+        <a class="ghost" href="./01-doctor-ai-series-landing.html">
+          시리즈 소개
+        </a>
+      </div>
+      <section class="hero">
+        <div class="eyebrow">
+          S-REBORN
+        </div>
+        <h1>
+          의사가 배우는 AI
+        </h1>
+        <p class="lead">
+          S-Reborn은 의료 현장에서 AI를 어디까지 이해하고, 어떻게 활용하며, 어디서 반드시 멈춰야 하는지를 실무 중심으로 정리합니다. 기술 자체보다 실제 업무 적용, 설명 가능성, 안전한 사용 기준을 더 중요하게 다룹니다.
+        </p>
+        <div class="hero-actions">
+          <a class="cta" href="./01-doctor-ai-series-landing.html">
+            시리즈 소개 보기
+          </a>
+          <a class="ghost" href="./11-doctors-learning-ai-intro.html">
+            첫 글부터 읽기
+          </a>
+        </div>
+        <div class="stats">
+          <div class="stat">
+            <strong>
+              6
+            </strong>
+            <span>
+              발행 문서
+            </span>
+          </div>
+          <div class="stat">
+            <strong>
+              6
+            </strong>
+            <span>
+              시리즈 문서
+            </span>
+          </div>
+          <div class="stat">
+            <strong>
+              7
+            </strong>
+            <span>
+              대표 주제
+            </span>
+          </div>
+        </div>
+      </section>
+      <!-- ── Quiz Banner (shown before quiz) ── -->
+      <div id="quiz-banner" class="quiz-banner">
+        <div class="quiz-banner-inner">
+          <div class="quiz-icon">🎯</div>
+          <div>
+            <strong>내 수준에 맞는 글을 추천받아 보세요</strong>
+            <span>5가지 질문으로 AI 리터러시 수준을 진단합니다 · 약 2분 소요</span>
+          </div>
+        </div>
+        <button class="quiz-start-btn" onclick="openQuiz()">진단 시작 →</button>
+      </div>
+
+      <!-- ── Profile Bar (shown after quiz) ── -->
+      <div id="profile-bar" class="profile-bar" style="display:none">
+        <div class="profile-info">
+          <span class="profile-role-tag" id="profile-role-label"></span>
+          <span class="profile-level-tag" id="profile-level-label"></span>
+          <span class="profile-rec" id="rec-desc"></span>
+        </div>
+        <button class="retake-btn" onclick="retakeQuiz()">다시 진단</button>
+      </div>
+      <section class="section panel">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">
+              WHY THIS SERIES
+            </div>
+            <h2>
+              이 시리즈가 다루는 핵심
+            </h2>
+          </div>
+          <p class="section-note">
+            의사, 전공의, 교육 담당자가 바로 읽고 적용할 수 있게 구성했습니다.
+          </p>
+        </div>
+        <div class="highlights">
+          <article class="highlight">
+            <h3>
+              S-Reborn 관점
+            </h3>
+            <p>
+              의사를 위한 AI 학습은 도구 소개가 아니라 실제 의료 업무를 더 정확하고 설명 가능하게 만드는 운영 기준을 세우는 과정입니다.
+            </p>
+          </article>
+          <article class="highlight">
+            <h3>
+              AI 리터러시
+            </h3>
+            <p>
+              AI의 강점과 한계, 환각, 검증 원칙을 의료 맥락에서 이해합니다.
+            </p>
+          </article>
+          <article class="highlight">
+            <h3>
+              임상 워크플로우
+            </h3>
+            <p>
+              외래 전후 문서화, 설명문 초안, 요약 작업에 어떻게 붙일지 다룹니다.
+            </p>
+          </article>
+          <article class="highlight">
+            <h3>
+              교육과 연구
+            </h3>
+            <p>
+              전공의 교육, 발표 준비, 논문 구조화, 질문 생성에 AI를 붙이는 법을 정리합니다.
+            </p>
+          </article>
+        </div>
+      </section>
+      <section class="section panel">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">
+              PUBLISHED
+            </div>
+            <h2>
+              공개 문서
+            </h2>
+          </div>
+          <p class="section-note">
+            총 6개 문서
+          </p>
+        </div>
+        <div class="category-row">
+          <span class="category-pill">
+            Series
+          </span>
+          <span class="category-pill">
+            Intro
+          </span>
+          <span class="category-pill">
+            Limits
+          </span>
+          <span class="category-pill">
+            Workflow
+          </span>
+          <span class="category-pill">
+            Prompt
+          </span>
+          <span class="category-pill">
+            Education
+          </span>
+        </div>
+        <div class="cards">
+          <a class="card" data-card="series" href="./01-doctor-ai-series-landing.html">
+            <div class="thumb has-image" style="--thumb-image: url(&quot;./thumbnails/series.svg&quot;);">
+              <div class="thumb-label">
+                <small>series</small>
+                <strong>Series</strong>
+              </div>
+            </div>
+            <div class="body">
+              <div class="meta">
+                <span class="pill">
+                  추천 순서 1
+                </span>
+                <span class="pill">
+                  beginner
+                </span>
+                <span class="pill">
+                  의사가 배우는 AI
+                </span>
+              </div>
+              <p class="seriesline">
+                의사가 배우는 AI
+              </p>
+              <h3>
+                의사가 배우는 AI 시리즈 소개
+              </h3>
+              <p class="desc">
+                의사를 위한 AI 교육 시리즈의 목적, 독자, 읽는 순서, 핵심 주제를 한 페이지에서 정리한 랜딩 페이지.
+              </p>
+              <div class="tags">
+                <span class="tag">
+                  ai literacy
+                </span>
+                <span class="tag">
+                  clinical workflow
+                </span>
+                <span class="tag">
+                  medical education
+                </span>
+                <span class="tag">
+                  research
+                </span>
+                <span class="tag">
+                  의사가 배우는 AI
+                </span>
+              </div>
+              <div class="read-hint">읽기 →</div>
+            </div>
+          </a>
+          <a class="card" data-card="intro" href="./11-doctors-learning-ai-intro.html">
+            <div class="thumb has-image" style="--thumb-image: url(&quot;./thumbnails/intro.svg&quot;);">
+              <div class="thumb-label">
+                <small>article</small>
+                <strong>Intro</strong>
+              </div>
+            </div>
+            <div class="body">
+              <div class="meta">
+                <span class="pill">
+                  추천 순서 2
+                </span>
+                <span class="pill">
+                  beginner
+                </span>
+                <span class="pill">
+                  의사가 배우는 AI
+                </span>
+              </div>
+              <p class="seriesline">
+                의사가 배우는 AI · 1편
+              </p>
+              <h3>
+                의사가 AI를 배워야 하는 이유
+              </h3>
+              <p class="desc">
+                의사가 AI를 배워야 하는 이유를 임상 업무, 교육, 연구, 환자 커뮤니케이션 관점에서 정리한 입문 글.
+              </p>
+              <div class="tags">
+                <span class="tag">
+                  ai literacy
+                </span>
+                <span class="tag">
+                  clinical workflow
+                </span>
+                <span class="tag">
+                  medical education
+                </span>
+                <span class="tag">
+                  의사가 배우는 AI
+                </span>
+                <span class="tag">
+                  의료 AI 교육
+                </span>
+              </div>
+              <div class="read-hint">읽기 →</div>
+            </div>
+          </a>
+          <a class="card" data-card="limits" href="./12-ai-strengths-and-limits.html">
+            <div class="thumb has-image" style="--thumb-image: url(&quot;./thumbnails/limits.svg&quot;);">
+              <div class="thumb-label">
+                <small>article</small>
+                <strong>Limits</strong>
+              </div>
+            </div>
+            <div class="body">
+              <div class="meta">
+                <span class="pill">
+                  추천 순서 3
+                </span>
+                <span class="pill">
+                  beginner
+                </span>
+                <span class="pill">
+                  AI 리터러시
+                </span>
+              </div>
+              <p class="seriesline">
+                의사가 배우는 AI · 2편
+              </p>
+              <h3>
+                AI가 잘하는 일과 못하는 일
+              </h3>
+              <p class="desc">
+                의료 현장에서 AI가 잘하는 업무와 위험한 사용 장면을 구분해 설명하는 입문 글.
+              </p>
+              <div class="tags">
+                <span class="tag">
+                  ai literacy
+                </span>
+                <span class="tag">
+                  ethics
+                </span>
+                <span class="tag">
+                  clinical workflow
+                </span>
+                <span class="tag">
+                  AI 리터러시
+                </span>
+                <span class="tag">
+                  의료 AI 한계
+                </span>
+              </div>
+              <div class="read-hint">읽기 →</div>
+            </div>
+          </a>
+          <a class="card" data-card="workflow" href="./13-ai-in-outpatient-workflow.html">
+            <div class="thumb has-image" style="--thumb-image: url(&quot;./thumbnails/workflow.svg&quot;);">
+              <div class="thumb-label">
+                <small>article</small>
+                <strong>Workflow</strong>
+              </div>
+            </div>
+            <div class="body">
+              <div class="meta">
+                <span class="pill">
+                  추천 순서 4
+                </span>
+                <span class="pill">
+                  beginner
+                </span>
+                <span class="pill">
+                  임상 워크플로우
+                </span>
+              </div>
+              <p class="seriesline">
+                의사가 배우는 AI · 3편
+              </p>
+              <h3>
+                외래 전후에 AI를 쓰는 5가지 장면
+              </h3>
+              <p class="desc">
+                외래 전후에 의사가 AI를 보조적으로 활용할 수 있는 실제 업무 장면 다섯 가지를 정리한 글.
+              </p>
+              <div class="tags">
+                <span class="tag">
+                  clinical workflow
+                </span>
+                <span class="tag">
+                  documentation
+                </span>
+                <span class="tag">
+                  patient communication
+                </span>
+                <span class="tag">
+                  임상 워크플로우
+                </span>
+                <span class="tag">
+                  외래 AI
+                </span>
+              </div>
+              <div class="read-hint">읽기 →</div>
+            </div>
+          </a>
+          <a class="card" data-card="prompt" href="./14-safe-medical-prompting.html">
+            <div class="thumb has-image" style="--thumb-image: url(&quot;./thumbnails/prompt.svg&quot;);">
+              <div class="thumb-label">
+                <small>article</small>
+                <strong>Prompt</strong>
+              </div>
+            </div>
+            <div class="body">
+              <div class="meta">
+                <span class="pill">
+                  추천 순서 5
+                </span>
+                <span class="pill">
+                  intermediate
+                </span>
+                <span class="pill">
+                  프롬프트 작성
+                </span>
+              </div>
+              <p class="seriesline">
+                의사가 배우는 AI · 4편
+              </p>
+              <h3>
+                의료 현장에서 안전하게 프롬프트 쓰는 법
+              </h3>
+              <p class="desc">
+                의료 현장에서 생성형 AI 프롬프트를 작성할 때 지켜야 할 안전 기준과 실전 문장 구조를 소개하는 글.
+              </p>
+              <div class="tags">
+                <span class="tag">
+                  clinical workflow
+                </span>
+                <span class="tag">
+                  ethics
+                </span>
+                <span class="tag">
+                  documentation
+                </span>
+                <span class="tag">
+                  프롬프트 작성
+                </span>
+                <span class="tag">
+                  의료 AI 보안
+                </span>
+              </div>
+              <div class="read-hint">읽기 →</div>
+            </div>
+          </a>
+          <a class="card" data-card="education" href="./15-ai-for-resident-education-and-research.html">
+            <div class="thumb has-image" style="--thumb-image: url(&quot;./thumbnails/education.svg&quot;);">
+              <div class="thumb-label">
+                <small>article</small>
+                <strong>Education</strong>
+              </div>
+            </div>
+            <div class="body">
+              <div class="meta">
+                <span class="pill">
+                  추천 순서 6
+                </span>
+                <span class="pill">
+                  intermediate
+                </span>
+                <span class="pill">
+                  전공의 교육
+                </span>
+              </div>
+              <p class="seriesline">
+                의사가 배우는 AI · 5편
+              </p>
+              <h3>
+                전공의 교육과 연구에 AI를 붙이는 방법
+              </h3>
+              <p class="desc">
+                전공의 교육, 강의 준비, 논문 읽기, 연구 아이디어 정리에 AI를 보조적으로 활용하는 방법을 정리한 글.
+              </p>
+              <div class="tags">
+                <span class="tag">
+                  medical education
+                </span>
+                <span class="tag">
+                  research
+                </span>
+                <span class="tag">
+                  ai literacy
+                </span>
+                <span class="tag">
+                  전공의 교육
+                </span>
+                <span class="tag">
+                  연구 보조
+                </span>
+              </div>
+              <div class="read-hint">읽기 →</div>
+            </div>
+          </a>
+        </div>
+      </section>
+      <p class="footer">
+        이 페이지는 공개 상태의 문서만 모아 보여주는 S-Reborn 홈 페이지입니다.
+      </p>
+
+    <!-- ── Quiz Modal Overlay ── -->
+    <div id="quiz-overlay" class="quiz-overlay" style="display:none" onclick="quizOverlayClose(event)">
+      <div class="quiz-modal" onclick="event.stopPropagation()">
+        <div class="quiz-mhead">
+          <span class="quiz-mtitle" id="quiz-modal-title">AI 리터러시 진단</span>
+          <button class="quiz-close" onclick="closeQuiz()">✕</button>
+        </div>
+        <div class="quiz-mbody" id="quiz-mbody">
+          <!-- JS renders content here -->
+        </div>
+      </div>
+    </div>
+    </div>
+
+  <script>
+  (function(){
+    var STORAGE_KEY = 'sreborn_quiz';
+
+    var ROLES = [
+      {id:'resident', icon:'🩺', name:'전공의',     desc:'수련 중인 레지던트·인턴'},
+      {id:'private',  icon:'🏥', name:'개원의',     desc:'개인 의원·병원 운영'},
+      {id:'educator', icon:'🎓', name:'교수·교육자', desc:'의대 교수·교육 담당자'},
+      {id:'admin',    icon:'📊', name:'의료기획자', desc:'병원 행정·기획·연구직'}
+    ];
+
+    var QUESTIONS = [
+      {
+        q: 'AI에서 "환각(Hallucination)"이 의미하는 것은?',
+        choices: [
+          'AI가 화상 회의를 처리할 수 없는 현상',
+          'AI가 사실과 다른 내용을 그럴듯하게 생성하는 현상',
+          'AI 서버가 과부하로 응답이 느려지는 현상',
+          'AI가 이미지를 잘못 인식하는 현상'
+        ],
+        answer: 1
+      },
+      {
+        q: '의료 현장에서 AI를 사용하기 전 가장 먼저 확인해야 할 것은?',
+        choices: [
+          'AI 응답 속도와 서버 위치',
+          '환자 개인정보가 입력에 포함되지 않았는지 여부',
+          'AI 모델 제조사와 버전',
+          '서비스 월정액 요금'
+        ],
+        answer: 1
+      },
+      {
+        q: '"프롬프트 엔지니어링"이 의미하는 것은?',
+        choices: [
+          'AI 서버를 직접 구축·설치하는 작업',
+          'AI 모델을 직접 학습시키는 과정',
+          'AI에게 더 정확한 결과를 얻기 위해 입력 문장을 설계하는 기술',
+          'AI 오류를 수정하는 소프트웨어 코딩 작업'
+        ],
+        answer: 2
+      },
+      {
+        q: '다음 중 의료 AI 사용 시 가장 안전한 행동은?',
+        choices: [
+          '환자 증상 목록과 이름을 함께 입력해 정확도를 높인다',
+          'AI 진단 결과를 환자에게 그대로 전달한다',
+          'AI가 생성한 초안을 의사가 반드시 검토·수정 후 사용한다',
+          'AI가 제안한 약물 용량을 바로 처방에 적용한다'
+        ],
+        answer: 2
+      },
+      {
+        q: 'RAG(Retrieval-Augmented Generation)란 무엇인가?',
+        choices: [
+          'AI가 병원 내부 데이터베이스에 직접 접근해 데이터를 추출하는 기술',
+          'AI 응답에 최신 외부 자료를 검색해 근거를 보강하는 방식',
+          '의료 영상 판독 전용으로 설계된 AI 모델',
+          '의료기록을 자동으로 암호화하는 보안 기술'
+        ],
+        answer: 1
+      }
+    ];
+
+    var REC_MAP = {
+      resident: {beginner:'intro',  intermediate:'workflow',  advanced:'education'},
+      private:  {beginner:'intro',  intermediate:'limits',    advanced:'prompt'},
+      educator: {beginner:'series', intermediate:'education', advanced:'education'},
+      admin:    {beginner:'series', intermediate:'limits',    advanced:'prompt'}
+    };
+
+    var CARD_TITLES = {
+      series:    '의사가 배우는 AI 시리즈 소개',
+      intro:     '의사가 AI를 배워야 하는 이유',
+      limits:    'AI가 잘하는 일과 못하는 일',
+      workflow:  '외래 전후에 AI를 쓰는 5가지 장면',
+      prompt:    '의료 현장에서 안전하게 프롬프트 쓰는 법',
+      education: '전공의 교육과 연구에 AI를 붙이는 방법'
+    };
+
+    var LEVEL_LABELS = {beginner:'입문', intermediate:'중급', advanced:'심화'};
+    var LEVEL_DESC = {
+      beginner:     'AI 기초 개념을 다지는 단계입니다. 핵심 원리부터 차근차근 시작해 보세요.',
+      intermediate: 'AI 개념은 이해하고 있지만 실무 적용이 남은 단계입니다.',
+      advanced:     'AI 리터러시가 높습니다. 심화 적용 사례와 세부 기술을 더 살펴보세요.'
+    };
+
+    var state = {role:null, step:0, answers:[], score:0, level:null};
+
+    function el(id){ return document.getElementById(id); }
+    function qs(sel){ return document.querySelector(sel); }
+    function qsa(sel){ return document.querySelectorAll(sel); }
+
+    // ── Init ──────────────────────────────────────────────
+    window.addEventListener('DOMContentLoaded', function(){
+      var saved = getSaved();
+      if(saved){
+        el('quiz-banner').style.display = 'none';
+        showProfileBar(saved);
+        applyRecommendation(saved.recCard);
+      }
+    });
+
+    function getSaved(){
+      try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)); }
+      catch(e){ return null; }
+    }
+    function saveResult(data){
+      try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+      catch(e){}
+    }
+
+    // ── Profile Bar ──────────────────────────────────────
+    function showProfileBar(data){
+      var role = ROLES.filter(function(r){ return r.id===data.role; })[0];
+      el('profile-bar').style.display = 'flex';
+      el('profile-role-label').textContent = role ? role.name : data.role;
+      el('profile-level-label').textContent = LEVEL_LABELS[data.level] || data.level;
+      el('rec-desc').textContent = '추천: ' + (CARD_TITLES[data.recCard] || data.recCard);
+    }
+
+    // ── Recommendation ───────────────────────────────────
+    function applyRecommendation(cardId){
+      qsa('.card').forEach(function(c){
+        c.classList.remove('is-recommended');
+        var b = c.querySelector('.rec-badge');
+        if(b) b.remove();
+      });
+      var target = qs('[data-card="'+cardId+'"]');
+      if(!target) return;
+      target.classList.add('is-recommended');
+      var badge = document.createElement('div');
+      badge.className = 'rec-badge';
+      badge.innerHTML = '⭐ 내 수준 추천 글';
+      var body = target.querySelector('.body');
+      if(body) body.insertBefore(badge, body.firstChild);
+      var grid = target.closest('.cards');
+      if(grid && grid.children[0] !== target) grid.insertBefore(target, grid.firstChild);
+    }
+
+    // ── Open / Close ─────────────────────────────────────
+    window.openQuiz = function(){
+      state = {role:null, step:0, answers:[], score:0, level:null};
+      el('quiz-overlay').style.display = 'flex';
+      renderStep();
+    };
+    window.closeQuiz = function(){
+      el('quiz-overlay').style.display = 'none';
+    };
+    window.quizOverlayClose = function(e){
+      if(e.target === el('quiz-overlay')) closeQuiz();
+    };
+    window.retakeQuiz = function(){
+      state = {role:null, step:0, answers:[], score:0, level:null};
+      el('quiz-overlay').style.display = 'flex';
+      renderStep();
+    };
+
+    // ── Render ────────────────────────────────────────────
+    function renderStep(){
+      if(state.step === 0) renderRole();
+      else if(state.step <= 5) renderQuestion(state.step - 1);
+      else renderResult();
+    }
+
+    function renderRole(){
+      el('quiz-modal-title').textContent = 'AI 리터러시 진단';
+      var html = '<p class="quiz-step-label">먼저 직군을 선택해 주세요</p>';
+      html += '<div class="role-grid">';
+      ROLES.forEach(function(r){
+        html += '<div class="role-card" data-role="'+r.id+'" onclick="quizSelectRole(\''+r.id+'\')">';
+        html += '<div class="role-icon">'+r.icon+'</div>';
+        html += '<div class="role-name">'+r.name+'</div>';
+        html += '<div class="role-desc">'+r.desc+'</div></div>';
+      });
+      html += '</div>';
+      html += '<div class="quiz-nav"><button class="quiz-next-btn" id="role-next-btn" onclick="quizGoQ1()">다음 →</button></div>';
+      el('quiz-mbody').innerHTML = html;
+    }
+
+    window.quizSelectRole = function(roleId){
+      state.role = roleId;
+      qsa('.role-card').forEach(function(c){ c.classList.remove('selected'); });
+      var t = qs('[data-role="'+roleId+'"]');
+      if(t) t.classList.add('selected');
+      var b = el('role-next-btn');
+      if(b) b.classList.add('active');
+    };
+
+    window.quizGoQ1 = function(){
+      if(!state.role) return;
+      state.step = 1;
+      renderStep();
+    };
+
+    function renderQuestion(qIdx){
+      var q = QUESTIONS[qIdx];
+      var pct = Math.round(((qIdx+1)/5)*100);
+      el('quiz-modal-title').textContent = 'AI 리터러시 진단';
+      var html = '<p class="quiz-step-label">질문 '+(qIdx+1)+' / 5</p>';
+      html += '<div class="quiz-prog-bar"><div class="quiz-prog-fill" style="width:'+pct+'%"></div></div>';
+      html += '<p class="quiz-q">'+q.q+'</p><div class="quiz-choices">';
+      q.choices.forEach(function(c,i){
+        html += '<button class="quiz-choice" data-idx="'+i+'" onclick="quizSelectChoice('+i+')">'+c+'</button>';
+      });
+      html += '</div>';
+      var label = qIdx < 4 ? '다음 →' : '결과 보기 →';
+      html += '<div class="quiz-nav"><button class="quiz-next-btn" id="q-next-btn" onclick="quizNextQ()">'+label+'</button></div>';
+      el('quiz-mbody').innerHTML = html;
+      if(state.answers[qIdx] !== undefined){
+        var btn = qs('[data-idx="'+state.answers[qIdx]+'"]');
+        if(btn){ btn.classList.add('selected'); var nb=el('q-next-btn'); if(nb) nb.classList.add('active'); }
+      }
+    }
+
+    window.quizSelectChoice = function(idx){
+      var qIdx = state.step - 1;
+      state.answers[qIdx] = idx;
+      qsa('.quiz-choice').forEach(function(c){ c.classList.remove('selected'); });
+      var btn = qs('[data-idx="'+idx+'"]');
+      if(btn) btn.classList.add('selected');
+      var nb = el('q-next-btn');
+      if(nb) nb.classList.add('active');
+    };
+
+    window.quizNextQ = function(){
+      var qIdx = state.step - 1;
+      if(state.answers[qIdx] === undefined) return;
+      if(state.answers[qIdx] === QUESTIONS[qIdx].answer) state.score++;
+      state.step++;
+      renderStep();
+    };
+
+    function renderResult(){
+      var sc = state.score;
+      var level = sc <= 1 ? 'beginner' : sc <= 3 ? 'intermediate' : 'advanced';
+      state.level = level;
+      var recCard = REC_MAP[state.role][level];
+      var role = ROLES.filter(function(r){ return r.id===state.role; })[0];
+      el('quiz-modal-title').textContent = '진단 결과';
+      var html = '<div style="text-align:center;padding:6px 0 16px">';
+      html += '<div class="result-level-badge">'+LEVEL_LABELS[level]+' · '+sc+'/5점</div></div>';
+      html += '<p class="result-desc">'+LEVEL_DESC[level]+'</p>';
+      html += '<div class="result-rec-box">';
+      html += '<div class="result-rec-label">📌 '+(role?role.name:'')+'에게 추천하는 첫 글</div>';
+      html += '<div class="result-rec-title">'+CARD_TITLES[recCard]+'</div></div>';
+      html += '<button class="quiz-apply-btn" onclick="quizApplyProfile()">내 홈 화면에 적용하기 ✓</button>';
+      el('quiz-mbody').innerHTML = html;
+    }
+
+    window.quizApplyProfile = function(){
+      var recCard = REC_MAP[state.role][state.level];
+      var data = {role:state.role, level:state.level, recCard:recCard, completedAt:Date.now()};
+      saveResult(data);
+      closeQuiz();
+      el('quiz-banner').style.display = 'none';
+      showProfileBar(data);
+      applyRecommendation(recCard);
+    };
+
+  })();
+  </script>
+  </body>
+</html>
