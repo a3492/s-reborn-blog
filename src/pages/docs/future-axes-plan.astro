@@ -1,0 +1,263 @@
+---
+const axes = [
+  {
+    title: '1. Public UX Stabilization',
+    summary: '공개 화면은 더 이상 기능 추가보다 마감 품질에 집중합니다.',
+    items: [
+      'Home hero, featured, grid 리듬 정리',
+      'Blog index, post layout, share UX 완성',
+      'About / Topbar / Footer 문구와 색상 체계 고정',
+      'CSS 구조를 public/admin/docs 단위로 정리',
+    ],
+  },
+  {
+    title: '2. Admin Operations Completion',
+    summary: '관리자는 실제 운영 도구가 되도록 발행·복구·상태 확인을 완성합니다.',
+    items: [
+      'publish pipeline 실배포 연결과 실패 재시도',
+      'jobs/detail, retry, publish history 마감',
+      'settings/media diff와 복구 액션 고도화',
+      'role-based CTA와 권한 분기 최종 정리',
+    ],
+  },
+  {
+    title: '3. Content Workflow And Handoff',
+    summary: '작업 분리와 인계가 빠르게 끝나야 컨텍스트가 덜 샙니다.',
+    items: [
+      'git worktree 기준으로 작업 축 분리',
+      'hand-off / exit / rebase 운영 절차 고정',
+      '문서와 대시보드에 인계 기록을 남김',
+      '작업 전환 시 micro-question 대신 batch 진행',
+    ],
+  },
+  {
+    title: '4. Data And Deployment Hardening',
+    summary: '배포 실패와 스키마 어긋남을 운영 리스크로 다룹니다.',
+    items: [
+      'Supabase schema / RLS / storage 정책 정리',
+      'Cloudflare Pages env bootstrap과 health check',
+      'publish rollback / retry / audit log 강화',
+      '배포 전 검증 화면과 알림을 표준화',
+    ],
+  },
+  {
+    title: '5. Maintenance And Performance',
+    summary: '성능과 유지보수성은 마지막에 한 번 더 정리합니다.',
+    items: [
+      'build warning, CSS 중복, import 정리',
+      '공통 컴포넌트와 페이지별 스타일 분리',
+      '검색/탐색/문서 라우트의 접근성 점검',
+      '운영 문서가 실제 절차를 따라가도록 유지',
+    ],
+  },
+];
+
+const rules = [
+  '앞으로는 작은 질문마다 멈추지 않고, 최소 3개 이상의 관련 작업을 한 묶음으로 진행한다.',
+  '하나의 축을 시작하면 build, 상태 확인, 커밋, push까지 이어서 끝낸다.',
+  '다른 축으로 넘어가기 전에 hand-off 기록을 남긴다.',
+  '기준이 흔들리면 먼저 문서를 업데이트하고, 그 다음 구현을 바꾼다.',
+];
+---
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>S-Reborn Future Axes Plan</title>
+  <style>
+    :root {
+      --bg: #faf8f5;
+      --surface: #fffdf9;
+      --text: #1c1917;
+      --muted: #5d564f;
+      --accent: #8c6d45;
+      --border: rgba(28, 25, 23, 0.12);
+      --shadow: 0 18px 44px rgba(28, 25, 23, 0.06);
+      --radius: 20px;
+      --sans: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+      --display: 'Paperlogy', 'Pretendard', sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(184, 149, 106, 0.12), transparent 20%),
+        linear-gradient(180deg, #fcfbf8 0%, var(--bg) 100%);
+      line-height: 1.7;
+    }
+    .wrap {
+      width: min(1120px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 2.25rem 0 4rem;
+    }
+    .hero, .card {
+      background: rgba(255, 253, 249, 0.92);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .hero { padding: 1.4rem; margin-bottom: 1rem; }
+    .eyebrow {
+      display: inline-flex;
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      color: var(--accent);
+      background: rgba(184, 149, 106, 0.1);
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    h1, h2, h3 {
+      font-family: var(--display);
+      line-height: 1.15;
+      margin: 0;
+    }
+    h1 { font-size: clamp(2.2rem, 4vw, 4rem); margin: 0.75rem 0 0.9rem; }
+    h2 { font-size: 1.4rem; margin-bottom: 0.75rem; }
+    h3 { font-size: 1rem; margin-bottom: 0.45rem; }
+    p { margin: 0; color: var(--muted); }
+    .lede { max-width: 80ch; }
+    .grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 1rem; margin-top: 1rem; }
+    .card { padding: 1.15rem; }
+    .span-12 { grid-column: span 12; }
+    .span-6 { grid-column: span 6; }
+    .span-4 { grid-column: span 4; }
+    .list {
+      margin: 0;
+      padding-left: 1.1rem;
+      color: var(--muted);
+    }
+    .list li + li { margin-top: 0.35rem; }
+    .axis-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    .axis {
+      padding: 1rem 1.05rem;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.78));
+    }
+    .axis-summary {
+      margin-bottom: 0.8rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .mono {
+      margin: 0;
+      padding: 1rem;
+      border-radius: 16px;
+      border: 1px solid rgba(184, 149, 106, 0.2);
+      background: #f6f1ea;
+      color: #3f3529;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92rem;
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.85rem;
+    }
+    .badge {
+      display: inline-flex;
+      padding: 0.42rem 0.72rem;
+      border-radius: 999px;
+      border: 1px solid rgba(184, 149, 106, 0.2);
+      background: rgba(184, 149, 106, 0.08);
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .footer {
+      margin-top: 1rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    @media (max-width: 920px) {
+      .span-12, .span-6, .span-4 { grid-column: span 12; }
+      .axis-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <div class="eyebrow">Future Axes</div>
+      <h1>앞으로는 작은 작업이 아니라 큰 축으로 진행한다.</h1>
+      <p class="lede">
+        이 계획서는 지금부터의 작업 방식을 바꾸기 위한 문서다. 더 이상 기능 하나마다 멈춰 묻지 않고,
+        큰 축을 정해 묶음 단위로 끝낸다. 한 번의 진행은 최소한 build, 검증, 커밋, push까지 이어진다.
+      </p>
+      <div class="badge-row">
+        <span class="badge">Batch first</span>
+        <span class="badge">No micro-asks</span>
+        <span class="badge">One axis, one finish</span>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card span-12">
+        <h2>운영 원칙</h2>
+        <ul class="list">
+          {rules.map((rule) => <li>{rule}</li>)}
+        </ul>
+      </article>
+
+      <article class="card span-12">
+        <h2>Macro Axes</h2>
+        <div class="axis-grid">
+          {axes.map((axis) => (
+            <div class="axis">
+              <h3>{axis.title}</h3>
+              <p class="axis-summary">{axis.summary}</p>
+              <ul class="list">
+                {axis.items.map((item) => <li>{item}</li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </article>
+
+      <article class="card span-6">
+        <h2>권장 순서</h2>
+        <p class="mono">1. Public UX Stabilization
+2. Admin Operations Completion
+3. Content Workflow And Handoff
+4. Data And Deployment Hardening
+5. Maintenance And Performance</p>
+      </article>
+
+      <article class="card span-6">
+        <h2>이제부터의 기준</h2>
+        <ul class="list">
+          <li>질문은 기능 단위가 아니라 축 단위로 묶는다.</li>
+          <li>축을 시작하면 중간 확인보다 완료를 우선한다.</li>
+          <li>새 축으로 넘어가기 전 hand-off를 남긴다.</li>
+          <li>구현보다 먼저 문서를 업데이트하는 경우가 생기면, 그건 축이 바뀐 신호다.</li>
+        </ul>
+      </article>
+
+      <article class="card span-12">
+        <h2>완료 기준</h2>
+        <ul class="list">
+          <li>기능이 아니라 결과가 설명돼야 한다.</li>
+          <li>해당 축의 build와 smoke check를 끝내야 한다.</li>
+          <li>GitHub에 push된 상태여야 한다.</li>
+          <li>다음 사람이 읽을 hand-off가 남아 있어야 한다.</li>
+        </ul>
+      </article>
+    </section>
+
+    <p class="footer">
+      다음 진행은 이 문서의 Macro Axes 중 하나를 골라 한 번에 묶어서 진행한다.
+    </p>
+  </main>
+</body>
+</html>
