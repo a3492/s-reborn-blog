@@ -8,6 +8,11 @@ import { getPublicSiteSettings } from '../../lib/site-settings';
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
 	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const siteSettings = await getPublicSiteSettings();
+const categoryCounts = CATEGORIES.map((category) => ({
+  ...category,
+  count: posts.filter((post) => post.data.category === category.id).length,
+})).filter((category) => category.count > 0).sort((a, b) => b.count - a.count);
+const latestDate = posts[0]?.data.date;
 ---
 
 <Layout title="Blog" description={siteSettings.siteDescription || SITE_DESCRIPTION}>
@@ -16,9 +21,30 @@ const siteSettings = await getPublicSiteSettings();
 			<div>
 				<p class="blog-list-kicker">Archive</p>
 				<h1 class="blog-list-title">전체 글</h1>
-        <p class="blog-list-subtitle">{siteSettings.siteTitle}의 전체 글 아카이브입니다.</p>
+          <p class="blog-list-subtitle">{siteSettings.siteTitle}의 전체 글 아카이브입니다.</p>
 			</div>
 			<span class="blog-count">{posts.length}개</span>
+		</div>
+
+		<div class="blog-summary-row">
+			<div class="blog-summary-card">
+				<span class="blog-summary-label">Latest</span>
+				<strong class="blog-summary-value"><FormattedDate date={latestDate} /></strong>
+				<p class="blog-summary-copy">가장 최근 글의 발행일을 표시합니다.</p>
+			</div>
+			<div class="blog-summary-card">
+				<span class="blog-summary-label">Topics</span>
+				<strong class="blog-summary-value">{categoryCounts.length}</strong>
+				<p class="blog-summary-copy">현재 활성화된 카테고리 수입니다.</p>
+			</div>
+			<div class="blog-summary-card blog-summary-wide">
+				<span class="blog-summary-label">Top categories</span>
+				<div class="blog-summary-chips">
+					{categoryCounts.slice(0, 3).map((category) => (
+						<span class="blog-summary-chip">{category.label} · {category.count}</span>
+					))}
+				</div>
+			</div>
 		</div>
 
 		<ul class="blog-list">
