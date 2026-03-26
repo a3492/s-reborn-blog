@@ -259,6 +259,7 @@ body {
   color: var(--t3);
   text-decoration: none;
   transition: color 0.12s;
+  padding: 0.75rem 0.25rem;
 }
 
 .topbar-link:hover {
@@ -440,11 +441,14 @@ body {
 .side-head-link {
   font-size: 0.8rem;
   color: var(--pink);
-  text-decoration: none;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
 }
 
 .side-head-link:hover {
   color: #8C6D45;
+  text-decoration: none;
 }
 
 .side-post {
@@ -1337,33 +1341,23 @@ footer {
   transform: translateX(110%);
 }
 
+/* 탭/클릭 피드백 — 모바일 :active 일관성 */
 .featured-main:active,
 .side-post:active,
-.post-card:active {
-  transform: translateY(-1px) scale(0.997);
+.post-card:active,
+.blog-item:active,
+.dai-hero:active {
+  transform: scale(0.985);
+  opacity: 0.88;
+}
+
+.side-post:active {
+  background: var(--bg3);
 }
 
 .side-post,
 .post-card {
   position: relative;
-}
-
-.side-post::after {
-  content: '';
-  position: absolute;
-  inset: auto 1.25rem 0.7rem auto;
-  width: 28px;
-  height: 1px;
-  background: rgba(184, 149, 106, 0.35);
-  transform: scaleX(0.45);
-  transform-origin: right;
-  transition: transform 0.18s ease, background 0.18s ease;
-}
-
-.side-post:hover::after,
-.side-post:focus-visible::after {
-  transform: scaleX(1);
-  background: rgba(184, 149, 106, 0.7);
 }
 
 .card-title,
@@ -1414,9 +1408,17 @@ footer {
   }
 
   .featured-main::before,
-  .post-card::before,
-  .side-post::after {
+  .post-card::before {
     transition: none !important;
+  }
+
+  .featured-main:active,
+  .side-post:active,
+  .post-card:active,
+  .blog-item:active,
+  .dai-hero:active {
+    transform: none !important;
+    opacity: 1 !important;
   }
 }
 
