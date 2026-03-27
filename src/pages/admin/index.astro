@@ -1,9 +1,24 @@
 ---
 import AdminLayout from '../../layouts/AdminLayout.astro';
 import { recentHandOffs } from '../../lib/admin/handoffs';
+import { getCollection } from 'astro:content';
 
 const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
 const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+
+const localDrafts = await getCollection('blog', ({ data }) => data.draft === true);
+const draftPreviews = localDrafts.map(post => {
+  const words = post.body
+    .replace(/^#+\s+/gm, '')
+    .replace(/[*_`\[\]()#>~\-]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 3)
+    .join(' ');
+  return { title: post.data.title, slug: post.id, preview: words };
+});
 ---
 
 <AdminLayout
@@ -13,6 +28,24 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
   status="Live Ops"
 >
   <div class="admin-grid">
+    {draftPreviews.length > 0 && (
+      <section class="admin-card pad-lg span-12">
+        <h2 class="admin-section-title">Local Draft Files</h2>
+        <p class="admin-section-desc">로컬 마크다운에만 있고 아직 Supabase에 미등록된 비공개 글 — 잊지 않도록 여기서 확인하세요</p>
+        <ul class="admin-list">
+          {draftPreviews.map(p => (
+            <li class="admin-list-row">
+              <div>
+                <p class="admin-item-title">{p.title}</p>
+                <p class="admin-item-meta">{p.slug} · {p.preview} ...</p>
+              </div>
+              <span class="admin-status draft">local draft</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
     <section class="admin-card pad-lg span-3">
       <h2 class="admin-section-title">Draft Posts</h2>
       <p class="admin-section-desc">임시 저장된 글 수</p>

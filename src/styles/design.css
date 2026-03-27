@@ -149,8 +149,6 @@ body {
 .search-dropdown {
   position: fixed;
   top: 58px;
-  left: 50%;
-  transform: translateX(-50%);
   width: min(560px, calc(100vw - 2rem));
   background: var(--bg);
   border: 1px solid var(--rule);
