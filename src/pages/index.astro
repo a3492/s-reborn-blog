@@ -96,11 +96,11 @@ const latestUpdate = allPosts[0]?.data.date;
 					<a class="post-card" href={`/blog/${post.id}/`} data-cat={post.data.category ?? ''}>
 						<div class="card-head">
 							{post.data.category && <span class="card-cat">{post.data.category}</span>}
-							<time class="card-date"><FormattedDate date={post.data.date} /></time>
 						</div>
 						<h3 class="card-title">{post.data.title}</h3>
 						<p class="card-exc">{post.data.description}</p>
 						<div class="card-foot">
+							<time class="card-date"><FormattedDate date={post.data.date} /></time>
 							<span class="card-link">자세히 보기</span>
 						</div>
 					</a>
