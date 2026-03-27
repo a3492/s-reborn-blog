@@ -30,7 +30,10 @@ import BaseHead from '../../components/BaseHead.astro';
           <button type="submit" class="admin-btn primary admin-login-submit">로그인</button>
         </form>
 
-        <button type="button" class="admin-btn admin-login-magic" data-admin-magic-link>매직 링크 보내기</button>
+        <div class="admin-login-magic-wrap">
+          <button type="button" class="admin-btn admin-login-magic" data-admin-magic-link>매직 링크 보내기</button>
+          <p class="admin-login-magic-desc">비밀번호 없이 로그인 — 이메일에 1회용 링크를 보내드립니다. 링크 클릭 시 자동 로그인됩니다.</p>
+        </div>
         <p class="admin-login-message" data-admin-login-message hidden></p>
       </section>
     </main>

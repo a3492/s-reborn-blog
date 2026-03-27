@@ -590,6 +590,7 @@ body.admin-shell {
 .admin-textarea,
 .admin-select {
   width: 100%;
+  box-sizing: border-box;
   border: 1px solid var(--admin-border);
   border-radius: 14px;
   background: #fff;
@@ -707,6 +708,7 @@ body.admin-shell {
   display: grid;
   place-items: center;
   padding: 2rem 1rem;
+  box-sizing: border-box;
 }
 
 .admin-login-title {
@@ -731,6 +733,20 @@ body.admin-shell {
 .admin-login-submit,
 .admin-login-magic {
   width: 100%;
+}
+
+.admin-login-magic-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.admin-login-magic-desc {
+  margin: 0;
+  color: var(--admin-text-3);
+  font-size: 0.78rem;
+  line-height: 1.55;
+  text-align: center;
 }
 
 .admin-login-message {
