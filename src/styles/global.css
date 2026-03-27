@@ -60,7 +60,7 @@ h3,
 h4,
 h5,
 h6 {
-	margin: 2em 0 0.65em 0;
+	margin: 2em 0 0.9em 0;
 	color: inherit;
 	line-height: 1.2;
 }
@@ -266,6 +266,14 @@ hr {
 .blog-post-prose img {
 	margin: 1.25em 0;
 	display: block;
+}
+
+.blog-post-prose h2,
+.blog-post-prose h3,
+.blog-post-prose h4,
+.blog-post-prose h5 {
+	margin-bottom: 0.9em;
+	padding-top: 0.4em;
 }
 
 .blog-post-meta {

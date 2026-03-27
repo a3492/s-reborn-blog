@@ -1,8 +1,6 @@
 ---
 import AdminLayout from '../../../layouts/AdminLayout.astro';
 
-const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 ---
 
 <AdminLayout
@@ -122,8 +120,10 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     </div>
   </div>
 
-  <script type="module" define:vars={{ supabaseUrl, supabaseKey }}>
+  <script>
     import { createClient } from '@supabase/supabase-js';
+    const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+    const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
     const form = document.querySelector('[data-admin-post-form]');
     const previewLink = document.querySelector('[data-admin-preview-link]');
@@ -193,9 +193,13 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     if (!supabaseUrl || !supabaseKey) {
       setMessage('Supabase 환경 변수가 없어 저장 기능을 초기화할 수 없습니다.', 'error');
     } else {
-      const supabase = createClient(supabaseUrl, supabaseKey, {
-        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
+      let currentSessionUserId = null;
+      document.addEventListener('admin:session-ready', ({ detail }) => {
+        supabase = window.__adminSupabase;
+        currentSessionUserId = detail.userId;
       });
+
+      let supabase = null;
 
       form?.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -205,13 +209,6 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
         }
         setBusy(true);
         setMessage('draft를 저장하는 중입니다...', 'info');
-
-        const { data: sessionData } = await supabase.auth.getSession();
-        const session = sessionData.session;
-        if (!session) {
-          window.location.replace('/admin/login?redirectTo=/admin/posts/new');
-          return;
-        }
 
         const formData = new FormData(form);
         const title = String(formData.get('title') || '').trim();
@@ -267,8 +264,8 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           seo_title: String(formData.get('seo_title') || '').trim() || null,
           seo_description: String(formData.get('seo_description') || '').trim() || null,
           canonical_url: String(formData.get('canonical_url') || '').trim() || null,
-          created_by: session.user.id,
-          updated_by: session.user.id,
+          created_by: currentSessionUserId,
+          updated_by: currentSessionUserId,
         };
 
         const { data: post, error: postError } = await supabase
@@ -298,7 +295,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
             seo_description: payload.seo_description,
             canonical_url: payload.canonical_url,
           },
-          created_by: session.user.id,
+          created_by: currentSessionUserId,
         });
 
         if (revisionError) {
@@ -308,7 +305,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
         }
 
         await supabase.from('audit_logs').insert({
-          actor_id: session.user.id,
+          actor_id: currentSessionUserId,
           action: 'post_created',
           resource_type: 'post',
           resource_id: post.id,

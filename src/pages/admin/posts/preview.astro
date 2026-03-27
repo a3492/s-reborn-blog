@@ -3,8 +3,6 @@ import '../../../styles/design.css';
 import '../../../styles/global.css';
 import AdminLayout from '../../../layouts/AdminLayout.astro';
 
-const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 ---
 
 <AdminLayout
@@ -314,8 +312,10 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     }
   </style>
 
-  <script type="module" define:vars={{ supabaseUrl, supabaseKey }}>
+  <script>
     import { createClient } from '@supabase/supabase-js';
+    const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+    const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     import { unified } from 'unified';
     import remarkParse from 'remark-parse';
     import remarkGfm from 'remark-gfm';

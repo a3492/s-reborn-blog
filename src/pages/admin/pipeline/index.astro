@@ -1,8 +1,6 @@
 ---
 import AdminLayout from '../../../layouts/AdminLayout.astro';
 
-const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 ---
 
 <AdminLayout
@@ -54,8 +52,10 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     </section>
   </div>
 
-  <script type="module" define:vars={{ supabaseUrl, supabaseKey }}>
+  <script>
     import { createClient } from '@supabase/supabase-js';
+    const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+    const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
     const message = document.querySelector('[data-admin-pipeline-message]');
     const results = document.querySelector('[data-admin-pipeline-results]');
@@ -113,27 +113,32 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
         { label: 'Public env', detail: 'PUBLIC_SUPABASE_URL / PUBLIC_SUPABASE_ANON_KEY를 먼저 설정해야 합니다.', variant: 'failed' },
       ]);
     } else {
-      const supabase = createClient(supabaseUrl, supabaseKey, {
-        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
+      let _sessionEmail = null;
+      let _sessionUserId = null;
+      document.addEventListener('admin:session-ready', ({ detail }) => {
+        supabase = window.__adminSupabase;
+        _sessionEmail = detail.email;
+        _sessionUserId = detail.userId;
       });
 
+      let _sessionEmail = null;
+      let _sessionUserId = null;
+      document.addEventListener('admin:session-ready', ({ detail }) => {
+        _sessionEmail = detail.email;
+        _sessionUserId = detail.userId;
+      });
+
+      let supabase = null;
+
       const loadBootstrapState = async () => {
-        const { data: sessionData } = await supabase.auth.getSession();
-        const session = sessionData.session;
-
-        if (!session) {
-          window.location.replace('/admin/login?redirectTo=/admin/pipeline');
-          return null;
-        }
-
         const checks = [
-          { label: '현재 로그인 계정', detail: session.user.email || 'email 없음', variant: 'success' },
+          { label: '현재 로그인 계정', detail: _sessionEmail || 'email 없음', variant: 'success' },
         ];
 
         const { data: profile, error } = await supabase
           .from('admin_profiles')
           .select('email, role, display_name')
-          .eq('id', session.user.id)
+          .eq('id', _sessionUserId || '')
           .maybeSingle();
 
         if (error) {

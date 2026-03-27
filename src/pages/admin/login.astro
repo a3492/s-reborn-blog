@@ -2,8 +2,6 @@
 import '../../styles/admin.css';
 import BaseHead from '../../components/BaseHead.astro';
 
-const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 ---
 
 <!doctype html>
@@ -37,8 +35,10 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       </section>
     </main>
 
-    <script type="module" define:vars={{ supabaseUrl, supabaseKey }}>
+    <script>
       import { createClient } from '@supabase/supabase-js';
+      const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+      const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
       const form = document.querySelector('[data-admin-login-form]');
       const magicLinkButton = document.querySelector('[data-admin-magic-link]');

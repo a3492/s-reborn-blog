@@ -379,14 +379,14 @@ body {
 }
 
 .f-meta-label {
-  font-size: 0.78rem;
+  font-size: 0.7rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--t3);
 }
 
 .f-date {
-  font-size: 0.72rem;
+  font-size: 0.82rem;
   color: var(--t3);
   letter-spacing: 0.04em;
 }
@@ -515,7 +515,7 @@ body {
 }
 
 .side-date {
-  font-size: 0.75rem;
+  font-size: 0.79rem;
   color: var(--t3);
 }
 
@@ -595,7 +595,7 @@ body {
 
 .post-card {
   padding: 0.9rem 1rem 0.8rem;
-  border: 1px solid var(--rule2);
+  border: 1px solid var(--rule);
   border-radius: 18px;
   text-decoration: none;
   display: flex;
@@ -682,8 +682,8 @@ body {
 }
 
 .card-date {
-  font-size: 0.72rem;
-  color: var(--t3);
+  font-size: 0.79rem;
+  color: var(--t2);
   white-space: nowrap;
 }
 
@@ -1612,7 +1612,7 @@ footer {
 .blog-item {
   display: block;
   padding: 0.75rem 1rem 0.65rem;
-  border: 1px solid var(--rule2);
+  border: 1px solid var(--rule);
   border-radius: 18px;
   text-decoration: none;
   background: rgba(250, 248, 245, 0.72);
@@ -1689,7 +1689,7 @@ footer {
 }
 
 .blog-item-date {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: var(--t3);
 }
 

@@ -3,8 +3,6 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
 import { recentHandOffs } from '../../lib/admin/handoffs';
 import { getCollection } from 'astro:content';
 
-const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
 const localDrafts = await getCollection('blog', ({ data }) => data.draft === true);
 const draftPreviews = localDrafts.map(post => {
@@ -205,8 +203,10 @@ const draftPreviews = localDrafts.map(post => {
     </section>
   </div>
 
-  <script type="module" define:vars={{ supabaseUrl, supabaseKey }}>
+  <script>
     import { createClient } from '@supabase/supabase-js';
+    const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+    const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
     const draftsKpi = document.querySelector('[data-admin-kpi-drafts]');
     const publishedKpi = document.querySelector('[data-admin-kpi-published]');
@@ -388,9 +388,7 @@ const draftPreviews = localDrafts.map(post => {
       renderJobs([]);
       setMessage('Supabase 환경 변수가 없어 대시보드를 불러올 수 없습니다.', 'error');
     } else {
-      const supabase = createClient(supabaseUrl, supabaseKey, {
-        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
-      });
+      let supabase = null;
 
       const loadDashboard = async (silent = false) => {
         const [
@@ -456,16 +454,14 @@ const draftPreviews = localDrafts.map(post => {
         }, 8000);
       };
 
-      const { data: sessionData } = await supabase.auth.getSession();
-      if (!sessionData.session) {
-        window.location.replace('/admin/login?redirectTo=/admin');
-      } else {
+      document.addEventListener('admin:session-ready', async () => {
+        supabase = window.__adminSupabase;
         await loadDashboard();
         scheduleRefresh();
         document.addEventListener('visibilitychange', () => {
           if (!document.hidden) loadDashboard(true);
         });
-      }
+      });
     }
   </script>
 </AdminLayout>

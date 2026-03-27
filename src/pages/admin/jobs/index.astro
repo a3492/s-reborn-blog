@@ -1,8 +1,6 @@
 ---
 import AdminLayout from '../../../layouts/AdminLayout.astro';
 
-const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 ---
 
 <AdminLayout
@@ -77,8 +75,10 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     </section>
   </div>
 
-  <script type="module" define:vars={{ supabaseUrl, supabaseKey }}>
+  <script>
     import { createClient } from '@supabase/supabase-js';
+    const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+    const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
     const body = document.querySelector('[data-admin-jobs-body]');
     const message = document.querySelector('[data-admin-jobs-message]');
@@ -164,9 +164,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       if (successKpi) successKpi.textContent = '-';
       setMessage('Supabase 환경 변수가 없어 publish job을 불러올 수 없습니다.', 'error');
     } else {
-      const supabase = createClient(supabaseUrl, supabaseKey, {
-        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
-      });
+      let supabase = null;
 
       const loadJobs = async (silent = false) => {
         const { data, error } = await supabase
@@ -242,11 +240,9 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
         }, 8000);
       };
 
-      const { data: sessionData } = await supabase.auth.getSession();
-      if (!sessionData.session) {
-        window.location.replace('/admin/login?redirectTo=/admin/jobs');
-      } else {
-        currentUserId = sessionData.session.user.id;
+      document.addEventListener('admin:session-ready', async ({ detail }) => {
+        supabase = window.__adminSupabase;
+        currentUserId = detail.userId;
         await loadJobs();
         scheduleRefresh();
         refreshButton?.addEventListener('click', () => loadJobs());
@@ -258,7 +254,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
         document.addEventListener('visibilitychange', () => {
           if (!document.hidden) loadJobs(true);
         });
-      }
+      });
     }
   </script>
 </AdminLayout>

@@ -1,8 +1,6 @@
 ---
 import AdminLayout from '../../../layouts/AdminLayout.astro';
 
-const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 const slug = Astro.url.searchParams.get('slug') ?? '';
 ---
 
@@ -171,8 +169,11 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
     </div>
   </div>
 
-  <script type="module" define:vars={{ supabaseUrl, supabaseKey, slug }}>
+  <script>
     import { createClient } from '@supabase/supabase-js';
+    const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+    const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+    const slug = new URLSearchParams(window.location.search).get('slug') ?? '';
 
     const form = document.querySelector('[data-admin-edit-post-form]');
     const message = document.querySelector('[data-admin-edit-post-message]');
@@ -414,9 +415,7 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
     if (!supabaseUrl || !supabaseKey) {
       setMessage('Supabase 환경 변수가 없어 편집 기능을 초기화할 수 없습니다.', 'error');
     } else {
-      const supabase = createClient(supabaseUrl, supabaseKey, {
-        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
-      });
+      let supabase = null;
 
       const loadPost = async () => {
         const { data: post, error } = await supabase
@@ -564,12 +563,9 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
         }
       };
 
-      const { data: sessionData } = await supabase.auth.getSession();
-      const session = sessionData.session;
-      if (!session) {
-        window.location.replace(`/admin/login?redirectTo=${encodeURIComponent(window.location.pathname + window.location.search)}`);
-      } else {
-        currentUserId = session.user.id;
+      document.addEventListener('admin:session-ready', async ({ detail }) => {
+        supabase = window.__adminSupabase;
+        currentUserId = detail.userId;
         const params = new URLSearchParams(window.location.search);
         if (params.get('created') === '1') {
           setMessage('draft가 생성되었습니다. 이어서 메타를 다듬거나 바로 발행할 수 있습니다.', 'success');
@@ -599,7 +595,7 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
             setMessage('미저장 변경이 있습니다. 먼저 저장한 뒤 dry run을 실행하세요.', 'error');
             return;
           }
-          await requestPublish(currentSlug, session.user.id, true);
+          await requestPublish(currentSlug, currentUserId, true);
         });
 
         livePublishButton?.addEventListener('click', async () => {
@@ -611,7 +607,7 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
             setMessage('미저장 변경이 있습니다. 먼저 저장한 뒤 발행 요청을 실행하세요.', 'error');
             return;
           }
-          await requestPublish(currentSlug, session.user.id, false);
+          await requestPublish(currentSlug, currentUserId, false);
         });
 
         publishHistorySummary?.addEventListener('click', async (event) => {
@@ -699,7 +695,7 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
             seo_title: seoTitle,
             seo_description: seoDescription,
             canonical_url: canonicalUrl,
-            updated_by: session.user.id,
+            updated_by: currentUserId,
           };
 
           const { error: updateError } = await supabase.from('posts').update(payload).eq('id', currentPostId);
@@ -713,7 +709,7 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
             post_id: currentPostId,
             body_markdown: body,
             meta_snapshot: { title, description, slug: nextSlug, category, tags, status, thumbnail_url: thumbnailUrl, seo_title: seoTitle, seo_description: seoDescription, canonical_url: canonicalUrl },
-            created_by: session.user.id,
+            created_by: currentUserId,
           });
           if (revisionError) {
             setActionBusy('save', false);
@@ -722,7 +718,7 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
           }
 
           await supabase.from('audit_logs').insert({
-            actor_id: session.user.id,
+            actor_id: currentUserId,
             action: 'post_updated',
             resource_type: 'post',
             resource_id: currentPostId,
@@ -739,7 +735,7 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
             window.location.replace('/admin/posts/edit?slug=' + encodeURIComponent(currentSlug) + '&updated=1');
           }
         });
-      }
+      });
     }
   </script>
 </AdminLayout>

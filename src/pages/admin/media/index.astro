@@ -1,8 +1,6 @@
 ---
 import AdminLayout from '../../../layouts/AdminLayout.astro';
 
-const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 ---
 
 <AdminLayout
@@ -160,8 +158,10 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
   </div>
 </AdminLayout>
 
-<script type="module" define:vars={{ supabaseUrl, supabaseKey }}>
+<script>
   import { createClient } from '@supabase/supabase-js';
+  const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+  const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
   const form = document.querySelector('[data-admin-media-form]');
   const message = document.querySelector('[data-admin-media-message]');
@@ -374,9 +374,13 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
   if (!supabaseUrl || !supabaseKey) {
     setMessage('Supabase 환경 변수가 없어 media registry를 초기화할 수 없습니다.', 'error');
   } else {
-    const supabase = createClient(supabaseUrl, supabaseKey, {
-      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
+    let currentSessionUserId = null;
+    document.addEventListener('admin:session-ready', ({ detail }) => {
+        supabase = window.__adminSupabase;
+      currentSessionUserId = detail.userId;
     });
+
+    let supabase = null;
 
     const loadAssets = async () => {
       const { data, error } = await supabase
@@ -466,13 +470,6 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       const action = button.dataset.mediaArchiveAction;
       if (!assetId || !action) return;
 
-      const { data: sessionData } = await supabase.auth.getSession();
-      const session = sessionData.session;
-      if (!session) {
-        window.location.replace('/admin/login?redirectTo=/admin/media');
-        return;
-      }
-
       const isRestore = action === 'restore';
       const { data: asset, error: assetError } = await supabase
         .from('media_assets')
@@ -487,7 +484,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       }
 
       await supabase.from('audit_logs').insert({
-        actor_id: session.user.id,
+        actor_id: currentSessionUserId,
         action: isRestore ? 'media_asset_restored' : 'media_asset_archived',
         resource_type: 'media_asset',
         resource_id: asset.id,
@@ -516,14 +513,6 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     form?.addEventListener('submit', async (event) => {
       event.preventDefault();
       setMessage('media asset를 등록하는 중입니다...', 'info');
-
-      const { data: sessionData } = await supabase.auth.getSession();
-      const session = sessionData.session;
-
-      if (!session) {
-        window.location.replace('/admin/login?redirectTo=/admin/media');
-        return;
-      }
 
       const formData = new FormData(form);
       let publicUrl = String(formData.get('public_url') || '').trim();
@@ -603,7 +592,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
         caption: String(formData.get('caption') || '').trim() || null,
         width: Number(formData.get('width') || 0) || null,
         height: Number(formData.get('height') || 0) || null,
-        uploaded_by: session.user.id,
+        uploaded_by: currentSessionUserId,
       };
 
       const { data: asset, error: assetError } = await supabase
@@ -618,7 +607,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       }
 
       await supabase.from('audit_logs').insert({
-        actor_id: session.user.id,
+        actor_id: currentSessionUserId,
         action: 'media_asset_created',
         resource_type: 'media_asset',
         resource_id: asset.id,

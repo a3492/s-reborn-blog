@@ -1,8 +1,6 @@
 ---
 import AdminLayout from '../../../layouts/AdminLayout.astro';
 
-const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 const jobId = Astro.url.searchParams.get('id') ?? '';
 ---
 
@@ -64,8 +62,11 @@ const jobId = Astro.url.searchParams.get('id') ?? '';
     </section>
   </div>
 
-  <script type="module" define:vars={{ supabaseUrl, supabaseKey, jobId }}>
+  <script>
     import { createClient } from '@supabase/supabase-js';
+    const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+    const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+    const jobId = new URLSearchParams(window.location.search).get('id') ?? '';
 
     const message = document.querySelector('[data-admin-job-detail-message]');
     const summaryList = document.querySelector('[data-admin-job-summary]');
@@ -173,9 +174,7 @@ const jobId = Astro.url.searchParams.get('id') ?? '';
       if (output) output.textContent = 'Supabase 환경 변수가 없습니다.';
       setMessage('Supabase 환경 변수가 없어 job detail을 불러올 수 없습니다.', 'error');
     } else {
-      const supabase = createClient(supabaseUrl, supabaseKey, {
-        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
-      });
+      let supabase = null;
 
       const loadDetail = async () => {
         const { data, error } = await supabase
@@ -194,11 +193,9 @@ const jobId = Astro.url.searchParams.get('id') ?? '';
         setMessage('job detail을 불러왔습니다.', 'info');
       };
 
-      const { data: sessionData } = await supabase.auth.getSession();
-      if (!sessionData.session) {
-        window.location.replace(`/admin/login?redirectTo=${encodeURIComponent(window.location.pathname + window.location.search)}`);
-      } else {
-        currentUserId = sessionData.session.user.id;
+      document.addEventListener('admin:session-ready', async ({ detail }) => {
+        supabase = window.__adminSupabase;
+        currentUserId = detail.userId;
         await loadDetail();
 
         retryButton?.addEventListener('click', async () => {
@@ -233,7 +230,7 @@ const jobId = Astro.url.searchParams.get('id') ?? '';
 
           setMessage(`재발행 job이 생성되었습니다. [상세 보기](/admin/jobs/detail?id=${payload.jobId})`, 'success');
         });
-      }
+      });
     }
   </script>
 </AdminLayout>

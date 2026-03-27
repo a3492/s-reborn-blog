@@ -1,8 +1,6 @@
 ---
 import AdminLayout from '../../../layouts/AdminLayout.astro';
 
-const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 const assetId = Astro.url.searchParams.get('id') ?? '';
 ---
 
@@ -96,8 +94,11 @@ const assetId = Astro.url.searchParams.get('id') ?? '';
     </div>
   </div>
 
-  <script type="module" define:vars={{ supabaseUrl, supabaseKey, assetId }}>
+  <script>
     import { createClient } from '@supabase/supabase-js';
+    const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+    const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+    const assetId = new URLSearchParams(window.location.search).get('id') ?? '';
 
     const form = document.querySelector('[data-media-detail-form]');
     const message = document.querySelector('[data-media-detail-message]');
@@ -206,16 +207,14 @@ const assetId = Astro.url.searchParams.get('id') ?? '';
     if (!supabaseUrl || !supabaseKey) {
       setMessage('Supabase 환경 변수가 없어 detail 페이지를 초기화할 수 없습니다.', 'error');
     } else {
-      const supabase = createClient(supabaseUrl, supabaseKey, {
-        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
-      });
+      let supabase = null;
 
-      const { data: sessionData } = await supabase.auth.getSession();
-      if (!sessionData.session) {
-        window.location.replace('/admin/login?redirectTo=/admin/media/detail');
-      } else if (!assetId) {
-        setMessage('asset id가 필요합니다.', 'error');
-      } else {
+      document.addEventListener('admin:session-ready', async ({ detail }) => {
+        supabase = window.__adminSupabase;
+        currentUserId = detail.userId;
+        if (!assetId) {
+          setMessage('asset id가 필요합니다.', 'error');
+        } else {
         const [{ data: assetData, error: assetError }, { data: logsData, error: logsError }] = await Promise.all([
           supabase.from('media_assets').select('id, file_name, storage_provider, storage_bucket, file_path, public_url, mime_type, alt_text, caption, width, height, deleted_at, created_at, updated_at').eq('id', assetId).maybeSingle(),
           supabase.from('audit_logs').select('id, action, created_at, actor_id, after_json').eq('resource_type', 'media_asset').eq('resource_id', assetId).order('created_at', { ascending: false }).limit(12),
@@ -260,7 +259,7 @@ const assetId = Astro.url.searchParams.get('id') ?? '';
             }
 
             await supabase.from('audit_logs').insert({
-              actor_id: sessionData.session.user.id,
+              actor_id: currentUserId,
               action: 'media_asset_updated',
               resource_type: 'media_asset',
               resource_id: data.id,
@@ -280,7 +279,7 @@ const assetId = Astro.url.searchParams.get('id') ?? '';
             }
 
             await supabase.from('audit_logs').insert({
-              actor_id: sessionData.session.user.id,
+              actor_id: currentUserId,
               action: nextDeletedAt ? 'media_asset_archived' : 'media_asset_restored',
               resource_type: 'media_asset',
               resource_id: assetId,
@@ -292,6 +291,7 @@ const assetId = Astro.url.searchParams.get('id') ?? '';
           });
         }
       }
+      });
     }
   </script>
 </AdminLayout>

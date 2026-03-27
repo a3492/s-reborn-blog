@@ -1,8 +1,6 @@
 ---
 import AdminLayout from '../../../layouts/AdminLayout.astro';
 
-const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 ---
 
 <AdminLayout
@@ -42,8 +40,10 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     <p class="admin-inline-note" data-admin-toggle-message hidden></p>
   </div>
 
-  <script type="module" define:vars={{ supabaseUrl, supabaseKey }}>
+  <script>
     import { createClient } from '@supabase/supabase-js';
+    const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+    const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
     const tbody = document.querySelector('[data-admin-posts-body]');
     const message = document.querySelector('[data-admin-posts-message]');
@@ -138,9 +138,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       renderRows([], new Map());
       setMessage('Supabase 환경 변수가 없어 목록을 불러올 수 없습니다.', 'error');
     } else {
-      const supabase = createClient(supabaseUrl, supabaseKey, {
-        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
-      });
+      let supabase = null;
 
       const params = new URLSearchParams(window.location.search);
       if (params.get('saved') === '1') {
@@ -222,12 +220,10 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
         }
       };
 
-      const { data: sessionData } = await supabase.auth.getSession();
-      if (!sessionData.session) {
-        window.location.replace('/admin/login?redirectTo=/admin/posts');
-      } else {
+      document.addEventListener('admin:session-ready', async () => {
+        supabase = window.__adminSupabase;
         await loadPosts();
-      }
+      });
     }
   </script>
 </AdminLayout>

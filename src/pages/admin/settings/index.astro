@@ -1,8 +1,6 @@
 ---
 import AdminLayout from '../../../layouts/AdminLayout.astro';
 
-const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 ---
 
 <AdminLayout
@@ -106,8 +104,10 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     </section>
   </div>
 
-  <script type="module" define:vars={{ supabaseUrl, supabaseKey }}>
+  <script>
     import { createClient } from '@supabase/supabase-js';
+    const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+    const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
     const form = document.querySelector('[data-admin-settings-form]');
     const message = document.querySelector('[data-admin-settings-message]');
@@ -319,15 +319,15 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     if (!supabaseUrl || !supabaseKey) {
       setMessage('Supabase 환경 변수가 없어 settings를 초기화할 수 없습니다.', 'error');
     } else {
-      const supabase = createClient(supabaseUrl, supabaseKey, {
-        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
+      let currentUserId = null;
+      document.addEventListener('admin:session-ready', ({ detail }) => {
+        currentUserId = detail.userId;
       });
 
-      const { data: sessionData } = await supabase.auth.getSession();
-      const session = sessionData.session;
-      if (!session) {
-        window.location.replace('/admin/login?redirectTo=/admin/settings');
-      } else {
+      let supabase = null;
+
+      document.addEventListener('admin:session-ready', async () => {
+        supabase = window.__adminSupabase;
         const { data, error } = await supabase
           .from('site_settings')
           .select('key, value_json')
@@ -396,14 +396,14 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
               title: String(formData.get('site_title') || '').trim(),
               description: String(formData.get('site_description') || '').trim(),
               default_og_image: String(formData.get('default_og_image') || '').trim(),
-            }, session.user.id),
+            }, currentUserId),
             upsertSetting(supabase, 'homepage', {
               featured_slug: String(formData.get('featured_slug') || '').trim(),
-            }, session.user.id),
+            }, currentUserId),
             upsertSetting(supabase, 'about_page', {
               intro: String(formData.get('about_intro') || '').trim(),
-            }, session.user.id),
-            upsertSetting(supabase, 'social_links', socialLinks, session.user.id),
+            }, currentUserId),
+            upsertSetting(supabase, 'social_links', socialLinks, currentUserId),
           ];
 
           const results = await Promise.all(tasks);
@@ -414,7 +414,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           }
 
           await supabase.from('audit_logs').insert({
-            actor_id: session.user.id,
+            actor_id: currentUserId,
             action: 'settings_updated',
             resource_type: 'site_settings',
             after_json: {
@@ -439,7 +439,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
           setMessage('settings가 저장되었습니다.', 'success');
           loadHistory(supabase);
         });
-      }
+      });
     }
   </script>
 </AdminLayout>
