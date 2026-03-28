@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>응급실 흉통 환자 초기 평가 | Cases — S-Reborn</title>
+<script type="application/json" id="frontmatter">
+{
+  "content_id": "cases-002",
+  "title": "응급실 흉통 환자 초기 평가",
+  "slug": "er-chest-pain-case",
+  "series": "임상 케이스 스터디",
+  "series_order": 2,
+  "status": "published",
+  "updated_at": "2026-03-28"
+}
+</script>
+<style>
+  :root {
+    --bg: #fbf7f1;
+    --ink: #1d2328;
+    --muted: #5f6870;
+    --brand: #155d4b;
+    --line: #ddd4c6;
+    --card: #fffdf9;
+    --accent: #bf5f2f;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background:
+      radial-gradient(circle at left top, #f3ead8 0, transparent 20%),
+      linear-gradient(180deg, #fbf7f1 0%, #f4ede2 100%);
+    background-attachment: fixed;
+    color: var(--ink);
+    font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* topnav */
+  .topnav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(251,247,241,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+    padding: 0 20px;
+  }
+  .topnav-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .topnav-brand {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--brand);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+  .topnav-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+  .topnav-links a {
+    font-size: 14px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .topnav-links a:hover { color: var(--ink); }
+
+  /* page */
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 56px 20px 88px;
+  }
+
+  /* breadcrumb */
+  .breadcrumb {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .breadcrumb a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .breadcrumb a:hover { color: var(--brand); }
+  .breadcrumb-sep { opacity: 0.5; }
+  .breadcrumb-current { color: var(--ink); font-weight: 500; }
+
+  /* series-progress */
+  .series-progress {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-bottom: 36px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .series-progress::-webkit-scrollbar { display: none; }
+  .sp-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    white-space: nowrap;
+    margin-right: 16px;
+    flex-shrink: 0;
+  }
+  .sp-items {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: nowrap;
+  }
+  .sp-item {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+  }
+  .sp-item.done {
+    background: #e9f2ee;
+    color: var(--brand);
+  }
+  .sp-item.done:hover { background: #d6e8df; }
+  .sp-item.on {
+    background: var(--brand);
+    color: #fff;
+    font-weight: 700;
+    pointer-events: none;
+  }
+  .sp-item.off {
+    background: transparent;
+    color: var(--muted);
+    pointer-events: none;
+    opacity: 0.6;
+  }
+  .sp-sep {
+    color: var(--line);
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  /* hero */
+  .hero {
+    background: linear-gradient(135deg, #2d1b5e 0%, #4c2a8a 55%, #7C3AED 100%);
+    border-radius: 22px;
+    box-shadow: 0 12px 34px rgba(45,27,94,0.25);
+    padding: 36px;
+    margin-bottom: 32px;
+    color: #fff;
+  }
+  .label {
+    display: inline-block;
+    margin-bottom: 14px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.9);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  h1 {
+    font-size: 38px;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: #fff;
+    margin-bottom: 16px;
+  }
+  .hero-lead {
+    font-size: 16px;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.7;
+    margin-bottom: 24px;
+    max-width: 600px;
+  }
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+  }
+  .hero-meta-item { display: flex; gap: 6px; }
+  .hero-meta-key { font-weight: 600; color: rgba(255,255,255,0.95); }
+
+  /* takeaway */
+  .takeaway {
+    background: #eef4ef;
+    border: 1px solid #d6e3da;
+    border-radius: 18px;
+    padding: 18px 20px;
+    margin-bottom: 32px;
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.7;
+  }
+  .takeaway ul { padding-left: 20px; }
+  .takeaway li { margin-bottom: 10px; }
+  .takeaway li:last-child { margin-bottom: 0; }
+
+  /* warn */
+  .warn {
+    border-left: 4px solid var(--accent);
+    background: #fbf1ea;
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin-top: 16px;
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.65;
+  }
+  .warn strong { color: var(--accent); }
+
+  /* box */
+  .box {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    box-shadow: 0 12px 34px rgba(29,35,40,0.06);
+    padding: 28px;
+    margin-bottom: 24px;
+  }
+  .box h2 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .box p {
+    margin: 0 0 14px;
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  .box p:last-child { margin-bottom: 0; }
+  .box ul {
+    padding-left: 22px;
+    margin-bottom: 14px;
+  }
+  .box li {
+    margin-bottom: 10px;
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.65;
+  }
+  .box li:last-child { margin-bottom: 0; }
+
+  /* clinical scenario table */
+  .clinical-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  .clinical-table th {
+    background: #f0f4f2;
+    color: var(--brand);
+    font-weight: 700;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 2px solid var(--line);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .clinical-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    vertical-align: top;
+  }
+  .clinical-table tr:last-child td { border-bottom: none; }
+  .clinical-table td:first-child { font-weight: 600; color: var(--muted); width: 30%; }
+
+  /* prompt block */
+  .prompt-wrap {
+    position: relative;
+    margin: 16px 0;
+  }
+  .prompt-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(205,214,244,0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    padding: 14px 20px 6px;
+    background: #1e1e2e;
+    border-radius: 14px 14px 0 0;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-bottom: none;
+  }
+  .prompt-block {
+    background: #1e1e2e;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 0 0 14px 14px;
+    padding: 0 20px 20px;
+    font-family: "Cascadia Code", "Consolas", "Fira Mono", monospace;
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: #cdd6f4;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-x: auto;
+  }
+  .prompt-block-standalone {
+    background: #1e1e2e;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px;
+    padding: 20px;
+    font-family: "Cascadia Code", "Consolas", "Fira Mono", monospace;
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: #cdd6f4;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-x: auto;
+  }
+  .copy-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    color: rgba(255,255,255,0.7);
+    font-size: 12px;
+    font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .copy-btn:hover {
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+  }
+  .copy-btn.copied {
+    background: rgba(21,93,75,0.5);
+    color: #a8d8c8;
+    border-color: rgba(21,93,75,0.4);
+  }
+
+  /* ai response box */
+  .ai-response {
+    background: #eef4ef;
+    border: 1px solid #d6e3da;
+    border-radius: 18px;
+    padding: 18px 20px;
+    margin-top: 16px;
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.7;
+  }
+  .ai-response-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--brand);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 8px;
+  }
+  .ai-response ul { padding-left: 20px; margin-top: 8px; }
+  .ai-response li { margin-bottom: 6px; }
+  .ai-response li:last-child { margin-bottom: 0; }
+
+  /* dialogue pair */
+  .dialogue {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  /* decision box */
+  .decision-box {
+    background: #f5f0ff;
+    border: 1px solid #c4b5fd;
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin-top: 16px;
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.7;
+  }
+  .decision-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #6d28d9;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 8px;
+  }
+
+  /* series-nav */
+  .series-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+  .nav-btn {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 14px 18px;
+    border-radius: 14px;
+    text-decoration: none;
+    border: 1px solid var(--line);
+    background: var(--card);
+    transition: box-shadow 0.15s, border-color 0.15s;
+    min-width: 160px;
+  }
+  .nav-btn:hover {
+    box-shadow: 0 4px 16px rgba(29,35,40,0.08);
+    border-color: #c4bab0;
+  }
+  .nav-btn-dir {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .nav-btn-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.35;
+  }
+  .nav-btn-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: #e9f2ee;
+    color: var(--brand);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s;
+    white-space: nowrap;
+  }
+  .nav-btn-home:hover { background: #d6e8df; }
+
+  /* footer */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 24px 20px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 26px; }
+    .hero { padding: 24px; }
+    .box { padding: 20px; }
+    .series-nav { flex-direction: column; align-items: stretch; }
+    .nav-btn { min-width: unset; }
+    .clinical-table td:first-child { width: 38%; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <a class="topnav-brand" href="../../../../index.html">S-Reborn</a>
+    <ul class="topnav-links">
+      <li><a href="../index.html">Doctor AI 홈</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page">
+
+  <nav class="breadcrumb" aria-label="breadcrumb">
+    <a href="../../../../index.html">홈</a>
+    <span class="breadcrumb-sep">›</span>
+    <a href="../index.html">Doctor AI</a>
+    <span class="breadcrumb-sep">›</span>
+    <a href="./home.html">Cases</a>
+    <span class="breadcrumb-sep">›</span>
+    <span class="breadcrumb-current">2편</span>
+  </nav>
+
+  <div class="series-progress">
+    <span class="sp-label">시리즈</span>
+    <div class="sp-items">
+      <a class="sp-item done" href="./home.html">소개</a>
+      <span class="sp-sep">›</span>
+      <a class="sp-item done" href="./01-dm-glucose-control.html">1편</a>
+      <span class="sp-sep">›</span>
+      <span class="sp-item on">2편</span>
+      <span class="sp-sep">›</span>
+      <span class="sp-item off">3편</span>
+      <span class="sp-sep">›</span>
+      <span class="sp-item off">4편</span>
+    </div>
+  </div>
+
+  <div class="takeaway" style="margin-bottom: 28px;">
+    응급 상황에서 AI는 감별진단 목록 생성과 검사 우선순위 정리에 유용하다 — 하지만 최종 처치 결정은 환자 앞에 서 있는 의사만이 내릴 수 있다.
+  </div>
+
+  <div class="hero">
+    <span class="label">임상 케이스 스터디 · 2편</span>
+    <h1>응급실 흉통 환자 초기 평가</h1>
+    <p class="hero-lead">58세 남성이 갑작스러운 흉통으로 응급실에 내원했다. AI를 활용해 감별진단 목록을 빠르게 정리하고, 초기 검사 우선순위를 구조화한 과정을 단계별로 정리합니다.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="hero-meta-key">대상</span>
+        <span>응급의학과 전공의, 내과 전공의</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-key">난이도</span>
+        <span>중급</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-key">과</span>
+        <span>응급의학과, 내과</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 박스 1: 케이스 프레젠테이션 -->
+  <div class="box">
+    <span class="label" style="background:#f5f0ff; color:#6d28d9;">케이스 정보</span>
+    <h2>케이스 프레젠테이션</h2>
+    <p>응급실 야간 근무 중 58세 남성이 보호자와 함께 내원했다. 내원 주訴는 "갑자기 가슴이 조여드는 느낌"이었고, 발생 시점은 약 40분 전, 안정 시에 발생한 것이 특징적이었다.</p>
+    <table class="clinical-table">
+      <thead>
+        <tr>
+          <th>항목</th>
+          <th>내용</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>주訴</td>
+          <td>흉골 하부 압박감, 좌측 어깨로 방사, 식은땀, 호흡곤란</td>
+        </tr>
+        <tr>
+          <td>발생 양상</td>
+          <td>안정 시 돌발, 40분 지속, NTG 없이 자연 경감 안 됨</td>
+        </tr>
+        <tr>
+          <td>활력 징후</td>
+          <td>BP 148/92 mmHg, HR 102회/분, SpO₂ 94%, RR 22회/분, BT 36.8℃</td>
+        </tr>
+        <tr>
+          <td>과거력</td>
+          <td>고혈압 6년(암로디핀 복용 중), 흡연 30갑년, 당뇨 없음</td>
+        </tr>
+        <tr>
+          <td>가족력</td>
+          <td>아버지 — 55세에 심근경색으로 사망</td>
+        </tr>
+        <tr>
+          <td>초기 신체검진</td>
+          <td>흉부 청진 이상 없음, 복부 압통 없음, 다리 부종 없음</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>이 환자를 처음 보는 순간, 머릿속에서 빠르게 돌아가는 감별진단 목록 — ACS, 대동맥 박리, 폐색전증, 긴장성 기흉 등 — 을 체계적으로 정리하고 검사 우선순위를 놓치지 않기 위해 AI를 활용했다.</p>
+  </div>
+
+  <!-- 박스 2: AI 활용 방식 -->
+  <div class="box">
+    <h2>AI를 어떻게 활용했나</h2>
+    <p>응급실에서 AI를 사용할 때 핵심은 <strong>속도</strong>와 <strong>구조화</strong>다. 직접 감별진단을 나열하는 것은 경험 있는 의사라면 할 수 있지만, 새벽 3시 피로한 상태에서 중요한 진단을 빠뜨리지 않도록 체크리스트 역할을 시키는 것이 실제 활용 맥락이었다.</p>
+    <p>두 가지 목적으로 AI를 활용했다.</p>
+    <ul>
+      <li><strong>감별진단 목록 생성</strong> — 임상 정보를 바탕으로 위험도 순서로 정렬된 감별진단 목록 요청</li>
+      <li><strong>초기 검사 우선순위 정리</strong> — 어떤 검사를 가장 먼저 시행해야 하는지, 시간 의존적 결과는 무엇인지 구조화</li>
+    </ul>
+  </div>
+
+  <!-- 박스 3: 프롬프트와 AI 응답 -->
+  <div class="box">
+    <h2>실제 사용한 프롬프트와 AI 응답</h2>
+    <p>다음은 이 케이스에서 실제로 사용한 첫 번째 프롬프트다. 환자 정보를 구조화해서 입력한 뒤, AI에게 위험도 기반 감별진단을 요청했다.</p>
+
+    <div class="dialogue">
+      <div class="prompt-wrap">
+        <div class="prompt-label">의사 입력 — 감별진단 요청</div>
+        <pre class="prompt-block" id="prompt-1">역할: 응급의학과 전문의 수준의 임상 보조 AI입니다.
+
+다음 환자의 임상 정보를 바탕으로 흉통 감별진단 목록을 위험도 순서(즉각적 생명 위협 → 높은 위험 → 중등도 위험)로 분류하고, 각 진단을 지지하거나 반박하는 이 환자의 임상 소견을 함께 제시해 주세요.
+
+환자 정보:
+- 58세 남성
+- 흉골 하부 압박감, 좌측 어깨 방사통, 식은땀, 호흡곤란
+- 안정 시 발생, 40분 지속
+- BP 148/92, HR 102, SpO₂ 94%
+- 고혈압(암로디핀), 흡연 30갑년
+- 아버지 55세 급성 심근경색 사망
+
+형식: 진단명 / 지지 소견 / 반박 소견 순으로 표 형태로 정리</pre>
+        <button class="copy-btn" onclick="copyPrompt('prompt-1', this)">복사</button>
+      </div>
+
+      <div class="ai-response">
+        <p class="ai-response-label">AI 응답 — 감별진단 분류</p>
+        <p><strong>즉각적 생명 위협 (Rule-out 우선)</strong></p>
+        <ul>
+          <li><strong>급성 관상동맥 증후군(ACS)</strong> — 지지: 압박성 흉통, 방사통, 안정 시 발생, 흡연력, 가족력, 고혈압 / 반박: 현재 활력 징후에서 심인성 쇼크 없음</li>
+          <li><strong>대동맥 박리</strong> — 지지: 고혈압, 갑작스러운 발생, 58세 남성 / 반박: 등으로의 찢어지는 통증 언급 없음, 양팔 혈압 차이 미확인</li>
+          <li><strong>폐색전증</strong> — 지지: SpO₂ 94%, 호흡곤란, 빈맥 / 반박: 최근 장거리 여행·수술·부동 병력 미확인</li>
+        </ul>
+        <p style="margin-top: 12px;"><strong>높은 위험</strong></p>
+        <ul>
+          <li><strong>긴장성 기흉</strong> — 지지: 호흡곤란, 빈맥 / 반박: 청진 이상 없음, 기저 폐질환 병력 미확인</li>
+          <li><strong>고혈압성 긴급증</strong> — 지지: BP 148/92, 흉통 / 반박: 수치가 긴급증 기준(180/120)에 미달</li>
+        </ul>
+        <p style="margin-top: 12px;"><strong>AI 권고 초기 검사 우선순위:</strong> 12유도 ECG (즉시) → Troponin I/T (즉시 + 3시간) → 흉부 X-ray → D-dimer(PE 의심 시) → 양팔 혈압 측정(박리 배제)</p>
+      </div>
+    </div>
+
+    <p style="margin-top: 20px;">두 번째 프롬프트는 ECG 결과가 나온 직후 추가로 활용했다.</p>
+
+    <div class="dialogue">
+      <div class="prompt-wrap">
+        <div class="prompt-label">의사 입력 — ECG 결과 해석 보조</div>
+        <pre class="prompt-block" id="prompt-2">방금 12유도 ECG 결과가 나왔습니다.
+
+소견: V1-V4에서 ST 분절 상승 1.5-2mm, aVR에서 ST 상승, 좌각차단 없음.
+
+이 ECG 소견이 이 환자에서 의미하는 것, 즉각적으로 취해야 할 조치, 그리고 활성화해야 할 프로토콜을 간결하게 요약해 주세요.
+
+주의: 최종 판단은 제가 직접 합니다. 참고용 요약만 제공해 주세요.</pre>
+        <button class="copy-btn" onclick="copyPrompt('prompt-2', this)">복사</button>
+      </div>
+
+      <div class="ai-response">
+        <p class="ai-response-label">AI 응답 — ECG 소견 요약</p>
+        <p><strong>소견 해석:</strong> V1-V4의 ST 상승은 전벽 STEMI(ST elevation myocardial infarction) 패턴에 합당합니다. aVR ST 상승이 동반된 경우 좌주간부(LM) 또는 근위부 LAD 폐쇄 가능성을 고려해야 합니다.</p>
+        <p style="margin-top: 10px;"><strong>즉각 조치 참고 사항(최종 판단은 담당의):</strong></p>
+        <ul>
+          <li>심장내과 또는 중재시술팀 즉시 호출 (Door-to-balloon 90분 목표)</li>
+          <li>아스피린 300mg 로딩 (출혈 금기 없을 시)</li>
+          <li>P2Y12 억제제 로딩 용량 (기관 프로토콜 확인)</li>
+          <li>IV 접근로 2개, 연속 심전도 모니터링</li>
+          <li>Troponin 결과 확인 중이라도 ECG만으로 STEMI 진단 가능</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 박스 4: 의사의 최종 판단 -->
+  <div class="box">
+    <h2>의사의 최종 판단</h2>
+    <p>AI 응답을 확인한 뒤, 내가 직접 내린 판단과 행동은 다음과 같았다.</p>
+    <div class="decision-box">
+      <p class="decision-label">임상 의사결정</p>
+      <ul style="padding-left: 20px; margin-top: 4px;">
+        <li>ECG 결과를 보는 순간 — AI 응답 확인 전에도 — 전벽 STEMI로 임상 판단 완료</li>
+        <li>심장내과 당직 호출, PPCI(일차 경피적 관상동맥 중재술) 팀 활성화</li>
+        <li>아스피린 300mg + ticagrelor 180mg 경구 투여 (출혈 병력 없음 확인 후)</li>
+        <li>대동맥 박리 배제를 위해 양팔 혈압 측정 — 차이 없음 확인</li>
+        <li>Door-to-balloon 시간: 68분으로 목표 달성</li>
+      </ul>
+    </div>
+    <p style="margin-top: 14px;">AI가 제시한 감별진단 목록은 대동맥 박리 배제를 위한 양팔 혈압 측정을 상기시켜 준 것이 실질적으로 도움이 되었다. 초기 판단에 집중하다 보면 놓칠 수 있는 체크리스트 역할을 한 것이다.</p>
+  </div>
+
+  <!-- 박스 5: 핵심 포인트 -->
+  <div class="box">
+    <h2>핵심 포인트</h2>
+    <p>이 케이스에서 AI가 실제로 기여한 것과, 인간 판단이 필수적이었던 부분을 구분하면 다음과 같다.</p>
+    <div class="takeaway">
+      <ul>
+        <li><strong>AI가 도움이 된 것:</strong> 감별진단 목록의 구조화, 배제해야 할 진단(박리·PE)에 대한 상기, ECG 소견 요약을 통한 확인</li>
+        <li><strong>인간 판단이 필수였던 것:</strong> 환자의 표정·땀·불안감을 직접 보고 즉각 판단한 ACS 우선순위, Door-to-balloon 팀 호출 타이밍</li>
+        <li><strong>AI가 대체할 수 없는 것:</strong> 환자와의 직접 소통("아버지가 그렇게 돌아가셔서 너무 무서웠어요"라는 공포 인식), 신체 검진 정보의 통합</li>
+        <li><strong>응급에서의 AI 활용 원칙:</strong> AI는 진단을 "확인"하거나 "체크리스트"로 사용할 때 유용하고, 진단을 "처음 내리는" 주체가 되어서는 안 된다</li>
+      </ul>
+    </div>
+
+    <div class="warn">
+      <strong>중요:</strong> AI는 응급 결정을 대체할 수 없습니다. 이 케이스에서 AI 응답을 확인하는 데 걸린 시간은 약 45초였지만, 심전도를 눈으로 보는 순간 의사는 이미 판단을 내리고 있었습니다. AI는 그 판단을 보조·확인하는 역할에 그쳐야 합니다. 응급 처치가 AI 응답을 기다리는 데 의해 지연되어서는 절대 안 됩니다.
+    </div>
+  </div>
+
+  <!-- series-nav -->
+  <nav class="series-nav" aria-label="시리즈 네비게이션">
+    <a class="nav-btn" href="./01-dm-glucose-control.html">
+      <span class="nav-btn-dir">← 이전</span>
+      <span class="nav-btn-title">1편 · 혈당 조절 안 되는 2형 당뇨 환자</span>
+    </a>
+    <a class="nav-btn-home" href="./home.html">
+      ↑ Cases 홈
+    </a>
+    <a class="nav-btn" href="./03-discharge-followup.html">
+      <span class="nav-btn-dir">다음 →</span>
+      <span class="nav-btn-title">3편 · 퇴원 후 추적관찰 지침 생성</span>
+    </a>
+  </nav>
+
+</div>
+
+<footer>
+  © 2026 S-Reborn · Doctor AI Series
+</footer>
+
+<script>
+  function copyPrompt(id, btn) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const text = el.textContent;
+    navigator.clipboard.writeText(text).then(function () {
+      btn.textContent = '복사됨';
+      btn.classList.add('copied');
+      setTimeout(function () {
+        btn.textContent = '복사';
+        btn.classList.remove('copied');
+      }, 1800);
+    }).catch(function () {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.textContent = '복사됨';
+      btn.classList.add('copied');
+      setTimeout(function () {
+        btn.textContent = '복사';
+        btn.classList.remove('copied');
+      }, 1800);
+    });
+  }
+</script>
+
+</body>
+</html>

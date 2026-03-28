@@ -155,7 +155,7 @@ const searchIndex = allPosts.map(post => ({
       };
 
       setStatus('검색 인덱스를 준비하는 중입니다...', true);
-      import('/node_modules/fuse.js/dist/fuse.esm.js').then(m => {
+      import('https://cdn.jsdelivr.net/npm/fuse.js@7/dist/fuse.esm.min.js').then(m => {
         const Fuse = m.default;
         fuse = new Fuse(searchIndex, {
           keys: ['title', 'description', 'category'],
