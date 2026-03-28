@@ -8,14 +8,6 @@ const siteSettings = await getPublicSiteSettings();
 const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
 	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-const configuredFeatured = siteSettings.featuredSlug
-	? allPosts.find((post) => post.slug === siteSettings.featuredSlug || post.id.endsWith(`/${siteSettings.featuredSlug}`) || post.id === siteSettings.featuredSlug)
-	: null;
-const featuredPost = configuredFeatured || allPosts[0];
-const sidebarPosts = featuredPost
-	? allPosts.filter((post) => post.id !== featuredPost.id)
-	: allPosts.slice(1);
-
 const totalPosts = allPosts.length;
 const totalCategories = new Set(allPosts.map((post) => post.data.category).filter(Boolean)).size;
 const latestUpdate = allPosts[0]?.data.date;
@@ -27,6 +19,7 @@ const splitTitle = (title: string) => {
 
 const stripMarkdown = (md: string) =>
 	md
+		.replace(/<!--[\s\S]*?-->/g, '')
 		.replace(/^#{1,6}\s+/gm, '')
 		.replace(/\*\*(.+?)\*\*/g, '$1')
 		.replace(/\*(.+?)\*/g, '$1')
@@ -36,35 +29,43 @@ const stripMarkdown = (md: string) =>
 		.replace(/\n+/g, ' ')
 		.trim();
 
-const heroBodyPreview = stripMarkdown(featuredPost?.body ?? '').slice(0, 320);
+// SSR 기본값 (첫 번째 글) — JS가 로드되면 랜덤으로 교체됨
+const defaultPost = allPosts[0];
+const { main: defaultMain, sub: defaultSub } = defaultPost
+	? splitTitle(defaultPost.data.title)
+	: { main: '', sub: null };
+const defaultBodyPreview = stripMarkdown(defaultPost?.body ?? '').slice(0, 320);
+
+// 클라이언트 랜덤화를 위한 전체 포스트 데이터
+const postsData = allPosts.map((p) => {
+	const { main, sub } = splitTitle(p.data.title);
+	return {
+		href: `/blog/${p.id}/`,
+		titleMain: main,
+		titleSub: sub ?? null,
+		bodyPreview: stripMarkdown(p.body ?? '').slice(0, 320),
+	};
+});
 ---
 
 <Layout>
-	{featuredPost ? (
+	{allPosts.length > 0 ? (
 		<div class="yt-layout">
-			<!-- 좌측: 메인 피처드 카드 -->
+			<!-- 좌측: 메인 히어로 카드 (JS가 랜덤 글로 교체) -->
 			<main class="yt-main">
-				{(() => {
-					const { main, sub } = splitTitle(featuredPost.data.title);
-					return (
-						<div class="yt-hero">
-							<div class="yt-kicker">
-								<span class="yt-label">Latest Note</span>
-							</div>
-							<h1 class="yt-title">
-								{main}
-								{sub && <><br /><span class="yt-title-sub">{sub}</span></>}
-							</h1>
-							<div class="yt-body-wrap" id="yt-body-wrap">
-								<p class="yt-body-preview">{heroBodyPreview}</p>
-							</div>
-							<button class="yt-body-toggle" id="yt-body-toggle">더 보기</button>
-							<div class="yt-foot">
-								<a class="yt-arrow-link" href={`/blog/${featuredPost.id}/`}>→</a>
-							</div>
-						</div>
-					);
-				})()}
+				<div class="yt-hero" id="yt-hero">
+					<h1 class="yt-title" id="yt-hero-title">
+						{defaultMain}
+						{defaultSub && <><br /><span class="yt-title-sub">{defaultSub}</span></>}
+					</h1>
+					<div class="yt-body-wrap" id="yt-body-wrap">
+						<p class="yt-body-preview" id="yt-hero-body">{defaultBodyPreview}</p>
+					</div>
+					<button class="yt-body-toggle" id="yt-body-toggle" aria-label="본문 펼치기">︾︾</button>
+					<div class="yt-foot">
+						<a class="yt-arrow-link" id="yt-hero-link" href={`/blog/${defaultPost?.id}/`}>→</a>
+					</div>
+				</div>
 
 				<div class="yt-stats">
 					<span>글 {totalPosts}</span>
@@ -75,25 +76,8 @@ const heroBodyPreview = stripMarkdown(featuredPost?.body ?? '').slice(0, 320);
 				</div>
 			</main>
 
-			<!-- 우측: 스크롤 가능한 사이드바 -->
-			<aside class="yt-sidebar" id="yt-sidebar">
-				{sidebarPosts.map((post) => {
-					const { main, sub } = splitTitle(post.data.title);
-					return (
-						<a class="yt-item" href={`/blog/${post.id}/`} data-yt-post>
-							{post.data.category && <span class="yt-item-cat">{post.data.category}</span>}
-							<p class="yt-item-title">
-								{main}
-								{sub && <> <span style="color:var(--t3);font-weight:400">{sub}</span></>}
-							</p>
-							<div class="yt-item-foot">
-								<time class="yt-item-date"><FormattedDate date={post.data.date} /></time>
-								<span class="yt-item-arrow">→</span>
-							</div>
-						</a>
-					);
-				})}
-			</aside>
+			<!-- 우측: 스크롤 가능한 사이드바 (JS가 완전 렌더링) -->
+			<aside class="yt-sidebar" id="yt-sidebar"></aside>
 		</div>
 	) : (
 		<div style="padding: 4rem 2rem; color: var(--t2); text-align: center;">
@@ -131,23 +115,66 @@ const heroBodyPreview = stripMarkdown(featuredPost?.body ?? '').slice(0, 320);
 		</a>
 	</div>
 
-	<script>
-		// 사이드바 글 목록 무작위 섞기 (매 방문마다 다른 순서)
-		const sidebar = document.getElementById('yt-sidebar');
-		if (sidebar) {
-			const items = [...sidebar.querySelectorAll('[data-yt-post]')];
-			items.sort(() => Math.random() - 0.5);
-			items.forEach((el) => sidebar.appendChild(el));
-		}
+	<!-- 포스트 데이터 JSON embed -->
+	<script type="application/json" id="yt-posts-data" set:html={JSON.stringify(postsData)}></script>
 
-		// 본문 미리보기 펼치기/접기
-		const toggle = document.getElementById('yt-body-toggle');
-		const wrap = document.getElementById('yt-body-wrap');
-		if (toggle && wrap) {
-			toggle.addEventListener('click', () => {
-				const expanded = wrap.classList.toggle('expanded');
-				toggle.textContent = expanded ? '접기' : '더 보기';
-			});
-		}
+	<script is:inline>
+		(function () {
+			var dataEl = document.getElementById('yt-posts-data');
+			if (!dataEl) return;
+			var posts = JSON.parse(dataEl.textContent || '[]');
+			if (!posts.length) return;
+
+			// 히어로 랜덤 선정
+			var heroIdx = Math.floor(Math.random() * posts.length);
+			var hero = posts[heroIdx];
+			var sidebarPosts = posts.filter(function (_, i) { return i !== heroIdx; });
+			// 사이드바 셔플
+			sidebarPosts.sort(function () { return Math.random() - 0.5; });
+
+			// 히어로 DOM 업데이트
+			var titleEl = document.getElementById('yt-hero-title');
+			if (titleEl) {
+				titleEl.innerHTML = escapeHtml(hero.titleMain) +
+					(hero.titleSub ? '<br><span class="yt-title-sub">' + escapeHtml(hero.titleSub) + '</span>' : '');
+			}
+			var bodyEl = document.getElementById('yt-hero-body');
+			if (bodyEl) bodyEl.textContent = hero.bodyPreview;
+
+			var linkEl = document.getElementById('yt-hero-link');
+			if (linkEl) linkEl.href = hero.href;
+
+			// 사이드바 렌더링 (카테고리·날짜 없음)
+			var sidebar = document.getElementById('yt-sidebar');
+			if (sidebar) {
+				sidebar.innerHTML = sidebarPosts.map(function (p) {
+					return '<a class="yt-item" href="' + escapeHtml(p.href) + '">' +
+						'<p class="yt-item-title">' + escapeHtml(p.titleMain) +
+						(p.titleSub ? ' <span style="color:var(--t3);font-weight:400">' + escapeHtml(p.titleSub) + '</span>' : '') +
+						'</p>' +
+						'<div class="yt-item-foot"><span class="yt-item-arrow">→</span></div>' +
+						'</a>';
+				}).join('');
+			}
+
+			// 펼치기/접기 토글
+			var toggle = document.getElementById('yt-body-toggle');
+			var wrap = document.getElementById('yt-body-wrap');
+			if (toggle && wrap) {
+				toggle.addEventListener('click', function () {
+					var expanded = wrap.classList.toggle('expanded');
+					toggle.textContent = expanded ? '︽︽' : '︾︾';
+					toggle.setAttribute('aria-label', expanded ? '본문 접기' : '본문 펼치기');
+				});
+			}
+
+			function escapeHtml(str) {
+				return String(str)
+					.replace(/&/g, '&amp;')
+					.replace(/</g, '&lt;')
+					.replace(/>/g, '&gt;')
+					.replace(/"/g, '&quot;');
+			}
+		})();
 	</script>
 </Layout>

@@ -1836,7 +1836,7 @@ footer {
 }
 
 .yt-body-wrap.expanded {
-  max-height: 600px;
+  max-height: 9999px;
 }
 
 .yt-body-wrap.expanded::after {
@@ -1956,7 +1956,7 @@ footer {
 .yt-item-foot {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   margin-top: 0.15rem;
 }
 
