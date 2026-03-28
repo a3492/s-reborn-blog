@@ -1,0 +1,337 @@
+/* ── Doctor AI Global Navigation — dai-nav.css ───────────────────────────── */
+
+/* 기존 topnav 숨김 (dai-nav.js가 .dai-replaced 클래스 추가) */
+.dai-replaced { display: none !important; }
+
+/* ── 글로벌 내비게이션 바 ─────────────────────────────────────────────────── */
+.dai-global-nav {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: rgba(251, 247, 241, 0.96);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid #ddd4c6;
+  height: 54px;
+  box-sizing: border-box;
+}
+
+.dai-nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* 브랜드 */
+.dai-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.dai-nav-badge {
+  font-size: 14px;
+  font-weight: 800;
+  color: #155d4b;
+  letter-spacing: -0.3px;
+}
+.dai-nav-sep {
+  font-size: 12px;
+  color: #b0a89a;
+  font-weight: 400;
+}
+.dai-nav-site {
+  font-size: 12px;
+  color: #5f6870;
+  font-weight: 500;
+}
+
+/* 섹션 링크 (데스크톱) */
+.dai-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  justify-content: center;
+}
+.dai-nav-links a {
+  display: inline-block;
+  padding: 5px 11px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #5f6870;
+  text-decoration: none;
+  transition: background 0.14s, color 0.14s;
+  white-space: nowrap;
+}
+.dai-nav-links a:hover {
+  background: rgba(21, 93, 75, 0.07);
+  color: #155d4b;
+}
+/* 현재 섹션 강조 — 섹션별 컬러 */
+.dai-nav-links a[data-section="fundamentals"][aria-current="section"] {
+  color: #155d4b;
+  background: rgba(21, 93, 75, 0.1);
+}
+.dai-nav-links a[data-section="prompts"][aria-current="section"] {
+  color: #1e4080;
+  background: rgba(30, 64, 128, 0.1);
+}
+.dai-nav-links a[data-section="cases"][aria-current="section"] {
+  color: #4c2a8a;
+  background: rgba(76, 42, 138, 0.1);
+}
+.dai-nav-links a[data-section="tools"][aria-current="section"] {
+  color: #7c2d12;
+  background: rgba(124, 45, 18, 0.1);
+}
+
+/* 우측 영역 */
+.dai-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* ── 햄버거 버튼 ──────────────────────────────────────────────────────────── */
+.dai-hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 38px;
+  height: 38px;
+  background: transparent;
+  border: 1px solid #ddd4c6;
+  border-radius: 9px;
+  cursor: pointer;
+  padding: 9px 8px;
+  flex-shrink: 0;
+  transition: background 0.14s, border-color 0.14s;
+}
+.dai-hamburger:hover {
+  background: rgba(21, 93, 75, 0.07);
+  border-color: #c5bdb0;
+}
+.dai-hamburger span {
+  display: block;
+  height: 1.8px;
+  background: #1d2328;
+  border-radius: 2px;
+  transform-origin: center;
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.18s ease,
+              width 0.18s ease;
+}
+/* X 변환 (열림 상태) */
+.dai-hamburger[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(6.8px) rotate(45deg);
+}
+.dai-hamburger[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.dai-hamburger[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-6.8px) rotate(-45deg);
+}
+
+/* ── 오버레이 ─────────────────────────────────────────────────────────────── */
+.dai-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(29, 35, 40, 0.4);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  z-index: 290;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.26s ease;
+}
+.dai-overlay--visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ── 드로어 (사이트맵 패널) ──────────────────────────────────────────────── */
+.dai-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 296px;
+  max-width: 90vw;
+  height: 100dvh;
+  height: 100vh; /* fallback */
+  background: #fffdf9;
+  border-left: 1px solid #ddd4c6;
+  box-shadow: -6px 0 36px rgba(29, 35, 40, 0.13);
+  z-index: 300;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  transform: translateX(100%);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+}
+.dai-drawer--open {
+  transform: translateX(0);
+}
+
+/* 드로어 헤더 */
+.dai-drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid #ece6dd;
+  position: sticky;
+  top: 0;
+  background: #fffdf9;
+  z-index: 1;
+  flex-shrink: 0;
+}
+.dai-drawer-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #5f6870;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.dai-drawer-close {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f2ebe2;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  color: #5f6870;
+  transition: background 0.14s, color 0.14s;
+}
+.dai-drawer-close:hover {
+  background: #e6ddd2;
+  color: #1d2328;
+}
+
+/* 허브 링크 */
+.dai-drawer-hub {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 18px;
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #155d4b;
+  background: rgba(21, 93, 75, 0.05);
+  border-bottom: 1px solid #ece6dd;
+  transition: background 0.14s;
+}
+.dai-drawer-hub:hover {
+  background: rgba(21, 93, 75, 0.1);
+}
+.dai-drawer-hub-icon { font-size: 15px; }
+
+/* 드로어 본문 */
+.dai-drawer-body {
+  flex: 1;
+  padding: 6px 0 28px;
+}
+
+/* 섹션 그룹 */
+.dai-drawer-section { margin-bottom: 2px; }
+
+.dai-drawer-section-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px 5px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.dai-drawer-section-icon { font-size: 13px; }
+
+/* 섹션별 컬러 */
+[data-section="fundamentals"] .dai-drawer-section-head { color: #155d4b; }
+[data-section="prompts"]      .dai-drawer-section-head { color: #1e4080; }
+[data-section="cases"]        .dai-drawer-section-head { color: #4c2a8a; }
+[data-section="tools"]        .dai-drawer-section-head { color: #7c2d12; }
+
+/* 아티클 링크 목록 */
+.dai-drawer-links {
+  list-style: none;
+  margin: 0;
+  padding: 0 10px;
+}
+.dai-drawer-links a {
+  display: block;
+  padding: 6px 10px;
+  border-radius: 7px;
+  font-size: 13px;
+  color: #3a454a;
+  text-decoration: none;
+  line-height: 1.45;
+  transition: background 0.12s, color 0.12s;
+}
+.dai-drawer-links a:hover {
+  background: rgba(29, 35, 40, 0.05);
+  color: #1d2328;
+}
+/* 현재 페이지 강조 */
+[data-section="fundamentals"] .dai-drawer-links a[aria-current="page"] {
+  font-weight: 700;
+  background: rgba(21, 93, 75, 0.1);
+  color: #155d4b;
+}
+[data-section="prompts"] .dai-drawer-links a[aria-current="page"] {
+  font-weight: 700;
+  background: rgba(30, 64, 128, 0.1);
+  color: #1e4080;
+}
+[data-section="cases"] .dai-drawer-links a[aria-current="page"] {
+  font-weight: 700;
+  background: rgba(76, 42, 138, 0.1);
+  color: #4c2a8a;
+}
+[data-section="tools"] .dai-drawer-links a[aria-current="page"] {
+  font-weight: 700;
+  background: rgba(124, 45, 18, 0.1);
+  color: #7c2d12;
+}
+
+/* 섹션 구분선 */
+.dai-drawer-divider {
+  height: 1px;
+  background: #ece6dd;
+  margin: 6px 18px;
+}
+
+/* ── 반응형 ───────────────────────────────────────────────────────────────── */
+@media (max-width: 680px) {
+  .dai-nav-links { display: none; }
+  .dai-nav-site, .dai-nav-sep { display: none; }
+}
+
+/* ── 모션 감소 선호 ───────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .dai-drawer,
+  .dai-overlay,
+  .dai-hamburger span {
+    transition: none !important;
+  }
+}
