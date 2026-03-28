@@ -113,6 +113,7 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
         { label: 'Public env', detail: 'PUBLIC_SUPABASE_URL / PUBLIC_SUPABASE_ANON_KEY를 먼저 설정해야 합니다.', variant: 'failed' },
       ]);
     } else {
+      let supabase = null;
       let _sessionEmail = null;
       let _sessionUserId = null;
       document.addEventListener('admin:session-ready', ({ detail }) => {
@@ -120,15 +121,6 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
         _sessionEmail = detail.email;
         _sessionUserId = detail.userId;
       });
-
-      let _sessionEmail = null;
-      let _sessionUserId = null;
-      document.addEventListener('admin:session-ready', ({ detail }) => {
-        _sessionEmail = detail.email;
-        _sessionUserId = detail.userId;
-      });
-
-      let supabase = null;
 
       const loadBootstrapState = async () => {
         const checks = [
