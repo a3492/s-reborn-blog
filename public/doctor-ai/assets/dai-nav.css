@@ -32,7 +32,6 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  text-decoration: none;
   flex-shrink: 0;
 }
 .dai-nav-badge {
@@ -40,17 +39,25 @@
   font-weight: 800;
   color: #155d4b;
   letter-spacing: -0.3px;
+  text-decoration: none;
+  transition: opacity 0.14s;
 }
+.dai-nav-badge:hover { opacity: 0.75; }
 .dai-nav-sep {
   font-size: 12px;
   color: #b0a89a;
   font-weight: 400;
+  pointer-events: none;
+  user-select: none;
 }
 .dai-nav-site {
   font-size: 12px;
   color: #5f6870;
   font-weight: 500;
+  text-decoration: none;
+  transition: color 0.14s;
 }
+.dai-nav-site:hover { color: #1d2328; }
 
 /* 섹션 링크 (데스크톱) */
 .dai-nav-links {
