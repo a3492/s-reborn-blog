@@ -341,12 +341,11 @@ body {
 .f-title {
   font-family: var(--display);
   font-size: clamp(1.8rem, 3vw, 2.6rem);
-  line-height: 1.14;
+  line-height: 1.18;
   color: var(--text);
   margin-bottom: 0.6rem;
   letter-spacing: -0.03em;
   font-weight: 700;
-  max-width: 12ch;
 }
 
 .f-title em {
@@ -504,6 +503,12 @@ body {
   color: var(--text);
   margin-bottom: 0.34rem;
   font-weight: 600;
+}
+
+.side-title-sub,
+.card-title-sub {
+  color: var(--t2);
+  font-weight: 400;
 }
 
 .side-exc {

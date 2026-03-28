@@ -46,14 +46,21 @@ const latestUpdate = allPosts[0]?.data.date;
 					<span class="side-head-label">더 읽어보기</span>
 					<a href="/blog" class="side-head-link">아카이브</a>
 				</div>
-				{sidePosts.map((post) => (
-					<a href={`/blog/${post.id}/`} class="side-post">
-						{post.data.category && <span class="side-cat">{post.data.category}</span>}
-						<h2 class="side-title">{post.data.title}</h2>
-						<p class="side-exc">{post.data.description}</p>
-						<span class="side-date"><FormattedDate date={post.data.date} /></span>
-					</a>
-				))}
+				{sidePosts.map((post) => {
+					const [titleMain, ...titleRest] = post.data.title.split(' — ');
+					const titleSub = titleRest.length ? '— ' + titleRest.join(' — ') : null;
+					return (
+						<a href={`/blog/${post.id}/`} class="side-post">
+							{post.data.category && <span class="side-cat">{post.data.category}</span>}
+							<h2 class="side-title">
+								{titleMain}
+								{titleSub && <><br /><span class="side-title-sub">{titleSub}</span></>}
+							</h2>
+							<p class="side-exc">{post.data.description}</p>
+							<span class="side-date"><FormattedDate date={post.data.date} /></span>
+						</a>
+					);
+				})}
 			</aside>
 		</div>
 
@@ -92,19 +99,26 @@ const latestUpdate = allPosts[0]?.data.date;
 	{gridPosts.length > 0 && (
 		<div class="grid-wrap">
 			<div class="post-grid" id="post-grid">
-				{gridPosts.map((post) => (
-					<a class="post-card" href={`/blog/${post.id}/`} data-cat={post.data.category ?? ''}>
-						<div class="card-head">
-							{post.data.category && <span class="card-cat">{post.data.category}</span>}
-						</div>
-						<h3 class="card-title">{post.data.title}</h3>
-						<p class="card-exc">{post.data.description}</p>
-						<div class="card-foot">
-							<time class="card-date"><FormattedDate date={post.data.date} /></time>
-							<span class="card-link">자세히 보기</span>
-						</div>
-					</a>
-				))}
+				{gridPosts.map((post) => {
+					const [cMain, ...cRest] = post.data.title.split(' — ');
+					const cSub = cRest.length ? '— ' + cRest.join(' — ') : null;
+					return (
+						<a class="post-card" href={`/blog/${post.id}/`} data-cat={post.data.category ?? ''}>
+							<div class="card-head">
+								{post.data.category && <span class="card-cat">{post.data.category}</span>}
+							</div>
+							<h3 class="card-title">
+								{cMain}
+								{cSub && <><br /><span class="card-title-sub">{cSub}</span></>}
+							</h3>
+							<p class="card-exc">{post.data.description}</p>
+							<div class="card-foot">
+								<time class="card-date"><FormattedDate date={post.data.date} /></time>
+								<span class="card-link">자세히 보기</span>
+							</div>
+						</a>
+					);
+				})}
 			</div>
 		</div>
 	)}
