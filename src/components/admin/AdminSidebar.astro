@@ -37,7 +37,12 @@ const sections: NavSection[] = [
 ];
 ---
 
-<aside class="admin-sidebar">
+<button class="admin-sidebar-toggle" data-admin-sidebar-toggle aria-label="메뉴 열기/닫기">
+  <span></span><span></span><span></span>
+</button>
+<div class="admin-sidebar-backdrop" data-admin-sidebar-backdrop></div>
+
+<aside class="admin-sidebar" data-admin-sidebar>
   <a href="/admin" class="admin-brand">
     <span class="admin-brand-kicker">Admin</span>
     <span class="admin-brand-title">S-Reborn World</span>
@@ -74,3 +79,31 @@ const sections: NavSection[] = [
     </p>
   </div>
 </aside>
+
+<script>
+  const toggle = document.querySelector('[data-admin-sidebar-toggle]');
+  const sidebar = document.querySelector('[data-admin-sidebar]');
+  const backdrop = document.querySelector('[data-admin-sidebar-backdrop]');
+  const body = document.body;
+
+  const open = () => {
+    body.classList.add('sidebar-open');
+    toggle?.setAttribute('aria-expanded', 'true');
+  };
+  const close = () => {
+    body.classList.remove('sidebar-open');
+    toggle?.setAttribute('aria-expanded', 'false');
+  };
+
+  toggle?.addEventListener('click', () => {
+    body.classList.contains('sidebar-open') ? close() : open();
+  });
+  backdrop?.addEventListener('click', close);
+
+  // 네비게이션 링크 클릭 시 닫기 (모바일)
+  sidebar?.querySelectorAll('.admin-nav-link').forEach((link) => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 1080) close();
+    });
+  });
+</script>

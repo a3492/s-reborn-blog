@@ -636,13 +636,82 @@ body.admin-shell {
   flex-wrap: wrap;
 }
 
+/* ── 사이드바 토글 버튼 ── */
+.admin-sidebar-toggle {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 200;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  background: var(--admin-surface);
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+}
+
+.admin-sidebar-toggle span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--admin-text);
+  border-radius: 2px;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+body.sidebar-open .admin-sidebar-toggle span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+body.sidebar-open .admin-sidebar-toggle span:nth-child(2) {
+  opacity: 0;
+}
+body.sidebar-open .admin-sidebar-toggle span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* 백드롭 */
+.admin-sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: rgba(28, 25, 23, 0.4);
+  backdrop-filter: blur(2px);
+}
+
+body.sidebar-open .admin-sidebar-backdrop {
+  display: block;
+}
+
 @media (max-width: 1080px) {
   .admin-app { grid-template-columns: 1fr; }
+  .admin-sidebar-toggle { display: flex; }
+
   .admin-sidebar {
-    position: static;
-    height: auto;
-    border-right: none;
-    border-bottom: 1px solid var(--admin-border);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    height: 100vh;
+    width: 280px;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    border-right: 1px solid var(--admin-border);
+    overflow-y: auto;
+  }
+
+  body.sidebar-open .admin-sidebar {
+    transform: translateX(0);
+  }
+
+  .admin-main {
+    padding-top: 4rem;
   }
   .span-12,
   .span-8,
@@ -659,7 +728,7 @@ body.admin-shell {
 }
 
 @media (max-width: 720px) {
-  .admin-main { padding: 1rem 0.9rem 1.4rem; }
+  .admin-main { padding: 4rem 0.9rem 1.4rem; }
   .admin-topbar {
     flex-direction: column;
     align-items: flex-start;
