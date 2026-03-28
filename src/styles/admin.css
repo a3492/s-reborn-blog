@@ -539,8 +539,15 @@ body.admin-shell {
   border-radius: 12px;
 }
 
+.admin-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 .admin-table {
   width: 100%;
+  min-width: 600px;
   border-collapse: collapse;
 }
 
@@ -612,7 +619,7 @@ body.admin-shell {
 
 .admin-split {
   display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(320px, 0.7fr);
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
   gap: 1rem;
 }
 
@@ -663,6 +670,8 @@ body.admin-shell {
   }
   .admin-form-grid { grid-template-columns: 1fr; }
   .admin-list-row { grid-template-columns: 1fr; }
+  .admin-detail-grid { grid-template-columns: 1fr; }
+  .admin-detail-card-wide { grid-column: 1; }
 }
 
 [hidden] {
