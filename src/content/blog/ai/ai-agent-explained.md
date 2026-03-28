@@ -168,10 +168,10 @@ AI ─── MCP ─── EMR
 | 완전 자율 진료 보조 | 불가 | 10년+ |
 
 ## 관련 글
-- [[fine-tuning-vs-rag|파인튜닝 vs RAG — 의료 AI를 맞춤화하는 두 가지 방법]]
-- [[what-is-rag|RAG란 무엇인가 — 외부 지식을 LLM에 연결하는 법]]
-- [[ai-hallucination-why-llm-lies|AI 환각 — LLM은 왜 거짓말을 하는가]]
-- [[ai-in-clinic-real-use-cases|진료실에서 AI를 쓰는 7가지 방법]]
+- [파인튜닝 vs RAG — 의료 AI를 맞춤화하는 두 가지 방법](/blog/ai/fine-tuning-vs-rag/)
+- [RAG란 무엇인가 — 외부 지식을 LLM에 연결하는 법](/blog/ai/what-is-rag/)
+- [AI 환각 — LLM은 왜 거짓말을 하는가](/blog/ai/ai-hallucination-why-llm-lies/)
+- [진료실에서 AI를 쓰는 7가지 방법](/blog/ai/ai-in-clinic-real-use-cases/)
 
 ---
 *© S-Reborn clinic | s-reborn-blog.pages.dev*

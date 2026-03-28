@@ -122,8 +122,8 @@ AI도 마찬가지다. 막연한 질문에는 막연한 답을, 구조화된 질
 | 레지던트 교육 | 시나리오 기반 교육 |
 
 ## 관련 글
-- [[what-is-token-llm|토큰이란 무엇인가 — LLM의 언어 단위 이해하기]]
-- [[llm-context-window-explained|LLM의 컨텍스트 윈도우, 의사처럼 이해하기]]
+- [토큰이란 무엇인가 — LLM의 언어 단위 이해하기](/blog/ai/what-is-token-llm/)
+- [LLM의 컨텍스트 윈도우, 의사처럼 이해하기](/blog/ai/llm-context-window-explained/)
 - RAG란 무엇인가 — 외부 지식을 LLM에 연결하는 법
 
 ---

@@ -94,7 +94,7 @@ OpenAI의 [Tokenizer 도구](https://platform.openai.com/tokenizer)에 접속하
 | 토큰 확인 | OpenAI Tokenizer에서 사전 테스트 |
 
 ## 관련 글
-- [[llm-context-window-explained|LLM의 컨텍스트 윈도우, 의사처럼 이해하기]]
+- [LLM의 컨텍스트 윈도우, 의사처럼 이해하기](/blog/ai/llm-context-window-explained/)
 - 프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드
 - RAG란 무엇인가 — 외부 지식을 LLM에 연결하는 법
 

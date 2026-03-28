@@ -129,7 +129,7 @@ response = openai.chat.completions.create(
 
 **1. "Temperature 0이면 무조건 정확하다"**
 
-아니다. Temperature 0은 "가장 확률이 높은 답"을 선택할 뿐이다. 학습 데이터가 틀리면 Temperature 0이어도 틀린다. [[ai-hallucination-why-llm-lies|환각]]은 Temperature와 무관하게 발생한다.
+아니다. Temperature 0은 "가장 확률이 높은 답"을 선택할 뿐이다. 학습 데이터가 틀리면 Temperature 0이어도 틀린다. [환각](/blog/ai/ai-hallucination-why-llm-lies/)은 Temperature와 무관하게 발생한다.
 
 **2. "Temperature를 높이면 더 똑똑해진다"**
 
@@ -157,10 +157,10 @@ response = openai.chat.completions.create(
 | 아이디어 발굴 | 0.9~1.0 | "다양하게 5가지 제안해 줘" 프롬프트 |
 
 ## 관련 글
-- [[what-is-token-llm|토큰이란 무엇인가 — LLM의 언어 단위 이해하기]]
-- [[llm-context-window-explained|LLM의 컨텍스트 윈도우, 의사처럼 이해하기]]
-- [[ai-hallucination-why-llm-lies|AI 환각 — LLM은 왜 거짓말을 하는가]]
-- [[prompt-engineering-for-doctors|프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드]]
+- [토큰이란 무엇인가 — LLM의 언어 단위 이해하기](/blog/ai/what-is-token-llm/)
+- [LLM의 컨텍스트 윈도우, 의사처럼 이해하기](/blog/ai/llm-context-window-explained/)
+- [AI 환각 — LLM은 왜 거짓말을 하는가](/blog/ai/ai-hallucination-why-llm-lies/)
+- [프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드](/blog/ai/prompt-engineering-for-doctors/)
 
 ---
 *© S-Reborn clinic | s-reborn-blog.pages.dev*

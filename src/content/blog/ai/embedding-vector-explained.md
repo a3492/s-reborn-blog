@@ -101,7 +101,7 @@ King - Man + Woman ≈ Queen
 
 **2. RAG의 핵심 기술**
 
-[[what-is-rag|RAG]]에서 "관련 문서를 검색"하는 단계가 바로 임베딩 유사도 검색이다.
+[RAG](/blog/ai/what-is-rag/)에서 "관련 문서를 검색"하는 단계가 바로 임베딩 유사도 검색이다.
 
 ```
 질문: "메트포르민 부작용은?"
@@ -150,9 +150,9 @@ King - Man + Woman ≈ Queen
 | 환자 유사도 분석 | 커스텀 개발 필요 | 어려움 |
 
 ## 관련 글
-- [[what-is-rag|RAG란 무엇인가 — 외부 지식을 LLM에 연결하는 법]]
-- [[what-is-token-llm|토큰이란 무엇인가 — LLM의 언어 단위 이해하기]]
-- [[fine-tuning-vs-rag|파인튜닝 vs RAG — 의료 AI를 맞춤화하는 두 가지 방법]]
+- [RAG란 무엇인가 — 외부 지식을 LLM에 연결하는 법](/blog/ai/what-is-rag/)
+- [토큰이란 무엇인가 — LLM의 언어 단위 이해하기](/blog/ai/what-is-token-llm/)
+- [파인튜닝 vs RAG — 의료 AI를 맞춤화하는 두 가지 방법](/blog/ai/fine-tuning-vs-rag/)
 
 ---
 *© S-Reborn clinic | s-reborn-blog.pages.dev*
