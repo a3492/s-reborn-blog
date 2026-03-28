@@ -148,6 +148,8 @@ HBsAg(-), Anti-HCV(-)
 - [AI 환각 — LLM은 왜 거짓말을 하는가](/blog/ai/ai-hallucination-why-llm-lies/)
 - [RAG란 무엇인가 — 외부 지식을 LLM에 연결하는 법](/blog/ai/what-is-rag/)
 - [파인튜닝 vs RAG — 의료 AI를 맞춤화하는 두 가지 방법](/blog/ai/fine-tuning-vs-rag/)
+- [AI는 의사의 번아웃을 줄일 수 있는가](/blog/ai/ai-and-doctor-burnout/)
+- [Doctor AI — Cases 시리즈: 실제 케이스로 배우는 AI 활용](/doctor-ai/cases/home.html)
 
 ---
 *© S-Reborn clinic | s-reborn-blog.pages.dev*

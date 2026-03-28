@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>전문과목별 의료 AI 도구 — 영상·병리·심전도·피부과 | Tools — S-Reborn</title>
+  <script type="application/json" id="frontmatter">
+  {
+    "content_id": "tools-005",
+    "title": "전문과목별 의료 AI 도구 — 영상·병리·심전도·피부과",
+    "slug": "medical-ai-tools-specialty",
+    "series": "AI 툴 리뷰·비교",
+    "series_order": 5,
+    "status": "published",
+    "updated_at": "2026-04-04"
+  }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #fbf7f1;
+      --ink: #1d2328;
+      --muted: #5f6870;
+      --brand: #155d4b;
+      --line: #ddd4c6;
+      --card: #fffdf9;
+      --accent: #bf5f2f;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at left top, #f3ead8 0, transparent 20%),
+        linear-gradient(180deg, #fbf7f1 0%, #f4ede2 100%);
+      color: var(--ink);
+      font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+      min-height: 100vh;
+    }
+
+    /* Top Nav */
+    .topnav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,253,249,0.85);
+      backdrop-filter: blur(6px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .topnav a {
+      text-decoration: none;
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .topnav .site-name { color: var(--brand); }
+    .topnav .nav-right { font-size: 14px; color: var(--muted); font-weight: 500; }
+    .topnav .nav-right a { color: var(--muted); font-weight: 500; }
+    .topnav .nav-right a:hover { color: var(--brand); }
+
+    /* Page */
+    .page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 56px 20px 88px;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .breadcrumb a { color: var(--muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--brand); }
+    .breadcrumb span { color: #b0a89a; }
+
+    /* Series Progress */
+    .series-progress {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 32px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 18px;
+      overflow-x: auto;
+      flex-wrap: nowrap;
+    }
+    .series-progress a,
+    .series-progress span {
+      font-size: 13px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 8px;
+      white-space: nowrap;
+      text-decoration: none;
+      color: var(--muted);
+    }
+    .series-progress a:hover { color: var(--brand); background: #e9f2ee; }
+    .series-progress .sp-on {
+      background: #155d4b;
+      color: #fff;
+      border-radius: 8px;
+    }
+    .series-progress .sp-sep {
+      color: #c4b9ac;
+      padding: 0 4px;
+      font-size: 13px;
+    }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, #451a03 0%, #7c2d12 55%, #D97706 100%);
+      border-radius: 22px;
+      box-shadow: 0 12px 34px rgba(29,35,40,0.12);
+      padding: 40px 36px;
+      margin-bottom: 0;
+      color: #fff;
+    }
+    .hero .label {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.18);
+      color: #fde68a;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .hero h1 {
+      font-size: 36px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 14px;
+      color: #fff;
+    }
+    .hero .lead {
+      font-size: 16px;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.82);
+      margin-bottom: 22px;
+    }
+    .hero-meta {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: rgba(255,255,255,0.65);
+      border-top: 1px solid rgba(255,255,255,0.2);
+      padding-top: 16px;
+    }
+    .hero-meta span b { color: #fde68a; font-weight: 600; }
+
+    /* Box */
+    .box {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: 0 12px 34px rgba(29,35,40,0.06);
+      margin-top: 20px;
+      padding: 28px;
+    }
+
+    h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+
+    h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 20px 0 10px;
+    }
+    h3:first-child { margin-top: 0; }
+
+    p {
+      margin: 0 0 14px;
+      line-height: 1.75;
+      font-size: 15px;
+      color: var(--ink);
+    }
+    p:last-child { margin-bottom: 0; }
+
+    ul, ol {
+      padding-left: 22px;
+      margin: 0 0 14px;
+    }
+    li {
+      margin-bottom: 10px;
+      line-height: 1.7;
+      font-size: 15px;
+    }
+    li:last-child { margin-bottom: 0; }
+
+    /* Takeaway */
+    .takeaway {
+      background: #eef4ef;
+      border: 1px solid #d6e3da;
+      border-radius: 18px;
+      padding: 18px 20px;
+      margin-top: 20px;
+      font-size: 15px;
+      line-height: 1.7;
+      color: #1a3d2e;
+    }
+    .takeaway strong { font-weight: 700; }
+
+    /* Warn */
+    .warn {
+      border-left: 4px solid var(--accent);
+      background: #fbf1ea;
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-top: 16px;
+      font-size: 14px;
+      line-height: 1.7;
+      color: #5c2e10;
+    }
+
+    /* Info */
+    .info {
+      border-left: 4px solid #2563eb;
+      background: #eff6ff;
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-top: 16px;
+      font-size: 14px;
+      line-height: 1.7;
+      color: #1e3a5f;
+    }
+
+    /* Table */
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 4px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    th, td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: middle;
+    }
+    th {
+      background: #f0ebe2;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    tr:last-child td { border-bottom: none; }
+    td:first-child { font-weight: 500; color: var(--ink); }
+    td:not(:first-child) { color: var(--muted); }
+
+    /* Specialty grid — 2×2 layout for 4 specialty cards */
+    .specialty-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 8px;
+    }
+    @media (max-width: 640px) {
+      .specialty-grid { grid-template-columns: 1fr; }
+    }
+    .specialty-card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px 18px;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .specialty-card .sc-icon {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+    .specialty-card .sc-field {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 4px;
+    }
+    .specialty-card .sc-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+    .specialty-card .sc-tools {
+      font-size: 13px;
+      font-weight: 600;
+      color: #92400e;
+      margin-bottom: 6px;
+    }
+    .specialty-card .sc-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 10px;
+    }
+    .specialty-card .sc-limit {
+      font-size: 12px;
+      color: #bf5f2f;
+      line-height: 1.6;
+      padding: 8px 10px;
+      background: #fbf1ea;
+      border-radius: 8px;
+      border-left: 3px solid #bf5f2f;
+    }
+
+    /* Checklist items */
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+      margin: 0 0 14px;
+    }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist .cl-num {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #fef3c7;
+      color: #92400e;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+    }
+    .checklist .cl-text strong {
+      display: block;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+    .checklist .cl-text span {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* Series Nav */
+    .series-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+    .nav-duo {
+      display: flex;
+      gap: 8px;
+    }
+    .nav-block {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--line);
+      background: var(--card);
+      color: var(--ink);
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .nav-block:hover { background: #f0ebe2; border-color: #c4b9ac; }
+    .nav-block.home { color: var(--brand); border-color: #d6e3da; background: #eef4ef; }
+    .nav-block.home:hover { background: #dff0e5; }
+    .nav-block.disabled {
+      color: #aaa;
+      background: #f7f4f0;
+      border-color: #e8e2d8;
+      cursor: default;
+      pointer-events: none;
+    }
+    .nav-label {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--muted);
+      display: block;
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+
+    a { color: var(--brand); }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      padding: 32px 20px 0;
+      border-top: 1px solid var(--line);
+      margin-top: 60px;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 26px; }
+    }
+  </style>
+  <link rel="stylesheet" href="/doctor-ai/assets/dai-nav.css" />
+  <script src="/doctor-ai/assets/dai-nav.js" defer></script>
+</head>
+<body>
+
+  <!-- Top Nav -->
+  <nav class="topnav">
+    <a href="../../../index.html" class="site-name">S-Reborn</a>
+    <div class="nav-right">
+      <a href="../index.html">Doctor AI 홈</a>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <a href="../../../index.html">홈</a>
+      <span>›</span>
+      <a href="../index.html">Doctor AI</a>
+      <span>›</span>
+      <a href="./home.html">Tools</a>
+      <span>›</span>
+      <span>5편</span>
+    </div>
+
+    <!-- Series Progress -->
+    <div class="series-progress">
+      <a href="./home.html">소개</a>
+      <span class="sp-sep">·</span>
+      <a href="./01-chatgpt-vs-claude.html">1편</a>
+      <span class="sp-sep">·</span>
+      <a href="./02-gemini-medical-search.html">2편</a>
+      <span class="sp-sep">·</span>
+      <a href="./03-korean-ai-tools.html">3편</a>
+      <span class="sp-sep">·</span>
+      <a href="./04-ai-security-checklist.html">4편</a>
+      <span class="sp-sep">·</span>
+      <span class="sp-on">5편</span>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero">
+      <span class="label">AI 툴 리뷰·비교 · 5편</span>
+      <h1>전문과목별 의료 AI 도구</h1>
+      <p class="lead">
+        영상의학, 병리, 심전도, 피부과 — 범용 AI가 할 수 없는 영역에서 실제로 쓰이는 전문 AI 도구들을 분야별로 정리합니다.
+      </p>
+      <div class="hero-meta">
+        <span><b>대상</b> 전공의, 전문의, 개원의</span>
+        <span><b>난이도</b> 입문–중급</span>
+        <span><b>주제</b> 영상AI, 병리AI, 심전도AI, 피부과AI</span>
+      </div>
+    </section>
+
+    <!-- Takeaway -->
+    <div class="takeaway">
+      <strong>핵심 요약:</strong> ChatGPT나 Gemini 같은 범용 AI는 텍스트 처리에 특화된 반면, 전문 의료 AI는 X-ray·슬라이드·ECG 파형·피부 사진 등 비정형 임상 데이터를 직접 분석하도록 설계됐다. 각 도구의 허가 범위와 한계를 이해하고 1차 스크리닝 보조 도구로 활용하는 것이 현실적인 접근이다.
+    </div>
+
+    <!-- Box 1: 범용 AI vs 전문 AI -->
+    <div class="box">
+      <h2>범용 AI와 전문과목 AI — 무엇이 다른가</h2>
+      <p>
+        ChatGPT, Claude, Gemini 같은 범용 AI는 자연어 텍스트를 처리하는 데 매우 뛰어납니다. 진료 기록 요약, 환자 교육 자료 작성, 논문 검색 보조 등은 범용 AI만으로도 충분합니다. 그러나 흉부 X-ray에서 미세 결절을 찾거나, 디지털 병리 슬라이드에서 암세포 비율을 정량화하거나, 심전도 파형에서 부정맥을 자동 감지하는 일은 범용 AI의 영역이 아닙니다.
+      </p>
+      <p>
+        전문과목 AI는 특정 모달리티(영상, 조직 슬라이드, ECG, 피부 사진)에 특화된 딥러닝 모델로 구성됩니다. 수십만 건 이상의 임상 데이터로 훈련됐고, 식약처·FDA 등 규제 기관의 허가를 받은 제품도 있습니다. 핵심 차이는 다음과 같습니다.
+      </p>
+      <ul>
+        <li><strong>입력 데이터의 종류:</strong> 범용 AI는 텍스트(또는 이미지 설명). 전문 AI는 DICOM 영상, WSI(Whole Slide Image), ECG 원시 파형, 표준화된 피부 사진 등을 직접 입력받습니다.</li>
+        <li><strong>출력의 정밀도:</strong> 전문 AI는 병변 위치 좌표, 분류 신뢰도, 정량 수치(종양 점수, HER2 발현율 등)를 제공합니다. 범용 AI는 일반적 설명 텍스트를 생성합니다.</li>
+        <li><strong>규제 지위:</strong> 임상 판단을 보조하는 전문 AI는 의료기기로 분류되어 허가가 필요합니다. 범용 AI는 일반 소프트웨어로 취급되며 임상 의사결정 도구가 아닙니다.</li>
+        <li><strong>EMR 연동:</strong> 전문 AI는 RIS, LIS, 심전도 장비 등 병원 시스템과 직접 연동되도록 설계된 경우가 많습니다.</li>
+      </ul>
+      <div class="info">
+        <strong>실무 관점:</strong> 범용 AI로 "이 흉부 X-ray 소견을 분석해줘"라고 물어보는 것과, Lunit INSIGHT처럼 훈련된 전문 AI가 DICOM 파일을 직접 분석하는 것은 목적과 신뢰도 면에서 근본적으로 다릅니다. 두 도구를 혼동하지 않는 것이 중요합니다.
+      </div>
+    </div>
+
+    <!-- Box 2: 4개 전문 영역 -->
+    <div class="box">
+      <h2>전문 영역별 대표 AI 도구</h2>
+      <p>영상의학, 병리, 심전도, 피부과 — 4개 분야에서 현재 실제로 사용되거나 임상 근거가 축적된 AI 도구를 정리했습니다.</p>
+
+      <div class="specialty-grid">
+
+        <!-- 영상의학 -->
+        <div class="specialty-card">
+          <div class="sc-icon">🩻</div>
+          <div class="sc-field">영상의학 AI</div>
+          <div class="sc-title">흉부 X-ray 및 CT 이상 소견 감지</div>
+          <div class="sc-tools">Lunit INSIGHT · Aidoc</div>
+          <div class="sc-desc">
+            <strong>Lunit INSIGHT CXR</strong>은 국내 기업 루닛이 개발한 흉부 X-ray 분석 AI로, 결절·경화·흉수 등 주요 이상 소견을 자동 감지합니다. 현재 국내외 다수 병원에 도입돼 있으며, 식약처 및 CE 인증을 획득했습니다. 야간이나 응급 상황에서 1차 스크리닝 보조로 활용되어 의사가 놓칠 수 있는 소견을 알림 형태로 플래깅합니다.
+            <br /><br />
+            <strong>Aidoc</strong>은 CT 영상에서 뇌졸중, 폐색전증, 경추 골절 등 응급 소견을 감지해 즉각 알림을 제공하는 플랫폼입니다. FDA 허가를 취득하고 미국 대형 병원 시스템에 공급되고 있습니다.
+          </div>
+          <div class="sc-limit">한계: 허가 범위 외 적응증에 적용 금지. 최종 판독은 반드시 영상의학과 전문의가 수행해야 합니다.</div>
+        </div>
+
+        <!-- 병리 AI -->
+        <div class="specialty-card">
+          <div class="sc-icon">🔬</div>
+          <div class="sc-field">병리 AI</div>
+          <div class="sc-title">디지털 슬라이드 분석 및 예후 예측</div>
+          <div class="sc-tools">Paige.AI · Lunit SCOPE</div>
+          <div class="sc-desc">
+            <strong>Paige.AI</strong>는 전립선암 조직 슬라이드에서 암 존재 여부를 분류하는 AI로, FDA 승인을 받은 최초의 디지털 병리 AI 중 하나입니다. 대량 슬라이드 사전 스크리닝에서 병리의사의 업무 부하를 줄이는 데 활용됩니다.
+            <br /><br />
+            <strong>Lunit SCOPE IO</strong>는 종양 조직 내 면역세포 분포와 종양 미세환경을 정량화해 면역항암제 반응 예측을 보조합니다. 현재 PD-L1 발현 정량화 등 실제 항암 치료 의사결정 보조에 활용 사례가 축적되고 있습니다.
+          </div>
+          <div class="sc-limit">한계: 대부분 특정 암종(전립선암, 폐암 등)에 한정. 범용 병리 분석 AI는 아직 개발 중 단계가 많습니다.</div>
+        </div>
+
+        <!-- 심전도 AI -->
+        <div class="specialty-card">
+          <div class="sc-icon">💓</div>
+          <div class="sc-field">심전도 AI</div>
+          <div class="sc-title">심방세동 스크리닝 및 부정맥 감지</div>
+          <div class="sc-tools">AliveCor/KardiaMobile · Apple Watch ECG · Cardiologs · GE MUSE AI</div>
+          <div class="sc-desc">
+            <strong>AliveCor KardiaMobile</strong>은 스마트폰에 연결하는 웨어러블 ECG 기기로, FDA 허가를 받아 심방세동·서맥·빈맥 등을 자동 분류합니다. 외래·검진 현장에서 심방세동 스크리닝 도구로 폭넓게 쓰입니다.
+            <br /><br />
+            <strong>Apple Watch ECG</strong>는 심방세동을 감지하는 단일유도 ECG 기능으로, FDA·CE 인증 및 식약처 허가를 받았습니다. 환자 자가 모니터링용으로 유용하며, 증상 발생 시 즉각 기록이 가능합니다.
+            <br /><br />
+            병원급에서는 <strong>Cardiologs</strong>(다발성 부정맥 분류)와 <strong>GE MUSE AI</strong>(표준 12유도 ECG 자동 판독) 등이 심전도실 통합 솔루션으로 도입됩니다.
+          </div>
+          <div class="sc-limit">한계: 위양성 비율이 있어 모든 양성 결과는 전문의 확인 필수. 단일유도 장치는 12유도 ECG를 대체하지 않습니다.</div>
+        </div>
+
+        <!-- 피부과 AI -->
+        <div class="specialty-card">
+          <div class="sc-icon">🔍</div>
+          <div class="sc-field">피부과 AI</div>
+          <div class="sc-title">피부 병변 분류 및 위험 병변 조기 감지</div>
+          <div class="sc-tools">DermAI · Lunit 피부 모델</div>
+          <div class="sc-desc">
+            스마트폰 기반 피부 병변 분류 AI는 흑색종, 기저세포암, 지루성 각화증 등 다수 병변을 이미지만으로 분류합니다. <strong>DermAI</strong>와 같은 플랫폼은 1차 진료 현장에서 위험 병변을 조기에 피부과로 의뢰하는 데 활용됩니다. 루닛도 자사 기술을 피부 모달리티로 확장 중입니다.
+            <br /><br />
+            실용적인 활용 시나리오는 1차 의료기관에서 육안으로 판단이 어려운 색소성 병변에 AI를 보조로 활용하고, 의심 소견 시 피부과 전문의에게 신속 의뢰하는 흐름입니다.
+          </div>
+          <div class="sc-limit">한계: 조명·카메라 해상도에 크게 의존. 색소성 병변(특히 어두운 피부톤)에서 오류율 주의. 반드시 임상 판단과 병행해야 합니다.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Box 3: 비교 표 -->
+    <div class="box">
+      <h2>4개 분야 전문 AI — 현황 비교</h2>
+      <p>국내 도입 현황, 규제 상태, 임상 신뢰도, 가격 접근성을 기준으로 정리했습니다.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>분야</th>
+              <th>국내 도입 현황</th>
+              <th>규제 상태</th>
+              <th>임상 신뢰도</th>
+              <th>가격 접근성</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>영상의학 AI</td>
+              <td>상급종합병원·종합병원 다수 도입 (Lunit INSIGHT 등)</td>
+              <td>식약처·CE·FDA 허가 제품 다수</td>
+              <td>높음 — 다수 임상 연구 발표</td>
+              <td>병원 단위 계약. 개인 사용 어려움</td>
+            </tr>
+            <tr>
+              <td>병리 AI</td>
+              <td>일부 대형 병원 파일럿. 전면 도입은 초기 단계</td>
+              <td>FDA 허가 일부 (Paige.AI 등). 국내 식약처 허가 확산 중</td>
+              <td>중-높음 — 특정 암종에서 검증</td>
+              <td>병원·연구기관 중심. 개인 접근 어려움</td>
+            </tr>
+            <tr>
+              <td>심전도 AI</td>
+              <td>Apple Watch·KardiaMobile은 개인 레벨에서 이미 보급. 병원급 Cardiologs·GE 도입 증가</td>
+              <td>FDA·식약처·CE 허가 제품 다수</td>
+              <td>높음 — 심방세동 감지 근거 풍부</td>
+              <td>웨어러블 기기는 소비자 구매 가능. 병원급은 장비 비용 발생</td>
+            </tr>
+            <tr>
+              <td>피부과 AI</td>
+              <td>일부 1차 의료기관 및 피부과 클리닉 도입. 앱 기반 서비스 존재</td>
+              <td>국내 허가 제품 제한적. 식약처 허가 취득 중</td>
+              <td>중간 — 색소성 병변 제한, 지속적 임상 검증 필요</td>
+              <td>앱 기반 서비스는 상대적으로 접근 용이</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="info">
+        허가 현황은 제품마다 다르며 빠르게 변화합니다. 실제 도입 전에는 반드시 해당 제품의 최신 허가 범위를 식약처 의료기기 전자민원창구(UDIKOREA) 또는 제조사 공식 자료에서 직접 확인하십시오.
+      </div>
+    </div>
+
+    <!-- Box 4: 전문 AI 도입 체크포인트 -->
+    <div class="box">
+      <h2>전문 AI 도입 시 확인해야 할 체크포인트</h2>
+      <p>
+        전문 의료 AI를 임상 현장에 실제로 도입하거나 추천할 때, 반드시 검토해야 할 항목들을 정리했습니다. 단순히 AI가 "잘 작동한다"는 것만으로는 부족합니다.
+      </p>
+      <ul class="checklist">
+        <li>
+          <span class="cl-num">1</span>
+          <span class="cl-text">
+            <strong>식약처·FDA 허가 범위 확인</strong>
+            <span>해당 AI가 어떤 질환·적응증·영상 모달리티에 대해 허가를 받았는지 반드시 확인합니다. 허가 범위 밖의 용도로 사용할 경우 법적·의료적 책임이 발생할 수 있습니다.</span>
+          </span>
+        </li>
+        <li>
+          <span class="cl-num">2</span>
+          <span class="cl-text">
+            <strong>EMR·RIS·LIS 연동 가능 여부</strong>
+            <span>병원 시스템(전자의무기록, 영상 저장·전송 시스템, 검사실 정보 시스템)과 원활하게 연동되는지 확인합니다. 연동 없이는 워크플로우에 통합하기 어렵습니다.</span>
+          </span>
+        </li>
+        <li>
+          <span class="cl-num">3</span>
+          <span class="cl-text">
+            <strong>사용자 교육 및 운영 프로토콜</strong>
+            <span>AI 도구를 제대로 활용하려면 사용법 교육, 양성 결과 대응 프로토콜, 위양성·위음성 발생 시 처리 절차가 사전에 마련돼 있어야 합니다.</span>
+          </span>
+        </li>
+        <li>
+          <span class="cl-num">4</span>
+          <span class="cl-text">
+            <strong>임상 책임 소재 명확화</strong>
+            <span>AI는 의사의 판단을 보조하는 도구입니다. AI가 이상 소견을 놓쳤거나 잘못 분류했을 경우의 책임은 최종 판독을 수행한 의사에게 있습니다. 이 원칙을 팀 전체가 공유해야 합니다.</span>
+          </span>
+        </li>
+        <li>
+          <span class="cl-num">5</span>
+          <span class="cl-text">
+            <strong>성능 지표 해석 능력</strong>
+            <span>민감도(sensitivity), 특이도(specificity), AUC, 양성 예측도(PPV) 등 제품 허가 자료에 제시된 성능 지표를 올바르게 해석할 수 있어야 합니다. 특히 유병률이 낮은 상황에서 PPV가 크게 낮아질 수 있음을 유의하십시오.</span>
+          </span>
+        </li>
+        <li>
+          <span class="cl-num">6</span>
+          <span class="cl-text">
+            <strong>개인정보 및 데이터 보안</strong>
+            <span>환자 영상 및 데이터가 외부 클라우드로 전송될 경우 개인정보 보호법, 의료법, HIPAA(해외 도구의 경우) 준수 여부를 반드시 확인합니다. 온프레미스 솔루션과 클라우드 솔루션의 보안 정책 차이를 비교하십시오.</span>
+          </span>
+        </li>
+      </ul>
+      <div class="warn">
+        AI 도구의 높은 성능 수치는 훈련 데이터와 테스트 환경에서의 결과입니다. 실제 병원의 촬영 장비, 환자 인구 구성, 운영 환경에서는 성능이 다를 수 있습니다. 도입 전 자체 파일럿 평가를 권장합니다.
+      </div>
+    </div>
+
+    <!-- Box 5: 실전 활용 전략 -->
+    <div class="box">
+      <h2>실전 활용 전략 — 전문의·전공의를 위한 가이드</h2>
+      <p>
+        전문 AI를 임상에서 활용할 때 가장 중요한 원칙은 <strong>"AI는 1차 스크리닝 보조 도구"</strong>라는 관점을 유지하는 것입니다. 과신도, 과소평가도 모두 위험합니다.
+      </p>
+
+      <h3>영상의학·병리 분야 활용 팁</h3>
+      <p>
+        Lunit INSIGHT나 Paige.AI가 양성 플래그를 달았다고 해서 즉시 진단을 내리면 안 됩니다. AI가 표시한 부위를 집중적으로 검토하되, AI가 놓친 다른 부위도 표준 판독 방식대로 확인합니다. 반대로 AI가 이상 없다고 표시했을 때도 임상 맥락과 다른 소견이 있다면 주의 깊게 재검토해야 합니다.
+      </p>
+
+      <h3>심전도 AI — 외래·검진 활용</h3>
+      <p>
+        Apple Watch나 KardiaMobile의 심방세동 감지 기능은 외래 환자의 증상 발생 시 즉각 기록에 유용합니다. 다만 단일유도 ECG는 표준 12유도 검사를 대체하지 않습니다. "AI가 심방세동이라고 했어요"라고 환자가 가져온 결과는 12유도 ECG 및 임상 평가로 반드시 확인하십시오.
+      </p>
+
+      <h3>피부과 AI — 1차 의료 활용</h3>
+      <p>
+        1차 의료기관에서 의심 병변에 AI를 적용하면 조기 의뢰율을 높이는 데 도움이 됩니다. 단, 스마트폰 카메라로 촬영 조건이 일정하지 않거나 어두운 피부톤 환자의 경우 오류율이 높아질 수 있으므로, 임상 판단을 함께 적용해야 합니다.
+      </p>
+
+      <div class="takeaway" style="margin-top: 16px;">
+        <strong>공통 원칙:</strong> 전문 AI는 판단의 출발점이 되어서는 안 됩니다. 의사의 임상 판단 흐름 안에서 특정 단계의 부담을 줄이는 보조 도구로 위치시키고, 최종 결정은 항상 사람이 내려야 합니다.
+      </div>
+    </div>
+
+    <!-- Series Nav -->
+    <div class="series-nav">
+      <div class="nav-duo">
+        <a href="./04-ai-security-checklist.html" class="nav-block">
+          <span>
+            <span class="nav-label">이전</span>
+            ← 4편 · AI 보안·개인정보 체크리스트
+          </span>
+        </a>
+      </div>
+      <a href="./home.html" class="nav-block home">목록으로</a>
+      <div class="nav-duo">
+        <span class="nav-block disabled">
+          <span>
+            <span class="nav-label">다음</span>
+            다음 편 준비 중
+          </span>
+        </span>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    © 2026 S-Reborn · Doctor AI Series
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>수술·시술 동의서 초안 생성 프롬프트 | Prompts — S-Reborn</title>
+  <script type="application/json" class="frontmatter">
+  {
+    "content_id": "prompts-005",
+    "title": "수술·시술 동의서 초안 생성 프롬프트",
+    "slug": "consent-form-prompts",
+    "series": "실전 프롬프트 모음집",
+    "series_order": 5,
+    "status": "published",
+    "updated_at": "2026-04-02"
+  }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #fbf7f1;
+      --ink: #1d2328;
+      --muted: #5f6870;
+      --brand: #155d4b;
+      --line: #ddd4c6;
+      --card: #fffdf9;
+      --accent: #bf5f2f;
+    }
+
+    body {
+      font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+      background:
+        radial-gradient(circle at left top, #f3ead8 0, transparent 20%),
+        linear-gradient(180deg, #fbf7f1 0%, #f4ede2 100%);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* ── Topnav ── */
+    .topnav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 56px;
+      background: var(--card);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .topnav-brand {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--brand);
+      text-decoration: none;
+      letter-spacing: -0.3px;
+    }
+    .topnav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .topnav-links a {
+      font-size: 14px;
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+    .topnav-links a:hover { color: var(--brand); }
+
+    /* ── Breadcrumb ── */
+    .breadcrumb {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 14px 24px 0;
+      font-size: 13px;
+      color: var(--muted);
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .breadcrumb a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .breadcrumb a:hover { color: var(--brand); }
+    .breadcrumb .sep { opacity: 0.5; }
+    .breadcrumb .current { color: var(--ink); font-weight: 500; }
+
+    /* ── Main ── */
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 24px 100px;
+    }
+
+    /* ── Series progress ── */
+    .series-progress {
+      display: flex;
+      gap: 6px;
+      padding: 12px 16px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .sp-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-right: 4px;
+      letter-spacing: 0.2px;
+    }
+    .sp-step {
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      text-decoration: none;
+      transition: background 0.12s, color 0.12s;
+      white-space: nowrap;
+    }
+    .sp-step:not(.on):not([href="#"]):hover {
+      background: #e9f2ee;
+      color: var(--brand);
+    }
+    .sp-step.on {
+      background: var(--brand);
+      color: #fff;
+      border-color: var(--brand);
+      font-weight: 700;
+    }
+    .sp-step[href="#"] {
+      cursor: default;
+      opacity: 0.6;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      border-radius: 22px;
+      overflow: hidden;
+      margin-top: 24px;
+      box-shadow: 0 16px 48px rgba(29,35,40,0.18);
+    }
+    .hero-inner {
+      background: linear-gradient(135deg, #1a3050 0%, #1e4080 55%, #2563EB 100%);
+      padding: 48px 52px 44px;
+    }
+    .label {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.9);
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 18px;
+      letter-spacing: 0.3px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .hero h1 {
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -0.5px;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+    .hero-lead {
+      font-size: 16px;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.8);
+      max-width: 560px;
+      margin-bottom: 0;
+    }
+    .hero-meta {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding: 20px 52px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-top: none;
+      border-radius: 0 0 22px 22px;
+    }
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .meta-key {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .meta-val {
+      font-size: 13px;
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    /* ── Takeaway ── */
+    .takeaway {
+      background: #eef4ef;
+      border: 1px solid #d6e3da;
+      border-radius: 18px;
+      padding: 18px 20px;
+      margin-top: 32px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--brand);
+      line-height: 1.6;
+    }
+    .takeaway::before {
+      content: "핵심 요약  ";
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      opacity: 0.65;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    /* ── Box ── */
+    .box {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: 0 12px 34px rgba(29,35,40,0.06);
+      padding: 32px 36px;
+      margin-top: 28px;
+    }
+    .box h2 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      color: var(--ink);
+    }
+    .box p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 18px;
+    }
+    .box h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 24px 0 8px;
+    }
+
+    /* ── Benefit list ── */
+    .benefit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+    .benefit-card {
+      background: #f0f4ff;
+      border: 1px solid #b8c4e0;
+      border-radius: 14px;
+      padding: 16px 18px;
+    }
+    .benefit-card .bc-icon {
+      font-size: 22px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .benefit-card .bc-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1e3a6e;
+      margin-bottom: 4px;
+    }
+    .benefit-card .bc-desc {
+      font-size: 13px;
+      color: #4a5878;
+      line-height: 1.5;
+    }
+
+    /* ── Prompt wrap + copy ── */
+    .prompt-wrap {
+      position: relative;
+      margin-top: 12px;
+    }
+    .prompt {
+      background: #f0f4ff;
+      border-radius: 16px;
+      padding: 18px 80px 18px 18px;
+      border: 1px solid #b8c4e0;
+      white-space: pre-wrap;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: var(--ink);
+    }
+    .copy-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 5px 12px;
+      border-radius: 8px;
+      background: #fff;
+      border: 1px solid var(--line);
+      font-size: 12px;
+      cursor: pointer;
+      color: var(--brand);
+      font-weight: 700;
+      font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+      transition: background 0.12s, color 0.12s;
+    }
+    .copy-btn:hover { background: #e9f2ee; }
+    .copy-btn.copied {
+      background: var(--brand);
+      color: #fff;
+      border-color: var(--brand);
+    }
+
+    /* ── AI output example ── */
+    .ai-output {
+      background: #f8f9fb;
+      border: 1px solid #d0d8e8;
+      border-left: 4px solid #2563EB;
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-top: 14px;
+      font-size: 13.5px;
+      color: #2d3748;
+      line-height: 1.7;
+    }
+    .ai-output-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #2563EB;
+      display: block;
+      margin-bottom: 8px;
+      opacity: 0.8;
+    }
+
+    /* ── Tip ── */
+    .tip {
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      padding-left: 14px;
+      border-left: 3px solid var(--line);
+    }
+    .tip strong { color: var(--brand); font-weight: 700; }
+
+    /* ── Warn ── */
+    .warn {
+      border-left: 4px solid var(--accent);
+      background: #fbf1ea;
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-top: 16px;
+      font-size: 14px;
+      color: var(--ink);
+      line-height: 1.65;
+    }
+    .warn strong { color: var(--accent); }
+
+    /* ── Legal warning box ── */
+    .legal-warn {
+      border: 2px solid #bf5f2f;
+      background: #fff8f4;
+      border-radius: 18px;
+      padding: 20px 24px;
+      margin-top: 28px;
+    }
+    .legal-warn-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: 0.3px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .legal-warn p {
+      font-size: 14px;
+      color: var(--ink);
+      line-height: 1.7;
+      margin-bottom: 0;
+    }
+
+    /* ── Principles list ── */
+    .principles {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 6px;
+    }
+    .principles li {
+      font-size: 15px;
+      color: var(--ink);
+      line-height: 1.65;
+      padding-left: 20px;
+      position: relative;
+    }
+    .principles li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--brand);
+      font-size: 13px;
+      top: 2px;
+    }
+    .principles li strong { color: var(--brand); font-weight: 700; }
+
+    /* ── Check list ── */
+    .checklist {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .checklist li {
+      font-size: 15px;
+      color: var(--ink);
+      line-height: 1.65;
+      padding-left: 26px;
+      position: relative;
+    }
+    .checklist li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #2563EB;
+      font-weight: 700;
+      font-size: 14px;
+      top: 1px;
+    }
+    .checklist li strong { color: var(--ink); font-weight: 700; }
+
+    /* ── Nav duo ── */
+    .nav-duo {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 10px;
+      margin-top: 24px;
+    }
+    .nav-block {
+      padding: 14px 18px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      text-decoration: none;
+      color: var(--ink);
+      transition: box-shadow 0.15s, transform 0.15s;
+    }
+    .nav-block:hover {
+      box-shadow: 0 8px 24px rgba(29,35,40,0.08);
+      transform: translateY(-2px);
+    }
+    .nav-block.nav-prev { text-align: left; }
+    .nav-block.nav-next { text-align: right; }
+    .nav-block.nav-home {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: var(--brand);
+    }
+    .nav-block.nav-placeholder {
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .nav-dir {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .nav-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.4;
+    }
+
+    /* ── Footer ── */
+    .sitefoot {
+      text-align: center;
+      padding: 40px 24px;
+      font-size: 13px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      margin-top: 60px;
+    }
+  </style>
+  <link rel="stylesheet" href="/doctor-ai/assets/dai-nav.css" />
+  <script src="/doctor-ai/assets/dai-nav.js" defer></script>
+</head>
+<body>
+
+  <!-- Topnav -->
+  <nav class="topnav">
+    <a href="../../index.html" class="topnav-brand">S-Reborn</a>
+    <div class="topnav-links">
+      <a href="../index.html">Doctor AI 홈</a>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="../../index.html">홈</a>
+    <span class="sep">›</span>
+    <a href="../index.html">Doctor AI</a>
+    <span class="sep">›</span>
+    <a href="./home.html">Prompts</a>
+    <span class="sep">›</span>
+    <span class="current">5편</span>
+  </div>
+
+  <main>
+
+    <!-- Series Progress -->
+    <div class="series-progress">
+      <span class="sp-label">시리즈</span>
+      <a href="./home.html" class="sp-step">소개</a>
+      <a href="./01-clinical-prompts-intro.html" class="sp-step">1편</a>
+      <a href="./02-medical-record-prompts.html" class="sp-step">2편</a>
+      <a href="./03-patient-explanation-prompts.html" class="sp-step">3편</a>
+      <a href="./04-differential-diagnosis-prompts.html" class="sp-step">4편</a>
+      <a href="#" class="sp-step on">5편</a>
+    </div>
+
+    <!-- Hero -->
+    <article class="hero">
+      <div class="hero-inner">
+        <span class="label">실전 프롬프트 모음집 · 5편</span>
+        <h1>수술·시술 동의서 초안 생성 프롬프트</h1>
+        <p class="hero-lead">매 케이스마다 비슷하면서도 개인화가 필요한 동의서, AI로 초안을 빠르게 뽑고 의사가 검토·수정하는 4가지 프롬프트 템플릿입니다.</p>
+      </div>
+      <div class="hero-meta">
+        <div class="meta-item">
+          <span class="meta-key">대상</span>
+          <span class="meta-val">외과, 내과, 개원의</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-key">난이도</span>
+          <span class="meta-val">입문 ~ 중급</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-key">주제</span>
+          <span class="meta-val">동의서, 설명 의무, 시술</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Takeaway -->
+    <div class="takeaway">
+      AI는 동의서의 구조와 문장을 빠르게 완성해 주지만, 환자 서명 전 의사가 직접 내용을 확인·수정하고 구두로 설명하는 과정은 반드시 유지해야 합니다.
+    </div>
+
+    <!-- 섹션 1: 동의서 작성의 현실 -->
+    <div class="box">
+      <h2>동의서 작성의 현실 — 비슷하지만 매번 새롭다</h2>
+      <p>수술 또는 시술 동의서는 케이스마다 기본 구조가 같습니다. 시술명, 목적, 방법, 합병증, 대안, 서명란. 그런데 실제로는 환자마다 나이·기저 질환·복용 약물이 달라지고, 술기의 범위나 마취 방법도 달라집니다. 결국 "비슷한 내용을 매번 조금씩 다르게" 작성하는 반복 작업이 되어 버립니다.</p>
+
+      <div class="benefit-grid">
+        <div class="benefit-card">
+          <span class="bc-icon">📄</span>
+          <div class="bc-title">반복 구조</div>
+          <div class="bc-desc">80%의 내용은 같은 시술이면 동일합니다. AI가 이 틀을 빠르게 채워줍니다.</div>
+        </div>
+        <div class="benefit-card">
+          <span class="bc-icon">⚡</span>
+          <div class="bc-title">시간 부족</div>
+          <div class="bc-desc">수술 전날 또는 당일 아침, 여러 건의 동의서를 동시에 준비해야 하는 상황이 많습니다.</div>
+        </div>
+        <div class="benefit-card">
+          <span class="bc-icon">🎯</span>
+          <div class="bc-title">개인화 필요</div>
+          <div class="bc-desc">환자의 특이 상황(항응고제 복용, 당뇨, 고령 등)에 맞는 합병증 강조가 필요합니다.</div>
+        </div>
+      </div>
+
+      <p style="margin-top: 20px;">AI는 바로 이 '반복 구조 + 빠른 초안'에서 효과를 발휘합니다. 초안을 5분 안에 받고, 의사는 환자 특이 사항을 추가하거나 표현을 다듬는 데 집중할 수 있습니다.</p>
+    </div>
+
+    <!-- 섹션 2: 사용 원칙 -->
+    <div class="box">
+      <h2>AI 동의서 프롬프트 사용 원칙</h2>
+      <p>AI 동의서 초안을 안전하게 활용하기 위한 세 가지 원칙입니다. 이 원칙을 지키면 효율과 안전을 동시에 확보할 수 있습니다.</p>
+
+      <ul class="principles">
+        <li>
+          <strong>초안 → 의사 검토·수정:</strong> AI가 생성한 초안은 출발점입니다. 합병증 목록의 누락 여부, 수치(빈도, 발생률) 정확성, 환자 이름·날짜 공란 여부를 반드시 확인합니다. AI가 제시한 합병증 발생률은 반드시 최신 문헌 또는 기관 기준으로 대조해야 합니다.
+        </li>
+        <li>
+          <strong>구두 설명은 의사가 직접:</strong> 동의서는 문서 서명만으로 완성되지 않습니다. 의료법상 의사는 환자에게 직접 수술 방법, 예상 합병증, 대안 치료를 설명할 의무가 있습니다. AI가 초안을 준비하더라도 설명 의무(informed consent)는 의사에게 있습니다.
+        </li>
+        <li>
+          <strong>법적 서명은 반드시 의사:</strong> 완성된 동의서에 서명하는 주체는 담당 의사입니다. AI가 생성한 초안을 그대로 프린트해 환자 서명만 받는 행위는 법적 위험이 있습니다. 의사의 검토·수정·서명이 법적 효력의 전제입니다.
+        </li>
+      </ul>
+    </div>
+
+    <!-- 프롬프트 1: 복강경 담낭절제술 -->
+    <div class="box">
+      <h2>프롬프트 1 · 복강경 담낭절제술 동의서 초안</h2>
+      <p>복강경 담낭절제술(laparoscopic cholecystectomy)은 외과에서 가장 빈번한 술기 중 하나입니다. 합병증 목록이 길고 개복 전환 가능성에 대한 설명이 중요한 케이스입니다.</p>
+
+      <div class="prompt-wrap">
+        <pre class="prompt">역할: 당신은 외과 전문의 수준의 임상 문서 작성 보조 AI입니다. 의학적으로 정확하고 환자가 이해할 수 있는 동의서 초안을 작성합니다.
+
+아래 정보를 바탕으로 복강경 담낭절제술 수술 동의서 초안을 작성해 주세요.
+
+[환자 정보 — 실제 사용 시 채워 넣기]
+- 나이/성별: {예: 52세 여성}
+- 주 진단명: 담석증 (담낭담석 + 만성 담낭염)
+- 특이 병력: {예: 고혈압, 아스피린 복용 중 → 술 전 중단 확인}
+- 마취 방법: 전신마취
+
+[동의서 출력 형식]
+
+== 수술 동의서 ==
+
+수술명: 복강경 담낭절제술 (Laparoscopic Cholecystectomy)
+집도의: [담당 의사 직접 기입]
+예정일: [날짜 공란]
+
+1. 수술 목적
+   - 2~3문장으로 담석증의 증상과 수술 필요성 설명
+
+2. 수술 방법
+   - 복강경 접근법, 포트 삽입, 담낭 절제 과정을 환자 언어로 3~4문장 설명
+   - 개복 전환 가능성 및 조건 포함
+
+3. 예상 합병증 (빈도 순)
+   - 경미한 합병증 (발생률 포함, 5가지 이상)
+   - 중대한 합병증 (담관 손상, 출혈, 장기 손상 등, 3가지 이상)
+   - 마취 관련 합병증 (별도 항목)
+
+4. 대안 치료
+   - 수술을 하지 않을 경우 경과, 약물 치료 한계
+
+5. 회복 및 주의사항
+   - 입원 기간, 식이 제한, 활동 제한
+
+6. 환자 확인 사항
+   □ 위 내용을 의사로부터 직접 설명 들었습니다.
+   □ 질문할 기회를 충분히 가졌습니다.
+   □ 자발적으로 동의합니다.
+
+   환자 서명: ________________  날짜: ________
+   보호자 서명 (해당 시): ________________
+   담당 의사 서명: ________________
+
+작성 규칙:
+- 합병증 발생률은 [확인 필요 — 문헌 대조]로 표시
+- 환자 이름, 등록번호는 공란으로 유지
+- 의학 용어는 괄호 안에 한글 설명 병기
+- 마지막에 "⚠ 의사 검토 필요 항목:" 별도 나열</pre>
+        <button class="copy-btn" onclick="copyPrompt(this)">복사</button>
+      </div>
+
+      <div class="ai-output">
+        <span class="ai-output-label">AI 출력 예시 (일부)</span>
+        3. 예상 합병증<br>
+        &nbsp;&nbsp;[경미한 합병증] 수술 부위 통증 및 불편감 (대부분의 환자), 복강 내 가스로 인한 어깨 통증 (30~40% [확인 필요 — 문헌 대조]), 구역·구토 (10~20%), 상처 부위 멍 또는 부종, 일시적 발열 (수술 후 1~2일)<br>
+        &nbsp;&nbsp;[중대한 합병증] 담관 손상 (Bile duct injury, 0.3~0.6% [확인 필요 — 문헌 대조]) — 담즙 누출 또는 협착 가능, 수술 중 출혈로 수혈 또는 개복 전환 필요 가능성, 복강 내 장기(소장, 대장, 혈관) 손상 (드물지만 발생 시 추가 수술 필요)
+      </div>
+
+      <p class="tip"><strong>Tip.</strong> "특이 병력"에 항응고제 복용, 당뇨, 고령(70세 이상)을 입력하면 AI가 관련 합병증을 강조해서 기술합니다. 처음에는 빈칸으로 두고 결과를 확인한 뒤 추가하세요.</p>
+    </div>
+
+    <!-- 프롬프트 2: 위내시경 + 용종절제술 -->
+    <div class="box">
+      <h2>프롬프트 2 · 위내시경 + 용종절제술 동의서 초안</h2>
+      <p>위내시경 단독 동의서와 달리, 용종절제술(polypectomy)이 추가되면 출혈 및 천공 합병증 설명이 강화되어야 합니다. 외래에서 당일 시행하는 경우가 많아 설명이 간결하고 명확해야 합니다.</p>
+
+      <div class="prompt-wrap">
+        <pre class="prompt">역할: 당신은 소화기내과 전문의 수준의 임상 문서 작성 보조 AI입니다.
+
+아래 정보를 바탕으로 위내시경 및 위용종절제술 시술 동의서 초안을 작성해 주세요.
+
+[시술 정보]
+- 시술명: 위내시경 + 위용종절제술 (EGD + Gastric polypectomy)
+- 시술 방법: 외래 당일 시술, 진정(수면) 내시경
+- 용종 크기/위치: {예: 위체부 0.8cm 용종, 내시경 소견상 선종 의심}
+- 환자 특이사항: {예: 항혈소판제 복용 중 → 사전 중단 여부 확인 필요}
+
+[동의서 출력 형식]
+
+== 시술 동의서 ==
+
+시술명: 위내시경 및 위용종절제술
+시술 의사: [직접 기입]
+예정일: [공란]
+
+1. 시술 목적
+   - 용종 발견 경위, 조직 검사 및 절제 필요성 (2문장)
+
+2. 시술 방법
+   - 진정 내시경 과정, 용종 발견 시 절제 방법(올가미, 고주파 등) 설명 (3문장)
+   - 조직 병리 검사 의뢰 절차 포함
+
+3. 예상 합병증
+   - 내시경 관련: 인후부 불편감, 복부 팽만, 진정제 부작용
+   - 용종절제 관련: 출혈 (즉시 또는 지연성), 위벽 천공
+   - 각 합병증 발생률은 [확인 필요 — 문헌 대조] 표시
+
+4. 시술 전 주의사항
+   - 금식 시간, 항혈소판제/항응고제 중단 기간
+   - 보호자 동반 필요 여부
+
+5. 시술 후 주의사항
+   - 식이 제한, 활동 제한, 재출혈 증상 발생 시 응급실 방문 기준
+
+6. 환자 서명란
+   □ 위 설명을 충분히 이해하였습니다.
+   환자 서명: ________________  날짜: ________
+   담당 의사 서명: ________________
+
+⚠ 의사 검토 필요 항목: 별도 나열</pre>
+        <button class="copy-btn" onclick="copyPrompt(this)">복사</button>
+      </div>
+
+      <div class="ai-output">
+        <span class="ai-output-label">AI 출력 예시 (일부)</span>
+        4. 시술 전 주의사항<br>
+        시술 6시간 전부터 금식이 필요하며, 물은 시술 2시간 전까지 소량 허용됩니다. 아스피린, 클로피도그렐 등 항혈소판제를 복용 중인 경우 담당 의사와 상의하여 중단 여부 및 시기를 결정합니다 [확인 필요 — 복용 약물 개별 확인]. 진정(수면) 내시경 후 1~2시간은 판단력 저하가 있을 수 있으므로 보호자 동반이 권장되며, 당일 운전은 삼가야 합니다.
+      </div>
+
+      <p class="tip"><strong>Tip.</strong> 당일 외래 시술이라 설명 시간이 짧을수록 "시술 후 주의사항"의 응급실 방문 기준을 구체적으로 요청하면 좋습니다. AI에게 "재출혈 시 증상과 방문 기준을 환자 언어로"라는 지시를 추가해 보세요.</p>
+    </div>
+
+    <!-- 프롬프트 3: 관상동맥 조영술 -->
+    <div class="box">
+      <h2>프롬프트 3 · 관상동맥 조영술 및 중재술 동의서</h2>
+      <p>관상동맥 조영술(CAG)은 조영술 단독 또는 경피적 관상동맥 중재술(PCI)로 이어질 수 있어, 두 단계에 대한 설명이 동시에 필요합니다. 조영제 부작용과 방사선 피폭에 대한 언급도 포함해야 합니다.</p>
+
+      <div class="prompt-wrap">
+        <pre class="prompt">역할: 당신은 심장내과 전문의 수준의 임상 문서 작성 보조 AI입니다.
+
+아래 정보를 바탕으로 관상동맥 조영술 및 경피적 관상동맥 중재술(PCI) 시술 동의서 초안을 작성해 주세요.
+
+[시술 정보]
+- 1단계: 관상동맥 조영술 (CAG, Coronary Angiography) — 진단 목적
+- 2단계: 병변에 따라 PCI (스텐트 삽입) 동시 시행 가능
+- 접근 경로: 요골동맥 (우선), 불가 시 대퇴동맥 전환
+- 환자 특이사항: {예: 만성 신부전, eGFR 45 → 조영제 신증 위험 높음}
+
+[동의서 출력 형식]
+
+== 시술 동의서 ==
+
+시술명: 관상동맥 조영술 및 경피적 관상동맥 중재술
+시술 의사: [직접 기입]
+예정일: [공란]
+
+1. 시술 목적
+   - 심혈관계 증상(흉통, 호흡곤란 등) 및 관상동맥 협착 평가 목적 설명
+
+2. 시술 단계별 방법
+   2-1. CAG 단계: 조영제 주입, 혈관 촬영, 소요 시간
+   2-2. PCI 단계 (병변 발견 시): 풍선 확장, 스텐트 삽입 설명
+   2-3. 항혈소판제 장기 복용 필요성 언급
+
+3. 예상 합병증
+   - 접근 부위: 출혈, 혈종, 가성동맥류
+   - 조영제 관련: 알레르기 반응, 조영제 신증 (신기능 저하 환자 강조)
+   - 관상동맥 관련: 혈관 박리, 급성 폐색, 심근경색 (드물지만 언급)
+   - 방사선 피폭 (누적 위험 간략 설명)
+   - 각 항목 발생률 [확인 필요 — 문헌 대조]
+
+4. 스텐트 삽입 후 약물 복용 안내
+   - 이중 항혈소판 요법(DAPT) 기간, 임의 중단 금지 이유
+
+5. 대안 치료
+   - 약물 치료만으로의 관리, 외과적 관상동맥우회술 언급
+
+6. 환자 서명란
+   □ 시술의 목적, 방법, 합병증, 대안에 대해 충분한 설명을 들었습니다.
+   환자 서명: ________________  날짜: ________
+   담당 의사 서명: ________________
+
+⚠ 의사 검토 필요 항목: 별도 나열</pre>
+        <button class="copy-btn" onclick="copyPrompt(this)">복사</button>
+      </div>
+
+      <div class="ai-output">
+        <span class="ai-output-label">AI 출력 예시 (일부)</span>
+        4. 스텐트 삽입 후 약물 복용 안내<br>
+        스텐트를 삽입한 경우 혈전 예방을 위해 아스피린과 P2Y12 억제제(클로피도그렐, 티카그렐러 등)를 동시에 복용하는 이중 항혈소판 요법(DAPT)이 필요합니다. 스텐트 종류에 따라 최소 1개월에서 12개월 이상 유지해야 하며, 담당 의사와 상의 없이 임의로 중단할 경우 스텐트 혈전증 위험이 크게 높아집니다 [확인 필요 — 스텐트 종류 및 최신 가이드라인 대조]. 치과 치료, 수술 등으로 일시 중단이 필요한 경우 반드시 사전에 담당 의사에게 문의하십시오.
+      </div>
+
+      <p class="tip"><strong>Tip.</strong> 만성 신부전 등 특이사항을 입력하면 AI가 조영제 신증 위험을 합병증 항목에서 별도로 강조합니다. 환자 특이사항 칸은 반드시 채워 넣을수록 개인화된 초안이 나옵니다.</p>
+    </div>
+
+    <!-- 프롬프트 4: 일반 외래 시술 -->
+    <div class="box">
+      <h2>프롬프트 4 · 일반 외래 시술 동의서 — 짧은 버전</h2>
+      <p>절개 배농(I&amp;D, Incision and Drainage)이나 열상 봉합(laceration repair) 등 외래에서 간단히 처치하는 시술은 간결한 동의서로 충분합니다. 환자 대기 시간이 짧고 처치가 즉각적인 상황에 맞는 짧은 버전입니다.</p>
+
+      <div class="prompt-wrap">
+        <pre class="prompt">역할: 당신은 외래 처치에 익숙한 임상 보조 AI입니다.
+
+아래 시술에 대한 간결한 외래 시술 동의서 초안을 작성해 주세요. 전체 분량은 A4 반 페이지 이내로 유지합니다.
+
+[시술 정보]
+- 시술명: {절개 배농 (I&D) / 열상 봉합 / 피지낭 절제 중 선택}
+- 부위: {예: 좌측 전완부 열상 3cm}
+- 마취: 국소마취
+- 예상 소요 시간: 15~30분
+
+[동의서 출력 형식 — 간결 버전]
+
+== 외래 시술 동의서 ==
+
+시술명: {자동 채움}
+시술 부위: [직접 기입]
+시술 의사: [직접 기입]
+날짜: [공란]
+
+1. 시술 목적 (1~2문장)
+
+2. 시술 방법 (2~3문장, 환자 언어)
+
+3. 예상 합병증 (3~5가지, 발생률 [확인 필요] 표시)
+   - 주요: 감염, 출혈, 흉터
+   - 기타: 마취 부작용, 재발 가능성
+
+4. 시술 후 주의사항 (3가지 이내)
+
+5. 환자 동의
+   위 내용을 설명 들었으며 자발적으로 동의합니다.
+   환자 서명: ________________  날짜: ________
+   담당 의사: ________________
+
+작성 규칙:
+- 문장은 짧고 명확하게
+- 의학 용어 한글 병기
+- 전체 300자 이내 목표</pre>
+        <button class="copy-btn" onclick="copyPrompt(this)">복사</button>
+      </div>
+
+      <div class="ai-output">
+        <span class="ai-output-label">AI 출력 예시 (절개 배농 적용 시)</span>
+        1. 시술 목적<br>
+        피부 아래에 고인 고름(농양)을 제거하여 감염의 확산을 막고 통증을 완화하기 위한 시술입니다.<br><br>
+        2. 시술 방법<br>
+        해당 부위에 국소마취 주사를 놓은 뒤 피부를 소절개(약 0.5~1cm)하여 고름을 배출하고, 필요 시 배액관(drain)을 삽입합니다. 시술 후 소독 드레싱을 적용하며 약 15~20분 소요됩니다.<br><br>
+        3. 예상 합병증<br>
+        상처 감염 또는 농양 재발 (10~15% [확인 필요 — 문헌 대조]), 출혈 및 혈종, 흉터 형성, 마취 주사 부위 불편감.
+      </div>
+
+      <p class="tip"><strong>Tip.</strong> 시술명을 바꾸면 동일한 프롬프트로 피지낭 절제, 봉합사 제거, 주사 치료 동의서에도 응용할 수 있습니다. "시술명"만 바꾸고 나머지는 동일하게 유지하세요.</p>
+    </div>
+
+    <!-- 섹션 4: 반드시 확인할 사항 -->
+    <div class="box">
+      <h2>동의서 완성 전 반드시 확인할 사항</h2>
+      <p>AI가 초안을 작성한 후, 서명 받기 전에 아래 체크리스트를 확인합니다.</p>
+
+      <ul class="checklist">
+        <li>
+          <strong>환자명·날짜 공란 확인:</strong> AI 출력에 환자 이름이나 날짜가 자동으로 들어갔다면 실제 정보로 교체하거나, 공란으로 유지한 뒤 수기 기입합니다. AI가 임의로 채운 날짜·이름이 있는지 반드시 확인하세요.
+        </li>
+        <li>
+          <strong>합병증 발생률 문헌 대조:</strong> AI가 제시한 합병증 발생률은 최신 가이드라인이나 기관 표준 수치와 다를 수 있습니다. "[확인 필요]" 표시가 있는 수치는 반드시 직접 확인하고 수정합니다.
+        </li>
+        <li>
+          <strong>기관 법무팀 또는 표준 양식 확인:</strong> 병원마다 표준 동의서 양식이 있을 수 있습니다. AI 초안을 기관의 공식 양식에 맞춰 내용을 복사·붙여넣기 하거나 양식 자체를 수정해 사용합니다.
+        </li>
+        <li>
+          <strong>설명 의무 충족 확인:</strong> 동의서 문서 서명 이전에 의사가 직접 환자에게 구두로 설명했는지 확인합니다. 설명 시 환자가 이해하지 못한 내용이 있다면 추가 설명이 필요합니다.
+        </li>
+        <li>
+          <strong>의사 서명란 직접 서명:</strong> 동의서 완성 후 담당 의사가 직접 서명합니다. 인쇄 후 서명란을 공란으로 두거나, 다른 사람이 서명하는 것은 허용되지 않습니다.
+        </li>
+      </ul>
+
+      <div class="warn">
+        <strong>주의:</strong> 환자 개인정보(이름, 주민등록번호, 병원 등록번호)는 AI 프롬프트 입력 전 반드시 제거하거나 익명 처리합니다. 외부 AI 서비스에 식별 가능한 환자 정보를 전송하는 행위는 의료법·개인정보보호법 위반이 될 수 있습니다.
+      </div>
+    </div>
+
+    <!-- 법적 고지 -->
+    <div class="legal-warn">
+      <div class="legal-warn-title">
+        <span>⚠</span> 법적 고지 — AI 동의서 초안의 법적 효력
+      </div>
+      <p>AI가 생성한 동의서 초안은 그 자체로 법적 효력이 없습니다. 의료법 제24조의2에 따라 의사는 수술, 수혈, 전신마취 전 환자에게 직접 설명하고 서면 동의를 받아야 할 의무가 있습니다. AI 초안은 이 과정을 보조하는 도구이며, 담당 의사가 내용을 검토·수정하고 환자에게 직접 설명한 뒤 서명을 받는 절차를 완전히 대체하지 않습니다. AI 초안을 검토 없이 그대로 환자에게 제시하거나, 설명 없이 서명만 받는 행위는 설명 의무 위반으로 의료 분쟁의 원인이 될 수 있습니다.</p>
+    </div>
+
+    <!-- Series Nav -->
+    <nav class="nav-duo">
+      <a href="./04-differential-diagnosis-prompts.html" class="nav-block nav-prev">
+        <span class="nav-dir">← 이전</span>
+        <span class="nav-title">4편 · 감별진단 목록 생성 프롬프트</span>
+      </a>
+
+      <a href="./home.html" class="nav-block nav-home" title="Prompts 홈으로">
+        ⌂
+      </a>
+
+      <div class="nav-block nav-placeholder"></div>
+    </nav>
+
+  </main>
+
+  <footer class="sitefoot">
+    © 2026 S-Reborn · Doctor AI Series
+  </footer>
+
+  <script>
+    function copyPrompt(btn) {
+      const wrap = btn.closest('.prompt-wrap');
+      const pre = wrap.querySelector('.prompt');
+      const text = pre.textContent;
+
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = '복사됨!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = '복사';
+          btn.classList.remove('copied');
+        }, 2000);
+      }).catch(() => {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        btn.textContent = '복사됨!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = '복사';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>
