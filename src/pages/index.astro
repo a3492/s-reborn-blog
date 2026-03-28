@@ -34,7 +34,7 @@ const defaultPost = allPosts[0];
 const { main: defaultMain, sub: defaultSub } = defaultPost
 	? splitTitle(defaultPost.data.title)
 	: { main: '', sub: null };
-const defaultBodyPreview = stripMarkdown(defaultPost?.body ?? '').slice(0, 320);
+const defaultBodyPreview = stripMarkdown(defaultPost?.body ?? '').slice(0, 900);
 
 // 클라이언트 랜덤화를 위한 전체 포스트 데이터
 const postsData = allPosts.map((p) => {
@@ -43,7 +43,7 @@ const postsData = allPosts.map((p) => {
 		href: `/blog/${p.id}/`,
 		titleMain: main,
 		titleSub: sub ?? null,
-		bodyPreview: stripMarkdown(p.body ?? '').slice(0, 320),
+		bodyPreview: stripMarkdown(p.body ?? '').slice(0, 900),
 	};
 });
 ---
@@ -51,21 +51,15 @@ const postsData = allPosts.map((p) => {
 <Layout>
 	{allPosts.length > 0 ? (
 		<div class="yt-layout">
-			<!-- 좌측: 메인 히어로 카드 (JS가 랜덤 글로 교체) -->
+			<!-- 좌측: 메인 히어로 카드 (전체 클릭 가능) -->
 			<main class="yt-main">
-				<div class="yt-hero" id="yt-hero">
+				<a class="yt-hero" id="yt-hero" href={`/blog/${defaultPost?.id}/`}>
 					<h1 class="yt-title" id="yt-hero-title">
 						{defaultMain}
 						{defaultSub && <><br /><span class="yt-title-sub">{defaultSub}</span></>}
 					</h1>
-					<div class="yt-body-wrap" id="yt-body-wrap">
-						<p class="yt-body-preview" id="yt-hero-body">{defaultBodyPreview}</p>
-					</div>
-					<button class="yt-body-toggle" id="yt-body-toggle" aria-label="본문 펼치기">︾︾</button>
-					<div class="yt-foot">
-						<a class="yt-arrow-link" id="yt-hero-link" href={`/blog/${defaultPost?.id}/`}>→</a>
-					</div>
-				</div>
+					<p class="yt-body-preview" id="yt-hero-body">{defaultBodyPreview}</p>
+				</a>
 
 				<div class="yt-stats">
 					<span>글 {totalPosts}</span>
@@ -133,6 +127,9 @@ const postsData = allPosts.map((p) => {
 			sidebarPosts.sort(function () { return Math.random() - 0.5; });
 
 			// 히어로 DOM 업데이트
+			var heroEl = document.getElementById('yt-hero');
+			if (heroEl) heroEl.href = hero.href;
+
 			var titleEl = document.getElementById('yt-hero-title');
 			if (titleEl) {
 				titleEl.innerHTML = escapeHtml(hero.titleMain) +
@@ -141,31 +138,16 @@ const postsData = allPosts.map((p) => {
 			var bodyEl = document.getElementById('yt-hero-body');
 			if (bodyEl) bodyEl.textContent = hero.bodyPreview;
 
-			var linkEl = document.getElementById('yt-hero-link');
-			if (linkEl) linkEl.href = hero.href;
-
-			// 사이드바 렌더링 (카테고리·날짜 없음)
+			// 사이드바 렌더링 (전체 행 클릭 가능, 화살표 버튼 없음)
 			var sidebar = document.getElementById('yt-sidebar');
 			if (sidebar) {
 				sidebar.innerHTML = sidebarPosts.map(function (p) {
 					return '<a class="yt-item" href="' + escapeHtml(p.href) + '">' +
 						'<p class="yt-item-title">' + escapeHtml(p.titleMain) +
-						(p.titleSub ? ' <span style="color:var(--t3);font-weight:400">' + escapeHtml(p.titleSub) + '</span>' : '') +
+						(p.titleSub ? ' <span class="yt-item-sub">' + escapeHtml(p.titleSub) + '</span>' : '') +
 						'</p>' +
-						'<div class="yt-item-foot"><span class="yt-item-arrow">→</span></div>' +
 						'</a>';
 				}).join('');
-			}
-
-			// 펼치기/접기 토글
-			var toggle = document.getElementById('yt-body-toggle');
-			var wrap = document.getElementById('yt-body-wrap');
-			if (toggle && wrap) {
-				toggle.addEventListener('click', function () {
-					var expanded = wrap.classList.toggle('expanded');
-					toggle.textContent = expanded ? '︽︽' : '︾︾';
-					toggle.setAttribute('aria-label', expanded ? '본문 접기' : '본문 펼치기');
-				});
 			}
 
 			function escapeHtml(str) {
