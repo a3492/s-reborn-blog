@@ -308,9 +308,7 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
         <div class="admin-change-row">
           <span class="admin-cell-subtle" title="${escapeHtml(summary.failureMessage ?? '')}">${failMsg ? escapeHtml(failMsg) : '실패 없음'}</span>
           <span></span>
-          <div class="admin-actions-inline">
-            ${summary.failureMessage ? '<span class="admin-status failed">!</span><button type="button" class="admin-btn admin-btn-sm" data-admin-history-retry>Retry</button>' : '<span class="admin-status success">✓</span>'}
-          </div>
+          ${summary.failureMessage ? '<span class="admin-status failed">!</span><button type="button" class="admin-btn admin-btn-sm" data-admin-history-retry>Retry</button>' : '<span class="admin-status success">✓</span><span></span>'}
         </div>
       `;
     };

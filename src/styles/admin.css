@@ -1045,10 +1045,10 @@ body.sidebar-open .admin-sidebar-backdrop {
 
 .admin-change-row {
   display: grid;
-  grid-template-columns: 1fr auto auto;
-  gap: 0.5rem;
+  grid-template-columns: 1fr auto auto auto;
+  gap: 0.4rem;
   align-items: center;
-  padding: 0.6rem 0;
+  padding: 0.5rem 0;
   border-top: 1px solid var(--admin-border-2);
   font-size: 0.82rem;
 }

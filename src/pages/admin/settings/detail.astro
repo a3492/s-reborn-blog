@@ -194,12 +194,13 @@ const auditId = Astro.url.searchParams.get('audit') ?? '';
 
       historyList.innerHTML = rows.map((row) => {
         const actor8 = (row.actor_id || '-').slice(0, 8);
-        const dateStr = new Intl.DateTimeFormat('ko-KR', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).format(new Date(row.created_at));
+        const dateStr = new Intl.DateTimeFormat('ko-KR', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(row.created_at));
         return `
           <div class="admin-change-row">
             <span class="admin-cell-subtle" title="${escapeHtml(row.actor_id || '')}">${escapeHtml(actor8)}</span>
             <span class="admin-cell-date admin-cell-subtle">${escapeHtml(dateStr)}</span>
             <button type="button" class="admin-btn admin-btn-sm" data-select-snapshot='${escapeHtml(JSON.stringify(row.after_json?.snapshot || {}))}'>Use</button>
+            <span></span>
           </div>
         `;
       }).join('');

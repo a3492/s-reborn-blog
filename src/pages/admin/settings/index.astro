@@ -294,6 +294,13 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
         return;
       }
 
+      const shortDate = (value) => {
+        if (!value) return '-';
+        return new Intl.DateTimeFormat('ko-KR', {
+          month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false,
+        }).format(new Date(value));
+      };
+
       historyList.innerHTML = data.map((row) => {
         const snapshot = row.after_json?.snapshot || null;
         const keyCount = Array.isArray(row.after_json?.keys) ? row.after_json.keys.length : '?';
@@ -301,11 +308,9 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
         return `
           <div class="admin-change-row">
             <span class="admin-cell-subtle" title="${escapeHtml(row.actor_id || '')}">키 ${keyCount}개 · ${escapeHtml(actor8)}</span>
-            <span class="admin-cell-date admin-cell-subtle">${formatDate(row.created_at)}</span>
-            <div class="admin-actions-inline">
-              <a class="admin-btn admin-btn-sm" href="/admin/settings/detail?audit=${encodeURIComponent(row.id)}">상세</a>
-              ${snapshot ? `<button type="button" class="admin-btn admin-btn-sm" data-settings-restore='${escapeHtml(JSON.stringify(snapshot))}'>복원</button>` : ''}
-            </div>
+            <span class="admin-cell-date admin-cell-subtle">${shortDate(row.created_at)}</span>
+            <a class="admin-btn admin-btn-sm" href="/admin/settings/detail?audit=${encodeURIComponent(row.id)}">상세</a>
+            ${snapshot ? `<button type="button" class="admin-btn admin-btn-sm" data-settings-restore='${escapeHtml(JSON.stringify(snapshot))}'>복원</button>` : '<span></span>'}
           </div>
         `;
       }).join('');
