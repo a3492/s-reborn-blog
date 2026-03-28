@@ -49,6 +49,9 @@ body{margin:0;color:var(--ink);font-family:"Segoe UI","Malgun Gothic",sans-serif
 .mini-card:hover{transform:translateY(-4px);box-shadow:0 22px 48px rgba(31,42,46,.1);border-color:#cdbda9}
 .mini-card-thumb{min-height:120px;padding:22px 26px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden}
 .mini-card-thumb.fundamentals{background:linear-gradient(135deg,#1a3a32 0%,#1d5244 55%,#145b4b 100%)}
+.mini-card-thumb.prompts{background:linear-gradient(135deg,#7c2d12 0%,#9a3412 55%,#c2410c 100%)}
+.mini-card-thumb.cases{background:linear-gradient(135deg,#1e3a5f 0%,#1e40af 55%,#2563eb 100%)}
+.mini-card-thumb.tools{background:linear-gradient(135deg,#3b1f6b 0%,#5b21b6 55%,#7c3aed 100%)}
 .mini-card-thumb.coming{background:linear-gradient(135deg,#404040 0%,#5e5e5e 100%);opacity:.5}
 .mini-card-thumb-deco{position:absolute;top:12px;right:18px;font-size:42px;opacity:.2}
 .mini-card-tag{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;background:rgba(255,255,255,.2);font-size:11px;font-weight:700;letter-spacing:.06em;color:#fff;text-transform:uppercase;margin-bottom:7px;width:fit-content}
@@ -117,8 +120,8 @@ body{margin:0;color:var(--ink);font-family:"Segoe UI","Malgun Gothic",sans-serif
           기술 소개보다 실무 기준과 안전한 활용법을 중심으로 탐구합니다.
         </p>
         <div class="hero-stats">
-          <div class="hstat"><strong>1</strong><span>미니사이트</span></div>
-          <div class="hstat"><strong>6편</strong><span>입문 시리즈</span></div>
+          <div class="hstat"><strong>4</strong><span>미니사이트</span></div>
+          <div class="hstat"><strong>10편+</strong><span>시리즈</span></div>
           <div class="hstat"><strong>AI 리터러시</strong><span>핵심 주제</span></div>
           <div class="hstat"><strong>계속</strong><span>업데이트</span></div>
         </div>
@@ -157,20 +160,62 @@ body{margin:0;color:var(--ink);font-family:"Segoe UI","Malgun Gothic",sans-serif
           </div>
         </a>
 
-        <!-- Coming Soon -->
-        <div class="mini-card" style="opacity:.52;pointer-events:none">
-          <div class="mini-card-thumb coming">
+        <!-- Prompts -->
+        <a class="mini-card" href="/doctor-ai/prompts/home.html">
+          <div class="mini-card-thumb prompts">
             <div class="mini-card-thumb-deco">✍️</div>
-            <div class="mini-coming-badge">Coming Soon</div>
+            <div class="mini-card-tag">실전 모음집</div>
             <h3>Prompts</h3>
           </div>
           <div class="mini-card-body">
-            <p class="mini-card-desc">의료 현장별 프롬프트 모음집. 외래·입원·교육·연구 상황별 실전 프롬프트를 정리할 예정입니다.</p>
+            <p class="mini-card-desc">외래·병동에서 바로 쓰는 의료 현장별 프롬프트 모음집. 상황별 기본 프롬프트·진료기록·환자 설명문·감별진단까지.</p>
             <div class="mini-card-footer">
-              <div class="mini-pills"><span class="mini-pill">준비 중</span></div>
+              <div class="mini-pills">
+                <span class="mini-pill">4편+</span>
+                <span class="mini-pill">실전 즉시 적용</span>
+              </div>
+              <span class="mini-arrow">읽기 →</span>
             </div>
           </div>
-        </div>
+        </a>
+
+        <!-- Cases -->
+        <a class="mini-card" href="/doctor-ai/cases/home.html">
+          <div class="mini-card-thumb cases">
+            <div class="mini-card-thumb-deco">🏥</div>
+            <div class="mini-card-tag">케이스 스터디</div>
+            <h3>Cases</h3>
+          </div>
+          <div class="mini-card-body">
+            <p class="mini-card-desc">실제 외래 케이스로 배우는 AI 활용법. 혈당 조절·흉통 평가·퇴원 지침·다약제 환자 등 임상 장면별 AI 적용 사례.</p>
+            <div class="mini-card-footer">
+              <div class="mini-pills">
+                <span class="mini-pill">4편+</span>
+                <span class="mini-pill">임상 케이스</span>
+              </div>
+              <span class="mini-arrow">읽기 →</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Tools -->
+        <a class="mini-card" href="/doctor-ai/tools/home.html">
+          <div class="mini-card-thumb tools">
+            <div class="mini-card-thumb-deco">🔧</div>
+            <div class="mini-card-tag">툴 리뷰·비교</div>
+            <h3>Tools</h3>
+          </div>
+          <div class="mini-card-body">
+            <p class="mini-card-desc">의료인이 직접 써본 AI 도구 비교. ChatGPT vs Claude·Gemini·국내 AI 현황·보안 체크리스트까지.</p>
+            <div class="mini-card-footer">
+              <div class="mini-pills">
+                <span class="mini-pill">4편+</span>
+                <span class="mini-pill">도구 비교</span>
+              </div>
+              <span class="mini-arrow">읽기 →</span>
+            </div>
+          </div>
+        </a>
 
       </div>
     </section>
@@ -234,28 +279,28 @@ body{margin:0;color:var(--ink);font-family:"Segoe UI","Malgun Gothic",sans-serif
             <span class="roadmap-status status-done">✓ 완성</span>
           </li>
           <li class="roadmap-item">
-            <div class="roadmap-num future">2</div>
+            <div class="roadmap-num done">2</div>
             <div class="roadmap-info">
-              <h4>Prompts — 실전 프롬프트 모음집</h4>
-              <p>상황별 프롬프트 라이브러리 (예정)</p>
+              <h4><a href="/doctor-ai/prompts/home.html" style="color:var(--brand);text-decoration:none">Prompts — 실전 프롬프트 모음집</a></h4>
+              <p>외래·병동 상황별 프롬프트 라이브러리</p>
             </div>
-            <span class="roadmap-status status-future">준비 중</span>
+            <span class="roadmap-status status-done">✓ 완성</span>
           </li>
           <li class="roadmap-item">
-            <div class="roadmap-num future">3</div>
+            <div class="roadmap-num done">3</div>
             <div class="roadmap-info">
-              <h4>Cases — 임상 케이스 스터디</h4>
-              <p>실제 업무 장면별 AI 적용 사례 분석 (예정)</p>
+              <h4><a href="/doctor-ai/cases/home.html" style="color:var(--brand);text-decoration:none">Cases — 임상 케이스 스터디</a></h4>
+              <p>실제 외래 케이스로 배우는 AI 활용법</p>
             </div>
-            <span class="roadmap-status status-future">준비 중</span>
+            <span class="roadmap-status status-done">✓ 완성</span>
           </li>
           <li class="roadmap-item">
-            <div class="roadmap-num future">4</div>
+            <div class="roadmap-num done">4</div>
             <div class="roadmap-info">
-              <h4>Tools — AI 툴 리뷰·비교</h4>
-              <p>의료인이 실제 쓸 수 있는 AI 도구 비교 가이드 (예정)</p>
+              <h4><a href="/doctor-ai/tools/home.html" style="color:var(--brand);text-decoration:none">Tools — AI 툴 리뷰·비교</a></h4>
+              <p>의료인이 직접 써본 AI 도구 비교 가이드</p>
             </div>
-            <span class="roadmap-status status-future">준비 중</span>
+            <span class="roadmap-status status-done">✓ 완성</span>
           </li>
         </ul>
       </div>
