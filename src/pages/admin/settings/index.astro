@@ -57,14 +57,15 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
     </section>
 
     <section class="admin-card pad-lg">
-      <h2 class="admin-section-title">Stored Keys</h2>
-      <p class="admin-section-desc">현재 화면은 아래 key들을 `site_settings`에 저장합니다.</p>
-      <ul class="admin-list">
-        <li class="admin-list-row"><div><p class="admin-item-title">`site_meta`</p><p class="admin-item-meta">title, description, default_og_image</p></div></li>
-        <li class="admin-list-row"><div><p class="admin-item-title">`homepage`</p><p class="admin-item-meta">featured_slug</p></div></li>
-        <li class="admin-list-row"><div><p class="admin-item-title">`about_page`</p><p class="admin-item-meta">about_intro</p></div></li>
-        <li class="admin-list-row"><div><p class="admin-item-title">`social_links`</p><p class="admin-item-meta">JSON object</p></div></li>
-      </ul>
+      <details class="admin-details-block">
+        <summary class="admin-section-title" style="cursor:pointer;list-style:none;">Stored Keys <span class="admin-nav-badge">4</span></summary>
+        <ul class="admin-list" style="margin-top:0.5rem;">
+          <li class="admin-list-row"><div><p class="admin-item-title">`site_meta`</p><p class="admin-item-meta">title, description, default_og_image</p></div></li>
+          <li class="admin-list-row"><div><p class="admin-item-title">`homepage`</p><p class="admin-item-meta">featured_slug</p></div></li>
+          <li class="admin-list-row"><div><p class="admin-item-title">`about_page`</p><p class="admin-item-meta">about_intro</p></div></li>
+          <li class="admin-list-row"><div><p class="admin-item-title">`social_links`</p><p class="admin-item-meta">JSON object</p></div></li>
+        </ul>
+      </details>
 
       <div class="admin-panel-stack" style="margin-top: 1rem;">
         <section class="admin-preview-card">
@@ -85,20 +86,18 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
           </div>
         </section>
 
-        <section class="admin-card pad-md">
-          <h3 class="admin-section-title">Validation</h3>
-          <p class="admin-section-desc">저장 전에 settings 데이터 상태를 빠르게 확인합니다.</p>
-          <ul class="admin-list" data-settings-validation>
+        <details class="admin-details-block">
+          <summary class="admin-section-title" style="cursor:pointer;list-style:none;">Validation <span data-settings-validation-summary class="admin-cell-subtle"></span></summary>
+          <ul class="admin-list" style="margin-top:0.5rem;" data-settings-validation>
             <li class="admin-list-row"><div><p class="admin-item-title">대기 중</p><p class="admin-item-meta">입력값을 읽는 중입니다.</p></div></li>
           </ul>
-        </section>
+        </details>
 
         <section class="admin-card pad-md">
           <h3 class="admin-section-title">Recent Changes</h3>
-          <p class="admin-section-desc">최근 settings 저장 이력을 확인합니다.</p>
-          <ul class="admin-list" data-settings-history>
-            <li class="admin-list-row"><div><p class="admin-item-title">불러오는 중...</p><p class="admin-item-meta">최근 audit log를 조회합니다.</p></div></li>
-          </ul>
+          <div data-settings-history>
+            <p class="admin-help">불러오는 중...</p>
+          </div>
         </section>
       </div>
     </section>
@@ -117,6 +116,7 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
     const previewOg = document.querySelector('[data-settings-preview-og]');
     const socialPreview = document.querySelector('[data-settings-social-preview]');
     const validationList = document.querySelector('[data-settings-validation]');
+    const validationSummary = document.querySelector('[data-settings-validation-summary]');
     const historyList = document.querySelector('[data-settings-history]');
     const getCurrentRole = () => document.body.dataset.adminRole || '';
 
@@ -190,6 +190,10 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
           state: Object.keys(socialLinks).length ? 'success' : 'muted',
         },
       ];
+
+      const warnCount = items.filter((i) => i.state === 'warn').length;
+      const okCount = items.filter((i) => i.state === 'success').length;
+      if (validationSummary) validationSummary.textContent = `✓${okCount} ⚠${warnCount}`;
 
       validationList.innerHTML = items
         .map(
@@ -281,29 +285,28 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
         .limit(6);
 
       if (error) {
-        historyList.innerHTML = `<li class="admin-list-row"><div><p class="admin-item-title">조회 실패</p><p class="admin-item-meta">${escapeHtml(error.message)}</p></div></li>`;
+        historyList.innerHTML = `<p class="admin-help admin-help-error">${escapeHtml(error.message)}</p>`;
         return;
       }
 
       if (!data?.length) {
-        historyList.innerHTML = '<li class="admin-list-row"><div><p class="admin-item-title">이력이 없습니다.</p><p class="admin-item-meta">첫 settings 저장 후 여기에 표시됩니다.</p></div></li>';
+        historyList.innerHTML = '<p class="admin-help">이력이 없습니다.</p>';
         return;
       }
 
       historyList.innerHTML = data.map((row) => {
         const snapshot = row.after_json?.snapshot || null;
-        const keys = Array.isArray(row.after_json?.keys) ? row.after_json.keys.join(', ') : 'site settings';
+        const keyCount = Array.isArray(row.after_json?.keys) ? row.after_json.keys.length : '?';
+        const actor8 = (row.actor_id || '-').slice(0, 8);
         return `
-          <li class="admin-list-row">
-            <div>
-              <p class="admin-item-title">${escapeHtml(keys)}</p>
-              <p class="admin-item-meta">${formatDate(row.created_at)} · actor ${escapeHtml(row.actor_id || '-')}</p>
-            </div>
+          <div class="admin-change-row">
+            <span class="admin-cell-subtle" title="${escapeHtml(row.actor_id || '')}">키 ${keyCount}개 · ${escapeHtml(actor8)}</span>
+            <span class="admin-cell-date admin-cell-subtle">${formatDate(row.created_at)}</span>
             <div class="admin-actions-inline">
               <a class="admin-btn admin-btn-sm" href="/admin/settings/detail?audit=${encodeURIComponent(row.id)}">상세</a>
               ${snapshot ? `<button type="button" class="admin-btn admin-btn-sm" data-settings-restore='${escapeHtml(JSON.stringify(snapshot))}'>복원</button>` : ''}
             </div>
-          </li>
+          </div>
         `;
       }).join('');
     };

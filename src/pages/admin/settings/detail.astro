@@ -72,9 +72,9 @@ const auditId = Astro.url.searchParams.get('audit') ?? '';
       <section class="admin-card pad-md">
         <h2 class="admin-section-title">Snapshot Source</h2>
         <p class="admin-section-desc">복원할 기준 snapshot과 최신 변경 이력을 확인합니다.</p>
-        <ul class="admin-list" data-settings-detail-history>
-          <li class="admin-list-row"><div><p class="admin-item-title">불러오는 중...</p><p class="admin-item-meta">audit log를 조회합니다.</p></div></li>
-        </ul>
+        <div data-settings-detail-history>
+          <p class="admin-help">불러오는 중...</p>
+        </div>
       </section>
     </div>
   </div>
@@ -160,7 +160,7 @@ const auditId = Astro.url.searchParams.get('audit') ?? '';
 
       diffList.innerHTML = items.map(([label, currentValue, snapshotValue]) => {
         const changed = JSON.stringify(currentValue) !== JSON.stringify(snapshotValue);
-        return `
+        const inner = `
           <article class="admin-detail-card ${changed ? 'admin-check-warn' : 'admin-check-ok'}">
             <div class="admin-check-card-head">
               <strong>${escapeHtml(label)}</strong>
@@ -178,27 +178,31 @@ const auditId = Astro.url.searchParams.get('audit') ?? '';
             </div>
           </article>
         `;
+        if (!changed) {
+          return `<details style="margin-bottom:0.3rem;"><summary style="cursor:pointer;font-size:0.82rem;color:var(--admin-text-3);">${escapeHtml(label)} · same</summary>${inner}</details>`;
+        }
+        return inner;
       }).join('');
     };
 
     const renderHistory = (rows) => {
       if (!historyList) return;
       if (!rows.length) {
-        historyList.innerHTML = '<li class="admin-list-row"><div><p class="admin-item-title">이력이 없습니다.</p><p class="admin-item-meta">첫 settings 저장 후 표시됩니다.</p></div></li>';
+        historyList.innerHTML = '<p class="admin-help">이력이 없습니다.</p>';
         return;
       }
 
-      historyList.innerHTML = rows.map((row) => `
-        <li class="admin-list-row">
-          <div>
-            <p class="admin-item-title">${escapeHtml(row.after_json?.keys?.join(', ') || 'site settings')}</p>
-            <p class="admin-item-meta">${escapeHtml(row.created_at)} · actor ${escapeHtml(row.actor_id || '-')}</p>
-          </div>
-          <div class="admin-actions-inline">
+      historyList.innerHTML = rows.map((row) => {
+        const actor8 = (row.actor_id || '-').slice(0, 8);
+        const dateStr = new Intl.DateTimeFormat('ko-KR', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).format(new Date(row.created_at));
+        return `
+          <div class="admin-change-row">
+            <span class="admin-cell-subtle" title="${escapeHtml(row.actor_id || '')}">${escapeHtml(actor8)}</span>
+            <span class="admin-cell-date admin-cell-subtle">${escapeHtml(dateStr)}</span>
             <button type="button" class="admin-btn admin-btn-sm" data-select-snapshot='${escapeHtml(JSON.stringify(row.after_json?.snapshot || {}))}'>Use</button>
           </div>
-        </li>
-      `).join('');
+        `;
+      }).join('');
     };
 
     if (!supabaseUrl || !supabaseKey) {

@@ -62,8 +62,8 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
           <tr>
             <th>Status</th>
             <th>Post</th>
-            <th>Path</th>
-            <th>Repo / Branch</th>
+            <th class="admin-col-hide">Path</th>
+            <th class="admin-col-hide">Repo / Branch</th>
             <th>Commit / Error</th>
             <th>Created / Finished</th>
             <th>Action</th>
@@ -123,11 +123,12 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
 
       body.innerHTML = rows.map((row) => {
         const isDone = row.status === 'success' || row.status === 'failed';
+        const sha8 = row.commit_sha ? row.commit_sha.slice(0, 8) : '-';
         const commitOrError = row.status === 'failed'
-          ? `<span class="admin-cell-error">${escapeHtml(row.error_message ?? 'unknown error')}</span>`
-          : `<span class="admin-cell-mono">${escapeHtml(row.commit_sha ?? '-')}</span>`;
+          ? `<span class="admin-cell-error" title="${escapeHtml(row.error_message ?? '')}">${escapeHtml((row.error_message ?? 'unknown error').slice(0, 48))}${(row.error_message ?? '').length > 48 ? '…' : ''}</span>`
+          : `<span class="admin-cell-mono" title="${escapeHtml(row.commit_sha ?? '')}">${escapeHtml(sha8)}</span>`;
         const liveState = isDone ? '' : '<span class="admin-pulse-dot"></span>';
-        const dateCell = `${formatDate(row.created_at)}<br /><span class="admin-cell-subtle">${row.completed_at ? formatDate(row.completed_at) : 'in progress'}</span>`;
+        const dateCell = `<span class="admin-cell-date">${formatDate(row.created_at)}</span><br /><span class="admin-cell-subtle admin-cell-date">${row.completed_at ? formatDate(row.completed_at) : 'in progress'}</span>`;
         const postCell = row.post_slug
           ? `<a class="admin-table-link" href="/admin/posts/edit?slug=${encodeURIComponent(row.post_slug)}">${escapeHtml(row.post_slug)}</a>`
           : '<span class="admin-cell-subtle">-</span>';
@@ -141,8 +142,8 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
           <tr>
             <td><span class="admin-status ${escapeHtml(row.status)}">${liveState}${escapeHtml(row.status)}</span></td>
             <td>${postCell}</td>
-            <td>${escapeHtml(row.target_path ?? '-')}</td>
-            <td>${escapeHtml(row.target_repo ?? '-')}<br /><span class="admin-cell-subtle">${escapeHtml(row.target_branch ?? '-')}</span></td>
+            <td class="admin-col-hide"><span class="admin-cell-mono" title="${escapeHtml(row.target_path ?? '')}">${escapeHtml(row.target_path ?? '-')}</span></td>
+            <td class="admin-col-hide">${escapeHtml(row.target_repo ?? '-')}<br /><span class="admin-cell-subtle">${escapeHtml(row.target_branch ?? '-')}</span></td>
             <td>${commitOrError}</td>
             <td>${dateCell}</td>
             <td>${actionCell}</td>

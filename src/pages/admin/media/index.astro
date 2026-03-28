@@ -132,8 +132,8 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
       <section class="admin-card pad-md">
         <h2 class="admin-section-title">Recent Assets</h2>
         <p class="admin-section-desc">최근 등록 자산을 바로 복사하거나 아카이브/복구할 수 있습니다.</p>
-        <div class="admin-panel-stack" data-admin-media-list>
-          <p class="admin-help">목록을 불러오는 중입니다.</p>
+        <div class="admin-assets-mini-grid" data-admin-media-list>
+          <p class="admin-help" style="grid-column:1/-1;">목록을 불러오는 중입니다.</p>
         </div>
       </section>
 
@@ -294,51 +294,30 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
       if (!list) return;
 
       if (!assets?.length) {
-        list.innerHTML = '<p class="admin-help">아직 등록된 자산이 없습니다.</p>';
+        list.innerHTML = '<p class="admin-help" style="grid-column:1/-1;">아직 등록된 자산이 없습니다.</p>';
         return;
-    }
+      }
 
       list.innerHTML = assets
         .map((asset) => {
         const markdown = escapeHtml(buildMarkdown(asset));
         const title = escapeHtml(asset.file_name);
-        const provider = escapeHtml(asset.storage_provider || 'manual');
-        const mimeType = escapeHtml(asset.mime_type || 'mime 미등록');
         const url = escapeHtml(asset.public_url || '');
-        const size = asset.width && asset.height ? `${asset.width}×${asset.height}` : 'size 미등록';
         const isArchived = Boolean(asset.deleted_at);
 
         return `
-          <article class="admin-card pad-md" data-media-asset-card data-media-asset-id="${escapeHtml(asset.id)}" data-media-asset-archived="${isArchived ? 'true' : 'false'}">
-            <div class="admin-actions-row">
-              <div>
-                <h3 class="admin-section-title">${title}</h3>
-                <p class="admin-section-desc">${provider} · ${mimeType} · ${size}</p>
-              </div>
-              <div class="admin-actions-inline">
-                <span class="admin-status ${isArchived ? 'draft' : 'ready'}">${isArchived ? 'archived' : 'active'}</span>
-                <a class="admin-btn admin-btn-sm" href="/admin/media/detail?id=${encodeURIComponent(asset.id)}">상세</a>
-                <a class="admin-btn" href="${url}" target="_blank" rel="noreferrer">열기</a>
-              </div>
+          <article class="admin-card pad-md" data-media-asset-card data-media-asset-id="${escapeHtml(asset.id)}" data-media-asset-archived="${isArchived ? 'true' : 'false'}" style="font-size:0.82rem;">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:0.4rem;margin-bottom:0.45rem;">
+              <p class="admin-item-title" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:120px;" title="${title}">${title}</p>
+              <span class="admin-status ${isArchived ? 'draft' : 'ready'}" style="flex-shrink:0;">${isArchived ? 'archived' : 'active'}</span>
             </div>
-            <div class="admin-panel-stack">
-              <label class="admin-field">
-                <span class="admin-label">Markdown</span>
-                <textarea class="admin-textarea" style="min-height: 76px;" readonly data-asset-markdown>${markdown}</textarea>
-              </label>
-              <div class="admin-actions-inline">
-                <button type="button" class="admin-btn admin-btn-sm" data-copy-asset="markdown">Markdown 복사</button>
-                <button type="button" class="admin-btn admin-btn-sm" data-media-archive-action="${isArchived ? 'restore' : 'archive'}">
-                  ${isArchived ? '복구' : '아카이브'}
-                </button>
-              </div>
-              <label class="admin-field">
-                <span class="admin-label">Thumbnail URL</span>
-                <input class="admin-input" type="text" readonly value="${url}" data-asset-thumbnail />
-              </label>
-              <div class="admin-actions-inline">
-                <button type="button" class="admin-btn admin-btn-sm" data-copy-asset="thumbnail">Thumbnail 복사</button>
-              </div>
+            <textarea class="admin-textarea" style="min-height:56px;font-size:0.76rem;" readonly data-asset-markdown>${markdown}</textarea>
+            <input class="admin-input" style="margin-top:0.35rem;font-size:0.76rem;" type="text" readonly value="${url}" data-asset-thumbnail />
+            <div class="admin-actions-inline" style="margin-top:0.4rem;flex-wrap:wrap;">
+              <button type="button" class="admin-btn admin-btn-sm" data-copy-asset="markdown">MD</button>
+              <button type="button" class="admin-btn admin-btn-sm" data-copy-asset="thumbnail">URL</button>
+              <a class="admin-btn admin-btn-sm" href="/admin/media/detail?id=${encodeURIComponent(asset.id)}">상세</a>
+              <button type="button" class="admin-btn admin-btn-sm" data-media-archive-action="${isArchived ? 'restore' : 'archive'}">${isArchived ? '복구' : '보관'}</button>
             </div>
           </article>
         `;
@@ -419,14 +398,16 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
         return;
       }
 
-      historyList.innerHTML = data.map((row) => `
+      const shown = data.slice(0, 5);
+      const extra = data.length - shown.length;
+      historyList.innerHTML = shown.map((row) => `
         <li class="admin-list-row">
           <div>
-            <p class="admin-item-title">${escapeHtml(row.action)} · ${escapeHtml(row.after_json?.file_name || 'media asset')}</p>
-            <p class="admin-item-meta">${formatDate(row.created_at)} · ${escapeHtml(row.after_json?.storage_provider || '-')} · actor ${escapeHtml(row.actor_id || '-')}</p>
+            <p class="admin-item-title" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:160px;" title="${escapeHtml(row.after_json?.file_name || '')}">${escapeHtml(row.after_json?.file_name || 'media asset')}</p>
+            <p class="admin-item-meta admin-cell-date">${formatDate(row.created_at)} · ${escapeHtml(row.after_json?.storage_provider || '-')}</p>
           </div>
         </li>
-      `).join('');
+      `).join('') + (extra > 0 ? `<li class="admin-list-row"><div><a class="admin-cell-subtle" href="/admin/media">+${extra}개 더 보기</a></div></li>` : '');
     };
 
     form?.addEventListener('input', syncHelpers);

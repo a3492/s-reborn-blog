@@ -102,47 +102,23 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
 
     <div class="admin-panel-stack">
       <section class="admin-card pad-md">
-        <h2 class="admin-section-title">Entry Meta</h2>
-        <p class="admin-section-desc">불러온 글의 핵심 메타를 요약합니다.</p>
+        <h2 class="admin-section-title">Entry State</h2>
         <ul class="admin-list" data-admin-edit-meta>
-          <li class="admin-list-row">
-            <div>
-              <p class="admin-item-title">불러오는 중...</p>
-              <p class="admin-item-meta">선택한 draft의 메타를 읽습니다.</p>
-            </div>
-          </li>
+          <li class="admin-list-row"><div><p class="admin-item-title">불러오는 중...</p></div></li>
         </ul>
-      </section>
-
-      <section class="admin-card pad-md">
-        <h2 class="admin-section-title">Release State</h2>
-        <p class="admin-section-desc">현재 저장본 기준의 발행 가능 상태와 최근 배포 결과를 요약합니다.</p>
-        <ul class="admin-list" data-admin-release-state>
-          <li class="admin-list-row">
-            <div>
-              <p class="admin-item-title">불러오는 중...</p>
-              <p class="admin-item-meta">status, published_at, canonical URL을 계산합니다.</p>
-            </div>
-          </li>
+        <ul class="admin-list" style="margin-top:0.5rem;" data-admin-release-state>
+          <li class="admin-list-row"><div><p class="admin-item-title">불러오는 중...</p></div></li>
         </ul>
       </section>
 
       <section class="admin-card pad-md">
         <div class="admin-actions-row">
-          <div>
-            <h2 class="admin-section-title">Publish History Summary</h2>
-            <p class="admin-section-desc">최근 성공 commit과 마지막 실패 원인을 여기서 바로 확인합니다.</p>
-          </div>
-          <a href="/admin/jobs" class="admin-btn">Jobs 보기</a>
+          <h2 class="admin-section-title">Publish History</h2>
+          <a href="/admin/jobs" class="admin-btn admin-btn-sm">Jobs</a>
         </div>
-        <ul class="admin-list" data-admin-publish-history-summary>
-          <li class="admin-list-row">
-            <div>
-              <p class="admin-item-title">불러오는 중...</p>
-              <p class="admin-item-meta">최근 publish job을 조회합니다.</p>
-            </div>
-          </li>
-        </ul>
+        <div data-admin-publish-history-summary>
+          <p class="admin-help">불러오는 중...</p>
+        </div>
       </section>
 
       <section class="admin-card pad-md">
@@ -196,6 +172,8 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
     let hasUnsavedChanges = false;
     let formSnapshot = '';
     const getCurrentRole = () => document.body.dataset.adminRole || '';
+
+    const escapeHtml = (value) => String(value ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
     const setMessage = (text, state = 'info') => {
       if (!message) return;
@@ -308,45 +286,32 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
       if (!publishHistorySummary) return;
 
       if (!summary) {
-        publishHistorySummary.innerHTML = `
-          <li class="admin-list-row">
-            <div>
-              <p class="admin-item-title">publish 이력이 없습니다.</p>
-              <p class="admin-item-meta">첫 발행 요청을 실행하면 최근 결과가 여기에 표시됩니다.</p>
-            </div>
-          </li>
-        `;
+        publishHistorySummary.innerHTML = '<p class="admin-help">이력 없음</p>';
         return;
       }
 
+      const sha8 = summary.successCommit ? summary.successCommit.slice(0, 8) : null;
+      const failMsg = summary.failureMessage ? summary.failureMessage.split('\n')[0].slice(0, 60) : null;
+      const latestStatus = summary.latestStatus ?? 'draft';
+
       publishHistorySummary.innerHTML = `
-        <li class="admin-list-row admin-list-row-rich">
-          <div>
-            <p class="admin-item-title">Latest Success Commit</p>
-            <p class="admin-item-meta admin-cell-mono">${summary.successCommit ?? '-'}</p>
-            <p class="admin-item-subtle">${summary.successAt ? `성공 시각 ${formatDate(summary.successAt)}` : '아직 성공 발행 이력이 없습니다.'}</p>
+        <div class="admin-change-row">
+          <span class="admin-cell-subtle">최근 job</span>
+          <span class="admin-cell-date admin-cell-subtle">${summary.latestAt ? formatDate(summary.latestAt) : '-'}</span>
+          <span class="admin-status ${latestStatus}">${latestStatus}</span>
+        </div>
+        <div class="admin-change-row">
+          <span class="admin-cell-subtle">Success${sha8 ? ` · <code>${sha8}</code>` : ': 없음'}</span>
+          <span></span>
+          ${summary.successCommit ? '<span class="admin-status success">ok</span>' : '<span class="admin-status draft">-</span>'}
+        </div>
+        <div class="admin-change-row">
+          <span class="admin-cell-subtle" title="${escapeHtml(summary.failureMessage ?? '')}">${failMsg ? escapeHtml(failMsg) : '실패 없음'}</span>
+          <span></span>
+          <div class="admin-actions-inline">
+            ${summary.failureMessage ? '<span class="admin-status failed">!</span><button type="button" class="admin-btn admin-btn-sm" data-admin-history-retry>Retry</button>' : '<span class="admin-status success">✓</span>'}
           </div>
-          <div>${summary.successCommit ? '<span class="admin-status success">success</span>' : '<span class="admin-status draft">empty</span>'}</div>
-        </li>
-        <li class="admin-list-row admin-list-row-rich">
-          <div>
-            <p class="admin-item-title">Last Failure</p>
-            <p class="admin-item-meta">${summary.failureMessage ?? '최근 실패 이력이 없습니다.'}</p>
-            <p class="admin-item-subtle">${summary.failureAt ? `실패 시각 ${formatDate(summary.failureAt)}` : '실패 없음'}</p>
-          </div>
-          <div class="admin-status-stack">
-            ${summary.failureMessage ? '<span class="admin-status failed">failed</span>' : '<span class="admin-status success">clean</span>'}
-            ${summary.failureMessage ? '<button type="button" class="admin-btn admin-btn-sm" data-admin-history-retry>Retry</button>' : ''}
-          </div>
-        </li>
-        <li class="admin-list-row admin-list-row-rich">
-          <div>
-            <p class="admin-item-title">Latest Job</p>
-            <p class="admin-item-meta">${summary.latestStatus ?? '-'}</p>
-            <p class="admin-item-subtle">${summary.latestAt ? `최근 요청 ${formatDate(summary.latestAt)}` : '요청 없음'}${summary.latestTargetPath ? ` · ${summary.latestTargetPath}` : ''}</p>
-          </div>
-          <div><span class="admin-status ${summary.latestStatus ?? 'draft'}">${summary.latestStatus ?? 'draft'}</span></div>
-        </li>
+        </div>
       `;
     };
 

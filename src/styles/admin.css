@@ -1027,6 +1027,45 @@ body.sidebar-open .admin-sidebar-backdrop {
 .admin-cell-mono {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.82rem;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.admin-cell-date {
+  white-space: nowrap;
+}
+
+@media (max-width: 1024px) {
+  .admin-col-hide { display: none; }
+}
+
+.admin-change-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.6rem 0;
+  border-top: 1px solid var(--admin-border-2);
+  font-size: 0.82rem;
+}
+.admin-change-row:first-child { border-top: none; }
+
+.admin-details-block {
+  border: 1px solid var(--admin-border-2);
+  border-radius: 12px;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 0.5rem;
+}
+.admin-details-block summary { user-select: none; }
+
+.admin-assets-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.6rem;
 }
 
 .admin-pulse-dot {

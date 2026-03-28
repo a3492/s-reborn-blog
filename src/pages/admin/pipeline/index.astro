@@ -96,15 +96,21 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
         return;
       }
 
-      results.innerHTML = checks.map((check) => `
-        <article class="admin-check-card admin-check-${escapeHtml(check.status)}">
-          <div class="admin-check-card-head">
-            <h3 class="admin-section-title">${escapeHtml(check.label)}</h3>
-            <span class="admin-status ${check.status === 'ok' ? 'success' : check.status === 'warn' ? 'warn' : 'failed'}">${escapeHtml(check.status)}</span>
-          </div>
-          <p class="admin-item-meta">${escapeHtml(check.detail)}</p>
-        </article>
-      `).join('');
+      results.innerHTML = checks.map((check) => {
+        const card = `
+          <article class="admin-check-card admin-check-${escapeHtml(check.status)}">
+            <div class="admin-check-card-head">
+              <h3 class="admin-section-title">${escapeHtml(check.label)}</h3>
+              <span class="admin-status ${check.status === 'ok' ? 'success' : check.status === 'warn' ? 'warn' : 'failed'}">${escapeHtml(check.status)}</span>
+            </div>
+            <p class="admin-item-meta">${escapeHtml(check.detail)}</p>
+          </article>
+        `;
+        if (check.status === 'ok') {
+          return `<details style="margin-bottom:0.3rem;"><summary style="cursor:pointer;font-size:0.82rem;color:var(--admin-text-3);">${escapeHtml(check.label)} · ok</summary>${card}</details>`;
+        }
+        return card;
+      }).join('');
     };
 
     if (!supabaseUrl || !supabaseKey) {
