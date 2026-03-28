@@ -24,6 +24,19 @@ const splitTitle = (title: string) => {
 	const [main, ...rest] = title.split(' — ');
 	return { main, sub: rest.length ? '— ' + rest.join(' — ') : null };
 };
+
+const stripMarkdown = (md: string) =>
+	md
+		.replace(/^#{1,6}\s+/gm, '')
+		.replace(/\*\*(.+?)\*\*/g, '$1')
+		.replace(/\*(.+?)\*/g, '$1')
+		.replace(/\[(.+?)\]\(.+?\)/g, '$1')
+		.replace(/`+[^`]*`+/g, '')
+		.replace(/^\s*[-*+]\s+/gm, '')
+		.replace(/\n+/g, ' ')
+		.trim();
+
+const heroBodyPreview = stripMarkdown(featuredPost?.body ?? '').slice(0, 320);
 ---
 
 <Layout>
@@ -34,21 +47,22 @@ const splitTitle = (title: string) => {
 				{(() => {
 					const { main, sub } = splitTitle(featuredPost.data.title);
 					return (
-						<a class="yt-hero" href={`/blog/${featuredPost.id}/`}>
+						<div class="yt-hero">
 							<div class="yt-kicker">
-								<span class="yt-tag">{featuredPost.data.category ?? 'featured'}</span>
 								<span class="yt-label">Latest Note</span>
 							</div>
 							<h1 class="yt-title">
 								{main}
 								{sub && <><br /><span class="yt-title-sub">{sub}</span></>}
 							</h1>
-							<p class="yt-desc">{featuredPost.data.description}</p>
-							<div class="yt-foot">
-								<time class="yt-date"><FormattedDate date={featuredPost.data.date} /></time>
-								<span class="yt-arrow">→</span>
+							<div class="yt-body-wrap" id="yt-body-wrap">
+								<p class="yt-body-preview">{heroBodyPreview}</p>
 							</div>
-						</a>
+							<button class="yt-body-toggle" id="yt-body-toggle">더 보기</button>
+							<div class="yt-foot">
+								<a class="yt-arrow-link" href={`/blog/${featuredPost.id}/`}>→</a>
+							</div>
+						</div>
 					);
 				})()}
 
@@ -124,6 +138,16 @@ const splitTitle = (title: string) => {
 			const items = [...sidebar.querySelectorAll('[data-yt-post]')];
 			items.sort(() => Math.random() - 0.5);
 			items.forEach((el) => sidebar.appendChild(el));
+		}
+
+		// 본문 미리보기 펼치기/접기
+		const toggle = document.getElementById('yt-body-toggle');
+		const wrap = document.getElementById('yt-body-wrap');
+		if (toggle && wrap) {
+			toggle.addEventListener('click', () => {
+				const expanded = wrap.classList.toggle('expanded');
+				toggle.textContent = expanded ? '접기' : '더 보기';
+			});
 		}
 	</script>
 </Layout>
