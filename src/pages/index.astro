@@ -12,74 +12,74 @@ const configuredFeatured = siteSettings.featuredSlug
 	? allPosts.find((post) => post.slug === siteSettings.featuredSlug || post.id.endsWith(`/${siteSettings.featuredSlug}`) || post.id === siteSettings.featuredSlug)
 	: null;
 const featuredPost = configuredFeatured || allPosts[0];
-const rankedPosts = featuredPost
-	? [featuredPost, ...allPosts.filter((post) => post.id !== featuredPost.id)]
-	: allPosts;
-const visiblePosts = rankedPosts.slice(0, 11);
-const sidePosts = visiblePosts.slice(1, 3);
-const gridPosts = visiblePosts.slice(3);
+const sidebarPosts = featuredPost
+	? allPosts.filter((post) => post.id !== featuredPost.id)
+	: allPosts.slice(1);
+
 const totalPosts = allPosts.length;
 const totalCategories = new Set(allPosts.map((post) => post.data.category).filter(Boolean)).size;
 const latestUpdate = allPosts[0]?.data.date;
+
+const splitTitle = (title: string) => {
+	const [main, ...rest] = title.split(' — ');
+	return { main, sub: rest.length ? '— ' + rest.join(' — ') : null };
+};
 ---
 
 <Layout>
 	{featuredPost ? (
-		<div class="featured-wrap">
-			<a class="featured-main" href={`/blog/${featuredPost.id}/`}>
-				<div class="f-kicker">
-					<span class="f-tag">{featuredPost.data.category ?? 'FEATURED'}</span>
-					<span class="f-label">Latest Note</span>
-				</div>
-				<h1 class="f-title">{featuredPost.data.title}</h1>
-				<p class="f-excerpt">{featuredPost.data.description}</p>
-				<div class="f-foot">
-					<div class="f-meta">
-						<span class="f-meta-label">가장 최근에 발행한 글</span>
-						<time class="f-date"><FormattedDate date={featuredPost.data.date} /></time>
-					</div>
-					<span class="read-link">읽기 →</span>
-				</div>
-			</a>
-			<aside class="featured-side">
-				<div class="side-head">
-					<span class="side-head-label">더 읽어보기</span>
-					<a href="/blog" class="side-head-link">아카이브</a>
-				</div>
-				{sidePosts.map((post) => {
-					const [titleMain, ...titleRest] = post.data.title.split(' — ');
-					const titleSub = titleRest.length ? '— ' + titleRest.join(' — ') : null;
+		<div class="yt-layout">
+			<!-- 좌측: 메인 피처드 카드 -->
+			<main class="yt-main">
+				{(() => {
+					const { main, sub } = splitTitle(featuredPost.data.title);
 					return (
-						<a href={`/blog/${post.id}/`} class="side-post">
-							{post.data.category && <span class="side-cat">{post.data.category}</span>}
-							<h2 class="side-title">
-								{titleMain}
-								{titleSub && <><br /><span class="side-title-sub">{titleSub}</span></>}
-							</h2>
-							<p class="side-exc">{post.data.description}</p>
-							<span class="side-date"><FormattedDate date={post.data.date} /></span>
+						<a class="yt-hero" href={`/blog/${featuredPost.id}/`}>
+							<div class="yt-kicker">
+								<span class="yt-tag">{featuredPost.data.category ?? 'featured'}</span>
+								<span class="yt-label">Latest Note</span>
+							</div>
+							<h1 class="yt-title">
+								{main}
+								{sub && <><br /><span class="yt-title-sub">{sub}</span></>}
+							</h1>
+							<p class="yt-desc">{featuredPost.data.description}</p>
+							<div class="yt-foot">
+								<time class="yt-date"><FormattedDate date={featuredPost.data.date} /></time>
+								<span class="yt-arrow">→</span>
+							</div>
+						</a>
+					);
+				})()}
+
+				<div class="yt-stats">
+					<span>글 {totalPosts}</span>
+					<span class="yt-stats-dot">·</span>
+					<span>카테고리 {totalCategories}</span>
+					<span class="yt-stats-dot">·</span>
+					<FormattedDate date={latestUpdate} />
+				</div>
+			</main>
+
+			<!-- 우측: 스크롤 가능한 사이드바 -->
+			<aside class="yt-sidebar" id="yt-sidebar">
+				{sidebarPosts.map((post) => {
+					const { main, sub } = splitTitle(post.data.title);
+					return (
+						<a class="yt-item" href={`/blog/${post.id}/`} data-yt-post>
+							{post.data.category && <span class="yt-item-cat">{post.data.category}</span>}
+							<p class="yt-item-title">
+								{main}
+								{sub && <> <span style="color:var(--t3);font-weight:400">{sub}</span></>}
+							</p>
+							<div class="yt-item-foot">
+								<time class="yt-item-date"><FormattedDate date={post.data.date} /></time>
+								<span class="yt-item-arrow">→</span>
+							</div>
 						</a>
 					);
 				})}
 			</aside>
-		</div>
-
-		<div class="home-signal">
-			<div class="home-signal-card">
-				<span class="home-signal-label">Archive</span>
-				<strong>{totalPosts} posts</strong>
-				<p>의학과 AI 기록을 최근 순서대로 묶어 보여줍니다.</p>
-			</div>
-			<div class="home-signal-card">
-				<span class="home-signal-label">Coverage</span>
-				<strong>{totalCategories} topics</strong>
-				<p>카테고리별로 글의 결을 빠르게 훑을 수 있습니다.</p>
-			</div>
-			<div class="home-signal-card">
-				<span class="home-signal-label">Latest</span>
-				<strong><FormattedDate date={latestUpdate} /></strong>
-				<p>가장 최근에 손본 글의 날짜를 바로 확인합니다.</p>
-			</div>
 		</div>
 	) : (
 		<div style="padding: 4rem 2rem; color: var(--t2); text-align: center;">
@@ -87,50 +87,14 @@ const latestUpdate = allPosts[0]?.data.date;
 		</div>
 	)}
 
-	<div class="sec-rule">
-		<div class="sec-copy">
-			<span class="sec-label">Recent Posts</span>
-			<p class="sec-desc">의학, AI, 그리고 배움의 기록을 최근 순서대로 모았습니다.</p>
-		</div>
-		<div class="sec-line"></div>
-		<a href="/blog" class="sec-all">전체 보기 →</a>
-	</div>
-
-	{gridPosts.length > 0 && (
-		<div class="grid-wrap">
-			<div class="post-grid" id="post-grid">
-				{gridPosts.map((post) => {
-					const [cMain, ...cRest] = post.data.title.split(' — ');
-					const cSub = cRest.length ? '— ' + cRest.join(' — ') : null;
-					return (
-						<a class="post-card" href={`/blog/${post.id}/`} data-cat={post.data.category ?? ''}>
-							<div class="card-head">
-								{post.data.category && <span class="card-cat">{post.data.category}</span>}
-							</div>
-							<h3 class="card-title">
-								{cMain}
-								{cSub && <><br /><span class="card-title-sub">{cSub}</span></>}
-							</h3>
-							<p class="card-exc">{post.data.description}</p>
-							<div class="card-foot">
-								<time class="card-date"><FormattedDate date={post.data.date} /></time>
-								<span class="card-link">자세히 보기</span>
-							</div>
-						</a>
-					);
-				})}
-			</div>
-		</div>
-	)}
-
 	<!-- Doctor AI 시리즈 섹션 -->
-	<div class="sec-rule">
+	<div class="sec-rule" style="margin-top: 2.5rem;">
 		<div class="sec-copy">
 			<span class="sec-label">Doctor AI Series</span>
 			<p class="sec-desc">임상 현장에서 AI를 안전하게 이해하고 활용하기 위한 의사를 위한 실무 교육</p>
 		</div>
 		<div class="sec-line"></div>
-		<a href="/doctor-ai/" class="sec-all">시리즈 보기 →</a>
+		<a href="/doctor-ai/" class="sec-all">→</a>
 	</div>
 
 	<div class="dai-wrap">
@@ -139,7 +103,7 @@ const latestUpdate = allPosts[0]?.data.date;
 				<span class="dai-eyebrow">Fundamentals · 5편 완성</span>
 				<h2 class="dai-title">의사가 배우는 AI</h2>
 				<p class="dai-desc">AI의 작동 원리부터 외래 진료 워크플로우 적용, 안전한 프롬프팅까지 — 임상의를 위한 첫 번째 AI 교육 시리즈</p>
-				<span class="dai-cta">시리즈 전체 보기 →</span>
+				<span class="dai-cta">→</span>
 			</div>
 			<div class="dai-hero-articles">
 				<div class="dai-article-list">
@@ -152,4 +116,14 @@ const latestUpdate = allPosts[0]?.data.date;
 			</div>
 		</a>
 	</div>
+
+	<script>
+		// 사이드바 글 목록 무작위 섞기 (매 방문마다 다른 순서)
+		const sidebar = document.getElementById('yt-sidebar');
+		if (sidebar) {
+			const items = [...sidebar.querySelectorAll('[data-yt-post]')];
+			items.sort(() => Math.random() - 0.5);
+			items.forEach((el) => sidebar.appendChild(el));
+		}
+	</script>
 </Layout>
