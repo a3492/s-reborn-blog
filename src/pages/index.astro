@@ -26,6 +26,7 @@ const stripMarkdown = (md: string) =>
 		.replace(/\[(.+?)\]\(.+?\)/g, '$1')
 		.replace(/`+[^`]*`+/g, '')
 		.replace(/^\s*[-*+]\s+/gm, '')
+		.replace(/^\s*\|.*\|\s*$/gm, '')
 		.replace(/\n+/g, ' ')
 		.trim();
 
