@@ -326,16 +326,16 @@ function generateHeader(categoryKey) {
 <body>
   <header>
     <nav>
-      <a href="/">S-Reborn Medical AI</a>
+      <a href="/s-reborn-blog/">S-Reborn Medical AI</a>
       <ul>
-        <li><a href="/">홈</a></li>
-        <li><a href="/category/doctor-ai.html">Doctor AI</a></li>
-        <li><a href="/category/ai-news.html">뉴스</a></li>
-        <li><a href="/category/ai-tools.html">도구</a></li>
-        <li><a href="/category/faq.html">FAQ</a></li>
-        <li><a href="/category/tips.html">팁</a></li>
-        <li><a href="/category/regulations.html">규제</a></li>
-        <li><a href="/search.html">🔍 검색</a></li>
+        <li><a href="/s-reborn-blog/">홈</a></li>
+        <li><a href="/s-reborn-blog/category/doctor-ai.html">Doctor AI</a></li>
+        <li><a href="/s-reborn-blog/category/ai-news.html">뉴스</a></li>
+        <li><a href="/s-reborn-blog/category/ai-tools.html">도구</a></li>
+        <li><a href="/s-reborn-blog/category/faq.html">FAQ</a></li>
+        <li><a href="/s-reborn-blog/category/tips.html">팁</a></li>
+        <li><a href="/s-reborn-blog/category/regulations.html">규제</a></li>
+        <li><a href="/s-reborn-blog/search.html">🔍 검색</a></li>
       </ul>
     </nav>
   </header>
@@ -404,7 +404,7 @@ function generateHeader(categoryKey) {
       }
 
       container.innerHTML = filtered.map(article => \`
-        <a href="/article/\${article.slug}.html" class="article-card">
+        <a href="/s-reborn-blog/article/\${article.slug}.html" class="article-card">
           <div class="article-header">
             <h2 class="article-title">\${article.title}</h2>
             <p class="article-description">\${article.description}</p>
@@ -655,15 +655,15 @@ function generateSearchPage() {
 <body>
   <header>
     <nav>
-      <a href="/">S-Reborn Medical AI</a>
+      <a href="/s-reborn-blog/">S-Reborn Medical AI</a>
       <ul>
-        <li><a href="/">홈</a></li>
-        <li><a href="/category/doctor-ai.html">Doctor AI</a></li>
-        <li><a href="/category/ai-news.html">뉴스</a></li>
-        <li><a href="/category/ai-tools.html">도구</a></li>
-        <li><a href="/category/faq.html">FAQ</a></li>
-        <li><a href="/category/tips.html">팁</a></li>
-        <li><a href="/category/regulations.html">규제</a></li>
+        <li><a href="/s-reborn-blog/">홈</a></li>
+        <li><a href="/s-reborn-blog/category/doctor-ai.html">Doctor AI</a></li>
+        <li><a href="/s-reborn-blog/category/ai-news.html">뉴스</a></li>
+        <li><a href="/s-reborn-blog/category/ai-tools.html">도구</a></li>
+        <li><a href="/s-reborn-blog/category/faq.html">FAQ</a></li>
+        <li><a href="/s-reborn-blog/category/tips.html">팁</a></li>
+        <li><a href="/s-reborn-blog/category/regulations.html">규제</a></li>
       </ul>
     </nav>
   </header>
@@ -703,7 +703,7 @@ function generateSearchPage() {
       resultsContainer.innerHTML = results.map(result => {
         const article = result.item;
         return \`
-          <a href="/article/\${article.slug}.html" class="result-card">
+          <a href="/s-reborn-blog/article/\${article.slug}.html" class="result-card">
             <div class="result-category">\${article.category}</div>
             <h3 class="result-title">\${article.title}</h3>
             <p class="result-description">\${article.description}</p>
