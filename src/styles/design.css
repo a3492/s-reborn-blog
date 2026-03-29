@@ -270,10 +270,10 @@ body {
 
 /* FEATURED */
 .featured-wrap {
-  padding: 1.25rem 0 0;
+  padding: 0.75rem 0 0;
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) 320px;
-  gap: 1.25rem;
+  gap: 1rem;
   border-bottom: 1px solid var(--rule);
   align-items: stretch;
 }
@@ -285,7 +285,7 @@ body {
 }
 
 .featured-main {
-  padding: 1.5rem;
+  padding: 1.1rem;
   border: 1px solid var(--rule);
   border-radius: 24px;
   cursor: pointer;
@@ -340,7 +340,7 @@ body {
 
 .f-title {
   font-family: var(--display);
-  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-size: clamp(1.5rem, 2.5vw, 2.1rem);
   line-height: 1.18;
   color: var(--text);
   margin-bottom: 0.6rem;
@@ -526,7 +526,7 @@ body {
 
 /* SECTION RULE */
 .sec-rule {
-  padding: 0.8rem 0 0.65rem;
+  padding: 0.55rem 0 0.5rem;
   border-bottom: 1px solid var(--rule2);
   display: flex;
   align-items: center;
@@ -941,7 +941,7 @@ footer {
   }
 
   .sec-rule {
-    padding: 0.75rem 0 0.6rem;
+    padding: 0.5rem 0 0.45rem;
   }
 
   footer {
@@ -1728,7 +1728,7 @@ footer {
   grid-template-columns: minmax(0, 1fr) 300px;
   gap: 1.5rem;
   align-items: start;
-  padding: 1.25rem 0 0;
+  padding: 0.75rem 0 0;
 }
 
 .yt-main {
@@ -1740,7 +1740,7 @@ footer {
 .yt-hero {
   display: flex;
   flex-direction: column;
-  padding: 1.75rem 1.75rem 1.5rem;
+  padding: 1.25rem 1.5rem 1.1rem;
   border: 1px solid var(--rule);
   border-radius: 24px;
   color: inherit;
@@ -1786,7 +1786,7 @@ footer {
 
 .yt-title {
   font-family: var(--display);
-  font-size: clamp(1.85rem, 3.2vw, 2.7rem);
+  font-size: clamp(1.5rem, 2.5vw, 2.2rem);
   line-height: 1.16;
   font-weight: 700;
   letter-spacing: -0.03em;
@@ -1815,7 +1815,7 @@ footer {
 
 .yt-body-wrap {
   position: relative;
-  max-height: 18rem;
+  max-height: 13rem;
   overflow: hidden;
   margin-bottom: 0.25rem;
   transition: max-height 0.4s ease;
@@ -1953,14 +1953,13 @@ footer {
   }
   .yt-sidebar {
     position: static;
-    max-height: 55vh;
+    max-height: 42vh;
   }
 }
 
 @media (max-width: 600px) {
   .yt-hero {
-    padding: 1.3rem 1.2rem 1.2rem;
-    min-height: 260px;
+    padding: 1rem 1.1rem 1rem;
   }
   .yt-title {
     font-size: clamp(1.5rem, 6vw, 1.9rem);

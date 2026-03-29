@@ -52,7 +52,7 @@ main {
 	width: 720px;
 	max-width: calc(100% - 2em);
 	margin: auto;
-	padding: 2em 1em;
+	padding: 1.25em 1em;
 }
 h1,
 h2,
@@ -60,7 +60,7 @@ h3,
 h4,
 h5,
 h6 {
-	margin: 2em 0 0.9em 0;
+	margin: 1.4em 0 0.6em 0;
 	color: inherit;
 	line-height: 1.2;
 }
@@ -139,14 +139,14 @@ blockquote {
 hr {
 	border: none;
 	border-top: 1px solid rgb(var(--gray-light));
-	margin: 2em 0;
+	margin: 1.4em 0;
 }
 @media (max-width: 720px) {
 	body {
 		font-size: 15px;
 	}
 	main {
-		padding: 1em;
+		padding: 0.75em;
 	}
 }
 @media (max-width: 360px) {
@@ -246,8 +246,8 @@ hr {
 }
 
 .blog-post-title {
-	margin-bottom: 1em;
-	padding: 1em 0;
+	margin-bottom: 0.6em;
+	padding: 0.6em 0;
 	text-align: center;
 	line-height: 1;
 }
@@ -341,8 +341,8 @@ hr {
 }
 
 .blog-post-share-section {
-	margin-top: 2.5rem;
-	padding-top: 1.5rem;
+	margin-top: 1.5rem;
+	padding-top: 1rem;
 	border-top: 1px solid var(--rule);
 	text-align: center;
 }
