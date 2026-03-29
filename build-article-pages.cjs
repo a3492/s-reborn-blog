@@ -277,16 +277,16 @@ function generateArticlePage(article) {
 <body>
   <header>
     <nav>
-      <a href="/">S-Reborn Medical AI</a>
+      <a href="/s-reborn-blog/">S-Reborn Medical AI</a>
       <ul>
-        <li><a href="/">홈</a></li>
-        <li><a href="/category/doctor-ai.html">Doctor AI</a></li>
-        <li><a href="/category/ai-news.html">뉴스</a></li>
-        <li><a href="/category/ai-tools.html">도구</a></li>
-        <li><a href="/category/faq.html">FAQ</a></li>
-        <li><a href="/category/tips.html">팁</a></li>
-        <li><a href="/category/regulations.html">규제</a></li>
-        <li><a href="/search.html">🔍 검색</a></li>
+        <li><a href="/s-reborn-blog/">홈</a></li>
+        <li><a href="/s-reborn-blog/category/doctor-ai.html">Doctor AI</a></li>
+        <li><a href="/s-reborn-blog/category/ai-news.html">뉴스</a></li>
+        <li><a href="/s-reborn-blog/category/ai-tools.html">도구</a></li>
+        <li><a href="/s-reborn-blog/category/faq.html">FAQ</a></li>
+        <li><a href="/s-reborn-blog/category/tips.html">팁</a></li>
+        <li><a href="/s-reborn-blog/category/regulations.html">규제</a></li>
+        <li><a href="/s-reborn-blog/search.html">🔍 검색</a></li>
       </ul>
     </nav>
   </header>
@@ -341,14 +341,14 @@ function generateArticlePage(article) {
       <h3>이전 및 다음 글</h3>
       <div class="navigation">
         ${prevArticle ? `
-          <a href="/article/${prevArticle.slug}.html" class="nav-link">
+          <a href="/s-reborn-blog/article/${prevArticle.slug}.html" class="nav-link">
             <span class="nav-label">← 이전 글</span>
             <span class="nav-title">${prevArticle.title}</span>
           </a>
         ` : '<div class="nav-link empty"></div>'}
 
         ${nextArticle ? `
-          <a href="/article/${nextArticle.slug}.html" class="nav-link" style="text-align: right;">
+          <a href="/s-reborn-blog/article/${nextArticle.slug}.html" class="nav-link" style="text-align: right;">
             <span class="nav-label">다음 글 →</span>
             <span class="nav-title">${nextArticle.title}</span>
           </a>
@@ -527,15 +527,15 @@ function generateSearchPageWithData() {
 <body>
   <header>
     <nav>
-      <a href="/">S-Reborn Medical AI</a>
+      <a href="/s-reborn-blog/">S-Reborn Medical AI</a>
       <ul>
-        <li><a href="/">홈</a></li>
-        <li><a href="/category/doctor-ai.html">Doctor AI</a></li>
-        <li><a href="/category/ai-news.html">뉴스</a></li>
-        <li><a href="/category/ai-tools.html">도구</a></li>
-        <li><a href="/category/faq.html">FAQ</a></li>
-        <li><a href="/category/tips.html">팁</a></li>
-        <li><a href="/category/regulations.html">규제</a></li>
+        <li><a href="/s-reborn-blog/">홈</a></li>
+        <li><a href="/s-reborn-blog/category/doctor-ai.html">Doctor AI</a></li>
+        <li><a href="/s-reborn-blog/category/ai-news.html">뉴스</a></li>
+        <li><a href="/s-reborn-blog/category/ai-tools.html">도구</a></li>
+        <li><a href="/s-reborn-blog/category/faq.html">FAQ</a></li>
+        <li><a href="/s-reborn-blog/category/tips.html">팁</a></li>
+        <li><a href="/s-reborn-blog/category/regulations.html">규제</a></li>
       </ul>
     </nav>
   </header>
@@ -575,7 +575,7 @@ function generateSearchPageWithData() {
       resultsContainer.innerHTML = results.map(result => {
         const article = result.item;
         return \`
-          <a href="/article/\${article.slug}.html" class="result-card">
+          <a href="/s-reborn-blog/article/\${article.slug}.html" class="result-card">
             <div class="result-category">\${article.category}</div>
             <h3 class="result-title">\${article.title}</h3>
             <p class="result-description">\${article.description}</p>
