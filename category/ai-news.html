@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 뉴스 | S-Reborn Medical AI</title>
+  <meta name="description" content="최신 의료 AI 뉴스와 트렌드">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
+      background: #fbf7f1;
+      color: #1d2328;
+      line-height: 1.6;
+    }
+
+    header {
+      background: white;
+      border-bottom: 1px solid #e0d5c8;
+      padding: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header a {
+      text-decoration: none;
+      color: #155d4b;
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    header nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+
+    header nav a {
+      font-size: 14px;
+      color: #666;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    header nav a:hover {
+      color: #155d4b;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .page-title {
+      font-size: 36px;
+      margin-bottom: 10px;
+      color: #155d4b;
+    }
+
+    .page-description {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 40px;
+    }
+
+    .filters {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      border: 1px solid #e0d5c8;
+    }
+
+    .filter-group {
+      margin-bottom: 15px;
+    }
+
+    .filter-group label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .filter-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .filter-btn {
+      padding: 6px 14px;
+      border: 1px solid #d0c5b9;
+      background: white;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover {
+      border-color: #155d4b;
+      color: #155d4b;
+      background: #f0f8f6;
+    }
+
+    .filter-btn.active {
+      background: #155d4b;
+      color: white;
+      border-color: #155d4b;
+    }
+
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .article-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #e0d5c8;
+      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .article-card:hover {
+      border-color: #155d4b;
+      box-shadow: 0 8px 24px rgba(21, 93, 75, 0.12);
+      transform: translateY(-4px);
+    }
+
+    .article-header {
+      padding: 24px 20px;
+      flex-grow: 1;
+    }
+
+    .article-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1d2328;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .article-description {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 12px;
+      color: #999;
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .difficulty-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .difficulty-beginner {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .difficulty-intermediate {
+      background: #fff3e0;
+      color: #f57c00;
+    }
+
+    .difficulty-advanced {
+      background: #fce4ec;
+      color: #c2185b;
+    }
+
+    .article-tags {
+      padding: 0 20px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      font-size: 12px;
+      background: #f0ebe2;
+      color: #155d4b;
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tag:hover {
+      background: #155d4b;
+      color: white;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 60px 20px;
+      color: #999;
+    }
+
+    .no-results-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    footer {
+      background: #f5f0e8;
+      padding: 40px 20px;
+      text-align: center;
+      color: #666;
+      border-top: 1px solid #e0d5c8;
+      margin-top: 60px;
+    }
+
+    @media (max-width: 768px) {
+      header nav ul {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .page-title {
+        font-size: 28px;
+      }
+
+      .articles-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="/">S-Reborn Medical AI</a>
+      <ul>
+        <li><a href="/">홈</a></li>
+        <li><a href="/category/doctor-ai.html">Doctor AI</a></li>
+        <li><a href="/category/ai-news.html">뉴스</a></li>
+        <li><a href="/category/ai-tools.html">도구</a></li>
+        <li><a href="/category/faq.html">FAQ</a></li>
+        <li><a href="/category/tips.html">팁</a></li>
+        <li><a href="/category/regulations.html">규제</a></li>
+        <li><a href="/search.html">🔍 검색</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h1 class="page-title">📰 AI 뉴스</h1>
+    <p class="page-description">최신 의료 AI 뉴스와 트렌드</p>
+
+    <div class="filters">
+      <div class="filter-group">
+        <label>난이도</label>
+        <div class="filter-buttons">
+          <button class="filter-btn" onclick="filterByDifficulty('beginner')">초급</button>
+          <button class="filter-btn" onclick="filterByDifficulty('intermediate')">중급</button>
+          <button class="filter-btn" onclick="filterByDifficulty('advanced')">고급</button>
+        </div>
+      </div>
+      <div class="filter-group">
+        <label>읽기 시간</label>
+        <div class="filter-buttons">
+          <button class="filter-btn" onclick="filterByReadTime(5)">5분 이하</button>
+          <button class="filter-btn" onclick="filterByReadTime(10)">10분 이하</button>
+          <button class="filter-btn" onclick="filterByReadTime(999)">전체</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="articles-grid" id="articlesContainer">
+      <!-- 글 목록이 여기에 생성됨 -->
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 S-Reborn · Medical AI Content Platform</p>
+    <p style="font-size: 12px; margin-top: 10px; color: #999;">
+      <a href="https://github.com/a3492/s-reborn-blog" style="color: #999; text-decoration: none;">GitHub</a>
+    </p>
+  </footer>
+
+  <script>
+    const articles = [
+  {
+    "id": "news-001",
+    "title": "OpenAI, 의료 전문가용 GPT-4 Medical Edition 출시",
+    "slug": "openai-gpt4-medical",
+    "category": "ai-news",
+    "tags": [
+      "뉴스",
+      "OpenAI",
+      "의료"
+    ],
+    "description": "의료 분야 특화 GPT-4 버전 출시 및 기능 분석",
+    "read_time": 4,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "news"
+  },
+  {
+    "id": "news-002",
+    "title": "EU AI Act 의료 AI 규제 강화, 한국은?",
+    "slug": "eu-ai-act-medical",
+    "category": "ai-news",
+    "tags": [
+      "뉴스",
+      "규제",
+      "국제"
+    ],
+    "description": "유럽의 AI 규제 강화와 한국 의료 AI 산업에 미치는 영향",
+    "read_time": 5,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "news"
+  },
+  {
+    "id": "news-003",
+    "title": "삼성헬스케어, AI 기반 진단 보조 플랫폼 개발 착수",
+    "slug": "samsung-healthcare-ai",
+    "category": "ai-news",
+    "tags": [
+      "뉴스",
+      "한국",
+      "스타트업"
+    ],
+    "description": "국내 헬스케어 기업의 AI 진단 보조 도구 개발",
+    "read_time": 4,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "news"
+  },
+  {
+    "id": "news-004",
+    "title": "Nature 논문: AI 진단이 인간 의사와 같은 수준 도달",
+    "slug": "nature-ai-diagnosis-study",
+    "category": "ai-news",
+    "tags": [
+      "뉴스",
+      "연구",
+      "논문"
+    ],
+    "description": "최신 연구에서 AI 진단 능력이 의사 수준에 도달한 사례",
+    "read_time": 5,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "news"
+  },
+  {
+    "id": "news-005",
+    "title": "FDA 승인 의료 AI 도구, 작년 대비 40% 증가",
+    "slug": "fda-ai-approval-trend",
+    "category": "ai-news",
+    "tags": [
+      "뉴스",
+      "승인",
+      "미국"
+    ],
+    "description": "미국 FDA의 의료 AI 승인 추세",
+    "read_time": 4,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "news"
+  },
+  {
+    "id": "news-006",
+    "title": "의료 AI 데이터 유출 사건, 환자 정보 50만 명 노출",
+    "slug": "medical-ai-data-breach",
+    "category": "ai-news",
+    "tags": [
+      "뉴스",
+      "보안",
+      "사건"
+    ],
+    "description": "의료 AI 서비스의 데이터 보안 문제",
+    "read_time": 4,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "news"
+  },
+  {
+    "id": "news-007",
+    "title": "Google DeepMind, AlphaFold로 단백질 구조 1억 개 예측",
+    "slug": "deepmind-alphafold-medical",
+    "category": "ai-news",
+    "tags": [
+      "뉴스",
+      "기초연구",
+      "약물개발"
+    ],
+    "description": "신약 개발에 혁신을 가져올 AI 기술",
+    "read_time": 5,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "news"
+  },
+  {
+    "id": "news-008",
+    "title": "한국, 의료 AI 규제 샌드박스 정책 발표",
+    "slug": "korea-ai-sandbox",
+    "category": "ai-news",
+    "tags": [
+      "뉴스",
+      "규제",
+      "정책"
+    ],
+    "description": "규제 완화로 의료 AI 산업 활성화 추진",
+    "read_time": 4,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "news"
+  },
+  {
+    "id": "news-009",
+    "title": "병원 의료 AI 도입 비용, 초기 투자 5억 원대",
+    "slug": "medical-ai-investment-cost",
+    "category": "ai-news",
+    "tags": [
+      "뉴스",
+      "비용",
+      "산업"
+    ],
+    "description": "소병원도 도입 가능한 의료 AI 가격대 형성",
+    "read_time": 4,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "news"
+  },
+  {
+    "id": "news-010",
+    "title": "의료진 80%, '의료 AI가 미래'라고 생각... 하지만 신뢰도는?",
+    "slug": "survey-medical-professionals-ai",
+    "category": "ai-news",
+    "tags": [
+      "뉴스",
+      "조사",
+      "인식"
+    ],
+    "description": "의료 전문가의 AI에 대한 인식 조사",
+    "read_time": 4,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "news"
+  },
+  {
+    "id": "news-011",
+    "title": "의료 사이버 공격 급증, AI로 보안 강화",
+    "slug": "healthcare-cybersecurity-ai",
+    "category": "ai-news",
+    "tags": [
+      "뉴스",
+      "보안",
+      "사이버"
+    ],
+    "description": "의료기관을 노린 사이버 공격과 AI 방어",
+    "read_time": 4,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "news"
+  },
+  {
+    "id": "news-012",
+    "title": "의료 AI 특허, 2026년 1월 기준 누적 1만 건 돌파",
+    "slug": "medical-ai-patents-milestone",
+    "category": "ai-news",
+    "tags": [
+      "뉴스",
+      "특허",
+      "산업"
+    ],
+    "description": "의료 AI 기술 개발의 폭발적 증가",
+    "read_time": 4,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "news"
+  },
+  {
+    "id": "news-013",
+    "title": "Claude vs ChatGPT, 의료 진단에서 정확도 비교 연구",
+    "slug": "claude-vs-chatgpt-medical",
+    "category": "ai-news",
+    "tags": [
+      "뉴스",
+      "비교",
+      "연구"
+    ],
+    "description": "주요 AI 모델의 의료 진단 정확도 비교",
+    "read_time": 5,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "news"
+  },
+  {
+    "id": "news-014",
+    "title": "원격진료 + AI = 시골 지역 의료 격차 해소?",
+    "slug": "telehealth-ai-rural-areas",
+    "category": "ai-news",
+    "tags": [
+      "뉴스",
+      "원격",
+      "지역"
+    ],
+    "description": "의료 취약 지역에 AI와 원격진료의 역할",
+    "read_time": 4,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "news"
+  },
+  {
+    "id": "news-015",
+    "title": "의료 AI 윤리 위원회, 국내 대형 병원 절반만 설치",
+    "slug": "medical-ai-ethics-committee",
+    "category": "ai-news",
+    "tags": [
+      "뉴스",
+      "윤리",
+      "정책"
+    ],
+    "description": "의료 AI 운영의 투명성과 윤리성 확보",
+    "read_time": 4,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "news"
+  },
+  {
+    "id": "news-016",
+    "title": "암 진단 AI, 유방암 검진에서 유방촬영술 능가",
+    "slug": "cancer-detection-ai-study",
+    "category": "ai-news",
+    "tags": [
+      "뉴스",
+      "암",
+      "영상"
+    ],
+    "description": "암 조기 발견에서 AI의 뛰어난 성능",
+    "read_time": 5,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "news"
+  },
+  {
+    "id": "news-017",
+    "title": "의약품 개발 AI, 신약 개발 기간 50% 단축",
+    "slug": "drug-development-ai",
+    "category": "ai-news",
+    "tags": [
+      "뉴스",
+      "약물",
+      "개발"
+    ],
+    "description": "AI가 가속하는 신약 개발 프로세스",
+    "read_time": 4,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "news"
+  },
+  {
+    "id": "news-018",
+    "title": "의료 AI 임상시험 과제, 환자 데이터 활용의 법적 경계",
+    "slug": "ai-clinical-trial-ethics",
+    "category": "ai-news",
+    "tags": [
+      "뉴스",
+      "임상",
+      "법률"
+    ],
+    "description": "의료 AI 개발 시 환자 정보 활용의 법적 문제",
+    "read_time": 4,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "news"
+  },
+  {
+    "id": "news-019",
+    "title": "병원 의료진 이직률 높은 이유? AI 업무 자동화",
+    "slug": "healthcare-worker-ai-impact",
+    "category": "ai-news",
+    "tags": [
+      "뉴스",
+      "직업",
+      "미래"
+    ],
+    "description": "의료 현장에서의 AI 도입이 일자리에 미치는 영향",
+    "read_time": 4,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "news"
+  },
+  {
+    "id": "news-020",
+    "title": "메타, AI 의료 분야 투자 확대... 미래는?",
+    "slug": "meta-healthcare-ai-investment",
+    "category": "ai-news",
+    "tags": [
+      "뉴스",
+      "투자",
+      "기업"
+    ],
+    "description": "빅테크 기업들의 의료 AI 시장 진입",
+    "read_time": 4,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "news"
+  }
+];
+    let currentDifficulty = null;
+    let currentReadTime = null;
+
+    function renderArticles() {
+      let filtered = articles;
+
+      if (currentDifficulty) {
+        filtered = filtered.filter(a => a.difficulty === currentDifficulty);
+      }
+
+      if (currentReadTime) {
+        filtered = filtered.filter(a => a.read_time <= currentReadTime);
+      }
+
+      const container = document.getElementById('articlesContainer');
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="no-results">
+            <div class="no-results-icon">📭</div>
+            <p>일치하는 글이 없습니다.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(article => `
+        <a href="/article/${article.slug}.html" class="article-card">
+          <div class="article-header">
+            <h2 class="article-title">${article.title}</h2>
+            <p class="article-description">${article.description}</p>
+          </div>
+          <div class="article-meta">
+            <span class="meta-item">📕 ${article.read_time}분</span>
+            <span class="difficulty-badge difficulty-${article.difficulty}">
+              ${article.difficulty === 'beginner' ? '초급' : article.difficulty === 'intermediate' ? '중급' : '고급'}
+            </span>
+          </div>
+          <div class="article-tags">
+            ${article.tags.map(tag => `<span class="tag">#${tag}</span>`).join('')}
+          </div>
+        </a>
+      `).join('');
+    }
+
+    function filterByDifficulty(level) {
+      currentDifficulty = currentDifficulty === level ? null : level;
+      renderArticles();
+    }
+
+    function filterByReadTime(time) {
+      currentReadTime = currentReadTime === time ? null : time;
+      renderArticles();
+    }
+
+    renderArticles();
+  </script>
+</body>
+</html>

@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>의료진 팁 | S-Reborn Medical AI</title>
+  <meta name="description" content="의료 현장에서 바로 써먹는 AI 팁">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
+      background: #fbf7f1;
+      color: #1d2328;
+      line-height: 1.6;
+    }
+
+    header {
+      background: white;
+      border-bottom: 1px solid #e0d5c8;
+      padding: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header a {
+      text-decoration: none;
+      color: #155d4b;
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    header nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+
+    header nav a {
+      font-size: 14px;
+      color: #666;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    header nav a:hover {
+      color: #155d4b;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .page-title {
+      font-size: 36px;
+      margin-bottom: 10px;
+      color: #155d4b;
+    }
+
+    .page-description {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 40px;
+    }
+
+    .filters {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      border: 1px solid #e0d5c8;
+    }
+
+    .filter-group {
+      margin-bottom: 15px;
+    }
+
+    .filter-group label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .filter-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .filter-btn {
+      padding: 6px 14px;
+      border: 1px solid #d0c5b9;
+      background: white;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover {
+      border-color: #155d4b;
+      color: #155d4b;
+      background: #f0f8f6;
+    }
+
+    .filter-btn.active {
+      background: #155d4b;
+      color: white;
+      border-color: #155d4b;
+    }
+
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .article-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #e0d5c8;
+      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .article-card:hover {
+      border-color: #155d4b;
+      box-shadow: 0 8px 24px rgba(21, 93, 75, 0.12);
+      transform: translateY(-4px);
+    }
+
+    .article-header {
+      padding: 24px 20px;
+      flex-grow: 1;
+    }
+
+    .article-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1d2328;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .article-description {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 12px;
+      color: #999;
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .difficulty-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .difficulty-beginner {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .difficulty-intermediate {
+      background: #fff3e0;
+      color: #f57c00;
+    }
+
+    .difficulty-advanced {
+      background: #fce4ec;
+      color: #c2185b;
+    }
+
+    .article-tags {
+      padding: 0 20px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      font-size: 12px;
+      background: #f0ebe2;
+      color: #155d4b;
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tag:hover {
+      background: #155d4b;
+      color: white;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 60px 20px;
+      color: #999;
+    }
+
+    .no-results-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    footer {
+      background: #f5f0e8;
+      padding: 40px 20px;
+      text-align: center;
+      color: #666;
+      border-top: 1px solid #e0d5c8;
+      margin-top: 60px;
+    }
+
+    @media (max-width: 768px) {
+      header nav ul {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .page-title {
+        font-size: 28px;
+      }
+
+      .articles-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="/">S-Reborn Medical AI</a>
+      <ul>
+        <li><a href="/">홈</a></li>
+        <li><a href="/category/doctor-ai.html">Doctor AI</a></li>
+        <li><a href="/category/ai-news.html">뉴스</a></li>
+        <li><a href="/category/ai-tools.html">도구</a></li>
+        <li><a href="/category/faq.html">FAQ</a></li>
+        <li><a href="/category/tips.html">팁</a></li>
+        <li><a href="/category/regulations.html">규제</a></li>
+        <li><a href="/search.html">🔍 검색</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h1 class="page-title">💡 의료진 팁</h1>
+    <p class="page-description">의료 현장에서 바로 써먹는 AI 팁</p>
+
+    <div class="filters">
+      <div class="filter-group">
+        <label>난이도</label>
+        <div class="filter-buttons">
+          <button class="filter-btn" onclick="filterByDifficulty('beginner')">초급</button>
+          <button class="filter-btn" onclick="filterByDifficulty('intermediate')">중급</button>
+          <button class="filter-btn" onclick="filterByDifficulty('advanced')">고급</button>
+        </div>
+      </div>
+      <div class="filter-group">
+        <label>읽기 시간</label>
+        <div class="filter-buttons">
+          <button class="filter-btn" onclick="filterByReadTime(5)">5분 이하</button>
+          <button class="filter-btn" onclick="filterByReadTime(10)">10분 이하</button>
+          <button class="filter-btn" onclick="filterByReadTime(999)">전체</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="articles-grid" id="articlesContainer">
+      <!-- 글 목록이 여기에 생성됨 -->
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 S-Reborn · Medical AI Content Platform</p>
+    <p style="font-size: 12px; margin-top: 10px; color: #999;">
+      <a href="https://github.com/a3492/s-reborn-blog" style="color: #999; text-decoration: none;">GitHub</a>
+    </p>
+  </footer>
+
+  <script>
+    const articles = [
+  {
+    "id": "tips-001",
+    "title": "5분 안에: 진료기록을 AI로 자동 정리하기",
+    "slug": "5min-ai-clinical-notes",
+    "category": "tips",
+    "tags": [
+      "팁",
+      "자동화",
+      "기록"
+    ],
+    "description": "진료 후 5분 만에 AI가 정리한 기록 얻기",
+    "read_time": 3,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "howto"
+  },
+  {
+    "id": "tips-002",
+    "title": "5분 안에: 환자 설명을 AI로 쉽게 만들기",
+    "slug": "5min-ai-patient-explanation",
+    "category": "tips",
+    "tags": [
+      "팁",
+      "환자교육",
+      "쉬운설명"
+    ],
+    "description": "의료 용어를 일반인이 이해할 수 있게 변환",
+    "read_time": 3,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "howto"
+  },
+  {
+    "id": "tips-003",
+    "title": "5분 안에: AI로 감별진단 순서 정하기",
+    "slug": "5min-ai-differential-diagnosis",
+    "category": "tips",
+    "tags": [
+      "팁",
+      "진단",
+      "AI활용"
+    ],
+    "description": "증상에 따른 감별진단 목록을 AI로 생성",
+    "read_time": 3,
+    "date": "2026-03-29",
+    "difficulty": "intermediate",
+    "type": "howto"
+  },
+  {
+    "id": "tips-004",
+    "title": "5분 안에: 진료 후 처방약 AI로 검토하기",
+    "slug": "5min-ai-prescription-review",
+    "category": "tips",
+    "tags": [
+      "팁",
+      "약물",
+      "안전"
+    ],
+    "description": "약물 상호작용을 AI로 빠르게 확인",
+    "read_time": 3,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "howto"
+  },
+  {
+    "id": "tips-005",
+    "title": "5분 안에: 환자 건강검진 결과를 AI로 설명하기",
+    "slug": "5min-ai-health-screening-explanation",
+    "category": "tips",
+    "tags": [
+      "팁",
+      "검진",
+      "설명"
+    ],
+    "description": "복잡한 검진 결과를 환자가 이해할 말로",
+    "read_time": 3,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "howto"
+  },
+  {
+    "id": "tips-006",
+    "title": "5분 안에: 논문 초록을 AI로 요약하기",
+    "slug": "5min-ai-paper-summary",
+    "category": "tips",
+    "tags": [
+      "팁",
+      "논문",
+      "요약"
+    ],
+    "description": "의학 논문을 빠르게 이해하고 정리",
+    "read_time": 3,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "howto"
+  },
+  {
+    "id": "tips-007",
+    "title": "5분 안에: 환자 상담 기록을 AI로 정리하기",
+    "slug": "5min-ai-counseling-notes",
+    "category": "tips",
+    "tags": [
+      "팁",
+      "상담",
+      "기록"
+    ],
+    "description": "상담 내용을 체계적으로 정리",
+    "read_time": 3,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "howto"
+  },
+  {
+    "id": "tips-008",
+    "title": "5분 안에: 퇴원 환자용 생활지도를 AI로 만들기",
+    "slug": "5min-ai-discharge-instructions",
+    "category": "tips",
+    "tags": [
+      "팁",
+      "퇴원",
+      "지도"
+    ],
+    "description": "퇴원 후 생활지도를 환자맞춤형으로",
+    "read_time": 3,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "howto"
+  },
+  {
+    "id": "tips-009",
+    "title": "5분 안에: 증례보고서를 AI로 작성하기",
+    "slug": "5min-ai-case-report",
+    "category": "tips",
+    "tags": [
+      "팁",
+      "학술",
+      "보고서"
+    ],
+    "description": "흥미로운 임상 사례를 논문 형식으로",
+    "read_time": 3,
+    "date": "2026-03-29",
+    "difficulty": "intermediate",
+    "type": "howto"
+  },
+  {
+    "id": "tips-010",
+    "title": "5분 안에: 진료 후 의료보험 청구코드를 AI로 찾기",
+    "slug": "5min-ai-medical-billing",
+    "category": "tips",
+    "tags": [
+      "팁",
+      "청구",
+      "행정"
+    ],
+    "description": "진료 내용에 맞는 청구코드를 자동 추천",
+    "read_time": 3,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "howto"
+  },
+  {
+    "id": "tips-011",
+    "title": "5분 안에: 새로운 의료 가이드라인을 AI로 정리하기",
+    "slug": "5min-ai-guideline-summary",
+    "category": "tips",
+    "tags": [
+      "팁",
+      "가이드",
+      "학습"
+    ],
+    "description": "최신 진료 가이드라인을 빠르게 습득",
+    "read_time": 3,
+    "date": "2026-03-29",
+    "difficulty": "intermediate",
+    "type": "howto"
+  },
+  {
+    "id": "tips-012",
+    "title": "5분 안에: 환자 질문에 대한 답변을 AI로 준비하기",
+    "slug": "5min-ai-patient-qna",
+    "category": "tips",
+    "tags": [
+      "팁",
+      "상담",
+      "대응"
+    ],
+    "description": "환자의 까다로운 질문에 미리 준비된 답변",
+    "read_time": 3,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "howto"
+  },
+  {
+    "id": "tips-013",
+    "title": "5분 안에: 의료 에러(Adverse Event)를 AI로 보고하기",
+    "slug": "5min-ai-adverse-event-report",
+    "category": "tips",
+    "tags": [
+      "팁",
+      "안전",
+      "보고"
+    ],
+    "description": "의료 사건을 정확하고 완벽하게 보고",
+    "read_time": 3,
+    "date": "2026-03-29",
+    "difficulty": "intermediate",
+    "type": "howto"
+  },
+  {
+    "id": "tips-014",
+    "title": "5분 안에: 컨퍼런스 발표 슬라이드를 AI로 만들기",
+    "slug": "5min-ai-presentation-slides",
+    "category": "tips",
+    "tags": [
+      "팁",
+      "발표",
+      "자료"
+    ],
+    "description": "학술 발표 자료를 신속하게 준비",
+    "read_time": 3,
+    "date": "2026-03-29",
+    "difficulty": "intermediate",
+    "type": "howto"
+  },
+  {
+    "id": "tips-015",
+    "title": "5분 안에: 의료 AI 새소식을 매일 받기",
+    "slug": "5min-ai-news-subscription",
+    "category": "tips",
+    "tags": [
+      "팁",
+      "뉴스",
+      "학습"
+    ],
+    "description": "최신 의료 AI 소식을 자동으로 정리받기",
+    "read_time": 3,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "howto"
+  }
+];
+    let currentDifficulty = null;
+    let currentReadTime = null;
+
+    function renderArticles() {
+      let filtered = articles;
+
+      if (currentDifficulty) {
+        filtered = filtered.filter(a => a.difficulty === currentDifficulty);
+      }
+
+      if (currentReadTime) {
+        filtered = filtered.filter(a => a.read_time <= currentReadTime);
+      }
+
+      const container = document.getElementById('articlesContainer');
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="no-results">
+            <div class="no-results-icon">📭</div>
+            <p>일치하는 글이 없습니다.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(article => `
+        <a href="/article/${article.slug}.html" class="article-card">
+          <div class="article-header">
+            <h2 class="article-title">${article.title}</h2>
+            <p class="article-description">${article.description}</p>
+          </div>
+          <div class="article-meta">
+            <span class="meta-item">📕 ${article.read_time}분</span>
+            <span class="difficulty-badge difficulty-${article.difficulty}">
+              ${article.difficulty === 'beginner' ? '초급' : article.difficulty === 'intermediate' ? '중급' : '고급'}
+            </span>
+          </div>
+          <div class="article-tags">
+            ${article.tags.map(tag => `<span class="tag">#${tag}</span>`).join('')}
+          </div>
+        </a>
+      `).join('');
+    }
+
+    function filterByDifficulty(level) {
+      currentDifficulty = currentDifficulty === level ? null : level;
+      renderArticles();
+    }
+
+    function filterByReadTime(time) {
+      currentReadTime = currentReadTime === time ? null : time;
+      renderArticles();
+    }
+
+    renderArticles();
+  </script>
+</body>
+</html>
