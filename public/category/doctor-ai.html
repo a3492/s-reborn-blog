@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor AI | S-Reborn Medical AI</title>
+  <meta name="description" content="의료진을 위한 AI 활용 완벽 가이드">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
+      background: #fbf7f1;
+      color: #1d2328;
+      line-height: 1.6;
+    }
+
+    header {
+      background: white;
+      border-bottom: 1px solid #e0d5c8;
+      padding: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header a {
+      text-decoration: none;
+      color: #155d4b;
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    header nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+
+    header nav a {
+      font-size: 14px;
+      color: #666;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    header nav a:hover {
+      color: #155d4b;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .page-title {
+      font-size: 36px;
+      margin-bottom: 10px;
+      color: #155d4b;
+    }
+
+    .page-description {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 40px;
+    }
+
+    .filters {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      border: 1px solid #e0d5c8;
+    }
+
+    .filter-group {
+      margin-bottom: 15px;
+    }
+
+    .filter-group label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .filter-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .filter-btn {
+      padding: 6px 14px;
+      border: 1px solid #d0c5b9;
+      background: white;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover {
+      border-color: #155d4b;
+      color: #155d4b;
+      background: #f0f8f6;
+    }
+
+    .filter-btn.active {
+      background: #155d4b;
+      color: white;
+      border-color: #155d4b;
+    }
+
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .article-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #e0d5c8;
+      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .article-card:hover {
+      border-color: #155d4b;
+      box-shadow: 0 8px 24px rgba(21, 93, 75, 0.12);
+      transform: translateY(-4px);
+    }
+
+    .article-header {
+      padding: 24px 20px;
+      flex-grow: 1;
+    }
+
+    .article-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1d2328;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .article-description {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 12px;
+      color: #999;
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .difficulty-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .difficulty-beginner {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .difficulty-intermediate {
+      background: #fff3e0;
+      color: #f57c00;
+    }
+
+    .difficulty-advanced {
+      background: #fce4ec;
+      color: #c2185b;
+    }
+
+    .article-tags {
+      padding: 0 20px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      font-size: 12px;
+      background: #f0ebe2;
+      color: #155d4b;
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tag:hover {
+      background: #155d4b;
+      color: white;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 60px 20px;
+      color: #999;
+    }
+
+    .no-results-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    footer {
+      background: #f5f0e8;
+      padding: 40px 20px;
+      text-align: center;
+      color: #666;
+      border-top: 1px solid #e0d5c8;
+      margin-top: 60px;
+    }
+
+    @media (max-width: 768px) {
+      header nav ul {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .page-title {
+        font-size: 28px;
+      }
+
+      .articles-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="/">S-Reborn Medical AI</a>
+      <ul>
+        <li><a href="/">홈</a></li>
+        <li><a href="/category/doctor-ai.html">Doctor AI</a></li>
+        <li><a href="/category/ai-news.html">뉴스</a></li>
+        <li><a href="/category/ai-tools.html">도구</a></li>
+        <li><a href="/category/faq.html">FAQ</a></li>
+        <li><a href="/category/tips.html">팁</a></li>
+        <li><a href="/category/regulations.html">규제</a></li>
+        <li><a href="/search.html">🔍 검색</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h1 class="page-title">🏥 Doctor AI</h1>
+    <p class="page-description">의료진을 위한 AI 활용 완벽 가이드</p>
+
+    <div class="filters">
+      <div class="filter-group">
+        <label>난이도</label>
+        <div class="filter-buttons">
+          <button class="filter-btn" onclick="filterByDifficulty('beginner')">초급</button>
+          <button class="filter-btn" onclick="filterByDifficulty('intermediate')">중급</button>
+          <button class="filter-btn" onclick="filterByDifficulty('advanced')">고급</button>
+        </div>
+      </div>
+      <div class="filter-group">
+        <label>읽기 시간</label>
+        <div class="filter-buttons">
+          <button class="filter-btn" onclick="filterByReadTime(5)">5분 이하</button>
+          <button class="filter-btn" onclick="filterByReadTime(10)">10분 이하</button>
+          <button class="filter-btn" onclick="filterByReadTime(999)">전체</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="articles-grid" id="articlesContainer">
+      <!-- 글 목록이 여기에 생성됨 -->
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 S-Reborn · Medical AI Content Platform</p>
+    <p style="font-size: 12px; margin-top: 10px; color: #999;">
+      <a href="https://github.com/a3492/s-reborn-blog" style="color: #999; text-decoration: none;">GitHub</a>
+    </p>
+  </footer>
+
+  <script>
+    const articles = [
+  {
+    "id": "fundamentals-11",
+    "title": "AI 윤리와 의료: 의료진이 알아야 할 4가지 윤리 문제",
+    "slug": "ai-ethics-healthcare",
+    "category": "doctor-ai",
+    "series": "fundamentals",
+    "series_order": 11,
+    "tags": [
+      "AI",
+      "윤리",
+      "의료"
+    ],
+    "description": "의료 현장에서 AI 사용 시 마주치는 윤리 문제와 해결 방법",
+    "read_time": 8,
+    "date": "2026-03-29",
+    "difficulty": "intermediate",
+    "type": "guide"
+  },
+  {
+    "id": "fundamentals-12",
+    "title": "AI 환각(Hallucination)이란? 의료 AI가 거짓 정보를 만드는 이유",
+    "slug": "ai-hallucination-medical",
+    "category": "doctor-ai",
+    "series": "fundamentals",
+    "series_order": 12,
+    "tags": [
+      "AI",
+      "신뢰성",
+      "기술"
+    ],
+    "description": "AI가 존재하지 않는 정보를 마치 사실인 것처럼 말하는 현상 이해하기",
+    "read_time": 7,
+    "date": "2026-03-29",
+    "difficulty": "intermediate",
+    "type": "educational"
+  },
+  {
+    "id": "fundamentals-13",
+    "title": "의료 AI 신뢰도 평가하기: 정확도, 민감도, 특이도",
+    "slug": "ai-reliability-metrics",
+    "category": "doctor-ai",
+    "series": "fundamentals",
+    "series_order": 13,
+    "tags": [
+      "AI",
+      "통계",
+      "평가"
+    ],
+    "description": "의료 AI 성능을 제대로 평가하는 방법",
+    "read_time": 10,
+    "date": "2026-03-29",
+    "difficulty": "advanced",
+    "type": "technical"
+  },
+  {
+    "id": "fundamentals-14",
+    "title": "AI 모델의 편향성(Bias)이 의료에 미치는 영향",
+    "slug": "ai-bias-healthcare",
+    "category": "doctor-ai",
+    "series": "fundamentals",
+    "series_order": 14,
+    "tags": [
+      "AI",
+      "편향성",
+      "공정성"
+    ],
+    "description": "특정 인종, 성별에 대한 AI의 편향된 판단 문제",
+    "read_time": 9,
+    "date": "2026-03-29",
+    "difficulty": "intermediate",
+    "type": "analytical"
+  },
+  {
+    "id": "fundamentals-15",
+    "title": "AI와 인간의 차이: 의료 AI가 의사를 대체할 수 없는 이유",
+    "slug": "ai-vs-human-doctor",
+    "category": "doctor-ai",
+    "series": "fundamentals",
+    "series_order": 15,
+    "tags": [
+      "AI",
+      "의료",
+      "협력"
+    ],
+    "description": "AI와 의사의 역할 구분과 협력 방안",
+    "read_time": 8,
+    "date": "2026-03-29",
+    "difficulty": "intermediate",
+    "type": "opinion"
+  },
+  {
+    "id": "fundamentals-16",
+    "title": "의료 AI의 '설명 가능성(Explainability)': AI가 왜 그런 진단을 내렸는가?",
+    "slug": "ai-explainability",
+    "category": "doctor-ai",
+    "series": "fundamentals",
+    "series_order": 16,
+    "tags": [
+      "AI",
+      "해석",
+      "신뢰"
+    ],
+    "description": "블랙박스 AI의 판단 과정을 이해하는 방법",
+    "read_time": 9,
+    "date": "2026-03-29",
+    "difficulty": "advanced",
+    "type": "technical"
+  },
+  {
+    "id": "fundamentals-17",
+    "title": "의료 AI 학습용 데이터: 어디서 오고 어떻게 보호되나?",
+    "slug": "medical-ai-data-sources",
+    "category": "doctor-ai",
+    "series": "fundamentals",
+    "series_order": 17,
+    "tags": [
+      "AI",
+      "데이터",
+      "보안"
+    ],
+    "description": "의료 AI 학습 데이터의 출처와 개인정보 보호",
+    "read_time": 8,
+    "date": "2026-03-29",
+    "difficulty": "intermediate",
+    "type": "educational"
+  },
+  {
+    "id": "fundamentals-18",
+    "title": "AI 모델 업데이트의 위험성: 새 버전이 항상 더 좋을까?",
+    "slug": "ai-model-updates-risk",
+    "category": "doctor-ai",
+    "series": "fundamentals",
+    "series_order": 18,
+    "tags": [
+      "AI",
+      "업데이트",
+      "위험"
+    ],
+    "description": "AI 모델 버전 변경 시 주의사항",
+    "read_time": 7,
+    "date": "2026-03-29",
+    "difficulty": "intermediate",
+    "type": "warning"
+  },
+  {
+    "id": "fundamentals-19",
+    "title": "의료 AI와 규제: 어떤 AI는 의료기기이고 어떤 AI는 아닐까?",
+    "slug": "medical-ai-regulation",
+    "category": "doctor-ai",
+    "series": "fundamentals",
+    "series_order": 19,
+    "tags": [
+      "AI",
+      "규제",
+      "법률"
+    ],
+    "description": "의료기기로 분류되는 AI와 그렇지 않은 AI의 기준",
+    "read_time": 8,
+    "date": "2026-03-29",
+    "difficulty": "intermediate",
+    "type": "legal"
+  },
+  {
+    "id": "fundamentals-20",
+    "title": "AI 환각에서 안전하게 벗어나기: 5가지 검증 방법",
+    "slug": "ai-hallucination-prevention",
+    "category": "doctor-ai",
+    "series": "fundamentals",
+    "series_order": 20,
+    "tags": [
+      "AI",
+      "검증",
+      "안전"
+    ],
+    "description": "AI의 거짓 정보 문제를 의료에서 실제로 대응하는 방법",
+    "read_time": 7,
+    "date": "2026-03-29",
+    "difficulty": "intermediate",
+    "type": "practical"
+  },
+  {
+    "id": "prompts-06",
+    "title": "AI로 작성하는 주사 지시문(Injection Instructions) 프롬프트",
+    "slug": "injection-instructions-prompt",
+    "category": "doctor-ai",
+    "series": "prompts",
+    "series_order": 6,
+    "tags": [
+      "프롬프트",
+      "주사",
+      "의료기록"
+    ],
+    "description": "안전하고 명확한 주사 지시문을 AI로 작성하기",
+    "read_time": 6,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "template"
+  },
+  {
+    "id": "prompts-07",
+    "title": "AI로 작성하는 진단서(Diagnostic Report) 프롬프트",
+    "slug": "diagnostic-report-prompt",
+    "category": "doctor-ai",
+    "series": "prompts",
+    "series_order": 7,
+    "tags": [
+      "프롬프트",
+      "진단서",
+      "문서"
+    ],
+    "description": "정형화된 진단서를 AI로 빠르게 작성하기",
+    "read_time": 6,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "template"
+  },
+  {
+    "id": "prompts-08",
+    "title": "AI로 설명하는 건강검진 결과(Health Screening Results) 프롬프트",
+    "slug": "health-screening-prompt",
+    "category": "doctor-ai",
+    "series": "prompts",
+    "series_order": 8,
+    "tags": [
+      "프롬프트",
+      "환자교육",
+      "검진"
+    ],
+    "description": "환자가 이해하기 쉬운 검진 결과 설명서 작성",
+    "read_time": 7,
+    "date": "2026-03-29",
+    "difficulty": "intermediate",
+    "type": "template"
+  },
+  {
+    "id": "prompts-09",
+    "title": "AI로 작성하는 퇴원 계획(Discharge Plan) 프롬프트",
+    "slug": "discharge-plan-prompt",
+    "category": "doctor-ai",
+    "series": "prompts",
+    "series_order": 9,
+    "tags": [
+      "프롬프트",
+      "퇴원",
+      "계획"
+    ],
+    "description": "환자별 맞춤형 퇴원 계획서 자동 작성",
+    "read_time": 7,
+    "date": "2026-03-29",
+    "difficulty": "intermediate",
+    "type": "template"
+  },
+  {
+    "id": "prompts-10",
+    "title": "AI로 작성하는 처방전 검토(Prescription Review) 프롬프트",
+    "slug": "prescription-review-prompt",
+    "category": "doctor-ai",
+    "series": "prompts",
+    "series_order": 10,
+    "tags": [
+      "프롬프트",
+      "약물",
+      "안전"
+    ],
+    "description": "처방약물의 상호작용 및 부작용을 AI로 검토하기",
+    "read_time": 7,
+    "date": "2026-03-29",
+    "difficulty": "intermediate",
+    "type": "template"
+  },
+  {
+    "id": "cases-06",
+    "title": "응급실 케이스: 급성 복통 환자, AI는 어떻게 도와줄까?",
+    "slug": "acute-abdominal-pain-case",
+    "category": "doctor-ai",
+    "series": "cases",
+    "series_order": 6,
+    "tags": [
+      "케이스",
+      "응급",
+      "진단"
+    ],
+    "description": "응급실 상황에서 AI를 활용한 감별진단",
+    "read_time": 10,
+    "date": "2026-03-29",
+    "difficulty": "intermediate",
+    "type": "casestudy"
+  },
+  {
+    "id": "cases-07",
+    "title": "만성질환 관리: 당뇨병 환자의 혈당 조절에 AI 활용",
+    "slug": "diabetes-management-ai",
+    "category": "doctor-ai",
+    "series": "cases",
+    "series_order": 7,
+    "tags": [
+      "케이스",
+      "만성질환",
+      "관리"
+    ],
+    "description": "장기 질환 관리에서 AI의 지속적인 도움",
+    "read_time": 9,
+    "date": "2026-03-29",
+    "difficulty": "intermediate",
+    "type": "casestudy"
+  },
+  {
+    "id": "cases-08",
+    "title": "약물 상호작용 감지: 고령 환자의 다제약물 처방 검토",
+    "slug": "polypharmacy-review-ai",
+    "category": "doctor-ai",
+    "series": "cases",
+    "series_order": 8,
+    "tags": [
+      "케이스",
+      "약물",
+      "노년"
+    ],
+    "description": "복용약물이 많은 고령 환자의 안전한 처방 관리",
+    "read_time": 9,
+    "date": "2026-03-29",
+    "difficulty": "intermediate",
+    "type": "casestudy"
+  },
+  {
+    "id": "cases-09",
+    "title": "감염병 진단: 발열 환자의 신속한 감별진단",
+    "slug": "fever-differential-diagnosis",
+    "category": "doctor-ai",
+    "series": "cases",
+    "series_order": 9,
+    "tags": [
+      "케이스",
+      "감염",
+      "진단"
+    ],
+    "description": "응급 상황에서 빠른 감별진단을 위한 AI 활용",
+    "read_time": 8,
+    "date": "2026-03-29",
+    "difficulty": "intermediate",
+    "type": "casestudy"
+  },
+  {
+    "id": "cases-10",
+    "title": "진료과 간 협력: AI가 다과목 의료를 연결하다",
+    "slug": "multidisciplinary-ai",
+    "category": "doctor-ai",
+    "series": "cases",
+    "series_order": 10,
+    "tags": [
+      "케이스",
+      "협력",
+      "통합"
+    ],
+    "description": "여러 과의 진료가 필요한 환자를 AI가 지원",
+    "read_time": 8,
+    "date": "2026-03-29",
+    "difficulty": "intermediate",
+    "type": "casestudy"
+  },
+  {
+    "id": "tools-06",
+    "title": "의료 영상 분석 AI: X선, CT, MRI 진단 보조",
+    "slug": "medical-imaging-ai",
+    "category": "doctor-ai",
+    "series": "tools",
+    "series_order": 6,
+    "tags": [
+      "도구",
+      "영상의학",
+      "진단"
+    ],
+    "description": "의료 영상을 분석하는 AI 도구와 임상 활용",
+    "read_time": 8,
+    "date": "2026-03-29",
+    "difficulty": "intermediate",
+    "type": "review"
+  },
+  {
+    "id": "tools-07",
+    "title": "약물 상호작용 검사 AI: 안전한 처방을 위한 도구",
+    "slug": "drug-interaction-ai",
+    "category": "doctor-ai",
+    "series": "tools",
+    "series_order": 7,
+    "tags": [
+      "도구",
+      "약물",
+      "안전"
+    ],
+    "description": "약물 부작용과 상호작용을 자동으로 검사",
+    "read_time": 7,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "review"
+  },
+  {
+    "id": "tools-08",
+    "title": "임상시험 매칭 AI: 환자에게 맞는 시험 찾기",
+    "slug": "clinical-trial-matching-ai",
+    "category": "doctor-ai",
+    "series": "tools",
+    "series_order": 8,
+    "tags": [
+      "도구",
+      "임상시험",
+      "연구"
+    ],
+    "description": "환자의 상태에 맞는 적절한 임상시험 추천",
+    "read_time": 6,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "review"
+  },
+  {
+    "id": "tools-09",
+    "title": "진료기록 자동 정리 AI: 음성을 문서로 변환",
+    "slug": "clinical-note-transcription",
+    "category": "doctor-ai",
+    "series": "tools",
+    "series_order": 9,
+    "tags": [
+      "도구",
+      "기록",
+      "자동화"
+    ],
+    "description": "진료 중 음성을 자동으로 정확한 기록으로",
+    "read_time": 7,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "review"
+  },
+  {
+    "id": "tools-10",
+    "title": "진단 코드화 AI: ICD-10 자동 추천",
+    "slug": "icd-coding-ai",
+    "category": "doctor-ai",
+    "series": "tools",
+    "series_order": 10,
+    "tags": [
+      "도구",
+      "코딩",
+      "행정"
+    ],
+    "description": "진단명을 자동으로 진단 코드로 변환",
+    "read_time": 6,
+    "date": "2026-03-29",
+    "difficulty": "beginner",
+    "type": "review"
+  }
+];
+    let currentDifficulty = null;
+    let currentReadTime = null;
+
+    function renderArticles() {
+      let filtered = articles;
+
+      if (currentDifficulty) {
+        filtered = filtered.filter(a => a.difficulty === currentDifficulty);
+      }
+
+      if (currentReadTime) {
+        filtered = filtered.filter(a => a.read_time <= currentReadTime);
+      }
+
+      const container = document.getElementById('articlesContainer');
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="no-results">
+            <div class="no-results-icon">📭</div>
+            <p>일치하는 글이 없습니다.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(article => `
+        <a href="/article/${article.slug}.html" class="article-card">
+          <div class="article-header">
+            <h2 class="article-title">${article.title}</h2>
+            <p class="article-description">${article.description}</p>
+          </div>
+          <div class="article-meta">
+            <span class="meta-item">📕 ${article.read_time}분</span>
+            <span class="difficulty-badge difficulty-${article.difficulty}">
+              ${article.difficulty === 'beginner' ? '초급' : article.difficulty === 'intermediate' ? '중급' : '고급'}
+            </span>
+          </div>
+          <div class="article-tags">
+            ${article.tags.map(tag => `<span class="tag">#${tag}</span>`).join('')}
+          </div>
+        </a>
+      `).join('');
+    }
+
+    function filterByDifficulty(level) {
+      currentDifficulty = currentDifficulty === level ? null : level;
+      renderArticles();
+    }
+
+    function filterByReadTime(time) {
+      currentReadTime = currentReadTime === time ? null : time;
+      renderArticles();
+    }
+
+    renderArticles();
+  </script>
+</body>
+</html>

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>S-Reborn Medical AI | 의료진을 위한 AI 가이드</title>
+  <meta name="description" content="의료 현장에서 AI를 효과적으로 활용하기 위한 완벽한 가이드. 의료 AI의 기초부터 실무 활용까지 100개의 기사로 배우세요.">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
+      background: #fbf7f1;
+      color: #1d2328;
+      line-height: 1.6;
+    }
+
+    header {
+      background: white;
+      border-bottom: 1px solid #e0d5c8;
+      padding: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      text-decoration: none;
+      color: #155d4b;
+      font-weight: 700;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    header nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+
+    header nav a {
+      font-size: 14px;
+      color: #666;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    header nav a:hover {
+      color: #155d4b;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #155d4b 0%, #1a7d6b 100%);
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    .hero-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 18px;
+      margin-bottom: 40px;
+      opacity: 0.95;
+    }
+
+    .search-box {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      display: flex;
+      gap: 10px;
+      max-width: 500px;
+      margin: 0 auto;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .search-box input {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      font-size: 16px;
+      font-family: inherit;
+      outline: none;
+    }
+
+    .search-box a {
+      padding: 12px 24px;
+      background: #155d4b;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: background 0.2s;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-box a:hover {
+      background: #0f4538;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+
+    .section-title {
+      font-size: 32px;
+      margin-bottom: 40px;
+      color: #155d4b;
+      text-align: center;
+    }
+
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 60px;
+    }
+
+    .category-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #e0d5c8;
+      transition: all 0.3s;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .category-card:hover {
+      border-color: #155d4b;
+      box-shadow: 0 8px 24px rgba(21, 93, 75, 0.12);
+      transform: translateY(-4px);
+    }
+
+    .category-icon {
+      font-size: 48px;
+      padding: 30px;
+      background: #f5f0e8;
+      text-align: center;
+    }
+
+    .category-content {
+      padding: 20px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .category-name {
+      font-size: 18px;
+      font-weight: 600;
+      color: #155d4b;
+      margin-bottom: 8px;
+    }
+
+    .category-description {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 16px;
+      flex-grow: 1;
+    }
+
+    .category-count {
+      font-size: 12px;
+      color: #999;
+    }
+
+    .featured-section {
+      background: white;
+      border-radius: 12px;
+      padding: 40px;
+      border: 1px solid #e0d5c8;
+      margin-bottom: 60px;
+    }
+
+    .featured-articles {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .article-card {
+      background: #f9f6f1;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #e0d5c8;
+      transition: all 0.3s;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .article-card:hover {
+      border-color: #155d4b;
+      box-shadow: 0 4px 12px rgba(21, 93, 75, 0.1);
+    }
+
+    .article-card-content {
+      padding: 20px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .article-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1d2328;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .article-description {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 16px;
+      flex-grow: 1;
+    }
+
+    .article-meta {
+      display: flex;
+      gap: 12px;
+      font-size: 12px;
+      color: #999;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .stat-box {
+      padding: 30px;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #e0d5c8;
+    }
+
+    .stat-number {
+      font-size: 36px;
+      font-weight: 700;
+      color: #155d4b;
+      margin-bottom: 10px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .cta-section {
+      background: linear-gradient(135deg, #155d4b 0%, #1a7d6b 100%);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+      border-radius: 12px;
+    }
+
+    .cta-section h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    .cta-section p {
+      font-size: 16px;
+      margin-bottom: 30px;
+      opacity: 0.95;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: white;
+      color: #155d4b;
+      padding: 14px 32px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    footer {
+      background: #f5f0e8;
+      padding: 40px 20px;
+      text-align: center;
+      color: #666;
+      border-top: 1px solid #e0d5c8;
+      margin-top: 60px;
+    }
+
+    footer a {
+      color: #666;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover {
+      color: #155d4b;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 32px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .search-box {
+        flex-direction: column;
+      }
+
+      .section-title {
+        font-size: 24px;
+      }
+
+      .categories-grid {
+        grid-template-columns: 1fr;
+      }
+
+      header nav ul {
+        flex-direction: column;
+        gap: 12px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="/" class="logo">🏥 S-Reborn Medical AI</a>
+      <ul>
+        <li><a href="/category/doctor-ai.html">Doctor AI</a></li>
+        <li><a href="/category/ai-news.html">뉴스</a></li>
+        <li><a href="/category/ai-tools.html">도구</a></li>
+        <li><a href="/category/faq.html">FAQ</a></li>
+        <li><a href="/category/tips.html">팁</a></li>
+        <li><a href="/category/regulations.html">규제</a></li>
+        <li><a href="/search.html">🔍 검색</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-container">
+      <h1>의료 AI, 이제는 필수입니다</h1>
+      <p>의료 현장에서 AI를 효과적으로 활용하기 위한 완벽한 가이드</p>
+      <div class="search-box">
+        <input type="text" placeholder="🔍 의료 AI에 관해 검색하세요..." id="quickSearch">
+        <a href="/search.html">검색</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <h2 class="section-title">📊 통계</h2>
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number">100+</div>
+        <div class="stat-label">의료 AI 기사</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">6</div>
+        <div class="stat-label">주요 카테고리</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">의료진</div>
+        <div class="stat-label">타겟 대상</div>
+      </div>
+    </div>
+
+    <h2 class="section-title">📚 주요 카테고리</h2>
+    <div class="categories-grid">
+      <a href="/category/doctor-ai.html" class="category-card">
+        <div class="category-icon">🏥</div>
+        <div class="category-content">
+          <div class="category-name">Doctor AI</div>
+          <div class="category-description">의료진을 위한 AI 활용 완벽 가이드</div>
+          <div class="category-count">25개 기사</div>
+        </div>
+      </a>
+
+      <a href="/category/ai-news.html" class="category-card">
+        <div class="category-icon">📰</div>
+        <div class="category-content">
+          <div class="category-name">AI 뉴스</div>
+          <div class="category-description">최신 의료 AI 뉴스와 트렌드</div>
+          <div class="category-count">20개 기사</div>
+        </div>
+      </a>
+
+      <a href="/category/ai-tools.html" class="category-card">
+        <div class="category-icon">🛠️</div>
+        <div class="category-content">
+          <div class="category-name">AI 도구</div>
+          <div class="category-description">의료용 AI 도구 리뷰 및 비교</div>
+          <div class="category-count">18개 기사</div>
+        </div>
+      </a>
+
+      <a href="/category/faq.html" class="category-card">
+        <div class="category-icon">❓</div>
+        <div class="category-content">
+          <div class="category-name">FAQ</div>
+          <div class="category-description">의료 AI에 대한 자주 묻는 질문</div>
+          <div class="category-count">15개 기사</div>
+        </div>
+      </a>
+
+      <a href="/category/tips.html" class="category-card">
+        <div class="category-icon">💡</div>
+        <div class="category-content">
+          <div class="category-name">의료진 팁</div>
+          <div class="category-description">의료 현장에서 바로 써먹는 AI 팁</div>
+          <div class="category-count">15개 기사</div>
+        </div>
+      </a>
+
+      <a href="/category/regulations.html" class="category-card">
+        <div class="category-icon">⚖️</div>
+        <div class="category-content">
+          <div class="category-name">규제 & 법률</div>
+          <div class="category-description">의료 AI 법규 및 규제 정보</div>
+          <div class="category-count">7개 기사</div>
+        </div>
+      </a>
+    </div>
+
+    <h2 class="section-title" style="margin-top: 80px;">✨ 최신 기사</h2>
+    <div class="featured-section">
+      <div class="featured-articles" id="recentArticles">
+        <!-- 최신 기사가 여기에 로드됨 -->
+      </div>
+    </div>
+
+    <div class="cta-section">
+      <h2>지금 바로 시작하세요</h2>
+      <p>100개의 의료 AI 기사로 당신의 진료를 혁신하세요</p>
+      <a href="/search.html" class="cta-button">모든 기사 탐색</a>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 S-Reborn · Medical AI Content Platform</p>
+    <p style="font-size: 12px; margin-top: 10px;">
+      <a href="https://github.com/a3492/s-reborn-blog">GitHub 저장소</a> ·
+      <a href="/search.html">검색</a>
+    </p>
+  </footer>
+
+  <script>
+    // 최신 기사 표시 (샘플 데이터)
+    const sampleArticles = [
+      {
+        title: "AI 윤리와 의료: 의료진이 알아야 할 4가지 윤리 문제",
+        slug: "ai-ethics-healthcare",
+        description: "의료 현장에서 AI 사용 시 마주치는 윤리 문제와 해결 방법",
+        read_time: 8
+      },
+      {
+        title: "AI 환각(Hallucination)이란? 의료 AI가 거짓 정보를 만드는 이유",
+        slug: "ai-hallucination-medical",
+        description: "AI가 존재하지 않는 정보를 마치 사실인 것처럼 말하는 현상 이해하기",
+        read_time: 7
+      },
+      {
+        title: "AI의 신뢰성을 측정하는 방법: 의료 현장에서 사용할 수 있는 지표",
+        slug: "ai-reliability-metrics",
+        description: "의료 AI의 정확도와 신뢰성을 평가하는 구체적인 방법",
+        read_time: 10
+      }
+    ];
+
+    const container = document.getElementById('recentArticles');
+    container.innerHTML = sampleArticles.map(article => `
+      <a href="/article/${article.slug}.html" class="article-card">
+        <div class="article-card-content">
+          <h3 class="article-title">${article.title}</h3>
+          <p class="article-description">${article.description}</p>
+          <div class="article-meta">
+            <span>📕 ${article.read_time}분</span>
+          </div>
+        </div>
+      </a>
+    `).join('');
+
+    // 빠른 검색 박스 동작
+    document.getElementById('quickSearch').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        window.location.href = '/search.html?q=' + encodeURIComponent(e.target.value);
+      }
+    });
+  </script>
+</body>
+</html>
