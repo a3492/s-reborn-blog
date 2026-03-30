@@ -4,6 +4,7 @@ export const SITE_DESCRIPTION = 'AI of the people, by the people, for the people
 export const CATEGORIES = [
 	{ id: 'ai', label: 'AI 개론', icon: '🤖' },
 	{ id: 'prompt-engineering', label: '프롬프트 엔지니어링', icon: '✏️' },
+	{ id: 'context-engineering', label: '컨텍스트 엔지니어링', icon: '🧩' },
 	{ id: 'ai-news', label: 'AI 뉴스', icon: '📰' },
 	{ id: 'ai-tools', label: 'AI 도구', icon: '🔧' },
 	{ id: 'doctor-ai', label: 'Doctor AI', icon: '🩺' },
