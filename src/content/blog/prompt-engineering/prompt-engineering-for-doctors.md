@@ -1,7 +1,7 @@
 ---
 title: "프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드"
 date: 2026-03-14
-category: ai
+category: prompt-engineering
 subcategory: 프롬프트엔지니어링
 tags: ["프롬프트", "ChatGPT", "의료AI", "실전가이드"]
 description: "의사가 AI에게 질문하는 법. 프롬프트 하나로 답의 질이 달라집니다."
