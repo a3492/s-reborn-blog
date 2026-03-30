@@ -211,6 +211,8 @@ hr {
 
 .blog-post-prose pre {
 	overflow-x: auto;
+	white-space: pre-wrap;
+	word-break: break-word;
 }
 
 .blog-post-prose a {
