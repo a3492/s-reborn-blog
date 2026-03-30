@@ -1,7 +1,7 @@
 ---
 title: "AI 에이전트가 의료를 바꾸는 방법 — 2026년 현재"
 date: 2026-04-05
-category: ai
+category: doctor-ai
 subcategory: LLM심화
 tags: ["AI에이전트", "의료AI", "자율AI", "2026트렌드", "임상AI"]
 description: "스스로 판단하고 행동하는 AI 에이전트가 의료 현장에서 실제로 하는 일과 아직 못 하는 일."

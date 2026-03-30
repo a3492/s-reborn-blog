@@ -1,7 +1,7 @@
 ---
 title: "의대생이 AI를 공부에 쓰는 5가지 방법 — 암기 말고 이해에 써라"
 date: 2026-03-31
-category: ai
+category: prompt-engineering
 subcategory: 의료AI
 tags: ["의대생", "AI공부법", "ChatGPT", "의학공부", "의대AI"]
 description: "생리학 개념 이해부터 케이스 시뮬레이션까지, 의대생이 AI를 제대로 쓰는 방법."

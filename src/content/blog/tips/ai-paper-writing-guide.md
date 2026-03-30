@@ -1,7 +1,7 @@
 ---
 title: "AI로 의학 논문 쓰는 법 — 전공의를 위한 단계별 가이드"
 date: 2026-03-29
-category: ai
+category: tips
 subcategory: 의료AI
 tags: ["의학논문", "AI논문", "전공의", "ChatGPT", "연구보조"]
 description: "Literature review부터 초안 작성, 영어 교정까지 — AI를 논문 작업에 쓰는 실전 방법."

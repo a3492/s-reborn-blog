@@ -1,7 +1,7 @@
 ---
 title: "AI는 의사의 번아웃을 줄일 수 있는가 — 가능성과 한계"
 date: 2026-04-03
-category: ai
+category: doctor-ai
 subcategory: 의료AI
 tags: ["번아웃", "의사번아웃", "행정업무", "AI활용", "의사워라밸"]
 description: "행정 업무, 반복 문서 작업에서 오는 번아웃. AI가 실제로 줄일 수 있는 부분과 없는 부분."

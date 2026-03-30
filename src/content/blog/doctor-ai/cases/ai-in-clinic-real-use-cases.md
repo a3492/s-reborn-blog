@@ -1,7 +1,7 @@
 ---
 title: "진료실에서 AI를 쓰는 7가지 방법 — 실전 사용기"
 date: 2026-03-10
-category: ai
+category: doctor-ai
 subcategory: 의료AI
 tags: ["의료AI", "진료실", "실전", "ChatGPT", "Claude"]
 description: "가정의학과 전문의가 실제 진료에서 AI를 활용하는 구체적인 방법들."
