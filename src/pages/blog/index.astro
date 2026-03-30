@@ -8,10 +8,16 @@ import { getPublicSiteSettings } from '../../lib/site-settings';
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
 	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const siteSettings = await getPublicSiteSettings();
-const categoryCounts = CATEGORIES.map((category) => ({
-  ...category,
-  count: posts.filter((post) => post.data.category === category.id).length,
-})).filter((category) => category.count > 0).sort((a, b) => b.count - a.count);
+
+const categoryLabel = (id: string) => CATEGORIES.find((c) => c.id === id)?.label ?? id;
+const countsByCategory = posts.reduce<Record<string, number>>((acc, post) => {
+	const c = post.data.category;
+	if (c) acc[c] = (acc[c] ?? 0) + 1;
+	return acc;
+}, {});
+const categoryCounts = Object.entries(countsByCategory)
+	.map(([id, count]) => ({ id, label: categoryLabel(id), count }))
+	.sort((a, b) => b.count - a.count);
 const latestDate = posts[0]?.data.date;
 ---
 

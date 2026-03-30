@@ -107,6 +107,17 @@ const searchIndex = allPosts.map(post => ({
         }
       };
 
+      const fallbackSearch = (q) => {
+        const ql = q.toLowerCase();
+        return searchIndex
+          .filter((p) =>
+            [p.title, p.description, p.category].some((field) =>
+              field?.toLowerCase().includes(ql),
+            ),
+          )
+          .map((item) => ({ item }));
+      };
+
       const renderResults = (query) => {
         const normalized = query.trim();
         if (!normalized) {
@@ -116,7 +127,7 @@ const searchIndex = allPosts.map(post => ({
           return;
         }
 
-        const results = fuse ? fuse.search(normalized).slice(0, 6) : [];
+        const results = (fuse ? fuse.search(normalized) : fallbackSearch(normalized)).slice(0, 6);
         resultsEl.innerHTML = '';
         renderedItems = [];
         activeIndex = -1;
@@ -155,22 +166,29 @@ const searchIndex = allPosts.map(post => ({
       };
 
       setStatus('검색 인덱스를 준비하는 중입니다...', true);
-      import('https://cdn.jsdelivr.net/npm/fuse.js@7/dist/fuse.esm.min.js').then(m => {
-        const Fuse = m.default;
-        fuse = new Fuse(searchIndex, {
-          keys: ['title', 'description', 'category'],
-          threshold: 0.35,
-          minMatchCharLength: 1,
+      import('fuse.js')
+        .then((m) => {
+          const Fuse = m.default;
+          fuse = new Fuse(searchIndex, {
+            keys: ['title', 'description', 'category'],
+            threshold: 0.35,
+            minMatchCharLength: 1,
+          });
+          setStatus('', false);
+        })
+        .catch(() => {
+          fuse = {
+            search: (q) =>
+              searchIndex
+                .filter((p) =>
+                  [p.title, p.description, p.category].some((field) =>
+                    field?.toLowerCase().includes(q.toLowerCase()),
+                  ),
+                )
+                .map((item) => ({ item })),
+          };
+          setStatus('', false);
         });
-        setStatus('', false);
-      }).catch(() => {
-        fuse = {
-          search: (q) => searchIndex
-            .filter((p) => [p.title, p.description, p.category].some((field) => field?.toLowerCase().includes(q.toLowerCase())))
-            .map((item) => ({ item })),
-        };
-        setStatus('', false);
-      });
 
       let timer;
       input.addEventListener('input', (e) => {

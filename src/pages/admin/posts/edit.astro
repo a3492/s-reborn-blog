@@ -1,5 +1,6 @@
 ---
 import AdminLayout from '../../../layouts/AdminLayout.astro';
+import { CATEGORIES } from '../../../consts';
 
 const slug = Astro.url.searchParams.get('slug') ?? '';
 ---
@@ -44,9 +45,9 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
         <div class="admin-field">
           <label class="admin-label" for="category">카테고리</label>
           <select id="category" name="category" class="admin-select">
-            <option value="ai">ai</option>
-            <option value="essay">essay</option>
-            <option value="clinic">clinic</option>
+            {CATEGORIES.map((c) => (
+              <option value={c.id}>{c.label}</option>
+            ))}
           </select>
         </div>
 

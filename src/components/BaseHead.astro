@@ -6,11 +6,18 @@ interface Props {
 	description: string;
 	image?: string;
 	siteTitle?: string;
+	/** 미지정 시 URL로 추론: `/blog/분류/slug` 형태만 article, 나머지 website */
+	ogType?: 'website' | 'article';
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image, siteTitle = SITE_TITLE } = Astro.props;
+const { title, description, image, siteTitle = SITE_TITLE, ogType: ogTypeProp } = Astro.props;
+
+const pathNorm = Astro.url.pathname.replace(/\/$/, '') || '/';
+const afterBlog = pathNorm.startsWith('/blog/') ? pathNorm.slice(6) : '';
+const inferredOgType = afterBlog.includes('/') ? 'article' : 'website';
+const ogType = ogTypeProp ?? inferredOgType;
 
 const ogImage = image
 	? (image.startsWith('http') ? image : new URL(image, Astro.url).href)
@@ -45,7 +52,7 @@ const ogImage = image
 <meta name="description" content={description} />
 
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content="article" />
+<meta property="og:type" content={ogType} />
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
