@@ -2,7 +2,7 @@
 title: "2030년 AI는 어디까지 갈까 — 전문가 예측과 의사를 위한 준비"
 date: 2026-03-31
 category: ai-history
-description: "이 글을 읽어보세요."
+description: "2030년 AI는 일부 전문가의 \"AGI 임박\" 예언과 다른 전문가의 \"현재 구조로는 불가\" 반론 사이 어딘가에 있겠지만, 의사에게 중요한 것은 예언의 승패가 아니라 그 과정에서 살아남는 역량이다."
 thumbnail: ""
 draft: false
 ---

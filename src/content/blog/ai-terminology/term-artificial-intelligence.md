@@ -2,7 +2,7 @@
 title: "인공지능(Artificial Intelligence) — 존 매카시가 이 단어를 고른 이유"
 date: 2026-03-31
 category: ai-terminology
-description: "이 글을 읽어보세요."
+description: "\"인공지능\"이라는 이름은 1956년 존 매카시가 경쟁자의 영향력을 피하기 위해 의도적으로 선택한 단어다."
 thumbnail: ""
 draft: false
 ---

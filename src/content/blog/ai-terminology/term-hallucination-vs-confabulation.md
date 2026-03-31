@@ -2,7 +2,7 @@
 title: "환각 vs 작화증 — AI 오류를 의학 용어로 정확하게 부르는 법"
 date: 2026-03-31
 category: ai-terminology
-description: "이 글을 읽어보세요."
+description: "AI가 사실을 지어내는 현상은 정신의학의 \"환각\"이 아닌 \"작화증\"에 훨씬 더 가깝다 — 두 단어를 구분하면 AI 오류의 본질이 보인다."
 thumbnail: ""
 draft: false
 ---

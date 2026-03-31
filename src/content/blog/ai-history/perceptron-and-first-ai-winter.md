@@ -2,7 +2,7 @@
 title: "퍼셉트론의 꿈과 첫 번째 AI 겨울 — Minsky의 비판이 AI를 멈춘 이유"
 date: 2026-03-31
 category: ai-history
-description: "이 글을 읽어보세요."
+description: "1957년 탄생한 퍼셉트론은 언론의 열광을 받다가, 1969년 Minsky의 단 한 권의 책으로 무너졌다 — 그리고 AI 연구비가 사라졌다."
 thumbnail: ""
 draft: false
 ---

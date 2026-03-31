@@ -2,7 +2,7 @@
 title: "ChatGPT 출시 100일 — 의료계가 가장 먼저 반응한 이유"
 date: 2026-03-31
 category: ai-history
-description: "이 글을 읽어보세요."
+description: "2022년 11월 30일 ChatGPT 출시 후 100일, 의료계는 어느 분야보다 빠르고 진지하게 반응했다 — 지식 노동의 핵심이 언어이기 때문이다."
 thumbnail: ""
 draft: false
 ---

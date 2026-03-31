@@ -2,7 +2,7 @@
 title: "벡터 DB 입문 — 의료 지식 검색 엔진 만들기"
 date: 2026-03-31
 category: doctor-dev
-description: "이 글을 읽어보세요."
+description: "벡터 DB는 의미로 검색하는 데이터베이스다 — \"패혈증 치료\"를 검색하면 그 단어가 없어도 관련 프로토콜을 찾아준다."
 thumbnail: ""
 draft: false
 ---

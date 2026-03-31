@@ -2,7 +2,7 @@
 title: "메타분석 기초 — Forest Plot 직접 만들고 해석하기"
 date: 2026-03-31
 category: clinical-research
-description: "이 글을 읽어보세요."
+description: "메타분석은 R `meta` 패키지 10줄로 시작할 수 있다 — Forest plot을 직접 그리고 이질성, 출판 편향, GRADE 수준까지 한 번에 해석하는 법을 정리한다."
 thumbnail: ""
 draft: false
 ---

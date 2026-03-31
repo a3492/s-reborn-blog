@@ -2,7 +2,7 @@
 title: "딥러닝(Deep Learning) — Hinton이 선택한 브랜딩 전략"
 date: 2026-03-31
 category: ai-terminology
-description: "이 글을 읽어보세요."
+description: "\"딥러닝\"은 기술 용어가 아니라 브랜딩 전략이었다 — Hinton은 죽어가던 신경망 연구를 새 이름 하나로 부활시켰다."
 thumbnail: ""
 draft: false
 ---

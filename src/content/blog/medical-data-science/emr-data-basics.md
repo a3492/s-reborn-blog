@@ -2,7 +2,7 @@
 title: "EMR 데이터 이해하기 — 구조화·비구조화 데이터의 차이"
 date: 2026-03-31
 category: medical-data-science
-description: "이 글을 읽어보세요."
+description: "EMR 데이터의 80%는 텍스트다. 구조화 데이터와 비구조화 데이터의 차이를 모르면 연구 설계 자체가 틀어진다."
 thumbnail: ""
 draft: false
 ---

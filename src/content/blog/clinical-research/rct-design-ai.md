@@ -2,7 +2,7 @@
 title: "RCT 설계에서 AI 활용 — 설계부터 무작위 배정까지"
 date: 2026-03-31
 category: clinical-research
-description: "이 글을 읽어보세요."
+description: "G*Power 샘플 크기 계산부터 REDCap 무작위 배정, 적응적 임상시험 시뮬레이션까지 — AI는 RCT의 모든 설계 단계를 가속한다."
 thumbnail: ""
 draft: false
 ---

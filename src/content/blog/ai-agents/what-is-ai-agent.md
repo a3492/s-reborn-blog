@@ -2,7 +2,7 @@
 title: "AI 에이전트란 — 챗봇과 무엇이 다른가"
 date: 2026-03-31
 category: ai-agents
-description: "이 글을 읽어보세요."
+description: "챗봇은 질문에 한 번 답하고 끝나지만, 에이전트는 목표를 받아 스스로 계획을 세우고, 도구를 사용하며, 결과를 피드백 삼아 반복 실행한다."
 thumbnail: ""
 draft: false
 ---

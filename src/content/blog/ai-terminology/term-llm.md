@@ -2,7 +2,7 @@
 title: "LLM — Large Language Model에서 '대형'과 '언어'가 의미하는 것"
 date: 2026-03-31
 category: ai-terminology
-description: "이 글을 읽어보세요."
+description: "LLM은 \"다음 단어 확률\"을 계산하는 언어 모델이 아주 커진 것이다 — \"Large\"와 \"Language\" 두 단어 모두 생각보다 깊은 뜻을 담고 있다."
 thumbnail: ""
 draft: false
 ---

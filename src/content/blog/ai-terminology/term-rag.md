@@ -2,7 +2,7 @@
 title: "RAG — Retrieval-Augmented Generation이라는 이름에 담긴 아이디어"
 date: 2026-03-31
 category: ai-terminology
-description: "이 글을 읽어보세요."
+description: "RAG는 LLM이 \"모르는 것\"을 검색으로 보완하는 구조다 — 세 단어(검색·증강·생성)에 이 아이디어가 정확히 담겨 있다."
 thumbnail: ""
 draft: false
 ---

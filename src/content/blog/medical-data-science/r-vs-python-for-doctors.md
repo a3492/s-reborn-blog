@@ -2,7 +2,7 @@
 title: "R vs Python — 의사가 선택하는 기준"
 date: 2026-03-31
 category: medical-data-science
-description: "이 글을 읽어보세요."
+description: "통계 분석·논문 → R, ML·자동화·API → Python. 의사-연구자라면 R 먼저 배우는 게 맞다."
 thumbnail: ""
 draft: false
 ---

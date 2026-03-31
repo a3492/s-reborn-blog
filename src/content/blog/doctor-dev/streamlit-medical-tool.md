@@ -2,7 +2,7 @@
 title: "Streamlit으로 의료 도구 만들기 — 코딩 없이 UI 구현"
 date: 2026-03-31
 category: doctor-dev
-description: "이 글을 읽어보세요."
+description: "Streamlit은 Python 코드 몇 줄로 웹 앱을 만들어준다 — 버튼, 입력창, 차트 모두 코드 한 줄씩이다."
 thumbnail: ""
 draft: false
 ---

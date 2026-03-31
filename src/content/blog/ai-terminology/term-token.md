@@ -2,7 +2,7 @@
 title: "토큰(Token) — LLM의 언어 단위가 '토큰'이 된 유래"
 date: 2026-03-31
 category: ai-terminology
-description: "이 글을 읽어보세요."
+description: "AI의 \"토큰\"은 철학자 찰스 퍼스의 언어학 개념에서 왔으며, 화폐 토큰과 같은 어원을 가진다 — LLM 비용이 \"토큰 수\"로 계산되는 것은 우연이 아니다."
 thumbnail: ""
 draft: false
 ---

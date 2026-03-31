@@ -2,7 +2,7 @@
 title: "2012 ImageNet의 충격 — AlexNet이 딥러닝 시대를 열다"
 date: 2026-03-31
 category: ai-history
-description: "이 글을 읽어보세요."
+description: "2012년 9월, 알렉스 크리체프스키의 AlexNet은 오류율을 26%에서 15%로 낮추며 컴퓨터 비전 역사를 바꿨고 — 그날 이후 AI 산업의 지형이 완전히 달라졌다."
 thumbnail: ""
 draft: false
 ---

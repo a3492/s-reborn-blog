@@ -2,7 +2,7 @@
 title: "생존 분석 기초 — Kaplan-Meier를 임상 연구에서 읽는 법"
 date: 2026-03-31
 category: medical-data-science
-description: "이 글을 읽어보세요."
+description: "중도절단 데이터가 있으면 t-test 대신 생존 분석을 써야 한다. KM 곡선을 읽을 줄 모르면 논문의 절반을 이해 못 한다."
 thumbnail: ""
 draft: false
 ---

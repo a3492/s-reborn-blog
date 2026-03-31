@@ -2,7 +2,7 @@
 title: "임상 예측 모델 만들기 — AUROC 0.8이 의미하는 것"
 date: 2026-03-31
 category: medical-data-science
-description: "이 글을 읽어보세요."
+description: "AUROC 0.8은 임의로 뽑은 양성 환자가 음성 환자보다 높은 점수를 받을 확률이 80%라는 뜻이다 — 좋은 모델이지만 완벽하지 않다."
 thumbnail: ""
 draft: false
 ---

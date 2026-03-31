@@ -2,7 +2,7 @@
 title: "에이전트(Agent) — 철학·경제학·AI에서 공통으로 쓰이는 단어의 의미"
 date: 2026-03-31
 category: ai-terminology
-description: "이 글을 읽어보세요."
+description: "\"에이전트\"는 라틴어 \"행동하다\"에서 출발해 철학의 자율성, 경제학의 대리인, AI의 자율 시스템까지 관통하는 단어이며 — 이름이 AI에 자율성의 함의를 부여한다."
 thumbnail: ""
 draft: false
 ---

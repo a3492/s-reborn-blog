@@ -2,7 +2,7 @@
 title: "재현 가능한 연구 — R Markdown과 Quarto로 분석 보고서 만들기"
 date: 2026-03-31
 category: medical-data-science
-description: "이 글을 읽어보세요."
+description: "2005년 Ioannidis가 \"발표된 연구 결과의 대부분은 틀렸다\"고 했다. 재현 가능성은 선택이 아니라 연구 윤리다."
 thumbnail: ""
 draft: false
 ---

@@ -2,7 +2,7 @@
 title: "파인튜닝(Fine-tuning) — '미세조정'이라는 이름의 정확성"
 date: 2026-03-31
 category: ai-terminology
-description: "이 글을 읽어보세요."
+description: "\"파인튜닝\"은 악기 조율에서 온 은유로, 거친 조율 이후의 세밀한 조정을 뜻하며 — AI에서도 사전학습된 모델을 특정 목적에 맞게 정밀하게 조정하는 과정을 정확히 묘사한다."
 thumbnail: ""
 draft: false
 ---

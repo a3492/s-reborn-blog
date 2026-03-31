@@ -2,7 +2,7 @@
 title: "Python으로 프롬프트 엔지니어링 — 반복 작업 자동화"
 date: 2026-03-31
 category: doctor-dev
-description: "이 글을 읽어보세요."
+description: "프롬프트를 코드로 관리하면 복사-붙여넣기 없이 수십 명 환자를 한 번에 분석할 수 있다."
 thumbnail: ""
 draft: false
 ---

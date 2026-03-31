@@ -2,7 +2,7 @@
 title: "의료 AI 도구 배포 — 개인 사용부터 병원 도입까지"
 date: 2026-03-31
 category: doctor-dev
-description: "이 글을 읽어보세요."
+description: "의료 AI 도구 배포는 개인 → 팀 → 병원 → 외부 순으로 단계를 밟아야 한다 — 첫 단계는 오늘 당장 5분이면 된다."
 thumbnail: ""
 draft: false
 ---

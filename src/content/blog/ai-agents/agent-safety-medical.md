@@ -2,7 +2,7 @@
 title: "의료 에이전트 안전 설계 — AI가 실수해도 괜찮은 시스템"
 date: 2026-03-31
 category: ai-agents
-description: "이 글을 읽어보세요."
+description: "의료 에이전트 안전은 \"AI가 틀리지 않게\" 만드는 것이 아니라, AI가 틀렸을 때 피해를 막는 구조를 설계하는 것이다. Human-in-the-loop, Guardrails, Audit log가 그 세 축이다."
 thumbnail: ""
 draft: false
 ---

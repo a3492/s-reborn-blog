@@ -2,7 +2,7 @@
 title: "AI로 논문 쓰기 — 윤리 기준과 실전 가이드"
 date: 2026-03-31
 category: clinical-research
-description: "이 글을 읽어보세요."
+description: "모든 주요 저널은 AI를 공저자로 인정하지 않지만, 보조적 사용과 공시는 허용한다 — 어디에 써도 되는지, 어디는 안 되는지를 알아야 한다."
 thumbnail: ""
 draft: false
 ---

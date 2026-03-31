@@ -2,7 +2,7 @@
 title: "에이전트 계획 패턴 — ReAct, CoT, Tree-of-Thought"
 date: 2026-03-31
 category: ai-agents
-description: "이 글을 읽어보세요."
+description: "에이전트 계획 패턴은 LLM이 복잡한 목표를 달성하는 방식을 결정하며, 의료 진단처럼 불확실성이 높은 분야에서는 여러 경로를 탐색하는 Tree-of-Thought와 근거를 추적하는 ReAct의 조합이 가장 안전하다."
 thumbnail: ""
 draft: false
 ---

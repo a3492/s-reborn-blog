@@ -2,7 +2,7 @@
 title: "전문가 시스템의 부상과 몰락 — 두 번째 AI 겨울까지"
 date: 2026-03-31
 category: ai-history
-description: "이 글을 읽어보세요."
+description: "1980년대 전문가 시스템은 연간 수십억 달러 시장을 만들었지만, 유지보수 비용과 지식 획득의 병목이라는 내부 모순으로 스스로 무너졌다."
 thumbnail: ""
 draft: false
 ---

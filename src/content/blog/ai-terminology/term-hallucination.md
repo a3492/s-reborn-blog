@@ -2,7 +2,7 @@
 title: "환각(Hallucination) — AI가 거짓말할 때 왜 '환각'이라고 부르는가"
 date: 2026-03-31
 category: ai-terminology
-description: "이 글을 읽어보세요."
+description: "AI가 없는 사실을 만들어내는 현상을 \"환각\"이라고 부르는 이유는 정확한 의학적 유추가 아니라 — 더 잘 알려진 단어를 선택한 결과다."
 thumbnail: ""
 draft: false
 ---

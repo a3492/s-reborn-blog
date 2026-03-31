@@ -2,7 +2,7 @@
 title: "Attention 메커니즘 — '주의'라는 인지과학 개념을 AI에 가져온 이유"
 date: 2026-03-31
 category: ai-terminology
-description: "이 글을 읽어보세요."
+description: "AI의 \"attention\"은 인지과학의 선택적 주의(selective attention) 개념을 수학적으로 구현한 것이며, 이 이름 선택은 기술의 본질을 정확히 포착한다."
 thumbnail: ""
 draft: false
 ---

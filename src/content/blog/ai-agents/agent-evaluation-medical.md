@@ -2,7 +2,7 @@
 title: "의료 에이전트 평가 — 안전성 측정이 정확도보다 중요한 이유"
 date: 2026-03-31
 category: ai-agents
-description: "이 글을 읽어보세요."
+description: "의료 AI 에이전트는 \"얼마나 잘 하는가\"보다 \"치명적 실수를 하지 않는가\"를 먼저 측정해야 한다."
 thumbnail: ""
 draft: false
 ---

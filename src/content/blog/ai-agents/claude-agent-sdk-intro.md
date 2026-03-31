@@ -2,7 +2,7 @@
 title: "Claude Agent SDK — Anthropic의 에이전트 프레임워크 시작하기"
 date: 2026-03-31
 category: ai-agents
-description: "이 글을 읽어보세요."
+description: "Claude Agent SDK는 Anthropic이 제공하는 에이전트 구축 프레임워크로, Tool Use를 중심으로 한 에이전트 루프를 간결하게 구현할 수 있으며 의료 use case에 특히 적합하다."
 thumbnail: ""
 draft: false
 ---

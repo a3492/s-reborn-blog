@@ -2,7 +2,7 @@
 title: "Attention Is All You Need — Transformer가 세상을 바꾼 8페이지 논문"
 date: 2026-03-31
 category: ai-history
-description: "이 글을 읽어보세요."
+description: "2017년 Google Brain 팀이 발표한 단 8페이지 논문이 번역 품질을 새로 쓰고, 이후 ChatGPT·GPT-4·Claude·Gemini 모든 대형 언어 모델의 토대가 됐다."
 thumbnail: ""
 draft: false
 ---
