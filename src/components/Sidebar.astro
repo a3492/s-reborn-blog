@@ -29,10 +29,13 @@
       </div>
       <div class="tree-section">
 
+          <!-- ── AI 이론·기술 ────────────────── -->
+        <div class="sb-section-label" data-theme="ai">AI 이론·기술</div>
+
         <!-- AI 개론 -->
-        <div class="tree-group" id="g-ai">
+        <div class="tree-group" id="g-ai" data-theme="ai">
           <div class="tree-row" onclick="toggleGroup('g-ai');filterCat(event,'ai')" style="cursor: pointer;">
-            <span class="tree-dot"></span>
+            <span class="cat-icon">🤖</span>
             AI 개론
             <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
           </div>
@@ -49,9 +52,9 @@
         </div>
 
         <!-- AI 개발 역사 -->
-        <div class="tree-group" id="g-ai-history">
+        <div class="tree-group" id="g-ai-history" data-theme="ai">
           <div class="tree-row" onclick="toggleGroup('g-ai-history');filterCat(event,'ai-history')" style="cursor: pointer;">
-            <span class="tree-dot"></span>
+            <span class="cat-icon">🏛️</span>
             AI 개발 역사
             <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
           </div>
@@ -68,9 +71,9 @@
         </div>
 
         <!-- AI 용어·어원 -->
-        <div class="tree-group" id="g-ai-term">
+        <div class="tree-group" id="g-ai-term" data-theme="ai">
           <div class="tree-row" onclick="toggleGroup('g-ai-term');filterCat(event,'ai-terminology')" style="cursor: pointer;">
-            <span class="tree-dot"></span>
+            <span class="cat-icon">📖</span>
             AI 용어·어원
             <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
           </div>
@@ -87,9 +90,9 @@
         </div>
 
         <!-- 프롬프트 엔지니어링 -->
-        <div class="tree-group" id="g-prompt">
+        <div class="tree-group" id="g-prompt" data-theme="ai">
           <div class="tree-row" onclick="toggleGroup('g-prompt');filterCat(event,'prompt-engineering')" style="cursor: pointer;">
-            <span class="tree-dot"></span>
+            <span class="cat-icon">✏️</span>
             프롬프트 엔지니어링
             <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
           </div>
@@ -106,9 +109,9 @@
         </div>
 
         <!-- 컨텍스트 엔지니어링 -->
-        <div class="tree-group" id="g-context">
+        <div class="tree-group" id="g-context" data-theme="ai">
           <div class="tree-row" onclick="toggleGroup('g-context');filterCat(event,'context-engineering')" style="cursor: pointer;">
-            <span class="tree-dot"></span>
+            <span class="cat-icon">🧩</span>
             컨텍스트 엔지니어링
             <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
           </div>
@@ -126,9 +129,9 @@
         </div>
 
         <!-- AI 에이전트 실전 -->
-        <div class="tree-group" id="g-agents">
+        <div class="tree-group" id="g-agents" data-theme="ai">
           <div class="tree-row" onclick="toggleGroup('g-agents');filterCat(event,'ai-agents')" style="cursor: pointer;">
-            <span class="tree-dot"></span>
+            <span class="cat-icon">⚙️</span>
             AI 에이전트 실전
             <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
           </div>
@@ -142,10 +145,13 @@
           </div>
         </div>
 
+        <!-- ── 의료 AI ────────────────────── -->
+        <div class="sb-section-label" data-theme="medical">의료 AI</div>
+
         <!-- Doctor AI -->
-        <div class="tree-group" id="g-doctor">
+        <div class="tree-group" id="g-doctor" data-theme="medical">
           <div class="tree-row" onclick="toggleGroup('g-doctor');filterCat(event,'doctor-ai')" style="cursor: pointer;">
-            <span class="tree-dot"></span>
+            <span class="cat-icon">🩺</span>
             Doctor AI
             <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
           </div>
@@ -163,9 +169,9 @@
         </div>
 
         <!-- 의료 데이터 과학 -->
-        <div class="tree-group" id="g-mds">
+        <div class="tree-group" id="g-mds" data-theme="medical">
           <div class="tree-row" onclick="toggleGroup('g-mds');filterCat(event,'medical-data-science')" style="cursor: pointer;">
-            <span class="tree-dot"></span>
+            <span class="cat-icon">📊</span>
             의료 데이터 과학
             <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
           </div>
@@ -181,9 +187,9 @@
         </div>
 
         <!-- 임상 연구·AI -->
-        <div class="tree-group" id="g-cr">
+        <div class="tree-group" id="g-cr" data-theme="medical">
           <div class="tree-row" onclick="toggleGroup('g-cr');filterCat(event,'clinical-research')" style="cursor: pointer;">
-            <span class="tree-dot"></span>
+            <span class="cat-icon">🔬</span>
             임상 연구·AI
             <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
           </div>
@@ -198,9 +204,9 @@
         </div>
 
         <!-- 의사-개발자 -->
-        <div class="tree-group" id="g-ddev">
+        <div class="tree-group" id="g-ddev" data-theme="medical">
           <div class="tree-row" onclick="toggleGroup('g-ddev');filterCat(event,'doctor-dev')" style="cursor: pointer;">
-            <span class="tree-dot"></span>
+            <span class="cat-icon">🖥️</span>
             의사-개발자
             <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
           </div>
@@ -214,10 +220,13 @@
           </div>
         </div>
 
+        <!-- ── 지식·학문 ───────────────────── -->
+        <div class="sb-section-label" data-theme="knowledge">지식·학문</div>
+
         <!-- 의학 -->
-        <div class="tree-group" id="g-medicine">
+        <div class="tree-group" id="g-medicine" data-theme="knowledge">
           <div class="tree-row" onclick="toggleGroup('g-medicine');filterCat(event,'의학')" style="cursor: pointer;">
-            <span class="tree-dot"></span>
+            <span class="cat-icon">🏥</span>
             의학
             <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
           </div>
@@ -243,9 +252,9 @@
         </div>
 
         <!-- 학습 -->
-        <div class="tree-group" id="g-learn">
+        <div class="tree-group" id="g-learn" data-theme="knowledge">
           <div class="tree-row" onclick="toggleGroup('g-learn');filterCat(event,'학습')" style="cursor: pointer;">
-            <span class="tree-dot"></span>
+            <span class="cat-icon">📚</span>
             학습
             <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
           </div>
@@ -268,9 +277,9 @@
         </div>
 
         <!-- 개발 -->
-        <div class="tree-group" id="g-dev">
+        <div class="tree-group" id="g-dev" data-theme="knowledge">
           <div class="tree-row" onclick="toggleGroup('g-dev');filterCat(event,'개발')" style="cursor: pointer;">
-            <span class="tree-dot"></span>
+            <span class="cat-icon">💻</span>
             개발
             <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
           </div>
@@ -293,9 +302,9 @@
         </div>
 
         <!-- 에세이 → 연결·패턴 -->
-        <div class="tree-group" id="g-essay">
+        <div class="tree-group" id="g-essay" data-theme="knowledge">
           <div class="tree-row" onclick="toggleGroup('g-essay');filterCat(event,'연결·패턴')" style="cursor: pointer;">
-            <span class="tree-dot"></span>
+            <span class="cat-icon">✍️</span>
             연결·패턴
             <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
           </div>
@@ -346,3 +355,43 @@
 
   <div class="sb-foot">© 2026 S-Reborn clinic</div>
 </aside>
+
+<style>
+/* ── 섹션 구분 레이블 ─────────────────────────── */
+.sb-section-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  padding: 0.55rem 0.35rem 0.2rem;
+  margin-top: 0.55rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  opacity: 0.55;
+}
+.sb-section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.25;
+}
+
+/* 섹션별 색상 */
+.sb-section-label[data-theme="ai"]        { color: #5b8dd9; }
+.sb-section-label[data-theme="medical"]   { color: #4caa7a; }
+.sb-section-label[data-theme="knowledge"] { color: #b07d3a; }
+
+/* 섹션별 tree-row 왼쪽 accent 바 */
+.tree-group[data-theme="ai"]        > .tree-row { border-left: 2px solid #5b8dd9; padding-left: 6px; }
+.tree-group[data-theme="medical"]   > .tree-row { border-left: 2px solid #4caa7a; padding-left: 6px; }
+.tree-group[data-theme="knowledge"] > .tree-row { border-left: 2px solid #b07d3a; padding-left: 6px; }
+
+/* 카테고리 아이콘 */
+.cat-icon {
+  font-size: 0.9rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+</style>
