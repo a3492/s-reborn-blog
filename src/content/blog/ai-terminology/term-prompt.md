@@ -2,6 +2,7 @@
 title: "프롬프트(Prompt) — 연극 무대에서 AI로 온 단어의 여정"
 date: 2026-03-31
 category: ai-terminology
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

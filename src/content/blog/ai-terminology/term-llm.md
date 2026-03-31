@@ -2,6 +2,7 @@
 title: "LLM — Large Language Model에서 '대형'과 '언어'가 의미하는 것"
 date: 2026-03-31
 category: ai-terminology
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

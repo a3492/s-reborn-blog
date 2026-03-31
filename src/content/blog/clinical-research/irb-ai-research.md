@@ -2,6 +2,7 @@
 title: "IRB와 AI 연구 — 동의서에 AI 사용을 어떻게 명시할까"
 date: 2026-03-31
 category: clinical-research
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

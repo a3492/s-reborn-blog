@@ -2,6 +2,7 @@
 title: "EMR 기반 코호트 연구 — 대규모 데이터로 빠르게 연구하는 법"
 date: 2026-03-31
 category: clinical-research
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

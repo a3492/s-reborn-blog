@@ -2,6 +2,7 @@
 title: "딥러닝(Deep Learning) — Hinton이 선택한 브랜딩 전략"
 date: 2026-03-31
 category: ai-terminology
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

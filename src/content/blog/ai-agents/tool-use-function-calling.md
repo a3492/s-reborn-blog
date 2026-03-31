@@ -2,6 +2,7 @@
 title: "Tool Use와 함수 호출 — AI가 외부 세계와 연결되는 방법"
 date: 2026-03-31
 category: ai-agents
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

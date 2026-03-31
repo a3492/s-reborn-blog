@@ -2,6 +2,7 @@
 title: "의무기록 텍스트 분석 — NLP로 비구조화 데이터 다루기"
 date: 2026-03-31
 category: medical-data-science
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

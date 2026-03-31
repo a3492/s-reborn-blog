@@ -2,6 +2,7 @@
 title: "의료 AI 60년사 — MYCIN에서 ChatGPT까지"
 date: 2026-03-31
 category: ai-history
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

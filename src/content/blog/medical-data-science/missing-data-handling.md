@@ -2,6 +2,7 @@
 title: "결측 데이터 처리 — 의료 데이터에서 가장 흔한 문제"
 date: 2026-03-31
 category: medical-data-science
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

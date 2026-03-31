@@ -2,6 +2,7 @@
 title: "파라미터(Parameter) — 175B 파라미터는 무엇을 세는 숫자인가"
 date: 2026-03-31
 category: ai-terminology
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

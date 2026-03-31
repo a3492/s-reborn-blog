@@ -2,6 +2,7 @@
 title: "Git — 의사가 코드를 관리하는 법"
 date: 2026-03-31
 category: doctor-dev
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

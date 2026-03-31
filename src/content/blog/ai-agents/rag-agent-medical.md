@@ -2,6 +2,7 @@
 title: "RAG + 에이전트 — 의료 가이드라인 기반 AI 어시스턴트"
 date: 2026-03-31
 category: ai-agents
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

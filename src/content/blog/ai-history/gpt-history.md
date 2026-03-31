@@ -2,6 +2,7 @@
 title: "GPT-1에서 GPT-4까지 — OpenAI는 어떻게 세계를 바꿨나"
 date: 2026-03-31
 category: ai-history
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

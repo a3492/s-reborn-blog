@@ -2,6 +2,7 @@
 title: "벡터 DB 입문 — 의료 지식 검색 엔진 만들기"
 date: 2026-03-31
 category: doctor-dev
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

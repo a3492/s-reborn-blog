@@ -2,6 +2,7 @@
 title: "RCT 설계에서 AI 활용 — 설계부터 무작위 배정까지"
 date: 2026-03-31
 category: clinical-research
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

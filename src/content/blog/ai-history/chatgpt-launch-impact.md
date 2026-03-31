@@ -2,6 +2,7 @@
 title: "ChatGPT 출시 100일 — 의료계가 가장 먼저 반응한 이유"
 date: 2026-03-31
 category: ai-history
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

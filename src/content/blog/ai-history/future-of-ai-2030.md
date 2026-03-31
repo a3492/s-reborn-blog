@@ -2,6 +2,7 @@
 title: "2030년 AI는 어디까지 갈까 — 전문가 예측과 의사를 위한 준비"
 date: 2026-03-31
 category: ai-history
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

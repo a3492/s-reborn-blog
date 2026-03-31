@@ -2,6 +2,7 @@
 title: "Python으로 프롬프트 엔지니어링 — 반복 작업 자동화"
 date: 2026-03-31
 category: doctor-dev
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

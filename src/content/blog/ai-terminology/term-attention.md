@@ -2,6 +2,7 @@
 title: "Attention 메커니즘 — '주의'라는 인지과학 개념을 AI에 가져온 이유"
 date: 2026-03-31
 category: ai-terminology
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

@@ -2,6 +2,7 @@
 title: "의료 AI 논문을 비판적으로 읽는 법 — TRIPOD-AI 체크리스트"
 date: 2026-03-31
 category: clinical-research
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

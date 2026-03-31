@@ -2,6 +2,7 @@
 title: "의료 AI 도구 배포 — 개인 사용부터 병원 도입까지"
 date: 2026-03-31
 category: doctor-dev
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

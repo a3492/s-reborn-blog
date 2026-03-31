@@ -2,6 +2,7 @@
 title: "Attention Is All You Need — Transformer가 세상을 바꾼 8페이지 논문"
 date: 2026-03-31
 category: ai-history
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

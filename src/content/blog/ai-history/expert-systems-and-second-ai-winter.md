@@ -2,6 +2,7 @@
 title: "전문가 시스템의 부상과 몰락 — 두 번째 AI 겨울까지"
 date: 2026-03-31
 category: ai-history
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

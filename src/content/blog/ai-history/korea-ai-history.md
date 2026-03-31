@@ -2,6 +2,7 @@
 title: "한국 AI 개발의 역사 — ETRI에서 뷰노·루닛까지"
 date: 2026-03-31
 category: ai-history
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

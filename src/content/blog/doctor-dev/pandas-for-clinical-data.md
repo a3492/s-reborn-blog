@@ -2,6 +2,7 @@
 title: "Pandas로 임상 데이터 분석 — Excel을 Python으로 대체하는 법"
 date: 2026-03-31
 category: doctor-dev
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

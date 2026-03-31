@@ -2,6 +2,7 @@
 title: "신경망(Neural Network) — 뇌를 모방한다는 은유의 탄생"
 date: 2026-03-31
 category: ai-terminology
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

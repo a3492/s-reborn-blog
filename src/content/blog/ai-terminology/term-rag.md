@@ -2,6 +2,7 @@
 title: "RAG — Retrieval-Augmented Generation이라는 이름에 담긴 아이디어"
 date: 2026-03-31
 category: ai-terminology
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

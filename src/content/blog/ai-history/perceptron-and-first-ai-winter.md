@@ -2,6 +2,7 @@
 title: "퍼셉트론의 꿈과 첫 번째 AI 겨울 — Minsky의 비판이 AI를 멈춘 이유"
 date: 2026-03-31
 category: ai-history
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

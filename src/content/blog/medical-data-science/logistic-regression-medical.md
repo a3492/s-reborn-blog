@@ -2,6 +2,7 @@
 title: "로지스틱 회귀 — 입원 예측 모델 만드는 법"
 date: 2026-03-31
 category: medical-data-science
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

@@ -2,6 +2,7 @@
 title: "환각 vs 작화증 — AI 오류를 의학 용어로 정확하게 부르는 법"
 date: 2026-03-31
 category: ai-terminology
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

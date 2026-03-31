@@ -2,6 +2,7 @@
 title: "의료 에이전트 안전 설계 — AI가 실수해도 괜찮은 시스템"
 date: 2026-03-31
 category: ai-agents
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

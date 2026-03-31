@@ -2,6 +2,7 @@
 title: "임베딩(Embedding) — '삽입'이라는 수학 개념이 AI의 핵심어가 된 이유"
 date: 2026-03-31
 category: ai-terminology
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

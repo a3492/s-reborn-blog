@@ -2,6 +2,7 @@
 title: "환각(Hallucination) — AI가 거짓말할 때 왜 '환각'이라고 부르는가"
 date: 2026-03-31
 category: ai-terminology
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

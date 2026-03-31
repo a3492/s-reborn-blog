@@ -2,6 +2,7 @@
 title: "파인튜닝(Fine-tuning) — '미세조정'이라는 이름의 정확성"
 date: 2026-03-31
 category: ai-terminology
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

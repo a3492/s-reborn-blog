@@ -2,6 +2,7 @@
 title: "AI로 문헌 검색하기 — PubMed에서 Perplexity까지"
 date: 2026-03-31
 category: clinical-research
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

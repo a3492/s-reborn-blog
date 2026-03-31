@@ -2,6 +2,7 @@
 title: "에이전트 메모리 — AI가 이전 대화를 기억하는 4가지 방법"
 date: 2026-03-31
 category: ai-agents
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

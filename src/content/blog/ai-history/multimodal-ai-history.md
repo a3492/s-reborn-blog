@@ -2,6 +2,7 @@
 title: "멀티모달 AI의 역사 — 텍스트에서 이미지·음성까지"
 date: 2026-03-31
 category: ai-history
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

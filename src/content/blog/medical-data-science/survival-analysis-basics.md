@@ -2,6 +2,7 @@
 title: "생존 분석 기초 — Kaplan-Meier를 임상 연구에서 읽는 법"
 date: 2026-03-31
 category: medical-data-science
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

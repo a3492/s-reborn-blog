@@ -2,6 +2,7 @@
 title: "Claude Agent SDK — Anthropic의 에이전트 프레임워크 시작하기"
 date: 2026-03-31
 category: ai-agents
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

@@ -2,6 +2,7 @@
 title: "RAG 시스템 만들기 — 내 병원 프로토콜을 AI에 연결하는 법"
 date: 2026-03-31
 category: doctor-dev
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

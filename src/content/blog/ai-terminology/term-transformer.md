@@ -2,6 +2,7 @@
 title: "Transformer — 논문 저자들이 이 이름을 고른 진짜 이유"
 date: 2026-03-31
 category: ai-terminology
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

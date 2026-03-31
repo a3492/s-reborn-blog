@@ -2,6 +2,7 @@
 title: "멀티에이전트 시스템 — 여러 AI가 협력하는 의료 팀"
 date: 2026-03-31
 category: ai-agents
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

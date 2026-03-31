@@ -2,6 +2,7 @@
 title: "의료 워크플로우 에이전트 설계 — 외래 보조 AI 만들기"
 date: 2026-03-31
 category: ai-agents
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

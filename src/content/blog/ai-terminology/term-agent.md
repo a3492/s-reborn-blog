@@ -2,6 +2,7 @@
 title: "에이전트(Agent) — 철학·경제학·AI에서 공통으로 쓰이는 단어의 의미"
 date: 2026-03-31
 category: ai-terminology
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

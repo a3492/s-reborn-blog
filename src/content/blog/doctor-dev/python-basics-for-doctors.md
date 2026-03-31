@@ -2,6 +2,7 @@
 title: "Python 기초 — 의사를 위한 첫 번째 코딩 수업"
 date: 2026-03-31
 category: doctor-dev
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

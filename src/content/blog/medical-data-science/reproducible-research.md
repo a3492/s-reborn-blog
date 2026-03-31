@@ -2,6 +2,7 @@
 title: "재현 가능한 연구 — R Markdown과 Quarto로 분석 보고서 만들기"
 date: 2026-03-31
 category: medical-data-science
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

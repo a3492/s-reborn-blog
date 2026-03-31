@@ -2,6 +2,7 @@
 title: "의료 에이전트 평가 — 안전성 측정이 정확도보다 중요한 이유"
 date: 2026-03-31
 category: ai-agents
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

@@ -2,6 +2,7 @@
 title: "AlphaGo의 순간 — 이세돌 4국, AI가 인간을 이긴 날의 의미"
 date: 2026-03-31
 category: ai-history
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

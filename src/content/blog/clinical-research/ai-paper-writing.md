@@ -2,6 +2,7 @@
 title: "AI로 논문 쓰기 — 윤리 기준과 실전 가이드"
 date: 2026-03-31
 category: clinical-research
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

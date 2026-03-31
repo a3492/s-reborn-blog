@@ -2,6 +2,7 @@
 title: "인공지능(Artificial Intelligence) — 존 매카시가 이 단어를 고른 이유"
 date: 2026-03-31
 category: ai-terminology
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

@@ -2,6 +2,7 @@
 title: "Python으로 반복 업무 자동화 — 의사의 일상을 코드로"
 date: 2026-03-31
 category: doctor-dev
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

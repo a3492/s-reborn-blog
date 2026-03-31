@@ -2,6 +2,7 @@
 title: "역전파의 재발견 — Hinton이 AI를 다시 살린 방법"
 date: 2026-03-31
 category: ai-history
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

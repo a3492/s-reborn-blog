@@ -2,6 +2,7 @@
 title: "체계적 문헌고찰 AI 자동화 — 6개월 작업을 2주로 줄이는 법"
 date: 2026-03-31
 category: clinical-research
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

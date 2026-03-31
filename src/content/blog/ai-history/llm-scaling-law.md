@@ -2,6 +2,7 @@
 title: "스케일링 법칙 — 모델을 크게 만들수록 왜 똑똑해지는가"
 date: 2026-03-31
 category: ai-history
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

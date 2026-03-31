@@ -2,6 +2,7 @@
 title: "Streamlit으로 의료 도구 만들기 — 코딩 없이 UI 구현"
 date: 2026-03-31
 category: doctor-dev
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

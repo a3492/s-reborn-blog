@@ -2,6 +2,7 @@
 title: "메타분석 기초 — Forest Plot 직접 만들고 해석하기"
 date: 2026-03-31
 category: clinical-research
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

@@ -2,6 +2,7 @@
 title: "임상 예측 모델 만들기 — AUROC 0.8이 의미하는 것"
 date: 2026-03-31
 category: medical-data-science
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---

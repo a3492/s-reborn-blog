@@ -2,6 +2,7 @@
 title: "에이전트 계획 패턴 — ReAct, CoT, Tree-of-Thought"
 date: 2026-03-31
 category: ai-agents
+description: "이 글을 읽어보세요."
 thumbnail: ""
 draft: false
 ---
