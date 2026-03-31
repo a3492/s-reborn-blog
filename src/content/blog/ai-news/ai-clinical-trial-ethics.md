@@ -1,6 +1,7 @@
 ---
 title: "의료 AI 임상시험 과제, 환자 데이터 활용의 법적 경계"
 date: "2026-03-29"
+draft: false
 category: "ai-news"
 
 tags: ["뉴스", "임상", "법률"]

@@ -2,6 +2,7 @@
 title: "무료 AI(ChatGPT Free)와 유료 AI의 차이는?"
 date: "2026-03-29"
 category: "faq"
+draft: false
 
 tags: ["FAQ", "가격", "비교"]
 description: "무료와 유료 의료 AI 서비스 비교"

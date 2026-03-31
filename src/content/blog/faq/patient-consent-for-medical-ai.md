@@ -2,6 +2,7 @@
 title: "의료 AI 사용할 때 환자 동의서는?"
 date: "2026-03-29"
 category: "faq"
+draft: false
 
 tags: ["FAQ", "법률", "동의"]
 description: "의료 AI 사용 시 환자 동의 절차"

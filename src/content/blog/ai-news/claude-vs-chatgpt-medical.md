@@ -1,6 +1,7 @@
 ---
 title: "Claude vs ChatGPT, 의료 진단에서 정확도 비교 연구"
 date: "2026-03-29"
+draft: false
 category: "ai-news"
 
 tags: ["뉴스", "비교", "연구"]

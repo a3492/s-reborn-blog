@@ -2,6 +2,7 @@
 title: "AI가 진단해도 법적으로 괜찮은가?"
 date: "2026-03-29"
 category: "faq"
+draft: false
 
 tags: ["FAQ", "법률", "진단"]
 description: "의료 AI 사용의 법적 책임과 범위"

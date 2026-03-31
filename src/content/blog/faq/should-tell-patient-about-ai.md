@@ -2,6 +2,7 @@
 title: "환자한테 'AI가 진단했다'고 말해야 하나?"
 date: "2026-03-29"
 category: "faq"
+draft: false
 
 tags: ["FAQ", "윤리", "환자"]
 description: "AI 사용을 환자에게 공개해야 하는가"

@@ -2,6 +2,7 @@
 title: "환자 데이터가 유출되면 어떻게 되나?"
 date: "2026-03-29"
 category: "faq"
+draft: false
 
 tags: ["FAQ", "보안", "책임"]
 description: "의료 AI 데이터 유출 시 법적 책임"

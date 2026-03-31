@@ -2,6 +2,7 @@
 title: "의료 AI는 GDPR을 지킬까?"
 date: "2026-03-29"
 category: "faq"
+draft: false
 
 tags: ["FAQ", "규제", "개인정보"]
 description: "해외 의료 AI 서비스의 개인정보보호"

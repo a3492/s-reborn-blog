@@ -2,6 +2,7 @@
 title: "보건의료인이 아닌 사람도 의료 AI 쓸 수 있나?"
 date: "2026-03-29"
 category: "faq"
+draft: false
 
 tags: ["FAQ", "규제", "일반인"]
 description: "일반인의 의료 AI 사용 가능 범위"

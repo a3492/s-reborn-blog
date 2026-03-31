@@ -2,6 +2,7 @@
 title: "의료 AI의 정확도는 몇 퍼센트?"
 date: "2026-03-29"
 category: "faq"
+draft: false
 
 tags: ["FAQ", "정확도", "성능"]
 description: "의료 AI의 실제 정확도 수치"

@@ -1,6 +1,7 @@
 ---
 title: "암 진단 AI, 유방암 검진에서 유방촬영술 능가"
 date: "2026-03-29"
+draft: false
 category: "ai-news"
 
 tags: ["뉴스", "암", "영상"]

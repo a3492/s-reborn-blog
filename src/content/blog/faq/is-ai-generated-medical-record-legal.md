@@ -2,6 +2,7 @@
 title: "AI가 생성한 진료기록은 합법인가?"
 date: "2026-03-29"
 category: "faq"
+draft: false
 
 tags: ["FAQ", "법률", "기록"]
 description: "AI 생성 의료 기록의 법적 효력"

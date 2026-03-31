@@ -2,6 +2,7 @@
 title: "의료 AI는 비용이 얼마나 드나?"
 date: "2026-03-29"
 category: "faq"
+draft: false
 
 tags: ["FAQ", "비용", "투자"]
 description: "병원 도입 비용부터 개인 구독까지"

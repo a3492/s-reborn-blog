@@ -1,6 +1,7 @@
 ---
 title: "Claude 의료용 평가: 윤리성과 정확도 중심"
 date: "2026-03-29"
+draft: false
 category: "ai-tools"
 
 tags: ["리뷰", "Claude", "의료"]

@@ -1,6 +1,7 @@
 ---
 title: "병원 AI 도입 시 준비해야 할 법적 체크리스트"
 date: "2026-03-29"
+draft: false
 category: "regulations"
 
 tags: ["규제", "체크리스트", "도입"]

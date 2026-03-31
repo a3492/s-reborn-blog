@@ -2,6 +2,7 @@
 title: "의료 AI가 편향되어 있진 않을까?"
 date: "2026-03-29"
 category: "faq"
+draft: false
 
 tags: ["FAQ", "편향", "공정성"]
 description: "의료 AI의 인종·성별 편향 문제"

@@ -2,6 +2,7 @@
 title: "AI가 진단을 틀렸을 때 책임은 누구 것인가?"
 date: "2026-03-29"
 category: "faq"
+draft: false
 
 tags: ["FAQ", "법률", "책임"]
 description: "의료 AI 오진 시 의사와 개발사의 책임"

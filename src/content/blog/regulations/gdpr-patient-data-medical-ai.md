@@ -1,6 +1,7 @@
 ---
 title: "개인정보보호법과 의료 AI: 환자 데이터 활용의 법적 경계"
 date: "2026-03-29"
+draft: false
 category: "regulations"
 
 tags: ["규제", "개인정보", "보안"]

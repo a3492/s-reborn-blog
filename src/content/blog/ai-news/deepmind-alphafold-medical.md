@@ -1,6 +1,7 @@
 ---
 title: "Google DeepMind, AlphaFold로 단백질 구조 1억 개 예측"
 date: "2026-03-29"
+draft: false
 category: "ai-news"
 
 tags: ["뉴스", "기초연구", "약물개발"]

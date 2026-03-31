@@ -2,6 +2,7 @@
 title: "의료 AI와 AI 윤리: 뭐가 다른가?"
 date: "2026-03-29"
 category: "faq"
+draft: false
 
 tags: ["FAQ", "윤리", "개념"]
 description: "일반 AI 윤리와 의료 AI 윤리의 차이"

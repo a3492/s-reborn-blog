@@ -2,6 +2,7 @@
 title: "AI가 환자 진료를 완전히 대체할 수 있을까?"
 date: "2026-03-29"
 category: "faq"
+draft: false
 
 tags: ["FAQ", "미래", "직업"]
 description: "의료 AI의 미래와 의사의 역할"

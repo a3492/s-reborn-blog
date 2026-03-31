@@ -2,6 +2,7 @@
 title: "어느 AI가 가장 정확한가? ChatGPT? Claude? Gemini?"
 date: "2026-03-29"
 category: "faq"
+draft: false
 
 tags: ["FAQ", "비교", "선택"]
 description: "주요 AI 모델의 의료 정확도 비교"

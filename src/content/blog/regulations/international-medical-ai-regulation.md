@@ -1,6 +1,7 @@
 ---
 title: "해외 규제 동향: FDA, EU AI Act, MDSAP"
 date: "2026-03-29"
+draft: false
 category: "regulations"
 
 tags: ["규제", "국제", "동향"]

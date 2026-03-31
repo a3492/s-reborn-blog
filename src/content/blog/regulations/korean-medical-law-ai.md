@@ -1,6 +1,7 @@
 ---
 title: "한국 의료법과 AI 진단: 법적 책임의 경계"
 date: "2026-03-29"
+draft: false
 category: "regulations"
 
 tags: ["규제", "법률", "의료법"]

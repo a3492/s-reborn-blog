@@ -1,6 +1,7 @@
 ---
 title: "암 치료 AI: 개인맞춤형 치료 계획"
 date: "2026-03-29"
+draft: false
 category: "ai-tools"
 
 tags: ["리뷰", "암", "치료"]
