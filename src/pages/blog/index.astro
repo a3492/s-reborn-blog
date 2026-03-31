@@ -32,6 +32,16 @@ const latestDate = posts[0]?.data.date;
 			<span class="blog-count">{posts.length}개</span>
 		</div>
 
+		<!-- 모바일용 카테고리 필터 -->
+		<div class="blog-mobile-filter">
+			<select id="category-filter" class="blog-category-select">
+				<option value="">전체 글 보기</option>
+				{categoryCounts.map((category) => (
+					<option value={category.id}>{category.label} ({category.count})</option>
+				))}
+			</select>
+		</div>
+
 		<div class="blog-summary-row">
 			<div class="blog-summary-card">
 				<span class="blog-summary-label">Latest</span>
@@ -59,7 +69,7 @@ const latestDate = posts[0]?.data.date;
 					<a href={`/blog/${post.id}/`} class="blog-item">
 						<div class="blog-item-meta-row">
 							{post.data.category && (
-								<span class="card-cat">
+								<span class="card-cat" data-cat-id={post.data.category}>
 									{CATEGORIES.find(c => c.id === post.data.category)?.label ?? post.data.category}
 								</span>
 							)}
@@ -80,3 +90,56 @@ const latestDate = posts[0]?.data.date;
 		</ul>
 	</section>
 </Layout>
+
+<style>
+/* 모바일 카테고리 필터 */
+.blog-mobile-filter {
+	display: none;
+	margin: 1.5rem 0;
+}
+
+.blog-category-select {
+	width: 100%;
+	padding: 0.75rem;
+	border: 1px solid var(--rule);
+	border-radius: 6px;
+	font-size: 0.95rem;
+	background: var(--card-bg);
+	color: var(--text);
+	cursor: pointer;
+}
+
+@media (max-width: 768px) {
+	.blog-mobile-filter {
+		display: block;
+	}
+
+	.blog-summary-row {
+		display: none;
+	}
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+	const filter = document.getElementById('category-filter');
+	const items = document.querySelectorAll('.blog-list li');
+
+	if (filter) {
+		filter.addEventListener('change', (e) => {
+			const categoryId = e.target.value;
+
+			items.forEach((item) => {
+				const catElement = item.querySelector('.card-cat');
+
+				if (!categoryId) {
+					item.style.display = '';
+				} else {
+					const postCategoryId = catElement?.getAttribute('data-cat-id');
+					item.style.display = postCategoryId === categoryId ? '' : 'none';
+				}
+			});
+		});
+	}
+});
+</script>
