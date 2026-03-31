@@ -19,6 +19,7 @@ export const CATEGORIES = [
 	{ id: 'faq', label: 'FAQ', icon: '❓' },
 	{ id: 'regulations', label: '규제·법률', icon: '⚖️' },
 	{ id: 'tips', label: '5분 팁', icon: '⏱️' },
+	{ id: 'aerini', label: '애린이 코너', icon: '🌱' },
 	// 지식·학문
 	{ id: 'medicine', label: '의학', icon: '🏥' },
 	{ id: '학습', label: '학습', icon: '📚' },
