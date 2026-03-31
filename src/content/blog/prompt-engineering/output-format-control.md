@@ -1,6 +1,6 @@
 ---
-title: "출력 형식 제어 — 표·리스트·SOAP 노트로 받는 법"
-date: 2026-03-30
+title: "출력 형식 제어 — 표·SOAP·JSON으로 받는 프롬프트"
+date: 2026-03-31
 category: prompt-engineering
 subcategory: 기초개념
 tags: ["프롬프트", "출력형식", "SOAP", "표", "의료AI"]

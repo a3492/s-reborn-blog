@@ -38,45 +38,51 @@
           </div>
           <div class="tree-section">
             <span class="tree-sect-head">입문</span>
-            <a class="tree-leaf" href="#">
-              <span class="leaf-dash"></span>LLM 기초 개념
-            </a>
-            <a class="tree-leaf" href="#">
-              <span class="leaf-dash"></span>토큰과 임베딩
-            </a>
-            <a class="tree-leaf" href="#">
-              <span class="leaf-dash"></span>프롬프트 원리
-            </a>
-            <span class="tree-sect-head">실전</span>
-            <a class="tree-leaf" href="#">
-              <span class="leaf-dash"></span>의료 AI 활용
-            </a>
-            <a class="tree-leaf" href="#">
-              <span class="leaf-dash"></span>RAG · 검색증강생성
-            </a>
-            <a class="tree-leaf" href="#">
-              <span class="leaf-dash"></span>워크플로우 자동화
-            </a>
-            <span class="tree-sect-head">프론티어</span>
-            <a class="tree-leaf" href="#">
-              <span class="leaf-dash"></span>에이전트 시스템
-            </a>
-            <a class="tree-leaf" href="#">
-              <span class="leaf-dash"></span>멀티모달
-            </a>
-            <a class="tree-leaf" href="#">
-              <span class="leaf-dash"></span>연구 동향
-            </a>
-            <span class="tree-sect-head">방법론</span>
-            <a class="tree-leaf" href="#">
-              <span class="leaf-dash"></span>4축 프롬팅
-            </a>
-            <a class="tree-leaf" href="#">
-              <span class="leaf-dash"></span>온톨로지컬 스캐폴딩
-            </a>
-            <a class="tree-leaf" href="#">
-              <span class="leaf-dash"></span>할루시네이션 제어
-            </a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>LLM 기초 개념</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>토큰과 임베딩</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>환각과 신뢰도</a>
+            <span class="tree-sect-head">심화</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>에이전트 · 멀티모달</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>파인튜닝 vs RAG</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>컨텍스트 윈도우</a>
+          </div>
+        </div>
+
+        <!-- AI 개발 역사 -->
+        <div class="tree-group" id="g-ai-history">
+          <div class="tree-row" onclick="toggleGroup('g-ai-history');filterCat(event,'ai-history')" style="cursor: pointer;">
+            <span class="tree-dot"></span>
+            AI 개발 역사
+            <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
+          </div>
+          <div class="tree-section">
+            <span class="tree-sect-head">기원</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>1956 다트머스 회의</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>AI 겨울과 부활</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>딥러닝 혁명</a>
+            <span class="tree-sect-head">현대</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>Transformer의 탄생</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>GPT 계보</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>의료 AI의 역사</a>
+          </div>
+        </div>
+
+        <!-- AI 용어·어원 -->
+        <div class="tree-group" id="g-ai-term">
+          <div class="tree-row" onclick="toggleGroup('g-ai-term');filterCat(event,'ai-terminology')" style="cursor: pointer;">
+            <span class="tree-dot"></span>
+            AI 용어·어원
+            <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
+          </div>
+          <div class="tree-section">
+            <span class="tree-sect-head">기초 용어</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>인공지능의 어원</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>신경망이라는 이름</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>토큰 · 파라미터</a>
+            <span class="tree-sect-head">네이밍 스토리</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>할루시네이션</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>Transformer · Attention</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>프롬프트의 유래</a>
           </div>
         </div>
 
@@ -90,16 +96,12 @@
           <div class="tree-section">
             <span class="tree-sect-head">기초</span>
             <a class="tree-leaf" href="#"><span class="leaf-dash"></span>프롬프트 구조 원리</a>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>역할 설정 · 페르소나</a>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>지시 vs 예시 vs 맥락</a>
-            <span class="tree-sect-head">실전</span>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>의료 현장 프롬프트</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>Zero-shot · Few-shot</a>
             <a class="tree-leaf" href="#"><span class="leaf-dash"></span>Chain-of-Thought</a>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>Few-shot · Zero-shot</a>
-            <span class="tree-sect-head">고급</span>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>시스템 프롬프트 설계</a>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>할루시네이션 억제</a>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>멀티턴 대화 설계</a>
+            <span class="tree-sect-head">의료 실전</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>감별진단 프롬프트</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>의대생 AI 활용법</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>외래 프롬프트 라이브러리</a>
           </div>
         </div>
 
@@ -114,15 +116,101 @@
             <span class="tree-sect-head">개념</span>
             <a class="tree-leaf" href="#"><span class="leaf-dash"></span>컨텍스트란 무엇인가</a>
             <a class="tree-leaf" href="#"><span class="leaf-dash"></span>프롬프트 vs 컨텍스트</a>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>컨텍스트 윈도우 전략</a>
             <span class="tree-sect-head">설계</span>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>구조화된 입력 설계</a>
             <a class="tree-leaf" href="#"><span class="leaf-dash"></span>RAG · 외부 지식 연결</a>
             <a class="tree-leaf" href="#"><span class="leaf-dash"></span>메모리 · 대화 이력</a>
             <span class="tree-sect-head">의료 적용</span>
             <a class="tree-leaf" href="#"><span class="leaf-dash"></span>EMR 데이터 컨텍스트</a>
             <a class="tree-leaf" href="#"><span class="leaf-dash"></span>가이드라인 주입</a>
-            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>멀티소스 통합</a>
+          </div>
+        </div>
+
+        <!-- AI 에이전트 실전 -->
+        <div class="tree-group" id="g-agents">
+          <div class="tree-row" onclick="toggleGroup('g-agents');filterCat(event,'ai-agents')" style="cursor: pointer;">
+            <span class="tree-dot"></span>
+            AI 에이전트 실전
+            <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
+          </div>
+          <div class="tree-section">
+            <span class="tree-sect-head">기초</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>에이전트란 무엇인가</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>Tool Use · 함수 호출</a>
+            <span class="tree-sect-head">구축</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>의료 워크플로우 에이전트</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>멀티에이전트 설계</a>
+          </div>
+        </div>
+
+        <!-- Doctor AI -->
+        <div class="tree-group" id="g-doctor">
+          <div class="tree-row" onclick="toggleGroup('g-doctor');filterCat(event,'doctor-ai')" style="cursor: pointer;">
+            <span class="tree-dot"></span>
+            Doctor AI
+            <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
+          </div>
+          <div class="tree-section">
+            <span class="tree-sect-head">기초</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>의료 AI 개념</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>편향과 신뢰도</a>
+            <span class="tree-sect-head">임상 케이스</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>진단 지원 케이스</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>다제약물 검토</a>
+            <span class="tree-sect-head">도구 · 프롬프트</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>영상 AI 도구</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>외래 프롬프트</a>
+          </div>
+        </div>
+
+        <!-- 의료 데이터 과학 -->
+        <div class="tree-group" id="g-mds">
+          <div class="tree-row" onclick="toggleGroup('g-mds');filterCat(event,'medical-data-science')" style="cursor: pointer;">
+            <span class="tree-dot"></span>
+            의료 데이터 과학
+            <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
+          </div>
+          <div class="tree-section">
+            <span class="tree-sect-head">입문</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>R vs Python 선택법</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>EMR 데이터 이해</a>
+            <span class="tree-sect-head">통계·분석</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>생존 분석</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>로지스틱 회귀</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>예측 모델 구축</a>
+          </div>
+        </div>
+
+        <!-- 임상 연구·AI -->
+        <div class="tree-group" id="g-cr">
+          <div class="tree-row" onclick="toggleGroup('g-cr');filterCat(event,'clinical-research')" style="cursor: pointer;">
+            <span class="tree-dot"></span>
+            임상 연구·AI
+            <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
+          </div>
+          <div class="tree-section">
+            <span class="tree-sect-head">연구 설계</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>AI 연구 설계 기초</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>IRB와 AI</a>
+            <span class="tree-sect-head">문헌 연구</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>체계적 문헌고찰 AI</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>논문 쓰기 with AI</a>
+          </div>
+        </div>
+
+        <!-- 의사-개발자 -->
+        <div class="tree-group" id="g-ddev">
+          <div class="tree-row" onclick="toggleGroup('g-ddev');filterCat(event,'doctor-dev')" style="cursor: pointer;">
+            <span class="tree-dot"></span>
+            의사-개발자
+            <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
+          </div>
+          <div class="tree-section">
+            <span class="tree-sect-head">입문</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>Python 기초 for 의사</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>Claude API 첫 호출</a>
+            <span class="tree-sect-head">구축</span>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>RAG 시스템 만들기</a>
+            <a class="tree-leaf" href="#"><span class="leaf-dash"></span>Streamlit 의료 도구</a>
           </div>
         </div>
 

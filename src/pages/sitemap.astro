@@ -1,0 +1,160 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import { CATEGORIES } from '../consts';
+
+const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const categoryLabel = (id: string) => CATEGORIES.find((c) => c.id === id)?.label ?? id;
+const categoryIcon  = (id: string) => CATEGORIES.find((c) => c.id === id)?.icon  ?? '📄';
+
+// 카테고리별로 묶기 (CATEGORIES 순서 유지)
+const grouped = CATEGORIES.map(cat => ({
+  ...cat,
+  posts: allPosts.filter(p => p.data.category === cat.id),
+})).filter(g => g.posts.length > 0);
+
+const total = allPosts.length;
+const catCount = grouped.length;
+---
+
+<Layout title="사이트맵" description="S-Reborn World 전체 콘텐츠 지도">
+  <div class="sitemap-wrap">
+    <header class="sm-header">
+      <p class="sm-kicker">Site Map</p>
+      <h1 class="sm-title">콘텐츠 지도</h1>
+      <p class="sm-sub">
+        총 <strong>{total}개</strong> 글 · <strong>{catCount}개</strong> 카테고리
+      </p>
+    </header>
+
+    <div class="sm-grid">
+      {grouped.map(cat => (
+        <section class="sm-cat">
+          <div class="sm-cat-head">
+            <span class="sm-icon">{cat.icon}</span>
+            <h2 class="sm-cat-name">{cat.label}</h2>
+            <span class="sm-badge">{cat.posts.length}</span>
+          </div>
+          <ul class="sm-list">
+            {cat.posts.map(post => (
+              <li class="sm-item">
+                <a href={`/blog/${post.id}/`} class="sm-link">
+                  {post.data.title}
+                </a>
+                {post.data.subcategory && (
+                  <span class="sm-sub-tag">{post.data.subcategory}</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </div>
+</Layout>
+
+<style>
+.sitemap-wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.sm-header {
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid var(--rule, #e0d8cc);
+  padding-bottom: 1.5rem;
+}
+.sm-kicker {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 0.4rem;
+}
+.sm-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+.sm-sub {
+  color: #888;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.sm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.75rem;
+}
+
+.sm-cat {
+  border: 1px solid var(--rule, #e0d8cc);
+  border-radius: 10px;
+  padding: 1.25rem 1.25rem 1rem;
+  background: var(--card-bg, #faf8f5);
+}
+
+.sm-cat-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--rule, #e0d8cc);
+}
+.sm-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+.sm-cat-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 0;
+  flex: 1;
+}
+.sm-badge {
+  font-size: 0.72rem;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 99px;
+  padding: 0.1em 0.55em;
+  font-weight: 600;
+}
+
+.sm-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.sm-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.sm-link {
+  font-size: 0.82rem;
+  color: var(--text);
+  text-decoration: none;
+  line-height: 1.45;
+}
+.sm-link:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+.sm-sub-tag {
+  font-size: 0.68rem;
+  color: #aaa;
+  background: #f0ece6;
+  border-radius: 4px;
+  padding: 0.05em 0.4em;
+  white-space: nowrap;
+}
+</style>

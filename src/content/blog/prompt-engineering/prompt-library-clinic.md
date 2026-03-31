@@ -1,6 +1,6 @@
 ---
-title: "외래 의사의 프롬프트 라이브러리 30선"
-date: 2026-03-30
+title: "외래 의사의 프롬프트 라이브러리 — 바로 복사해서 쓰는 30가지"
+date: 2026-03-31
 category: prompt-engineering
 subcategory: 실전템플릿
 tags: ["프롬프트", "라이브러리", "외래", "템플릿", "의료AI"]

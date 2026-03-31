@@ -1,6 +1,6 @@
 ---
 title: "멀티턴 대화 설계 — 긴 케이스 논의를 이어가는 법"
-date: 2026-03-30
+date: 2026-03-31
 category: prompt-engineering
 subcategory: 고급기법
 tags: ["프롬프트", "멀티턴", "대화설계", "케이스", "의료AI"]

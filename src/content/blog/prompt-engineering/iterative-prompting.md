@@ -1,6 +1,6 @@
 ---
-title: "반복 개선 프롬프팅 — 첫 답변을 더 좋게 만드는 법"
-date: 2026-03-30
+title: "반복 개선 프롬프팅 — 첫 답변을 더 좋게 만드는 5가지 방법"
+date: 2026-03-31
 category: prompt-engineering
 subcategory: 기초개념
 tags: ["프롬프트", "반복개선", "피드백", "의료AI", "ChatGPT"]

@@ -1,6 +1,6 @@
 ---
-title: "역할 설정 프롬프팅 — AI를 전문의처럼 만드는 법"
-date: 2026-03-30
+title: "역할 설정 프롬프팅 — AI를 전공의에서 교수로 바꾸는 법"
+date: 2026-03-31
 category: prompt-engineering
 subcategory: 기초개념
 tags: ["프롬프트", "역할설정", "페르소나", "의료AI", "ChatGPT"]

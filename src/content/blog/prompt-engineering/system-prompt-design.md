@@ -1,6 +1,6 @@
 ---
-title: "시스템 프롬프트 설계 — 병원 AI 어시스턴트 만들기"
-date: 2026-03-30
+title: "시스템 프롬프트 설계 — 병원 전용 AI 어시스턴트 만들기"
+date: 2026-03-31
 category: prompt-engineering
 subcategory: 고급기법
 tags: ["프롬프트", "시스템프롬프트", "병원AI", "어시스턴트", "ChatGPT"]

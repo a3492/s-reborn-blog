@@ -1,6 +1,6 @@
 ---
-title: "환각 억제 프롬프트 — AI가 없는 사실을 만들지 않게 하는 법"
-date: 2026-03-30
+title: "환각 억제 프롬프트 — AI가 없는 정보를 지어내지 않게 하는 법"
+date: 2026-03-31
 category: prompt-engineering
 subcategory: 고급기법
 tags: ["프롬프트", "환각", "Hallucination", "의료AI", "안전"]

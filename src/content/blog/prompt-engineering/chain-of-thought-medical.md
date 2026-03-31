@@ -1,6 +1,6 @@
 ---
-title: "Chain-of-Thought 프롬프팅 — 진단 추론에 적용하기"
-date: 2026-03-30
+title: "Chain-of-Thought 프롬프팅 — 진단 추론 과정을 AI와 함께 밟는 법"
+date: 2026-03-31
 category: prompt-engineering
 subcategory: 고급기법
 tags: ["프롬프트", "Chain-of-Thought", "진단추론", "의료AI", "CoT"]
