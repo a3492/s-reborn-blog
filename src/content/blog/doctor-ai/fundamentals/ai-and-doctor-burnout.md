@@ -207,8 +207,8 @@ AI는 시간을 만들어줄 뿐이다. 그 시간을 어떻게 쓰느냐는 의
 | 과도한 환자 수 | 불가 | 구조적·정책적 해결 필요 |
 | 당직·수련 환경 | 불가 | 의료 제도 변화 필요 |
 
-Doctor AI 프롬프트 모음 → [의무기록·소견서 프롬프트](/doctor-ai/prompts/home.html)
-실전 증례 활용 → [Doctor AI 증례 라이브러리](/doctor-ai/cases/home.html)
+Doctor AI Academy 프롬프트 모음 → [의무기록·소견서 프롬프트](/doctor-ai/prompts/home.html)
+실전 증례 활용 → [Doctor AI Academy 증례 라이브러리](/doctor-ai/cases/home.html)
 
 ## 관련 글
 - [진료실에서 AI를 쓰는 7가지 방법 — 실전 사용기](/blog/ai/ai-in-clinic-real-use-cases/)

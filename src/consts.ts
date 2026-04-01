@@ -10,7 +10,7 @@ export const CATEGORIES = [
 	{ id: 'context-engineering', label: '컨텍스트 엔지니어링', icon: '🧩' },
 	{ id: 'ai-agents', label: 'AI 에이전트 실전', icon: '⚙️' },
 	// 의료 AI
-	{ id: 'doctor-ai', label: 'Doctor AI', icon: '🩺' },
+	{ id: 'doctor-ai', label: 'Doctor AI Academy', icon: '🩺' },
 	{ id: 'medical-data-science', label: '의료 데이터 과학', icon: '📊' },
 	{ id: 'clinical-research', label: '임상 연구·AI', icon: '🔬' },
 	{ id: 'doctor-dev', label: '의사-개발자', icon: '🖥️' },

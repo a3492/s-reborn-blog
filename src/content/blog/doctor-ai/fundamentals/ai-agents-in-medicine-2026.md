@@ -164,7 +164,7 @@ Level 5 — 완전 자율 (의료에서 현재 불가)
 
 에이전트는 이 세 가지를 대신할 수 없다. 그리고 바로 그렇기 때문에 에이전트를 잘 쓰는 의사가 더 좋은 의사가 된다 — 반복적인 작업을 에이전트에 위임하고, 사람만 할 수 있는 일에 더 집중할 수 있게 된다.
 
-에이전트 시대의 의사의 역할이 궁금하다면 [Doctor AI 과정 — AI 시대 의사의 역할](/doctor-ai/fundamentals/20-doctors-role-in-ai-era.html)을 참고하라.
+에이전트 시대의 의사의 역할이 궁금하다면 [Doctor AI Academy 과정 — AI 시대 의사의 역할](/doctor-ai/fundamentals/20-doctors-role-in-ai-era.html)을 참고하라.
 
 ## 핵심 정리
 - 스크리닝·모니터링·연구 보조·행정 — 4개 영역에서 에이전트가 실전 투입됐다
