@@ -1,7 +1,7 @@
 ---
 title: "의료 전문 AI 앱 5종 비교: Glass Health부터 Ada Health까지"
 date: 2026-03-29
-category: "ai-tools"
+category: "ai-tools-medical"
 subcategory: "comparison"
 tags: ["리뷰", "비교", "앱"]
 description: "Glass Health, Isabel, DXplain, Ada Health, Buoy Health — 의료 특화 AI 앱 5종 기능/가격/정확도 비교"

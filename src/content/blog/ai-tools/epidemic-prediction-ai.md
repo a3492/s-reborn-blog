@@ -1,7 +1,7 @@
 ---
 title: "감염병 예측 AI: 역학 조사와 확산 방지"
 date: 2026-03-29
-category: "ai-tools"
+category: "ai-tools-medical"
 subcategory: "review"
 tags: ["리뷰", "감염", "공중보건"]
 description: "BlueDot, Metabiota, HealthMap — COVID-19 예측 사례와 전염병 예측 AI 도구 분석"

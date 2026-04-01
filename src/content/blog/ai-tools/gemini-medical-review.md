@@ -1,7 +1,7 @@
 ---
 title: "Google Gemini 의료 분석: 가격 대비 성능"
 date: 2026-03-29
-category: "ai-tools"
+category: "ai-tools-medical"
 subcategory: "review"
 tags: ["리뷰", "Gemini", "의료"]
 description: "Gemini의 의료 적용과 가성비 평가 — Med-PaLM 계보부터 100만 토큰 컨텍스트까지"

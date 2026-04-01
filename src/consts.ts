@@ -23,7 +23,8 @@ export const CATEGORIES = [
 	{ id: 'ai-news', label: '뉴스', icon: '📰' },
 	{ id: 'faq', label: 'FAQ', icon: '❓' },
 	// 도구·실전
-	{ id: 'ai-tools', label: '도구', icon: '🔧' },
+	{ id: 'ai-tools-medical', label: '도구·의료', icon: '🔬' },
+	{ id: 'ai-tools-general', label: '도구·일반', icon: '🎨' },
 	{ id: 'tips', label: '팁', icon: '⏱️' },
 	// 기타
 	{ id: 'medicine', label: '의학', icon: '🏥' },
@@ -62,7 +63,7 @@ export const MENU_GROUPS = [
 		id: 'tools',
 		label: '도구·실전',
 		icon: '⚙️',
-		cats: ['ai-tools', 'tips'],
+		cats: ['ai-tools-medical', 'ai-tools-general', 'tips'],
 	},
 ] as const;
 

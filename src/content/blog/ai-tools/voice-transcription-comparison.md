@@ -1,7 +1,7 @@
 ---
 title: "진료 기록용 음성 인식 AI 비교: Otter vs Clova vs Whisper"
 date: 2026-03-29
-category: "ai-tools"
+category: "ai-tools-medical"
 subcategory: "AI도구리뷰"
 thumbnail: ""
 draft: false

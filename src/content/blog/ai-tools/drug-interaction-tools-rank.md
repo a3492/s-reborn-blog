@@ -1,7 +1,7 @@
 ---
 title: "약물 상호작용 검사 AI 도구 순위"
 date: 2026-03-29
-category: "ai-tools"
+category: "ai-tools-medical"
 subcategory: "ranking"
 tags: ["리뷰", "약물", "안전"]
 description: "Lexi-Interact, Drugs.com, Epocrates, Micromedex, UpToDate 약물 상호작용 검사 도구 5종 비교"

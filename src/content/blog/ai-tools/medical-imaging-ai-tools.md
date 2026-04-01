@@ -1,7 +1,7 @@
 ---
 title: "의료 영상 AI 도구 비교: 2026년 현장 가이드"
 date: 2026-03-29
-category: "ai-tools"
+category: "ai-tools-medical"
 subcategory: "AI도구리뷰"
 thumbnail: ""
 draft: false

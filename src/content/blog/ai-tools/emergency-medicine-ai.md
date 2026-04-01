@@ -1,7 +1,7 @@
 ---
 title: "응급의학 AI: 트리아주(Triage) 자동화"
 date: 2026-03-29
-category: "ai-tools"
+category: "ai-tools-medical"
 subcategory: "review"
 tags: ["리뷰", "응급", "분류"]
 description: "트리아지 AI, 패혈증 조기 경고, HEART score 자동계산 — 응급실 AI 도구 분석"

@@ -2,7 +2,7 @@
 title: "ChatGPT 의료용 버전: 의사들의 평가"
 date: "2026-03-29"
 draft: false
-category: "ai-tools"
+category: "ai-tools-medical"
 
 tags: ["리뷰", "ChatGPT", "의료"]
 description: "ChatGPT의 의료 활용 가능성과 한계"

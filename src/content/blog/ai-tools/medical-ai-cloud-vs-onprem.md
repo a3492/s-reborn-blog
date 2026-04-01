@@ -1,7 +1,7 @@
 ---
 title: "의료 AI 클라우드 vs 온프레미스: 병원 IT 선택 가이드"
 date: 2026-03-29
-category: "ai-tools"
+category: "ai-tools-medical"
 subcategory: "인프라"
 thumbnail: ""
 draft: false

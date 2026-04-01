@@ -1,7 +1,7 @@
 ---
 title: "병리과 AI 분석: 디지털 병리의 현재와 미래"
 date: 2026-03-29
-category: "ai-tools"
+category: "ai-tools-medical"
 subcategory: "AI도구리뷰"
 thumbnail: ""
 draft: false

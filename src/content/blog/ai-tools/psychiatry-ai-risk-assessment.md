@@ -1,7 +1,7 @@
 ---
 title: "정신과 AI 위험 평가: 자살·자해 위험 예측의 현재"
 date: 2026-03-29
-category: "ai-tools"
+category: "ai-tools-medical"
 subcategory: "AI도구리뷰"
 thumbnail: ""
 draft: false

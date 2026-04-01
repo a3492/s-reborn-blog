@@ -1,7 +1,7 @@
 ---
 title: "의료 문서 관리 AI: 차트 정리에서 청구까지"
 date: 2026-03-29
-category: "ai-tools"
+category: "ai-tools-medical"
 subcategory: "AI도구리뷰"
 thumbnail: ""
 draft: false

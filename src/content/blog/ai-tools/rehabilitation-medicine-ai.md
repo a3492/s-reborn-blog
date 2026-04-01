@@ -1,7 +1,7 @@
 ---
 title: "재활의학과 AI: 운동 분석부터 재활 계획까지"
 date: 2026-03-29
-category: "ai-tools"
+category: "ai-tools-medical"
 subcategory: "AI도구리뷰"
 thumbnail: ""
 draft: false

@@ -1,7 +1,7 @@
 ---
 title: "영상의학과 AI 플랫폼: PACS 연동 시스템 비교"
 date: 2026-03-29
-category: "ai-tools"
+category: "ai-tools-medical"
 subcategory: "AI도구리뷰"
 thumbnail: ""
 draft: false

@@ -1,7 +1,7 @@
 ---
 title: "소아과 AI 성장 모니터링: 발달 이상 조기 발견"
 date: 2026-03-29
-category: "ai-tools"
+category: "ai-tools-medical"
 subcategory: "AI도구리뷰"
 thumbnail: ""
 draft: false

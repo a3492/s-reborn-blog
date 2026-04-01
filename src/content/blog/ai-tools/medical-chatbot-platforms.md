@@ -1,7 +1,7 @@
 ---
 title: "의료 챗봇 플랫폼 비교: 환자 상담 자동화"
 date: 2026-03-29
-category: "ai-tools"
+category: "ai-tools-medical"
 subcategory: "AI도구리뷰"
 thumbnail: ""
 draft: false
