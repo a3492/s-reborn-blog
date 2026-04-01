@@ -2245,7 +2245,7 @@ footer {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.79rem;
+  font-size: 0.875rem;
   color: var(--t3);
   padding: 0 0.3rem;
 }
@@ -2313,7 +2313,8 @@ footer {
 
 .yt-item {
   display: block;
-  padding: 0.45rem 0.875rem;
+  padding: 0.75rem 0.875rem;
+  min-height: 2.75rem;
   border-bottom: 1px solid var(--rule2);
   text-decoration: none;
   color: inherit;
@@ -2331,18 +2332,18 @@ footer {
 }
 
 .yt-item-cat {
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--pink);
 }
 
 .yt-item-title {
   font-family: var(--display);
-  font-size: 0.78rem;
+  font-size: clamp(0.9375rem, 1.6vw, 1rem);
   font-weight: 600;
-  line-height: 1.3;
+  line-height: 1.45;
   color: var(--text);
   white-space: nowrap;
   overflow: hidden;
@@ -2356,6 +2357,7 @@ footer {
 .yt-item-sub {
   color: var(--t3);
   font-weight: 400;
+  font-size: 0.875rem;
 }
 
 /* RESPONSIVE */
