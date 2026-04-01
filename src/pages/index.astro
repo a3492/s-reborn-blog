@@ -48,7 +48,7 @@ const postsData = allPosts.map((p) => {
 		href: `/blog/${p.id}/`,
 		titleMain: main,
 		titleSub: sub ?? null,
-		bodyPreview: stripMarkdown(p.body ?? '').slice(0, 900),
+		bodyPreview: stripMarkdown(p.body ?? '').slice(0, 200),
 		category: p.data.category ?? '',
 	};
 });

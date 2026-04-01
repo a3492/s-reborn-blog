@@ -145,18 +145,7 @@ body {
   font-family: var(--body);
 }
 
-/* 검색 드롭다운 */
-.search-dropdown {
-  position: fixed;
-  top: 58px;
-  width: min(560px, calc(100vw - 2rem));
-  background: var(--bg);
-  border: 1px solid var(--rule);
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(28, 25, 23, 0.12);
-  z-index: 100;
-  overflow: hidden;
-}
+/* 검색 드롭다운 — 실제 스타일은 아래 중복 규칙에 통합 */
 
 .search-results {
   display: flex;

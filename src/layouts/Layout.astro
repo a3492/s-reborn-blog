@@ -165,8 +165,10 @@ const searchIndex = allPosts.map(post => ({
         showDropdown();
       };
 
+      // fuse.js를 CDN에서 로드 (is:inline 스크립트는 Vite 번들링 Skip → bare specifier 불가)
+      const FUSE_CDN = 'https://cdn.jsdelivr.net/npm/fuse.js@7.1.0/dist/fuse.mjs';
       setStatus('검색 인덱스를 준비하는 중입니다...', true);
-      import('fuse.js')
+      import(FUSE_CDN)
         .then((m) => {
           const Fuse = m.default;
           fuse = new Fuse(searchIndex, {
@@ -177,6 +179,7 @@ const searchIndex = allPosts.map(post => ({
           setStatus('', false);
         })
         .catch(() => {
+          // CDN 실패 시 fallback: 단순 includes 검색
           fuse = {
             search: (q) =>
               searchIndex
