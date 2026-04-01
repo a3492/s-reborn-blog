@@ -49,6 +49,7 @@ const postsData = allPosts.map((p) => {
 		titleMain: main,
 		titleSub: sub ?? null,
 		bodyPreview: stripMarkdown(p.body ?? '').slice(0, 900),
+		category: p.data.category ?? '',
 	};
 });
 
@@ -181,17 +182,69 @@ const aeriniData = aeriniPosts.map(p => {
 				}).join('');
 			}
 
-			// 사이드바 렌더링 (전체 행 클릭 가능)
+			// 카테고리 레이블 맵
+			var catLabels = {
+				'aerini': '애린이 코너', 'doctor-ai': 'Doctor AI Academy',
+				'context-engineering': '컨텍스트 엔지니어링', 'ai-agents': 'AI 에이전트',
+				'prompt-engineering': '프롬프트 엔지니어링', 'ai': 'AI 개론',
+				'ai-history': 'AI 역사', 'ai-terminology': 'AI 용어',
+				'medical-data-science': '의료 데이터', 'clinical-research': '임상 연구',
+				'doctor-dev': '의사-개발자', 'ai-tools': 'AI 도구',
+				'ai-news': 'AI 뉴스', 'faq': 'FAQ', 'regulations': '규제·법률',
+				'tips': '5분 팁', 'medicine': '의학', '학습': '학습', 'dev': '개발',
+			};
+
+			// 카테고리별 글 수 집계 (aerini 제외 기본)
+			var catCounts = {};
+			sidebarPosts.forEach(function(p) {
+				if (!p.category) return;
+				catCounts[p.category] = (catCounts[p.category] || 0) + 1;
+			});
+			var topCats = Object.keys(catCounts)
+				.sort(function(a, b) { return catCounts[b] - catCounts[a]; })
+				.slice(0, 8);
+
+			// 사이드바 렌더링
 			var sidebar = document.getElementById('yt-sidebar');
-			if (sidebar) {
-				sidebar.innerHTML = sidebarPosts.map(function (p) {
+			if (!sidebar) return;
+
+			var activeCat = '';
+
+			function renderSidebar() {
+				var filtered = activeCat
+					? sidebarPosts.filter(function(p) { return p.category === activeCat; })
+					: sidebarPosts.filter(function(p) { return p.category !== 'aerini'; });
+
+				var chipsHtml = '<div class="yt-cat-header">TOP CATEGORIES</div>' +
+					'<div class="yt-cat-chips">' +
+					(activeCat ? '<button class="yt-cat-chip yt-cat-chip--active" data-cat="">전체</button>' : '') +
+					topCats.map(function(cat) {
+						var isActive = activeCat === cat;
+						return '<button class="yt-cat-chip' + (isActive ? ' yt-cat-chip--active' : '') + '" data-cat="' + escapeHtml(cat) + '">' +
+							escapeHtml(catLabels[cat] || cat) + ' · ' + catCounts[cat] +
+							'</button>';
+					}).join('') +
+					'</div>';
+
+				var listHtml = filtered.map(function(p) {
 					return '<a class="yt-item" href="' + escapeHtml(p.href) + '">' +
 						'<p class="yt-item-title">' + escapeHtml(p.titleMain) +
 						(p.titleSub ? ' <span class="yt-item-sub">' + escapeHtml(p.titleSub) + '</span>' : '') +
-						'</p>' +
-						'</a>';
+						'</p></a>';
 				}).join('');
+
+				sidebar.innerHTML = chipsHtml + listHtml;
+
+				// 칩 클릭 이벤트
+				sidebar.querySelectorAll('.yt-cat-chip').forEach(function(btn) {
+					btn.addEventListener('click', function() {
+						activeCat = btn.getAttribute('data-cat') || '';
+						renderSidebar();
+					});
+				});
 			}
+
+			renderSidebar();
 
 			// 펼치기/접기 토글 (링크 이동 방지)
 			var toggle = document.getElementById('yt-body-toggle');
