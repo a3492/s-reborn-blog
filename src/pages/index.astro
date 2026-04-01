@@ -51,6 +51,21 @@ const postsData = allPosts.map((p) => {
 		bodyPreview: stripMarkdown(p.body ?? '').slice(0, 900),
 	};
 });
+
+// 애린이 코너 데이터
+const aeriniPosts = allPosts.filter(p => p.data.category === 'aerini');
+const aeriniData = aeriniPosts.map(p => {
+	const slug = p.id.split('/').pop() ?? '';
+	const badge = slug.startsWith('what-is') ? '개념 설명'
+		: (slug.startsWith('faq-') || slug.startsWith('is-') || slug.startsWith('will-') || slug.startsWith('which-') || slug.startsWith('should-')) ? 'FAQ'
+		: '실전팁';
+	return {
+		href: `/blog/${p.id}/`,
+		title: p.data.title,
+		description: p.data.description ?? '',
+		badge,
+	};
+});
 ---
 
 <Layout>
@@ -119,8 +134,33 @@ const postsData = allPosts.map((p) => {
 		</a>
 	</div>
 
+	<!-- 애린이 코너 섹션 -->
+	<div class="sec-rule" style="margin-top: 2.5rem;">
+		<div class="sec-copy">
+			<span class="sec-label">🌱 애린이 코너</span>
+			<p class="sec-desc">AI를 처음 만나는 의사·의대생을 위한 쉽고 재미있는 입문 가이드</p>
+		</div>
+		<div class="sec-line"></div>
+		<a href="/blog/?category=aerini" class="sec-all">→</a>
+	</div>
+
+	<div class="aerini-wrap">
+		<div class="aerini-frame" id="aerini-frame">
+			<!-- JS로 채워짐, SSR fallback -->
+			{aeriniData.slice(0, 5).map(p => (
+				<a class="aerini-card" href={p.href}>
+					<span class="aerini-card-badge">{p.badge}</span>
+					<p class="aerini-card-title">{p.title}</p>
+					<p class="aerini-card-desc">{p.description}</p>
+				</a>
+			))}
+			<a class="aerini-more" href="/blog/?category=aerini">전체 {aeriniPosts.length}개 보기 →</a>
+		</div>
+	</div>
+
 	<!-- 포스트 데이터 JSON embed -->
 	<script type="application/json" id="yt-posts-data" set:html={JSON.stringify(postsData)}></script>
+	<script type="application/json" id="aerini-posts-data" set:html={JSON.stringify(aeriniData)}></script>
 
 	<script is:inline>
 		(function () {
@@ -177,6 +217,24 @@ const postsData = allPosts.map((p) => {
 					toggle.textContent = expanded ? '︽︽' : '︾︾';
 					toggle.setAttribute('aria-label', expanded ? '본문 접기' : '본문 펼치기');
 				});
+			}
+
+			// 애린이 카드 랜덤화
+			var aeriniEl = document.getElementById('aerini-posts-data');
+			var aeriniFrame = document.getElementById('aerini-frame');
+			if (aeriniEl && aeriniFrame) {
+				var aeriniPosts = JSON.parse(aeriniEl.textContent || '[]');
+				aeriniPosts.sort(function () { return Math.random() - 0.5; });
+				var shown = aeriniPosts.slice(0, 5);
+				var totalCount = aeriniPosts.length;
+				aeriniFrame.innerHTML = shown.map(function (p) {
+					return '<a class="aerini-card" href="' + escapeHtml(p.href) + '">' +
+						'<span class="aerini-card-badge">' + escapeHtml(p.badge) + '</span>' +
+						'<p class="aerini-card-title">' + escapeHtml(p.title) + '</p>' +
+						'<p class="aerini-card-desc">' + escapeHtml(p.description) + '</p>' +
+						'</a>';
+				}).join('') +
+				'<a class="aerini-more" href="/blog/?category=aerini">전체 ' + totalCount + '개 보기 →</a>';
 			}
 
 			function escapeHtml(str) {
