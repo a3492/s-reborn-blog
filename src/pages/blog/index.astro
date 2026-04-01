@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
-import { CATEGORIES, SITE_DESCRIPTION } from '../../consts';
+import { CATEGORIES, MENU_GROUPS, SITE_DESCRIPTION } from '../../consts';
 import { getPublicSiteSettings } from '../../lib/site-settings';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
@@ -10,211 +10,172 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
 const siteSettings = await getPublicSiteSettings();
 
 const categoryLabel = (id: string) => CATEGORIES.find((c) => c.id === id)?.label ?? id;
+
 const countsByCategory = posts.reduce<Record<string, number>>((acc, post) => {
 	const c = post.data.category;
 	if (c) acc[c] = (acc[c] ?? 0) + 1;
 	return acc;
 }, {});
-const categoryCounts = Object.entries(countsByCategory)
-	.map(([id, count]) => ({ id, label: categoryLabel(id), count }))
-	.sort((a, b) => b.count - a.count);
-const latestDate = posts[0]?.data.date;
 ---
 
 <Layout title="Blog" description={siteSettings.siteDescription || SITE_DESCRIPTION}>
-	<section class="blog-list-section">
-		<div class="blog-list-header">
-			<div>
-				<p class="blog-list-kicker">Archive</p>
-				<h1 class="blog-list-title">전체 글</h1>
-          <p class="blog-list-subtitle">{siteSettings.siteTitle}의 전체 글 아카이브입니다.</p>
-			</div>
-			<span class="blog-count">{posts.length}개</span>
-		</div>
+	<div class="blog-layout">
 
-		<!-- 데스크탑 카테고리 칩 필터 -->
-		<div class="blog-cat-filter" id="blog-cat-filter">
-			<button class="blog-cat-chip blog-cat-chip--active" data-cat="">전체 <span class="blog-cat-count">{posts.length}</span></button>
-			{categoryCounts.map((category) => (
-				<button class="blog-cat-chip" data-cat={category.id}>
-					{category.label} <span class="blog-cat-count">{category.count}</span>
+		<!-- ── 좌측 네비게이션 ── -->
+		<nav class="blog-nav" id="blog-nav" aria-label="카테고리 내비게이션">
+
+			<!-- 모바일 토글 -->
+			<button class="blog-nav-mobile-toggle" id="blog-nav-toggle" aria-expanded="false">
+				<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+					<path d="M2 4h12M2 8h12M2 12h12"/>
+				</svg>
+				<span>카테고리</span>
+				<svg class="blog-nav-mobile-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
+			</button>
+
+			<div class="blog-nav-body" id="blog-nav-body">
+				<!-- 전체 -->
+				<button class="blog-nav-all blog-nav-all--active" id="nav-all" data-cat="" data-label="전체 글">
+					<span class="blog-nav-all-label">⊞ 전체 글</span>
+					<span class="blog-nav-count">{posts.length}</span>
 				</button>
-			))}
-		</div>
 
-		<!-- 모바일용 카테고리 필터 -->
-		<div class="blog-mobile-filter">
-			<select id="category-filter" class="blog-category-select">
-				<option value="">전체 글 보기</option>
-				{categoryCounts.map((category) => (
-					<option value={category.id}>{category.label} ({category.count})</option>
+				<div class="blog-nav-divider"></div>
+
+				<!-- 그룹 -->
+				{MENU_GROUPS.map((group) => (
+					<div class="blog-nav-group" data-group={group.id}>
+						<button class="blog-nav-group-hd" data-toggle={group.id}>
+							<span class="blog-nav-group-icon">{group.icon}</span>
+							<span class="blog-nav-group-label">{group.label}</span>
+							<svg class="blog-nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M3 1.5l4 3.5-4 3.5"/>
+							</svg>
+						</button>
+						<div class="blog-nav-group-body">
+							{group.cats.map((catId) => {
+								const cat = CATEGORIES.find((c) => c.id === catId);
+								if (!cat) return null;
+								const count = countsByCategory[catId] ?? 0;
+								return (
+									<button
+										class="blog-nav-item"
+										data-cat={catId}
+										data-label={cat.label}
+									>
+										<span class="blog-nav-item-label">{cat.label}</span>
+										<span class="blog-nav-item-count">{count}</span>
+									</button>
+								);
+							})}
+						</div>
+					</div>
 				))}
-			</select>
-		</div>
+			</div>
+		</nav>
 
-		<div class="blog-summary-row">
-			<div class="blog-summary-card">
-				<span class="blog-summary-label">Latest</span>
-				<strong class="blog-summary-value"><FormattedDate date={latestDate} /></strong>
-				<p class="blog-summary-copy">가장 최근 글의 발행일을 표시합니다.</p>
+		<!-- ── 컨텐츠 영역 ── -->
+		<main class="blog-content">
+			<div class="blog-content-hd">
+				<h1 class="blog-content-title" id="blog-content-title">전체 글</h1>
+				<span class="blog-content-count" id="blog-content-count">{posts.length}개</span>
 			</div>
-			<div class="blog-summary-card">
-				<span class="blog-summary-label">Topics</span>
-				<strong class="blog-summary-value">{categoryCounts.length}</strong>
-				<p class="blog-summary-copy">현재 활성화된 카테고리 수입니다.</p>
-			</div>
-			<div class="blog-summary-card blog-summary-wide">
-				<span class="blog-summary-label">Top categories</span>
-				<div class="blog-summary-chips">
-					{categoryCounts.slice(0, 3).map((category) => (
-						<span class="blog-summary-chip">{category.label} · {category.count}</span>
-					))}
-				</div>
-			</div>
-		</div>
 
-		<ul class="blog-list">
-			{posts.map((post) => (
-				<li>
-					<a href={`/blog/${post.id}/`} class="blog-item">
-						<div class="blog-item-meta-row">
-							{post.data.category && (
-								<span class="card-cat" data-cat-id={post.data.category}>
-									{CATEGORIES.find(c => c.id === post.data.category)?.label ?? post.data.category}
-								</span>
-							)}
-							<span class="blog-item-arrow">읽기 →</span>
-						</div>
-						<h3 class="blog-item-title">{post.data.title}</h3>
-						{post.data.description && (
-							<p class="blog-item-desc">{post.data.description}</p>
+			<div class="blog-card-grid" id="blog-card-grid">
+				{posts.map((post) => (
+					<a
+						href={`/blog/${post.id}/`}
+						class="blog-card"
+						data-cat={post.data.category ?? ''}
+					>
+						{post.data.category && (
+							<span class="blog-card-cat">{categoryLabel(post.data.category)}</span>
 						)}
-						<div class="blog-item-foot">
-							<span class="blog-item-date">
-								<FormattedDate date={post.data.date} />
-							</span>
-						</div>
+						<h3 class="blog-card-title">{post.data.title}</h3>
+						{post.data.description && (
+							<p class="blog-card-desc">{post.data.description}</p>
+						)}
+						<span class="blog-card-date"><FormattedDate date={post.data.date} /></span>
 					</a>
-				</li>
-			))}
-		</ul>
-	</section>
+				))}
+			</div>
+		</main>
+	</div>
 </Layout>
-
-<style>
-/* 데스크탑 카테고리 칩 필터 */
-.blog-cat-filter {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.5rem;
-	margin: 1.25rem 0 1rem;
-}
-
-.blog-cat-chip {
-	padding: 0.35rem 0.75rem;
-	background: var(--bg2);
-	border: 1px solid var(--rule);
-	border-radius: 999px;
-	font-size: 0.78rem;
-	font-weight: 500;
-	color: var(--t2);
-	cursor: pointer;
-	transition: background 0.15s, color 0.15s, border-color 0.15s;
-	white-space: nowrap;
-}
-
-.blog-cat-chip:hover {
-	background: var(--bg3);
-	color: var(--text);
-}
-
-.blog-cat-chip--active {
-	background: var(--pink);
-	border-color: var(--pink);
-	color: #fff;
-}
-
-.blog-cat-count {
-	opacity: 0.75;
-	font-weight: 400;
-}
-
-/* 모바일 카테고리 필터 */
-.blog-mobile-filter {
-	display: none;
-	margin: 1rem 0;
-}
-
-.blog-category-select {
-	width: 100%;
-	padding: 0.75rem;
-	border: 1px solid var(--rule);
-	border-radius: 6px;
-	font-size: 0.95rem;
-	background: var(--bg2);
-	color: var(--text);
-	cursor: pointer;
-}
-
-@media (max-width: 768px) {
-	.blog-cat-filter {
-		display: none;
-	}
-	.blog-mobile-filter {
-		display: block;
-	}
-	.blog-summary-row {
-		display: none;
-	}
-}
-</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-	const items = document.querySelectorAll('.blog-list li');
+	const cards = document.querySelectorAll<HTMLElement>('.blog-card');
+	const navAll = document.getElementById('nav-all')!;
+	const navItems = document.querySelectorAll<HTMLButtonElement>('.blog-nav-item');
+	const groupHeaders = document.querySelectorAll<HTMLButtonElement>('.blog-nav-group-hd');
+	const contentTitle = document.getElementById('blog-content-title')!;
+	const contentCount = document.getElementById('blog-content-count')!;
+	const mobileToggle = document.getElementById('blog-nav-toggle')!;
+	const navBody = document.getElementById('blog-nav-body')!;
 
-	function filterByCat(catId: string) {
-		items.forEach((item) => {
-			const catEl = item.querySelector('.card-cat');
-			if (!catId) {
-				(item as HTMLElement).style.display = '';
-			} else {
-				const postCat = catEl?.getAttribute('data-cat-id');
-				(item as HTMLElement).style.display = postCat === catId ? '' : 'none';
-			}
+	// ── 모바일 토글 ──
+	mobileToggle.addEventListener('click', () => {
+		const open = navBody.classList.toggle('is-open');
+		mobileToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+	});
+
+	// ── 그룹 펼치기/접기 ──
+	groupHeaders.forEach((hd) => {
+		hd.addEventListener('click', () => {
+			const group = hd.closest('.blog-nav-group')!;
+			group.classList.toggle('is-open');
 		});
-	}
+	});
 
-	// 데스크탑 칩 필터
-	const chipFilter = document.getElementById('blog-cat-filter');
-	if (chipFilter) {
-		chipFilter.addEventListener('click', (e) => {
-			const btn = (e.target as HTMLElement).closest('.blog-cat-chip') as HTMLButtonElement | null;
-			if (!btn) return;
-			chipFilter.querySelectorAll('.blog-cat-chip').forEach(c => c.classList.remove('blog-cat-chip--active'));
-			btn.classList.add('blog-cat-chip--active');
-			filterByCat(btn.dataset.cat ?? '');
+	// ── 필터 함수 ──
+	function filterByCat(catId: string, label: string) {
+		let visible = 0;
+		cards.forEach((card) => {
+			const match = !catId || card.dataset.cat === catId;
+			card.style.display = match ? '' : 'none';
+			if (match) visible++;
 		});
+		contentTitle.textContent = label;
+		contentCount.textContent = `${visible}개`;
 	}
 
-	// 모바일 select 필터
-	const select = document.getElementById('category-filter') as HTMLSelectElement | null;
-	if (select) {
-		select.addEventListener('change', () => filterByCat(select.value));
+	// ── 활성 상태 설정 ──
+	function setActive(target: HTMLButtonElement | null, isAll: boolean) {
+		navAll.classList.toggle('blog-nav-all--active', isAll);
+		navItems.forEach((i) => i.classList.remove('blog-nav-item--active'));
+		if (!isAll && target) target.classList.add('blog-nav-item--active');
 	}
 
-	// URL ?category= 파라미터로 초기 필터
+	// ── 전체 클릭 ──
+	navAll.addEventListener('click', () => {
+		filterByCat('', '전체 글');
+		setActive(null, true);
+	});
+
+	// ── 카테고리 클릭 ──
+	navItems.forEach((item) => {
+		item.addEventListener('click', () => {
+			const cat = item.dataset.cat ?? '';
+			const label = item.dataset.label ?? cat;
+			filterByCat(cat, label);
+			setActive(item, false);
+			// 부모 그룹 자동 펼치기
+			item.closest('.blog-nav-group')?.classList.add('is-open');
+			// 모바일: 메뉴 닫기
+			navBody.classList.remove('is-open');
+			mobileToggle.setAttribute('aria-expanded', 'false');
+		});
+	});
+
+	// ── URL ?category= 초기 필터 ──
 	const params = new URLSearchParams(window.location.search);
-	const initCat = params.get('category') || '';
+	const initCat = params.get('category') ?? '';
 	if (initCat) {
-		filterByCat(initCat);
-		// 칩 활성화
-		if (chipFilter) {
-			chipFilter.querySelectorAll('.blog-cat-chip').forEach(c => c.classList.remove('blog-cat-chip--active'));
-			const target = chipFilter.querySelector(`[data-cat="${initCat}"]`) as HTMLElement | null;
-			if (target) target.classList.add('blog-cat-chip--active');
+		const target = [...navItems].find((i) => i.dataset.cat === initCat);
+		if (target) {
+			target.click();
 		}
-		if (select) select.value = initCat;
 	}
 });
 </script>
