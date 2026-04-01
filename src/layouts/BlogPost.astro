@@ -2,13 +2,14 @@
 import '../styles/design.css';
 import '../styles/global.css';
 import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import PublicComments from '../components/PublicComments.astro';
 import Topbar from '../components/Topbar.astro';
 import PostStats from '../components/PostStats.astro';
-import { CATEGORIES } from '../consts';
+import { CATEGORIES, MENU_GROUPS } from '../consts';
 
 type Props = CollectionEntry<'blog'>['data'] & { slug?: string };
 
@@ -24,6 +25,14 @@ const shareLinks = {
 	linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
 	kakao: null,
 };
+
+// 카테고리별 글 수 (네비용)
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const countsByCategory = allPosts.reduce<Record<string, number>>((acc, post) => {
+	const c = post.data.category;
+	if (c) acc[c] = (acc[c] ?? 0) + 1;
+	return acc;
+}, {});
 ---
 
 <html lang="ko">
@@ -32,77 +41,161 @@ const shareLinks = {
 	</head>
 
 	<body class="blog-post-shell">
+		<div class="site-wrap">
 		<Topbar />
-		<main class="blog-post-main">
-			<article class="blog-post-article">
-				{thumbnail && (
-					<div class="blog-post-hero">
-						<img src={thumbnail} alt={title} />
-					</div>
-				)}
-				<div class="blog-post-prose prose">
-					<div class="blog-post-title title">
-						<div class="blog-post-meta meta">
-							{category && (
-								<span class="blog-post-category category-badge">
-									{CATEGORIES.find(c => c.id === category)?.label ?? category}
-								</span>
-							)}
-							<FormattedDate date={date} />
-						</div>
-						<h1>{title}</h1>
-						{tags && tags.length > 0 && (
-							<div class="blog-post-tags tags">
-								{tags.map((tag) => <span class="blog-post-tag tag">#{tag}</span>)}
+		<div class="site-main">
+		<div class="blog-layout">
+
+			<!-- ── 좌측 네비게이션 ── -->
+			<nav class="blog-nav" id="blog-nav" aria-label="카테고리 내비게이션">
+
+				<!-- 모바일 토글 -->
+				<button class="blog-nav-mobile-toggle" id="blog-nav-toggle" aria-expanded="false">
+					<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+						<path d="M2 4h12M2 8h12M2 12h12"/>
+					</svg>
+					<span>카테고리</span>
+					<svg class="blog-nav-mobile-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
+				</button>
+
+				<div class="blog-nav-body" id="blog-nav-body">
+					<!-- 전체 -->
+					<a class="blog-nav-all" href="/blog/" data-navlink>
+						<span class="blog-nav-all-label">⊞ 전체 글</span>
+						<span class="blog-nav-count">{allPosts.length}</span>
+					</a>
+
+					<div class="blog-nav-divider"></div>
+
+					<!-- 그룹 -->
+					{MENU_GROUPS.map((group) => {
+						const isActiveGroup = group.cats.includes(category as any);
+						return (
+							<div class={`blog-nav-group${isActiveGroup ? ' is-open' : ''}`} data-group={group.id}>
+								<button class="blog-nav-group-hd" data-toggle={group.id}>
+									<span class="blog-nav-group-icon">{group.icon}</span>
+									<span class="blog-nav-group-label">{group.label}</span>
+									<svg class="blog-nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+										<path d="M3 1.5l4 3.5-4 3.5"/>
+									</svg>
+								</button>
+								<div class="blog-nav-group-body">
+									{group.cats.map((catId) => {
+										const cat = CATEGORIES.find((c) => c.id === catId);
+										if (!cat) return null;
+										const count = countsByCategory[catId] ?? 0;
+										const isActive = catId === category;
+										return (
+											<a
+												class={`blog-nav-item${isActive ? ' blog-nav-item--active' : ''}`}
+												href={`/blog/?category=${catId}`}
+											>
+												<span class="blog-nav-item-label">{cat.label}</span>
+												<span class="blog-nav-item-count">{count}</span>
+											</a>
+										);
+									})}
+								</div>
 							</div>
-						)}
-						<PostStats slug={slug} />
-						<hr />
-					</div>
-					<slot />
-
-					<div class="blog-post-share-section share-section">
-						<p>이 글이 도움이 됐다면 링크를 남겨 두거나 바로 공유할 수 있습니다.</p>
-						<div class="blog-post-share-buttons share-buttons">
-							<a
-								href={shareLinks.twitter}
-								target="_blank"
-								rel="noopener noreferrer"
-								class="blog-post-share-btn share-btn twitter"
-							>
-								𝕏 트위터
-							</a>
-							<a
-								href={shareLinks.linkedin}
-								target="_blank"
-								rel="noopener noreferrer"
-								class="blog-post-share-btn share-btn linkedin"
-							>
-								LinkedIn
-							</a>
-							<button
-								id="kakao-share-btn"
-								class="blog-post-share-btn share-btn kakao"
-								type="button"
-							>
-								카카오톡
-							</button>
-							<button
-								id="copy-link-btn"
-								class="blog-post-share-btn share-btn copy"
-								type="button"
-							>
-								링크 복사
-							</button>
-						</div>
-						<p id="share-feedback" class="blog-post-share-feedback" aria-live="polite"></p>
-					</div>
-
-					<PublicComments postPath={Astro.url.pathname} />
+						);
+					})}
 				</div>
-			</article>
-		</main>
+			</nav>
+
+			<!-- ── 글 본문 ── -->
+			<main class="blog-content blog-post-main">
+				<article class="blog-post-article">
+					{thumbnail && (
+						<div class="blog-post-hero">
+							<img src={thumbnail} alt={title} />
+						</div>
+					)}
+					<div class="blog-post-prose prose">
+						<div class="blog-post-title title">
+							<div class="blog-post-meta meta">
+								{category && (
+									<span class="blog-post-category category-badge">
+										{CATEGORIES.find(c => c.id === category)?.label ?? category}
+									</span>
+								)}
+								<FormattedDate date={date} />
+							</div>
+							<h1>{title}</h1>
+							{tags && tags.length > 0 && (
+								<div class="blog-post-tags tags">
+									{tags.map((tag) => <span class="blog-post-tag tag">#{tag}</span>)}
+								</div>
+							)}
+							<PostStats slug={slug} />
+							<hr />
+						</div>
+						<slot />
+
+						<div class="blog-post-share-section share-section">
+							<p>이 글이 도움이 됐다면 링크를 남겨 두거나 바로 공유할 수 있습니다.</p>
+							<div class="blog-post-share-buttons share-buttons">
+								<a
+									href={shareLinks.twitter}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="blog-post-share-btn share-btn twitter"
+								>
+									𝕏 트위터
+								</a>
+								<a
+									href={shareLinks.linkedin}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="blog-post-share-btn share-btn linkedin"
+								>
+									LinkedIn
+								</a>
+								<button
+									id="kakao-share-btn"
+									class="blog-post-share-btn share-btn kakao"
+									type="button"
+								>
+									카카오톡
+								</button>
+								<button
+									id="copy-link-btn"
+									class="blog-post-share-btn share-btn copy"
+									type="button"
+								>
+									링크 복사
+								</button>
+							</div>
+							<p id="share-feedback" class="blog-post-share-feedback" aria-live="polite"></p>
+						</div>
+
+						<PublicComments postPath={Astro.url.pathname} />
+					</div>
+				</article>
+			</main>
+		</div>
+
+		</div><!-- /.blog-layout -->
+		</div><!-- /.site-main -->
 		<Footer />
+
+		<script is:inline>
+			// 그룹 펼치기/접기
+			document.querySelectorAll('.blog-nav-group-hd').forEach(function(hd) {
+				hd.addEventListener('click', function() {
+					hd.closest('.blog-nav-group').classList.toggle('is-open');
+				});
+			});
+
+			// 모바일 토글
+			var mobileToggle = document.getElementById('blog-nav-toggle');
+			var navBody = document.getElementById('blog-nav-body');
+			if (mobileToggle && navBody) {
+				mobileToggle.addEventListener('click', function() {
+					var open = navBody.classList.toggle('is-open');
+					mobileToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+				});
+			}
+		</script>
 
 		<script define:vars={{ pageUrl, title }}>
 			const copyButton = document.getElementById('copy-link-btn');
@@ -149,5 +242,6 @@ const shareLinks = {
 				}
 			});
 		</script>
+		</div><!-- /.site-wrap -->
 	</body>
 </html>
