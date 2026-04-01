@@ -12,6 +12,7 @@ export const CATEGORIES = [
 	{ id: 'harness-engineering', label: '하네스', icon: '⛓️' },
 	{ id: 'ai-agents', label: '에이전트', icon: '⚙️' },
 	{ id: 'rag-finetuning', label: 'RAG·파인튜닝', icon: '🔩' },
+	{ id: 'orchestration', label: '오케스트레이션', icon: '🎼' },
 	// 의료
 	{ id: 'doctor-ai', label: 'Doctor AI Academy', icon: '🩺' },
 	{ id: 'medical-data-science', label: '데이터 과학', icon: '📊' },
@@ -45,7 +46,7 @@ export const MENU_GROUPS = [
 		id: 'engineering',
 		label: '엔지니어링',
 		icon: '🔧',
-		cats: ['prompt-engineering', 'context-engineering', 'harness-engineering', 'ai-agents', 'rag-finetuning'],
+		cats: ['prompt-engineering', 'context-engineering', 'harness-engineering', 'ai-agents', 'rag-finetuning', 'orchestration'],
 	},
 	{
 		id: 'medical',
