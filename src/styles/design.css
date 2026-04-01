@@ -1848,6 +1848,7 @@ footer {
   cursor: pointer;
   transition: background 0.15s, color 0.15s;
   text-align: left;
+  text-decoration: none;
   margin-bottom: 0.25rem;
 }
 
@@ -1931,6 +1932,7 @@ footer {
   cursor: pointer;
   transition: background 0.12s, color 0.12s;
   text-align: left;
+  text-decoration: none;
 }
 
 .blog-nav-item:hover { background: var(--bg2); color: var(--text); }
@@ -2030,9 +2032,7 @@ footer {
 }
 
 .blog-card-date {
-  font-size: 0.68rem;
-  color: var(--t3);
-  margin-top: 0.25rem;
+  display: none;
 }
 
 /* ── 반응형 ── */

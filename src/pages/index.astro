@@ -1,16 +1,18 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
-import FormattedDate from '../components/FormattedDate.astro';
+import { CATEGORIES, MENU_GROUPS } from '../consts';
 import { getPublicSiteSettings } from '../lib/site-settings';
 
 const siteSettings = await getPublicSiteSettings();
 const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
 	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-const totalPosts = allPosts.length;
-const totalCategories = new Set(allPosts.map((post) => post.data.category).filter(Boolean)).size;
-const latestUpdate = allPosts[0]?.data.date;
+const countsByCategory = allPosts.reduce<Record<string, number>>((acc, post) => {
+	const c = post.data.category;
+	if (c) acc[c] = (acc[c] ?? 0) + 1;
+	return acc;
+}, {});
 
 const splitTitle = (title: string) => {
 	const [main, ...rest] = title.split(' — ');
@@ -38,7 +40,7 @@ const defaultPost = allPosts[0];
 const { main: defaultMain, sub: defaultSub } = defaultPost
 	? splitTitle(defaultPost.data.title)
 	: { main: '', sub: null };
-const defaultBodyRaw = stripMarkdown(defaultPost?.body ?? '').slice(0, 900);
+const defaultBodyRaw = stripMarkdown(defaultPost?.body ?? '').slice(0, 200);
 const defaultParagraphs = defaultBodyRaw.split('\n\n').map(p => p.trim()).filter(Boolean);
 
 // 클라이언트 랜덤화를 위한 전체 포스트 데이터
@@ -71,8 +73,65 @@ const aeriniData = aeriniPosts.map(p => {
 
 <Layout>
 	{allPosts.length > 0 ? (
-		<div class="yt-layout yt-layout--single">
-			<main class="yt-main">
+		<div class="blog-layout">
+
+			<!-- ── 좌측 네비게이션 (블로그와 동일) ── -->
+			<nav class="blog-nav" id="blog-nav" aria-label="카테고리 내비게이션">
+
+				<!-- 모바일 토글 -->
+				<button class="blog-nav-mobile-toggle" id="blog-nav-toggle" aria-expanded="false">
+					<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+						<path d="M2 4h12M2 8h12M2 12h12"/>
+					</svg>
+					<span>카테고리</span>
+					<svg class="blog-nav-mobile-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
+				</button>
+
+				<div class="blog-nav-body" id="blog-nav-body">
+					<!-- 전체 -->
+					<a class="blog-nav-all" href="/blog/" data-navlink>
+						<span class="blog-nav-all-label">⊞ 전체 글</span>
+						<span class="blog-nav-count">{allPosts.length}</span>
+					</a>
+
+					<div class="blog-nav-divider"></div>
+
+					<!-- 그룹 -->
+					{MENU_GROUPS.map((group) => (
+						<div class="blog-nav-group" data-group={group.id}>
+							<button class="blog-nav-group-hd" data-toggle={group.id}>
+								<span class="blog-nav-group-icon">{group.icon}</span>
+								<span class="blog-nav-group-label">{group.label}</span>
+								<svg class="blog-nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M3 1.5l4 3.5-4 3.5"/>
+								</svg>
+							</button>
+							<div class="blog-nav-group-body">
+								{group.cats.map((catId) => {
+									const cat = CATEGORIES.find((c) => c.id === catId);
+									if (!cat) return null;
+									const count = countsByCategory[catId] ?? 0;
+									return (
+										<a
+											class="blog-nav-item"
+											href={`/blog/?category=${catId}`}
+											data-navlink
+										>
+											<span class="blog-nav-item-label">{cat.label}</span>
+											<span class="blog-nav-item-count">{count}</span>
+										</a>
+									);
+								})}
+							</div>
+						</div>
+					))}
+				</div>
+			</nav>
+
+			<!-- ── 홈 콘텐츠 영역 ── -->
+			<main class="blog-content home-content">
+
+				<!-- 히어로 랜덤 글 카드 -->
 				<a class="yt-hero" id="yt-hero" href={`/blog/${defaultPost?.id}/`}>
 					<h1 class="yt-title" id="yt-hero-title">
 						{defaultMain}
@@ -212,6 +271,23 @@ const aeriniData = aeriniPosts.map(p => {
 						'</a>';
 				}).join('') +
 				'<a class="aerini-more" href="/blog/?category=aerini">전체 ' + totalCount + '개 보기 →</a>';
+			}
+
+			// 그룹 펼치기/접기
+			document.querySelectorAll('.blog-nav-group-hd').forEach(function(hd) {
+				hd.addEventListener('click', function() {
+					hd.closest('.blog-nav-group').classList.toggle('is-open');
+				});
+			});
+
+			// 모바일 토글
+			var mobileToggle = document.getElementById('blog-nav-toggle');
+			var navBody = document.getElementById('blog-nav-body');
+			if (mobileToggle && navBody) {
+				mobileToggle.addEventListener('click', function() {
+					var open = navBody.classList.toggle('is-open');
+					mobileToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+				});
 			}
 		})();
 	</script>
