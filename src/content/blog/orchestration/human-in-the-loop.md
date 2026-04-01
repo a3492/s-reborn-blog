@@ -1,9 +1,9 @@
 ---
-title: "Human-in-the-Loop — AI가 혼자 결정하지 않는 설계"
+title: "Human-in-the-Loop — Air Canada 챗봇 소송이 의료 AI에 주는 교훈"
 date: 2026-04-01
 category: orchestration
 tags: ["Human-in-the-loop", "사람확인", "의료AI", "안전설계"]
-description: "AI가 자율적으로 모든 결정을 내리게 하면 안 되는 순간이 있다. 언제 사람의 개입을 요청하고 어떻게 설계하는지 다룬다."
+description: "2024년 법원은 AI 챗봇이 잘못된 환불 정책을 안내했고 그 책임은 회사에 있다고 판결했다. AI가 혼자 결정하게 두면 안 되는 이유, 그리고 사람의 개입을 설계하는 방법."
 read_time: 7
 difficulty: "intermediate"
 draft: false
@@ -11,149 +11,119 @@ thumbnail: ""
 ---
 
 ## 한줄 요약
-Human-in-the-Loop은 AI가 멈추고 사람의 판단을 기다리는 지점을 시스템에 의도적으로 설계하는 패턴이다.
+AI가 내린 결정에 잘못이 있어도 법적 책임은 사람에게 돌아온다. Human-in-the-Loop는 선택이 아니라 의료 AI 시스템 설계의 전제다.
 
 ## 본문
 
-### 왜 사람이 루프 안에 있어야 하는가
+### 법원이 AI 회사에 내린 판결
 
-AI 자율화의 환상이 있다. "AI가 처음부터 끝까지 다 하면 좋지 않을까?" 특히 반복적이고 시간이 걸리는 의료 문서 작업에서 이 유혹이 크다.
+2024년 2월, 캐나다 소비자분쟁재판소는 Air Canada에 손해배상을 명령했다.
 
-하지만 다음 상황을 생각해보자:
-- AI가 잘못된 약물 용량을 결정하고 처방전을 자동 출력한다
-- AI가 틀린 진단을 바탕으로 수술 일정을 잡는다
-- AI가 잘못 해석한 영상 결과로 치료 방향을 바꾼다
+사건의 경위는 이렇다. 승객 제이크 모핏은 조부의 장례식 참석을 위해 급히 항공권을 구매했다. 구매 전에 Air Canada 챗봇에게 "가족 사망 시 환불 가능 여부"를 물었고, 챗봇은 "탑승 후 90일 이내에 신청하면 할인 혜택을 소급 적용받을 수 있다"고 안내했다.
 
-자율화의 가치는 실수의 비용이 얼마나 큰지에 반비례한다. 의료에서 실수 비용은 매우 크다. 따라서 완전한 자율화보다 적절한 지점에서 사람이 개입하는 설계가 더 안전하고, 역설적으로 더 많이 채택된다.
+실제 정책과 달랐다. Air Canada는 "챗봇의 오류이고 회사는 책임 없다"고 주장했지만 법원은 받아들이지 않았다. "챗봇도 Air Canada의 에이전트다. 그 결과에 대한 책임은 회사에 있다."
 
 ---
 
-### Human-in-the-Loop의 3가지 패턴
+### 의료 AI에서 이 판결이 의미하는 것
 
-**1. 승인 게이트 (Approval Gate)**
+의료 AI의 오류는 항공권 환불보다 훨씬 심각한 결과를 낳는다. 잘못된 투약 권고, 놓친 이상 징후, 틀린 진단 지원.
 
-중요한 행동 전에 AI가 멈추고 사람의 승인을 기다린다.
+법적 책임뿐 아니라 환자 안전의 문제다.
 
-```python
-def request_physician_approval(state: State) -> State:
-    """AI가 생성한 치료 계획을 의사에게 제시하고 승인 요청"""
+그러면 어떻게 해야 하는가. 두 가지 극단이 있다:
 
-    # 의사에게 알림 발송
-    notification_service.send({
-        "to": state["requesting_physician"],
-        "message": "AI 치료 계획 검토 요청",
-        "plan": state["treatment_plan"],
-        "patient": state["patient_id"],
-        "review_url": f"/review/{state['workflow_id']}"
-    })
+- **완전 자율화**: AI가 모든 결정을 내리고 실행한다. 빠르지만 위험하다.
+- **완전 수동**: AI는 정보를 보여주기만 하고 모든 것을 사람이 한다. 안전하지만 자동화의 이점이 없다.
 
-    # 상태를 'pending_approval'로 변경하고 워크플로우 일시 정지
-    return {**state, "status": "pending_approval"}
-```
+실용적인 답은 중간이다. **AI가 할 수 있는 것은 AI가 하고, 사람이 판단해야 하는 지점에서는 AI가 멈추고 기다린다.**
 
-의사가 승인하면 워크플로우가 재개된다. 거부하면 AI가 수정안을 만든다.
-
-**2. 수정 루프 (Correction Loop)**
-
-AI가 결과를 제시하면, 사람이 수정하고, AI가 수정 내용을 반영해서 다시 생성한다.
-
-```
-AI → 초안 작성
-  → 의사에게 제시
-  → 의사: "3번 진단은 가능성 낮음, 제거해줘"
-  → AI: 수정된 계획 재생성
-  → 의사: 승인
-  → 최종 확정
-```
-
-**3. 예외 에스컬레이션 (Exception Escalation)**
-
-AI가 처리할 수 없거나 확신이 없는 케이스를 사람에게 넘긴다.
-
-```python
-def check_if_escalation_needed(state: State) -> str:
-    """다음 노드를 결정: 자동 처리 vs 사람에게 넘김"""
-
-    # AI 신뢰도가 낮은 경우
-    if state["confidence_score"] < 0.7:
-        return "escalate_to_human"
-
-    # 희귀 질환 가능성이 있는 경우
-    if "희귀" in state["diagnosis_flags"]:
-        return "escalate_to_specialist"
-
-    # 고위험 치료 옵션인 경우
-    if state["treatment_risk_level"] == "high":
-        return "escalate_to_human"
-
-    return "auto_proceed"
-```
+이것이 Human-in-the-Loop다.
 
 ---
 
-### LangGraph에서 Human-in-the-Loop 구현
+### 어느 지점에서 사람이 개입해야 하는가
 
-LangGraph는 `interrupt_before` 기능으로 특정 노드 전에 자동으로 워크플로우를 일시 정지할 수 있다.
+의료 AI에서 사람 개입이 필수인 지점:
 
-```python
-# 컴파일 시 어느 노드에서 멈출지 지정
-app = workflow.compile(
-    checkpointer=checkpointer,
-    interrupt_before=["execute_treatment_plan"]  # 이 노드 전에 멈춤
-)
+**① 처치 실행 전**
 
-# 실행: 'execute_treatment_plan' 직전에 자동 정지
-result = app.invoke(initial_state, config=config)
-# → 여기서 상태가 저장되고 워크플로우 일시 정지
+AI가 처치를 제안했을 때 의사가 승인하지 않으면 실행되지 않는다. 약물 오더, 검사 오더, 의뢰 모두 마찬가지다.
 
-# 사람이 검토 후 재개 (상태 수정 가능)
-app.update_state(config, {"physician_approved": True, "notes": "계획 승인"})
-result = app.invoke(None, config=config)  # 정지된 지점부터 재개
-```
+**② 불확실성이 높을 때**
 
----
+AI의 신뢰도 점수가 기준 이하이거나, 여러 에이전트가 서로 다른 결론을 냈을 때. AI가 "이 케이스는 제 판단 범위 밖입니다"라고 솔직하게 에스컬레이션하는 것이 가능해야 한다.
 
-### 승인 대기 중 상태 관리
+**③ 고위험 결정**
 
-의사가 승인하기까지 수 시간 또는 며칠이 걸릴 수 있다. 이 동안:
+수술 결정, 항암 치료 시작, DNR 관련 내용. 아무리 AI가 확신을 가져도 이 결정들은 사람이 내려야 한다.
 
-- 워크플로우 상태는 DB에 저장되어야 한다
-- 승인 기한이 지나면 자동 알림이 가야 한다
-- 다른 의사가 대신 검토할 수 있어야 한다
-- 승인/거부 내역이 감사 로그에 남아야 한다
+**④ 예외적 상황**
 
-```python
-class ApprovalQueue:
-    def submit(self, workflow_id: str, plan: dict, deadline: datetime):
-        db.save({
-            "workflow_id": workflow_id,
-            "plan": plan,
-            "submitted_at": datetime.now(),
-            "deadline": deadline,
-            "status": "pending"
-        })
-        self.schedule_reminder(workflow_id, deadline - timedelta(hours=2))
-
-    def approve(self, workflow_id: str, physician_id: str, notes: str):
-        db.update(workflow_id, {
-            "status": "approved",
-            "approved_by": physician_id,
-            "approved_at": datetime.now(),
-            "notes": notes
-        })
-        workflow_runner.resume(workflow_id)
-```
+AI가 학습 데이터에 없는 케이스를 만났을 때. "이 패턴은 처음 봅니다"를 인식하고 사람에게 넘길 수 있어야 한다.
 
 ---
 
-### Human-in-the-Loop 설계 원칙
+### 실용적인 설계 원칙 3가지
 
-**명확한 개입 지점**: 어디서 사람이 개입하는지를 시스템 문서에 명시한다. "AI가 알아서 결정하다가 필요하면 물어봄"은 나쁜 설계다.
+**원칙 1 — 승인 게이트는 최소화한다**
 
-**충분한 정보 제공**: 의사에게 "승인하시겠습니까?"만 보여주면 안 된다. 근거, 대안, 위험도를 함께 제시한다.
+모든 것에 승인을 요구하면 의사가 10초마다 버튼을 눌러야 한다. 이건 업무 방해다. AI가 자율적으로 해도 안전한 것은 AI에게 맡기고, 진짜 판단이 필요한 것만 의사에게 올린다.
 
-**기본값은 사람 확인**: 불확실할 때 자동으로 진행하는 게 아니라 사람에게 물어보는 방향으로 설계한다.
+```
+자율 처리 (승인 불필요):
+- 데이터 수집
+- 이상 탐지 (알림만)
+- 요약 생성
+- 기록 정리
 
-**감사 추적**: 누가 언제 무엇을 승인했는지 반드시 기록한다. 나중에 "왜 이 치료를 했는가"를 추적할 수 있어야 한다.
+의사 승인 필요:
+- 약물 오더
+- 추가 검사 오더
+- 타과 협진 의뢰
+- 치료 방향 변경
+```
 
-AI가 완전히 자율화될 수 있는 세상이 오더라도, 의료처럼 책임이 명확해야 하는 도메인에서는 Human-in-the-Loop이 기술이 아닌 제도적 요구사항이 될 것이다.
+**원칙 2 — 대기 시간에 시간 제한을 둔다**
+
+의사가 응답하지 않을 때 시스템이 어떻게 할지 미리 정해야 한다.
+
+예: 30분 내 응답 없으면 담당 간호사에게 다시 알림. 2시간 내 응답 없으면 "검토 필요" 상태로 남겨둠. 응급 알림은 3분 내 응답 없으면 다음 담당자에게 자동 에스컬레이션.
+
+AI가 응답을 영원히 기다리는 것은 설계 결함이다.
+
+**원칙 3 — 의사가 수정할 수 있어야 한다**
+
+"승인" 또는 "거부"만 있으면 안 된다. 의사가 AI의 제안을 보고 "이 부분만 수정해서 승인"을 할 수 있어야 한다.
+
+예: AI가 "세마글루타이드 1mg 주 1회"를 제안했는데 의사가 "0.5mg으로 시작"으로 수정해서 승인. 수정 내용과 이유가 기록된다.
+
+---
+
+### Human-in-the-Loop가 없는 시스템의 실제 사고
+
+2023년, 한 스타트업이 내부적으로 공유한 사례가 있다. 의료 서류 처리 자동화 시스템에서 AI가 잘못된 보험 코드를 반복적으로 생성했다. 시스템에 검토 단계가 없었기 때문에 수백 건이 그대로 청구됐고, 6주 후에 보험사 감사로 발견됐다.
+
+사람이 샘플 검토만 했어도 첫 주에 잡을 수 있었다.
+
+---
+
+### 의사 경험 설계
+
+Human-in-the-Loop는 기술 설계만의 문제가 아니다. 의사가 실제로 검토하고 싶어지는 인터페이스를 만드는 것이 중요하다.
+
+나쁜 설계: AI가 생성한 10줄짜리 설명을 읽고 승인/거부 버튼을 누른다.
+
+좋은 설계:
+- AI가 "핵심 3가지"와 "주의사항 1가지"를 맨 위에 요약한다
+- 의사가 추가로 보고 싶은 근거 데이터를 탭 하나로 볼 수 있다
+- 승인/수정/거부가 스와이프 한 번이다
+- 검토에 걸리는 시간이 30초 이내다
+
+의사가 AI 권고를 신뢰하고 빠르게 검토할 수 있어야 한다. 검토가 너무 복잡하면 의사는 검토 없이 승인하거나 AI를 아예 쓰지 않는다. 둘 다 원하는 결과가 아니다.
+
+---
+
+> 승인 대기 상태를 LangGraph로 구현하는 방법 → [LangGraph 입문]
+>
+> 의사 검토가 있는 전체 회진 준비 시스템 설계 → [의료 오케스트레이션 케이스 스터디]

@@ -1,9 +1,9 @@
 ---
-title: "LangGraph 입문 — 그래프로 AI 흐름을 그리다"
+title: "LangGraph — AI 흐름이 꼬이지 않으려면 그래프가 필요하다"
 date: 2026-04-01
 category: orchestration
 tags: ["LangGraph", "그래프", "상태머신", "오케스트레이션"]
-description: "LangGraph는 AI 워크플로우를 노드와 엣지로 표현하는 프레임워크다. 왜 그래프가 AI 오케스트레이션에 적합한지, 어떻게 설계하는지 정리한다."
+description: "LangChain 팀이 에이전트 무한 루프 문제를 해결하려다 만든 것이 LangGraph다. 왜 그래프가 AI 흐름 설계에 적합한지, 의사의 언어로 설명한다."
 read_time: 8
 difficulty: "intermediate"
 draft: false
@@ -11,172 +11,99 @@ thumbnail: ""
 ---
 
 ## 한줄 요약
-LangGraph는 AI 에이전트의 흐름을 방향 그래프(노드 + 엣지)로 표현해서, 복잡한 분기와 루프를 명확하게 설계할 수 있게 한다.
+LangGraph는 AI 워크플로우를 흐름도처럼 설계하는 도구다. 어느 단계에서 멈춰도 그 단계부터 재개할 수 있고, 조건에 따라 경로가 달라질 수 있다.
 
 ## 본문
 
-### 왜 그래프인가
+### 무한 루프 사고로 탄생한 도구
 
-AI 에이전트의 행동은 선형이 아니다. 조건에 따라 분기하고, 실패하면 다시 시도하고, 특정 조건이 될 때까지 반복한다.
+2023년 초, LangChain을 쓰던 개발팀들 사이에서 비슷한 불만이 터져나왔다.
 
-이걸 일반 코드로 표현하면:
+"에이전트가 같은 툴을 계속 반복 호출하다가 멈추지 않는다."
 
-```python
-# 단순해 보이지만 실제로는 엉키기 쉬움
-result = step1()
-if result.needs_more_info:
-    result = ask_clarification()
-    result = step1_again(result)
-elif result.failed:
-    result = fallback_step()
+당시 LangChain의 `AgentExecutor`는 에이전트가 "다음 뭘 할지"를 매번 LLM에게 물어보는 방식이었다. 문제는 LLM이 "아직 정보가 부족하다"고 판단해서 같은 검색을 반복 실행하거나, 루프 탈출 조건 없이 계속 돌아가는 케이스가 잦았다는 것이다. 로그를 보지 않으면 에이전트가 지금 뭘 하고 있는지도 알 수 없었다.
 
-result2 = step2(result)
-while not result2.is_complete:
-    result2 = step2_retry(result2)
-    if retry_count > 3:
-        break
-```
-
-복잡해질수록 if-else가 엉키고, 어디서 실패했는지 추적하기 어렵다.
-
-LangGraph는 이걸 그래프로 표현한다:
-
-```
-[시작] → [단계1] → {완료?}
-                    ├─ YES → [단계2] → [끝]
-                    ├─ 정보필요 → [명확화요청] → [단계1]
-                    └─ 실패 → [폴백] → [단계2]
-```
-
-흐름이 시각적으로 명확하고, 각 노드가 독립적으로 테스트 가능하다.
+LangChain 팀은 이 문제를 해결하기 위해 아예 새로운 레이어를 만들었다. 에이전트의 흐름을 미리 명확하게 **그려두는** 것. 이것이 2024년 초 공개된 **LangGraph**다.
 
 ---
 
-### LangGraph의 핵심 개념
+### 수술실 체크리스트와 같은 구조
 
-**노드 (Node)**
-그래프의 각 단계다. 보통 하나의 AI 호출 또는 도구 실행이다.
+외과 의사라면 수술 전 체크리스트가 익숙할 것이다. WHO 수술 안전 체크리스트는 세 구간으로 나뉜다:
 
-```python
-from langgraph.graph import StateGraph
-from typing import TypedDict
+1. **Sign In**: 마취 전 — 환자 확인, 알레르기 확인, 동의서 확인
+2. **Time Out**: 절개 전 — 팀 전원 소개, 예상 소요 시간, 항생제 투여 여부
+3. **Sign Out**: 봉합 전 — 기구 카운트, 검체 라벨 확인, 주요 우려사항 공유
 
-class MedicalState(TypedDict):
-    patient_id: str
-    symptoms: list[str]
-    lab_results: dict
-    diagnosis: str
-    treatment_plan: str
+각 단계는 순서가 있고, 이전 단계가 완료돼야 다음 단계로 넘어간다. 중간에 이상이 있으면 분기가 생긴다(수술 취소, 추가 확인 등).
 
-def collect_patient_data(state: MedicalState) -> MedicalState:
-    """노드 1: 환자 데이터 수집"""
-    lab_results = emr_api.get_labs(state["patient_id"])
-    return {**state, "lab_results": lab_results}
+LangGraph는 AI 워크플로우를 이와 동일한 방식으로 설계한다.
 
-def generate_diagnosis(state: MedicalState) -> MedicalState:
-    """노드 2: AI 감별진단"""
-    diagnosis = llm.invoke(
-        f"증상: {state['symptoms']}\n검사: {state['lab_results']}\n감별진단:"
-    )
-    return {**state, "diagnosis": diagnosis}
-```
-
-**엣지 (Edge)**
-노드 간 연결이다. 단순 연결(항상 이동)과 조건부 연결(상태에 따라 분기)이 있다.
-
-```python
-def route_after_diagnosis(state: MedicalState) -> str:
-    """조건부 엣지: 진단 결과에 따라 다음 노드 결정"""
-    if "응급" in state["diagnosis"]:
-        return "emergency_protocol"
-    elif state["diagnosis"] == "불확실":
-        return "request_more_tests"
-    else:
-        return "create_treatment_plan"
-```
-
-**상태 (State)**
-그래프 전체를 흐르는 데이터 구조다. 각 노드는 상태를 받고, 수정된 상태를 반환한다.
+- **노드(Node)** = 체크리스트의 각 항목. AI 호출 하나 또는 도구 실행 하나.
+- **엣지(Edge)** = 항목 간 연결. 단순 연결이거나 조건부 분기.
+- **상태(State)** = 수술 기록지. 모든 단계에서 공유되며 업데이트된다.
 
 ---
 
-### 실제 의료 워크플로우 구현
+### 가장 중요한 기능: 체크포인트
 
-```python
-from langgraph.graph import StateGraph, END
+수술 도중 환자 상태가 급변해서 잠시 중단했다가 재개한다면, 처음 단계부터 다시 시작하지 않는다. 중단된 그 단계부터 이어간다.
 
-# 그래프 생성
-workflow = StateGraph(MedicalState)
+LangGraph의 **체크포인트(Checkpoint)** 가 이 역할이다.
 
-# 노드 추가
-workflow.add_node("collect_data", collect_patient_data)
-workflow.add_node("diagnose", generate_diagnosis)
-workflow.add_node("emergency", handle_emergency)
-workflow.add_node("more_tests", request_additional_tests)
-workflow.add_node("treatment", create_treatment_plan)
+AI 작업이 10단계짜리인데 7단계에서 외부 API 오류가 났다면, 오류를 수정한 뒤 7단계부터 재시도한다. 1단계부터 다시 실행할 필요가 없다.
 
-# 엣지 추가
-workflow.set_entry_point("collect_data")
-workflow.add_edge("collect_data", "diagnose")
-workflow.add_conditional_edges(
-    "diagnose",
-    route_after_diagnosis,
-    {
-        "emergency_protocol": "emergency",
-        "request_more_tests": "more_tests",
-        "create_treatment_plan": "treatment"
-    }
-)
-workflow.add_edge("more_tests", "diagnose")  # 루프: 추가 검사 후 재진단
-workflow.add_edge("emergency", END)
-workflow.add_edge("treatment", END)
+의료 현장에서 더 중요한 케이스가 있다. **사람의 승인을 기다리는 경우**다.
 
-# 컴파일
-app = workflow.compile()
-
-# 실행
-result = app.invoke({
-    "patient_id": "P12345",
-    "symptoms": ["흉통", "호흡곤란"],
-    "lab_results": {},
-    "diagnosis": "",
-    "treatment_plan": ""
-})
-```
+예를 들어 AI가 오전 7시에 회진 요약을 준비해뒀는데, 주치의가 10시에 검토하고 "추가 검사가 필요하다"고 응답했다면, AI는 그 응답을 받아 다음 단계(추가 검사 오더 제안)를 실행한다. 3시간 동안 대기하는 것이 자연스럽다. 체크포인트가 없으면 이 대기가 불가능하다.
 
 ---
 
-### LangGraph의 킬러 기능: 체크포인트
+### 조건부 흐름: 진단에 따라 경로가 달라진다
 
-긴 작업 중에 중단됐다가 재개할 수 있다. 실패한 노드부터 다시 시작한다.
+일반 파이프라인은 경로가 고정이다. A → B → C.
 
-```python
-from langgraph.checkpoint.memory import MemorySaver
+그런데 실제 임상은 다르다. 혈압이 정상이면 퇴원 절차로 가고, 이상이면 추가 모니터링으로 분기한다.
 
-checkpointer = MemorySaver()
-app = workflow.compile(checkpointer=checkpointer)
+LangGraph는 **조건부 엣지(Conditional Edge)** 로 이걸 표현한다.
 
-# 스레드 ID로 실행 상태 유지
-config = {"configurable": {"thread_id": "patient_P12345_session_1"}}
-
-# 처음 실행
-result = app.invoke(initial_state, config=config)
-
-# 3단계에서 실패했다면, 나중에 3단계부터 재개
-result = app.invoke(None, config=config)  # 이전 상태에서 계속
+```
+[활력징후 분석]
+        ↓
+   {결과 분류}
+    ├─ 정상 → [퇴원 체크리스트]
+    ├─ 경계 → [6시간 후 재측정] ──→ 다시 [활력징후 분석]으로 루프
+    └─ 위험 → [응급 프로토콜]
 ```
 
-의료 AI처럼 긴 작업에서 특히 중요하다. 도중에 추가 정보가 필요하거나 의사의 확인이 필요할 때 멈췄다가 재개할 수 있다.
+이 분기 로직은 코드로 짜는 게 아니라 **그래프에 그리는 것**이다. 나중에 흐름을 수정할 때도 그래프를 고치면 된다. 코드 전체를 뒤질 필요가 없다.
 
 ---
 
-### LangGraph가 잘 맞는 경우
+### LangGraph가 필요한 순간과 필요 없는 순간
 
-- 흐름에 분기와 루프가 많은 경우
-- 중간에 사람의 확인(Human-in-the-loop)이 필요한 경우
-- 긴 작업을 재개 가능하게 만들어야 하는 경우
-- 각 단계를 독립적으로 테스트하고 싶은 경우
+LangGraph가 힘을 발휘하는 경우:
+- 흐름에 분기가 있다 (조건에 따라 다른 경로)
+- 루프가 있다 (특정 조건이 될 때까지 반복)
+- 사람의 개입 대기가 있다 (Human-in-the-Loop)
+- 긴 작업을 중단했다가 재개해야 한다
 
-**잘 안 맞는 경우**
-- 간단한 선형 파이프라인 (오버엔지니어링)
-- 에이전트 간 자유로운 대화가 필요한 경우 (CrewAI가 낫다)
+반대로, 단순한 순차 작업이라면 오히려 복잡성만 늘어난다. "환자 메모 요약해줘" 같은 단일 AI 호출은 LangGraph 없이 충분하다.
+
+---
+
+### LangGraph vs 기존 방식
+
+| 항목 | 기존 AgentExecutor | LangGraph |
+|---|---|---|
+| 흐름 제어 | LLM이 매번 결정 | 설계자가 그래프로 정의 |
+| 루프 방지 | 취약 | 명시적 종료 조건 |
+| 중간 재개 | 불가 | 체크포인트로 가능 |
+| 디버깅 | 어려움 | 각 노드별 상태 추적 |
+| 사람 개입 | 구현 어려움 | 기본 기능으로 지원 |
+
+---
+
+> 이 글에서 나온 "사람 개입 대기" 기능을 실전에서 어떻게 설계하는지 → [Human-in-the-Loop: 의사가 AI를 검토하는 구조 설계]
+>
+> 역할 기반으로 AI 팀을 꾸리는 다른 접근법 → [CrewAI — 역할을 주면 AI가 팀처럼 일한다]

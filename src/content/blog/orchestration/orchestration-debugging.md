@@ -1,9 +1,9 @@
 ---
-title: "오케스트레이션 디버깅 — AI 여러 개가 엉킬 때 어떻게 찾는가"
+title: "오케스트레이션 디버깅 — AI 여러 개가 엉켰을 때 범인을 찾는 법"
 date: 2026-04-01
 category: orchestration
 tags: ["디버깅", "트레이싱", "오케스트레이션", "LangSmith"]
-description: "단일 AI 디버깅도 어렵지만 멀티 에이전트는 차원이 다르다. 어디서 잘못됐는지 찾고 고치는 실전 방법을 다룬다."
+description: "멀티 에이전트 시스템에서 잘못된 결과가 나왔을 때 원인을 어떻게 찾는가. 로그도 없고 재현도 안 되는 AI 버그를 추적하는 실전 접근법."
 read_time: 7
 difficulty: "intermediate"
 draft: false
@@ -11,196 +11,125 @@ thumbnail: ""
 ---
 
 ## 한줄 요약
-오케스트레이션 디버깅의 핵심은 "어떤 에이전트가, 어떤 입력을 받아서, 어떤 출력을 냈는가"를 전부 기록하고 추적하는 것이다.
+오케스트레이션 디버깅은 "어느 에이전트가, 어떤 입력을 받아서, 어떤 판단을 내렸는가"를 단계별로 기록해두지 않으면 원인을 찾을 수 없다.
 
 ## 본문
 
-### 왜 오케스트레이션 디버깅이 어려운가
+### 원인을 모르는 오진
 
-단일 AI가 틀린 답을 냈다면: 입력 프롬프트와 출력을 보면 된다.
+2016년 IBM Watson이 MD Anderson Cancer Center와의 협업을 종료했을 때, 외부에 알려진 이유 중 하나는 "AI의 치료 권고가 전문가 패널의 의견과 달랐는데, 왜 그런 권고가 나왔는지 설명할 수 없었다"는 것이었다.
 
-멀티 에이전트 시스템이 틀린 답을 냈다면:
-- 어떤 에이전트가 처음 잘못됐는가?
-- 그 오류가 어떤 경로로 전파됐는가?
-- 중간에 잡을 수 있었는데 못 잡은 게 있는가?
-- 오류가 에이전트 자체의 문제인가, 입력 데이터의 문제인가, 오케스트레이션 로직의 문제인가?
+AI가 틀린 것도 문제지만, **왜 틀렸는지 모르는 것**이 더 큰 문제다.
 
-추적 없이 이걸 찾는 건 범인 없는 범죄 현장에서 수사하는 것과 같다.
+단일 AI는 틀린 답을 냈어도 "이 프롬프트를 받아서 이 답을 냈다"고 추적할 수 있다. 하지만 멀티 에이전트 시스템은 다르다. 에이전트 A의 출력이 B에게 전달되고, B의 출력이 C에게 가고, C가 최종 답을 냈다. 최종 결과가 잘못됐을 때, 잘못이 A에서 시작된 건지 B에서 시작된 건지, 아니면 C의 판단 자체가 문제인지 알 수 없다.
 
 ---
 
-### 트레이싱의 중요성
+### 멀티 에이전트 디버깅이 어려운 이유 3가지
 
-모든 에이전트 호출을 로그로 남겨야 한다.
+**1. 비결정론적 동작**
 
-```python
-import time
-from dataclasses import dataclass, field
+같은 입력을 줘도 LLM은 매번 조금씩 다른 출력을 낸다. 버그를 재현하려고 해도 "그때 그 출력"이 다시 나오지 않는다. 개발에서는 버그 재현이 수정의 첫 단계인데, 이것이 원천적으로 어렵다.
 
-@dataclass
-class AgentTrace:
-    agent_name: str
-    input: dict
-    output: dict
-    start_time: float
-    end_time: float
-    tokens_used: int
-    error: str | None = None
+**2. 에러 전파**
 
-    @property
-    def duration_ms(self):
-        return (self.end_time - self.start_time) * 1000
+에이전트 A가 약간 이상한 요약을 냈다. 에이전트 B는 그걸 받아서 그것대로 분석했다. 에이전트 C는 B의 분석을 바탕으로 최종 권고를 냈다. 결과는 크게 틀렸지만 A의 오류는 "약간 이상한 요약" 수준이었다. 원인과 결과 사이의 거리가 멀다.
 
-class TraceCollector:
-    def __init__(self):
-        self.traces: list[AgentTrace] = []
+**3. 타이밍 문제**
 
-    def record(self, trace: AgentTrace):
-        self.traces.append(trace)
-
-    def print_timeline(self):
-        for t in self.traces:
-            status = "✅" if t.error is None else "❌"
-            print(f"{status} [{t.agent_name}] {t.duration_ms:.0f}ms | {t.tokens_used} tokens")
-            if t.error:
-                print(f"   Error: {t.error}")
-
-collector = TraceCollector()
-
-def traced_agent_call(agent_fn, agent_name: str, input_data: dict) -> dict:
-    start = time.time()
-    error = None
-    output = {}
-
-    try:
-        output = agent_fn(input_data)
-    except Exception as e:
-        error = str(e)
-        raise
-    finally:
-        collector.record(AgentTrace(
-            agent_name=agent_name,
-            input=input_data,
-            output=output,
-            start_time=start,
-            end_time=time.time(),
-            tokens_used=count_tokens(str(input_data) + str(output)),
-            error=error
-        ))
-
-    return output
-```
+병렬로 실행되는 에이전트들 사이에서 순서 문제가 생긴다. 에이전트 A와 B가 동시에 실행되는데, B가 A의 결과를 기다리지 않고 먼저 완료됐다. 이런 타이밍 버그는 로그가 없으면 존재 자체를 인식하기 어렵다.
 
 ---
 
-### LangSmith로 시각적 디버깅
+### 해결 원칙: 모든 것을 기록한다
 
-LangChain 생태계의 관찰 도구. 워크플로우 실행을 시각적으로 추적한다.
+오케스트레이션 시스템을 만들 때부터 **트레이싱(Tracing)** 을 기본으로 설계해야 한다. 나중에 붙이는 것이 아니라 처음부터.
 
-```python
-from langsmith import Client
-import os
+기록해야 할 것들:
 
-os.environ["LANGCHAIN_TRACING_V2"] = "true"
-os.environ["LANGCHAIN_API_KEY"] = "your-api-key"
-os.environ["LANGCHAIN_PROJECT"] = "medical-orchestration"
+| 항목 | 예시 |
+|---|---|
+| 에이전트 이름 | `diagnosis_agent` |
+| 실행 시각 | `2026-04-02 07:34:21` |
+| 입력 | 받은 환자 데이터 요약 |
+| 출력 | 생성한 감별진단 목록 |
+| 소요 시간 | `3.2초` |
+| 사용 모델 | `claude-sonnet-4-6` |
+| 오류 여부 | `없음` / `오류 메시지` |
 
-# 이제 모든 LangChain/LangGraph 호출이 자동으로 LangSmith에 기록됨
-result = app.invoke(initial_state)
-```
-
-LangSmith 대시보드에서:
-- 각 노드의 입력/출력 확인
-- 실행 시간과 토큰 사용량 시각화
-- 실패한 단계 즉시 식별
-- 실행 간 비교 (버전 A vs B)
+이 기록이 있으면 나중에 "7번째 에이전트가 받은 입력이 뭐였나"를 정확히 볼 수 있다.
 
 ---
 
-### 자주 나타나는 버그 패턴
+### 실전에서 자주 나오는 버그 패턴 4가지
 
-**패턴 1: 프롬프트 변수 누락**
+**패턴 1 — 컨텍스트 희석**
 
-```python
-# 버그: 프롬프트에 {patient_id}가 있는데 state에 없음
-def diagnose(state: dict) -> dict:
-    response = llm.invoke(
-        f"환자 {state['patient_id']}의 증상을 분석하세요"
-        # state에 'patient_id'가 없으면 KeyError
-    )
-```
+에이전트가 너무 많은 정보를 받아서 중요한 정보를 놓친다.
 
-추적 로그를 보면 이 노드에서 KeyError가 났음을 즉시 알 수 있다.
-
-**패턴 2: 출력 파싱 실패 무음 처리**
-
-```python
-# 버그: 파싱 실패를 조용히 무시함
-def parse_diagnosis(response: str) -> dict:
-    try:
-        return json.loads(response)
-    except:
-        return {}  # 빈 딕셔너리 반환 → 다음 단계가 이상하게 동작
-```
-
-빈 딕셔너리가 다음 에이전트로 전달되어 엉뚱한 결과를 낸다. 오류를 명시적으로 올려야 한다.
-
-**패턴 3: 상태 오염 (State Mutation)**
-
-```python
-# 버그: state를 직접 수정
-def agent_a(state: dict) -> dict:
-    state["result"] = "A의 결과"  # 원본 수정!
-    return state
-
-# 좋은 방식
-def agent_a(state: dict) -> dict:
-    return {**state, "result_a": "A의 결과"}  # 새 딕셔너리 반환
-```
-
-**패턴 4: 무한 루프**
-
-평가-최적화 루프에서 평가자가 너무 엄격하거나 기준이 충돌할 때 발생.
-
-```python
-# 루프 카운터 추가
-def should_retry(state: dict) -> str:
-    if state["retry_count"] >= 3:  # 최대 3번
-        return "force_complete"
-
-    if state["quality_score"] >= 0.8:
-        return "complete"
-
-    return "retry"
-```
+*증상*: 초반에 명확히 언급된 중요 정보를 후반 에이전트가 모른다.
+*원인*: 이전 에이전트들의 출력이 쌓이면서 초기 정보가 컨텍스트 후반으로 밀려났다.
+*대처*: 각 에이전트에게는 필요한 정보만 선별해서 전달한다. 전체 히스토리를 통째로 넘기지 않는다.
 
 ---
 
-### 오케스트레이션 테스트 전략
+**패턴 2 — 확신의 전파**
 
-**단위 테스트**: 각 에이전트를 독립적으로 테스트
+에이전트 A가 "아마도 X일 것 같다"고 불확실하게 표현했는데, 에이전트 B가 이를 "X이다"로 확정적으로 해석해서 다음 단계에 전달한다.
 
-```python
-def test_pharmacist_agent():
-    test_input = {
-        "proposed_med": "metformin",
-        "patient_egfr": 28
-    }
-    result = pharmacist_agent(test_input)
-    assert "contraindicated" in result["recommendation"]
-    assert result["alternative"] is not None
-```
+*증상*: 최종 결과에서 근거 없는 확신이 들어간다.
+*원인*: 에이전트들이 불확실성 표현을 처리하는 방식이 통일되어 있지 않다.
+*대처*: 에이전트 간 인터페이스에 신뢰도 점수를 명시적으로 포함시킨다.
 
-**통합 테스트**: 전체 워크플로우를 대표 케이스로 테스트
+---
 
-```python
-TEST_CASES = [
-    {"name": "단순 당뇨 케이스", "expected": "정상 처방"},
-    {"name": "신부전 + 당뇨", "expected": "메트포르민 금기"},
-    {"name": "응급 케이스", "expected": "에스컬레이션"},
-]
-```
+**패턴 3 — 무한 재시도**
 
-**회귀 테스트**: 이전에 고쳤던 버그가 다시 나타나지 않도록 케이스 보관
+에이전트가 실패했을 때 재시도를 하는데, 재시도 종료 조건이 없어서 계속 반복한다.
 
-디버깅 환경이 잘 갖춰지면 오케스트레이션 개발 속도가 10배 이상 빨라진다.
+*증상*: 시스템이 멈추지 않고 비용이 계속 발생한다.
+*원인*: 오류 처리 로직에 최대 재시도 횟수가 없다.
+*대처*: 모든 재시도 로직에 상한선을 설정하고, 상한 도달 시 실패로 처리하는 경로를 만든다.
+
+---
+
+**패턴 4 — 조용한 실패 (Silent Failure)**
+
+에이전트가 오류를 내지 않고 빈 결과나 기본값을 반환한다. 시스템은 정상 작동 중이라고 인식한다.
+
+*증상*: 결과가 나오긴 했는데 내용이 의미없거나 비어있다.
+*원인*: 예외 처리가 오류를 삼키고 빈 값을 반환한다.
+*대처*: 빈 결과나 기본값 반환도 경고로 처리한다. "결과 없음"은 성공이 아니다.
+
+---
+
+### LangSmith: 트레이싱 도구
+
+LangChain/LangGraph 기반 시스템이라면 **LangSmith** 를 쓰면 된다. 별도 코드 없이 각 에이전트 호출을 자동으로 추적하고 시각화한다.
+
+보여주는 것:
+- 전체 실행 흐름 (어느 노드에서 어느 노드로 갔는지)
+- 각 노드의 입력과 출력
+- 소요 시간과 토큰 사용량
+- 오류가 발생한 정확한 위치
+
+단일 페이지에서 "이 실행에서 4번째 에이전트가 받은 입력이 뭔지"를 바로 볼 수 있다.
+
+---
+
+### 의료 시스템에서 트레이싱이 특히 중요한 이유
+
+의료 AI에서는 "왜 이런 결론이 나왔는가"를 설명할 수 있어야 한다. 규제 요건이기도 하고, 환자 안전 문제이기도 하다.
+
+AI가 "이 환자에게 A 약물보다 B 약물이 더 적합하다"고 판단했다면:
+- 어떤 데이터를 근거로 했는가
+- 어느 에이전트가 그 판단을 내렸는가
+- 해당 에이전트에게 어떤 입력이 들어갔는가
+
+이 추적이 가능해야 의사가 AI 권고를 신뢰하고 검토할 수 있다. 블랙박스 결과는 의료 현장에서 받아들여지지 않는다.
+
+---
+
+> 어떤 에이전트가 어디서 실패했는지 알았다면, 다음은 그 실패를 자동으로 감지하는 모니터링 → [오케스트레이션 모니터링]
+>
+> 에이전트 시스템을 처음 만들 때 테스트를 어떻게 설계하는가 → [오케스트레이션 테스팅]
