@@ -1,4 +1,4 @@
-export const SITE_TITLE = 'S-Reborn World';
+export const SITE_TITLE = 'S-Reborn Blog';
 export const SITE_DESCRIPTION = 'AI of the people, by the people, for the people';
 
 export const CATEGORIES = [

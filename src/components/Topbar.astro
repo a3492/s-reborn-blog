@@ -3,7 +3,7 @@ interface Props {
   siteTitle?: string;
 }
 
-const { siteTitle = 'S-Reborn World' } = Astro.props;
+const { siteTitle = 'S-Reborn Blog' } = Astro.props;
 const path = Astro.url.pathname;
 const isHome = path === '/';
 const isBlog = path.startsWith('/blog');

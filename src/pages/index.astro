@@ -86,12 +86,53 @@ const aeriniData = aeriniPosts.map(p => {
 					<button class="yt-body-toggle" id="yt-body-toggle" aria-label="본문 펼치기">︾︾</button>
 				</a>
 
-				<div class="yt-stats">
-					<span>글 {totalPosts}</span>
-					<span class="yt-stats-dot">·</span>
-					<span>카테고리 {totalCategories}</span>
-					<span class="yt-stats-dot">·</span>
-					<FormattedDate date={latestUpdate} />
+				<!-- Doctor AI 시리즈 섹션 -->
+				<div class="sec-rule" style="margin-top: 1.5rem;">
+					<div class="sec-copy">
+						<span class="sec-label">Doctor AI Series</span>
+					</div>
+					<div class="sec-line"></div>
+					<a href="/doctor-ai/" class="sec-all">→</a>
+				</div>
+				<div class="dai-wrap">
+					<a class="dai-hero" href="/doctor-ai/">
+						<div class="dai-hero-text">
+							<span class="dai-eyebrow">Fundamentals · 10편 + Prompts · Cases · Tools</span>
+							<h2 class="dai-title">의사가 배우는 AI</h2>
+							<p class="dai-desc">AI 기초부터 실전 프롬프트, 임상 케이스, 툴 비교까지 — 임상의를 위한 통합 AI 교육 시리즈</p>
+							<span class="dai-cta">→</span>
+						</div>
+						<div class="dai-hero-articles">
+							<div class="dai-article-list">
+								<span class="dai-item">Fundamentals · 10편</span>
+								<span class="dai-item">Prompts · 4편</span>
+								<span class="dai-item">Cases · 4편</span>
+								<span class="dai-item">Tools · 4편</span>
+								<span class="dai-item dai-item--more">→ Doctor AI 홈</span>
+							</div>
+						</div>
+					</a>
+				</div>
+
+				<!-- 애린이 코너 섹션 -->
+				<div class="sec-rule" style="margin-top: 1.5rem;">
+					<div class="sec-copy">
+						<span class="sec-label">🌱 애린이 코너</span>
+					</div>
+					<div class="sec-line"></div>
+					<a href="/blog/?category=aerini" class="sec-all">→</a>
+				</div>
+				<div class="aerini-wrap">
+					<div class="aerini-frame" id="aerini-frame">
+						{aeriniData.slice(0, 5).map(p => (
+							<a class="aerini-card" href={p.href}>
+								<span class="aerini-card-badge">{p.badge}</span>
+								<p class="aerini-card-title">{p.title}</p>
+								<p class="aerini-card-desc">{p.description}</p>
+							</a>
+						))}
+						<a class="aerini-more" href="/blog/?category=aerini">전체 {aeriniPosts.length}개 보기 →</a>
+					</div>
 				</div>
 			</main>
 
@@ -103,60 +144,6 @@ const aeriniData = aeriniPosts.map(p => {
 			아직 작성된 글이 없습니다.
 		</div>
 	)}
-
-	<!-- Doctor AI 시리즈 섹션 -->
-	<div class="sec-rule" style="margin-top: 2.5rem;">
-		<div class="sec-copy">
-			<span class="sec-label">Doctor AI Series</span>
-			<p class="sec-desc">임상 현장에서 AI를 안전하게 이해하고 활용하기 위한 의사를 위한 실무 교육</p>
-		</div>
-		<div class="sec-line"></div>
-		<a href="/doctor-ai/" class="sec-all">→</a>
-	</div>
-
-	<div class="dai-wrap">
-		<a class="dai-hero" href="/doctor-ai/">
-			<div class="dai-hero-text">
-				<span class="dai-eyebrow">Fundamentals · 10편 + Prompts · Cases · Tools</span>
-				<h2 class="dai-title">의사가 배우는 AI</h2>
-				<p class="dai-desc">AI 기초부터 실전 프롬프트, 임상 케이스, 툴 비교까지 — 임상의를 위한 통합 AI 교육 시리즈</p>
-				<span class="dai-cta">→</span>
-			</div>
-			<div class="dai-hero-articles">
-				<div class="dai-article-list">
-					<span class="dai-item">Fundamentals · 10편</span>
-					<span class="dai-item">Prompts · 4편</span>
-					<span class="dai-item">Cases · 4편</span>
-					<span class="dai-item">Tools · 4편</span>
-					<span class="dai-item dai-item--more">→ Doctor AI 홈</span>
-				</div>
-			</div>
-		</a>
-	</div>
-
-	<!-- 애린이 코너 섹션 -->
-	<div class="sec-rule" style="margin-top: 2.5rem;">
-		<div class="sec-copy">
-			<span class="sec-label">🌱 애린이 코너</span>
-			<p class="sec-desc">AI를 처음 만나는 의사·의대생을 위한 쉽고 재미있는 입문 가이드</p>
-		</div>
-		<div class="sec-line"></div>
-		<a href="/blog/?category=aerini" class="sec-all">→</a>
-	</div>
-
-	<div class="aerini-wrap">
-		<div class="aerini-frame" id="aerini-frame">
-			<!-- JS로 채워짐, SSR fallback -->
-			{aeriniData.slice(0, 5).map(p => (
-				<a class="aerini-card" href={p.href}>
-					<span class="aerini-card-badge">{p.badge}</span>
-					<p class="aerini-card-title">{p.title}</p>
-					<p class="aerini-card-desc">{p.description}</p>
-				</a>
-			))}
-			<a class="aerini-more" href="/blog/?category=aerini">전체 {aeriniPosts.length}개 보기 →</a>
-		</div>
-	</div>
 
 	<!-- 포스트 데이터 JSON embed -->
 	<script type="application/json" id="yt-posts-data" set:html={JSON.stringify(postsData)}></script>
