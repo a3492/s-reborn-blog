@@ -170,3 +170,16 @@ CrewAI가 만능은 아니다. 실제로 자주 발생하는 문제:
 
 
 *편집 초안(cu2604021138). 프레임워크·API·임상 규정은 발행일 이후 바뀔 수 있으니 공식 문서와 병원 정책을 기준으로 확인한다.*
+
+---
+
+## 더 알고 싶다면
+
+🔗 관련 글
+- [LangGraph 입문](/blog/orchestration/langgraph-intro) — 그래프 기반의 다른 오케스트레이션 방식
+- [AutoGen 입문](/blog/orchestration/autogen-intro) — 역할 대신 자유 대화로 협력하는 세 번째 방식
+- [오케스트레이션 vs 에이전트](/blog/orchestration/orchestration-vs-agents) — 멀티 에이전트가 필요한 시점 판단
+- [의료 오케스트레이션 케이스 스터디](/blog/orchestration/medical-orchestration-case-study) — 역할 기반 팀이 실제로 작동하는 사례
+
+[← 오케스트레이션 시리즈 전체 보기](/blog/category/orchestration)
+

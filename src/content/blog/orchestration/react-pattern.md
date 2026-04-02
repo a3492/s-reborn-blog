@@ -188,3 +188,16 @@ ReAct가 과한 경우:
 루프가 여러 개면 **누가 지휘하는지**가 필요하다 — [슈퍼바이저 패턴](/blog/orchestration/supervisor-pattern/)
 
 *편집 초안(cu2604021138). 논문 수치·모델 권장은 발행일 이후 바뀔 수 있다. 임상 적용은 규제·지침·면허 의료인 판단을 따른다.*
+
+---
+
+## 더 알고 싶다면
+
+🔗 관련 글
+- [태스크 분해](/blog/orchestration/task-decomposition) — 루프를 돌기 전에 태스크를 나누는 방법
+- [LangGraph 입문](/blog/orchestration/langgraph-intro) — ReAct 루프를 그래프로 구현하는 방법
+- [오케스트레이션 디버깅](/blog/orchestration/orchestration-debugging) — ReAct 루프가 꼬였을 때 원인 찾는 법
+- [에이전틱 RAG](/blog/orchestration/agentic-rag) — ReAct와 반복 검색의 조합
+
+[← 오케스트레이션 시리즈 전체 보기](/blog/category/orchestration)
+

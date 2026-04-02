@@ -241,3 +241,16 @@ AI가 다운됐을 때 병동이 마비되면 안 된다. AI는 보조 도구이
 다이어그램은 그렸다. 박과장의 다음 질문은 단순하다. **“그럼 이걸 어떻게 증명하지? 시나리오 테스트?”** — [오케스트레이션 테스트 전략](/blog/orchestration/orchestration-testing/)
 
 *편집 초안(cu2604021138). 사례는 설계 연습용이며, 실제 임상·법적 효력을 대체하지 않는다. 도입 전 병원 윤리·정보보호·의료기기 해당 여부를 확인한다.*
+
+---
+
+## 더 알고 싶다면
+
+🔗 관련 글
+- [오케스트레이션이란](/blog/orchestration/what-is-orchestration) — 회진 시스템 설계의 기초 개념
+- [Human-in-the-Loop](/blog/orchestration/human-in-the-loop) — 의사 최종 승인 흐름 설계 원칙
+- [오케스트레이션 테스팅](/blog/orchestration/orchestration-testing) — 케이스 시나리오 테스트 방법
+- [오케스트레이션 보안](/blog/orchestration/orchestration-security) — 의료 데이터와 처방 시스템 보안
+
+[← 오케스트레이션 시리즈 전체 보기](/blog/category/orchestration)
+
