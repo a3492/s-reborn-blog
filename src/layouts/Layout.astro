@@ -304,30 +304,39 @@ const searchIndex = allPosts.map(post => ({
       };
 
       // Fuse.js CDN 로드 — tags·difficulty·type까지 포함한 가중치 검색
+      // weight는 Fuse.js 스펙상 0~1 사이 값이어야 함 (초과 시 스코어 계산 오작동)
       const FUSE_CDN = 'https://cdn.jsdelivr.net/npm/fuse.js@7.1.0/dist/fuse.mjs';
+      const buildFuse = (Fuse) => new Fuse(searchIndex, {
+        keys: [
+          { name: 'title',       weight: 1   },
+          { name: 'tags',        weight: 0.8 },
+          { name: 'description', weight: 0.6 },
+          { name: 'difficulty',  weight: 0.4 },
+          { name: 'category',    weight: 0.4 },
+          { name: 'subcategory', weight: 0.3 },
+          { name: 'type',        weight: 0.2 },
+        ],
+        threshold: 0.35,
+        minMatchCharLength: 1,
+        includeScore: true,
+      });
       setStatus('검색 인덱스를 준비하는 중입니다...', true);
       import(FUSE_CDN)
         .then((m) => {
-          const Fuse = m.default;
-          fuse = new Fuse(searchIndex, {
-            keys: [
-              { name: 'title',       weight: 3   },
-              { name: 'tags',        weight: 2.5 },
-              { name: 'description', weight: 1.5 },
-              { name: 'difficulty',  weight: 1   },
-              { name: 'category',    weight: 1   },
-              { name: 'subcategory', weight: 0.8 },
-              { name: 'type',        weight: 0.5 },
-            ],
-            threshold: 0.4,
-            minMatchCharLength: 1,
-            includeScore: true,
-            ignoreLocation: true,
-            distance: 200,
-          });
+          fuse = buildFuse(m.default);
           setStatus('', false);
         })
         .catch(() => {
+          // CDN 실패 시 fallback: includes 검색
+          fuse = {
+            search: (q) => {
+              const ql = q.toLowerCase();
+              return searchIndex
+                .filter(p => [p.title, p.description, p.category, p.tags, p.difficulty]
+                  .some(f => f?.toLowerCase().includes(ql)))
+                .map(item => ({ item, score: 0.3 }));
+            },
+          };
           setStatus('', false);
         });
 
