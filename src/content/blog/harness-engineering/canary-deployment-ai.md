@@ -2,12 +2,11 @@
 title: "AI 시스템 배포 전략 — 카나리아가 먼저 들어가는 이유"
 date: 2026-04-02
 category: harness-engineering
-tags: ["카나리아배포", "배포전략", "하네스", "프로덕션AI", "#cl2604021700"]
+tags: ["카나리아배포", "배포전략", "하네스", "프로덕션AI", "cl2604021700"]
 description: "일반 소프트웨어처럼 AI를 한 번에 전체 배포하면 위험하다. 카나리아 배포와 섀도우 테스트로 AI 배포 리스크를 줄이는 방법."
 read_time: 8
 difficulty: "intermediate"
 draft: false
-cl: "2604021700"
 thumbnail: ""
 ---
 

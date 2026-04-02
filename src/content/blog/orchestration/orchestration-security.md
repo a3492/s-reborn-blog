@@ -2,12 +2,11 @@
 title: "오케스트레이션 보안 — AI가 많아질수록 공격 표면도 커진다"
 date: 2026-04-01
 category: orchestration
-tags: ["보안", "오케스트레이션", "프롬프트인젝션", "에이전트보안"]
+tags: ["보안", "오케스트레이션", "프롬프트인젝션", "에이전트보안", "cl2604021601"]
 description: "에이전트 하나가 뚫리면 그와 연결된 전체 체인이 영향을 받는다. 단일 AI와 다른 멀티 에이전트 시스템의 보안 위협과 방어 방법."
 read_time: 7
 difficulty: "intermediate"
 draft: false
-cl: "2604021601"
 thumbnail: ""
 ---
 

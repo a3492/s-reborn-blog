@@ -2,12 +2,11 @@
 title: "슈퍼바이저 패턴 — 관리자 AI가 팀을 지휘하는 구조"
 date: 2026-04-01
 category: orchestration
-tags: ["슈퍼바이저", "계층구조", "멀티에이전트", "오케스트레이션"]
+tags: ["슈퍼바이저", "계층구조", "멀티에이전트", "오케스트레이션", "cl2604021601"]
 description: "병원 주임 레지던트처럼 전체를 보고 적절한 전문가에게 위임하는 AI를 설계하는 방법. 슈퍼바이저 패턴이 언제 필요하고 어떻게 작동하는가."
 read_time: 7
 difficulty: "intermediate"
 draft: false
-cl: "2604021601"
 thumbnail: ""
 ---
 

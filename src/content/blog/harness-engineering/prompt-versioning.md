@@ -2,12 +2,11 @@
 title: "프롬프트 버전 관리 — 프롬프트 한 줄이 바뀌면 전체 시스템이 바뀐다"
 date: 2026-04-02
 category: harness-engineering
-tags: ["프롬프트버전관리", "하네스", "프롬프트엔지니어링", "배포관리", "#cl2604021700"]
+tags: ["프롬프트버전관리", "하네스", "프롬프트엔지니어링", "배포관리", "cl2604021700"]
 description: "코드는 Git으로 관리한다. 프롬프트도 마찬가지여야 한다. 프롬프트 한 줄이 바뀌면 AI 제품 전체의 동작이 달라지기 때문이다."
 read_time: 7
 difficulty: "intermediate"
 draft: false
-cl: "2604021700"
 thumbnail: ""
 ---
 

@@ -2,12 +2,11 @@
 title: "상태 관리 — 10단계 워크플로우가 3단계에서 멈췄을 때"
 date: 2026-04-01
 category: orchestration
-tags: ["상태관리", "State", "오케스트레이션", "체크포인트"]
+tags: ["상태관리", "State", "오케스트레이션", "체크포인트", "cl2604021601"]
 description: "멀티 에이전트 워크플로우에서 상태를 잘못 관리하면 중간에 실패했을 때 처음부터 다시 시작해야 한다. 상태 설계가 시스템 안정성을 결정하는 이유."
 read_time: 7
 difficulty: "intermediate"
 draft: false
-cl: "2604021601"
 thumbnail: ""
 ---
 

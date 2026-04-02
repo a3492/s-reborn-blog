@@ -2,12 +2,11 @@
 title: "오케스트레이션 테스팅 — 비결정론적 AI를 어떻게 테스트하는가"
 date: 2026-04-01
 category: orchestration
-tags: ["테스트", "품질보증", "오케스트레이션", "Eval"]
+tags: ["테스트", "품질보증", "오케스트레이션", "Eval", "cl2604021601"]
 description: "일반 소프트웨어는 '항상 같은 답이 나오는가'를 테스트한다. AI 워크플로우는 '항상 좋은 답이 나오는가'를 테스트한다. 방법이 완전히 다르다."
 read_time: 7
 difficulty: "intermediate"
 draft: false
-cl: "2604021601"
 thumbnail: ""
 ---
 

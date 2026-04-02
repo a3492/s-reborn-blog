@@ -2,12 +2,11 @@
 title: "LLM 공급자 추상화 — OpenAI가 내려가도 시스템은 살아야 한다"
 date: 2026-04-02
 category: harness-engineering
-tags: ["LLM추상화", "멀티공급자", "하네스", "장애대응", "#cl2604021700"]
+tags: ["LLM추상화", "멀티공급자", "하네스", "장애대응", "cl2604021700"]
 description: "OpenAI에만 의존하면 OpenAI 장애가 곧 서비스 장애다. LLM 공급자를 추상화하면 장애 대응, 비용 최적화, 모델 교체가 유연해진다."
 read_time: 7
 difficulty: "intermediate"
 draft: false
-cl: "2604021700"
 thumbnail: ""
 ---
 

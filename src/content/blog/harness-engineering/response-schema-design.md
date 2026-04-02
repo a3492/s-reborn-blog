@@ -2,12 +2,11 @@
 title: "응답 스키마 설계 — AI 출력을 예측 가능한 형태로 만드는 법"
 date: 2026-04-02
 category: harness-engineering
-tags: ["응답스키마", "구조화출력", "하네스", "OutputParsing", "#cl2604021700"]
+tags: ["응답스키마", "구조화출력", "하네스", "OutputParsing", "cl2604021700"]
 description: "AI가 자유롭게 말하도록 놔두면 시스템 통합이 불가능하다. 응답 스키마를 설계하면 AI 출력이 예측 가능한 구조가 된다."
 read_time: 7
 difficulty: "intermediate"
 draft: false
-cl: "2604021700"
 thumbnail: ""
 ---
 

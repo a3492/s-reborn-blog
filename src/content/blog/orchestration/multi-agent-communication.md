@@ -2,12 +2,11 @@
 title: "에이전트 간 통신 — AI들이 서로 어떻게 정보를 주고받는가"
 date: 2026-04-01
 category: orchestration
-tags: ["에이전트통신", "메시지패싱", "공유메모리", "오케스트레이션"]
+tags: ["에이전트통신", "메시지패싱", "공유메모리", "오케스트레이션", "cl2604021601"]
 description: "멀티 에이전트 시스템에서 에이전트들이 협력하려면 정보를 주고받아야 한다. 3가지 방식의 차이와 의료 AI에서 어떤 것이 적합한지."
 read_time: 6
 difficulty: "intermediate"
 draft: false
-cl: "2604021601"
 thumbnail: ""
 ---
 

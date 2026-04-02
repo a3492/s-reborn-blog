@@ -2,12 +2,11 @@
 title: "AI 비용 예측 — 청구서를 받기 전에 미리 아는 방법"
 date: 2026-04-02
 category: harness-engineering
-tags: ["비용예측", "LLM비용", "토큰관리", "하네스", "#cl2604021700"]
+tags: ["비용예측", "LLM비용", "토큰관리", "하네스", "cl2604021700"]
 description: "AI 시스템은 트래픽이 늘면 비용도 선형이 아니라 지수적으로 늘어난다. 청구서를 받고 놀라지 않으려면 배포 전에 비용을 예측하는 방법이 필요하다."
 read_time: 7
 difficulty: "intermediate"
 draft: false
-cl: "2604021700"
 thumbnail: ""
 ---
 
