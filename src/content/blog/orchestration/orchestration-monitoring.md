@@ -2,7 +2,7 @@
 title: "오케스트레이션 모니터링 — AI가 조용히 나빠지고 있을 때 어떻게 아는가"
 date: 2026-04-01
 category: orchestration
-tags: ["모니터링", "관찰가능성", "프로덕션", "오케스트레이션", "#cl2604021601"]
+tags: ["모니터링", "관찰가능성", "프로덕션", "오케스트레이션"]
 description: "AI 시스템은 오류 없이도 품질이 서서히 떨어질 수 있다. 배포 후 무엇을 측정해야 하고, 언제 알람을 울려야 하는지."
 read_time: 7
 difficulty: "intermediate"
