@@ -2,7 +2,7 @@
 title: "AutoGen — Microsoft가 만든 '대화로 협력하는 AI 팀'"
 date: 2026-04-01
 category: orchestration
-tags: ["AutoGen", "Microsoft", "멀티에이전트", "대화형에이전트"]
+tags: ["AutoGen", "Microsoft", "멀티에이전트", "대화형에이전트", "#cl2604021601"]
 description: "LangGraph는 그래프로, CrewAI는 역할로 에이전트를 조율한다. AutoGen은 다르다. 에이전트들이 자연어 대화를 주고받으면서 협력한다. 어떤 상황에 적합한가."
 read_time: 7
 difficulty: "intermediate"

@@ -2,7 +2,7 @@
 title: "컨텍스트 윈도우 관리 — AI가 앞에서 한 말을 잊는 이유"
 date: 2026-04-01
 category: orchestration
-tags: ["컨텍스트윈도우", "메모리", "오케스트레이션", "토큰관리"]
+tags: ["컨텍스트윈도우", "메모리", "오케스트레이션", "토큰관리", "#cl2604021601"]
 description: "2023년 Stanford 연구에서 LLM은 컨텍스트 중간에 있는 정보를 자주 놓친다는 것이 밝혀졌다. 멀티 에이전트 시스템에서 이 문제가 어떻게 증폭되는지, 어떻게 방어하는지."
 read_time: 7
 difficulty: "intermediate"

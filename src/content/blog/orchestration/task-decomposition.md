@@ -2,7 +2,7 @@
 title: "태스크 분해 — '다 해줘'가 실패하는 이유"
 date: 2026-04-01
 category: orchestration
-tags: ["태스크분해", "계획", "오케스트레이션", "AI에이전트"]
+tags: ["태스크분해", "계획", "오케스트레이션", "AI에이전트", "#cl2604021601"]
 description: "복잡한 목표를 그대로 AI에게 주면 실패율이 높다. 분해 방식이 전체 시스템의 정확도와 비용을 결정한다."
 read_time: 7
 difficulty: "intermediate"

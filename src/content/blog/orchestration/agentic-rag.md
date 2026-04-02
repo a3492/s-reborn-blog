@@ -2,7 +2,7 @@
 title: "에이전틱 RAG — 한 번 검색으로 부족할 때"
 date: 2026-04-01
 category: orchestration
-tags: ["에이전틱RAG", "동적검색", "오케스트레이션", "RAG"]
+tags: ["에이전틱RAG", "동적검색", "오케스트레이션", "RAG", "#cl2604021601"]
 description: "단순 RAG는 한 번 검색하고 끝낸다. 에이전틱 RAG는 검색 결과를 보고 부족하면 다시 검색하고, 전략도 바꾼다. 오케스트레이션과 RAG가 결합하면 어떤 일이 가능한가."
 read_time: 8
 difficulty: "advanced"

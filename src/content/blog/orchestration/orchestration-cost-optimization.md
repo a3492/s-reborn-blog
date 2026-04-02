@@ -2,7 +2,7 @@
 title: "오케스트레이션 비용 최적화 — 월 1,500만 원 청구서를 받기 전에"
 date: 2026-04-01
 category: orchestration
-tags: ["비용최적화", "LLM비용", "토큰관리", "오케스트레이션"]
+tags: ["비용최적화", "LLM비용", "토큰관리", "오케스트레이션", "#cl2604021601"]
 description: "단순해 보이는 멀티 에이전트 시스템이 하루 $450를 쓸 수 있다. 품질을 유지하면서 비용을 줄이는 5가지 전략."
 read_time: 7
 difficulty: "intermediate"
