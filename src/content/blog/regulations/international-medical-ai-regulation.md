@@ -24,7 +24,7 @@ FDA는 SaMD 프레임워크로, EU는 AI Act와 MDR로 의료 AI를 규제하며
 
 ### 미국 FDA — SaMD 및 AI/ML 기반 SaMD 프레임워크
 
-**SaMD (Software as a Medical Device)**
+SaMD (Software as a Medical Device)
 
 FDA는 의료기기 소프트웨어를 SaMD로 분류하고, 위험도에 따라 Class I/II/III로 구분한다. 대부분의 진단 보조 AI는 Class II에 해당하며 510(k) 심사를 받아야 한다.
 
@@ -34,7 +34,7 @@ FDA는 의료기기 소프트웨어를 SaMD로 분류하고, 위험도에 따라
 | Class II | 중간 | 510(k) (동등성 심사) | 흉부 X-ray 보조 판독 |
 | Class III | 높음 | PMA (시판 전 승인) | 자율 진단 AI |
 
-**AI/ML 기반 SaMD 행동 계획 (2021)**
+AI/ML 기반 SaMD 행동 계획 (2021)
 
 FDA는 2021년 AI/ML 기반 SaMD에 대한 행동 계획을 발표했다. 핵심은 "지속적 학습(Continuous Learning)" 모델에 대한 규제다. 출시 이후에도 성능이 변하는 AI 모델에 대해 사전 변경 명세서(PCCP: Predetermined Change Control Plan)를 제출하도록 요구한다.
 
@@ -45,13 +45,13 @@ FDA SaMD 위험 분류 체계 (IMDRF 기반):
 → 조합에 따라 I, II, III, IV 위험군 분류
 ```
 
-**De Novo 경로**
+De Novo 경로
 
 기존 유사 제품이 없는 혁신적 AI는 De Novo 경로로 심사받는다. 허가 이후 해당 AI가 향후 510(k)의 Predicate(선례)가 된다.
 
 ### EU — EU AI Act 및 MDR
 
-**EU AI Act (2024년 발효, 2026년 의무 적용)**
+EU AI Act (2024년 발효, 2026년 의무 적용)
 
 EU AI Act는 AI 시스템을 위험도에 따라 4단계로 분류한다.
 
@@ -62,14 +62,14 @@ EU AI Act는 AI 시스템을 위험도에 따라 4단계로 분류한다.
 | 제한적 위험 | 챗봇 (AI임을 표시해야 함) | 투명성 의무 |
 | 최소 위험 | 스팸 필터 | 자율 규제 |
 
-의료 진단 보조 AI는 대부분 **고위험 AI**로 분류되며, 다음 의무가 부과된다:
+의료 진단 보조 AI는 대부분 고위험 AI로 분류되며, 다음 의무가 부과된다:
 - 위험 관리 시스템 구축
 - 고품질 학습 데이터 관리
 - 기술 문서화 및 로그 보관
 - 인간 감독(Human Oversight) 보장
 - 정확도·견고성·사이버 보안 기준 충족
 
-**EU MDR (Medical Device Regulation, EU 2017/745)**
+EU MDR (Medical Device Regulation, EU 2017/745)
 
 의료기기 소프트웨어(SaMD 포함)는 EU MDR에 따라 CE 마킹을 획득해야 한다. 인공지능이 포함된 의료기기의 경우 Class IIa 또는 IIb로 분류되는 경우가 많으며, 인증기관(Notified Body)의 심사를 거쳐야 한다.
 

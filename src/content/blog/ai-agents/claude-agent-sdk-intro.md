@@ -22,10 +22,10 @@ pip install anthropic
 ```
 
 주요 기능:
-- **Tool Use** — 함수 호출 및 결과 처리
-- **Streaming** — 실시간 토큰 스트리밍
-- **Message API** — 멀티턴 대화 관리
-- **Computer Use** (베타) — 화면 제어
+- Tool Use — 함수 호출 및 결과 처리
+- Streaming — 실시간 토큰 스트리밍
+- Message API — 멀티턴 대화 관리
+- Computer Use (베타) — 화면 제어
 
 ---
 

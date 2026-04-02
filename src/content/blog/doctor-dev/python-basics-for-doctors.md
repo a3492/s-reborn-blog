@@ -17,7 +17,7 @@ Python은 의료 AI 생태계의 공용어다 — 설치부터 혈당 분류 코
 
 TensorFlow, PyTorch, scikit-learn, LangChain — 의료 AI에 쓰이는 거의 모든 라이브러리가 Python으로 작성되어 있다. 논문 코드를 재현하거나, AI API를 호출하거나, 임상 데이터를 분석할 때 Python이 사실상 표준이다.
 
-R은 통계에 강하고, Java는 병원 EMR 시스템에 많이 쓰이지만, **처음 배우기 쉽고 AI 도구와 연동이 가장 편한 언어**는 Python이다.
+R은 통계에 강하고, Java는 병원 EMR 시스템에 많이 쓰이지만, 처음 배우기 쉽고 AI 도구와 연동이 가장 편한 언어는 Python이다.
 
 ---
 

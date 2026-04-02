@@ -15,7 +15,7 @@ draft: false
 
 ## 안전 설계의 전제
 
-AI는 반드시 실수한다. 중요한 것은 실수의 빈도가 아니라 **실수했을 때 피해의 크기**다.
+AI는 반드시 실수한다. 중요한 것은 실수의 빈도가 아니라 실수했을 때 피해의 크기다.
 
 의료 AI 사고 시나리오:
 1. 에이전트가 약물 알레르기 이력을 놓치고 처방 초안 작성
@@ -119,7 +119,7 @@ def assess_and_escalate(diagnosis_result: dict) -> dict:
     if confidence >= 0.85:
         # 높은 확신도 — 일반 검토 요청
         return {
-            **diagnosis_result,
+            diagnosis_result,
             "action": "routine_review",
             "message": "AI 초안입니다. 검토 후 확정해 주세요."
         }
@@ -127,7 +127,7 @@ def assess_and_escalate(diagnosis_result: dict) -> dict:
     elif confidence >= 0.60:
         # 중간 확신도 — 명시적 주의 표시
         return {
-            **diagnosis_result,
+            diagnosis_result,
             "action": "careful_review",
             "message": f"AI 확신도 {confidence:.0%}. 추가 정보가 있으면 재검토 권장."
         }

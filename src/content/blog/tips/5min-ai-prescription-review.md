@@ -53,7 +53,7 @@ draft: false
 
 ### 실제 적용 예시
 
-**입력:**
+입력:
 
 ```
 - 78세 여성 52kg
@@ -72,29 +72,29 @@ draft: false
 7. Omeprazole 20mg qd
 ```
 
-**AI 출력:**
+AI 출력:
 
 | 약물 | 문제점 | Severity | 권고사항 |
 |------|--------|----------|----------|
-| Rivaroxaban 20mg | eGFR 38: 용량 조절 필요 | **높음** | 15mg qd로 감량 (CrCl 15-50에서 15mg 권고) |
-| Metformin 1000mg bid | eGFR 38: 용량 과다 | **높음** | eGFR 30-45에서 500mg bid로 감량, 30 미만 시 중단 |
-| Celecoxib + Rivaroxaban | 출혈 위험 증가 | **높음** | NSAIDs 가급적 중단, Acetaminophen으로 대체 검토 |
-| Diazepam | Beers Criteria 부적절 약물 (78세) | **중간** | 낙상 위험 증가, 단기 사용 후 감량 또는 non-BZD 수면제 전환 |
-| Glimepiride | 고령 + 신기능 저하: 저혈당 위험 | **중간** | DPP-4 억제제(Linagliptin 등)로 전환 검토 |
-| Celecoxib | Sulfa 알레르기 교차반응 가능성 | **낮음** | Celecoxib은 sulfonamide 구조이나 교차반응은 드묾, 모니터링 |
+| Rivaroxaban 20mg | eGFR 38: 용량 조절 필요 | 높음 | 15mg qd로 감량 (CrCl 15-50에서 15mg 권고) |
+| Metformin 1000mg bid | eGFR 38: 용량 과다 | 높음 | eGFR 30-45에서 500mg bid로 감량, 30 미만 시 중단 |
+| Celecoxib + Rivaroxaban | 출혈 위험 증가 | 높음 | NSAIDs 가급적 중단, Acetaminophen으로 대체 검토 |
+| Diazepam | Beers Criteria 부적절 약물 (78세) | 중간 | 낙상 위험 증가, 단기 사용 후 감량 또는 non-BZD 수면제 전환 |
+| Glimepiride | 고령 + 신기능 저하: 저혈당 위험 | 중간 | DPP-4 억제제(Linagliptin 등)로 전환 검토 |
+| Celecoxib | Sulfa 알레르기 교차반응 가능성 | 낮음 | Celecoxib은 sulfonamide 구조이나 교차반응은 드묾, 모니터링 |
 
 ### 이렇게 하세요
 
-- **eGFR과 체중**을 반드시 포함한다 — 신기능 기반 용량 조절 판단의 핵심이다
-- AI 결과를 **Lexicomp이나 UpToDate로 교차 검증**한다
+- eGFR과 체중을 반드시 포함한다 — 신기능 기반 용량 조절 판단의 핵심이다
+- AI 결과를 Lexicomp이나 UpToDate로 교차 검증한다
 - "임상적으로 유의한 것만"이라는 필터를 넣어야 노이즈가 줄어든다
-- 매주 다약제 환자 리스트를 뽑아 **정기 처방 검토(medication review)**에 활용한다
+- 매주 다약제 환자 리스트를 뽑아 정기 처방 검토(medication review)에 활용한다
 
 ### 이렇게 하지 마세요
 
-- AI 결과만으로 **처방을 변경**하지 않는다 — 약사·임상약리 전문의와 협의한다
-- "이 약 괜찮아?"라는 **모호한 질문**을 하지 않는다 — 환자 정보를 구조화해서 넣어야 한다
-- AI가 "안전하다"고 답했다고 해서 상호작용이 **없다고 확신**하지 않는다
+- AI 결과만으로 처방을 변경하지 않는다 — 약사·임상약리 전문의와 협의한다
+- "이 약 괜찮아?"라는 모호한 질문을 하지 않는다 — 환자 정보를 구조화해서 넣어야 한다
+- AI가 "안전하다"고 답했다고 해서 상호작용이 없다고 확신하지 않는다
 - 환자의 실명·주민번호를 프롬프트에 넣지 않는다
 
 ### 추가 프롬프트 — 처방 변경 시뮬레이션
@@ -109,7 +109,7 @@ draft: false
 
 - 다약제 처방 검토 시 eGFR·체중·간기능을 포함해야 정확한 결과를 얻는다
 - Beers Criteria 부적절 약물 체크는 고령 환자에서 반드시 포함한다
-- AI의 상호작용 분석은 **1차 스크리닝**이며, 최종 판단은 의료진의 몫이다
+- AI의 상호작용 분석은 1차 스크리닝이며, 최종 판단은 의료진의 몫이다
 - Lexicomp 등 공인 DB와 교차 검증을 생활화한다
 
 ## 관련 글

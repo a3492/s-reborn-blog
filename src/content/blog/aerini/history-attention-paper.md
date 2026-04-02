@@ -15,14 +15,14 @@ draft: false
 
 | 연도 | 사건 |
 |------|------|
-| **2014** | Seq2Seq 모델 등장 — 번역 AI의 첫 성과 |
-| **2015** | Attention 메커니즘 아이디어 등장 |
-| **2017** | "Attention is All You Need" 발표 — Transformer 탄생 |
-| **2018** | BERT (Google), GPT-1 (OpenAI) 등장 |
-| **2019** | GPT-2 (OpenAI), XLNet 등장 |
-| **2020** | GPT-3 — 1,750억 파라미터 |
-| **2022** | ChatGPT — 전 세계 대중화 |
-| **2023** | GPT-4, Claude 2, Gemini 경쟁 시작 |
+| 2014 | Seq2Seq 모델 등장 — 번역 AI의 첫 성과 |
+| 2015 | Attention 메커니즘 아이디어 등장 |
+| 2017 | "Attention is All You Need" 발표 — Transformer 탄생 |
+| 2018 | BERT (Google), GPT-1 (OpenAI) 등장 |
+| 2019 | GPT-2 (OpenAI), XLNet 등장 |
+| 2020 | GPT-3 — 1,750억 파라미터 |
+| 2022 | ChatGPT — 전 세계 대중화 |
+| 2023 | GPT-4, Claude 2, Gemini 경쟁 시작 |
 
 ## Transformer의 핵심 아이디어 — "Attention"
 

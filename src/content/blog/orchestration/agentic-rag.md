@@ -2,13 +2,23 @@
 title: "에이전틱 RAG — 검색 전략을 AI가 스스로 결정하는 RAG"
 date: 2026-04-01
 category: orchestration
-tags: ["에이전틱RAG", "Agentic RAG", "동적검색", "오케스트레이션"]
+tags: ["cu", "에이전틱RAG", "Agentic RAG", "동적검색", "오케스트레이션"]
 description: "단순 RAG는 한 번 검색하고 끝낸다. 에이전틱 RAG는 검색 결과를 보고 부족하면 다시 검색하고, 전략도 바꾼다. 오케스트레이션과 RAG의 결합이다."
 read_time: 8
 difficulty: "advanced"
 draft: false
+type: "guide"
+series: "RoundPrep — 회진 브리핑을 만든다"
+series_order: 11
 thumbnail: ""
+key_takeaways:
+  - "단순 RAG는 한 번 검색하고 끝낸다. 에이전틱 RAG는 검색 결과를 보고 부족하면 다시 검색하고, 전략도 바꾼다. 오케스트레이션과 RAG의 결합이다."
+  - "이 글은 설계 관점 정리이며, 프로덕션 도입 전 보안·비용·감사 요구를 별도 검토한다."
+  - "태그 cu: Cursor 초안 — 프레임워크·API·병원 정책은 공식 문서를 본다."
 ---
+> RoundPrep 제11화. 가이드라인 한 번만 붙잡고 답하라고 했더니 조직 내 전문가 의견이 빠졌다는 지적이 나왔다. 검색을 루프에 넣는 압박이 여기서 온다.
+
+
 
 ## 한줄 요약
 에이전틱 RAG는 "한 번 검색해서 답한다"가 아니라 "필요한 만큼 검색하고, 전략도 바꾸면서 최선의 답을 찾는다"는 방식이다.
@@ -32,7 +42,7 @@ thumbnail: ""
 
 ### 에이전틱 RAG 패턴 3가지
 
-**패턴 1: 반복 검색 (Iterative Retrieval)**
+패턴 1: 반복 검색 (Iterative Retrieval)
 
 검색 결과를 보고 부족하면 다시 검색한다.
 
@@ -62,7 +72,7 @@ async def iterative_rag(question: str, max_rounds: int = 3) -> str:
     return response.best_effort_answer
 ```
 
-**패턴 2: 쿼리 분해 (Query Decomposition)**
+패턴 2: 쿼리 분해 (Query Decomposition)
 
 복잡한 질문을 여러 하위 질문으로 나누어 각각 검색한다.
 
@@ -98,7 +108,7 @@ async def decomposed_rag(complex_question: str) -> str:
 3. "고혈압 + CKD에서 ACE 억제제 금기 조건"
 ```
 
-**패턴 3: 멀티 소스 라우팅 (Multi-Source Routing)**
+패턴 3: 멀티 소스 라우팅 (Multi-Source Routing)
 
 질문 유형에 따라 다른 DB나 검색 엔진을 선택한다.
 
@@ -190,3 +200,13 @@ class MedicalAgenticRAG:
 | 멀티 소스 (3소스) | 2 | 3 | 2.5x |
 
 비용 대비 효과를 측정하고, 단순 RAG로 충분한 경우에는 에이전틱 RAG를 쓰지 않는다.
+
+
+---
+
+### 이야기 속에서 이어서
+
+다음 화: [컨텍스트 윈도우 관리 — 긴 대화에서 AI가 기억을 잃지 않게 하는 법](/blog/orchestration/context-window-management/) — 같은 팀이 막혔던 지점에서 이어진다.
+
+
+*편집 초안(cu). 프레임워크·API·임상 규정은 발행일 이후 바뀔 수 있으니 공식 문서와 병원 정책을 기준으로 확인한다.*

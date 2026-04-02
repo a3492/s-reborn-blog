@@ -46,7 +46,7 @@ draft: false
 
 2012년 가을, 토론토 대학교의 알렉스 크리체프스키(Alex Krizhevsky), 일리야 수츠케버(Ilya Sutskever), 제프리 힌턴(Geoffrey Hinton)이 결과를 제출했다.
 
-**Top-5 오류율: 15.3%**
+Top-5 오류율: 15.3%
 
 2위는 26.2%였다. 약 11%포인트 차이. 컴퓨터 비전 역사에서 전례 없는 격차였다.
 
@@ -58,13 +58,13 @@ draft: false
 
 AlexNet의 성공 요인은 세 가지가 맞물렸다:
 
-**1. GPU 병렬 학습**
+1. GPU 병렬 학습
 크리체프스키는 NVIDIA GTX 580 GPU 두 장을 병렬로 연결해 훈련했다. CPU 대비 40배 빠른 연산이 가능했다. 훈련에 5~6일이 걸렸다. GPU 없이는 수개월이 걸렸을 것이다.
 
-**2. ReLU 활성화 함수**
+2. ReLU 활성화 함수
 기존 신경망은 sigmoid나 tanh 함수를 사용해 기울기 소실 문제가 심각했다. AlexNet은 ReLU(Rectified Linear Unit)를 적용해 훈련 속도를 6배 높였다.
 
-**3. 드롭아웃(Dropout)**
+3. 드롭아웃(Dropout)
 과적합(overfitting) 방지를 위해 훈련 중 무작위로 50%의 뉴런을 끄는 기법을 사용했다. 이는 힌턴 팀이 개발한 정규화 방법이었다.
 
 ---

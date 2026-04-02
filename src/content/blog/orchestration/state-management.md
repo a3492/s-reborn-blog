@@ -2,13 +2,23 @@
 title: "상태 관리 — 오케스트레이션의 기억 장치"
 date: 2026-04-01
 category: orchestration
-tags: ["상태관리", "State", "오케스트레이션", "체크포인트"]
+tags: ["cu", "상태관리", "State", "오케스트레이션", "체크포인트"]
 description: "여러 단계를 거치는 AI 워크플로우에서 상태를 잘못 관리하면 데이터가 사라지거나 충돌이 생긴다. 상태 설계 원칙과 패턴을 정리한다."
 read_time: 7
 difficulty: "intermediate"
 draft: false
+type: "guide"
+series: "RoundPrep — 회진 브리핑을 만든다"
+series_order: 6
 thumbnail: ""
+key_takeaways:
+  - "여러 단계를 거치는 AI 워크플로우에서 상태를 잘못 관리하면 데이터가 사라지거나 충돌이 생긴다. 상태 설계 원칙과 패턴을 정리한다."
+  - "이 글은 설계 관점 정리이며, 프로덕션 도입 전 보안·비용·감사 요구를 별도 검토한다."
+  - "태그 cu: Cursor 초안 — 프레임워크·API·병원 정책은 공식 문서를 본다."
 ---
+> RoundPrep 제6화. 스테이징에서 어제 실행한 run과 오늘 실행한 run이 엇갈리며, 같은 환자 번호에 다른 요약이 붙었다. 상태를 안 박아 두면 소품 위치가 매번 바뀌는 연극과 같다.
+
+
 
 ## 한줄 요약
 상태는 오케스트레이션 워크플로우가 여러 단계를 거치는 동안 유지되는 공유 기억이다 — 잘 설계된 상태가 안정적인 시스템을 만든다.
@@ -29,7 +39,7 @@ thumbnail: ""
 
 ### 상태의 3가지 종류
 
-**입력 상태 (Input State)**
+입력 상태 (Input State)
 워크플로우 시작 시 주어지는 초기 데이터.
 
 ```python
@@ -40,7 +50,7 @@ initial_state = {
 }
 ```
 
-**작업 상태 (Working State)**
+작업 상태 (Working State)
 워크플로우 진행 중 각 노드가 추가하거나 수정하는 데이터.
 
 ```python
@@ -59,7 +69,7 @@ working_state = {
 }
 ```
 
-**메타 상태 (Meta State)**
+메타 상태 (Meta State)
 워크플로우 자체의 실행 정보.
 
 ```python
@@ -76,7 +86,7 @@ meta_state = {
 
 ### 상태 스키마 설계 원칙
 
-**1. 불변 입력, 축적 작업 상태**
+1. 불변 입력, 축적 작업 상태
 
 입력은 변경하지 않는다. 각 단계는 기존 상태를 덮어쓰지 않고 새 필드를 추가한다.
 
@@ -94,7 +104,7 @@ def process_labs(state):
     }
 ```
 
-**2. 타입 명확화**
+2. 타입 명확화
 
 Python TypedDict나 Pydantic으로 상태 스키마를 정의한다. 어떤 필드가 언제 생기는지 명확하게.
 
@@ -126,7 +136,7 @@ class ClinicalWorkflowState(TypedDict):
     status: str  # "in_progress" | "completed" | "failed"
 ```
 
-**3. 체크포인트 전략**
+3. 체크포인트 전략
 
 모든 상태 변화를 체크포인트로 저장하면 비용이 크다. 중요한 지점만 저장한다.
 
@@ -196,3 +206,13 @@ app.invoke({"approved": True}, config={"configurable": {"thread_id": thread_id}}
 ```
 
 상태가 DB에 저장되어 있어서 서버가 재시작되거나 몇 시간이 지나도 정확히 멈춘 지점부터 재개한다.
+
+
+---
+
+### 이야기 속에서 이어서
+
+다음 화: [ReAct 패턴 — 생각(추론)과 행동(툴)을 한 루프에 묶기](/blog/orchestration/react-pattern/) — 같은 팀이 막혔던 지점에서 이어진다.
+
+
+*편집 초안(cu). 프레임워크·API·임상 규정은 발행일 이후 바뀔 수 있으니 공식 문서와 병원 정책을 기준으로 확인한다.*

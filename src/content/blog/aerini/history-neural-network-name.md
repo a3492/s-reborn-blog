@@ -15,13 +15,13 @@ draft: false
 
 | 연도 | 사건 | 핵심 인물 |
 |------|------|----------|
-| **1943** | 맥컬럭-피츠 모델: 뉴런을 수학 함수로 표현 | Warren McCulloch, Walter Pitts |
-| **1958** | 퍼셉트론(Perceptron) 발명: 단순 학습 가능한 인공 뉴런 | Frank Rosenblatt |
-| **1969** | 퍼셉트론의 한계(XOR 문제) 발견 → 1차 AI 겨울 | Minsky & Papert |
-| **1986** | 다층 신경망 + 역전파 알고리즘으로 부활 | Hinton, Rumelhart |
-| **2006** | "Deep" 신경망 개념 제안 → 딥러닝 시대 시작 | Geoffrey Hinton |
-| **2012** | AlexNet — 8층 딥러닝으로 이미지 인식 혁명 | Alex Krizhevsky |
-| **2017** | Transformer — 신경망의 최신 진화형 | Google Brain 팀 |
+| 1943 | 맥컬럭-피츠 모델: 뉴런을 수학 함수로 표현 | Warren McCulloch, Walter Pitts |
+| 1958 | 퍼셉트론(Perceptron) 발명: 단순 학습 가능한 인공 뉴런 | Frank Rosenblatt |
+| 1969 | 퍼셉트론의 한계(XOR 문제) 발견 → 1차 AI 겨울 | Minsky & Papert |
+| 1986 | 다층 신경망 + 역전파 알고리즘으로 부활 | Hinton, Rumelhart |
+| 2006 | "Deep" 신경망 개념 제안 → 딥러닝 시대 시작 | Geoffrey Hinton |
+| 2012 | AlexNet — 8층 딥러닝으로 이미지 인식 혁명 | Alex Krizhevsky |
+| 2017 | Transformer — 신경망의 최신 진화형 | Google Brain 팀 |
 
 ## 실제 뇌랑 얼마나 비슷한가?
 

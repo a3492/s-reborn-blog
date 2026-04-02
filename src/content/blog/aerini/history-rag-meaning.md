@@ -13,13 +13,13 @@ RAG를 처음 들은 의사들이 종종 묻습니다. "RAG가 영어로 걸레 
 
 ## RAG의 정체
 
-**RAG = Retrieval-Augmented Generation**
+RAG = Retrieval-Augmented Generation
 
 | 글자 | 영어 | 의미 |
 |------|------|------|
-| **R** | Retrieval | 검색 — 외부 문서 DB에서 관련 정보를 찾음 |
-| **A** | Augmented | 증강 — 찾은 정보를 AI 답변에 더함 |
-| **G** | Generation | 생성 — 최종 답변을 만들어냄 |
+| R | Retrieval | 검색 — 외부 문서 DB에서 관련 정보를 찾음 |
+| A | Augmented | 증강 — 찾은 정보를 AI 답변에 더함 |
+| G | Generation | 생성 — 최종 답변을 만들어냄 |
 
 영어 rag(넝마, 걸레)와는 전혀 관련 없는 약어입니다. 그냥 첫 글자를 따다 보니 우연히 같아졌습니다.
 
@@ -27,10 +27,10 @@ RAG를 처음 들은 의사들이 종종 묻습니다. "RAG가 영어로 걸레 
 
 | 연도 | 사건 |
 |------|------|
-| **2020년** | Meta(Facebook) AI 연구팀 Patrick Lewis 등이 논문 발표 |
-| **2020년** | "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks" |
-| **2022년** | ChatGPT 이후 RAG가 의료 AI 핵심 기술로 주목 |
-| **2023년~** | 병원 EMR, 가이드라인 기반 RAG 시스템 상용화 |
+| 2020년 | Meta(Facebook) AI 연구팀 Patrick Lewis 등이 논문 발표 |
+| 2020년 | "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks" |
+| 2022년 | ChatGPT 이후 RAG가 의료 AI 핵심 기술로 주목 |
+| 2023년~ | 병원 EMR, 가이드라인 기반 RAG 시스템 상용화 |
 
 ## "도서관에서 책 찾아 읽고 답하는 AI" 비유
 

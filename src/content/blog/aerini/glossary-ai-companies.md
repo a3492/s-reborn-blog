@@ -15,10 +15,10 @@ AI 뉴스에서 GPT, Claude, Gemini, Llama가 쏟아집니다. 다 비슷해 보
 
 | 회사 | 대표 모델 | 특징 | 의료 활용 현황 |
 |------|----------|------|--------------|
-| **OpenAI** | GPT-4o, o1 | 범용 성능 최강, 멀티모달 | Epic EMR 통합, Nuance DAX 음성 기록 |
-| **Anthropic** | Claude 3.5 / 3.7 | 안전성·정확성 강조, 긴 컨텍스트 | 의료 문서 분석, 임상 지원 도구 |
-| **Google** | Gemini 1.5 Pro | 멀티모달 강점, 의료 특화 버전 존재 | Med-PaLM 2, 영상 진단 연구 |
-| **Meta** | Llama 3 | 오픈소스, 자체 배포 가능 | 병원 내부 서버에 직접 설치 가능 |
+| OpenAI | GPT-4o, o1 | 범용 성능 최강, 멀티모달 | Epic EMR 통합, Nuance DAX 음성 기록 |
+| Anthropic | Claude 3.5 / 3.7 | 안전성·정확성 강조, 긴 컨텍스트 | 의료 문서 분석, 임상 지원 도구 |
+| Google | Gemini 1.5 Pro | 멀티모달 강점, 의료 특화 버전 존재 | Med-PaLM 2, 영상 진단 연구 |
+| Meta | Llama 3 | 오픈소스, 자체 배포 가능 | 병원 내부 서버에 직접 설치 가능 |
 
 ## 모델별 특징 상세 비교
 

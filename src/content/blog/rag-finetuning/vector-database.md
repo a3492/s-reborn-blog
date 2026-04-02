@@ -44,17 +44,17 @@ SELECT * FROM documents WHERE title = '당뇨 입원 기준';
 
 수백만 개의 벡터 중 가장 가까운 것을 찾으려면 모든 벡터와 거리를 계산해야 한다. 벡터 1개당 1,536번의 계산, 벡터 100만 개면 15억 번의 계산이다. 실시간으로 불가능하다.
 
-그래서 벡터 DB는 **근사 최근접 이웃(ANN, Approximate Nearest Neighbor)** 알고리즘을 사용한다. 정확히 가장 가까운 것 대신, 매우 가까운 것을 매우 빠르게 찾는다.
+그래서 벡터 DB는 근사 최근접 이웃(ANN, Approximate Nearest Neighbor) 알고리즘을 사용한다. 정확히 가장 가까운 것 대신, 매우 가까운 것을 매우 빠르게 찾는다.
 
 주요 알고리즘:
 
-**HNSW (Hierarchical Navigable Small World)**
+HNSW (Hierarchical Navigable Small World)
 - 계층적 그래프 구조
 - 빠른 검색 속도 (밀리초 단위)
 - 메모리 사용량 높음
 - Pinecone, Weaviate, pgvector 등에서 사용
 
-**IVF (Inverted File Index)**
+IVF (Inverted File Index)
 - 벡터들을 클러스터로 나눔
 - 메모리 효율적
 - HNSW보다 약간 느림
@@ -72,7 +72,7 @@ SELECT * FROM documents WHERE title = '당뇨 입원 기준';
 | 확장성 | 높음 | 높음 | 중간 | 낮음 |
 | 적합 사례 | 프로덕션 대규모 | 멀티모달, 그래프 | 기존 PG 사용 중 | 개발·프로토타입 |
 
-의료 시스템에 이미 PostgreSQL을 쓰고 있다면 **pgvector** 확장을 추가하는 게 가장 간단하다. 별도 인프라 없이 기존 DB에 벡터 검색 기능을 붙일 수 있다.
+의료 시스템에 이미 PostgreSQL을 쓰고 있다면 pgvector 확장을 추가하는 게 가장 간단하다. 별도 인프라 없이 기존 DB에 벡터 검색 기능을 붙일 수 있다.
 
 ---
 
@@ -113,7 +113,7 @@ LIMIT 5;
 - "삼성서울병원 내과 프로토콜" → 병원·과 필터가 필요
 - 정확한 약품명, 수치 → 키워드 검색이 더 정확
 
-그래서 현대 RAG 시스템은 **하이브리드 검색**을 쓴다:
+그래서 현대 RAG 시스템은 하이브리드 검색을 쓴다:
 
 ```
 질문

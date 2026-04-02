@@ -36,11 +36,11 @@ LLM을 이해하면:
 ## 이게 뭐예요?
 
 ### 정의
-**LLM(Large Language Model, 거대언어모델)은 방대한 텍스트 데이터로 훈련된 AI입니다.**
+LLM(Large Language Model, 거대언어모델)은 방대한 텍스트 데이터로 훈련된 AI입니다.
 
-- **Large(거대)**: 학습 데이터와 모델 크기가 매우 큼
-- **Language(언어)**: 텍스트를 이해하고 생성하는 것에 특화됨
-- **Model(모델)**: 패턴을 학습한 수학적 구조
+- Large(거대): 학습 데이터와 모델 크기가 매우 큼
+- Language(언어): 텍스트를 이해하고 생성하는 것에 특화됨
+- Model(모델): 패턴을 학습한 수학적 구조
 
 ### 비유 1: 세상 모든 책을 읽은 의사
 상상해보세요. 어떤 의사가 있는데,
@@ -145,7 +145,7 @@ ChatGPT 기본 버전에 환자 이름, 주민번호를 입력하면
 
 ## 더 알고 싶다면
 
-🔗 **다음 읽으면 좋은 글**
+🔗 다음 읽으면 좋은 글
 - [Prompt가 뭐예요?](/blog/aerini/what-is-prompt/) — LLM을 잘 쓰는 핵심 기술
 - [Token이 뭐예요?](/blog/aerini/what-is-token/) — LLM의 언어 단위
 - [AI 환각이 뭐예요?](/blog/aerini/what-is-hallucination/) — 왜 자신 있게 틀리나

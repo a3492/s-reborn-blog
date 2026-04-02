@@ -39,8 +39,8 @@ messages = [
 ]
 ```
 
-**장점:** 구현이 단순하다
-**단점:** 컨텍스트 윈도우 한계(보통 200K 토큰)를 초과하면 앞부분이 잘린다. 단일 세션을 넘기면 유지되지 않는다.
+장점: 구현이 단순하다
+단점: 컨텍스트 윈도우 한계(보통 200K 토큰)를 초과하면 앞부분이 잘린다. 단일 세션을 넘기면 유지되지 않는다.
 
 ---
 
@@ -151,7 +151,7 @@ SEMANTIC_COLLECTIONS = {
 
 ## 의료 에이전트 메모리 설계 원칙
 
-**1. 환자 격리 (Patient Isolation)**
+1. 환자 격리 (Patient Isolation)
 ```python
 # 항상 patient_id로 필터링 — 다른 환자 메모리가 섞이면 안 됨
 memories = retrieve_relevant_memories(
@@ -160,7 +160,7 @@ memories = retrieve_relevant_memories(
 )
 ```
 
-**2. TTL (Time-to-Live) 정책**
+2. TTL (Time-to-Live) 정책
 ```python
 MEMORY_TTL = {
     "lab_result": 365,      # 검사 결과: 1년
@@ -170,7 +170,7 @@ MEMORY_TTL = {
 }
 ```
 
-**3. 암호화 및 접근 제어**
+3. 암호화 및 접근 제어
 ```python
 # HIPAA/개인정보보호법 준수
 store_patient_memory(

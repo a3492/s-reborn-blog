@@ -2,13 +2,23 @@
 title: "에이전트 간 통신 — AI들이 서로 이야기하는 방법"
 date: 2026-04-01
 category: orchestration
-tags: ["에이전트통신", "메시지패싱", "공유메모리", "오케스트레이션"]
+tags: ["cu", "에이전트통신", "메시지패싱", "공유메모리", "오케스트레이션"]
 description: "멀티 에이전트 시스템에서 에이전트들은 어떻게 정보를 주고받는가. 메시지 패싱, 공유 메모리, 블랙보드 패턴을 비교한다."
 read_time: 7
 difficulty: "intermediate"
 draft: false
+type: "guide"
+series: "RoundPrep — 회진 브리핑을 만든다"
+series_order: 9
 thumbnail: ""
+key_takeaways:
+  - "멀티 에이전트 시스템에서 에이전트들은 어떻게 정보를 주고받는가. 메시지 패싱, 공유 메모리, 블랙보드 패턴을 비교한다."
+  - "이 글은 설계 관점 정리이며, 프로덕션 도입 전 보안·비용·감사 요구를 별도 검토한다."
+  - "태그 cu: Cursor 초안 — 프레임워크·API·병원 정책은 공식 문서를 본다."
 ---
+> RoundPrep 제9화. 알림 요약 에이전트와 임상 요약 에이전트가 서로 다른 ‘팩트’를 내놓았다. 메시지 규칙 없이 대화만 시키면 이렇게 된다.
+
+
 
 ## 한줄 요약
 에이전트 간 통신 방식이 시스템의 결합도와 유연성을 결정한다 — 너무 강하게 연결하면 유연성을 잃고, 너무 느슨하면 협력이 안 된다.
@@ -17,7 +27,7 @@ thumbnail: ""
 
 ### 에이전트 통신의 3가지 방식
 
-**방식 1: 직접 메시지 패싱 (Direct Message Passing)**
+방식 1: 직접 메시지 패싱 (Direct Message Passing)
 
 에이전트 A가 에이전트 B에게 직접 메시지를 보낸다.
 
@@ -45,12 +55,12 @@ review = pharmacist.review_medications(msg["proposed_meds"], msg["patient_contex
 internist.send_message(to="internist", message={"type": "review_result", "result": review})
 ```
 
-**장점**: 명확하고 추적하기 쉬움
-**단점**: 에이전트들이 서로를 알아야 함 (강한 결합)
+장점: 명확하고 추적하기 쉬움
+단점: 에이전트들이 서로를 알아야 함 (강한 결합)
 
 ---
 
-**방식 2: 공유 상태 (Shared State)**
+방식 2: 공유 상태 (Shared State)
 
 모든 에이전트가 공통 상태 객체를 읽고 쓴다. LangGraph의 기본 방식.
 
@@ -66,19 +76,19 @@ state = {
 
 def internist_agent(state: dict) -> dict:
     diagnosis = analyze(state["patient_data"])
-    return {**state, "diagnosis": diagnosis}  # 자기 필드만 수정
+    return {state, "diagnosis": diagnosis}  # 자기 필드만 수정
 
 def pharmacist_agent(state: dict) -> dict:
     review = review_meds(state["patient_data"], state["diagnosis"])
-    return {**state, "med_review": review}  # diagnosis를 읽고 med_review를 씀
+    return {state, "med_review": review}  # diagnosis를 읽고 med_review를 씀
 ```
 
-**장점**: 단순하고 전체 상태가 명확
-**단점**: 에이전트 수가 많아지면 상태가 복잡해짐
+장점: 단순하고 전체 상태가 명확
+단점: 에이전트 수가 많아지면 상태가 복잡해짐
 
 ---
 
-**방식 3: 블랙보드 패턴 (Blackboard)**
+방식 3: 블랙보드 패턴 (Blackboard)
 
 공유 게시판에 정보를 올리면 관심 있는 에이전트가 읽어간다. 에이전트들이 서로를 직접 모른다.
 
@@ -108,8 +118,8 @@ blackboard.post("imaging_report", {"finding": "폐렴 의심"}, "radiologist")
 imaging_data = blackboard.read("imaging_report")
 ```
 
-**장점**: 에이전트들이 서로 독립적 (느슨한 결합)
-**단점**: 누가 언제 무엇을 읽었는지 추적 어려움
+장점: 에이전트들이 서로 독립적 (느슨한 결합)
+단점: 누가 언제 무엇을 읽었는지 추적 어려움
 
 ---
 
@@ -128,7 +138,7 @@ imaging_data = blackboard.read("imaging_report")
 
 흥미로운 문제가 있다. 에이전트 A가 에이전트 B의 결과를 믿어야 하는가?
 
-**무조건 신뢰 방식**
+무조건 신뢰 방식
 ```python
 # B의 결과를 바로 사용
 diagnosis = agent_b_output["diagnosis"]
@@ -136,7 +146,7 @@ diagnosis = agent_b_output["diagnosis"]
 
 단순하지만, B가 틀렸을 때 A가 그걸 모르고 계속 진행한다.
 
-**검증 방식**
+검증 방식
 ```python
 # B의 결과를 C(검증 에이전트)가 검토
 def validator_agent(state: dict) -> dict:
@@ -144,11 +154,11 @@ def validator_agent(state: dict) -> dict:
 
     # 형식 검증
     if not validate_schema(b_output):
-        return {**state, "b_output_valid": False, "b_error": "형식 오류"}
+        return {state, "b_output_valid": False, "b_error": "형식 오류"}
 
     # 의미 검증 (다른 AI가 검토)
     review = llm.invoke(f"다음 진단이 임상적으로 타당한지 검토하세요: {b_output}")
-    return {**state, "b_output_valid": True, "b_review": review}
+    return {state, "b_output_valid": True, "b_review": review}
 ```
 
 의료 AI에서는 에이전트 출력을 무조건 신뢰하지 않는 게 안전하다. 중요한 출력은 항상 검증 단계를 거친다.
@@ -159,7 +169,7 @@ def validator_agent(state: dict) -> dict:
 
 멀티 에이전트 시스템은 새로운 보안 위협을 만든다.
 
-**에이전트 사칭**: 악의적인 입력이 에이전트인 척 메시지를 보낼 수 있다.
+에이전트 사칭: 악의적인 입력이 에이전트인 척 메시지를 보낼 수 있다.
 
 ```python
 # 메시지에 서명 추가
@@ -174,6 +184,16 @@ def verify_message(message: dict, secret: str) -> bool:
     return hmac.compare_digest(message["signature"], expected)
 ```
 
-**간접 인젝션**: 에이전트 A가 외부 데이터를 읽어서 B에게 전달할 때, 그 데이터 안에 악의적인 지시가 있을 수 있다.
+간접 인젝션: 에이전트 A가 외부 데이터를 읽어서 B에게 전달할 때, 그 데이터 안에 악의적인 지시가 있을 수 있다.
 
 에이전트 간 통신에서도 신뢰는 주어지는 게 아니라 설계되는 것이다.
+
+
+---
+
+### 이야기 속에서 이어서
+
+다음 화: [Human-in-the-Loop — Air Canada 챗봇 소송이 의료 AI에 주는 교훈](/blog/orchestration/human-in-the-loop/) — 같은 팀이 막혔던 지점에서 이어진다.
+
+
+*편집 초안(cu). 프레임워크·API·임상 규정은 발행일 이후 바뀔 수 있으니 공식 문서와 병원 정책을 기준으로 확인한다.*

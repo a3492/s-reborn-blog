@@ -36,11 +36,11 @@ RAG를 이해하면:
 ## 이게 뭐예요?
 
 ### 정의
-**RAG(Retrieval-Augmented Generation)는 AI가 답변을 생성하기 전에 관련 문서를 먼저 검색해 참고하는 방법입니다.**
+RAG(Retrieval-Augmented Generation)는 AI가 답변을 생성하기 전에 관련 문서를 먼저 검색해 참고하는 방법입니다.
 
-- **Retrieval(검색)**: 관련 자료를 찾아오는 것
-- **Augmented(보강)**: 찾은 자료로 AI 능력을 보강하는 것
-- **Generation(생성)**: 최종 답변을 만드는 것
+- Retrieval(검색): 관련 자료를 찾아오는 것
+- Augmented(보강): 찾은 자료로 AI 능력을 보강하는 것
+- Generation(생성): 최종 답변을 만드는 것
 
 ### 비유 1: 시험 보기 전 교과서 찾기
 시험 문제를 받자마자 바로 답하는 학생 vs
@@ -62,7 +62,7 @@ RAG를 쓰는 AI는 실제 문서를 참고해서 답해요.
 
 ### 일반 AI vs RAG AI
 
-**질문**: "우리 병원 패혈증 프로토콜이 뭐야?"
+질문: "우리 병원 패혈증 프로토콜이 뭐야?"
 
 ❌ 일반 AI:
 "패혈증 처치는 항생제 1시간 이내 투여,
@@ -122,7 +122,7 @@ RAG 시스템은 그냥 ChatGPT에서 되는 게 아니에요.
 
 ## 더 알고 싶다면
 
-🔗 **다음 읽으면 좋은 글**
+🔗 다음 읽으면 좋은 글
 - [AI 환각이 뭐예요?](/blog/aerini/what-is-hallucination/) — RAG가 환각을 줄이는 이유
 - [AI 에이전트가 뭐예요?](/blog/aerini/what-is-ai-agent/) — RAG를 활용하는 에이전트
 - [AI가 뭐예요?](/blog/aerini/what-is-ai/) — 다시 기초부터

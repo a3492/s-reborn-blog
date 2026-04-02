@@ -18,10 +18,10 @@ draft: false
 John Ioannidis의 2005년 논문 "Why Most Published Research Findings Are False" (PLOS Medicine)는 의학 연구의 재현 불가능성 문제를 처음으로 정량화했다.
 
 주요 원인:
-- **p-hacking:** 유의한 결과가 나올 때까지 분석을 반복
-- **HARKing (Hypothesizing After Results are Known):** 결과 보고 후 가설을 역으로 설정
-- **선택적 보고:** 유의하지 않은 결과 미발표
-- **분석 환경 미기록:** 어떤 R 버전, 어떤 패키지 버전인지 기록 안 함
+- p-hacking: 유의한 결과가 나올 때까지 분석을 반복
+- HARKing (Hypothesizing After Results are Known): 결과 보고 후 가설을 역으로 설정
+- 선택적 보고: 유의하지 않은 결과 미발표
+- 분석 환경 미기록: 어떤 R 버전, 어떤 패키지 버전인지 기록 안 함
 
 2015년 Reproducibility Project: Psychology에서 100개 심리학 연구 중 36%만 재현됨.
 

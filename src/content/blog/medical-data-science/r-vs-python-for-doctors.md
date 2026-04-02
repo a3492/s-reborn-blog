@@ -94,9 +94,9 @@ R의 파이프 문법은 의사가 읽기 더 쉽다는 평이 많다.
 
 ## 추천 학습 순서
 
-**연구자 지향:** R → tidyverse → ggplot2 → survival → 논문 1편 완성 → Python은 자동화 필요할 때
+연구자 지향: R → tidyverse → ggplot2 → survival → 논문 1편 완성 → Python은 자동화 필요할 때
 
-**개발자 지향:** Python → pandas → scikit-learn → FastAPI → R은 통계 검증 필요할 때
+개발자 지향: Python → pandas → scikit-learn → FastAPI → R은 통계 검증 필요할 때
 
 둘 다 배워야 한다. 순서의 문제다.
 

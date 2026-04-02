@@ -70,7 +70,7 @@ draft: false
 
 Gamma.app은 텍스트 아웃라인을 실제 슬라이드로 변환해주는 AI 프레젠테이션 도구다.
 
-**사용 방법:**
+사용 방법:
 
 1. gamma.app 접속 후 Google 계정으로 로그인
 2. "New" → "Generate" 선택
@@ -86,7 +86,7 @@ Gamma.app은 텍스트 아웃라인을 실제 슬라이드로 변환해주는 AI
 
 Beautiful.ai는 Gamma.app보다 템플릿이 정교하고 의학 논문 발표에 적합한 레이아웃을 제공한다.
 
-**Beautiful.ai 사용 팁:**
+Beautiful.ai 사용 팁:
 - "Smart Slide" 기능으로 AI가 내용에 맞는 레이아웃 자동 선택
 - 비교 데이터(Before/After, 치료군 vs 대조군)에는 자동 차트 생성 기능 활용
 - 기관 로고 및 색상 코드 등록으로 매번 동일한 브랜드 디자인 유지

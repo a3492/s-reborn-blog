@@ -45,9 +45,9 @@ X_train, X_val, y_train, y_val = train_test_split(
 print(f"Train: {len(X_train)}, Val: {len(X_val)}, Test: {len(X_test)}")
 ```
 
-- **Training set (60%):** 모델 학습
-- **Validation set (20%):** 하이퍼파라미터 튜닝, 모델 선택
-- **Test set (20%):** 최종 성능 보고 (딱 한 번만 사용)
+- Training set (60%): 모델 학습
+- Validation set (20%): 하이퍼파라미터 튜닝, 모델 선택
+- Test set (20%): 최종 성능 보고 (딱 한 번만 사용)
 
 Test set을 여러 번 보면 낙관적 편향이 생긴다.
 

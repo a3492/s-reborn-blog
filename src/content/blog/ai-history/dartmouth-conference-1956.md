@@ -19,7 +19,7 @@ draft: false
 
 1955년 가을, 다트머스 대학교 수학과 조교수였던 존 매카시(John McCarthy)는 록펠러 재단에 연구비 지원 신청서를 작성했다. 제목은 이랬다:
 
-> "A Proposal for the Dartmouth Summer Research Project on **Artificial Intelligence**"
+> "A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence"
 
 이 문서에서 "artificial intelligence"라는 단어가 학술 문서에 공식 등장한 것은 이것이 처음이었다.
 
@@ -29,9 +29,9 @@ draft: false
 
 당시 비슷한 연구를 부르는 말들이 이미 있었다.
 
-- **사이버네틱스(Cybernetics)** — 노버트 위너(Norbert Wiener)가 1948년에 제안한 용어. 동물과 기계의 제어·통신 이론을 묶는 개념.
-- **오토마타 이론(Automata Theory)** — 튜링 기계와 유한 상태 기계를 다루는 수학적 틀.
-- **복잡 정보 처리(Complex Information Processing)** — 허버트 사이먼(Herbert Simon)과 앨런 뉴웰(Allen Newell)이 선호한 표현.
+- 사이버네틱스(Cybernetics) — 노버트 위너(Norbert Wiener)가 1948년에 제안한 용어. 동물과 기계의 제어·통신 이론을 묶는 개념.
+- 오토마타 이론(Automata Theory) — 튜링 기계와 유한 상태 기계를 다루는 수학적 틀.
+- 복잡 정보 처리(Complex Information Processing) — 허버트 사이먼(Herbert Simon)과 앨런 뉴웰(Allen Newell)이 선호한 표현.
 
 매카시가 "artificial intelligence"를 선택한 이유는 실용적이었다. 그는 훗날 이렇게 회고했다:
 
@@ -73,9 +73,9 @@ draft: false
 
 그러나 이 회의의 진짜 성과는 세 가지였다.
 
-1. **이름의 공식화** — "artificial intelligence"가 학계에서 공인된 용어가 됐다.
-2. **공동체의 형성** — 비슷한 관심사를 가진 연구자들이 서로를 인식하고 네트워크를 만들었다.
-3. **낙관주의의 출발** — 뉴웰과 사이먼은 이 자리에서 "Logic Theorist" 프로그램을 발표했고, 이는 최초의 AI 프로그램 중 하나로 기록된다.
+1. 이름의 공식화 — "artificial intelligence"가 학계에서 공인된 용어가 됐다.
+2. 공동체의 형성 — 비슷한 관심사를 가진 연구자들이 서로를 인식하고 네트워크를 만들었다.
+3. 낙관주의의 출발 — 뉴웰과 사이먼은 이 자리에서 "Logic Theorist" 프로그램을 발표했고, 이는 최초의 AI 프로그램 중 하나로 기록된다.
 
 ---
 

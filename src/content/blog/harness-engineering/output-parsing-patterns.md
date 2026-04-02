@@ -87,7 +87,7 @@ AI 응답이 이렇게 오면 어떻게 할 것인가:
 
 ### 해결책 2: Structured Outputs
 
-2024년 OpenAI가 "Structured Outputs"를 도입했다. JSON 모드보다 강력하다 — JSON 스키마를 미리 정의하면 AI가 **반드시** 그 스키마를 따르는 출력만 생성한다.
+2024년 OpenAI가 "Structured Outputs"를 도입했다. JSON 모드보다 강력하다 — JSON 스키마를 미리 정의하면 AI가 반드시 그 스키마를 따르는 출력만 생성한다.
 
 ```python
 from pydantic import BaseModel
@@ -117,11 +117,11 @@ response = client.beta.chat.completions.parse(
 
 ### 파싱이 실패하는 상황들
 
-**JSON이 잘렸다**: 출력 토큰 제한에 걸리면 JSON이 중간에 끊긴다. `{ "diagnoses": [{"name": "급...` 이런 식으로.
+JSON이 잘렸다: 출력 토큰 제한에 걸리면 JSON이 중간에 끊긴다. `{ "diagnoses": [{"name": "급...` 이런 식으로.
 
 대응: max_tokens를 충분히 잡고, 응답 끝이 `}`로 끝나는지 확인.
 
-**마크다운이 섞였다**: AI가 JSON 주변에 \`\`\`json을 붙이는 경우. 정규식으로 추출해야 한다.
+마크다운이 섞였다: AI가 JSON 주변에 \`\`\`json을 붙이는 경우. 정규식으로 추출해야 한다.
 
 ```python
 import re, json
@@ -134,11 +134,11 @@ def extract_json(text: str) -> dict:
     return json.loads(text.strip())
 ```
 
-**키 이름이 달라졌다**: "diagnoses" 대신 "diagnosis", "Diagnoses", "진단" 등으로 오는 경우. 파싱 실패.
+키 이름이 달라졌다: "diagnoses" 대신 "diagnosis", "Diagnoses", "진단" 등으로 오는 경우. 파싱 실패.
 
 대응: 스키마를 시스템 프롬프트에 두 번 강조하거나, Structured Outputs 사용.
 
-**숫자가 문자열로 왔다**: `"priority": "1"` (문자열) vs `"priority": 1` (숫자). 타입 체크 필수.
+숫자가 문자열로 왔다: `"priority": "1"` (문자열) vs `"priority": 1` (숫자). 타입 체크 필수.
 
 ---
 

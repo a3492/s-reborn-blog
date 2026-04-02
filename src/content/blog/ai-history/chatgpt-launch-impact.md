@@ -48,10 +48,10 @@ draft: false
 
 2023년 1분기, 주요 의학 저널들이 ChatGPT 관련 논문과 사설을 쏟아냈다.
 
-- **NEJM** (2023.2): "ChatGPT and the Future of Residency Applications"
-- **Lancet** (2023.2): "AI chatbots in medical education — too soon to judge?"
-- **BMJ** (2023.3): "ChatGPT: can it be trusted for medical questions?"
-- **JAMA** (2023.4): 사설 "ChatGPT and the Future of Medical Education"
+- NEJM (2023.2): "ChatGPT and the Future of Residency Applications"
+- Lancet (2023.2): "AI chatbots in medical education — too soon to judge?"
+- BMJ (2023.3): "ChatGPT: can it be trusted for medical questions?"
+- JAMA (2023.4): 사설 "ChatGPT and the Future of Medical Education"
 
 JAMA의 2023년 4월 사설은 의과대학 교수진이 AI 시대에 교육 방식을 어떻게 바꿔야 하는지를 정면으로 다뤘다. "ChatGPT는 의학 교육에 위협이자 기회"라는 것이 핵심 논지였다.
 
@@ -61,11 +61,11 @@ JAMA의 2023년 4월 사설은 의과대학 교수진이 AI 시대에 교육 방
 
 다른 분야도 ChatGPT를 사용했다. 그런데 왜 의료계가 가장 빠르게, 가장 진지하게 반응했을까.
 
-첫째, **의료는 언어 노동이다.** 진단, 소견서 작성, 환자 설명, 논문 리뷰 — 의사 업무의 상당 부분이 텍스트 생성과 이해로 이루어진다. ChatGPT가 직접 닿는 영역이었다.
+첫째, 의료는 언어 노동이다. 진단, 소견서 작성, 환자 설명, 논문 리뷰 — 의사 업무의 상당 부분이 텍스트 생성과 이해로 이루어진다. ChatGPT가 직접 닿는 영역이었다.
 
-둘째, **의료는 오류의 대가가 크다.** AI가 틀린 답을 내놓으면 환자가 다칠 수 있다. 그래서 더 엄격하게 검증해야 했고, 연구자들이 즉각 뛰어들었다.
+둘째, 의료는 오류의 대가가 크다. AI가 틀린 답을 내놓으면 환자가 다칠 수 있다. 그래서 더 엄격하게 검증해야 했고, 연구자들이 즉각 뛰어들었다.
 
-셋째, **USMLE 합격이라는 명확한 벤치마크가 있었다.** 다른 분야와 달리 "합격/불합격"으로 AI 성능을 바로 측정할 수 있었다. 이것이 논문 작성을 쉽게 했다.
+셋째, USMLE 합격이라는 명확한 벤치마크가 있었다. 다른 분야와 달리 "합격/불합격"으로 AI 성능을 바로 측정할 수 있었다. 이것이 논문 작성을 쉽게 했다.
 
 ---
 

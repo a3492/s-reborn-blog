@@ -99,7 +99,7 @@ LLM(ChatGPT, Gemini 등)에 약물 상호작용을 물어보는 의사가 늘고
 
 ## 실제 임상 사용 시나리오
 
-**권장하는 사용법:**
+권장하는 사용법:
 ```
 시나리오: 65세 남성, warfarin 복용 중 정형외과에서
 celecoxib 처방 요청
@@ -109,7 +109,7 @@ celecoxib 처방 요청
 → 근거 논문 3건 확인 가능
 ```
 
-**피해야 하는 사용법:**
+피해야 하는 사용법:
 ```
 X ChatGPT에 "warfarin이랑 celecoxib 같이 먹어도 돼?"
   → "주의가 필요합니다" 수준의 모호한 답변
@@ -119,10 +119,10 @@ X 환자가 Drugs.com 결과만 보고 자의적으로 약물 중단
 ```
 
 ## 핵심 정리
-- **Lexicomp(Lexi-Interact)**이 정확도, 근거 수준, 임상 활용도에서 종합 1위
-- 기관 소속이면 **Micromedex**나 **UpToDate** 연동 확인 — 이미 구독 중일 가능성 높음
-- 개인 개원의는 **Epocrates** 무료 버전으로 시작, 필요 시 Lexicomp 구독
-- **Drugs.com**은 빠른 참고용으로 유용하나 임상 결정의 단독 근거로 부적합
+- Lexicomp(Lexi-Interact)이 정확도, 근거 수준, 임상 활용도에서 종합 1위
+- 기관 소속이면 Micromedex나 UpToDate 연동 확인 — 이미 구독 중일 가능성 높음
+- 개인 개원의는 Epocrates 무료 버전으로 시작, 필요 시 Lexicomp 구독
+- Drugs.com은 빠른 참고용으로 유용하나 임상 결정의 단독 근거로 부적합
 - LLM(ChatGPT, Gemini)은 약물 상호작용 검사에 사용하지 않는다
 
 ## 관련 글
