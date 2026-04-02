@@ -171,12 +171,51 @@ body {
   background: var(--bg2);
 }
 
+.sr-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
 .sr-cat {
   font-size: 0.7rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--pink);
+}
+
+/* 난이도 배지 */
+.sr-diff {
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.02em;
+}
+.sr-diff--beginner {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+.sr-diff--intermediate {
+  background: #FFF3E0;
+  color: #E65100;
+}
+.sr-diff--advanced {
+  background: #F3E5F5;
+  color: #6A1B9A;
+}
+
+/* 의미 확장으로 찾은 연관 결과 배지 */
+.sr-semantic-badge {
+  font-size: 0.62rem;
+  font-weight: 600;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: #EEF2FF;
+  color: #4338CA;
+  letter-spacing: 0.02em;
 }
 
 .sr-title {

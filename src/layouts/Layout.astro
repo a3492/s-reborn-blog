@@ -25,7 +25,14 @@ const searchIndex = allPosts.map(post => ({
   title: post.data.title,
   description: post.data.description ?? '',
   category: post.data.category ?? '',
+  tags: (post.data.tags ?? []).join(' '),
+  difficulty: post.data.difficulty ?? '',
+  type: post.data.type ?? '',
+  subcategory: post.data.subcategory ?? '',
   url: `/blog/${post.id}/`,
+  // 재정렬용 원본 값
+  _difficulty: post.data.difficulty ?? '',
+  _tags: post.data.tags ?? [],
 }));
 ---
 
@@ -60,63 +67,189 @@ const searchIndex = allPosts.map(post => ({
 
       if (!input || !dropdown || !wrap || !resultsEl || !emptyEl || !statusEl) return;
 
+      // ─────────────────────────────────────────────────────────────
+      // 의미 확장 사전 — 사용자 의도 키워드 → 관련 개념으로 확장
+      // "입문"을 검색하면 difficulty:beginner 글도 같이 찾아줌
+      // ─────────────────────────────────────────────────────────────
+      const CONCEPT_MAP = {
+        // 난이도·수준
+        '입문':     ['beginner', '초보', '기초', '처음', '시작', '도구소개', '쉬운', 'FAQ', '설치'],
+        '초보':     ['beginner', '입문', '기초', '처음', '쉬운', '시작'],
+        '기초':     ['beginner', '입문', '초보', '기본', '처음'],
+        '쉬운':     ['beginner', '입문', '초보', '기초', '간단'],
+        '시작':     ['beginner', '입문', '초보', '설치', '처음'],
+        '처음':     ['beginner', '입문', '초보', '기초', '시작'],
+        '심화':     ['advanced', '고급', '전문', 'intermediate', '깊이'],
+        '고급':     ['advanced', '심화', '전문', '깊이'],
+        '중급':     ['intermediate', '중간'],
+        '전문':     ['advanced', '심화', '고급', '의료'],
+        // 비용
+        '비용':     ['무료', '유료', '가격', '요금', 'API', '구독', '결제', 'cost'],
+        '무료':     ['free', '비용', '가격', '요금'],
+        '가격':     ['비용', '무료', '유료', '요금', '구독'],
+        '유료':     ['비용', '가격', '결제', '구독'],
+        '돈':       ['비용', '가격', '요금', '무료', '유료'],
+        '요금':     ['비용', '가격', '무료', '유료', '구독'],
+        '구독':     ['비용', '가격', '유료', '결제', '플랜'],
+        // 법·책임·윤리
+        '법':       ['법적', '법률', '의료법', '규정', '합법', '책임', '허가'],
+        '법적':     ['법', '법률', '의료법', '규정', '합법', '책임'],
+        '법률':     ['법', '법적', '의료법', '규정', '책임'],
+        '규정':     ['법', '법적', '법률', '의료법', '허가'],
+        '책임':     ['법적', '의사', '오류', '과실', '법률'],
+        '윤리':     ['법적', '도덕', '책임', '동의', '허가', '환자'],
+        '허가':     ['법적', '규정', '의료법', '승인'],
+        '합법':     ['법', '법적', '허가', '규정'],
+        '동의':     ['환자', '허가', '법적', '윤리'],
+        '과실':     ['책임', '오류', '법적', '의사'],
+        // 보안·개인정보
+        '보안':     ['개인정보', '데이터', '보호', 'GDPR', '암호화', '프라이버시'],
+        '개인정보': ['보안', '데이터', '보호', 'GDPR', '환자', '프라이버시'],
+        '데이터':   ['개인정보', '보안', '보호', '환자', '의료'],
+        'GDPR':     ['개인정보', '보안', '보호', '규정'],
+        '프라이버시':['보안', '개인정보', '보호'],
+        // 의료·임상
+        '진단':     ['AI', '의료', '의사', '임상', '병원'],
+        '의사':     ['의료', '임상', '진료', '병원', '처방'],
+        '병원':     ['의료', '임상', '의사', '진료'],
+        '환자':     ['의료', '임상', '진료', '개인정보'],
+        '처방':     ['의사', '진료', '의약품', '약물'],
+        '임상':     ['의료', '의사', '진료', '병원'],
+        '진료':     ['의사', '임상', '병원', '환자'],
+        '약':       ['의약품', '처방', '약물', '의사'],
+        '의약품':   ['약', '처방', '약물', '의사'],
+        // AI·자동화·도구
+        '도구':     ['툴', '소프트웨어', 'AI', '앱', '플랫폼', '도구소개'],
+        '설치':     ['install', '셋업', '시작', '준비', '환경'],
+        'AI':       ['인공지능', 'LLM', 'GPT', 'Claude', '생성형'],
+        '자동화':   ['workflow', '파이프라인', '에이전트', '오케스트레이션'],
+        '글쓰기':   ['문서', '기록', '작성', '노트', '보고서'],
+        '요약':     ['정리', '분석', '추출', '핵심'],
+        '번역':     ['언어', '영어', '변환', '다국어'],
+        '검색':     ['탐색', '찾기', '조회', '리서치', 'search'],
+        '분석':     ['요약', '검토', '평가', '정리'],
+        '코딩':     ['개발', '프로그래밍', '코드', '소프트웨어'],
+        '개발':     ['코딩', '프로그래밍', '소프트웨어', '앱'],
+        // 특정 도구명
+        'ChatGPT':  ['GPT', 'OpenAI', 'AI', '음성'],
+        'Claude':   ['Anthropic', 'AI', 'LLM', 'Claude Code'],
+        'Codex':    ['OpenAI', 'CLI', '코딩', '개발', '터미널'],
+        'Cursor':   ['IDE', '코딩', '에디터', '개발', 'AI'],
+        'Copilot':  ['GitHub', 'AI', '코딩', '자동완성'],
+        '터미널':   ['CLI', '명령어', '설치', '개발'],
+        '에디터':   ['IDE', 'Cursor', 'VS Code', '코딩'],
+      };
+
+      // 쿼리에서 확장 용어 목록 반환
+      const expandQuery = (query) => {
+        const q = query.toLowerCase().trim();
+        const terms = new Set([q]);
+        for (const [key, synonyms] of Object.entries(CONCEPT_MAP)) {
+          const k = key.toLowerCase();
+          if (q.includes(k) || k.includes(q)) {
+            synonyms.forEach(s => terms.add(s.toLowerCase()));
+            terms.add(k);
+          }
+          if (synonyms.some(s => {
+            const sl = s.toLowerCase();
+            return q.includes(sl) || sl.includes(q);
+          })) {
+            terms.add(k);
+            synonyms.forEach(s => terms.add(s.toLowerCase()));
+          }
+        }
+        return [...terms];
+      };
+
+      // 쿼리에서 난이도 의도 감지
+      const detectIntent = (query) => {
+        const q = query.toLowerCase();
+        if (['입문', '초보', '기초', '쉬운', '처음', '시작', 'beginner'].some(t => q.includes(t))) return 'beginner';
+        if (['심화', '고급', '전문', 'advanced'].some(t => q.includes(t))) return 'advanced';
+        if (['중급', 'intermediate'].some(t => q.includes(t))) return 'intermediate';
+        return null;
+      };
+
       let fuse = null;
       let activeIndex = -1;
       let renderedItems = [];
 
-      const setExpanded = (expanded) => {
-        input.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-      };
-
+      const setExpanded = (v) => input.setAttribute('aria-expanded', v ? 'true' : 'false');
       const setStatus = (text, visible) => {
         statusEl.textContent = text;
         statusEl.classList.toggle('hidden', !visible);
       };
-
       const positionDropdown = () => {
         const rect = wrap.getBoundingClientRect();
         dropdown.style.width = `${rect.width}px`;
         dropdown.style.left = `${rect.left}px`;
         dropdown.style.top = `${rect.bottom + 8}px`;
       };
-
-      const showDropdown = () => {
-        positionDropdown();
-        dropdown.classList.remove('hidden');
-        setExpanded(true);
-      };
-
+      const showDropdown = () => { positionDropdown(); dropdown.classList.remove('hidden'); setExpanded(true); };
       const hideDropdown = () => {
-        dropdown.classList.add('hidden');
-        setExpanded(false);
-        activeIndex = -1;
-        input.setAttribute('aria-activedescendant', '');
+        dropdown.classList.add('hidden'); setExpanded(false);
+        activeIndex = -1; input.setAttribute('aria-activedescendant', '');
       };
-
       const syncActiveItem = () => {
-        renderedItems.forEach((item, index) => {
-          item.classList.toggle('is-active', index === activeIndex);
-          if (index === activeIndex) {
-            input.setAttribute('aria-activedescendant', item.id);
-            item.scrollIntoView({ block: 'nearest' });
-          }
+        renderedItems.forEach((item, i) => {
+          item.classList.toggle('is-active', i === activeIndex);
+          if (i === activeIndex) { input.setAttribute('aria-activedescendant', item.id); item.scrollIntoView({ block: 'nearest' }); }
         });
-
-        if (activeIndex < 0) {
-          input.setAttribute('aria-activedescendant', '');
-        }
+        if (activeIndex < 0) input.setAttribute('aria-activedescendant', '');
       };
 
-      const fallbackSearch = (q) => {
-        const ql = q.toLowerCase();
+      // 단일 용어로 검색 (Fuse 또는 fallback)
+      const searchTerm = (term) => {
+        if (fuse) return fuse.search(term);
+        const tl = term.toLowerCase();
         return searchIndex
-          .filter((p) =>
-            [p.title, p.description, p.category].some((field) =>
-              field?.toLowerCase().includes(ql),
-            ),
-          )
-          .map((item) => ({ item }));
+          .filter(p => [p.title, p.description, p.category, p.tags, p.difficulty, p.type]
+            .some(f => f?.toLowerCase().includes(tl)))
+          .map(item => ({ item, score: 0.4 }));
       };
+
+      // 의미 기반 검색 — 개념 확장 + 난이도 재정렬
+      const semanticSearch = (query) => {
+        const terms = expandQuery(query);
+        const intent = detectIntent(query);
+
+        // 1차: 원본 쿼리로 검색
+        const primary = searchTerm(query);
+        const seen = new Set(primary.map(r => r.item.id));
+        const expanded = [];
+
+        // 2차: 확장 용어로 추가 검색
+        for (const term of terms.slice(1)) {
+          if (term.length < 2) continue;
+          for (const r of searchTerm(term)) {
+            if (!seen.has(r.item.id)) {
+              seen.add(r.item.id);
+              expanded.push({ ...r, _expanded: true });
+            }
+          }
+        }
+
+        const merged = [
+          ...primary.map(r => ({ ...r, _expanded: false })),
+          ...expanded,
+        ];
+
+        // 3차: 난이도 의도가 있으면 재정렬
+        if (intent) {
+          merged.sort((a, b) => {
+            const aM = a.item._difficulty === intent;
+            const bM = b.item._difficulty === intent;
+            if (aM !== bM) return aM ? -1 : 1;
+            if (a._expanded !== b._expanded) return a._expanded ? 1 : -1;
+            return (a.score ?? 0.5) - (b.score ?? 0.5);
+          });
+        }
+
+        return merged;
+      };
+
+      const DIFF_LABEL = { beginner: '입문', intermediate: '중급', advanced: '고급' };
+      const DIFF_KOR = { beginner: '입문자용', intermediate: '중급자용', advanced: '고급자용' };
 
       const renderResults = (query) => {
         const normalized = query.trim();
@@ -127,7 +260,7 @@ const searchIndex = allPosts.map(post => ({
           return;
         }
 
-        const results = (fuse ? fuse.search(normalized) : fallbackSearch(normalized)).slice(0, 6);
+        const results = semanticSearch(normalized).slice(0, 8);
         resultsEl.innerHTML = '';
         renderedItems = [];
         activeIndex = -1;
@@ -135,21 +268,26 @@ const searchIndex = allPosts.map(post => ({
         if (results.length > 0) {
           emptyEl.classList.add('hidden');
           resultsEl.classList.remove('hidden');
-          results.forEach(({ item }, index) => {
+          results.forEach(({ item, _expanded }, index) => {
             const a = document.createElement('a');
             a.className = 'search-result-item';
             a.href = item.url;
             a.id = `search-result-${index}`;
             a.setAttribute('role', 'option');
+
+            const diffLabel = DIFF_LABEL[item._difficulty] || '';
+            const diffTitle = DIFF_KOR[item._difficulty] || '';
+
             a.innerHTML = `
-              ${item.category ? `<span class="sr-cat">${item.category}</span>` : ''}
+              <div class="sr-meta">
+                ${item.category ? `<span class="sr-cat">${item.category}</span>` : ''}
+                ${diffLabel ? `<span class="sr-diff sr-diff--${item._difficulty}" title="${diffTitle}">${diffLabel}</span>` : ''}
+                ${_expanded ? `<span class="sr-semantic-badge">연관</span>` : ''}
+              </div>
               <span class="sr-title">${item.title}</span>
               ${item.description ? `<span class="sr-desc">${item.description}</span>` : ''}
             `;
-            a.addEventListener('mouseenter', () => {
-              activeIndex = index;
-              syncActiveItem();
-            });
+            a.addEventListener('mouseenter', () => { activeIndex = index; syncActiveItem(); });
             resultsEl.appendChild(a);
             renderedItems.push(a);
           });
@@ -165,31 +303,31 @@ const searchIndex = allPosts.map(post => ({
         showDropdown();
       };
 
-      // fuse.js를 CDN에서 로드 (is:inline 스크립트는 Vite 번들링 Skip → bare specifier 불가)
+      // Fuse.js CDN 로드 — tags·difficulty·type까지 포함한 가중치 검색
       const FUSE_CDN = 'https://cdn.jsdelivr.net/npm/fuse.js@7.1.0/dist/fuse.mjs';
       setStatus('검색 인덱스를 준비하는 중입니다...', true);
       import(FUSE_CDN)
         .then((m) => {
           const Fuse = m.default;
           fuse = new Fuse(searchIndex, {
-            keys: ['title', 'description', 'category'],
-            threshold: 0.35,
+            keys: [
+              { name: 'title',       weight: 3   },
+              { name: 'tags',        weight: 2.5 },
+              { name: 'description', weight: 1.5 },
+              { name: 'difficulty',  weight: 1   },
+              { name: 'category',    weight: 1   },
+              { name: 'subcategory', weight: 0.8 },
+              { name: 'type',        weight: 0.5 },
+            ],
+            threshold: 0.4,
             minMatchCharLength: 1,
+            includeScore: true,
+            ignoreLocation: true,
+            distance: 200,
           });
           setStatus('', false);
         })
         .catch(() => {
-          // CDN 실패 시 fallback: 단순 includes 검색
-          fuse = {
-            search: (q) =>
-              searchIndex
-                .filter((p) =>
-                  [p.title, p.description, p.category].some((field) =>
-                    field?.toLowerCase().includes(q.toLowerCase()),
-                  ),
-                )
-                .map((item) => ({ item })),
-          };
           setStatus('', false);
         });
 
@@ -205,20 +343,9 @@ const searchIndex = allPosts.map(post => ({
 
       input.addEventListener('keydown', (e) => {
         if (dropdown.classList.contains('hidden')) return;
-        if (e.key === 'ArrowDown') {
-          e.preventDefault();
-          activeIndex = Math.min(renderedItems.length - 1, activeIndex + 1);
-          syncActiveItem();
-        }
-        if (e.key === 'ArrowUp') {
-          e.preventDefault();
-          activeIndex = Math.max(0, activeIndex - 1);
-          syncActiveItem();
-        }
-        if (e.key === 'Enter' && activeIndex >= 0 && renderedItems[activeIndex]) {
-          e.preventDefault();
-          renderedItems[activeIndex].click();
-        }
+        if (e.key === 'ArrowDown') { e.preventDefault(); activeIndex = Math.min(renderedItems.length - 1, activeIndex + 1); syncActiveItem(); }
+        if (e.key === 'ArrowUp')   { e.preventDefault(); activeIndex = Math.max(0, activeIndex - 1); syncActiveItem(); }
+        if (e.key === 'Enter' && activeIndex >= 0 && renderedItems[activeIndex]) { e.preventDefault(); renderedItems[activeIndex].click(); }
       });
 
       document.addEventListener('click', (e) => {
@@ -226,23 +353,12 @@ const searchIndex = allPosts.map(post => ({
       });
 
       document.addEventListener('keydown', (e) => {
-        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-          e.preventDefault();
-          input.focus();
-          input.select();
-        }
-        if (e.key === 'Escape') {
-          hideDropdown();
-          input.blur();
-        }
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); input.focus(); input.select(); }
+        if (e.key === 'Escape') { hideDropdown(); input.blur(); }
       });
 
-      window.addEventListener('resize', () => {
-        if (!dropdown.classList.contains('hidden')) positionDropdown();
-      });
-      window.addEventListener('scroll', () => {
-        if (!dropdown.classList.contains('hidden')) positionDropdown();
-      }, true);
+      window.addEventListener('resize', () => { if (!dropdown.classList.contains('hidden')) positionDropdown(); });
+      window.addEventListener('scroll', () => { if (!dropdown.classList.contains('hidden')) positionDropdown(); }, true);
 
       if (aiBtn) {
         aiBtn.addEventListener('click', () => {
