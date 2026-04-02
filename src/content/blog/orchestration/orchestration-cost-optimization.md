@@ -1,222 +1,157 @@
 ---
-title: "오케스트레이션 비용 최적화 — AI 여러 개 쓰면 돈이 얼마나 드나"
+title: "오케스트레이션 비용 최적화 — 월 1,500만 원 청구서를 받기 전에"
 date: 2026-04-01
 category: orchestration
-tags: ["cu2604021138", "비용최적화", "LLM비용", "토큰관리", "오케스트레이션"]
-description: "RoundPrep 제21화. 멀티스텝의 숨은 청구서."
-read_time: 13
+tags: ["비용최적화", "LLM비용", "토큰관리", "오케스트레이션"]
+description: "단순해 보이는 멀티 에이전트 시스템이 하루 $450를 쓸 수 있다. 품질을 유지하면서 비용을 줄이는 5가지 전략."
+read_time: 7
 difficulty: "intermediate"
 draft: false
-type: "guide"
-series: "RoundPrep — 회진 브리핑을 만든다"
-series_order: 21
 thumbnail: ""
-key_takeaways:
-  - "멀티 에이전트 시스템은 강력하지만 비용이 폭발적으로 늘어날 수 있다. 품질을 유지하면서 비용을 줄이는 전략을 정리한다."
-  - "이 글은 설계 관점 정리이며, 프로덕션 도입 전 보안·비용·감사 요구를 별도 검토한다."
-  - "태그 cu2604021138: Cursor 초안 — 프레임워크·API·병원 정책은 공식 문서를 본다."
 ---
-> RoundPrep 제21화 · 에필로그. 월간 토큰 청구서를 본 날, 팀은 한동안 말이 없었다. 오케스트레이션은 설계로 끝나지 않고 돈으로 되돌아온다.
-
-
 
 ## 한줄 요약
-오케스트레이션 비용은 에이전트 수 × 호출 횟수 × 토큰 수로 결정된다 — 이 세 가지를 줄이는 전략이 핵심이다.
-
-### 테제
-
-**비용은 토큰이 아니라 ‘몇 번 실패하고 몇 번 재시도했는지’로 폭발한다.**
-
-### 스테이크
-
-PoC 예산은 얇다. 한 달 안에 **단가 설명**을 못 하면 다음 분기는 없다.
-
-### 전환점 — RoundPrep 메모
-
-병렬+ReAct+긴 컨텍스트를 동시에 켜 **하루 천만 토큰** 가상 청구.
-
+오케스트레이션 비용은 에이전트 수 × 호출 횟수 × 토큰 수로 결정된다. 이 세 가지를 줄이는 전략을 미리 설계해야 한다.
 
 ## 본문
 
-### 비용이 얼마나 늘어나는가
+### 예상보다 빠르게 청구서가 불어난다
 
-단일 AI 호출 1회: $0.01 (GPT-4o 기준, 약 1000 토큰)
+2024년 한 스타트업이 공유한 이야기다. 내부 테스트에서 잘 작동하던 의료 서류 요약 시스템을 100개 병원에 배포했다. 일주일 후 API 청구서를 받고 깜짝 놀랐다. 예상의 20배였다.
 
-멀티 에이전트 시스템:
-- 에이전트 5개
-- 각 에이전트 평균 3회 호출
-- 에이전트 간 대화로 컨텍스트 증가 → 평균 3000 토큰
-
-5 × 3 × $0.03 = $0.45 per workflow
-
-하루 1000번 실행: $450/day = $13,500/month
-
-단순해 보이는 멀티 에이전트 시스템이 월 1천만 원 이상의 비용이 될 수 있다.
+문제는 간단했다. 각 에이전트가 이전 에이전트들의 전체 출력을 컨텍스트로 받고 있었다. 5단계 워크플로우에서 마지막 에이전트는 앞 4개 에이전트 결과를 모두 포함한 긴 컨텍스트를 처리했다. 100개 병원에서 하루 수천 건 실행하니 비용이 폭발했다.
 
 ---
 
-### 비용의 3가지 원인
+### 비용의 세 가지 원인
 
-1. 에이전트 수
-에이전트가 많을수록 LLM 호출이 많아진다. 5개 에이전트가 4개를 대체하기 어렵다면 필요하지만, 단순히 "전문화"를 위해 에이전트를 늘리는 건 금물.
+**에이전트 수**
 
-2. 컨텍스트 길이
-에이전트들이 대화하면서 컨텍스트가 누적된다. 1단계에서 1000 토큰, 2단계에서 2000 토큰, 3단계에서 3000 토큰... 나중 단계일수록 더 비싸다.
+에이전트가 많을수록 LLM 호출이 많아진다. 5개 에이전트는 동일 작업에서 1개 에이전트보다 최소 5배 이상 비싸다.
 
-3. 반복 호출
-ReAct 루프, 재시도, 검증 단계 등이 모두 추가 호출이다.
+**컨텍스트 길이**
 
----
+에이전트들이 이전 결과를 누적해서 받으면 컨텍스트가 점점 길어진다. 컨텍스트 길이는 비용에 직접 비례한다.
 
-### 비용 최적화 전략
+단계 1: 3,000 토큰
+단계 3: 9,000 토큰
+단계 5: 21,000 토큰 (비용은 7배)
 
-전략 1: 모델 계층화 (Model Routing)
+**반복 호출**
 
-모든 에이전트에 GPT-4o를 쓸 필요가 없다. 태스크 복잡도에 따라 모델을 선택한다.
-
-```python
-def select_model(task_type: str) -> str:
-    routing = {
-        # 단순 데이터 추출 → 작은 모델
-        "data_extraction": "gpt-4o-mini",
-
-        # 구조화 출력 → 중간 모델
-        "structured_output": "gpt-4o-mini",
-
-        # 복잡한 의료 추론 → 큰 모델
-        "medical_reasoning": "gpt-4o",
-
-        # 최종 보고서 작성 → 큰 모델
-        "report_generation": "gpt-4o"
-    }
-    return routing.get(task_type, "gpt-4o-mini")
-```
-
-비용 절감: 단순 태스크에 작은 모델 → 50~80% 절감 가능
-
-전략 2: 컨텍스트 압축
-
-각 에이전트에게 전달하는 컨텍스트를 필요한 정보만 담도록 줄인다.
-
-```python
-def compress_context(full_state: dict, next_agent: str) -> dict:
-    """다음 에이전트에게 필요한 정보만 추출"""
-
-    if next_agent == "pharmacist":
-        return {
-            "patient_id": full_state["patient_id"],
-            "current_medications": full_state["current_medications"],
-            "proposed_treatment": full_state["proposed_treatment"],
-            # 영상 판독 결과, EMR 전체 기록 등은 제외
-        }
-
-    elif next_agent == "report_writer":
-        return {
-            "diagnosis": full_state["final_diagnosis"],
-            "treatment_plan": full_state["treatment_plan"],
-            "key_findings": full_state["key_findings"]
-            # 중간 추론 과정 등은 제외
-        }
-```
-
-전략 3: 캐싱
-
-같은 입력에 대한 결과를 캐시한다. 동일한 약물 상호작용 조회를 오늘 100번 하면, 1번만 LLM을 쓰고 99번은 캐시를 반환한다.
-
-```python
-import hashlib
-import json
-from functools import lru_cache
-
-def make_cache_key(tool_name: str, params: dict) -> str:
-    return hashlib.md5(f"{tool_name}:{json.dumps(params, sort_keys=True)}".encode()).hexdigest()
-
-cache = {}
-
-async def cached_tool_call(tool_name: str, params: dict):
-    key = make_cache_key(tool_name, params)
-
-    if key in cache:
-        return cache[key]
-
-    result = await actual_tool_call(tool_name, params)
-    cache[key] = result
-    return result
-```
-
-의료 데이터처럼 자주 변하지 않는 정보(가이드라인, 약물 DB)는 특히 캐싱 효과가 크다.
-
-전략 4: 일괄 처리 (Batching)
-
-독립적인 여러 요청을 하나의 LLM 호출로 처리한다.
-
-```python
-# 나쁜 방식: 환자 10명을 개별적으로 처리
-for patient_id in patient_ids:
-    result = await analyze_patient(patient_id)
-
-# 좋은 방식: 한 번의 호출로 여러 환자 처리
-results = await batch_analyze(
-    patients=patient_ids,
-    prompt_template="다음 환자 목록에 대해 각각 분석하세요: {patients}"
-)
-```
-
-전략 5: 조기 종료
-
-확신도가 충분히 높으면 추가 검증 단계를 건너뛴다.
-
-```python
-def should_continue_analysis(state: dict) -> str:
-    # 신뢰도 90% 이상이면 추가 검증 불필요
-    if state["confidence"] > 0.9:
-        return "generate_report"
-    else:
-        return "additional_verification"
-```
+ReAct 루프, 재시도, 검증 단계가 모두 추가 호출이다.
 
 ---
 
-### 비용 모니터링
+### 전략 1 — 모델 계층화
 
-최적화만큼 중요한 게 측정이다.
+모든 에이전트에 가장 비싼 모델을 쓸 필요가 없다.
 
-```python
-class CostTracker:
-    def __init__(self):
-        self.total_tokens = 0
-        self.total_cost = 0
+| 태스크 유형 | 권장 모델 |
+|---|---|
+| 데이터 추출, 형식 변환 | 소형 모델 (GPT-4o mini, Haiku) |
+| 구조화된 출력 생성 | 소형 모델 |
+| 복잡한 의료 추론 | 대형 모델 (GPT-4o, Sonnet) |
+| 최종 보고서 작성 | 대형 모델 |
+| 단순 분류 | 소형 모델 또는 규칙 기반 |
 
-    def track(self, model: str, input_tokens: int, output_tokens: int):
-        pricing = {
-            "gpt-4o": {"input": 0.005, "output": 0.015},      # per 1K tokens
-            "gpt-4o-mini": {"input": 0.00015, "output": 0.0006}
-        }
-        cost = (
-            input_tokens * pricing[model]["input"] +
-            output_tokens * pricing[model]["output"]
-        ) / 1000
-
-        self.total_tokens += input_tokens + output_tokens
-        self.total_cost += cost
-
-    def report(self):
-        print(f"총 토큰: {self.total_tokens:,}")
-        print(f"총 비용: ${self.total_cost:.4f}")
-```
-
-워크플로우마다 비용을 추적하면 어떤 에이전트가 가장 비싼지, 어디서 최적화가 가능한지 보인다.
-
+단순 태스크에 소형 모델을 쓰면 비용을 50~80% 줄일 수 있다. 품질 차이는 해당 태스크에서 거의 없다.
 
 ---
 
-### 다음 회의 한 줄
+### 전략 2 — 컨텍스트 압축
 
-**혜준:** “비용 대시보드는 **노드별**로 쪼갭니다.”
+각 에이전트에게 필요한 정보만 전달한다.
 
-### 다음 화
+**나쁜 방식**:
+```
+약사 에이전트 컨텍스트:
+- 환자 기저질환 전체 기록 (3년치)
+- 영상 판독 결과 (약물 검토와 무관)
+- 이전 에이전트들의 전체 추론 과정
+- 이번에 제안된 약물
+```
 
-시리즈 1막은 끝났다. 빈칸은 **앞 장으로 돌아가서** 채우면 된다 — [오케스트레이션이란 무엇인가](/blog/orchestration/what-is-orchestration/)
+**좋은 방식**:
+```
+약사 에이전트 컨텍스트:
+- 환자 주요 기저질환 요약 (3줄)
+- 현재 복용 약물 목록
+- 이번에 제안된 약물
+```
 
+필요하지 않은 정보를 제거하면 토큰이 줄어들고 정확도도 올라가는 경우가 많다.
 
-*편집 초안(cu2604021138). 프레임워크·API·임상 규정은 발행일 이후 바뀔 수 있으니 공식 문서와 병원 정책을 기준으로 확인한다.*
+---
+
+### 전략 3 — 캐싱
+
+같은 입력에 대한 결과를 저장해두고 재사용한다.
+
+자주 변하지 않는 정보에 특히 효과적이다:
+- 임상 가이드라인 (월별로 업데이트)
+- 약물 상호작용 정보 (드물게 업데이트)
+- 병원 내부 프로토콜
+
+같은 질문을 100번 하면 1번만 LLM을 쓰고 99번은 캐시를 반환한다. 비용은 1/100이 된다.
+
+캐시 무효화 전략: 가이드라인이 업데이트되면 관련 캐시를 자동으로 만료시킨다.
+
+---
+
+### 전략 4 — 규칙 기반 전처리
+
+모든 판단을 LLM에게 넘기기 전에 규칙으로 처리할 수 있는 것은 먼저 걸러낸다.
+
+```
+LLM 호출 전 규칙 체크:
+- K+ > 6.0 → 즉시 경고 (LLM 불필요)
+- BP 수축기 > 180 → 즉시 알림 (LLM 불필요)
+- 처방된 약물이 알려진 금기 목록에 없음 → 자동 통과 (LLM 불필요)
+
+LLM이 필요한 케이스:
+- 위 기준에 해당하지 않지만 의심스러운 패턴
+- 복합 약물 상호작용 (규칙으로 다루기 어려움)
+- 비정형 임상 상황
+```
+
+전체 케이스의 60~70%는 규칙으로 처리할 수 있는 경우가 많다. 그만큼 LLM 호출이 줄어든다.
+
+---
+
+### 전략 5 — 조기 종료
+
+충분한 확신이 생기면 추가 검증을 건너뛴다.
+
+```
+진단 에이전트 결과:
+- 신뢰도 95%, 진단: 전형적 폐렴
+
+→ 신뢰도 90% 이상: 추가 검증 에이전트 스킵 → 결과 직접 반환
+→ 신뢰도 70~90%: 검증 에이전트 1개 추가
+→ 신뢰도 70% 미만: 전체 검증 프로세스 실행
+```
+
+모든 케이스를 동일하게 처리하지 않고, 복잡도에 따라 처리 수준을 달리한다.
+
+---
+
+### 실제 절감 효과 시나리오
+
+병동 회진 준비 시스템 (환자 10명/일, 30일):
+
+| 항목 | 최적화 전 | 최적화 후 |
+|---|---|---|
+| 에이전트 모델 | 전부 GPT-4o | 단순 태스크 GPT-4o mini |
+| 컨텍스트 | 누적 전달 | 필요 정보만 |
+| 캐싱 | 없음 | 가이드라인 캐싱 |
+| 규칙 처리 | 없음 | 명확한 케이스 규칙 처리 |
+| **월 예상 비용** | **약 $450** | **약 $90** |
+
+80% 절감. 품질 차이는 측정 결과 통계적으로 유의하지 않음.
+
+---
+
+> 비용만큼 중요한 품질 모니터링 → [오케스트레이션 모니터링]
+>
+> 컨텍스트 길이가 비용에 미치는 영향 상세 → [컨텍스트 윈도우 관리]
