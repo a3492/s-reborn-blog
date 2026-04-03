@@ -3,7 +3,7 @@
   'use strict';
 
   /*__SITE_BRAND__*/
-  var __SITE_BRAND = {"blogDisplayName":"S-Reborn Blog","doctorAiAcademyDisplayName":"Doctor AI Academy","labDisplayName":"S-Reborn Lab","clinicBlogDisplayName":"S-Reborn Clinic Blog","copyrightEntityLine":"© 2026 S-Reborn clinic. All rights reserved.","adminPanelBrand":"S-Reborn Blog","legacyStaticSiteLogoLine":"S-Reborn Blog","legacyStaticCopyrightLine":"© 2026 S-Reborn Blog · Medical AI Content Platform"};
+  var __SITE_BRAND = {"blogDisplayName":"S-Reborn Blog","doctorAiAcademyDisplayName":"Doctor AI Academy","labDisplayName":"S-Reborn Lab","clinicBlogDisplayName":"S-Reborn Clinic Blog","copyrightEntityLine":"© 2026 S-Reborn Blog. All rights reserved.","adminPanelBrand":"S-Reborn Blog","legacyStaticSiteLogoLine":"S-Reborn Blog","legacyStaticCopyrightLine":"© 2026 S-Reborn Blog · Medical AI Content Platform"};
   /*__END_SITE_BRAND__*/
 
   // ── 사이트맵 데이터 ──────────────────────────────────────────────────────

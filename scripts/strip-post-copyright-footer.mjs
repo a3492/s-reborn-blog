@@ -18,8 +18,9 @@ function walk(dir) {
 	return out;
 }
 
-const reBlock = /\r?\n---\s*\r?\n\*© S-Reborn clinic \| s-reborn-blog\.pages\.dev\*\s*$/;
-const reLine = /\r?\n\*© S-Reborn clinic \| s-reborn-blog\.pages\.dev\*\s*$/;
+const reBlock =
+	/\r?\n---\s*\r?\n\*© S-Reborn (?:clinic|Blog) \| s-reborn-blog\.pages\.dev\*\s*$/;
+const reLine = /\r?\n\*© S-Reborn (?:clinic|Blog) \| s-reborn-blog\.pages\.dev\*\s*$/;
 
 let n = 0;
 for (const f of walk(root)) {
