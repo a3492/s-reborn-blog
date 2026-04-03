@@ -1,0 +1,40 @@
+S-Reborn Blog — article_requests INSERT → generate-article 웹훅 설정
+====================================================================
+
+전제: 블로그용 Supabase 프로젝트에 마이그레이션 적용됨
+  - 20260404120000_article_requests.sql
+  - 20260404120001_posts_source_request_id.sql
+
+1) Edge Function 배포
+--------------------
+저장소 루트에서:
+
+  npx supabase login
+  npx supabase link --project-ref <Project ID>
+  npx supabase functions deploy generate-article
+
+Secrets (Dashboard → Edge Functions → generate-article → Secrets):
+  ANTHROPIC_API_KEY   (필수 — 없으면 stub 초안만 생성)
+  WEBHOOK_SECRET      (선택 — 설정 시 아래 헤더와 동일 값 필수)
+
+2) Database Webhook 생성
+-------------------------
+Dashboard → Database → Webhooks → Create a new hook
+
+  Table:     article_requests
+  Events:    Insert
+  Type:      Supabase Edge Functions
+  Function:  generate-article
+
+또는 HTTP Request 방식인 경우:
+  URL: https://<PROJECT_REF>.supabase.co/functions/v1/generate-article
+  HTTP Headers:
+    Authorization: Bearer <anon 또는 service_role JWT>
+    Content-Type: application/json
+  WEBHOOK_SECRET를 쓰는 경우 추가:
+    x-webhook-secret: <Secrets에 넣은 값과 동일>
+
+3) 동작 확인
+-----------
+공개 검색/요청 폼에서 article_requests 행이 생기면 함수 로그에 처리 기록이 남아야 합니다.
+Dashboard → Edge Functions → generate-article → Logs
