@@ -358,7 +358,7 @@ const searchIndex = allPosts.map(post => ({
             renderedItems[activeIndex].click();
           } else {
             const q = input.value.trim();
-            if (q) window.location.href = `/search?q=${encodeURIComponent(q)}`;
+            if (q) window.location.href = `/blog?q=${encodeURIComponent(q)}`;
           }
           return;
         }
