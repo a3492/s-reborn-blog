@@ -55,7 +55,7 @@ const searchIndex = allPosts.map(post => ({
 			<Footer siteTitle={resolvedSiteTitle} socialLinks={siteSettings.socialLinks} />
 		</div>
 
-		<script define:vars={{ searchIndex, contactEmail: CONTACT_EMAIL, supabaseUrl: import.meta.env.PUBLIC_SUPABASE_URL ?? '', supabaseKey: import.meta.env.PUBLIC_SUPABASE_ANON_KEY ?? '' }}>
+		<script define:vars={{ searchIndex, supabaseUrl: import.meta.env.PUBLIC_SUPABASE_URL ?? '', supabaseKey: import.meta.env.PUBLIC_SUPABASE_ANON_KEY ?? '', contactEmail: CONTACT_EMAIL }}>
 		(function() {
       const input = document.getElementById('search-input');
       const wrap = document.querySelector('[data-search-wrap]');
@@ -407,6 +407,13 @@ const searchIndex = allPosts.map(post => ({
               });
             }
           } catch { /* 저장 실패해도 UI는 완료 상태 유지 */ }
+
+          // mailto 링크 열기
+          if (contactEmail) {
+            const subject = encodeURIComponent(`[블로그 글 요청] ${query}`);
+            const body = encodeURIComponent(`요청 키워드: ${query}`);
+            window.location.href = `mailto:${contactEmail}?subject=${subject}&body=${body}`;
+          }
         });
       }
     })();

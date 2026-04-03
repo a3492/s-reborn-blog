@@ -5,7 +5,7 @@ export { SITE_BRAND };
 export const SITE_DESCRIPTION = 'AI of the people, by the people, for the people';
 
 // 글 요청 수신 이메일 — 검색 결과 없을 때 독자가 에디터에게 요청을 보내는 주소
-export const CONTACT_EMAIL = '';
+export const CONTACT_EMAIL = 'a01034920591@gmail.com';
 
 export const CATEGORIES = [
 	// 기초·입문
