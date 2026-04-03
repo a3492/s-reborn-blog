@@ -6,7 +6,7 @@
   var SITEMAP = [
     {
       id: 'fundamentals',
-      icon: '📖',
+      icon: 'F',
       label: 'Fundamentals',
       home: '/doctor-ai/fundamentals/home.html',
       pages: [
@@ -26,7 +26,7 @@
     },
     {
       id: 'prompts',
-      icon: '🖊️',
+      icon: 'P',
       label: 'Prompts',
       home: '/doctor-ai/prompts/home.html',
       pages: [
@@ -40,7 +40,7 @@
     },
     {
       id: 'cases',
-      icon: '🔬',
+      icon: 'C',
       label: 'Cases',
       home: '/doctor-ai/cases/home.html',
       pages: [
@@ -54,7 +54,7 @@
     },
     {
       id: 'tools',
-      icon: '🛠️',
+      icon: 'T',
       label: 'Tools',
       home: '/doctor-ai/tools/home.html',
       pages: [
@@ -158,10 +158,7 @@
     +     '<span class="dai-drawer-title">전체 목차</span>'
     +     '<button class="dai-drawer-close" id="dai-drawer-close" aria-label="닫기">✕</button>'
     +   '</div>'
-    +   '<a href="/doctor-ai/" class="dai-drawer-hub">'
-    +     '<span class="dai-drawer-hub-icon">🏠</span>'
-    +     'Doctor AI 허브로 이동'
-    +   '</a>'
+    +   '<a href="/doctor-ai/" class="dai-drawer-hub">Doctor AI 허브로 이동</a>'
     +   '<div class="dai-drawer-body">' + drawerBodyHtml + '</div>'
     + '</aside>';
 
