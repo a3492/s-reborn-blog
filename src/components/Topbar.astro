@@ -45,9 +45,16 @@ const isDoctorAI = path.startsWith('/doctor-ai');
   <div id="search-status" class="search-status hidden">검색 인덱스를 준비하는 중입니다...</div>
   <div id="search-results" class="search-results"></div>
   <div id="search-empty" class="search-empty hidden">
-    <p class="search-empty-text">검색 결과가 없어요.</p>
-    <button id="ai-generate-btn" class="ai-generate-btn" type="button">
-      ✨ AI로 이 주제의 글 생성하기
+    <p class="search-empty-text">아직 이 주제의 글이 없어요</p>
+    <p class="search-empty-sub">에디터에게 요청하면 새 글이 올라올 수 있어요</p>
+    <button id="request-article-btn" class="request-article-btn" type="button">
+      ✉️ 에디터에게 요청하기
     </button>
+  </div>
+
+  <div id="request-done" class="request-done hidden">
+    <span class="request-done-icon">📬</span>
+    <p class="request-done-title">요청이 전달됐어요!</p>
+    <p class="request-done-sub">에디터가 검토 후 글을 올려드릴게요</p>
   </div>
 </div>

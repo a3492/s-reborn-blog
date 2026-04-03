@@ -248,29 +248,65 @@ body {
 
 .search-empty-text {
   font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+
+.search-empty-sub {
+  font-size: 0.8rem;
   color: var(--t2);
   margin: 0;
 }
 
-.ai-generate-btn {
+.request-article-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  background: var(--pink);
-  color: #FAF8F5;
-  border: none;
+  background: transparent;
+  color: var(--pink);
+  border: 1.5px solid var(--pink);
   border-radius: 8px;
-  padding: 0.55rem 1.1rem;
+  padding: 0.5rem 1.1rem;
   font-size: 0.875rem;
   font-weight: 600;
   font-family: var(--body);
   cursor: pointer;
-  transition: background 0.15s, transform 0.1s;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
 }
 
-.ai-generate-btn:hover {
-  background: #8C6D45;
+.request-article-btn:hover {
+  background: var(--pink);
+  color: #FAF8F5;
   transform: translateY(-1px);
+}
+
+/* 요청 완료 상태 */
+.request-done {
+  padding: 1.8rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.request-done-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.request-done-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.request-done-sub {
+  font-size: 0.8rem;
+  color: var(--t2);
+  margin: 0;
 }
 
 /* 네비게이션 */

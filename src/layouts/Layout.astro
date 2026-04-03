@@ -3,7 +3,7 @@ import '../styles/design.css';
 import BaseHead from '../components/BaseHead.astro';
 import Topbar from '../components/Topbar.astro';
 import Footer from '../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { SITE_TITLE, SITE_DESCRIPTION, CONTACT_EMAIL } from '../consts';
 import { getCollection } from 'astro:content';
 import { getPublicSiteSettings } from '../lib/site-settings';
 
@@ -55,15 +55,16 @@ const searchIndex = allPosts.map(post => ({
 			<Footer siteTitle={resolvedSiteTitle} socialLinks={siteSettings.socialLinks} />
 		</div>
 
-		<script define:vars={{ searchIndex }}>
+		<script define:vars={{ searchIndex, contactEmail: CONTACT_EMAIL }}>
 		(function() {
       const input = document.getElementById('search-input');
       const wrap = document.querySelector('[data-search-wrap]');
       const dropdown = document.getElementById('search-dropdown');
       const resultsEl = document.getElementById('search-results');
       const emptyEl = document.getElementById('search-empty');
-      const statusEl = document.getElementById('search-status');
-      const aiBtn = document.getElementById('ai-generate-btn');
+      const statusEl    = document.getElementById('search-status');
+      const requestBtn  = document.getElementById('request-article-btn');
+      const requestDone = document.getElementById('request-done');
 
       if (!input || !dropdown || !wrap || !resultsEl || !emptyEl || !statusEl) return;
 
@@ -294,10 +295,7 @@ const searchIndex = allPosts.map(post => ({
         } else {
           resultsEl.classList.add('hidden');
           emptyEl.classList.remove('hidden');
-          if (aiBtn) {
-            aiBtn.dataset.query = normalized;
-            aiBtn.textContent = `✨ "${normalized}" 주제의 글 AI로 생성하기`;
-          }
+          if (requestBtn) requestBtn.dataset.query = normalized;
         }
 
         showDropdown();
@@ -380,10 +378,28 @@ const searchIndex = allPosts.map(post => ({
       window.addEventListener('resize', () => { if (!dropdown.classList.contains('hidden')) positionDropdown(); });
       window.addEventListener('scroll', () => { if (!dropdown.classList.contains('hidden')) positionDropdown(); }, true);
 
-      if (aiBtn) {
-        aiBtn.addEventListener('click', () => {
-          const query = aiBtn.dataset.query || input.value;
-          window.location.href = `/generate?topic=${encodeURIComponent(query)}`;
+      if (requestBtn) {
+        requestBtn.addEventListener('click', () => {
+          const query = requestBtn.dataset.query || input.value.trim();
+          if (!query) return;
+
+          // 요청 완료 상태로 전환
+          emptyEl.classList.add('hidden');
+          if (requestDone) requestDone.classList.remove('hidden');
+
+          // mailto 열기 (이메일 앱이 설정된 경우)
+          if (contactEmail) {
+            const subject = encodeURIComponent(`[글 요청] ${query}`);
+            const body    = encodeURIComponent(
+              `안녕하세요 😊\n\n"${query}"에 대한 글을 요청드립니다.\n\n감사합니다!`
+            );
+            window.location.href = `mailto:${contactEmail}?subject=${subject}&body=${body}`;
+          } else {
+            // 이메일 미설정 시: 요청 내용 클립보드 복사
+            navigator.clipboard?.writeText(
+              `[글 요청] "${query}" 주제로 글을 작성해 주세요.`
+            ).catch(() => {});
+          }
         });
       }
     })();
