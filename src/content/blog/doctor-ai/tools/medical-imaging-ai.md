@@ -106,6 +106,3 @@ type: "review"
 - [임상시험 매칭 AI: 환자에게 맞는 연구를 5분 만에 찾다](/doctor-ai/tools/clinical-trial-matching-ai)
 - [ICD 코딩 AI: 진단코드 자동 입력으로 청구 정확도 높이기](/doctor-ai/tools/icd-coding-ai)
 - [진료 기록 자동 전사 AI: Nuance DAX vs Nabla vs Abridge](/doctor-ai/tools/clinical-note-transcription)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

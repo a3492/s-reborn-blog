@@ -68,6 +68,3 @@ AI는 영상 판독이나 패턴 인식 같은 특정 과업에서 의사에 필
 - [어느 AI가 가장 정확한가?](/blog/faq/which-ai-is-most-accurate/)
 - [의료 AI의 정확도는 몇 퍼센트?](/blog/faq/medical-ai-accuracy-percentage/)
 - [AI가 진단을 틀렸을 때 책임은 누구 것인가?](/blog/faq/who-is-responsible-for-ai-error/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

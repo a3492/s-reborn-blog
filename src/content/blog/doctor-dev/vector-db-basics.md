@@ -163,6 +163,3 @@ def chunk_medical_document(text: str, chunk_size: int = 300,
 - [RAG 시스템 만들기 — 내 병원 프로토콜을 AI에 연결하는 법](/blog/doctor-dev/simple-rag-system)
 - [Claude API 첫 호출 — 10줄 코드로 의료 AI 만들기](/blog/doctor-dev/api-first-call)
 - [Pandas로 임상 데이터 분석 — Excel을 Python으로 대체하는 법](/blog/doctor-dev/pandas-for-clinical-data)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

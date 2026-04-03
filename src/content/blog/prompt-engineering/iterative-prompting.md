@@ -141,6 +141,3 @@ AI 답변은 첫 번에 완성될 필요가 없다 — "이 부분을 더 구체
 - [프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드](/blog/prompt-engineering/prompt-engineering-for-doctors/)
 - [멀티턴 대화 설계 — 긴 케이스 논의를 이어가는 법](/blog/prompt-engineering/multi-turn-dialogue/)
 - [출력 형식 제어 — 표·리스트·SOAP 노트로 받는 법](/blog/prompt-engineering/output-format-control/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

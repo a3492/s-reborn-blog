@@ -102,6 +102,3 @@ Vanderbilt의 EHR 기반 자살 위험 예측 모델은 AUC 0.84를 기록했고
 - [의료 챗봇 플랫폼 비교: 환자 상담 자동화](/blog/ai-tools/medical-chatbot-platforms/)
 - [ChatGPT 의료용 버전: 의사들의 평가](/blog/ai-tools/chatgpt-medical-review/)
 - [의료 문서 관리 AI: 차트 정리에서 청구까지](/blog/ai-tools/medical-documentation-ai/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

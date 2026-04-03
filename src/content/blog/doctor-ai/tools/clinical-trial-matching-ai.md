@@ -103,6 +103,3 @@ Tempus One 매칭 결과 (5분):
 - [의료 영상 AI: Lunit vs Aidoc vs Qure.ai 임상 현장 비교](/doctor-ai/tools/medical-imaging-ai)
 - [약물 상호작용 검사 AI: Lexi-Interact vs Epocrates vs Micromedex](/doctor-ai/tools/drug-interaction-ai)
 - [진료 기록 자동 전사 AI: Nuance DAX vs Nabla vs Abridge](/doctor-ai/tools/clinical-note-transcription)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

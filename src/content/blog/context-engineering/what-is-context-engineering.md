@@ -133,6 +133,3 @@ AI에게 이 컨텍스트를 제대로 제공하지 않으면, 답변은 항상 
 - [프롬프트 vs 컨텍스트 — 무엇이 다르고 왜 둘 다 필요한가](/blog/context-engineering/prompt-vs-context/)
 - [컨텍스트 윈도우 전략 — 제한된 공간을 최대로 쓰는 법](/blog/context-engineering/context-window-strategy/)
 - [프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드](/blog/prompt-engineering/prompt-engineering-for-doctors/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

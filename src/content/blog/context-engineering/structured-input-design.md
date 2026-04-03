@@ -114,6 +114,3 @@ SOAP 노트는 의료에서 가장 널리 쓰이는 기록 형식이다. 이를 
 - [컨텍스트 엔지니어링이란 — 프롬프트를 넘어서는 AI 활용의 다음 단계](/blog/context-engineering/what-is-context-engineering/)
 - [컨텍스트 압축 기법 — 적은 토큰으로 더 많은 정보 전달](/blog/context-engineering/context-compression/)
 - [EMR 데이터를 AI 컨텍스트로 변환하는 법](/blog/context-engineering/emr-context-extraction/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

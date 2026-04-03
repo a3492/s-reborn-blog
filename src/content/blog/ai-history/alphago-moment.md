@@ -106,6 +106,3 @@ AlphaGo의 충격은 의료계에도 직접 영향을 미쳤다.
 - [2012 ImageNet의 충격 — AlexNet이 딥러닝 시대를 열다](/blog/ai-history/deep-learning-revolution-2012)
 - [한국 AI 개발의 역사 — ETRI에서 뷰노·루닛까지](/blog/ai-history/korea-ai-history)
 - [의료 AI 60년사 — MYCIN에서 ChatGPT까지](/blog/ai-history/medical-ai-history)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

@@ -211,6 +211,3 @@ LLM은 기본적으로 답을 생성하려는 경향이 있다. 이것을 억제
 - [AI 환각(Hallucination) — LLM은 왜 거짓말을 하는가](/blog/ai/ai-hallucination-why-llm-lies/)
 - [RAG란 무엇인가 — 외부 지식을 LLM에 연결하는 법](/blog/ai/what-is-rag/)
 - [프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드](/blog/ai/prompt-engineering-for-doctors/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

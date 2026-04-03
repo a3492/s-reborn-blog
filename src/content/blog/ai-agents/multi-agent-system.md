@@ -184,6 +184,3 @@ if msg.confidence < 0.7:
 - [의료 워크플로우 에이전트 설계 — 외래 보조 AI 만들기](/blog/ai-agents/medical-workflow-agent)
 - [에이전트 계획 패턴 — ReAct, CoT, Tree-of-Thought](/blog/ai-agents/agent-planning-patterns)
 - [의료 에이전트 안전 설계 — AI가 실수해도 괜찮은 시스템](/blog/ai-agents/agent-safety-medical)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

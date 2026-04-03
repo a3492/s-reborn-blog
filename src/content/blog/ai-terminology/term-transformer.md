@@ -71,6 +71,3 @@ draft: false
 - [Attention 메커니즘 — '주의'라는 인지과학 개념을 AI에 가져온 이유](/blog/ai-terminology/term-attention)
 - [LLM — Large Language Model에서 '대형'과 '언어'가 의미하는 것](/blog/ai-terminology/term-llm)
 - [딥러닝 — Hinton이 의도적으로 선택한 브랜딩 전략](/blog/ai-terminology/term-deep-learning)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

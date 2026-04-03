@@ -123,6 +123,3 @@ CKD+DM 환자에서 신장·심혈관 보호 효과 확인.
 - [EMR 데이터를 AI 컨텍스트로 변환하는 법](/blog/context-engineering/emr-context-extraction/)
 - [가이드라인 주입 전략 — 최신 근거를 AI에게 먹이는 법](/blog/context-engineering/guideline-injection/)
 - [RAG와 컨텍스트 — 외부 지식을 실시간으로 AI에 연결하는 법](/blog/context-engineering/rag-for-medical-ai/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

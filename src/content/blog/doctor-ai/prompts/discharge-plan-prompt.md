@@ -169,6 +169,3 @@ AI 입력 전 확인:
 - [AI로 작성하는 진단서 프롬프트 3종](/doctor-ai/prompts/diagnostic-report-prompt)
 - [건강검진 결과 설명 AI 프롬프트: 환자 맞춤 해석](/doctor-ai/prompts/health-screening-prompt)
 - [자가주사 안내문 AI 프롬프트: 인슐린·GLP-1·생물학적 제제](/doctor-ai/prompts/injection-instructions-prompt)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

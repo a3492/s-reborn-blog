@@ -144,6 +144,3 @@ metainf(m, pooled = "random")
 - [체계적 문헌고찰 AI 자동화 — 6개월 작업을 2주로 줄이는 법](/blog/clinical-research/systematic-review-ai)
 - [의료 AI 논문을 비판적으로 읽는 법 — TRIPOD-AI 체크리스트](/blog/clinical-research/statistical-methods-ai-studies)
 - [RCT 설계에서 AI 활용 — 설계부터 무작위 배정까지](/blog/clinical-research/rct-design-ai)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

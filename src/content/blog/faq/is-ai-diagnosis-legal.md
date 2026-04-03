@@ -63,6 +63,3 @@ AI는 "진단 보조"로만 쓸 수 있고, 최종 진단은 반드시 면허를
 - [AI가 진단을 틀렸을 때 책임은 누구 것인가?](/blog/faq/who-is-responsible-for-ai-error/)
 - [AI가 생성한 진료기록은 합법인가?](/blog/faq/is-ai-generated-medical-record-legal/)
 - [환자한테 'AI가 진단했다'고 말해야 하나?](/blog/faq/should-tell-patient-about-ai/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

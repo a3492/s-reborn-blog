@@ -107,6 +107,3 @@ Sword Health는 원격 물리치료에서 기존 대면 치료 대비 비열등 
 - [소아과 AI 성장 모니터링: 발달 이상 조기 발견](/blog/ai-tools/pediatrics-ai-growth/)
 - [의료 영상 AI 도구 비교: 2026년 현장 가이드](/blog/ai-tools/medical-imaging-ai-tools/)
 - [의료 AI 클라우드 vs 온프레미스: 병원 IT 선택 가이드](/blog/ai-tools/medical-ai-cloud-vs-onprem/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

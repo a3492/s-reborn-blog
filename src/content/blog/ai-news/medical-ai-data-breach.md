@@ -71,6 +71,3 @@ draft: false
 - [의료기관 사이버 보안과 AI: 공격과 방어](/blog/ai-news/healthcare-cybersecurity-ai/)
 - [의료 AI 임상시험 과제, 환자 데이터 활용의 법적 경계](/blog/ai-news/ai-clinical-trial-ethics/)
 - [의료 AI 윤리 위원회: 왜 필요하고 어떻게 운영하나](/blog/ai-news/medical-ai-ethics-committee/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

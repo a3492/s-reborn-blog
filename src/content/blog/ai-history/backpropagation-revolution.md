@@ -102,6 +102,3 @@ draft: false
 - [2012 ImageNet의 충격 — AlexNet이 딥러닝 시대를 열다](/blog/ai-history/deep-learning-revolution-2012)
 - [퍼셉트론의 꿈과 첫 번째 AI 겨울](/blog/ai-history/perceptron-and-first-ai-winter)
 - [스케일링 법칙 — 모델을 크게 만들수록 왜 똑똑해지는가](/blog/ai-history/llm-scaling-law)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

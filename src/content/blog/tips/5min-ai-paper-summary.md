@@ -132,6 +132,3 @@ DAPA-HF 연구(Dapagliflozin in Heart Failure)를 넣었을 때의 출력.
 - [5분 안에: 새로운 의료 가이드라인을 AI로 정리하기](/blog/tips/5min-ai-guideline-summary)
 - [5분 안에: 증례보고서를 AI로 작성하기](/blog/tips/5min-ai-case-report)
 - [5분 안에: 컨퍼런스 발표 슬라이드를 AI로 만들기](/blog/tips/5min-ai-presentation-slides)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

@@ -188,6 +188,3 @@ FDA도 2021년 AI/ML 기반 SaMD 행동 계획(Action Plan)에서 Predetermined 
 - [AI 환각(Hallucination): 의료 현장에서 왜 위험한가](/blog/doctor-ai/fundamentals/ai-hallucination-medical/)
 - [AI 환각 검증 5단계: 의료 현장 실전 프로토콜](/blog/doctor-ai/fundamentals/ai-hallucination-prevention/)
 - [의료 AI 신뢰도 지표: 민감도, 특이도, AUC를 임상에서 읽는 법](/blog/doctor-ai/fundamentals/ai-reliability-metrics/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

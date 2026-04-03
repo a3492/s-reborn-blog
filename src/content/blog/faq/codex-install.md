@@ -113,6 +113,3 @@ codex "이 파일에서 TODO 주석을 모두 찾아줘"
 - [Codex 비용은 어떻게 되나요?](/blog/faq/codex-cost) — API 요금 구조
 
 [← FAQ 전체 보기](/blog/category/faq)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

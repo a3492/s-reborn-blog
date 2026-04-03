@@ -75,6 +75,3 @@ AI attention 메커니즘은 이와 구조적으로 같다. 수백 페이지의 
 - [Transformer — 논문 저자들이 이 이름을 고른 진짜 이유](/blog/ai-terminology/term-transformer)
 - [임베딩 — '삽입'이라는 수학 개념이 AI의 핵심어가 된 이유](/blog/ai-terminology/term-embedding)
 - [LLM — Large Language Model에서 '대형'과 '언어'가 의미하는 것](/blog/ai-terminology/term-llm)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

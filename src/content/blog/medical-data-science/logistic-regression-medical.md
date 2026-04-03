@@ -171,6 +171,3 @@ hoslem.test(train_data$readmit, fitted(model), g = 10)
 - [임상 예측 모델 만들기 — AUROC 0.8이 의미하는 것](/blog/medical-data-science/clinical-prediction-model)
 - [생존 분석 기초 — Kaplan-Meier를 임상 연구에서 읽는 법](/blog/medical-data-science/survival-analysis-basics)
 - [성향점수 매칭 — 관찰 연구에서 인과관계를 추론하는 법](/blog/medical-data-science/propensity-score-matching)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

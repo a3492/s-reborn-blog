@@ -117,6 +117,3 @@ AI는 학습한 병원의 영상 장비, 환자 인구통계와 다른 환경에
 
 - [GPT-4o의 의료 성능: 2026년 최신 벤치마크 정리](/blog/ai-news/openai-gpt4-medical/)
 - [삼성서울병원 AI 전략: 국내 최대 규모 의료 AI 도입](/blog/ai-news/samsung-healthcare-ai/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

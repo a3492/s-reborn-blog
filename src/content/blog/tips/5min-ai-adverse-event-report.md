@@ -136,6 +136,3 @@ DRESS(Drug Reaction with Eosinophilia and Systemic Symptoms)
 - [5분 안에: 진료 후 처방약 AI로 검토하기](/blog/tips/5min-ai-prescription-review)
 - [5분 안에: AI로 감별진단 순서 정하기](/blog/tips/5min-ai-differential-diagnosis)
 - [5분 안에: 새로운 의료 가이드라인을 AI로 정리하기](/blog/tips/5min-ai-guideline-summary)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

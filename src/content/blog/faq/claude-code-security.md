@@ -85,6 +85,3 @@ Claude Code에 넣기 전, 해당 코드에 실제 민감 정보가 하드코딩
 - [API 키 없이 Claude Code를 쓸 수 있나요?](/blog/faq/claude-code-without-api-key) — 데이터 보안이 더 중요하다면 로컬 대안 고려
 
 [← FAQ 전체 보기](/blog/category/faq)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

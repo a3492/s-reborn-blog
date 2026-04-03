@@ -139,6 +139,3 @@ AI 출력:
 - [5분 안에: 진료기록을 AI로 자동 정리하기](/blog/tips/5min-ai-clinical-notes)
 - [5분 안에: 환자 설명을 AI로 쉽게 만들기](/blog/tips/5min-ai-patient-explanation)
 - [5분 안에: 환자 질문에 대한 답변을 AI로 준비하기](/blog/tips/5min-ai-patient-qna)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

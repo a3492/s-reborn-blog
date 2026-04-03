@@ -174,6 +174,3 @@ Consensus, Elicit 같은 의료 특화 RAG 도구가 이 방식을 사용한다.
 - [설명 가능한 AI(XAI): 의사가 AI 판단을 이해할 수 있을까?](/blog/doctor-ai/fundamentals/ai-explainability/)
 - [AI 모델 업데이트 위험: 어제의 정답이 오늘 달라진다](/blog/doctor-ai/fundamentals/ai-model-updates-risk/)
 - [AI 환각(Hallucination) — LLM은 왜 거짓말을 하는가](/blog/ai/ai-hallucination-why-llm-lies/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

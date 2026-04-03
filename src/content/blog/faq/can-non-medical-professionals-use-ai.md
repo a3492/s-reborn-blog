@@ -66,6 +66,3 @@ type: "faq"
 - [AI가 진단해도 법적으로 괜찮은가?](/blog/faq/is-ai-diagnosis-legal/)
 - [환자한테 'AI가 진단했다'고 말해야 하나?](/blog/faq/should-tell-patient-about-ai/)
 - [AI가 진단을 틀렸을 때 책임은 누구 것인가?](/blog/faq/who-is-responsible-for-ai-error/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

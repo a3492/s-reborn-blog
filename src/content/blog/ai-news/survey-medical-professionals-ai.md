@@ -71,6 +71,3 @@ AI 사용에 대한 우려사항(복수 응답): 환각(hallucination) 위험 67
 - [삼성서울병원 AI 전략: 국내 최대 규모 의료 AI 도입 현황](/blog/ai-news/samsung-healthcare-ai/)
 - [FDA 승인 의료 AI 도구, 작년 대비 40% 증가](/blog/ai-news/fda-ai-approval-trend/)
 - [AI 결합 원격진료: 농어촌 의료 격차 해소의 현실과 한계](/blog/ai-news/telehealth-ai-rural-areas/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

@@ -195,6 +195,3 @@ renv::restore()  # 다른 환경에서 동일 버전 복원
 - [R vs Python — 의사가 선택하는 기준](/blog/medical-data-science/r-vs-python-for-doctors)
 - [결측 데이터 처리 — 의료 데이터에서 가장 흔한 문제](/blog/medical-data-science/missing-data-handling)
 - [AI로 논문 쓰기 — Methods부터 Discussion까지 단계별 가이드](/blog/clinical-research/ai-paper-writing)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

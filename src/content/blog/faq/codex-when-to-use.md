@@ -93,6 +93,3 @@ Claude.ai의 PDF 업로드 분석, NotebookLM의 소스 기반 답변 등 전문
 - [Codex CLI와 Cursor는 어떻게 다른가요?](/blog/faq/codex-vs-cursor) — GUI vs CLI 비교
 
 [← FAQ 전체 보기](/blog/category/faq)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

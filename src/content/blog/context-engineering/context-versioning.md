@@ -150,5 +150,3 @@ Step 5: 검증 및 배포
 - [컨텍스트 품질 평가 — 좋은 컨텍스트인지 어떻게 아는가](/blog/context-engineering/context-evaluation-methods)
 - [컨텍스트와 개인정보 보호 — 환자 데이터를 AI에 넣어도 되는가](/blog/context-engineering/context-safety-privacy)
 - [의료 AI 컨텍스트 설계 체크리스트 — 실전 20항목](/blog/context-engineering/context-engineering-checklist)
-
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

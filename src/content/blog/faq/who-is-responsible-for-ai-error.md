@@ -63,6 +63,3 @@ AI 오진의 법적 책임은 원칙적으로 AI 출력을 검토·채택한 의
 - [AI가 생성한 진료기록은 합법인가?](/blog/faq/is-ai-generated-medical-record-legal/)
 - [환자 동의 없이 AI로 진단해도 되나?](/blog/faq/patient-consent-for-medical-ai/)
 - [환자한테 'AI가 진단했다'고 말해야 하나?](/blog/faq/should-tell-patient-about-ai/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

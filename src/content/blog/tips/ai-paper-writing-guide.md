@@ -278,6 +278,3 @@ IRB와 저자권
 - [진료실에서 AI를 쓰는 7가지 방법 — 실전 사용기](/blog/ai/ai-in-clinic-real-use-cases/)
 - [RAG란 무엇인가 — 외부 지식을 LLM에 연결하는 법](/blog/ai/what-is-rag/)
 - [Doctor AI — 전공의 교육과 연구를 위한 AI 활용](/doctor-ai/fundamentals/15-ai-for-resident-education-and-research.html)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

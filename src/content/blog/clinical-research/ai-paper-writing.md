@@ -128,6 +128,3 @@ ICMJE(국제의학저널편집인위원회)는 2023년 저자 기준(authorship 
 - [AI로 문헌 검색하기 — PubMed에서 Perplexity까지](/blog/clinical-research/literature-search-ai)
 - [체계적 문헌고찰 AI 자동화 — 6개월 작업을 2주로 줄이는 법](/blog/clinical-research/systematic-review-ai)
 - [IRB와 AI 연구 — 동의서에 AI 사용을 어떻게 명시할까](/blog/clinical-research/irb-ai-research)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

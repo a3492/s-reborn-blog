@@ -67,6 +67,3 @@ AI 기반 사이버 보안 솔루션 도입 효과(Ponemon 조사, 648개 의료
 - [의료 AI 데이터 유출: 최근 사례와 대응](/blog/ai-news/medical-ai-data-breach/)
 - [의료 AI 윤리 위원회: 왜 필요하고 어떻게 운영하나](/blog/ai-news/medical-ai-ethics-committee/)
 - [의료 AI 도입 비용: 현실적인 투자 계획](/blog/ai-news/medical-ai-investment-cost/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

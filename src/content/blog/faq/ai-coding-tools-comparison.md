@@ -103,6 +103,3 @@ Claude Code와 Codex는 터미널 CLI, Cursor와 GitHub Copilot은 에디터 통
 - [Codex와 Claude Code 중 어떤 게 나을까요?](/blog/faq/codex-vs-claude-code) — 두 CLI 도구 집중 비교
 
 [← FAQ 전체 보기](/blog/category/faq)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

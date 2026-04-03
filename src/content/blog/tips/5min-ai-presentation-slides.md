@@ -133,6 +133,3 @@ IMRAD 구조(Introduction-Methods-Results-Discussion)를 기반으로
 
 - [5분 안에: 의료 AI 최신 뉴스 자동 구독 설정](/blog/tips/5min-ai-news-subscription/)
 - [GPT-4o의 의료 성능: 2026년 최신 벤치마크 정리](/blog/ai-news/openai-gpt4-medical/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

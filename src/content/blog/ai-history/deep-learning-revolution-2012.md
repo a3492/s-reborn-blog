@@ -118,6 +118,3 @@ AlexNet 이후 3년:
 - [역전파의 재발견 — Hinton이 AI를 다시 살린 방법](/blog/ai-history/backpropagation-revolution)
 - [AlphaGo의 순간 — 이세돌 4국, AI가 인간을 이긴 날의 의미](/blog/ai-history/alphago-moment)
 - [멀티모달 AI의 역사 — 텍스트에서 이미지·소리까지](/blog/ai-history/multimodal-ai-history)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

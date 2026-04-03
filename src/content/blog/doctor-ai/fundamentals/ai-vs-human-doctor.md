@@ -185,6 +185,3 @@ AI가 "이상 없음"이라 했을 때 퇴원시켰다면 급사 위험
 - [설명 가능한 AI(XAI): 의사가 AI 판단을 이해할 수 있을까?](/blog/doctor-ai/fundamentals/ai-explainability/)
 - [AI 환각(Hallucination): 의료 현장에서 왜 위험한가](/blog/doctor-ai/fundamentals/ai-hallucination-medical/)
 - [의료 AI 규제 환경: 한국·미국·유럽 3개국 비교](/blog/doctor-ai/fundamentals/medical-ai-regulation/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

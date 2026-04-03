@@ -121,6 +121,3 @@ O: 주요 심혈관 사건(MACE) 감소 또는 심혈관 사망
 - [체계적 문헌고찰 AI 자동화 — 6개월 작업을 2주로 줄이는 법](/blog/clinical-research/systematic-review-ai)
 - [메타분석 기초 — Forest Plot 직접 만들고 해석하기](/blog/clinical-research/meta-analysis-basics)
 - [AI로 논문 쓰기 — 윤리 기준과 실전 가이드](/blog/clinical-research/ai-paper-writing)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

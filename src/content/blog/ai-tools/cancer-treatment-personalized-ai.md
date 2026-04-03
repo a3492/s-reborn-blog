@@ -107,6 +107,3 @@ Memorial Sloan Kettering Cancer Center(MSKCC)의 임상 데이터로 훈련된 W
 - [병리학용 AI: 슬라이드 분석 자동화](/blog/ai-tools/pathology-ai-analysis/)
 - [영상의학과용 AI 플랫폼: PACS 연동 시스템](/blog/ai-tools/radiology-ai-platforms/)
 - [AI 환각(Hallucination) — LLM은 왜 거짓말을 하는가](/blog/ai/ai-hallucination-why-llm-lies/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

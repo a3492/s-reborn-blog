@@ -96,6 +96,3 @@ codex "작성한 코드 전체에 타입 힌트 추가해줘"
 - [Cursor와 Claude Code는 어떻게 다른가요?](/blog/faq/claude-code-cursor) — Cursor 관련 Claude 쪽 FAQ
 
 [← FAQ 전체 보기](/blog/category/faq)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

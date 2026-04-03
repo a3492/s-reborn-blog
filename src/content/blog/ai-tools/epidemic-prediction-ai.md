@@ -90,6 +90,3 @@ X 특정 국가의 질병 발생률을 AI 추정치로만 판단
 - [의료 AI 앱 5종 비교: Glass Health부터 Ada Health까지](/blog/ai-tools/medical-ai-apps-comparison/)
 - [의료기관용 AI: 클라우드 vs 온프레미스](/blog/ai-tools/medical-ai-cloud-vs-onprem/)
 - [의료 챗봇 플랫폼: 환자 상담용 AI 비교](/blog/ai-tools/medical-chatbot-platforms/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

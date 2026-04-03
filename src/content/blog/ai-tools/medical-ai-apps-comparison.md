@@ -135,6 +135,3 @@ X Glass Health 치료 계획을 검증 없이 그대로 사용
 - [ChatGPT 의료용 버전: 의사들의 평가](/blog/ai-tools/chatgpt-medical-review/)
 - [Google Gemini 의료 분석: 가격 대비 성능](/blog/ai-tools/gemini-medical-review/)
 - [약물 상호작용 검사 AI 도구 순위](/blog/ai-tools/drug-interaction-tools-rank/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

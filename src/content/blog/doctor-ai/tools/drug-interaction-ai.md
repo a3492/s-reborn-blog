@@ -116,6 +116,3 @@ Epocrates 결과:
 - [처방 검토 AI 프롬프트: 다제약물 상호작용 확인](/doctor-ai/prompts/prescription-review-prompt)
 - [ICD 코딩 AI: 진단코드 자동 입력으로 청구 정확도 높이기](/doctor-ai/tools/icd-coding-ai)
 - [진료 기록 자동 전사 AI: Nuance DAX vs Nabla vs Abridge](/doctor-ai/tools/clinical-note-transcription)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

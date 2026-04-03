@@ -124,6 +124,3 @@ draft: false
 - [의료 AI 60년사 — MYCIN에서 ChatGPT까지](/blog/ai-history/medical-ai-history)
 - [ChatGPT 출시 100일 — 의료계가 가장 먼저 반응한 이유](/blog/ai-history/chatgpt-launch-impact)
 - [2030년 AI는 어디까지 갈까 — 전문가 예측과 의사를 위한 준비](/blog/ai-history/future-of-ai-2030)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

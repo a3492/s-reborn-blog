@@ -78,6 +78,3 @@ WHO 보고서의 주요 수치:
 - [EU AI Act 의료 AI 규제 강화, 한국은?](/blog/ai-news/eu-ai-act-medical/)
 - [의료 AI 윤리 위원회, 국내 대형 병원 절반만 설치](/blog/ai-news/medical-ai-ethics-committee/)
 - [AI 환각(Hallucination) — LLM은 왜 거짓말을 하는가](/blog/ai/ai-hallucination-why-llm-lies/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

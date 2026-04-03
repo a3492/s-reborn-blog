@@ -137,6 +137,3 @@ Red flag 있으면 즉시 응급 평가 필요 여부를 먼저 명시해 주세
 - [Chain-of-Thought 프롬프팅 — 진단 추론에 적용하기](/blog/prompt-engineering/chain-of-thought-medical/)
 - [외래 의사의 프롬프트 라이브러리 30선](/blog/prompt-engineering/prompt-library-clinic/)
 - [환각 억제 프롬프트](/blog/prompt-engineering/hallucination-prevention-prompts/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

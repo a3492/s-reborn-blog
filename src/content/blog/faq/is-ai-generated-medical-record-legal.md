@@ -72,6 +72,3 @@ AI 생성 의무기록이 심평원 심사를 통과하려면:
 - [AI가 진단을 틀렸을 때 책임은 누구 것인가?](/blog/faq/who-is-responsible-for-ai-error/)
 - [환자 데이터가 유출되면 어떻게 되나?](/blog/faq/patient-data-breach-consequences/)
 - [환자 동의 없이 AI로 진단해도 되나?](/blog/faq/patient-consent-for-medical-ai/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

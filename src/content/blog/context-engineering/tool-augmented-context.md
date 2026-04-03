@@ -111,6 +111,3 @@ AI 내부:
 - [RAG와 컨텍스트 — 외부 지식을 실시간으로 AI에 연결하는 법](/blog/context-engineering/rag-for-medical-ai/)
 - [구조화된 입력 설계 — AI에게 정보를 전달하는 최적의 형식](/blog/context-engineering/structured-input-design/)
 - [컨텍스트 엔지니어링이란 — 프롬프트를 넘어서는 AI 활용의 다음 단계](/blog/context-engineering/what-is-context-engineering/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

@@ -153,6 +153,3 @@ AI 출력 후 반드시 의사/간호사가 개인화해야 할 내용:
 - [처방 검토 AI 프롬프트: 다제약물 상호작용 확인](/doctor-ai/prompts/prescription-review-prompt)
 - [AI로 작성하는 퇴원 계획 프롬프트](/doctor-ai/prompts/discharge-plan-prompt)
 - [건강검진 결과 설명 AI 프롬프트: 환자 맞춤 해석](/doctor-ai/prompts/health-screening-prompt)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

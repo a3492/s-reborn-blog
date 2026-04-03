@@ -104,6 +104,3 @@ platform.openai.com → Usage → Limits에서 월 지출 한도를 설정한다
 - [Claude Code 비용은?](/blog/faq/claude-code-cost) — Anthropic API 요금 비교
 
 [← FAQ 전체 보기](/blog/category/faq)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

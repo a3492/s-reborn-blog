@@ -149,5 +149,3 @@ AI가 비현실적인 용량을 제시하는 것을 방지하기 위해, 주요 
 - [임상 의사결정 지원을 위한 컨텍스트 설계](/blog/context-engineering/context-for-clinical-decision)
 - [컨텍스트와 개인정보 보호 — 환자 데이터를 AI에 넣어도 되는가](/blog/context-engineering/context-safety-privacy)
 - [컨텍스트 품질 평가 — 좋은 컨텍스트인지 어떻게 아는가](/blog/context-engineering/context-evaluation-methods)
-
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

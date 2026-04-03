@@ -234,6 +234,3 @@ def run_outpatient_agent(patient_data: dict) -> dict:
 - [AI 에이전트란 — 챗봇과 무엇이 다른가](/blog/ai-agents/what-is-ai-agent)
 - [의료 에이전트 안전 설계 — AI가 실수해도 괜찮은 시스템](/blog/ai-agents/agent-safety-medical)
 - [멀티에이전트 시스템 — 여러 AI가 협력하는 의료 팀](/blog/ai-agents/multi-agent-system)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

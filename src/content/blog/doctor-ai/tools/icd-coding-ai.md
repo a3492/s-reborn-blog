@@ -110,6 +110,3 @@ type: "review"
 - [진료 기록 자동 전사 AI: Nuance DAX vs Nabla vs Abridge](/doctor-ai/tools/clinical-note-transcription)
 - [처방 검토 AI 프롬프트: 다제약물 상호작용 확인](/doctor-ai/prompts/prescription-review-prompt)
 - [약물 상호작용 검사 AI: Lexi-Interact vs Epocrates vs Micromedex](/doctor-ai/tools/drug-interaction-ai)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

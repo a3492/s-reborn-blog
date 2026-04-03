@@ -113,6 +113,3 @@ Claude Code와 동일하게 여러 번 주고받을 수 있다.
 - [Codex 비용은 어떻게 되나요?](/blog/faq/codex-cost) — 얼마나 드는지
 
 [← FAQ 전체 보기](/blog/category/faq)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

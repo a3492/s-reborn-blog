@@ -372,6 +372,3 @@ KCD 코드 + 주요 처치 코드 + 자주 누락되는 추가 청구 항목
 - [프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드](/blog/prompt-engineering/prompt-engineering-for-doctors/)
 - [감별진단 프롬프트 완전 가이드](/blog/prompt-engineering/differential-diagnosis-prompt/)
 - [환자 교육 자료 프롬프트](/blog/prompt-engineering/prompt-for-patient-education/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

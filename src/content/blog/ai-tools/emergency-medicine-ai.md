@@ -90,6 +90,3 @@ X AI 미도입 환경에서 수동 계산 없이 판단
 - [영상의학과 AI 플랫폼: PACS 연동 시스템](/blog/ai-tools/radiology-ai-platforms/)
 - [의료 영상 AI 도구 비교: Lunit부터 Zebra Medical까지](/blog/ai-tools/medical-imaging-ai-tools/)
 - [의료 AI 앱 5종 비교: Glass Health부터 Ada Health까지](/blog/ai-tools/medical-ai-apps-comparison/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

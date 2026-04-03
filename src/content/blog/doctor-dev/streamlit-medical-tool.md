@@ -170,6 +170,3 @@ st.line_chart(df.set_index("날짜"))
 - [Claude API 첫 호출 — 10줄 코드로 의료 AI 만들기](/blog/doctor-dev/api-first-call)
 - [의료 AI 도구 배포 — 병원에서 쓸 수 있게 만드는 법](/blog/doctor-dev/deploy-medical-ai-tool)
 - [Python으로 프롬프트 엔지니어링 — 반복 작업 자동화](/blog/doctor-dev/prompt-engineering-python)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

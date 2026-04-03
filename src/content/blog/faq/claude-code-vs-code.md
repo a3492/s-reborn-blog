@@ -94,6 +94,3 @@ VS Code Marketplace에는 Claude 관련 확장이 있다. 공식 Anthropic의 Cl
 - [CLI와 IDE 연동 중 어떤 게 좋을까요?](/blog/faq/claude-code-cli-vs-ide) — 어떤 방식이 내 상황에 맞는지
 
 [← FAQ 전체 보기](/blog/category/faq)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

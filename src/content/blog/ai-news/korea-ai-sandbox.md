@@ -71,6 +71,3 @@ draft: false
 - [EU AI Act 의료 분야 적용: 고위험 분류 기준](/blog/ai-news/eu-ai-act-medical/)
 - [FDA 승인 의료 AI 도구, 작년 대비 40% 증가](/blog/ai-news/fda-ai-approval-trend/)
 - [의료 AI 임상시험 과제, 환자 데이터 활용의 법적 경계](/blog/ai-news/ai-clinical-trial-ethics/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

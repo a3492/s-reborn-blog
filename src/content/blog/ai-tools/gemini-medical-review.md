@@ -106,6 +106,3 @@ X Google 무료 버전에 환자 개인정보 입력
 - [Claude 의료용 평가: 윤리성과 정확도 중심](/blog/ai-tools/claude-medical-review/)
 - [의료 AI 앱 5종 비교: Glass Health부터 Ada Health까지](/blog/ai-tools/medical-ai-apps-comparison/)
 - [의료기관용 AI: 클라우드 vs 온프레미스](/blog/ai-tools/medical-ai-cloud-vs-onprem/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

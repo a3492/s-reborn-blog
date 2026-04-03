@@ -73,6 +73,3 @@ WHO 가이드라인이 권고하는 AI 윤리위원회의 핵심 기능:
 - [의료 AI 임상시험 과제, 환자 데이터 활용의 법적 경계](/blog/ai-news/ai-clinical-trial-ethics/)
 - [의료 AI 데이터 유출: 최근 사례와 대응](/blog/ai-news/medical-ai-data-breach/)
 - [의료진 AI 사용 실태 조사: 2026년 현황](/blog/ai-news/survey-medical-professionals-ai/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

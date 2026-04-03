@@ -107,6 +107,3 @@ AI는 학습 데이터에 내재된 편향을 그대로 반영한다 — 백인 
 - [AI 윤리와 의료: 의료진이 알아야 할 4가지 윤리 문제](/blog/doctor-ai/fundamentals/ai-ethics-healthcare/)
 - [의료 AI의 신뢰도 지표: 민감도, 특이도, AUC](/blog/doctor-ai/fundamentals/ai-reliability-metrics/)
 - [설명 가능한 AI(Explainable AI): 의사가 AI 판단을 이해할 수 있을까?](/blog/doctor-ai/fundamentals/ai-explainability/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

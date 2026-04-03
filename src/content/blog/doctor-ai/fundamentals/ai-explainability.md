@@ -161,6 +161,3 @@ CNN에서는 Grad-CAM이 잘 작동하지만, Transformer 계열에서는 Attent
 - [의료 AI 신뢰도 지표: 민감도, 특이도, AUC를 임상에서 읽는 법](/blog/doctor-ai/fundamentals/ai-reliability-metrics/)
 - [AI가 의사를 대체할 수 없는 이유: 5가지 핵심 차이](/blog/doctor-ai/fundamentals/ai-vs-human-doctor/)
 - [의료 AI 규제 환경: 한국·미국·유럽 3개국 비교](/blog/doctor-ai/fundamentals/medical-ai-regulation/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

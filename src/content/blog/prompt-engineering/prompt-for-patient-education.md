@@ -151,6 +151,3 @@ AI가 만든 환자 교육 자료를 배포 전 확인할 항목:
 - [프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드](/blog/prompt-engineering/prompt-engineering-for-doctors/)
 - [출력 형식 제어 — 표·리스트·SOAP 노트로 받는 법](/blog/prompt-engineering/output-format-control/)
 - [외래 의사의 프롬프트 라이브러리 30선](/blog/prompt-engineering/prompt-library-clinic/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

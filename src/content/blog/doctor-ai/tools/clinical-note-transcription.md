@@ -123,6 +123,3 @@ P (Plan):
 - [처방 검토 AI 프롬프트: 다제약물 상호작용 확인](/doctor-ai/prompts/prescription-review-prompt)
 - [약물 상호작용 검사 AI: Lexi-Interact vs Epocrates vs Micromedex](/doctor-ai/tools/drug-interaction-ai)
 - [ICD 코딩 AI: 진단코드 자동 입력으로 청구 정확도 높이기](/doctor-ai/tools/icd-coding-ai)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

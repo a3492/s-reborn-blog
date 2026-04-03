@@ -144,6 +144,3 @@ Lab: WBC 11,200, Hb 11.8, ESR 68, CRP 5.4, LDH 380,
 - [응급실 급성 복통 케이스](/blog/doctor-ai/cases/acute-abdominal-pain-case)
 - [진단서 작성 프롬프트](/blog/doctor-ai/prompts/diagnostic-report-prompt)
 - [의료 영상 AI 도구](/blog/doctor-ai/tools/medical-imaging-ai)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

@@ -94,6 +94,3 @@ $5~$10를 충전하고 시작해보자. 어떤 작업에 얼마나 들지 감을
 - [Cursor와 Claude Code는 어떻게 다른가요?](/blog/faq/claude-code-cursor) — 비용 포함 전체 비교
 
 [← FAQ 전체 보기](/blog/category/faq)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

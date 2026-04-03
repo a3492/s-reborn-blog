@@ -152,5 +152,3 @@ AI 컨텍스트에 사용된 데이터는 목적 달성 후 즉시 삭제한다.
 - [컨텍스트 엔지니어링이란 — 프롬프트를 넘어서는 AI 활용의 다음 단계](/blog/context-engineering/what-is-context-engineering)
 - [컨텍스트 버전 관리 — 가이드라인이 바뀌면 AI도 바뀌어야 한다](/blog/context-engineering/context-versioning)
 - [의료 AI 컨텍스트 설계 체크리스트 — 실전 20항목](/blog/context-engineering/context-engineering-checklist)
-
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

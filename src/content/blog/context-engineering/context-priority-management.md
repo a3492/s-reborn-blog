@@ -116,6 +116,3 @@ thumbnail: ""
 - [컨텍스트 압축 기법 — 적은 토큰으로 더 많은 정보 전달](/blog/context-engineering/context-compression/)
 - [컨텍스트 윈도우 전략 — 제한된 공간을 최대로 쓰는 법](/blog/context-engineering/context-window-strategy/)
 - [멀티소스 컨텍스트 — EMR·가이드라인·논문을 동시에 활용하는 법](/blog/context-engineering/multi-source-context/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

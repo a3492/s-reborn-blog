@@ -153,6 +153,3 @@ King - Man + Woman ≈ Queen
 - [RAG란 무엇인가 — 외부 지식을 LLM에 연결하는 법](/blog/ai/what-is-rag/)
 - [토큰이란 무엇인가 — LLM의 언어 단위 이해하기](/blog/ai/what-is-token-llm/)
 - [파인튜닝 vs RAG — 의료 AI를 맞춤화하는 두 가지 방법](/blog/ai/fine-tuning-vs-rag/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

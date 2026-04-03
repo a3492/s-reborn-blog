@@ -127,6 +127,3 @@ AI도 마찬가지다. 막연한 질문에는 막연한 답을, 구조화된 질
 - RAG란 무엇인가 — 외부 지식을 LLM에 연결하는 법
 - [AI로 의학 논문 쓰는 법 — 전공의를 위한 가이드](/blog/ai/ai-paper-writing-guide/)
 - [Doctor AI — Prompts 시리즈: 외래에서 바로 쓰는 프롬프트](/doctor-ai/prompts/home.html)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

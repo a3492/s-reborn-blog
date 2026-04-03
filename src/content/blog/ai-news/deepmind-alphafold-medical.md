@@ -78,6 +78,3 @@ AF3의 주요 성능 지표:
 - [의약품 개발 AI, 신약 개발 기간 50% 단축](/blog/ai-news/drug-development-ai/)
 - [의료 AI 특허, 2026년 1월 기준 누적 1만 건 돌파](/blog/ai-news/medical-ai-patents-milestone/)
 - [메타, AI 의료 분야 투자 확대... 미래는?](/blog/ai-news/meta-healthcare-ai-investment/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

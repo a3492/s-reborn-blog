@@ -154,6 +154,3 @@ UKPDS (UK Prospective Diabetes Study)는 제2형 당뇨병 환자 5,102명을 10
 - [로지스틱 회귀 — 입원 예측 모델 만드는 법](/blog/medical-data-science/logistic-regression-medical)
 - [R vs Python — 의사가 선택하는 기준](/blog/medical-data-science/r-vs-python-for-doctors)
 - [메타분석 기초 — Forest Plot을 직접 만들고 해석하기](/blog/clinical-research/meta-analysis-basics)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

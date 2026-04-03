@@ -165,6 +165,3 @@ patient_metabolic_summary("김철수", 78, 172, 118)
 - [Claude API 첫 호출 — 10줄 코드로 의료 AI 만들기](/blog/doctor-dev/api-first-call)
 - [Pandas로 임상 데이터 분석 — Excel을 Python으로 대체하는 법](/blog/doctor-dev/pandas-for-clinical-data)
 - [Python으로 반복 업무 자동화 — 의사의 일상을 코드로](/blog/doctor-dev/automation-with-python)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

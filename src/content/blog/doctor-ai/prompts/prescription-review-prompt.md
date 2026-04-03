@@ -167,6 +167,3 @@ AI가 자주 놓치는 것:
 - [약물 상호작용 검사 AI: Lexi-Interact vs Epocrates vs Micromedex](/doctor-ai/tools/drug-interaction-ai)
 - [자가주사 안내문 AI 프롬프트: 인슐린·GLP-1·생물학적 제제](/doctor-ai/prompts/injection-instructions-prompt)
 - [AI로 작성하는 퇴원 계획 프롬프트](/doctor-ai/prompts/discharge-plan-prompt)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

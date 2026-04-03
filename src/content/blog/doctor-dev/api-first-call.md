@@ -150,6 +150,3 @@ client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 - [Python 기초 — 의사를 위한 첫 번째 코딩 수업](/blog/doctor-dev/python-basics-for-doctors)
 - [Python으로 프롬프트 엔지니어링 — 반복 작업 자동화](/blog/doctor-dev/prompt-engineering-python)
 - [Streamlit으로 의료 도구 만들기 — 코딩 없이 UI 구현](/blog/doctor-dev/streamlit-medical-tool)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

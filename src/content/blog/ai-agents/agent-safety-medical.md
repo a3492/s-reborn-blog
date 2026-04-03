@@ -228,6 +228,3 @@ def safe_tool_call(tool_name: str, inputs: dict,
 - [의료 워크플로우 에이전트 설계 — 외래 보조 AI 만들기](/blog/ai-agents/medical-workflow-agent)
 - [Tool Use와 함수 호출 — AI가 외부 세계와 연결되는 방법](/blog/ai-agents/tool-use-function-calling)
 - [의료 에이전트 평가 — 정확도보다 중요한 안전성 측정법](/blog/ai-agents/agent-evaluation-medical)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

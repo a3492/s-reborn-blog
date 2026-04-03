@@ -264,6 +264,3 @@ Expert Determination 방법:
 - [의료 AI 규제 환경: 한국·미국·유럽 3개국 비교](/blog/doctor-ai/fundamentals/medical-ai-regulation/)
 - [AI가 의사를 대체할 수 없는 이유: 5가지 핵심 차이](/blog/doctor-ai/fundamentals/ai-vs-human-doctor/)
 - [설명 가능한 AI(XAI): 의사가 AI 판단을 이해할 수 있을까?](/blog/doctor-ai/fundamentals/ai-explainability/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

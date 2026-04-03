@@ -73,6 +73,3 @@ GPT-3의 공식 파라미터 수는 1750억(175B)이다. 이것은 신경망의 
 - [신경망 — 뇌를 모방한다는 은유의 탄생](/blog/ai-terminology/term-neural-network)
 - [파인튜닝 — '미세조정'이라는 이름의 정확성](/blog/ai-terminology/term-fine-tuning)
 - [딥러닝 — Hinton이 의도적으로 선택한 브랜딩 전략](/blog/ai-terminology/term-deep-learning)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

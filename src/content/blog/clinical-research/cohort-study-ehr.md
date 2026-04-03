@@ -131,6 +131,3 @@ matched_data <- match.data(m.out)
 - [IRB와 AI 연구 — 동의서에 AI 사용을 어떻게 명시할까](/blog/clinical-research/irb-ai-research)
 - [의료 AI 논문을 비판적으로 읽는 법 — TRIPOD-AI 체크리스트](/blog/clinical-research/statistical-methods-ai-studies)
 - [메타분석 기초 — Forest Plot 직접 만들고 해석하기](/blog/clinical-research/meta-analysis-basics)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

@@ -131,6 +131,3 @@ type: "legal"
 - [의료 AI 동의서: 어떻게 만들어야 하나?](/blog/regulations/medical-ai-consent-form-template/)
 - [한국 의료법과 AI 진단: 법적 책임의 경계](/blog/regulations/korean-medical-law-ai/)
 - [의료 사고와 AI: 책임은 누가 질까?](/blog/regulations/medical-malpractice-ai-liability/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

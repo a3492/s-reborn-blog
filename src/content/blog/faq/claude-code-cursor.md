@@ -82,6 +82,3 @@ Claude Code는 Anthropic API를 직접 사용한다. API 키에 연결된 모델
 - [Claude Code 비용은 어떻게 되나요?](/blog/faq/claude-code-cost) — Cursor vs Claude Code 비용 비교
 
 [← FAQ 전체 보기](/blog/category/faq)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

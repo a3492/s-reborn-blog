@@ -106,6 +106,3 @@ draft: false
 - [퍼셉트론의 꿈과 첫 번째 AI 겨울](/blog/ai-history/perceptron-and-first-ai-winter)
 - [역전파의 재발견 — Hinton이 AI를 다시 살린 방법](/blog/ai-history/backpropagation-revolution)
 - [의료 AI 60년사 — MYCIN에서 ChatGPT까지](/blog/ai-history/medical-ai-history)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

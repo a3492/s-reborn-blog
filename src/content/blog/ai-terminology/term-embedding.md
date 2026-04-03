@@ -81,6 +81,3 @@ AI 연구자들이 이 과정을 "embedding"이라고 부른 이유는 수학적
 - [토큰 — LLM의 언어 단위가 '토큰'이 된 유래](/blog/ai-terminology/term-token)
 - [Attention 메커니즘 — '주의'라는 인지과학 개념을 AI에 가져온 이유](/blog/ai-terminology/term-attention)
 - [RAG — Retrieval-Augmented Generation이라는 이름에 담긴 아이디어](/blog/ai-terminology/term-rag)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

@@ -93,6 +93,3 @@ IBM Watson for Oncology는 의료 AI 역사상 가장 유명한 실패 사례다
 
 - [삼성서울병원 AI 전략: 국내 최대 규모 의료 AI 도입](/blog/ai-news/samsung-healthcare-ai/)
 - [의료진 AI 사용 실태 조사 2026: 찬성 76%, 그러나...](/blog/ai-news/survey-medical-professionals-ai/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

@@ -66,6 +66,3 @@ type: "faq"
 - [환자한테 'AI가 진단했다'고 말해야 하나?](/blog/faq/should-tell-patient-about-ai/)
 - [환자 데이터가 유출되면 어떻게 되나?](/blog/faq/patient-data-breach-consequences/)
 - [한국 병원이 유럽 GDPR을 신경 써야 하나?](/blog/faq/medical-ai-gdpr-compliance/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

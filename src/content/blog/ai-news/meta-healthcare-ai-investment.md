@@ -116,6 +116,3 @@ LLaMA를 병원에 설치하고 운영하려면 MLOps 엔지니어 또는 데이
 
 - [GPT-4o의 의료 성능: 2026년 최신 벤치마크 정리](/blog/ai-news/openai-gpt4-medical/)
 - [의료 AI 특허 출원, 역대 최고 기록 — 누가 주도하는가](/blog/ai-news/medical-ai-patents-milestone/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

@@ -74,6 +74,3 @@ FDA는 2022년 AI/ML 기반 의료기기의 편향 평가를 위한 가이던스
 - [의료 AI의 정확도는 몇 퍼센트?](/blog/faq/medical-ai-accuracy-percentage/)
 - [의료 AI와 AI 윤리: 뭐가 다른가?](/blog/faq/medical-ai-ethics-difference/)
 - [어느 AI가 가장 정확한가?](/blog/faq/which-ai-is-most-accurate/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

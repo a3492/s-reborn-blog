@@ -123,6 +123,3 @@ R의 파이프 문법은 의사가 읽기 더 쉽다는 평이 많다.
 - [생존 분석 기초 — Kaplan-Meier를 임상 연구에서 읽는 법](/blog/medical-data-science/survival-analysis-basics)
 - [재현 가능한 연구 — R Markdown과 Quarto로 분석 보고서 만들기](/blog/medical-data-science/reproducible-research)
 - [의료 데이터 시각화 — 논문 Figure 수준 그래프 만들기](/blog/medical-data-science/data-visualization-medical)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

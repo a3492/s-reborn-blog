@@ -214,6 +214,3 @@ Doctor AI Academy 프롬프트 모음 → [의무기록·소견서 프롬프트]
 - [진료실에서 AI를 쓰는 7가지 방법 — 실전 사용기](/blog/ai/ai-in-clinic-real-use-cases/)
 - [프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드](/blog/ai/prompt-engineering-for-doctors/)
 - [AI 논문 작성 가이드 — 구조 잡기부터 초안까지](/blog/ai/ai-paper-writing-guide/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

@@ -142,6 +142,3 @@ AI에게 "고혈압 치료법을 알려줘"라고 하면 교과서 전체를 요
 - [역할 설정 프롬프팅 — AI를 전문의처럼 만드는 법](/blog/prompt-engineering/role-prompting-medical/)
 - [시스템 프롬프트 설계 — 병원 AI 어시스턴트 만들기](/blog/prompt-engineering/system-prompt-design/)
 - [환각 억제 프롬프트](/blog/prompt-engineering/hallucination-prevention-prompts/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

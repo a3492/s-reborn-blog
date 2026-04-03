@@ -107,6 +107,3 @@ X 실제 환자 이름, 생년월일, 병록번호를 포함한 입력
 - [Google Gemini 의료 분석: 가격 대비 성능](/blog/ai-tools/gemini-medical-review/)
 - [AI 환각(Hallucination) — LLM은 왜 거짓말을 하는가](/blog/ai/ai-hallucination-why-llm-lies/)
 - [의료 문서 관리 AI: 차트 정리에서 일관성까지](/blog/ai-tools/medical-documentation-ai/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

@@ -189,6 +189,3 @@ ggsave(
 - [R vs Python — 의사가 선택하는 기준](/blog/medical-data-science/r-vs-python-for-doctors)
 - [메타분석 기초 — Forest Plot을 직접 만들고 해석하기](/blog/clinical-research/meta-analysis-basics)
 - [성향점수 매칭 — 관찰 연구에서 인과관계를 추론하는 법](/blog/medical-data-science/propensity-score-matching)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

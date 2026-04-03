@@ -132,6 +132,3 @@ P: 1. Esomeprazole 40mg qd × 4주
 - [5분 안에: 환자 상담 기록을 AI로 정리하기](/blog/tips/5min-ai-counseling-notes)
 - [5분 안에: AI로 감별진단 순서 정하기](/blog/tips/5min-ai-differential-diagnosis)
 - [5분 안에: 퇴원 환자용 생활지도를 AI로 만들기](/blog/tips/5min-ai-discharge-instructions)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

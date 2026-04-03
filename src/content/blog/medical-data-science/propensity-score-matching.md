@@ -165,6 +165,3 @@ PSM과 IPTW가 통제할 수 없는 것이 unmeasured confounding이다.
 - [EMR 기반 코호트 연구 — 대규모 데이터로 빠르게 연구하는 법](/blog/clinical-research/cohort-study-ehr)
 - [로지스틱 회귀 — 입원 예측 모델 만드는 법](/blog/medical-data-science/logistic-regression-medical)
 - [생존 분석 기초 — Kaplan-Meier를 임상 연구에서 읽는 법](/blog/medical-data-science/survival-analysis-basics)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

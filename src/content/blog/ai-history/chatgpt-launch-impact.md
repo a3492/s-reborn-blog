@@ -114,6 +114,3 @@ JAMA의 2023년 4월 사설은 의과대학 교수진이 AI 시대에 교육 방
 - [GPT-1에서 GPT-4까지 — OpenAI는 어떻게 세계를 바꿨나](/blog/ai-history/gpt-history)
 - [의료 AI 60년사 — MYCIN에서 ChatGPT까지](/blog/ai-history/medical-ai-history)
 - [한국 AI 개발의 역사 — ETRI에서 뷰노·루닛까지](/blog/ai-history/korea-ai-history)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

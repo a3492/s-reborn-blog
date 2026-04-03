@@ -123,6 +123,3 @@ AI는 대화 맥락을 유지하지만, 긴 대화에서는 앞 내용을 잊거
 - [시스템 프롬프트 설계 — 병원 AI 어시스턴트 만들기](/blog/prompt-engineering/system-prompt-design/)
 - [Chain-of-Thought 프롬프팅 — 진단 추론에 적용하기](/blog/prompt-engineering/chain-of-thought-medical/)
 - [반복 개선 프롬프팅 — 첫 답변을 더 좋게 만드는 법](/blog/prompt-engineering/iterative-prompting/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

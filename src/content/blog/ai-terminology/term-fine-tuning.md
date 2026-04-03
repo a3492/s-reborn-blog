@@ -81,6 +81,3 @@ PEFT(Parameter-Efficient Fine-Tuning): LoRA를 포함한 여러 파라미터 효
 - [파라미터 — 175B 파라미터는 무엇을 세는 숫자인가](/blog/ai-terminology/term-parameter)
 - [프롬프트 — 연극 무대에서 AI로 온 단어의 여정](/blog/ai-terminology/term-prompt)
 - [RAG — Retrieval-Augmented Generation이라는 이름에 담긴 아이디어](/blog/ai-terminology/term-rag)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

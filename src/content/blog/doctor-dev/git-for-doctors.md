@@ -207,6 +207,3 @@ git tag -a v1.0 -m "NEJM 논문 제출 버전"
 - [의료 AI 도구 배포 — 개인 사용부터 병원 도입까지](/blog/doctor-dev/deploy-medical-ai-tool)
 - [의료 에이전트 평가 — 안전성 측정이 정확도보다 중요한 이유](/blog/ai-agents/agent-evaluation-medical)
 - [RAG — Retrieval-Augmented Generation이라는 이름에 담긴 아이디어](/blog/ai-terminology/term-rag)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

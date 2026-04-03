@@ -164,6 +164,3 @@ model.fit(X_train, y_train)  # NaN 포함 가능
 - [임상 예측 모델 만들기 — AUROC 0.8이 의미하는 것](/blog/medical-data-science/clinical-prediction-model)
 - [EMR 데이터 이해하기 — 구조화·비구조화 데이터의 차이](/blog/medical-data-science/emr-data-basics)
 - [재현 가능한 연구 — R Markdown과 Quarto로 분석 보고서 만들기](/blog/medical-data-science/reproducible-research)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

@@ -122,6 +122,3 @@ STEMI 프로토콜에 따른 초기 처치와 PCI 재시행 여부를 판단해 
 - [컨텍스트 엔지니어링이란](/blog/context-engineering/what-is-context-engineering/)
 - [컨텍스트 윈도우 전략 — 제한된 공간을 최대로 쓰는 법](/blog/context-engineering/context-window-strategy/)
 - [구조화된 입력 설계 — AI에게 정보를 전달하는 최적의 형식](/blog/context-engineering/structured-input-design/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

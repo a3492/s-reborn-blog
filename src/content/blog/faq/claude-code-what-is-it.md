@@ -77,6 +77,3 @@ $ claude
 - [Claude Code 비용은 어떻게 되나요?](/blog/faq/claude-code-cost) — 무료인지, 얼마나 드는지
 
 [← FAQ 전체 보기](/blog/category/faq)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

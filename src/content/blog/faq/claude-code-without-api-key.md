@@ -93,6 +93,3 @@ $5로 어느 정도 쓸 수 있는지 먼저 파악한 후, 더 쓸지 판단하
 - [Cursor와 Claude Code는 어떻게 다른가요?](/blog/faq/claude-code-cursor) — 무료 대안인 Cursor 비교
 
 [← FAQ 전체 보기](/blog/category/faq)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

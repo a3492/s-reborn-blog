@@ -134,6 +134,3 @@ AI 출력 (발췌):
 - [5분 안에: 퇴원 환자용 생활지도를 AI로 만들기](/blog/tips/5min-ai-discharge-instructions)
 - [5분 안에: 환자 건강검진 결과를 AI로 설명하기](/blog/tips/5min-ai-health-screening-explanation)
 - [5분 안에: 환자 질문에 대한 답변을 AI로 준비하기](/blog/tips/5min-ai-patient-qna)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

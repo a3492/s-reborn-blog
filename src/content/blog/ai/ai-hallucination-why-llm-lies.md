@@ -143,6 +143,3 @@ AI가 제시하는 용량, 수치, 기준값은 100% 교차 확인한다. 특히
 - [프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드](/blog/ai/prompt-engineering-for-doctors/)
 - [토큰이란 무엇인가 — LLM의 언어 단위 이해하기](/blog/ai/what-is-token-llm/)
 - [LLM의 컨텍스트 윈도우, 의사처럼 이해하기](/blog/ai/llm-context-window-explained/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

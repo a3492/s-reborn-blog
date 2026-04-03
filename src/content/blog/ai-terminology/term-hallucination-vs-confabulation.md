@@ -96,6 +96,3 @@ LLM이 오류를 만드는 과정을 살펴보자.
 - [LLM — Large Language Model에서 '대형'과 '언어'가 의미하는 것](/blog/ai-terminology/term-llm)
 - [RAG — Retrieval-Augmented Generation이라는 이름에 담긴 아이디어](/blog/ai-terminology/term-rag)
 - [의료 에이전트 평가 — 안전성 측정이 정확도보다 중요한 이유](/blog/ai-agents/agent-evaluation-medical)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

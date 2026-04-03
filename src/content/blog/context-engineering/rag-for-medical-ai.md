@@ -99,6 +99,3 @@ RAG의 가장 큰 약점은 "Garbage In, Garbage Out"이 두 번 적용된다는
 - [가이드라인 주입 전략 — 최신 근거를 AI에게 먹이는 법](/blog/context-engineering/guideline-injection/)
 - [멀티소스 컨텍스트 — EMR·가이드라인·논문을 동시에 활용하는 법](/blog/context-engineering/multi-source-context/)
 - [컨텍스트 윈도우 전략 — 제한된 공간을 최대로 쓰는 법](/blog/context-engineering/context-window-strategy/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

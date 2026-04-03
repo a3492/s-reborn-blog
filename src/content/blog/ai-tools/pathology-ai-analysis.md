@@ -92,6 +92,3 @@ IT 인프라 (서버, 스토리지):       3천만~1억 원
 - [의료 영상 AI 도구 비교: 2026년 현장 가이드](/blog/ai-tools/medical-imaging-ai-tools/)
 - [영상의학과 AI 플랫폼: PACS 연동 시스템 비교](/blog/ai-tools/radiology-ai-platforms/)
 - [의료 AI 클라우드 vs 온프레미스: 병원 IT 선택 가이드](/blog/ai-tools/medical-ai-cloud-vs-onprem/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

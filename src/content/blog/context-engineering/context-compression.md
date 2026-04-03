@@ -122,6 +122,3 @@ thumbnail: ""
 - [컨텍스트 윈도우 전략 — 제한된 공간을 최대로 쓰는 법](/blog/context-engineering/context-window-strategy/)
 - [컨텍스트 우선순위 관리 — 무엇을 넣고 무엇을 뺄 것인가](/blog/context-engineering/context-priority-management/)
 - [구조화된 입력 설계 — AI에게 정보를 전달하는 최적의 형식](/blog/context-engineering/structured-input-design/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

@@ -131,6 +131,3 @@ RAG = 전자차트 + 프로토콜 북을 옆에 둔 일반의
 - [AI 환각 — LLM은 왜 거짓말을 하는가](/blog/ai/ai-hallucination-why-llm-lies/)
 - [프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드](/blog/ai/prompt-engineering-for-doctors/)
 - [토큰이란 무엇인가 — LLM의 언어 단위 이해하기](/blog/ai/what-is-token-llm/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

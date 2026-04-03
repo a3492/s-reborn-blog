@@ -110,6 +110,3 @@ Graph RAG (Microsoft, 2024): 단순 문서가 아닌 지식 그래프(Knowledge 
 - [LLM — Large Language Model에서 '대형'과 '언어'가 의미하는 것](/blog/ai-terminology/term-llm)
 - [환각 vs 작화증 — AI 오류를 의학 용어로 정확하게 부르는 법](/blog/ai-terminology/term-hallucination-vs-confabulation)
 - [의료 에이전트 평가 — 안전성 측정이 정확도보다 중요한 이유](/blog/ai-agents/agent-evaluation-medical)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

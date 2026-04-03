@@ -136,6 +136,3 @@ Step 4 — 최종 선택
 
 - [5분 안에: 건강검진 결과 AI로 설명 자료 만들기](/blog/tips/5min-ai-health-screening-explanation/)
 - [의료진 AI 사용 실태 조사 2026: 찬성 76%, 그러나...](/blog/ai-news/survey-medical-professionals-ai/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

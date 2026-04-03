@@ -269,6 +269,3 @@ def rag_agent(clinical_question: str) -> str:
 - [에이전트 메모리 — AI가 이전 대화를 기억하는 4가지 방법](/blog/ai-agents/agent-memory-types)
 - [Claude Agent SDK — Anthropic의 에이전트 프레임워크 시작하기](/blog/ai-agents/claude-agent-sdk-intro)
 - [의료 에이전트 평가 — 정확도보다 중요한 안전성 측정법](/blog/ai-agents/agent-evaluation-medical)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

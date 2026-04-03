@@ -71,6 +71,3 @@ draft: false
 - [딥러닝 — Hinton이 의도적으로 선택한 브랜딩 전략](/blog/ai-terminology/term-deep-learning)
 - [파라미터 — 175B 파라미터는 무엇을 세는 숫자인가](/blog/ai-terminology/term-parameter)
 - [인공지능 — 존 매카시가 이 단어를 고른 이유](/blog/ai-terminology/term-artificial-intelligence)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

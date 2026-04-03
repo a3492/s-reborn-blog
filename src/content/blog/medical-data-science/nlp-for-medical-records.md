@@ -162,6 +162,3 @@ GPT-4는 Few-shot 예시만 주면 비교적 정확하게 구조화한다. 단, 
 - [EMR 데이터 이해하기 — 구조화·비구조화 데이터의 차이](/blog/medical-data-science/emr-data-basics)
 - [재현 가능한 연구 — R Markdown과 Quarto로 분석 보고서 만들기](/blog/medical-data-science/reproducible-research)
 - [IRB와 AI 연구 — AI를 쓰는 임상 연구에서 동의서를 어떻게 쓸까](/blog/clinical-research/irb-ai-research)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

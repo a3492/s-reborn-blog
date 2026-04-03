@@ -111,6 +111,3 @@ P: CBC/CRP/복부초음파 시행, 외과 consult
 - [프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드](/blog/prompt-engineering/prompt-engineering-for-doctors/)
 - [Chain-of-Thought 프롬프팅 — 진단 추론에 적용하기](/blog/prompt-engineering/chain-of-thought-medical/)
 - [출력 형식 제어 — 표·리스트·SOAP 노트로 받는 법](/blog/prompt-engineering/output-format-control/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

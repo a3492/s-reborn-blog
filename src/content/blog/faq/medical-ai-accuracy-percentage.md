@@ -81,6 +81,3 @@ Google DeepMind의 유방암 스크리닝 AI (2020 Nature Medicine 발표):
 - [어느 AI가 가장 정확한가?](/blog/faq/which-ai-is-most-accurate/)
 - [의료 AI가 특정 인종이나 성별에게 불공평한가?](/blog/faq/is-medical-ai-biased/)
 - [AI가 환자 진료를 완전히 대체할 수 있을까?](/blog/faq/will-ai-replace-doctors/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

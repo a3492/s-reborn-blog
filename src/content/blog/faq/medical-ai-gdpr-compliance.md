@@ -71,6 +71,3 @@ EU 환자 진료 시 사용하는 AI 플랫폼이 EU 표준계약조항(SCC) 또
 - [환자 데이터가 유출되면 어떻게 되나?](/blog/faq/patient-data-breach-consequences/)
 - [환자 동의 없이 AI로 진단해도 되나?](/blog/faq/patient-consent-for-medical-ai/)
 - [의료 AI와 AI 윤리: 뭐가 다른가?](/blog/faq/medical-ai-ethics-difference/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

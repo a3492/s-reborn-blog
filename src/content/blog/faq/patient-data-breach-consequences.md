@@ -65,6 +65,3 @@ type: "faq"
 - [환자 동의 없이 AI로 진단해도 되나?](/blog/faq/patient-consent-for-medical-ai/)
 - [한국 병원이 유럽 GDPR을 신경 써야 하나?](/blog/faq/medical-ai-gdpr-compliance/)
 - [AI가 진단을 틀렸을 때 책임은 누구 것인가?](/blog/faq/who-is-responsible-for-ai-error/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

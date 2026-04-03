@@ -162,6 +162,3 @@ Format requirements:
 - [AI로 작성하는 퇴원 계획 프롬프트](/doctor-ai/prompts/discharge-plan-prompt)
 - [건강검진 결과 설명 AI 프롬프트: 환자 맞춤 해석](/doctor-ai/prompts/health-screening-prompt)
 - [처방 검토 AI 프롬프트: 다제약물 상호작용 확인](/doctor-ai/prompts/prescription-review-prompt)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

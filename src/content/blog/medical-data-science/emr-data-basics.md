@@ -153,6 +153,3 @@ ORDER BY p.subject_id, l.charttime;
 - [의무기록 텍스트 분석 — NLP로 비구조화 데이터 다루기](/blog/medical-data-science/nlp-for-medical-records)
 - [EMR 기반 코호트 연구 — 대규모 데이터로 빠르게 연구하는 법](/blog/clinical-research/cohort-study-ehr)
 - [결측 데이터 처리 — 의료 데이터에서 가장 흔한 문제](/blog/medical-data-science/missing-data-handling)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

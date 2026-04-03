@@ -80,6 +80,3 @@ MASAI 연구 핵심 데이터 (Lancet Oncology, 2025)
 - [Nature 논문: AI 진단이 인간 의사와 같은 수준 도달](/blog/ai-news/nature-ai-diagnosis-study/)
 - [FDA 승인 의료 AI 도구, 작년 대비 40% 증가](/blog/ai-news/fda-ai-approval-trend/)
 - [AI 환각(Hallucination) — LLM은 왜 거짓말을 하는가](/blog/ai/ai-hallucination-why-llm-lies/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

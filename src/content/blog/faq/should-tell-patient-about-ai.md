@@ -65,6 +65,3 @@ type: "faq"
 - [환자 동의 없이 AI로 진단해도 되나?](/blog/faq/patient-consent-for-medical-ai/)
 - [AI가 진단을 틀렸을 때 책임은 누구 것인가?](/blog/faq/who-is-responsible-for-ai-error/)
 - [의료 AI와 AI 윤리: 뭐가 다른가?](/blog/faq/medical-ai-ethics-difference/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

@@ -129,6 +129,3 @@ AI는 McBurney 압통이라는 전형적 소견에 가중치를 과도하게 부
 - [다제약물 복용 환자 AI 검토](/blog/doctor-ai/cases/polypharmacy-review-ai)
 - [약물 상호작용 검사 AI 도구](/blog/doctor-ai/tools/drug-interaction-ai)
 - [처방 검토 프롬프트](/blog/doctor-ai/prompts/prescription-review-prompt)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

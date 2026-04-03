@@ -119,6 +119,3 @@ Step 4 — 출력물 활용
 
 - [5분 안에: 환자 FAQ 응답 템플릿 AI로 만들기](/blog/tips/5min-ai-patient-qna/)
 - [GPT-4o의 의료 성능: 2026년 최신 벤치마크 정리](/blog/ai-news/openai-gpt4-medical/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

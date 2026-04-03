@@ -204,6 +204,3 @@ def plan_and_execute(goal: str) -> str:
 - [AI 에이전트란 — 챗봇과 무엇이 다른가](/blog/ai-agents/what-is-ai-agent)
 - [멀티에이전트 시스템 — 여러 AI가 협력하는 의료 팀](/blog/ai-agents/multi-agent-system)
 - [의료 에이전트 평가 — 정확도보다 중요한 안전성 측정법](/blog/ai-agents/agent-evaluation-medical)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

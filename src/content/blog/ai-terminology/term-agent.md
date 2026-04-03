@@ -81,6 +81,3 @@ AutoGPT, LangChain agents, Claude의 tool use — 이것들이 현재의 LLM 에
 - [프롬프트 — 연극 무대에서 AI로 온 단어의 여정](/blog/ai-terminology/term-prompt)
 - [RAG — Retrieval-Augmented Generation이라는 이름에 담긴 아이디어](/blog/ai-terminology/term-rag)
 - [인공지능 — 존 매카시가 이 단어를 고른 이유](/blog/ai-terminology/term-artificial-intelligence)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

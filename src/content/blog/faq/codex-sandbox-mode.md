@@ -91,6 +91,3 @@ Claude Code에는 공식적인 샌드박스 모드가 없다. 파일 수정 전 
 - [Codex와 Claude Code 중 어떤 게 나을까요?](/blog/faq/codex-vs-claude-code) — 보안 관점 도구 비교
 
 [← FAQ 전체 보기](/blog/category/faq)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

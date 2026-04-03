@@ -99,6 +99,3 @@ AI 도구 비용 (Suki): 약 14만 원/월
 - [진료 기록용 음성 인식 AI 비교: Otter vs Clova vs Whisper](/blog/ai-tools/voice-transcription-comparison/)
 - [의료 챗봇 플랫폼 비교: 환자 상담 자동화](/blog/ai-tools/medical-chatbot-platforms/)
 - [ChatGPT 의료용 버전: 의사들의 평가](/blog/ai-tools/chatgpt-medical-review/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

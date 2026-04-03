@@ -203,6 +203,3 @@ store_patient_memory(
 - [RAG + 에이전트 — 의료 가이드라인 기반 AI 어시스턴트](/blog/ai-agents/rag-agent-medical)
 - [의료 에이전트 안전 설계 — AI가 실수해도 괜찮은 시스템](/blog/ai-agents/agent-safety-medical)
 - [AI 에이전트란 — 챗봇과 무엇이 다른가](/blog/ai-agents/what-is-ai-agent)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

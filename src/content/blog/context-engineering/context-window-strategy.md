@@ -150,6 +150,3 @@ After (구조화 요약)
 - [컨텍스트 엔지니어링이란](/blog/context-engineering/what-is-context-engineering/)
 - [컨텍스트 압축 기법 — 적은 토큰으로 더 많은 정보 전달](/blog/context-engineering/context-compression/)
 - [LLM의 컨텍스트 윈도우, 의사처럼 이해하기](/blog/ai/llm-context-window-explained/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

@@ -140,6 +140,3 @@ AI는 이 환자를 BCLC Stage A (조기)로 분류했다.
 - [의료 영상 AI 도구](/blog/doctor-ai/tools/medical-imaging-ai)
 - [임상시험 매칭 AI](/blog/doctor-ai/tools/clinical-trial-matching-ai)
 - [퇴원 계획 프롬프트](/blog/doctor-ai/prompts/discharge-plan-prompt)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

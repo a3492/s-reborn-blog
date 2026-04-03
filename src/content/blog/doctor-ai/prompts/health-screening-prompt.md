@@ -156,6 +156,3 @@ LDL 콜레스테롤 (148 mg/dL) — 경계 높음
 - [AI로 작성하는 진단서 프롬프트 3종](/doctor-ai/prompts/diagnostic-report-prompt)
 - [AI로 작성하는 퇴원 계획 프롬프트](/doctor-ai/prompts/discharge-plan-prompt)
 - [처방 검토 AI 프롬프트: 다제약물 상호작용 확인](/doctor-ai/prompts/prescription-review-prompt)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

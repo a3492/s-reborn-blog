@@ -124,6 +124,3 @@ AI는 이 정보를 바탕으로 Title, Abstract, Introduction, Patient Informat
 - [5분 안에: 논문 초록을 AI로 요약하기](/blog/tips/5min-ai-paper-summary)
 - [5분 안에: 컨퍼런스 발표 슬라이드를 AI로 만들기](/blog/tips/5min-ai-presentation-slides)
 - [5분 안에: 의료 에러(Adverse Event)를 AI로 보고하기](/blog/tips/5min-ai-adverse-event-report)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

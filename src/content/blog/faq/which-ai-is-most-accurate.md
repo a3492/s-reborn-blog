@@ -79,6 +79,3 @@ USMLE(미국 의사 면허 시험) 통과 점수가 60%임을 기준으로:
 - [의료 AI의 정확도는 몇 퍼센트?](/blog/faq/medical-ai-accuracy-percentage/)
 - [의료 AI는 비용이 얼마나 드나?](/blog/faq/medical-ai-cost/)
 - [AI가 환자 진료를 완전히 대체할 수 있을까?](/blog/faq/will-ai-replace-doctors/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

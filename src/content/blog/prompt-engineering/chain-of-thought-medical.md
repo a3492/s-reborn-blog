@@ -153,6 +153,3 @@ Few-shot CoT는 추론의 깊이와 형식 모두를 통제할 수 있어 교육
 - [Zero-shot vs Few-shot 프롬프팅](/blog/prompt-engineering/zero-shot-vs-few-shot/)
 - [역할 설정 프롬프팅 — AI를 전문의처럼 만드는 법](/blog/prompt-engineering/role-prompting-medical/)
 - [환각 억제 프롬프트](/blog/prompt-engineering/hallucination-prevention-prompts/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

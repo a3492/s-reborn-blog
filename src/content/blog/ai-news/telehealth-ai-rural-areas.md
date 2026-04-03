@@ -66,6 +66,3 @@ draft: false
 - [의료진 AI 사용 실태 조사 2026: 76%가 찬성, 실제 사용률은 31%](/blog/ai-news/survey-medical-professionals-ai/)
 - [삼성서울병원 AI 전략: 국내 최대 규모 의료 AI 도입 현황](/blog/ai-news/samsung-healthcare-ai/)
 - [한국 의료 AI 규제 샌드박스: 현황과 과제](/blog/ai-news/korea-ai-sandbox/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

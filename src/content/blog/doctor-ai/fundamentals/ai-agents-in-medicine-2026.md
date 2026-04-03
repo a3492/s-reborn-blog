@@ -190,6 +190,3 @@ Level 5 — 완전 자율 (의료에서 현재 불가)
 - [AI 에이전트란 — 스스로 판단하고 행동하는 AI](/blog/ai/ai-agent-explained/) ← 이 글의 이전 편
 - [AI 환각 — LLM은 왜 거짓말을 하는가](/blog/ai/ai-hallucination-why-llm-lies/)
 - [파인튜닝 vs RAG — 의료 AI를 맞춤화하는 두 가지 방법](/blog/ai/fine-tuning-vs-rag/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

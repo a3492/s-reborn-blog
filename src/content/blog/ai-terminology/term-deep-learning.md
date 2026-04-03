@@ -112,6 +112,3 @@ Hinton은 이 상황을 타개하기 위해 새로운 이름이 필요하다고 
 - [LLM — Large Language Model에서 '대형'과 '언어'가 의미하는 것](/blog/ai-terminology/term-llm)
 - [환각 vs 작화증 — AI 오류를 의학 용어로 정확하게 부르는 법](/blog/ai-terminology/term-hallucination-vs-confabulation)
 - [RAG — Retrieval-Augmented Generation이라는 이름에 담긴 아이디어](/blog/ai-terminology/term-rag)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

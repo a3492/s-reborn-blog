@@ -96,6 +96,3 @@ claude
 - [Claude Code가 뭔가요?](/blog/faq/claude-code-what-is-it) — Claude Code 기본 개념
 
 [← FAQ 전체 보기](/blog/category/faq)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

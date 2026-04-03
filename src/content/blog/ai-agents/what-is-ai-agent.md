@@ -156,6 +156,3 @@ plan = draft_care_plan(
 - [Tool Use와 함수 호출 — AI가 외부 세계와 연결되는 방법](/blog/ai-agents/tool-use-function-calling)
 - [에이전트 계획 패턴 — ReAct, CoT, Tree-of-Thought](/blog/ai-agents/agent-planning-patterns)
 - [의료 워크플로우 에이전트 설계 — 외래 보조 AI 만들기](/blog/ai-agents/medical-workflow-agent)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

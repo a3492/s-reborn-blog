@@ -250,6 +250,3 @@ MDR 요건 + AI Act 요건 동시 충족
 - [의료 AI는 어떤 데이터로 학습하는가](/blog/doctor-ai/fundamentals/medical-ai-data-sources/)
 - [설명 가능한 AI(XAI): 의사가 AI 판단을 이해할 수 있을까?](/blog/doctor-ai/fundamentals/ai-explainability/)
 - [의료 AI 신뢰도 지표: 민감도, 특이도, AUC를 임상에서 읽는 법](/blog/doctor-ai/fundamentals/ai-reliability-metrics/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

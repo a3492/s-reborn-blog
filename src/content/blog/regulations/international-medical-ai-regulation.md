@@ -121,6 +121,3 @@ MDSAP는 미국·캐나다·브라질·호주·일본이 참여하는 단일 의
 - [한국 의료법과 AI 진단: 법적 책임의 경계](/blog/regulations/korean-medical-law-ai/)
 - [의료 AI와 규제: 어떤 AI는 의료기기이고 어떤 AI는 아닐까?](/blog/doctor-ai/fundamentals/medical-ai-regulation/)
 - [병원 AI 도입 시 준비해야 할 법적 체크리스트](/blog/regulations/hospital-ai-adoption-legal-checklist/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

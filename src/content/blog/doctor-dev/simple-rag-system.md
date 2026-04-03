@@ -158,6 +158,3 @@ def load_pdf_chunks(pdf_path: str, chunk_size: int = 500) -> list[str]:
 - [벡터 DB 입문 — 의료 지식 검색 엔진 만들기](/blog/doctor-dev/vector-db-basics)
 - [Claude API 첫 호출 — 10줄 코드로 의료 AI 만들기](/blog/doctor-dev/api-first-call)
 - [Streamlit으로 의료 도구 만들기 — 코딩 없이 UI 구현](/blog/doctor-dev/streamlit-medical-tool)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

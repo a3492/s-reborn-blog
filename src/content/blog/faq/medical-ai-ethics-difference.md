@@ -70,6 +70,3 @@ type: "faq"
 - [의료 AI가 특정 인종이나 성별에게 불공평한가?](/blog/faq/is-medical-ai-biased/)
 - [환자한테 'AI가 진단했다'고 말해야 하나?](/blog/faq/should-tell-patient-about-ai/)
 - [환자 동의 없이 AI로 진단해도 되나?](/blog/faq/patient-consent-for-medical-ai/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

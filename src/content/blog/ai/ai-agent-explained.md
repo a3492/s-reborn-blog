@@ -177,6 +177,3 @@ AI ─── MCP ─── EMR
 - [AI 환각 — LLM은 왜 거짓말을 하는가](/blog/ai/ai-hallucination-why-llm-lies/)
 - [진료실에서 AI를 쓰는 7가지 방법](/blog/ai/ai-in-clinic-real-use-cases/)
 - [AI 에이전트가 의료를 바꾸는 방법 — 2026년 현재 ↗](/blog/ai/ai-agents-in-medicine-2026/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

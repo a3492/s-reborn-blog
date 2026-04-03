@@ -147,6 +147,3 @@ A4 반 페이지 분량으로 작성해 주세요.
 - [프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드](/blog/prompt-engineering/prompt-engineering-for-doctors/)
 - [Zero-shot vs Few-shot 프롬프팅](/blog/prompt-engineering/zero-shot-vs-few-shot/)
 - [외래 의사의 프롬프트 라이브러리 30선](/blog/prompt-engineering/prompt-library-clinic/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

@@ -129,6 +129,3 @@ X 환자가 Drugs.com 결과만 보고 자의적으로 약물 중단
 - [ChatGPT 의료용 버전: 의사들의 평가](/blog/ai-tools/chatgpt-medical-review/)
 - [의료 문서 관리 AI: 차트 정리에서 일관성까지](/blog/ai-tools/medical-documentation-ai/)
 - [의료 AI 앱 5종 비교: Glass Health부터 Ada Health까지](/blog/ai-tools/medical-ai-apps-comparison/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

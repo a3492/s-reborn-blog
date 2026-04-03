@@ -95,6 +95,3 @@ codex "src/utils.py 파일의 로직을 분석해줘"
 - [Claude Code 보안 FAQ](/blog/faq/claude-code-security) — Anthropic쪽 동일 이슈 비교
 
 [← FAQ 전체 보기](/blog/category/faq)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

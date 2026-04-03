@@ -102,6 +102,3 @@ Annalise CXR 감지 소견 예시:
 - [의료 영상 AI 도구 비교: 2026년 현장 가이드](/blog/ai-tools/medical-imaging-ai-tools/)
 - [병리과 AI 분석: 디지털 병리의 현재와 미래](/blog/ai-tools/pathology-ai-analysis/)
 - [의료 AI 클라우드 vs 온프레미스: 병원 IT 선택 가이드](/blog/ai-tools/medical-ai-cloud-vs-onprem/)
-
----
-*© S-Reborn clinic | s-reborn-blog.pages.dev*

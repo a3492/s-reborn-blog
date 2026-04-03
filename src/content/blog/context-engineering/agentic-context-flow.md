@@ -152,5 +152,3 @@ HITL을 적용하는 방식은 세 가지가 있다.
 - [동적 컨텍스트 선택 — 질문에 따라 자동으로 맞는 정보 가져오기](/blog/context-engineering/dynamic-context-selection)
 - [컨텍스트와 개인정보 보호 — 환자 데이터를 AI에 넣어도 되는가](/blog/context-engineering/context-safety-privacy)
 - [컨텍스트 엔지니어링이란 — 프롬프트를 넘어서는 AI 활용의 다음 단계](/blog/context-engineering/what-is-context-engineering)
-
-*© S-Reborn clinic | s-reborn-blog.pages.dev*
