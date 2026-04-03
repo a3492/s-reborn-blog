@@ -19,20 +19,19 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #fbf7f1;
-      --ink: #1d2328;
-      --muted: #5f6870;
+      --bg: #f7f7f5;
+      --ink: #1a1f1e;
+      --muted: #5c6360;
       --brand: #155d4b;
-      --line: #ddd4c6;
-      --card: #fffdf9;
-      --accent: #bf5f2f;
+      --line: #e4e4e0;
+      --card: #ffffff;
+      --accent: #155d4b;
+      --soft: #eef4f2;
     }
 
     body {
       font-family: "Segoe UI", "Malgun Gothic", sans-serif;
-      background:
-        radial-gradient(circle at left top, #f3ead8 0, transparent 20%),
-        linear-gradient(180deg, #fbf7f1 0%, #f4ede2 100%);
+      background: var(--bg);
       color: var(--ink);
       min-height: 100vh;
     }
@@ -150,7 +149,7 @@
       box-shadow: 0 16px 48px rgba(29,35,40,0.18);
     }
     .hero-inner {
-      background: linear-gradient(135deg, #1a3050 0%, #1e4080 55%, #2563EB 100%);
+      background: linear-gradient(135deg, #0f4235 0%, #155d4b 50%, #1a7a62 100%);
       padding: 48px 52px 44px;
     }
     .label {
@@ -332,7 +331,7 @@
     .ai-output {
       background: #f8f9fb;
       border: 1px solid #d0d8e8;
-      border-left: 4px solid #2563EB;
+      border-left: 4px solid #155d4b;
       border-radius: 12px;
       padding: 14px 18px;
       margin-top: 14px;
@@ -345,7 +344,7 @@
       font-weight: 800;
       letter-spacing: 0.5px;
       text-transform: uppercase;
-      color: #2563EB;
+      color: #155d4b;
       display: block;
       margin-bottom: 8px;
       opacity: 0.8;
@@ -365,7 +364,7 @@
     /* ── Warn ── */
     .warn {
       border-left: 4px solid var(--accent);
-      background: #fbf1ea;
+      background: #eef4f2;
       border-radius: 14px;
       padding: 16px 18px;
       margin-top: 16px;
@@ -377,7 +376,7 @@
 
     /* ── Legal warning box ── */
     .legal-warn {
-      border: 2px solid #bf5f2f;
+      border: 2px solid #155d4b;
       background: #fff8f4;
       border-radius: 18px;
       padding: 20px 24px;
@@ -444,7 +443,7 @@
       content: "✓";
       position: absolute;
       left: 0;
-      color: #2563EB;
+      color: #155d4b;
       font-weight: 700;
       font-size: 14px;
       top: 1px;

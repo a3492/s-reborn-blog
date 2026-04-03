@@ -10,16 +10,16 @@
     <link rel="apple-touch-icon" href="./assets/apple-touch-icon.svg" />
     <meta name="description" content="S-Reborn의 의사용 AI 교육 시리즈와 발행 문서를 한눈에 볼 수 있는 공개용 홈 페이지" />
     <style>
-:root{--bg:#f4ede2;--paper:rgba(255,252,247,.95);--ink:#1f2a2e;--muted:#5a676c;--line:#dacfbf;--brand:#145b4b;--soft:#e7f0ec}
+:root{--bg:#f7f7f5;--paper:#ffffff;--ink:#1a1f1e;--muted:#5c6360;--line:#e4e4e0;--brand:#155d4b;--soft:#eef4f2}
 *{box-sizing:border-box}
-body{margin:0;color:var(--ink);font-family:"Segoe UI","Malgun Gothic",sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;background:radial-gradient(circle at top left,#f8dcc2 0,transparent 22%),radial-gradient(circle at top right,#e3efe9 0,transparent 24%),linear-gradient(180deg,#f4ede2 0%,#efe3d2 100%)}
+body{margin:0;color:var(--ink);font-family:"Segoe UI","Malgun Gothic",sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;background:var(--bg)}
 .wrap{max-width:1180px;margin:0 auto;padding:44px 20px 80px}
 .topnav,.hero,.panel,.card{background:var(--paper);border:1px solid var(--line);border-radius:28px;box-shadow:0 18px 44px rgba(31,42,46,.06)}
 .topnav{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:16px 18px;margin-bottom:18px}
 .brandmark{display:inline-flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;font-weight:700}
 .brandmark img{width:28px;height:28px;border-radius:8px}
 .ghost,.cta{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border-radius:999px;text-decoration:none;font-weight:700}
-.ghost{background:#f3ebde;color:var(--ink);border:1px solid var(--line)}
+.ghost{background:#f3f3f1;color:var(--ink);border:1px solid var(--line)}
 .cta{background:var(--brand);color:#fff}
 .hero{padding:42px}
 .eyebrow{display:inline-block;margin-bottom:12px;padding:6px 12px;border-radius:999px;background:var(--soft);color:var(--brand);font-size:13px;font-weight:700;letter-spacing:.04em}
@@ -34,16 +34,16 @@ h3{margin-bottom:10px;font-size:24px;line-height:1.25}
 .highlights{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
 .cards{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
 .stat,.highlight{padding:18px;border-radius:20px;border:1px solid var(--line);background:rgba(255,255,255,.58)}
-.highlight{background:#fffaf3;padding:20px}
+.highlight{background:#fafafa;padding:20px}
 .stat strong{display:block;margin-bottom:4px;font-size:28px}
 .section{margin-top:24px}
 .panel{padding:28px}
 .section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:16px}
 .section-note,.desc,.footer{color:var(--muted)}
 .card{overflow:hidden;display:flex;flex-direction:column;min-height:100%;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;text-decoration:none;color:inherit;cursor:pointer}
-.card:hover{transform:translateY(-4px);box-shadow:0 22px 48px rgba(31,42,46,.1);border-color:#cdbda9}
+.card:hover{transform:translateY(-4px);box-shadow:0 22px 48px rgba(31,42,46,.1);border-color:#d0d0cb}
 .read-hint{display:flex;align-items:center;justify-content:flex-end;gap:5px;margin-top:auto;padding-top:14px;color:var(--brand);font-size:14px;font-weight:700;}
-.thumb{position:relative;min-height:180px;padding:18px;background:radial-gradient(circle at top right,rgba(255,255,255,.35) 0,transparent 30%),linear-gradient(135deg,#145b4b 0%,#c96d2d 100%);color:#fff;display:flex;flex-direction:column;gap:8px;align-items:flex-start;justify-content:flex-end;margin-bottom:16px;background-repeat:no-repeat;overflow:hidden}
+.thumb{position:relative;min-height:180px;padding:18px;background:radial-gradient(circle at top right,rgba(255,255,255,.35) 0,transparent 30%),linear-gradient(135deg,#0f4235 0%,#155d4b 50%,#1a7a62 100%);color:#fff;display:flex;flex-direction:column;gap:8px;align-items:flex-start;justify-content:flex-end;margin-bottom:16px;background-repeat:no-repeat;overflow:hidden}
 .thumb.has-image::before{content:"";position:absolute;inset:0;background-image:var(--thumb-image);background-size:cover;background-position:center}
 .thumb.has-image::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08) 0%,rgba(0,0,0,.22) 55%,rgba(0,0,0,.62) 100%)}
 .thumb-label{display:flex;align-items:center;gap:8px;position:relative;z-index:1}
@@ -54,8 +54,8 @@ h3{margin-bottom:10px;font-size:24px;line-height:1.25}
 .meta{margin-bottom:12px}
 .tags{margin-top:16px}
 .pill,.tag{display:inline-flex;padding:6px 10px;border-radius:999px;font-size:13px}
-.pill{background:#f2ebdf;color:#38464a}
-.tag{background:#f8f2e8;border:1px solid #e7d9c7}
+.pill{background:#eef4f2;color:#3d4542}
+.tag{background:#f3f3f1;border:1px solid var(--line)}
 .seriesline{margin-bottom:10px;color:var(--brand);font-size:14px;font-weight:700}
 .link{display:inline-block;margin-top:18px;color:var(--brand);font-weight:700;text-decoration:none;text-underline-offset:3px}
 .ghost:hover,.cta:hover{filter:brightness(.98)}
@@ -66,13 +66,13 @@ h3{margin-bottom:10px;font-size:24px;line-height:1.25}
 @media (max-width:640px){.topnav{justify-content:flex-start}.hero-actions{width:100%}.ghost,.cta{width:100%}}
 
 /* ── Quiz Banner ─────────────────────────────────── */
-.quiz-banner{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:linear-gradient(135deg,#0f4235 0%,#145b4b 100%);color:#fff;padding:20px 28px;border-radius:20px;margin-top:20px;box-shadow:0 8px 28px rgba(20,91,75,.28)}
+.quiz-banner{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:linear-gradient(135deg,#0f4235 0%,#155d4b 100%);color:#fff;padding:20px 28px;border-radius:20px;margin-top:20px;box-shadow:0 8px 28px rgba(21,93,75,.28)}
 .quiz-banner-inner{display:flex;align-items:center;gap:14px}
 .quiz-icon{font-size:26px;flex-shrink:0}
 .quiz-banner-inner strong{display:block;font-size:17px;margin-bottom:3px}
 .quiz-banner-inner span{font-size:14px;opacity:.82}
-.quiz-start-btn{flex-shrink:0;padding:10px 22px;border-radius:999px;border:none;background:#fff;color:#145b4b;font-size:15px;font-weight:700;cursor:pointer;transition:all .15s}
-.quiz-start-btn:hover{background:#e7f0ec}
+.quiz-start-btn{flex-shrink:0;padding:10px 22px;border-radius:999px;border:none;background:#fff;color:#155d4b;font-size:15px;font-weight:700;cursor:pointer;transition:all .15s}
+.quiz-start-btn:hover{background:#eef4f2}
 
 /* ── Profile Bar ────────────────────────────────── */
 .profile-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--soft);border:1.5px solid #a8c9be;border-radius:20px;padding:14px 22px;margin-top:20px}
@@ -84,7 +84,7 @@ h3{margin-bottom:10px;font-size:24px;line-height:1.25}
 .retake-btn:hover{background:var(--brand);color:#fff}
 
 /* ── Recommended Card ───────────────────────────── */
-.card.is-recommended{border:2.5px solid var(--brand);box-shadow:0 0 0 4px rgba(20,91,75,.1),0 18px 44px rgba(31,42,46,.07)}
+.card.is-recommended{border:2.5px solid var(--brand);box-shadow:0 0 0 4px rgba(21,93,75,.1),0 18px 44px rgba(31,42,46,.07)}
 .rec-badge{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:999px;background:var(--brand);color:#fff;font-size:12px;font-weight:700;margin-bottom:10px}
 
 /* ── Quiz Modal ─────────────────────────────────── */
@@ -92,10 +92,10 @@ h3{margin-bottom:10px;font-size:24px;line-height:1.25}
 .quiz-modal{background:#fff;border-radius:28px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,.25)}
 .quiz-mhead{padding:26px 30px 0;display:flex;align-items:center;justify-content:space-between}
 .quiz-mtitle{font-size:18px;font-weight:700;color:var(--ink)}
-.quiz-close{width:36px;height:36px;border:none;background:#f4ede2;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0}
+.quiz-close{width:36px;height:36px;border:none;background:#f3f3f1;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0}
 .quiz-mbody{padding:22px 30px 30px}
 .quiz-step-label{font-size:13px;color:var(--muted);margin-bottom:12px}
-.quiz-prog-bar{height:5px;background:#e9e3d8;border-radius:99px;margin-bottom:20px;overflow:hidden}
+.quiz-prog-bar{height:5px;background:#e4e4e0;border-radius:99px;margin-bottom:20px;overflow:hidden}
 .quiz-prog-fill{height:100%;background:var(--brand);border-radius:99px;transition:width .3s ease}
 .quiz-q{font-size:17px;font-weight:700;line-height:1.5;color:var(--ink);margin-bottom:18px}
 .quiz-choices{display:flex;flex-direction:column;gap:9px}
@@ -591,7 +591,7 @@ h3{margin-bottom:10px;font-size:24px;line-height:1.25}
             </div>
           </a>
           <a class="card" data-card="tools" href="./16-ai-tool-comparison.html">
-            <div class="thumb" style="background:linear-gradient(135deg,#451a03 0%,#7c2d12 55%,#D97706 100%);">
+            <div class="thumb" style="background:linear-gradient(135deg,#0f4235 0%,#155d4b 50%,#1a7a62 100%);">
               <div class="thumb-label">
                 <small>article</small>
                 <strong>Tools</strong>
@@ -616,7 +616,7 @@ h3{margin-bottom:10px;font-size:24px;line-height:1.25}
             </div>
           </a>
           <a class="card" data-card="records" href="./17-ai-for-medical-records.html">
-            <div class="thumb" style="background:linear-gradient(135deg,#0f3460 0%,#16213e 55%,#1a1a2e 100%);">
+            <div class="thumb" style="background:linear-gradient(135deg,#0f4235 0%,#155d4b 50%,#1a7a62 100%);">
               <div class="thumb-label">
                 <small>article</small>
                 <strong>Records</strong>
@@ -640,7 +640,7 @@ h3{margin-bottom:10px;font-size:24px;line-height:1.25}
             </div>
           </a>
           <a class="card" data-card="ethics" href="./18-ai-and-medical-ethics.html">
-            <div class="thumb" style="background:linear-gradient(135deg,#2d1b5e 0%,#4c2a8a 55%,#7C3AED 100%);">
+            <div class="thumb" style="background:linear-gradient(135deg,#0f4235 0%,#155d4b 50%,#1a7a62 100%);">
               <div class="thumb-label">
                 <small>article</small>
                 <strong>Ethics</strong>
@@ -664,7 +664,7 @@ h3{margin-bottom:10px;font-size:24px;line-height:1.25}
             </div>
           </a>
           <a class="card" data-card="imaging" href="./19-ai-in-radiology-and-pathology.html">
-            <div class="thumb" style="background:linear-gradient(135deg,#064e3b 0%,#065f46 55%,#059669 100%);">
+            <div class="thumb" style="background:linear-gradient(135deg,#0f4235 0%,#155d4b 50%,#1a7a62 100%);">
               <div class="thumb-label">
                 <small>article</small>
                 <strong>Imaging</strong>
@@ -688,7 +688,7 @@ h3{margin-bottom:10px;font-size:24px;line-height:1.25}
             </div>
           </a>
           <a class="card" data-card="future" href="./20-doctors-role-in-ai-era.html">
-            <div class="thumb" style="background:linear-gradient(135deg,#1e3a5f 0%,#2563EB 55%,#3b82f6 100%);">
+            <div class="thumb" style="background:linear-gradient(135deg,#0f4235 0%,#155d4b 50%,#1a7a62 100%);">
               <div class="thumb-label">
                 <small>article</small>
                 <strong>Future</strong>

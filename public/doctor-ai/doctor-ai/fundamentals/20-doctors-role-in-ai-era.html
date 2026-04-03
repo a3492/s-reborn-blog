@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>10편 — AI 시대 의사의 역할 | 의사를 위한 AI</title>
   <style>
-    :root{--brand:#155d4b;--brand-d:#0d3d30;--brand-l:#e8f4ef;--bg:#f5f1eb;--surface:#fffcf7;--ink:#18212a;--muted:#4a5562;--rule:#ddd8d0;--warn:#b45309;--danger:#dc2626;--ok:#15803d;--r:12px;--r-sm:8px}
+    :root{--brand:#155d4b;--brand-d:#0f4235;--brand-l:#eef4f2;--bg:#f7f7f5;--surface:#ffffff;--ink:#1a1f1e;--muted:#5c6360;--rule:#e4e4e0;--warn:#b45309;--danger:#dc2626;--ok:#15803d;--r:12px;--r-sm:8px}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
     body{font-family:'Pretendard','Apple SD Gothic Neo',system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:18px;line-height:1.75}
     #pbar{position:fixed;top:0;left:0;height:3px;background:var(--brand);width:0%;z-index:200;transition:width .1s}
-    nav{position:sticky;top:0;z-index:100;background:rgba(255,252,247,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.5rem}
+    nav{position:sticky;top:0;z-index:100;background:rgba(247,247,245,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.5rem}
     .nav-series{font-size:13px;color:var(--muted);font-weight:600}
     .nav-title{font-size:14px;font-weight:700;color:var(--ink)}
     .nav-ep{font-size:13px;font-weight:700;color:var(--brand);background:var(--brand-l);padding:.2rem .6rem;border-radius:20px}
@@ -57,7 +57,7 @@
     .assess-label{font-size:.875rem;font-weight:700;color:var(--ink);flex:1;min-width:0}
     .assess-stars{display:flex;gap:.25rem}
     .assess-star{font-size:1.375rem;cursor:pointer;color:#d1d5db;transition:color .1s;line-height:1}
-    .assess-star.lit{color:#f59e0b}
+    .assess-star.lit{color:#155d4b}
     .assess-result{display:none;margin-top:1.25rem;padding:1.25rem;border-radius:var(--r);text-align:center}
     .assess-result.show{display:block}
     .assess-score{font-size:2rem;font-weight:900;color:var(--brand);margin-bottom:.5rem}
@@ -76,11 +76,11 @@
     .vt-item{display:flex;gap:1rem;align-items:flex-start}
     .vt-dot{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.875rem;font-weight:900;flex-shrink:0;z-index:1;border:3px solid var(--bg)}
     .vt-dot.now{background:var(--brand);color:#fff}
-    .vt-dot.near{background:#7c3aed;color:#fff}
+    .vt-dot.near{background:#1a7a62;color:#fff}
     .vt-dot.future{background:var(--rule);color:var(--muted)}
     .vt-content{flex:1;padding-top:.375rem}
     .vt-period{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--brand);margin-bottom:.25rem}
-    .vt-period.near{color:#7c3aed}
+    .vt-period.near{color:#1a7a62}
     .vt-period.future{color:var(--muted)}
     .vt-title{font-size:.95rem;font-weight:800;color:var(--ink);margin-bottom:.25rem}
     .vt-desc{font-size:.875rem;color:var(--muted);line-height:1.6}
@@ -403,7 +403,7 @@
     const pct=Math.round(total/max*100);
     const el=document.getElementById('assessResult');
     el.classList.add('show');
-    el.style.background=pct>=80?'var(--brand-l)':pct>=50?'#fef9c3':'#fef2f2';
+    el.style.background=pct>=80?'var(--brand-l)':pct>=50?'#e8f2ee':'#fef2f2';
     document.getElementById('assessScore').textContent=total+' / '+max+' ('+pct+'%)';
 
     const weakKeys=keys.filter(k=>!ratings[k]||ratings[k]<=3);

@@ -17,22 +17,20 @@
 </script>
 <style>
   :root {
-    --bg: #fbf7f1;
-    --ink: #1d2328;
-    --muted: #5f6870;
+    --bg: #f7f7f5;
+    --ink: #1a1f1e;
+    --muted: #5c6360;
     --brand: #155d4b;
-    --line: #ddd4c6;
-    --card: #fffdf9;
-    --accent: #bf5f2f;
+    --line: #e4e4e0;
+    --card: #ffffff;
+    --accent: #155d4b;
+    --soft: #eef4f2;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    background:
-      radial-gradient(circle at left top, #f3ead8 0, transparent 20%),
-      linear-gradient(180deg, #fbf7f1 0%, #f4ede2 100%);
-    background-attachment: fixed;
+    background: var(--bg);
     color: var(--ink);
     font-family: "Segoe UI", "Malgun Gothic", sans-serif;
     font-size: 16px;
@@ -45,7 +43,7 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(251,247,241,0.92);
+    background: rgba(247,247,245,0.96);
     backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--line);
     padding: 0 20px;
@@ -164,7 +162,7 @@
 
   /* hero */
   .hero {
-    background: linear-gradient(135deg, #2d1b5e 0%, #4c2a8a 55%, #7C3AED 100%);
+    background: linear-gradient(135deg, #0f4235 0%, #155d4b 50%, #1a7a62 100%);
     border-radius: 22px;
     box-shadow: 0 12px 34px rgba(45,27,94,0.25);
     padding: 24px;
@@ -226,7 +224,7 @@
   /* warn */
   .warn {
     border-left: 4px solid var(--accent);
-    background: #fbf1ea;
+    background: #eef4f2;
     border-radius: 14px;
     padding: 16px 18px;
     margin-top: 16px;
@@ -305,7 +303,7 @@
     font-weight: 700;
   }
   .badge-red { background: #fee2e2; color: #991b1b; }
-  .badge-yellow { background: #fef9c3; color: #92400e; }
+  .badge-yellow { background: #e8f2ee; color: #0f4235; }
   .badge-green { background: #dcfce7; color: #166534; }
 
   /* risk callout */
@@ -436,7 +434,7 @@
   }
   .interaction-row:last-child { margin-bottom: 0; }
   .interaction-row.high { border-left: 4px solid #ef4444; background: #fff8f8; }
-  .interaction-row.medium { border-left: 4px solid #f59e0b; background: #fffdf0; }
+  .interaction-row.medium { border-left: 4px solid #155d4b; background: #e8f2ee; }
   .interaction-row.low { border-left: 4px solid #22c55e; background: #f6fdf7; }
   .interaction-header {
     display: flex;
@@ -449,8 +447,8 @@
 
   /* result box */
   .result-box {
-    background: #f0f7ff;
-    border: 1px solid #bfdbfe;
+    background: #eef4f2;
+    border: 1px solid #d6e3da;
     border-radius: 14px;
     padding: 16px 18px;
     margin-top: 16px;
@@ -461,7 +459,7 @@
   .result-label {
     font-size: 11px;
     font-weight: 700;
-    color: #1d4ed8;
+    color: #155d4b;
     text-transform: uppercase;
     letter-spacing: 0.07em;
     margin-bottom: 8px;
@@ -492,7 +490,7 @@
   }
   .nav-btn:hover {
     box-shadow: 0 4px 16px rgba(29,35,40,0.08);
-    border-color: #c4bab0;
+    border-color: #d0d0cb;
   }
   .nav-btn-dir {
     font-size: 11px;

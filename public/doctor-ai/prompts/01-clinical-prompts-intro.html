@@ -19,20 +19,19 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #fbf7f1;
-      --ink: #1d2328;
-      --muted: #5f6870;
+      --bg: #f7f7f5;
+      --ink: #1a1f1e;
+      --muted: #5c6360;
       --brand: #155d4b;
-      --line: #ddd4c6;
-      --card: #fffdf9;
-      --accent: #bf5f2f;
+      --line: #e4e4e0;
+      --card: #ffffff;
+      --accent: #155d4b;
+      --soft: #eef4f2;
     }
 
     body {
       font-family: "Segoe UI", "Malgun Gothic", sans-serif;
-      background:
-        radial-gradient(circle at left top, #f3ead8 0, transparent 20%),
-        linear-gradient(180deg, #fbf7f1 0%, #f4ede2 100%);
+      background: var(--bg);
       color: var(--ink);
       min-height: 100vh;
     }
@@ -259,10 +258,10 @@
     }
 
     .prompt {
-      background: #f5efe6;
+      background: #f3f3f1;
       border-radius: 16px;
       padding: 18px 18px 18px 18px;
-      border: 1px solid #e6d8c8;
+      border: 1px solid #d6e3da;
       white-space: pre-wrap;
       font-family: Consolas, "Courier New", monospace;
       font-size: 13.5px;
@@ -312,7 +311,7 @@
     /* ── Warn ── */
     .warn {
       border-left: 4px solid var(--accent);
-      background: #fbf1ea;
+      background: #eef4f2;
       border-radius: 14px;
       padding: 16px 18px;
       margin-top: 16px;

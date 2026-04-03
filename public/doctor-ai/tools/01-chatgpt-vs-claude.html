@@ -19,19 +19,18 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #fbf7f1;
-      --ink: #1d2328;
-      --muted: #5f6870;
+      --bg: #f7f7f5;
+      --ink: #1a1f1e;
+      --muted: #5c6360;
       --brand: #155d4b;
-      --line: #ddd4c6;
-      --card: #fffdf9;
-      --accent: #bf5f2f;
+      --line: #e4e4e0;
+      --card: #ffffff;
+      --accent: #155d4b;
+      --soft: #eef4f2;
     }
 
     body {
-      background:
-        radial-gradient(circle at left top, #f3ead8 0, transparent 20%),
-        linear-gradient(180deg, #fbf7f1 0%, #f4ede2 100%);
+      background: var(--bg);
       color: var(--ink);
       font-family: "Segoe UI", "Malgun Gothic", sans-serif;
       min-height: 100vh;
@@ -44,7 +43,7 @@
       align-items: center;
       padding: 16px 24px;
       border-bottom: 1px solid var(--line);
-      background: rgba(255,253,249,0.85);
+      background: rgba(255,255,255,0.92);
       backdrop-filter: blur(6px);
       position: sticky;
       top: 0;
@@ -80,7 +79,7 @@
     }
     .breadcrumb a { color: var(--muted); text-decoration: none; }
     .breadcrumb a:hover { color: var(--brand); }
-    .breadcrumb span { color: #b0a89a; }
+    .breadcrumb span { color: #9a9a96; }
 
     /* Series Progress */
     .series-progress {
@@ -212,7 +211,7 @@
     /* Warn */
     .warn {
       border-left: 4px solid var(--accent);
-      background: #fbf1ea;
+      background: #eef4f2;
       border-radius: 14px;
       padding: 16px 18px;
       margin-top: 16px;
@@ -238,7 +237,7 @@
       vertical-align: middle;
     }
     th {
-      background: #f0ebe2;
+      background: #f3f3f1;
       font-size: 14px;
       font-weight: 600;
       color: var(--ink);
@@ -267,8 +266,8 @@
       gap: 6px;
     }
     .sit-card.blue {
-      border: 1px solid #bfdbfe;
-      background: #eff6ff;
+      border: 1px solid #d6e3da;
+      background: #eef4f2;
     }
     .sit-card.green {
       border: 1px solid #bbf7d0;
@@ -283,7 +282,7 @@
       font-size: 13px;
       font-weight: 700;
     }
-    .sit-card.blue .sit-rec { color: #1d4ed8; }
+    .sit-card.blue .sit-rec { color: #155d4b; }
     .sit-card.green .sit-rec { color: #15803d; }
     .sit-card .sit-reason {
       font-size: 13px;
@@ -317,7 +316,7 @@
       color: var(--ink);
       transition: background 0.15s, border-color 0.15s;
     }
-    .nav-block:hover { background: #f0ebe2; border-color: #c4b9ac; }
+    .nav-block:hover { background: #f3f3f1; border-color: #c4b9ac; }
     .nav-block.home { color: var(--brand); border-color: #d6e3da; background: #eef4ef; }
     .nav-block.home:hover { background: #dff0e5; }
     .nav-block.disabled {

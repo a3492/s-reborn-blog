@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>9편 — 영상·병리 AI | 의사를 위한 AI</title>
   <style>
-    :root{--brand:#155d4b;--brand-d:#0d3d30;--brand-l:#e8f4ef;--bg:#f5f1eb;--surface:#fffcf7;--ink:#18212a;--muted:#4a5562;--rule:#ddd8d0;--warn:#b45309;--danger:#dc2626;--ok:#15803d;--r:12px;--r-sm:8px}
+    :root{--brand:#155d4b;--brand-d:#0f4235;--brand-l:#eef4f2;--bg:#f7f7f5;--surface:#ffffff;--ink:#1a1f1e;--muted:#5c6360;--rule:#e4e4e0;--warn:#b45309;--danger:#dc2626;--ok:#15803d;--r:12px;--r-sm:8px}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
     body{font-family:'Pretendard','Apple SD Gothic Neo',system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:18px;line-height:1.75}
     #pbar{position:fixed;top:0;left:0;height:3px;background:var(--brand);width:0%;z-index:200;transition:width .1s}
-    nav{position:sticky;top:0;z-index:100;background:rgba(255,252,247,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.5rem}
+    nav{position:sticky;top:0;z-index:100;background:rgba(247,247,245,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.5rem}
     .nav-series{font-size:13px;color:var(--muted);font-weight:600}
     .nav-title{font-size:14px;font-weight:700;color:var(--ink)}
     .nav-ep{font-size:13px;font-weight:700;color:var(--brand);background:var(--brand-l);padding:.2rem .6rem;border-radius:20px}
@@ -50,7 +50,7 @@
     .app-dept-name{font-size:1rem;font-weight:800;color:var(--ink);flex:1}
     .app-dept-tags{display:flex;gap:.375rem;flex-wrap:wrap}
     .app-dept-tag{font-size:10px;font-weight:800;padding:.15rem .4rem;border-radius:4px;background:var(--brand-l);color:var(--brand)}
-    .app-dept-tag.fda{background:#dbeafe;color:#1d4ed8}
+    .app-dept-tag.fda{background:#e8f2ee;color:#155d4b}
     .app-dept-arrow{font-size:.75rem;color:var(--muted);transition:transform .25s;flex-shrink:0}
     .app-dept.open .app-dept-arrow{transform:rotate(180deg)}
     .app-dept-body{display:none;padding:1rem 1.25rem;border-top:1px solid var(--rule)}
@@ -63,8 +63,8 @@
     .app-use-desc{font-size:.825rem;color:var(--muted);line-height:1.55;margin-top:.2rem}
     .app-use-status{font-size:10px;font-weight:800;padding:.15rem .4rem;border-radius:4px;margin-top:.375rem;display:inline-block}
     .app-use-status.approved{background:#dcfce7;color:#166534}
-    .app-use-status.clinical{background:#dbeafe;color:#1d4ed8}
-    .app-use-status.research{background:#fef9c3;color:#854d0e}
+    .app-use-status.clinical{background:#e8f2ee;color:#0f4235}
+    .app-use-status.research{background:#e8f2ee;color:#854d0e}
 
     /* Specialist Role */
     .role-spectrum{margin:1.5rem 0;display:flex;flex-direction:column;gap:.75rem}
@@ -73,7 +73,7 @@
     .rs-bar-wrap{display:flex;gap:.5rem;align-items:center}
     .rs-segment{height:20px;border-radius:4px;transition:width 1s ease;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;min-width:0;overflow:hidden}
     .rs-segment.ai-seg{background:var(--brand)}
-    .rs-segment.human-seg{background:#7c3aed}
+    .rs-segment.human-seg{background:#1a7a62}
     .rs-segment.collab-seg{background:var(--warn)}
 
     /* Quiz */
@@ -304,7 +304,7 @@
     </div>
     <div style="display:flex;gap:1.5rem;font-size:.8rem;margin-top:.5rem;flex-wrap:wrap">
       <div style="display:flex;align-items:center;gap:.375rem"><div style="width:12px;height:12px;background:var(--brand);border-radius:3px"></div>AI 주도</div>
-      <div style="display:flex;align-items:center;gap:.375rem"><div style="width:12px;height:12px;background:#7c3aed;border-radius:3px"></div>의사 주도</div>
+      <div style="display:flex;align-items:center;gap:.375rem"><div style="width:12px;height:12px;background:#1a7a62;border-radius:3px"></div>의사 주도</div>
     </div>
   </section>
 
