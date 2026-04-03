@@ -1,0 +1,361 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+
+const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const searchIndex = allPosts.map(post => ({
+  id: post.id,
+  title: post.data.title,
+  description: post.data.description ?? '',
+  category: post.data.category ?? '',
+  tags: (post.data.tags ?? []).join(' '),
+  difficulty: post.data.difficulty ?? '',
+  type: post.data.type ?? '',
+  subcategory: post.data.subcategory ?? '',
+  date: post.data.date,
+  url: `/blog/${post.id}/`,
+  _difficulty: post.data.difficulty ?? '',
+  _tags: post.data.tags ?? [],
+}));
+---
+
+<Layout title="검색 결과">
+  <div class="search-page">
+
+    <div class="search-page-hd">
+      <h1 class="search-page-title" id="search-page-title">검색 결과</h1>
+      <div class="search-page-bar">
+        <svg class="search-page-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M13.5 13.5L17 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <input
+          id="search-page-input"
+          class="search-page-input"
+          type="search"
+          placeholder="다시 검색..."
+          autocomplete="off"
+          aria-label="검색"
+        />
+      </div>
+    </div>
+
+    <div class="search-page-meta" id="search-page-meta"></div>
+
+    <div class="blog-card-grid" id="search-page-results"></div>
+
+    <div class="search-page-empty hidden" id="search-page-empty">
+      <p class="search-page-empty-text">검색 결과가 없어요.</p>
+      <p class="search-page-empty-sub">다른 키워드로 검색해보세요. 예: <strong>입문</strong>, <strong>비용</strong>, <strong>법적 책임</strong></p>
+    </div>
+
+  </div>
+</Layout>
+
+<script define:vars={{ searchIndex }}>
+(function () {
+  // ── 의미 확장 사전 (Layout.astro와 동일)
+  const CONCEPT_MAP = {
+    '입문':     ['beginner', '초보', '기초', '처음', '시작', '도구소개', '쉬운', 'FAQ', '설치'],
+    '초보':     ['beginner', '입문', '기초', '처음', '쉬운', '시작'],
+    '기초':     ['beginner', '입문', '초보', '기본', '처음'],
+    '쉬운':     ['beginner', '입문', '초보', '기초', '간단'],
+    '시작':     ['beginner', '입문', '초보', '설치', '처음'],
+    '처음':     ['beginner', '입문', '초보', '기초', '시작'],
+    '심화':     ['advanced', '고급', '전문', 'intermediate', '깊이'],
+    '고급':     ['advanced', '심화', '전문', '깊이'],
+    '중급':     ['intermediate', '중간'],
+    '전문':     ['advanced', '심화', '고급', '의료'],
+    '비용':     ['무료', '유료', '가격', '요금', 'API', '구독', '결제', 'cost'],
+    '무료':     ['free', '비용', '가격', '요금'],
+    '가격':     ['비용', '무료', '유료', '요금', '구독'],
+    '유료':     ['비용', '가격', '결제', '구독'],
+    '돈':       ['비용', '가격', '요금', '무료', '유료'],
+    '요금':     ['비용', '가격', '무료', '유료', '구독'],
+    '구독':     ['비용', '가격', '유료', '결제', '플랜'],
+    '법':       ['법적', '법률', '의료법', '규정', '합법', '책임', '허가'],
+    '법적':     ['법', '법률', '의료법', '규정', '합법', '책임'],
+    '법률':     ['법', '법적', '의료법', '규정', '책임'],
+    '규정':     ['법', '법적', '법률', '의료법', '허가'],
+    '책임':     ['법적', '의사', '오류', '과실', '법률'],
+    '윤리':     ['법적', '도덕', '책임', '동의', '허가', '환자'],
+    '허가':     ['법적', '규정', '의료법', '승인'],
+    '합법':     ['법', '법적', '허가', '규정'],
+    '동의':     ['환자', '허가', '법적', '윤리'],
+    '과실':     ['책임', '오류', '법적', '의사'],
+    '보안':     ['개인정보', '데이터', '보호', 'GDPR', '암호화', '프라이버시'],
+    '개인정보': ['보안', '데이터', '보호', 'GDPR', '환자', '프라이버시'],
+    '데이터':   ['개인정보', '보안', '보호', '환자', '의료'],
+    'GDPR':     ['개인정보', '보안', '보호', '규정'],
+    '프라이버시':['보안', '개인정보', '보호'],
+    '진단':     ['AI', '의료', '의사', '임상', '병원'],
+    '의사':     ['의료', '임상', '진료', '병원', '처방'],
+    '병원':     ['의료', '임상', '의사', '진료'],
+    '환자':     ['의료', '임상', '진료', '개인정보'],
+    '처방':     ['의사', '진료', '의약품', '약물'],
+    '임상':     ['의료', '의사', '진료', '병원'],
+    '진료':     ['의사', '임상', '병원', '환자'],
+    '약':       ['의약품', '처방', '약물', '의사'],
+    '의약품':   ['약', '처방', '약물', '의사'],
+    '도구':     ['툴', '소프트웨어', 'AI', '앱', '플랫폼', '도구소개'],
+    '설치':     ['install', '셋업', '시작', '준비', '환경'],
+    'AI':       ['인공지능', 'LLM', 'GPT', 'Claude', '생성형'],
+    '자동화':   ['workflow', '파이프라인', '에이전트', '오케스트레이션'],
+    '글쓰기':   ['문서', '기록', '작성', '노트', '보고서'],
+    '요약':     ['정리', '분석', '추출', '핵심'],
+    '번역':     ['언어', '영어', '변환', '다국어'],
+    '검색':     ['탐색', '찾기', '조회', '리서치', 'search'],
+    '분석':     ['요약', '검토', '평가', '정리'],
+    '코딩':     ['개발', '프로그래밍', '코드', '소프트웨어'],
+    '개발':     ['코딩', '프로그래밍', '소프트웨어', '앱'],
+    'ChatGPT':  ['GPT', 'OpenAI', 'AI', '음성'],
+    'Claude':   ['Anthropic', 'AI', 'LLM', 'Claude Code'],
+    'Codex':    ['OpenAI', 'CLI', '코딩', '개발', '터미널'],
+    'Cursor':   ['IDE', '코딩', '에디터', '개발', 'AI'],
+    'Copilot':  ['GitHub', 'AI', '코딩', '자동완성'],
+    '터미널':   ['CLI', '명령어', '설치', '개발'],
+    '에디터':   ['IDE', 'Cursor', 'VS Code', '코딩'],
+  };
+
+  const expandQuery = (query) => {
+    const q = query.toLowerCase().trim();
+    const terms = new Set([q]);
+    for (const [key, synonyms] of Object.entries(CONCEPT_MAP)) {
+      const k = key.toLowerCase();
+      if (q.includes(k) || k.includes(q)) {
+        synonyms.forEach(s => terms.add(s.toLowerCase()));
+        terms.add(k);
+      }
+      if (synonyms.some(s => { const sl = s.toLowerCase(); return q.includes(sl) || sl.includes(q); })) {
+        terms.add(k);
+        synonyms.forEach(s => terms.add(s.toLowerCase()));
+      }
+    }
+    return [...terms];
+  };
+
+  const detectIntent = (query) => {
+    const q = query.toLowerCase();
+    if (['입문', '초보', '기초', '쉬운', '처음', '시작', 'beginner'].some(t => q.includes(t))) return 'beginner';
+    if (['심화', '고급', '전문', 'advanced'].some(t => q.includes(t))) return 'advanced';
+    if (['중급', 'intermediate'].some(t => q.includes(t))) return 'intermediate';
+    return null;
+  };
+
+  const DIFF_LABEL = { beginner: '입문', intermediate: '중급', advanced: '고급' };
+
+  let fuse = null;
+
+  const searchTerm = (term) => {
+    if (fuse) return fuse.search(term);
+    const tl = term.toLowerCase();
+    return searchIndex
+      .filter(p => [p.title, p.description, p.category, p.tags, p.difficulty, p.type]
+        .some(f => f?.toLowerCase().includes(tl)))
+      .map(item => ({ item, score: 0.4 }));
+  };
+
+  const semanticSearch = (query) => {
+    const terms = expandQuery(query);
+    const intent = detectIntent(query);
+    const primary = searchTerm(query);
+    const seen = new Set(primary.map(r => r.item.id));
+    const expanded = [];
+    for (const term of terms.slice(1)) {
+      if (term.length < 2) continue;
+      for (const r of searchTerm(term)) {
+        if (!seen.has(r.item.id)) { seen.add(r.item.id); expanded.push({ ...r, _expanded: true }); }
+      }
+    }
+    const merged = [...primary.map(r => ({ ...r, _expanded: false })), ...expanded];
+    if (intent) {
+      merged.sort((a, b) => {
+        const aM = a.item._difficulty === intent, bM = b.item._difficulty === intent;
+        if (aM !== bM) return aM ? -1 : 1;
+        if (a._expanded !== b._expanded) return a._expanded ? 1 : -1;
+        return (a.score ?? 0.5) - (b.score ?? 0.5);
+      });
+    }
+    return merged;
+  };
+
+  const titleEl  = document.getElementById('search-page-title');
+  const metaEl   = document.getElementById('search-page-meta');
+  const gridEl   = document.getElementById('search-page-results');
+  const emptyEl  = document.getElementById('search-page-empty');
+  const inputEl  = document.getElementById('search-page-input');
+
+  const renderPage = (query) => {
+    if (!query) return;
+    const results = semanticSearch(query);
+
+    titleEl.textContent = `"${query}" 검색 결과`;
+    document.title = `"${query}" 검색 결과 | S-Reborn Blog`;
+
+    if (results.length === 0) {
+      gridEl.innerHTML = '';
+      metaEl.textContent = '';
+      emptyEl.classList.remove('hidden');
+      return;
+    }
+
+    emptyEl.classList.add('hidden');
+    metaEl.textContent = `${results.length}개 글`;
+
+    gridEl.innerHTML = results.map(({ item, _expanded }) => {
+      const diffLabel = DIFF_LABEL[item._difficulty] || '';
+      const catBadge = item.category ? `<span class="blog-card-cat">${item.category}</span>` : '';
+      const diffBadge = diffLabel ? `<span class="sr-diff sr-diff--${item._difficulty}">${diffLabel}</span>` : '';
+      const semBadge  = _expanded ? `<span class="sr-semantic-badge">연관</span>` : '';
+      return `
+        <a href="${item.url}" class="blog-card">
+          <div class="blog-card-badges">${catBadge}${diffBadge}${semBadge}</div>
+          <h3 class="blog-card-title">${item.title}</h3>
+          ${item.description ? `<p class="blog-card-desc">${item.description}</p>` : ''}
+        </a>
+      `;
+    }).join('');
+  };
+
+  // URL에서 쿼리 읽기
+  const params = new URLSearchParams(window.location.search);
+  const initialQ = params.get('q') || '';
+  if (inputEl) inputEl.value = initialQ;
+  if (initialQ) renderPage(initialQ);
+
+  // 검색창 Fuse 로드 후 재렌더
+  const FUSE_CDN = 'https://cdn.jsdelivr.net/npm/fuse.js@7.1.0/dist/fuse.mjs';
+  import(FUSE_CDN).then((m) => {
+    fuse = new m.default(searchIndex, {
+      keys: [
+        { name: 'title',       weight: 1   },
+        { name: 'tags',        weight: 0.8 },
+        { name: 'description', weight: 0.6 },
+        { name: 'difficulty',  weight: 0.4 },
+        { name: 'category',    weight: 0.4 },
+        { name: 'subcategory', weight: 0.3 },
+        { name: 'type',        weight: 0.2 },
+      ],
+      threshold: 0.35,
+      minMatchCharLength: 1,
+      includeScore: true,
+    });
+    if (initialQ) renderPage(initialQ); // Fuse 로드 후 재렌더
+  }).catch(() => {});
+
+  // 검색창 입력 → URL 변경 + 재렌더
+  let timer;
+  inputEl?.addEventListener('input', (e) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      const q = e.target.value.trim();
+      if (q) {
+        history.replaceState(null, '', `/search?q=${encodeURIComponent(q)}`);
+        renderPage(q);
+      }
+    }, 200);
+  });
+
+  inputEl?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const q = inputEl.value.trim();
+      if (q) {
+        history.replaceState(null, '', `/search?q=${encodeURIComponent(q)}`);
+        renderPage(q);
+      }
+    }
+  });
+})();
+</script>
+
+<style>
+.search-page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+.search-page-hd {
+  margin-bottom: 0.75rem;
+}
+
+.search-page-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 1rem;
+  color: var(--text);
+}
+
+.search-page-bar {
+  position: relative;
+  max-width: 480px;
+}
+
+.search-page-icon {
+  position: absolute;
+  left: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: var(--t3);
+  pointer-events: none;
+}
+
+.search-page-input {
+  width: 100%;
+  height: 42px;
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 0 1rem 0 2.4rem;
+  font-family: var(--body);
+  font-size: 0.95rem;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  box-sizing: border-box;
+}
+
+.search-page-input:focus {
+  border-color: var(--pink);
+  box-shadow: 0 0 0 3px var(--pink-lo);
+  background: var(--bg);
+}
+
+.search-page-input::-webkit-search-cancel-button { display: none; }
+
+.search-page-meta {
+  font-size: 0.85rem;
+  color: var(--t2);
+  margin-bottom: 1.5rem;
+}
+
+.search-page-empty {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.search-page-empty-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 0.5rem;
+}
+
+.search-page-empty-sub {
+  font-size: 0.9rem;
+  color: var(--t2);
+  margin: 0;
+}
+
+.blog-card-badges {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.3rem;
+}
+</style>

@@ -354,7 +354,15 @@ const searchIndex = allPosts.map(post => ({
         if (dropdown.classList.contains('hidden')) return;
         if (e.key === 'ArrowDown') { e.preventDefault(); activeIndex = Math.min(renderedItems.length - 1, activeIndex + 1); syncActiveItem(); }
         if (e.key === 'ArrowUp')   { e.preventDefault(); activeIndex = Math.max(0, activeIndex - 1); syncActiveItem(); }
-        if (e.key === 'Enter' && activeIndex >= 0 && renderedItems[activeIndex]) { e.preventDefault(); renderedItems[activeIndex].click(); }
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          if (activeIndex >= 0 && renderedItems[activeIndex]) {
+            renderedItems[activeIndex].click(); // 드롭다운 항목 선택 시 해당 글로 이동
+          } else {
+            const q = input.value.trim();
+            if (q) window.location.href = `/search?q=${encodeURIComponent(q)}`; // 검색 결과 페이지로
+          }
+        }
       });
 
       document.addEventListener('click', (e) => {
