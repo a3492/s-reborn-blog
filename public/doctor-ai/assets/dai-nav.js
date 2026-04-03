@@ -2,6 +2,10 @@
 (function () {
   'use strict';
 
+  /*__SITE_BRAND__*/
+  var __SITE_BRAND = {"blogDisplayName":"S-Reborn Blog","doctorAiAcademyDisplayName":"Doctor AI Academy","labDisplayName":"S-Reborn Lab","clinicBlogDisplayName":"S-Reborn Clinic Blog","copyrightEntityLine":"© 2026 S-Reborn clinic. All rights reserved.","adminPanelBrand":"S-Reborn Blog","legacyStaticSiteLogoLine":"S-Reborn Blog","legacyStaticCopyrightLine":"© 2026 S-Reborn Blog · Medical AI Content Platform"};
+  /*__END_SITE_BRAND__*/
+
   // ── 사이트맵 데이터 ──────────────────────────────────────────────────────
   var SITEMAP = [
     {
@@ -98,6 +102,13 @@
       .replace(/"/g, '&quot;');
   }
 
+  var BR =
+    typeof window !== 'undefined' && window.__SREBORN_SITE_BRAND__
+      ? window.__SREBORN_SITE_BRAND__
+      : __SITE_BRAND;
+  var BLOG_NAME = BR.blogDisplayName || 'S-Reborn Blog';
+  var DAI_NAME = BR.doctorAiAcademyDisplayName || 'Doctor AI Academy';
+
   // ── 글로벌 내비게이션 바 HTML ────────────────────────────────────────────
   var navLinksHtml = SITEMAP.map(function (sec) {
     var isActive = sec.id === currentSection;
@@ -135,12 +146,12 @@
 
   // ── 전체 HTML 조립 ──────────────────────────────────────────────────────
   var injectHtml = ''
-    + '<nav class="dai-global-nav" role="navigation" aria-label="Doctor AI Academy 내비게이션">'
+    + '<nav class="dai-global-nav" role="navigation" aria-label="' + esc(DAI_NAME) + ' 내비게이션">'
     +   '<div class="dai-nav-inner">'
     +     '<div class="dai-nav-brand">'
-    +       '<a class="dai-nav-badge" href="/doctor-ai/">Doctor AI Academy</a>'
+    +       '<a class="dai-nav-badge" href="/doctor-ai/">' + esc(DAI_NAME) + '</a>'
     +       '<span class="dai-nav-sep">/</span>'
-    +       '<a class="dai-nav-site" href="/">S-Reborn</a>'
+    +       '<a class="dai-nav-site" href="/">' + esc(BLOG_NAME) + '</a>'
     +     '</div>'
     +     '<ul class="dai-nav-links" role="list">' + navLinksHtml + '</ul>'
     +     '<div class="dai-nav-right">'
@@ -153,12 +164,12 @@
     + '</nav>'
     + '<div class="dai-overlay" id="dai-overlay" aria-hidden="true"></div>'
     + '<aside class="dai-drawer" id="dai-drawer"'
-    +   ' role="dialog" aria-modal="true" aria-label="Doctor AI Academy 전체 목차">'
+    +   ' role="dialog" aria-modal="true" aria-label="' + esc(DAI_NAME) + ' 전체 목차">'
     +   '<div class="dai-drawer-head">'
     +     '<span class="dai-drawer-title">전체 목차</span>'
     +     '<button class="dai-drawer-close" id="dai-drawer-close" aria-label="닫기">✕</button>'
     +   '</div>'
-    +   '<a href="/doctor-ai/" class="dai-drawer-hub">Doctor AI Academy 허브로 이동</a>'
+    +   '<a href="/doctor-ai/" class="dai-drawer-hub">' + esc(DAI_NAME) + ' 허브로 이동</a>'
     +   '<div class="dai-drawer-body">' + drawerBodyHtml + '</div>'
     + '</aside>';
 

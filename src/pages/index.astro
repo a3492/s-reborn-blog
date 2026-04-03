@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
-import { CATEGORIES, MENU_GROUPS } from '../consts';
+import { CATEGORIES, MENU_GROUPS, SITE_BRAND } from '../consts';
 import { getPublicSiteSettings } from '../lib/site-settings';
 
 const siteSettings = await getPublicSiteSettings();
@@ -166,10 +166,10 @@ const aeriniData = aeriniPosts.map(p => {
 					</div>
 				</div>
 
-				<!-- S-Reborn Lab (하단 허브) -->
+				<!-- Lab 허브 (브랜드명은 SITE_BRAND.labDisplayName) -->
 				<div class="sec-rule" style="margin-top: 2rem;">
 					<div class="sec-copy">
-						<span class="sec-label">S-Reborn Lab</span>
+						<span class="sec-label">{SITE_BRAND.labDisplayName}</span>
 					</div>
 					<div class="sec-line"></div>
 					<a href="/lab/" class="sec-all">→</a>
@@ -177,8 +177,8 @@ const aeriniData = aeriniPosts.map(p => {
 				<div class="lab-teaser-wrap">
 					<a class="lab-teaser" href="/lab/">
 						<span class="lab-teaser-eyebrow">실험실 · 허브</span>
-						<h2 class="lab-teaser-title">Doctor AI Academy · S-Reborn Clinic Blog</h2>
-						<p class="lab-teaser-desc">임상의 AI 교육 시리즈는 Lab에서 열 수 있습니다. S-Reborn Clinic Blog는 준비중입니다.</p>
+						<h2 class="lab-teaser-title">{SITE_BRAND.doctorAiAcademyDisplayName} · {SITE_BRAND.clinicBlogDisplayName}</h2>
+						<p class="lab-teaser-desc">임상의 AI 교육 시리즈는 Lab에서 열 수 있습니다. {SITE_BRAND.clinicBlogDisplayName}는 준비중입니다.</p>
 						<span class="lab-teaser-cta">Lab 열기 →</span>
 					</a>
 				</div>

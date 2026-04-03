@@ -7,6 +7,8 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "sync:site-brand": "node scripts/sync-site-brand.mjs",
+    "prebuild": "npm run sync:site-brand",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"

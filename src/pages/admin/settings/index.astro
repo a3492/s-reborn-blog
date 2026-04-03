@@ -1,5 +1,6 @@
 ---
 import AdminLayout from '../../../layouts/AdminLayout.astro';
+import { SITE_TITLE } from '../../../consts';
 
 ---
 
@@ -23,7 +24,7 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
       <form id="admin-settings-form" class="admin-form-grid" data-admin-settings-form>
         <div class="admin-field full">
           <label class="admin-label" for="site-title">사이트 제목</label>
-          <input id="site-title" name="site_title" class="admin-input" type="text" placeholder="S-Reborn World" />
+          <input id="site-title" name="site_title" class="admin-input" type="text" placeholder={SITE_TITLE} />
         </div>
 
         <div class="admin-field full">
@@ -70,7 +71,7 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
       <div class="admin-panel-stack" style="margin-top: 1rem;">
         <section class="admin-preview-card">
           <div class="admin-preview-kicker">Resolved Preview</div>
-          <h3 class="admin-preview-title" data-settings-preview-title>S-Reborn World</h3>
+          <h3 class="admin-preview-title" data-settings-preview-title>{SITE_TITLE}</h3>
           <p class="admin-preview-desc" data-settings-preview-description>사이트 기본 메타 설명</p>
           <div class="admin-preview-meta">
             <span data-settings-preview-featured>featured: 미설정</span>

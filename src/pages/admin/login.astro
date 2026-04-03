@@ -1,19 +1,20 @@
 ---
 import '../../styles/admin.css';
 import BaseHead from '../../components/BaseHead.astro';
+import { SITE_BRAND, SITE_TITLE } from '../../consts';
 
 ---
 
 <!doctype html>
 <html lang="ko" class="admin-shell">
   <head>
-    <BaseHead title="Admin Login | S-Reborn World" description="S-Reborn World 관리자 로그인" />
+    <BaseHead title={`Admin Login | ${SITE_TITLE}`} description={`${SITE_TITLE} 관리자 로그인`} />
   </head>
   <body class="admin-shell admin-login-body">
     <main class="admin-login-shell">
       <section class="admin-login-card">
         <span class="admin-brand-kicker">Admin Login</span>
-        <h1 class="admin-login-title">S-Reborn World 운영 패널</h1>
+        <h1 class="admin-login-title">{SITE_BRAND.adminPanelBrand} 운영 패널</h1>
         <p class="admin-login-desc">Supabase 계정으로 로그인한 뒤 관리자 페이지에 접근합니다.</p>
 
         <form class="admin-login-form" data-admin-login-form>

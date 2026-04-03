@@ -1,9 +1,10 @@
 ---
+import { SITE_BRAND, SITE_TITLE } from '../consts';
 ---
 
 <aside class="sidebar">
   <div class="sb-head">
-    <a class="sb-brand" href="/">S-Reborn World</a>
+    <a class="sb-brand" href="/">{SITE_TITLE}</a>
     <p class="sb-tagline">
       의사이자 AI 연구자의 기록<span class="sep">—</span>진료실과 연구실에서부터 강단까지
     </p>
@@ -347,13 +348,13 @@
       <div class="tree-section">
         <a class="tree-leaf" href="#"><span class="leaf-dash"></span>ELIOS</a>
         <a class="tree-leaf" href="#"><span class="leaf-dash"></span>KFERA 2026</a>
-        <a class="tree-leaf" href="#"><span class="leaf-dash"></span>S-Reborn Academy</a>
+        <a class="tree-leaf" href="#"><span class="leaf-dash"></span>Doctor AI Academy</a>
       </div>
     </div>
 
   </nav>
 
-  <div class="sb-foot">© 2026 S-Reborn clinic</div>
+  <div class="sb-foot">{SITE_BRAND.copyrightEntityLine}</div>
 </aside>
 
 <style>

@@ -1,23 +1,24 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { SITE_BRAND } from '../../consts';
 ---
 
 <Layout
-	title="S-Reborn Lab"
-	description="Doctor AI Academy와 S-Reborn Lab 허브입니다. S-Reborn Clinic Blog는 준비중입니다."
+	title={SITE_BRAND.labDisplayName}
+	description={`${SITE_BRAND.doctorAiAcademyDisplayName}와 ${SITE_BRAND.labDisplayName} 허브입니다. ${SITE_BRAND.clinicBlogDisplayName}는 준비중입니다.`}
 >
 	<div class="lab-page">
 		<header class="lab-page-head">
-			<h1>S-Reborn Lab</h1>
+			<h1>{SITE_BRAND.labDisplayName}</h1>
 			<p class="lab-page-lead">
-				임상·AI·기록을 모은 실험실입니다. Doctor AI Academy는 아래에서 열 수 있고, S-Reborn Clinic Blog는 준비중입니다.
+				임상·AI·기록을 모은 실험실입니다. {SITE_BRAND.doctorAiAcademyDisplayName}는 아래에서 열 수 있고, {SITE_BRAND.clinicBlogDisplayName}는 준비중입니다.
 			</p>
 		</header>
 
 		<div class="lab-hub-grid">
 			<a class="lab-hub-card" href="/doctor-ai/">
 				<span class="lab-hub-icon" aria-hidden="true">🩺</span>
-				<h2 class="lab-hub-title">Doctor AI Academy</h2>
+				<h2 class="lab-hub-title">{SITE_BRAND.doctorAiAcademyDisplayName}</h2>
 				<p class="lab-hub-desc">
 					Fundamentals, Prompts, Cases, Tools — 임상의를 위한 AI 교육 시리즈.
 				</p>
@@ -25,7 +26,7 @@ import Layout from '../../layouts/Layout.astro';
 			</a>
 			<div class="lab-hub-card lab-hub-card--soon" aria-disabled="true">
 				<span class="lab-hub-icon" aria-hidden="true">📰</span>
-				<h2 class="lab-hub-title">S-Reborn Clinic Blog</h2>
+				<h2 class="lab-hub-title">{SITE_BRAND.clinicBlogDisplayName}</h2>
 				<p class="lab-hub-desc lab-hub-desc--soon">준비중</p>
 			</div>
 		</div>

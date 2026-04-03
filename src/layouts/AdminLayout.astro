@@ -3,6 +3,7 @@ import '../styles/admin.css';
 import BaseHead from '../components/BaseHead.astro';
 import AdminSidebar from '../components/admin/AdminSidebar.astro';
 import AdminHeader from '../components/admin/AdminHeader.astro';
+import { SITE_BRAND } from '../consts';
 
 interface Props {
   title: string;
@@ -15,7 +16,7 @@ interface Props {
 
 const {
   title,
-  description = 'S-Reborn World 관리자 패널',
+  description = `${SITE_BRAND.adminPanelBrand} 관리자 패널`,
   pageTitle,
   pageDescription,
   status,

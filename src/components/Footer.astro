@@ -1,15 +1,17 @@
 ---
+import { SITE_BRAND, SITE_TITLE } from '../consts';
+
 interface Props {
   siteTitle?: string;
   socialLinks?: Record<string, string>;
 }
 
-const { siteTitle = 'S-Reborn World', socialLinks = {} } = Astro.props;
+const { siteTitle = SITE_TITLE, socialLinks = {} } = Astro.props;
 const socialEntries = Object.entries(socialLinks).filter(([, value]) => value);
 ---
 
 <footer>
-  <span class="foot-copy">© 2026 S-Reborn clinic. All rights reserved.</span>
+  <span class="foot-copy">{SITE_BRAND.copyrightEntityLine}</span>
   <nav class="foot-links" aria-label="Footer links">
     <span class="foot-brand">{siteTitle}</span>
     {socialEntries.length > 0 && (

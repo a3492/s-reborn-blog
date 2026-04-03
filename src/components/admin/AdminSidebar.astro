@@ -1,4 +1,6 @@
 ---
+import { SITE_BRAND } from '../../consts';
+
 interface NavItem {
   href: string;
   label: string;
@@ -45,7 +47,7 @@ const sections: NavSection[] = [
 <aside class="admin-sidebar" data-admin-sidebar>
   <a href="/admin" class="admin-brand">
     <span class="admin-brand-kicker">Admin</span>
-    <span class="admin-brand-title">S-Reborn World</span>
+    <span class="admin-brand-title">{SITE_BRAND.adminPanelBrand}</span>
     <span class="admin-brand-subtitle">운영 패널 Phase 1 scaffold</span>
   </a>
 
