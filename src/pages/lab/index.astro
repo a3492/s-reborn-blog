@@ -4,13 +4,13 @@ import Layout from '../../layouts/Layout.astro';
 
 <Layout
 	title="S-Reborn Lab"
-	description="Doctor AI Academy와 S-Reborn Clinic Blog로 이어지는 S-Reborn Lab 허브입니다."
+	description="Doctor AI Academy와 S-Reborn Lab 허브입니다. S-Reborn Clinic Blog는 준비중입니다."
 >
 	<div class="lab-page">
 		<header class="lab-page-head">
 			<h1>S-Reborn Lab</h1>
 			<p class="lab-page-lead">
-				임상·AI·기록을 모은 실험실입니다. 아래에서 Academy와 블로그로 이동할 수 있습니다.
+				임상·AI·기록을 모은 실험실입니다. Doctor AI Academy는 아래에서 열 수 있고, S-Reborn Clinic Blog는 준비중입니다.
 			</p>
 		</header>
 
@@ -23,14 +23,11 @@ import Layout from '../../layouts/Layout.astro';
 				</p>
 				<span class="lab-hub-cta">Academy로 이동 →</span>
 			</a>
-			<a class="lab-hub-card" href="/blog/">
+			<div class="lab-hub-card lab-hub-card--soon" aria-disabled="true">
 				<span class="lab-hub-icon" aria-hidden="true">📰</span>
 				<h2 class="lab-hub-title">S-Reborn Clinic Blog</h2>
-				<p class="lab-hub-desc">
-					카테고리별 글 목록, 검색, 애린이 코너 등 클리닉 블로그 전체.
-				</p>
-				<span class="lab-hub-cta">Blog로 이동 →</span>
-			</a>
+				<p class="lab-hub-desc lab-hub-desc--soon">준비중</p>
+			</div>
 		</div>
 	</div>
 </Layout>

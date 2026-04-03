@@ -1758,6 +1758,25 @@ footer {
   text-decoration-thickness: 1px;
 }
 
+.lab-hub-card--soon {
+  cursor: default;
+  pointer-events: none;
+  opacity: 0.92;
+  background: var(--bg);
+}
+
+.lab-hub-card--soon:hover {
+  background: var(--bg);
+  border-color: var(--rule);
+}
+
+.lab-hub-desc--soon {
+  margin-bottom: 0;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  color: var(--t2);
+}
+
 @media (max-width: 640px) {
   .lab-hub-grid {
     grid-template-columns: 1fr;
