@@ -351,18 +351,21 @@ const searchIndex = allPosts.map(post => ({
       });
 
       input.addEventListener('keydown', (e) => {
-        if (dropdown.classList.contains('hidden')) return;
-        if (e.key === 'ArrowDown') { e.preventDefault(); activeIndex = Math.min(renderedItems.length - 1, activeIndex + 1); syncActiveItem(); }
-        if (e.key === 'ArrowUp')   { e.preventDefault(); activeIndex = Math.max(0, activeIndex - 1); syncActiveItem(); }
+        // Enter는 드롭다운 상태와 무관하게 항상 처리
         if (e.key === 'Enter') {
           e.preventDefault();
           if (activeIndex >= 0 && renderedItems[activeIndex]) {
-            renderedItems[activeIndex].click(); // 드롭다운 항목 선택 시 해당 글로 이동
+            renderedItems[activeIndex].click();
           } else {
             const q = input.value.trim();
-            if (q) window.location.href = `/search?q=${encodeURIComponent(q)}`; // 검색 결과 페이지로
+            if (q) window.location.href = `/search?q=${encodeURIComponent(q)}`;
           }
+          return;
         }
+        // 화살표는 드롭다운이 열렸을 때만
+        if (dropdown.classList.contains('hidden')) return;
+        if (e.key === 'ArrowDown') { e.preventDefault(); activeIndex = Math.min(renderedItems.length - 1, activeIndex + 1); syncActiveItem(); }
+        if (e.key === 'ArrowUp')   { e.preventDefault(); activeIndex = Math.max(0, activeIndex - 1); syncActiveItem(); }
       });
 
       document.addEventListener('click', (e) => {
