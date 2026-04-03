@@ -150,8 +150,10 @@ body {
 .search-results {
   display: flex;
   flex-direction: column;
-  overflow-y: auto;           /* 결과가 많으면 안쪽만 스크롤 */
-  overscroll-behavior: contain; /* 드롭다운 스크롤이 페이지 스크롤로 전파 안 되게 */
+  flex: 1;                      /* 남은 공간 모두 차지 */
+  min-height: 0;                /* flex 자식이 내용보다 작게 줄어들 수 있어야 overflow 발동 */
+  overflow-y: auto;
+  overscroll-behavior: contain; /* 드롭다운 끝까지 스크롤해도 페이지가 같이 안 움직임 */
 }
 
 .search-result-item {
