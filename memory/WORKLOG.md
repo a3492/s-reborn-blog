@@ -1,4 +1,4 @@
-# 작업 로그 — S-Reborn Blog
+# 작업 로그 — S-Reborn AI Blog
 
 ---
 

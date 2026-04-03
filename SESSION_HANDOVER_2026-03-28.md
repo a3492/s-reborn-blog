@@ -1,4 +1,4 @@
-# S-Reborn Blog — 세션 인수인계 문서
+# S-Reborn AI Blog — 세션 인수인계 문서
 
 작성일: 2026-03-28
 저장소: https://github.com/a3492/s-reborn-blog

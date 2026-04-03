@@ -3,7 +3,7 @@
   'use strict';
 
   /*__SITE_BRAND__*/
-  var __SITE_BRAND = {"blogDisplayName":"S-Reborn Blog","doctorAiAcademyDisplayName":"Doctor AI Academy","labDisplayName":"S-Reborn Lab","clinicBlogDisplayName":"S-Reborn Clinic Blog","copyrightEntityLine":"© 2026 S-Reborn Blog. All rights reserved.","adminPanelBrand":"S-Reborn Blog","legacyStaticSiteLogoLine":"S-Reborn Blog","legacyStaticCopyrightLine":"© 2026 S-Reborn Blog · Medical AI Content Platform"};
+  var __SITE_BRAND = {"blogDisplayName":"S-Reborn AI Blog","doctorAiAcademyDisplayName":"Doctor AI Academy","labDisplayName":"S-Reborn Lab","clinicBlogDisplayName":"S-Reborn Clinic Blog","copyrightEntityLine":"© 2026 S-Reborn AI Blog. All rights reserved.","adminPanelBrand":"S-Reborn AI Blog","legacyStaticSiteLogoLine":"S-Reborn AI Blog","legacyStaticCopyrightLine":"© 2026 S-Reborn AI Blog · Medical AI Content Platform"};
   /*__END_SITE_BRAND__*/
 
   // ── 사이트맵 데이터 ──────────────────────────────────────────────────────
@@ -106,7 +106,7 @@
     typeof window !== 'undefined' && window.__SREBORN_SITE_BRAND__
       ? window.__SREBORN_SITE_BRAND__
       : __SITE_BRAND;
-  var BLOG_NAME = BR.blogDisplayName || 'S-Reborn Blog';
+  var BLOG_NAME = BR.blogDisplayName || 'S-Reborn AI Blog';
   var DAI_NAME = BR.doctorAiAcademyDisplayName || 'Doctor AI Academy';
 
   // ── 글로벌 내비게이션 바 HTML ────────────────────────────────────────────
