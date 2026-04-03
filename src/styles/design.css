@@ -1496,7 +1496,9 @@ footer {
   .side-post:active,
   .post-card:active,
   .blog-item:active,
-  .dai-hero:active {
+  .dai-hero:active,
+  .lab-teaser:active,
+  .lab-hub-card:active {
     transform: none !important;
     opacity: 1 !important;
   }
@@ -1617,6 +1619,148 @@ footer {
   }
   .dai-hero-articles {
     padding: 1.1rem 1.25rem;
+  }
+}
+
+/* ═══ HOME: S-Reborn Lab 티저 ═══ */
+.lab-teaser-wrap {
+  padding: 0 0 0.75rem;
+}
+
+.lab-teaser {
+  display: block;
+  padding: 1.25rem 1.5rem;
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.2s;
+}
+
+.lab-teaser:hover {
+  background: var(--bg3);
+}
+
+.lab-teaser-eyebrow {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--pink);
+  margin-bottom: 0.5rem;
+}
+
+.lab-teaser-title {
+  font-family: var(--display);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.25;
+  margin: 0 0 0.5rem;
+}
+
+.lab-teaser-desc {
+  font-size: 0.875rem;
+  color: var(--t2);
+  line-height: 1.55;
+  margin: 0 0 0.75rem;
+}
+
+.lab-teaser-cta {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--pink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+
+/* ═══ /lab 페이지 ═══ */
+.lab-page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2rem 1rem 3rem;
+}
+
+.lab-page-head {
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.lab-page-head h1 {
+  font-family: var(--display);
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 0.75rem;
+}
+
+.lab-page-lead {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--t2);
+  margin: 0;
+}
+
+.lab-hub-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.lab-hub-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.35rem 1.4rem;
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.lab-hub-card:hover {
+  background: var(--bg3);
+  border-color: var(--rule2);
+}
+
+.lab-hub-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+  margin-bottom: 0.65rem;
+}
+
+.lab-hub-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 0.5rem;
+}
+
+.lab-hub-desc {
+  font-size: 0.875rem;
+  color: var(--t2);
+  line-height: 1.55;
+  flex: 1;
+  margin: 0 0 1rem;
+}
+
+.lab-hub-cta {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--pink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+
+@media (max-width: 640px) {
+  .lab-hub-grid {
+    grid-template-columns: 1fr;
   }
 }
 
