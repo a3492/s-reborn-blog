@@ -55,7 +55,7 @@ const searchIndex = allPosts.map(post => ({
 			<Footer siteTitle={resolvedSiteTitle} socialLinks={siteSettings.socialLinks} />
 		</div>
 
-		<script define:vars={{ searchIndex, contactEmail: CONTACT_EMAIL }}>
+		<script define:vars={{ searchIndex, contactEmail: CONTACT_EMAIL, supabaseUrl: import.meta.env.PUBLIC_SUPABASE_URL ?? '', supabaseKey: import.meta.env.PUBLIC_SUPABASE_ANON_KEY ?? '' }}>
 		(function() {
       const input = document.getElementById('search-input');
       const wrap = document.querySelector('[data-search-wrap]');
@@ -379,27 +379,34 @@ const searchIndex = allPosts.map(post => ({
       window.addEventListener('scroll', () => { if (!dropdown.classList.contains('hidden')) positionDropdown(); }, true);
 
       if (requestBtn) {
-        requestBtn.addEventListener('click', () => {
+        requestBtn.addEventListener('click', async () => {
           const query = requestBtn.dataset.query || input.value.trim();
           if (!query) return;
 
-          // 요청 완료 상태로 전환
+          // 즉시 완료 상태로 전환 (UX 우선)
           emptyEl.classList.add('hidden');
           if (requestDone) requestDone.classList.remove('hidden');
 
-          // mailto 열기 (이메일 앱이 설정된 경우)
-          if (contactEmail) {
-            const subject = encodeURIComponent(`[글 요청] ${query}`);
-            const body    = encodeURIComponent(
-              `안녕하세요 😊\n\n"${query}"에 대한 글을 요청드립니다.\n\n감사합니다!`
-            );
-            window.location.href = `mailto:${contactEmail}?subject=${subject}&body=${body}`;
-          } else {
-            // 이메일 미설정 시: 요청 내용 클립보드 복사
-            navigator.clipboard?.writeText(
-              `[글 요청] "${query}" 주제로 글을 작성해 주세요.`
-            ).catch(() => {});
-          }
+          // Supabase에 요청 저장
+          try {
+            if (supabaseUrl && supabaseKey) {
+              await fetch(`${supabaseUrl}/rest/v1/article_requests`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'apikey': supabaseKey,
+                  'Authorization': `Bearer ${supabaseKey}`,
+                  'Prefer': 'return=minimal',
+                },
+                body: JSON.stringify({
+                  query,
+                  status: 'pending',
+                  referrer: document.referrer || window.location.pathname,
+                  user_agent: navigator.userAgent,
+                }),
+              });
+            }
+          } catch { /* 저장 실패해도 UI는 완료 상태 유지 */ }
         });
       }
     })();

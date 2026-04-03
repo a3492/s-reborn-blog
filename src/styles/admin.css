@@ -1237,3 +1237,29 @@ body.sidebar-open .admin-sidebar-backdrop {
 }
 
 
+
+/* ── 독자 글 요청 섹션 ── */
+.admin-select-sm {
+  height: 28px;
+  padding: 0 0.5rem;
+  font-size: 0.75rem;
+  font-family: var(--admin-body, inherit);
+  border: 1px solid var(--admin-rule, #e2d9cf);
+  border-radius: 6px;
+  background: var(--admin-bg, #fff);
+  color: var(--admin-text, #1c1917);
+  cursor: pointer;
+}
+
+.admin-badge-pending {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.5rem;
+  padding: 2px 8px;
+  background: #FFF3E0;
+  color: #E65100;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: 20px;
+  vertical-align: middle;
+}

@@ -201,6 +201,35 @@ const draftPreviews = localDrafts.map(post => {
         </li>
       </ul>
     </section>
+
+    <!-- 독자 글 요청 섹션 -->
+    <section class="admin-card pad-lg span-12" id="article-requests-section">
+      <div class="admin-actions-row">
+        <div>
+          <h2 class="admin-section-title">
+            독자 글 요청
+            <span class="admin-badge-pending" id="requests-pending-badge" style="display:none"></span>
+          </h2>
+          <p class="admin-section-desc">검색 결과 없을 때 독자가 에디터에게 요청한 주제 목록입니다.</p>
+        </div>
+        <div style="display:flex;gap:0.5rem;align-items:center;">
+          <select id="requests-status-filter" class="admin-select-sm">
+            <option value="">전체</option>
+            <option value="pending" selected>대기중</option>
+            <option value="reviewing">검토중</option>
+            <option value="done">완료</option>
+            <option value="rejected">거절</option>
+          </select>
+        </div>
+      </div>
+      <ul class="admin-list" id="requests-list">
+        <li class="admin-list-row">
+          <div>
+            <p class="admin-item-title">불러오는 중...</p>
+          </div>
+        </li>
+      </ul>
+    </section>
   </div>
 
   <script>
@@ -462,6 +491,112 @@ const draftPreviews = localDrafts.map(post => {
           if (!document.hidden) loadDashboard(true);
         });
       });
+    }
+
+    // ── 독자 글 요청 관리 ──────────────────────────────────────────
+    {
+      const listEl    = document.getElementById('requests-list');
+      const filterEl  = document.getElementById('requests-status-filter');
+      const badgeEl   = document.getElementById('requests-pending-badge');
+      const STATUS_LABEL = { pending: '대기중', reviewing: '검토중', done: '완료', rejected: '거절' };
+      const STATUS_COLOR = { pending: '#E65100', reviewing: '#1565C0', done: '#2E7D32', rejected: '#555' };
+
+      async function loadRequests(statusFilter = 'pending') {
+        if (!listEl) return;
+        listEl.innerHTML = '<li class="admin-list-row"><div><p class="admin-item-title">불러오는 중...</p></div></li>';
+
+        const supabaseUrl = document.querySelector('meta[name="sb-url"]')?.getAttribute('content')
+          ?? (typeof window !== 'undefined' && (window).__supabaseUrl);
+
+        // PUBLIC env는 빌드타임에 인라인됨
+        const url  = String(import.meta?.env?.PUBLIC_SUPABASE_URL ?? '').trim();
+        const key  = String(import.meta?.env?.PUBLIC_SUPABASE_ANON_KEY ?? '').trim();
+        if (!url || !key) {
+          listEl.innerHTML = '<li class="admin-list-row"><div><p class="admin-item-title">Supabase 환경변수 미설정</p></div></li>';
+          return;
+        }
+
+        const params = new URLSearchParams({ order: 'created_at.desc', limit: '50' });
+        if (statusFilter) params.set('status', `eq.${statusFilter}`);
+
+        const res = await fetch(`${url}/rest/v1/article_requests?${params}`, {
+          headers: { apikey: key, Authorization: `Bearer ${key}` },
+        }).catch(() => null);
+
+        if (!res || !res.ok) {
+          listEl.innerHTML = '<li class="admin-list-row"><div><p class="admin-item-title">로드 실패 — article_requests 테이블을 확인하세요</p></div></li>';
+          return;
+        }
+
+        const rows = await res.json();
+
+        // pending 개수 배지
+        if (badgeEl) {
+          const pendingRes = await fetch(`${url}/rest/v1/article_requests?status=eq.pending&select=id`, {
+            headers: { apikey: key, Authorization: `Bearer ${key}`, Prefer: 'count=exact', Range: '0-0' },
+          }).catch(() => null);
+          const pendingCount = parseInt(pendingRes?.headers?.get('content-range')?.split('/')[1] ?? '0');
+          if (pendingCount > 0) {
+            badgeEl.textContent = `${pendingCount}건 대기`;
+            badgeEl.style.display = 'inline-flex';
+          } else {
+            badgeEl.style.display = 'none';
+          }
+        }
+
+        if (!rows.length) {
+          listEl.innerHTML = '<li class="admin-list-row"><div><p class="admin-item-title">요청 없음</p></div></li>';
+          return;
+        }
+
+        listEl.innerHTML = rows.map((r) => {
+          const date = new Date(r.created_at).toLocaleDateString('ko-KR', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+          const color = STATUS_COLOR[r.status] ?? '#555';
+          const label = STATUS_LABEL[r.status] ?? r.status;
+          return `
+            <li class="admin-list-row" data-req-id="${r.id}">
+              <div style="flex:1;min-width:0;">
+                <p class="admin-item-title" style="margin:0 0 0.2rem;">"${r.query}"</p>
+                <p class="admin-item-meta" style="margin:0;">${date}${r.referrer ? ` · ${r.referrer}` : ''}</p>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.5rem;flex-shrink:0;">
+                <select class="admin-select-sm req-status-select" data-req-id="${r.id}" style="font-size:0.75rem;">
+                  ${['pending','reviewing','done','rejected'].map(s =>
+                    `<option value="${s}"${s === r.status ? ' selected' : ''}>${STATUS_LABEL[s]}</option>`
+                  ).join('')}
+                </select>
+                <span style="font-size:0.72rem;font-weight:700;color:${color};white-space:nowrap;">${label}</span>
+              </div>
+            </li>`;
+        }).join('');
+
+        // 상태 변경 핸들러
+        listEl.querySelectorAll('.req-status-select').forEach(sel => {
+          sel.addEventListener('change', async (e) => {
+            const target = e.target;
+            const reqId  = target.dataset.reqId;
+            const newStatus = target.value;
+            await fetch(`${url}/rest/v1/article_requests?id=eq.${reqId}`, {
+              method: 'PATCH',
+              headers: {
+                apikey: key, Authorization: `Bearer ${key}`,
+                'Content-Type': 'application/json', Prefer: 'return=minimal',
+              },
+              body: JSON.stringify({ status: newStatus }),
+            }).catch(() => {});
+            loadRequests(filterEl?.value ?? '');
+          });
+        });
+      }
+
+      filterEl?.addEventListener('change', () => loadRequests(filterEl.value));
+
+      document.addEventListener('admin:session-ready', () => {
+        loadRequests(filterEl?.value ?? 'pending');
+      });
+
+      // admin:session-ready가 이미 발화됐을 수 있으므로 직접 시도
+      if (document.readyState === 'complete') loadRequests('pending');
     }
   </script>
 </AdminLayout>
