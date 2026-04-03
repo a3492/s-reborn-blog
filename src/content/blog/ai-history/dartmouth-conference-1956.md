@@ -2,10 +2,17 @@
 title: "1956 다트머스 회의 — '인공지능'이라는 단어가 탄생한 날"
 date: 2026-03-31
 category: ai-history
+tags:
+  - "cu2604021805"
+  - "AI역사"
+  - "의료AI"
+  - "dartmouth-conference-1956"
+
 description: "1956년 여름, 존 매카시는 \"인공지능(artificial intelligence)\"이라는 이름을 직접 만들어 냈고 — 그 선택이 이후 70년의 역사를 결정했다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

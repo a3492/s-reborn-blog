@@ -325,7 +325,13 @@ hr {
 	gap: 0.4rem;
 	flex-wrap: wrap;
 	justify-content: center;
-	margin-top: 0.5rem;
+	margin: 1.75rem 0 1.25rem;
+}
+
+.blog-post-tags--after-body {
+	margin: 1.75rem 0 1.25rem;
+	padding-top: 1.25rem;
+	border-top: 1px solid var(--rule);
 }
 
 .blog-post-tag {

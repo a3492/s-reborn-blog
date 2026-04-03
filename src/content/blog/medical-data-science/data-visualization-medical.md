@@ -2,10 +2,18 @@
 title: "의료 데이터 시각화 — 논문 Figure 수준 그래프 만들기"
 date: 2026-03-31
 category: medical-data-science
+tags:
+  - "cu2604021805"
+  - "의료데이터"
+  - "통계"
+  - "분석"
+  - "data-visualization-medical"
+
 description: "논문에 넣을 그래프는 예쁘면 안 된다 — 정보가 정확하고, 색이 색맹에게도 보이고, 300dpi여야 한다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

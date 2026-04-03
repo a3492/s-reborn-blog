@@ -2,10 +2,17 @@
 title: "의료 AI 60년사 — MYCIN에서 ChatGPT까지"
 date: 2026-03-31
 category: ai-history
+tags:
+  - "cu2604021805"
+  - "AI역사"
+  - "의료AI"
+  - "medical-ai-history"
+
 description: "의료 AI는 1970년대 전문가 시스템에서 시작해 60년 동안 수많은 실패와 부분적 성공을 거쳐, 2020년대에 비로소 실제 임상에 뿌리를 내리기 시작했다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

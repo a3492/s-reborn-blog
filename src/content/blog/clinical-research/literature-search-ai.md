@@ -2,10 +2,18 @@
 title: "AI로 문헌 검색하기 — PubMed에서 Perplexity까지"
 date: 2026-03-31
 category: clinical-research
+tags:
+  - "cu2604021805"
+  - "임상연구"
+  - "논문"
+  - "EBM"
+  - "literature-search-ai"
+
 description: "전통적인 PubMed MeSH 검색에 AI 도구를 보조로 결합하면 검색 재현율을 높이면서 탐색 시간을 대폭 단축할 수 있다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

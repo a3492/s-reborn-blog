@@ -2,10 +2,18 @@
 title: "결측 데이터 처리 — 의료 데이터에서 가장 흔한 문제"
 date: 2026-03-31
 category: medical-data-science
+tags:
+  - "cu2604021805"
+  - "의료데이터"
+  - "통계"
+  - "분석"
+  - "missing-data-handling"
+
 description: "의료 데이터에서 결측은 예외가 아니라 규칙이다. 처리 방법이 틀리면 연구 결론이 뒤집힌다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

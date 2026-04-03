@@ -2,10 +2,18 @@
 title: "멀티에이전트 시스템 — 여러 AI가 협력하는 의료 팀"
 date: 2026-03-31
 category: ai-agents
+tags:
+  - "cu2604021805"
+  - "에이전트"
+  - "의료AI"
+  - "LLM"
+  - "multi-agent-system"
+
 description: "단일 에이전트가 모든 것을 처리하는 데는 한계가 있다. 멀티에이전트 시스템은 Orchestrator가 작업을 분배하고 전문 에이전트들이 병렬로 처리하는 구조로, 의료처럼 다학제 협업이 필요한 영역에 적합하다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

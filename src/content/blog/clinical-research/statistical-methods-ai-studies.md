@@ -2,10 +2,18 @@
 title: "의료 AI 논문을 비판적으로 읽는 법 — TRIPOD-AI 체크리스트"
 date: 2026-03-31
 category: clinical-research
+tags:
+  - "cu2604021805"
+  - "임상연구"
+  - "논문"
+  - "EBM"
+  - "statistical-methods-ai-studies"
+
 description: "AUROC 하나만 보고 AI 모델을 판단하면 안 된다 — calibration, 외부 검증, Decision Curve Analysis를 함께 확인해야 실제 임상 유용성을 알 수 있다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

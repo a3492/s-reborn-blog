@@ -2,10 +2,17 @@
 title: "GPT-1에서 GPT-4까지 — OpenAI는 어떻게 세계를 바꿨나"
 date: 2026-03-31
 category: ai-history
+tags:
+  - "cu2604021805"
+  - "AI역사"
+  - "의료AI"
+  - "gpt-history"
+
 description: "2018년 117M 파라미터짜리 GPT-1에서 시작한 OpenAI의 실험은, 4년 만에 전 세계 지식 노동의 판을 흔드는 ChatGPT로 이어졌다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

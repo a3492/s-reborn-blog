@@ -2,10 +2,18 @@
 title: "Claude API 첫 호출 — 10줄 코드로 의료 AI 만들기"
 date: 2026-03-31
 category: doctor-dev
+tags:
+  - "cu2604021805"
+  - "의사개발자"
+  - "Python"
+  - "자동화"
+  - "api-first-call"
+
 description: "API key 하나와 Python 10줄이면 감별진단 AI가 당신의 컴퓨터에서 돌아간다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

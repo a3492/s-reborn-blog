@@ -2,10 +2,17 @@
 title: "한국 AI 개발의 역사 — ETRI에서 뷰노·루닛까지"
 date: 2026-03-31
 category: ai-history
+tags:
+  - "cu2604021805"
+  - "AI역사"
+  - "의료AI"
+  - "korea-ai-history"
+
 description: "1980년대 ETRI에서 시작된 한국 AI 연구는, 2016년 알파고 쇼크를 계기로 국가 전략으로 격상됐고, 2020년대 의료 AI 스타트업 생태계로 꽃피었다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

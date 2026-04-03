@@ -2,10 +2,17 @@
 title: "AlphaGo의 순간 — 이세돌 4국, AI가 인간을 이긴 날의 의미"
 date: 2026-03-31
 category: ai-history
+tags:
+  - "cu2604021805"
+  - "AI역사"
+  - "의료AI"
+  - "alphago-moment"
+
 description: "2016년 3월, 이세돌은 AlphaGo에 1-4로 졌다 — 그리고 인류 전체가 AI를 다시 보기 시작했다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

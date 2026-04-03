@@ -121,15 +121,16 @@ const countsByCategory = allPosts.reduce<Record<string, number>>((acc, post) => 
 								<FormattedDate date={date} />
 							</div>
 							<h1>{title}</h1>
-							{tags && tags.length > 0 && (
-								<div class="blog-post-tags tags">
-									{tags.map((tag) => <span class="blog-post-tag tag">#{tag}</span>)}
-								</div>
-							)}
 							<PostStats slug={slug} />
 							<hr />
 						</div>
 						<slot />
+
+						{tags && tags.length > 0 && (
+							<div class="blog-post-tags blog-post-tags--after-body tags" aria-label="태그">
+								{tags.map((tag) => <span class="blog-post-tag tag">#{tag}</span>)}
+							</div>
+						)}
 
 						<div class="blog-post-share-section share-section">
 							<p>이 글이 도움이 됐다면 링크를 남겨 두거나 바로 공유할 수 있습니다.</p>

@@ -2,10 +2,18 @@
 title: "Git — 의사가 코드를 관리하는 법"
 date: 2026-03-31
 category: doctor-dev
+tags:
+  - "cu2604021805"
+  - "의사개발자"
+  - "Python"
+  - "자동화"
+  - "git-for-doctors"
+
 description: "Git은 코드의 의무기록이다 — 누가, 언제, 무엇을, 왜 수정했는지 모두 남고, 언제든 이전으로 되돌릴 수 있다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

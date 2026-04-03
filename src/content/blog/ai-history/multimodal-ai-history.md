@@ -2,10 +2,17 @@
 title: "멀티모달 AI의 역사 — 텍스트에서 이미지·음성까지"
 date: 2026-03-31
 category: ai-history
+tags:
+  - "cu2604021805"
+  - "AI역사"
+  - "의료AI"
+  - "multimodal-ai-history"
+
 description: "AI가 텍스트만 처리하던 시대에서 이미지·음성·영상을 함께 이해하는 시대로의 전환은, 2012년 AlexNet에서 시작해 2024년 GPT-4o에서 완성의 형태를 드러냈다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

@@ -2,10 +2,17 @@
 title: "Transformer — 논문 저자들이 이 이름을 고른 진짜 이유"
 date: 2026-03-31
 category: ai-terminology
+tags:
+  - "cu2604021805"
+  - "AI용어"
+  - "용어사전"
+  - "term-transformer"
+
 description: "\"Transformer\"라는 이름은 전기 변압기(electrical transformer)에서 영감을 받았을 가능성이 높지만, 저자들이 공식 확인한 적은 없다 — 이름보다 논문 제목이 더 유명해진 희귀한 사례다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

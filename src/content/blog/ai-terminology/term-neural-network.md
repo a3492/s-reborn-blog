@@ -2,10 +2,17 @@
 title: "신경망(Neural Network) — 뇌를 모방한다는 은유의 탄생"
 date: 2026-03-31
 category: ai-terminology
+tags:
+  - "cu2604021805"
+  - "AI용어"
+  - "용어사전"
+  - "term-neural-network"
+
 description: "\"신경망\"이라는 이름은 1943년 두 과학자가 뇌의 뉴런을 논리 회로로 추상화하면서 시작된 은유이며, 실제 뇌와는 근본적으로 다르다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

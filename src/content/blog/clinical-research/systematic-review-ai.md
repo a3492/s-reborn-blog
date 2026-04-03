@@ -2,10 +2,18 @@
 title: "체계적 문헌고찰 AI 자동화 — 6개월 작업을 2주로 줄이는 법"
 date: 2026-03-31
 category: clinical-research
+tags:
+  - "cu2604021805"
+  - "임상연구"
+  - "논문"
+  - "EBM"
+  - "systematic-review-ai"
+
 description: "Rayyan, ASReview, Elicit을 조합하면 6개월짜리 체계적 문헌고찰(SR)을 2-3주로 단축할 수 있다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

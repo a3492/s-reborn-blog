@@ -2,10 +2,18 @@
 title: "의료 워크플로우 에이전트 설계 — 외래 보조 AI 만들기"
 date: 2026-03-31
 category: ai-agents
+tags:
+  - "cu2604021805"
+  - "에이전트"
+  - "의료AI"
+  - "LLM"
+  - "medical-workflow-agent"
+
 description: "외래 보조 에이전트는 환자 정보를 입력받아 감별진단→가이드라인 검색→처방 초안→약물 상호작용 확인→SOAP 노트 작성까지 5단계를 자동 수행하되, 최종 결정은 항상 의사에게 남긴다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

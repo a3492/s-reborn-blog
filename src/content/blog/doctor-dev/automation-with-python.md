@@ -2,10 +2,18 @@
 title: "Python으로 반복 업무 자동화 — 의사의 일상을 코드로"
 date: 2026-03-31
 category: doctor-dev
+tags:
+  - "cu2604021805"
+  - "의사개발자"
+  - "Python"
+  - "자동화"
+  - "automation-with-python"
+
 description: "매주 같은 Excel 보고서를 손으로 만들고 있다면, 그 30분을 되찾을 수 있다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

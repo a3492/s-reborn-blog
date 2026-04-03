@@ -2,10 +2,18 @@
 title: "Pandas로 임상 데이터 분석 — Excel을 Python으로 대체하는 법"
 date: 2026-03-31
 category: doctor-dev
+tags:
+  - "cu2604021805"
+  - "의사개발자"
+  - "Python"
+  - "자동화"
+  - "pandas-for-clinical-data"
+
 description: "Pandas는 Excel보다 빠르고 재현 가능하며 실수가 없다 — 한 번 코드를 짜면 다음 달도 버튼 하나로 돌린다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

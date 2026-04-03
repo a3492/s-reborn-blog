@@ -2,10 +2,17 @@
 title: "프롬프트(Prompt) — 연극 무대에서 AI로 온 단어의 여정"
 date: 2026-03-31
 category: ai-terminology
+tags:
+  - "cu2604021805"
+  - "AI용어"
+  - "용어사전"
+  - "term-prompt"
+
 description: "\"프롬프트\"는 라틴어 \"준비된\"에서 출발해 연극 무대 뒤의 귀띔꾼을 거쳐 컴퓨터 명령 대기 신호가 됐고, 마침내 AI와 대화하는 입력으로 정착했다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

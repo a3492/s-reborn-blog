@@ -79,8 +79,6 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
             <h1 data-admin-preview-title></h1>
             <p class="admin-post-preview-desc" data-admin-preview-desc hidden></p>
 
-            <div class="tags" data-admin-preview-tags hidden></div>
-
             <div class="admin-post-preview-stats">
               <span>조회수 미리보기</span>
               <span>·</span>
@@ -91,6 +89,8 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
           </div>
 
           <div class="admin-preview-body" data-admin-preview-body></div>
+
+          <div class="blog-post-tags blog-post-tags--after-body tags" data-admin-preview-tags hidden></div>
 
           <div class="share-section admin-post-preview-share">
             <p>이 글이 도움이 됐나요? 공유해 주세요.</p>

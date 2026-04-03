@@ -2,10 +2,18 @@
 title: "에이전트 메모리 — AI가 이전 대화를 기억하는 4가지 방법"
 date: 2026-03-31
 category: ai-agents
+tags:
+  - "cu2604021805"
+  - "에이전트"
+  - "의료AI"
+  - "LLM"
+  - "agent-memory-types"
+
 description: "에이전트 메모리는 In-context, External, Episodic, Semantic 4가지 유형으로 나뉘며, 의료 에이전트는 이 중 External + Episodic 조합으로 환자별 연속성을 유지하되 HIPAA 준수가 필수다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

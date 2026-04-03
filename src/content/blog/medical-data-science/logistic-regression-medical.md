@@ -2,10 +2,18 @@
 title: "로지스틱 회귀 — 입원 예측 모델 만드는 법"
 date: 2026-03-31
 category: medical-data-science
+tags:
+  - "cu2604021805"
+  - "의료데이터"
+  - "통계"
+  - "분석"
+  - "logistic-regression-medical"
+
 description: "로지스틱 회귀는 \"이 환자가 30일 내 재입원할 확률이 얼마인가\"를 숫자로 내놓는 가장 검증된 방법이다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

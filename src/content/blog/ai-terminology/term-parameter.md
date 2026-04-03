@@ -2,10 +2,17 @@
 title: "파라미터(Parameter) — 175B 파라미터는 무엇을 세는 숫자인가"
 date: 2026-03-31
 category: ai-terminology
+tags:
+  - "cu2604021805"
+  - "AI용어"
+  - "용어사전"
+  - "term-parameter"
+
 description: "AI 모델의 파라미터는 통계학에서 빌린 단어이며, 175B(1750억)라는 숫자는 모델이 학습을 통해 얻은 조정 가능한 숫자들의 총합이다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

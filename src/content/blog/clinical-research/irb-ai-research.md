@@ -2,10 +2,18 @@
 title: "IRB와 AI 연구 — 동의서에 AI 사용을 어떻게 명시할까"
 date: 2026-03-31
 category: clinical-research
+tags:
+  - "cu2604021805"
+  - "임상연구"
+  - "논문"
+  - "EBM"
+  - "irb-ai-research"
+
 description: "AI를 활용한 의료 연구는 연구 유형에 따라 IRB 요건이 다르며, 환자 동의서와 개인정보 처리에서 새로운 조항이 필요하다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

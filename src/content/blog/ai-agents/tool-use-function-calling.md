@@ -2,10 +2,18 @@
 title: "Tool Use와 함수 호출 — AI가 외부 세계와 연결되는 방법"
 date: 2026-03-31
 category: ai-agents
+tags:
+  - "cu2604021805"
+  - "에이전트"
+  - "의료AI"
+  - "LLM"
+  - "tool-use-function-calling"
+
 description: "Function Calling은 LLM이 \"이 함수를 호출해야겠다\"고 스스로 판단하고 JSON 형식의 호출 신호를 출력하는 기술로, 에이전트가 실제 세계와 상호작용하는 핵심 메커니즘이다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

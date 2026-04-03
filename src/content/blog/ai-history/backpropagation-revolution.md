@@ -2,10 +2,17 @@
 title: "역전파의 재발견 — Hinton이 AI를 다시 살린 방법"
 date: 2026-03-31
 category: ai-history
+tags:
+  - "cu2604021805"
+  - "AI역사"
+  - "의료AI"
+  - "backpropagation-revolution"
+
 description: "역전파는 1974년에 이미 발명됐지만 아무도 몰랐다 — 힌턴이 1986년 이를 세상에 알리기까지 12년이 걸렸고, 그 사이 AI 겨울이 왔다 갔다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 

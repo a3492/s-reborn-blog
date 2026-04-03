@@ -2,10 +2,17 @@
 title: "임베딩(Embedding) — '삽입'이라는 수학 개념이 AI의 핵심어가 된 이유"
 date: 2026-03-31
 category: ai-terminology
+tags:
+  - "cu2604021805"
+  - "AI용어"
+  - "용어사전"
+  - "term-embedding"
+
 description: "\"임베딩\"은 수학의 위상수학 용어 — 한 공간을 다른 공간에 구조를 보존하며 삽입하는 것 — 이며, AI에서 단어를 벡터 공간에 삽입하는 과정을 정확히 묘사한다."
 thumbnail: ""
 draft: false
 ---
+
 
 ## 한줄 요약
 
