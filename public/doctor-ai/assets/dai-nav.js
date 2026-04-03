@@ -1,4 +1,4 @@
-/* ── Doctor AI Global Navigation — dai-nav.js ────────────────────────────── */
+/* ── Doctor AI Academy Global Navigation — dai-nav.js ────────────────────────────── */
 (function () {
   'use strict';
 
@@ -135,10 +135,10 @@
 
   // ── 전체 HTML 조립 ──────────────────────────────────────────────────────
   var injectHtml = ''
-    + '<nav class="dai-global-nav" role="navigation" aria-label="Doctor AI 내비게이션">'
+    + '<nav class="dai-global-nav" role="navigation" aria-label="Doctor AI Academy 내비게이션">'
     +   '<div class="dai-nav-inner">'
     +     '<div class="dai-nav-brand">'
-    +       '<a class="dai-nav-badge" href="/doctor-ai/">Doctor AI</a>'
+    +       '<a class="dai-nav-badge" href="/doctor-ai/">Doctor AI Academy</a>'
     +       '<span class="dai-nav-sep">/</span>'
     +       '<a class="dai-nav-site" href="/">S-Reborn</a>'
     +     '</div>'
@@ -153,12 +153,12 @@
     + '</nav>'
     + '<div class="dai-overlay" id="dai-overlay" aria-hidden="true"></div>'
     + '<aside class="dai-drawer" id="dai-drawer"'
-    +   ' role="dialog" aria-modal="true" aria-label="Doctor AI 전체 목차">'
+    +   ' role="dialog" aria-modal="true" aria-label="Doctor AI Academy 전체 목차">'
     +   '<div class="dai-drawer-head">'
     +     '<span class="dai-drawer-title">전체 목차</span>'
     +     '<button class="dai-drawer-close" id="dai-drawer-close" aria-label="닫기">✕</button>'
     +   '</div>'
-    +   '<a href="/doctor-ai/" class="dai-drawer-hub">Doctor AI 허브로 이동</a>'
+    +   '<a href="/doctor-ai/" class="dai-drawer-hub">Doctor AI Academy 허브로 이동</a>'
     +   '<div class="dai-drawer-body">' + drawerBodyHtml + '</div>'
     + '</aside>';
 

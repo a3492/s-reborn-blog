@@ -1,4 +1,4 @@
-/* ── Doctor AI Global Navigation — dai-nav.css ───────────────────────────── */
+/* ── Doctor AI Academy Global Navigation — dai-nav.css ───────────────────── */
 
 /* 기존 topnav 숨김 (dai-nav.js가 .dai-replaced 클래스 추가) */
 .dai-replaced { display: none !important; }
