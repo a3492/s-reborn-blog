@@ -1,0 +1,320 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { SITE_BRAND } from '../../consts';
+
+const allPosts = await getCollection('blog', ({ data, id }) =>
+  !data.draft && id.startsWith('doctor-ai/')
+);
+
+const recentPosts = allPosts
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 5);
+
+const sections = [
+  {
+    key: 'fundamentals',
+    icon: 'F',
+    label: 'Fundamentals',
+    desc: 'AI 기초·윤리·에이전트 원리',
+    href: '/doctor-ai/fundamentals/',
+    count: allPosts.filter((p) => p.id.startsWith('doctor-ai/fundamentals/')).length,
+  },
+  {
+    key: 'prompts',
+    icon: 'P',
+    label: 'Prompts',
+    desc: '임상 프롬프트 실전 템플릿',
+    href: '/doctor-ai/prompts/',
+    count: allPosts.filter((p) => p.id.startsWith('doctor-ai/prompts/')).length,
+  },
+  {
+    key: 'cases',
+    icon: 'C',
+    label: 'Cases',
+    desc: '실제 임상 케이스 AI 적용',
+    href: '/doctor-ai/cases/',
+    count: allPosts.filter((p) => p.id.startsWith('doctor-ai/cases/')).length,
+  },
+  {
+    key: 'tools',
+    icon: 'T',
+    label: 'Tools',
+    desc: '의료 AI 도구 실전 리뷰',
+    href: '/doctor-ai/tools/',
+    count: allPosts.filter((p) => p.id.startsWith('doctor-ai/tools/')).length,
+  },
+];
+---
+
+<Layout
+  title={SITE_BRAND.doctorAiAcademyDisplayName}
+  description="임상의를 위한 실전 AI 교육 — Fundamentals, Prompts, Cases, Tools"
+>
+  <div class="dai-page">
+
+    <!-- Hero -->
+    <header class="dai-hero">
+      <p class="dai-eyebrow">🩺 {SITE_BRAND.labDisplayName}</p>
+      <h1 class="dai-hero-title">{SITE_BRAND.doctorAiAcademyDisplayName}</h1>
+      <p class="dai-hero-sub">임상의를 위한 실전 AI 교육</p>
+      <p class="dai-hero-desc">
+        총 <strong>{allPosts.length}편</strong>의 글로 구성된 Academy입니다.
+        기초 이론부터 임상 케이스, 프롬프트 템플릿, 도구 리뷰까지 단계적으로 학습할 수 있습니다.
+      </p>
+    </header>
+
+    <!-- 섹션 카드 그리드 -->
+    <section class="dai-sections">
+      {sections.map((sec) => (
+        <a class="dai-sec-card" href={sec.href}>
+          <span class="dai-sec-icon">{sec.icon}</span>
+          <div class="dai-sec-body">
+            <h2 class="dai-sec-title">{sec.label}</h2>
+            <p class="dai-sec-desc">{sec.desc}</p>
+          </div>
+          <span class="dai-sec-count">{sec.count}편</span>
+          <span class="dai-sec-arrow">→</span>
+        </a>
+      ))}
+    </section>
+
+    <!-- 최근 글 -->
+    <section class="dai-recent">
+      <h2 class="dai-recent-title">최근 글</h2>
+      <ul class="dai-recent-list">
+        {recentPosts.map((post) => (
+          <li class="dai-recent-item">
+            <a href={`/blog/${post.id}/`} class="dai-recent-link">
+              <span class="dai-recent-post-title">{post.data.title}</span>
+              {post.data.description && (
+                <span class="dai-recent-desc">{post.data.description}</span>
+              )}
+            </a>
+            <time class="dai-recent-date" datetime={post.data.date.toISOString()}>
+              {post.data.date.toLocaleDateString('ko-KR', { year: 'numeric', month: 'short', day: 'numeric' })}
+            </time>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+  </div>
+</Layout>
+
+<style>
+.dai-page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2.5rem 1rem 4rem;
+}
+
+/* ── Hero ── */
+.dai-hero {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.dai-eyebrow {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--t2);
+  letter-spacing: 0.04em;
+  margin-bottom: 0.75rem;
+}
+
+.dai-hero-title {
+  font-family: var(--display);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 0.4rem;
+  line-height: 1.2;
+}
+
+.dai-hero-sub {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--pink);
+  margin: 0 0 0.9rem;
+}
+
+.dai-hero-desc {
+  font-size: 0.9375rem;
+  color: var(--t2);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.dai-hero-desc strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+/* ── 섹션 카드 ── */
+.dai-sections {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.875rem;
+  margin-bottom: 2.5rem;
+}
+
+.dai-sec-card {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 1.1rem 1.2rem;
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.18s, border-color 0.18s, transform 0.15s;
+}
+
+.dai-sec-card:hover {
+  background: var(--bg3);
+  border-color: var(--pink);
+  transform: translateY(-1px);
+}
+
+.dai-sec-icon {
+  flex-shrink: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: var(--pink);
+  color: #fff;
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.dai-sec-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.dai-sec-title {
+  font-size: 0.9375rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 0.2rem;
+  line-height: 1.2;
+}
+
+.dai-sec-desc {
+  font-size: 0.8rem;
+  color: var(--t2);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.dai-sec-count {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--pink);
+  white-space: nowrap;
+}
+
+.dai-sec-arrow {
+  flex-shrink: 0;
+  font-size: 0.9rem;
+  color: var(--t2);
+}
+
+/* ── 최근 글 ── */
+.dai-recent-title {
+  font-family: var(--display);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 0.875rem;
+  padding-bottom: 0.625rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.dai-recent-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.dai-recent-item {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--rule2);
+}
+
+.dai-recent-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  text-decoration: none;
+  flex: 1;
+  min-width: 0;
+}
+
+.dai-recent-post-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.4;
+  transition: color 0.15s;
+}
+
+.dai-recent-link:hover .dai-recent-post-title {
+  color: var(--pink);
+}
+
+.dai-recent-desc {
+  font-size: 0.8125rem;
+  color: var(--t2);
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dai-recent-date {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  color: var(--t2);
+  white-space: nowrap;
+}
+
+/* ── 반응형 ── */
+@media (max-width: 768px) {
+  .dai-hero-title {
+    font-size: 1.6rem;
+  }
+
+  .dai-sections {
+    grid-template-columns: 1fr;
+  }
+
+  .dai-sec-card {
+    padding: 0.9rem 1rem;
+  }
+
+  .dai-recent-item {
+    flex-direction: column;
+    gap: 0.25rem;
+    align-items: flex-start;
+  }
+
+  .dai-recent-date {
+    font-size: 0.7rem;
+  }
+}
+</style>

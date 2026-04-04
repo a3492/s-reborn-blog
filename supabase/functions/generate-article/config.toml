@@ -1,0 +1,3 @@
+[functions.generate-article]
+# DB Webhook은 Supabase JWT 없이 호출하므로 JWT 검증 비활성화
+verify_jwt = false

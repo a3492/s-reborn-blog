@@ -1,0 +1,186 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../../layouts/Layout.astro';
+
+const posts = (await getCollection('blog', ({ data, id }) =>
+  !data.draft && id.startsWith('doctor-ai/fundamentals/')
+)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout
+  title="Fundamentals — Doctor AI Academy"
+  description="AI 기초·윤리·에이전트 원리를 다루는 Doctor AI Academy Fundamentals 시리즈"
+>
+  <div class="dai-sec-page">
+
+    <div class="dai-sec-back">
+      <a href="/doctor-ai/" class="dai-back-link">← Doctor AI Academy</a>
+    </div>
+
+    <header class="dai-sec-head">
+      <span class="dai-sec-badge">F</span>
+      <div>
+        <h1 class="dai-sec-title">Fundamentals</h1>
+        <p class="dai-sec-sub">AI 기초 &amp; 이론 · {posts.length}편</p>
+      </div>
+    </header>
+
+    <ul class="dai-post-list">
+      {posts.map((post) => (
+        <li class="dai-post-item">
+          <a href={`/blog/${post.id}/`} class="dai-post-card">
+            <div class="dai-post-meta">
+              {post.data.tags?.slice(0, 3).map((tag: string) => (
+                <span class="dai-tag">{tag}</span>
+              ))}
+            </div>
+            <h2 class="dai-post-title">{post.data.title}</h2>
+            {post.data.description && (
+              <p class="dai-post-desc">{post.data.description}</p>
+            )}
+            <time class="dai-post-date" datetime={post.data.date.toISOString()}>
+              {post.data.date.toLocaleDateString('ko-KR', { year: 'numeric', month: 'short', day: 'numeric' })}
+            </time>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+  </div>
+</Layout>
+
+<style>
+.dai-sec-page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2rem 1rem 4rem;
+}
+
+.dai-sec-back {
+  margin-bottom: 1.5rem;
+}
+
+.dai-back-link {
+  font-size: 0.875rem;
+  color: var(--t2);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.dai-back-link:hover {
+  color: var(--pink);
+}
+
+.dai-sec-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.dai-sec-badge {
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: var(--pink);
+  color: #fff;
+  font-family: var(--display);
+  font-size: 1.25rem;
+  font-weight: 900;
+}
+
+.dai-sec-title {
+  font-family: var(--display);
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 0.2rem;
+  line-height: 1.2;
+}
+
+.dai-sec-sub {
+  font-size: 0.9rem;
+  color: var(--t2);
+  margin: 0;
+}
+
+.dai-post-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.dai-post-item {
+  display: block;
+}
+
+.dai-post-card {
+  display: block;
+  padding: 1.25rem 1.35rem;
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.18s, border-color 0.18s;
+}
+
+.dai-post-card:hover {
+  background: var(--bg3);
+  border-color: var(--pink);
+}
+
+.dai-post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.5rem;
+}
+
+.dai-tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--pink);
+  background: rgba(184, 149, 106, 0.12);
+  padding: 0.15rem 0.5rem;
+  border-radius: 99px;
+}
+
+.dai-post-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 0.4rem;
+  line-height: 1.4;
+}
+
+.dai-post-desc {
+  font-size: 0.875rem;
+  color: var(--t2);
+  line-height: 1.55;
+  margin: 0 0 0.6rem;
+}
+
+.dai-post-date {
+  font-size: 0.75rem;
+  color: var(--t2);
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .dai-sec-title {
+    font-size: 1.4rem;
+  }
+
+  .dai-post-card {
+    padding: 1rem 1.1rem;
+  }
+}
+</style>

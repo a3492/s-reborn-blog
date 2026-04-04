@@ -362,6 +362,26 @@ body.admin-shell {
   text-decoration: none;
 }
 
+.admin-btn-claude {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid rgba(208, 132, 90, 0.4);
+  background: rgba(208, 132, 90, 0.1);
+  color: #c4642a;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.admin-btn-claude:hover {
+  background: rgba(208, 132, 90, 0.2);
+}
+
 .admin-btn.primary {
   border-color: transparent;
   background: var(--admin-accent);

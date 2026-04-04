@@ -122,10 +122,11 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
       let supabase = null;
       let _sessionEmail = null;
       let _sessionUserId = null;
-      document.addEventListener('admin:session-ready', ({ detail }) => {
+      document.addEventListener('admin:session-ready', async ({ detail }) => {
         supabase = window.__adminSupabase;
         _sessionEmail = detail.email;
         _sessionUserId = detail.userId;
+        await loadBootstrapState();
       });
 
       const loadBootstrapState = async () => {
@@ -148,7 +149,6 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
         }
 
         renderBootstrapChecks(checks);
-        return session;
       };
 
       const runHealthCheck = async () => {
@@ -173,7 +173,6 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
         setMessage(payload?.ok ? 'pipeline 검증이 모두 통과했습니다.' : '경고 또는 실패 항목이 있습니다.', payload?.ok ? 'success' : 'error');
       };
 
-      await loadBootstrapState();
       runButton?.addEventListener('click', runHealthCheck);
     }
   </script>
