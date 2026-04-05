@@ -16,7 +16,7 @@ type: "news"
 
 ## 뉴스 개요
 
-2025년 8월 *JAMA Network Open*에 게재된 Stanford University 의과대학 연구팀의 "Comparative Evaluation of Large Language Models in Clinical Reasoning Tasks" 연구는 Claude 3.5 Sonnet(Anthropic), GPT-4o(OpenAI), Gemini 1.5 Pro(Google), Llama 3.1 70B(Meta)를 대상으로 임상 추론 능력을 체계적으로 비교했다.
+2025년 8월 JAMA Network Open에 게재된 Stanford University 의과대학 연구팀의 "Comparative Evaluation of Large Language Models in Clinical Reasoning Tasks" 연구는 Claude 3.5 Sonnet(Anthropic), GPT-4o(OpenAI), Gemini 1.5 Pro(Google), Llama 3.1 70B(Meta)를 대상으로 임상 추론 능력을 체계적으로 비교했다.
 
 평가에는 USMLE Step 2 문제 500개, 실제 진단 케이스 200개, 약물 상호작용 질문 150개가 사용됐으며, 연구에 참여한 전문의 30명의 답변을 기준으로 삼았다.
 

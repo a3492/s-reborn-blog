@@ -128,7 +128,7 @@ import re, json
 
 def extract_json(text: str) -> dict:
     # 마크다운 코드블록 제거
-    match = re.search(r'```(?:json)?\s*([\s\S]*?)```', text)
+    match = re.search(r'```(?:json)?\s([\s\S]?)```', text)
     if match:
         text = match.group(1)
     return json.loads(text.strip())

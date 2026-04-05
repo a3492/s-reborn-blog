@@ -25,7 +25,7 @@ RAG는 LLM이 "모르는 것"을 검색으로 보완하는 구조다 — 세 단
 RAG라는 용어는 2020년 Facebook AI Research(현 Meta AI)의 Patrick Lewis와 동료들이 발표한 논문에서 공식화되었다.
 
 > "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks"
-> *NeurIPS 2020, Lewis et al.*
+> NeurIPS 2020, Lewis et al.
 
 "지식 집약적(Knowledge-Intensive) NLP 작업"이라는 부제가 핵심이다. 단순한 대화가 아니라, 구체적인 사실 지식이 필요한 작업 — 의학 질문 답변, 법률 문서 해석, 최신 뉴스 요약 등 — 에서 순수 LLM의 한계를 해결하는 것이 목적이었다.
 

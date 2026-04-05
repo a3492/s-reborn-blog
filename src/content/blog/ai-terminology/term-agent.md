@@ -20,11 +20,11 @@ draft: false
 
 ## 어원 — 라틴어 agere
 
-"agent"는 라틴어 *agens* (행동하는 것)에서 왔다 — 동사 *agere* (행동하다, 구동하다)의 현재분사. *agere*는 "몰다", "이끌다", "하다"를 의미했다.
+"agent"는 라틴어 agens (행동하는 것)에서 왔다 — 동사 agere (행동하다, 구동하다)의 현재분사. agere는 "몰다", "이끌다", "하다"를 의미했다.
 
 같은 어근에서 나온 단어들: act(행동), action(행동), active(활동적인), agenda(해야 할 일들), agency(기관, 행위능력). "에이전시(agency)"라는 단어가 agent의 직계 파생어다.
 
-라틴어 *agere*는 인도유럽어 *ag-* (몰다, 이끌다)까지 거슬러 올라간다. 소를 모는 것에서 추상적 행동으로 의미가 확장됐다.
+라틴어 agere는 인도유럽어 ag- (몰다, 이끌다)까지 거슬러 올라간다. 소를 모는 것에서 추상적 행동으로 의미가 확장됐다.
 
 ## 철학의 agency — 행위능력과 자율성
 
@@ -66,11 +66,11 @@ AutoGPT, LangChain agents, Claude의 tool use — 이것들이 현재의 LLM 에
 
 의학에서 "causative agent(원인병원체)"는 질병을 일으키는 원인이다 — 바이러스, 세균, 독소. "병원체(pathogen)"과 같은 의미로 쓰인다. "고혈압의 원인 인자(agent)"처럼.
 
-같은 어근에서 왔지만 의미는 다르다 — 의학의 agent는 "무언가를 일으키는 것"이고, AI의 agent는 "무언가를 하는 것"이다. *agere* — 행동하다, 일으키다 — 의 두 방향.
+같은 어근에서 왔지만 의미는 다르다 — 의학의 agent는 "무언가를 일으키는 것"이고, AI의 agent는 "무언가를 하는 것"이다. agere — 행동하다, 일으키다 — 의 두 방향.
 
 ## 핵심 정리
 
-- 라틴어 *agere* (행동하다) — act, action, agenda와 같은 어근
+- 라틴어 agere (행동하다) — act, action, agenda와 같은 어근
 - 철학의 agency: 자율적으로 행동을 선택하는 능력
 - 경제학의 agent: 본인(principal)을 대신해 행동하는 대리인
 - Russell & Norvig의 "rational agent": AI 교과서의 표준 정의

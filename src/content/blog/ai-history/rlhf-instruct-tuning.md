@@ -38,7 +38,7 @@ GPT-3는 강력했다. 그러나 방향을 가리키기가 어려웠다.
 
 ## InstructGPT — RLHF의 첫 번째 대규모 적용
 
-2022년 1월, Long Ouyang, Jeff Wu 등 OpenAI 연구진이 *"Training language models to follow instructions with human feedback"*을 발표했다. InstructGPT 논문이었다.
+2022년 1월, Long Ouyang, Jeff Wu 등 OpenAI 연구진이 "Training language models to follow instructions with human feedback"을 발표했다. InstructGPT 논문이었다.
 
 핵심 기술: RLHF (Reinforcement Learning from Human Feedback, 인간 피드백 강화학습).
 
@@ -70,7 +70,7 @@ RLHF 학습 과정은 세 단계로 구성된다.
 
 ## Constitutional AI — Anthropic의 다른 접근
 
-2022년 12월, Anthropic은 *"Constitutional AI: Harmlessness from AI Feedback"*을 발표했다. Claude의 방법론이었다.
+2022년 12월, Anthropic은 "Constitutional AI: Harmlessness from AI Feedback"을 발표했다. Claude의 방법론이었다.
 
 아이디어는 달랐다. 사람이 일일이 피드백을 주는 대신, 먼저 AI가 따라야 할 원칙(constitution)을 정의한다. 그런 다음 AI가 스스로 자신의 답변을 비판하고 수정한다.
 

@@ -33,7 +33,7 @@ MLP라는 이름은 기술적으로 정확했다. 하지만 "multilayer perceptr
 2006년 Geoffrey Hinton, Simon Osindero, Yee-Whye Teh가 발표한 논문:
 
 > "A fast learning algorithm for deep belief nets"
-> *Science, 2006*
+> Science, 2006
 
 이 논문이 핵심이다. Hinton은 여기서 "deep"이라는 단어를 전략적으로 사용했다.
 

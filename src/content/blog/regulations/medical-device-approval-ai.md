@@ -131,4 +131,4 @@ AI 모델이 업데이트되면 성능이 변할 수 있다. 식약처는 의도
 - [한국 의료법과 AI 진단: 법적 책임의 경계](/blog/regulations/korean-medical-law-ai/)
 - [의료 AI 동의서: 어떻게 만들어야 하나?](/blog/regulations/medical-ai-consent-form-template/)
 - [의료 사고와 AI: 책임은 누가 질까?](/blog/regulations/medical-malpractice-ai-liability/)
-- [의료 AI 규제 환경: 한국·미국·유럽 비교](/blog/doctor-ai/fundamentals/medical-ai-regulation/)
+- [의료 AI 규제 환경: 한국·미국·유럽 비교](/blog/doctor-ai-academy/fundamentals/medical-ai-regulation/)

@@ -22,7 +22,7 @@ draft: false
 
 ## GPT-1 (2018) — 전이학습의 가능성을 증명하다
 
-2018년 6월, Alec Radford 등 OpenAI 연구진은 논문 *"Improving Language Understanding by Generative Pre-Training"*을 발표했다. 파라미터 수 1억 1700만(117M). 당시 기준으로도 크지 않았다.
+2018년 6월, Alec Radford 등 OpenAI 연구진은 논문 "Improving Language Understanding by Generative Pre-Training"을 발표했다. 파라미터 수 1억 1700만(117M). 당시 기준으로도 크지 않았다.
 
 핵심 아이디어는 단순했다. 대규모 텍스트로 언어 모델을 먼저 사전 훈련(pre-training)한 뒤, 소량의 레이블 데이터로 미세 조정(fine-tuning)하면 다양한 NLP 과제에서 좋은 성능을 낸다는 것이었다.
 
@@ -42,7 +42,7 @@ draft: false
 
 ## GPT-3 (2020) — 175B, few-shot learning의 시대
 
-2020년 5월, GPT-3(175B 파라미터)가 공개됐다. 전작의 100배 규모였다. 더 중요한 것은 *few-shot learning* 능력이었다.
+2020년 5월, GPT-3(175B 파라미터)가 공개됐다. 전작의 100배 규모였다. 더 중요한 것은 few-shot learning 능력이었다.
 
 프롬프트에 예시 몇 개만 넣으면, 별도 훈련 없이 새로운 과제를 수행했다. 번역, 요약, 코드 작성, 질문 답변 — 모두 하나의 모델로.
 
@@ -86,7 +86,7 @@ Generative Pre-trained Transformer. 세 단어가 이 기술의 본질을 담고
 
 - Generative: 텍스트를 생성한다
 - Pre-trained: 대규모 데이터로 미리 훈련된다
-- Transformer: 2017년 Google의 *"Attention is All You Need"* 아키텍처
+- Transformer: 2017년 Google의 "Attention is All You Need" 아키텍처
 
 GPT-1부터 GPT-4까지, 아키텍처의 기본 구조는 크게 바뀌지 않았다. 달라진 것은 규모, 데이터, 그리고 정렬 기술이었다.
 

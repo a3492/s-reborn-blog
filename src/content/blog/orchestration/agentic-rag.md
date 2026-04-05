@@ -58,13 +58,13 @@ thumbnail: ""
 
 ### 에이전틱 RAG의 3가지 패턴
 
-**패턴 1 — 반복 검색 (Iterative Retrieval)**
+패턴 1 — 반복 검색 (Iterative Retrieval)
 
 검색 결과가 충분하지 않으면 다시 검색한다. 최대 반복 횟수를 설정해서 무한 루프를 방지한다.
 
 의료 AI에서 적합한 경우: 진단 근거 수집, 복합 케이스 가이드라인 조회
 
-**패턴 2 — 쿼리 분해 (Query Decomposition)**
+패턴 2 — 쿼리 분해 (Query Decomposition)
 
 복잡한 질문을 여러 단순한 하위 질문으로 나눠서 각각 검색하고, 결과를 합친다.
 
@@ -80,7 +80,7 @@ thumbnail: ""
 → 결과 통합
 ```
 
-**패턴 3 — 멀티 소스 라우팅 (Multi-Source Routing)**
+패턴 3 — 멀티 소스 라우팅 (Multi-Source Routing)
 
 질문 유형에 따라 다른 데이터 소스를 선택한다.
 

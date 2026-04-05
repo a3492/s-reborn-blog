@@ -277,4 +277,4 @@ IRB와 저자권
 - [프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드](/blog/ai/prompt-engineering-for-doctors/)
 - [진료실에서 AI를 쓰는 7가지 방법 — 실전 사용기](/blog/ai/ai-in-clinic-real-use-cases/)
 - [RAG란 무엇인가 — 외부 지식을 LLM에 연결하는 법](/blog/ai/what-is-rag/)
-- [Doctor AI Academy — 전공의 교육과 연구를 위한 AI 활용](/doctor-ai/fundamentals/15-ai-for-resident-education-and-research.html)
+- [Doctor AI Academy — 전공의 교육과 연구를 위한 AI 활용](/doctor-ai-academy/fundamentals/15-ai-for-resident-education-and-research.html)

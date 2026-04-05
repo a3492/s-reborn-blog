@@ -43,7 +43,7 @@ draft: false
 
 출시 6주 뒤인 2023년 1월 9일, JAMA(미국의학협회지)에 논문 한 편이 게재됐다.
 
-제목: *"Performance of ChatGPT on USMLE: Potential for AI-Assisted Medical Education Using Large Language Models"*
+제목: "Performance of ChatGPT on USMLE: Potential for AI-Assisted Medical Education Using Large Language Models"
 
 결론: ChatGPT(당시 GPT-3.5 기반)가 미국 의사 면허 시험(USMLE)의 Step 1, 2, 3 모두에서 합격선(약 60%)을 통과했다.
 

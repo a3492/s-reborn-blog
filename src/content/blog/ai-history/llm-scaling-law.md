@@ -22,7 +22,7 @@ draft: false
 
 ## 스케일링 법칙이란 무엇인가
 
-2020년 1월, OpenAI의 Jared Kaplan 등이 *"Scaling Laws for Neural Language Models"*을 발표했다. 핵심 주장은 다음과 같았다.
+2020년 1월, OpenAI의 Jared Kaplan 등이 "Scaling Laws for Neural Language Models"을 발표했다. 핵심 주장은 다음과 같았다.
 
 > "언어 모델의 성능은 모델 크기(파라미터), 훈련 데이터 양, 연산량(compute)에 따라 거듭제곱 법칙(power law)으로 향상된다."
 
@@ -59,7 +59,7 @@ GPT-3는 그 계산을 실증했다. few-shot learning이라는 예상치 못한
 
 ## Chinchilla 법칙 — "크기보다 데이터"
 
-2022년 3월, DeepMind의 Jordan Hoffmann 등이 *"Training Compute-Optimal Large Language Models"*을 발표했다. 이른바 "Chinchilla 논문"이다.
+2022년 3월, DeepMind의 Jordan Hoffmann 등이 "Training Compute-Optimal Large Language Models"을 발표했다. 이른바 "Chinchilla 논문"이다.
 
 결론은 충격적이었다.
 
@@ -75,7 +75,7 @@ GPT-3는 그 계산을 실증했다. few-shot learning이라는 예상치 못한
 
 스케일링 법칙은 대체로 예측 가능한 향상을 설명하지만, 예외가 있다.
 
-2022년 Google Brain의 Wei et al.은 *"Emergent Abilities of Large Language Models"*을 발표했다. 특정 규모를 넘어서면 갑자기 새로운 능력이 나타난다는 관찰이었다.
+2022년 Google Brain의 Wei et al.은 "Emergent Abilities of Large Language Models"을 발표했다. 특정 규모를 넘어서면 갑자기 새로운 능력이 나타난다는 관찰이었다.
 
 예시들:
 - 다단계 수학 추론: 소형 모델에서는 거의 0%, 대형 모델에서는 갑자기 60% 이상

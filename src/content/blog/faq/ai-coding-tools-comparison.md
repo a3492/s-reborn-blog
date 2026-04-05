@@ -48,25 +48,25 @@ Claude Code와 Codex는 터미널 CLI, Cursor와 GitHub Copilot은 에디터 통
 
 ### 도구별 가장 잘 맞는 상황
 
-**Claude Code**
+Claude Code
 - 복잡한 멀티파일 리팩토링
 - 한국어로 지시를 많이 할 때
 - 긴 맥락의 대화가 필요한 작업
 - Claude.ai를 이미 쓰고 있을 때
 
-**Codex CLI**
+Codex CLI
 - 안전한 샌드박스 실행이 필요할 때
 - 단계별 승인하면서 진행하고 싶을 때
 - 오픈소스 도구를 선호할 때
 - ChatGPT를 평소에 많이 쓸 때
 
-**Cursor**
+Cursor
 - 코드를 쓰면서 실시간 자동완성
 - GUI 기반 작업 선호
 - 에디터와 AI를 완전 통합하고 싶을 때
 - 비용을 $20으로 고정하고 싶을 때
 
-**GitHub Copilot**
+GitHub Copilot
 - VS Code, JetBrains 등 기존 에디터를 유지하고 싶을 때
 - 기업 환경에서 GitHub Enterprise와 연동
 - 비용을 $10으로 최소화하고 싶을 때
@@ -74,17 +74,17 @@ Claude Code와 Codex는 터미널 CLI, Cursor와 GitHub Copilot은 에디터 통
 
 ### 실용적인 조합 추천
 
-**입문자 (처음 AI 코딩 도구를 쓴다)**
+입문자 (처음 AI 코딩 도구를 쓴다)
 → GitHub Copilot (익숙한 VS Code 유지, 비용 $10)
 
-**개인 개발자 (편의성 중심)**
+개인 개발자 (편의성 중심)
 → Cursor + Claude Code
 → 에디터는 Cursor, 복잡한 작업은 Claude Code
 
-**보안이 중요한 환경**
+보안이 중요한 환경
 → GitHub Copilot Enterprise + Codex (샌드박스)
 
-**비용을 최소화하고 싶을 때**
+비용을 최소화하고 싶을 때
 → Claude Code 또는 Codex만 사용 (가볍게 쓰면 $5 이하)
 
 ### 전부 쓸 필요는 없다

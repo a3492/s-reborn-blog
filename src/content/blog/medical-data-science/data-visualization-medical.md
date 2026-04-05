@@ -40,7 +40,7 @@ ggplot(data = df, aes(x = hba1c, y = fbs, color = group)) +
   theme_bw()
 ```
 
-`data` → `aes()` → `geom_*()` → `labs()` → `theme_*()` 순서가 기본 구조다.
+`data` → `aes()` → `geom_()` → `labs()` → `theme_()` 순서가 기본 구조다.
 
 ---
 

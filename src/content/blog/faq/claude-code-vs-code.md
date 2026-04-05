@@ -22,11 +22,11 @@ VS Code 자체에 Claude Code 전용 버튼은 없다. 대신 VS Code 하단의 
 
 ### VS Code에서 Claude Code 실행하기
 
-**1단계: 터미널 패널 열기**
+1단계: 터미널 패널 열기
 
 VS Code 상단 메뉴에서 `Terminal → New Terminal`을 클릭하거나, 단축키 `` Ctrl + ` `` (백틱)을 누른다. 화면 하단에 터미널 패널이 열린다.
 
-**2단계: 프로젝트 폴더 확인**
+2단계: 프로젝트 폴더 확인
 
 VS Code에서 폴더를 열면 터미널도 자동으로 그 폴더에서 시작된다. 확인:
 
@@ -35,7 +35,7 @@ pwd
 # /Users/이름/내프로젝트 — VS Code에서 연 폴더와 같아야 함
 ```
 
-**3단계: Claude Code 실행**
+3단계: Claude Code 실행
 
 ```
 claude

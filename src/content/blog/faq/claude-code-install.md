@@ -31,7 +31,7 @@ Claude Code 설치에는 Node.js(18 이상)와 Anthropic API 키가 필요하다
 
 ### 설치 순서
 
-**1단계: Node.js 설치**
+1단계: Node.js 설치
 
 nodejs.org에서 LTS 버전을 받아서 설치한다. 설치 후 터미널에서 확인한다.
 
@@ -40,7 +40,7 @@ node --version
 # v20.x.x 같은 숫자가 나오면 성공
 ```
 
-**2단계: Claude Code 설치**
+2단계: Claude Code 설치
 
 ```
 npm install -g @anthropic-ai/claude-code
@@ -54,7 +54,7 @@ claude --version
 
 버전 번호가 나오면 설치 완료다.
 
-**3단계: API 키 설정**
+3단계: API 키 설정
 
 anthropic.com → Console → API Keys에서 키를 발급받는다. 그 다음 터미널에 환경변수로 설정한다.
 
@@ -68,7 +68,7 @@ Windows (PowerShell):
 $env:ANTHROPIC_API_KEY="sk-ant-여기에키입력"
 ```
 
-**4단계: 실행**
+4단계: 실행
 
 코드 프로젝트 폴더로 이동한 후:
 
@@ -80,7 +80,7 @@ claude
 
 ### Windows에서 주의할 점
 
-Claude Code는 Windows 네이티브 CMD나 PowerShell보다 **WSL(Windows Subsystem for Linux)**에서 더 안정적으로 동작한다. Windows를 쓴다면 WSL 설치 후 Ubuntu 환경에서 사용하는 것을 권장한다.
+Claude Code는 Windows 네이티브 CMD나 PowerShell보다 WSL(Windows Subsystem for Linux)에서 더 안정적으로 동작한다. Windows를 쓴다면 WSL 설치 후 Ubuntu 환경에서 사용하는 것을 권장한다.
 
 WSL 설치: PowerShell에서 `wsl --install` 입력 후 재시작.
 
