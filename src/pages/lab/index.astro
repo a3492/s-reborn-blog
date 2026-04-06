@@ -5,13 +5,13 @@ import { SITE_BRAND } from '../../consts';
 
 <Layout
 	title={SITE_BRAND.labDisplayName}
-	description={`${SITE_BRAND.doctorAiAcademyDisplayName}와 ${SITE_BRAND.labDisplayName} 허브입니다. ${SITE_BRAND.clinicBlogDisplayName}는 준비중입니다.`}
+	description={`${SITE_BRAND.doctorAiAcademyDisplayName}와 ${SITE_BRAND.clinicBlogDisplayName}를 모은 허브입니다.`}
 >
 	<div class="lab-page">
 		<header class="lab-page-head">
 			<h1>{SITE_BRAND.labDisplayName}</h1>
 			<p class="lab-page-lead">
-				임상·AI·기록을 모은 실험실입니다. {SITE_BRAND.doctorAiAcademyDisplayName}는 아래에서 열 수 있고, {SITE_BRAND.clinicBlogDisplayName}는 준비중입니다.
+				임상·AI·기록을 모은 실험실입니다. 아래에서 바로 이동할 수 있습니다.
 			</p>
 		</header>
 
@@ -24,11 +24,14 @@ import { SITE_BRAND } from '../../consts';
 				</p>
 				<span class="lab-hub-cta">Academy로 이동 →</span>
 			</a>
-			<div class="lab-hub-card lab-hub-card--soon" aria-disabled="true">
-				<span class="lab-hub-icon" aria-hidden="true">📰</span>
+			<a class="lab-hub-card" href="https://s-reborn-clinic.pages.dev/blog/" target="_blank" rel="noopener noreferrer">
+				<span class="lab-hub-icon" aria-hidden="true">🏥</span>
 				<h2 class="lab-hub-title">{SITE_BRAND.clinicBlogDisplayName}</h2>
-				<p class="lab-hub-desc lab-hub-desc--soon">준비중</p>
-			</div>
+				<p class="lab-hub-desc">
+					에스리본 클리닉 블로그 — 진료·시술·건강 정보를 다룹니다.
+				</p>
+				<span class="lab-hub-cta">클리닉으로 이동 →</span>
+			</a>
 		</div>
 	</div>
 </Layout>
