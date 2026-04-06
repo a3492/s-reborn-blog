@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>임상 케이스 스터디 | Doctor AI Academy — S-Reborn AI Blog</title>
+<style>
+  :root {
+    --bg: #f7f7f5;
+    --ink: #1a1f1e;
+    --muted: #5c6360;
+    --brand: #155d4b;
+    --line: #e4e4e0;
+    --card: #ffffff;
+    --accent: #155d4b;
+    --soft: #eef4f2;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* topnav */
+  .topnav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(247,247,245,0.96);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+    padding: 0 20px;
+  }
+  .topnav-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .topnav-brand {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--brand);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+  .topnav-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+  .topnav-links a {
+    font-size: 14px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .topnav-links a:hover { color: var(--ink); }
+
+  /* page */
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 32px 20px 56px;
+  }
+
+  /* breadcrumb */
+  .breadcrumb {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .breadcrumb a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .breadcrumb a:hover { color: var(--brand); }
+  .breadcrumb-sep { opacity: 0.5; }
+  .breadcrumb-current { color: var(--ink); font-weight: 500; }
+
+  /* hero */
+  .hero {
+    background: linear-gradient(135deg, #0f4235 0%, #155d4b 50%, #1a7a62 100%);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 22px;
+    box-shadow: 0 12px 34px rgba(29,35,40,0.12);
+    padding: 24px;
+    margin-bottom: 48px;
+    color: #fff;
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    margin-bottom: 16px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.9);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  .hero h1 {
+    font-size: 38px;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    color: #fff;
+  }
+  .hero-lead {
+    font-size: 16px;
+    color: rgba(255,255,255,0.82);
+    line-height: 1.7;
+    margin-bottom: 28px;
+    max-width: 600px;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.55);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .stat-value {
+    font-size: 15px;
+    color: rgba(255,255,255,0.95);
+    font-weight: 600;
+  }
+
+  /* section heading */
+  .section-heading {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 20px;
+  }
+
+  /* card grid */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 16px;
+    margin-bottom: 56px;
+  }
+  .case-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    box-shadow: 0 12px 34px rgba(29,35,40,0.06);
+    padding: 20px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: box-shadow 0.18s, transform 0.18s, border-color 0.18s;
+  }
+  .case-card.active:hover {
+    box-shadow: 0 18px 44px rgba(29,35,40,0.1);
+    transform: translateY(-2px);
+    border-color: #d0d0cb;
+  }
+  .case-card.inactive {
+    opacity: 0.55;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  .case-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .case-number {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .status-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .status-badge.open {
+    background: #e9f2ee;
+    color: var(--brand);
+  }
+  .status-badge.pending {
+    background: #f3f3f1;
+    color: var(--muted);
+  }
+  .case-card h3 {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .case-card.inactive h3 {
+    color: var(--muted);
+  }
+  .case-card-arrow {
+    font-size: 18px;
+    color: var(--brand);
+    margin-top: auto;
+    align-self: flex-end;
+    transition: transform 0.15s;
+  }
+  .case-card.active:hover .case-card-arrow {
+    transform: translateX(3px);
+  }
+
+  /* footer */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 24px 20px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 26px; }
+    .card-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 16px; }
+  }
+</style>
+  <link rel="stylesheet" href="/doctor-ai-academy/assets/dai-nav.css" />
+  <script src="/doctor-ai-academy/assets/dai-nav.js" defer></script>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <a class="topnav-brand" href="../index.html">S-Reborn AI Blog</a>
+    <ul class="topnav-links">
+      <li><a href="../index.html">Doctor AI Academy 홈</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page">
+
+  <nav class="breadcrumb" aria-label="breadcrumb">
+    <a href="../../../index.html">홈</a>
+    <span class="breadcrumb-sep">›</span>
+    <a href="../index.html">Doctor AI Academy</a>
+    <span class="breadcrumb-sep">›</span>
+    <span class="breadcrumb-current">Cases</span>
+  </nav>
+
+  <div class="hero">
+    <span class="hero-eyebrow">Cases · 임상 케이스 스터디</span>
+    <h1>실제 외래 케이스로 배우는 AI 활용법</h1>
+    <p class="hero-lead">교과서 속 AI가 아니라 실제 환자 케이스에서 AI를 어떻게 쓰고, 어떻게 검증하는지 단계별로 보여줍니다.</p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-label">편수</span>
+        <span class="stat-value">5편 공개</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">대상</span>
+        <span class="stat-value">전공의 · 전문의 · 개원의</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">유형</span>
+        <span class="stat-value">케이스 기반</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="section-heading">케이스 목록</p>
+  <div class="card-grid">
+
+    <a class="case-card active" href="./01-dm-glucose-control.html">
+      <div class="case-card-header">
+        <span class="case-number">1편</span>
+        <span class="status-badge open">공개</span>
+      </div>
+      <h3>혈당 조절 안 되는 2형 당뇨 환자</h3>
+      <span class="case-card-arrow">→</span>
+    </a>
+
+    <a class="case-card active" href="./02-er-chest-pain.html">
+      <div class="case-card-header">
+        <span class="case-number">2편</span>
+        <span class="status-badge open">공개</span>
+      </div>
+      <h3>응급실 흉통 환자 초기 평가</h3>
+      <span class="case-card-arrow">→</span>
+    </a>
+
+    <a class="case-card active" href="./03-discharge-followup.html">
+      <div class="case-card-header">
+        <span class="case-number">3편</span>
+        <span class="status-badge open">공개</span>
+      </div>
+      <h3>퇴원 후 추적관찰 지침 생성</h3>
+      <span class="case-card-arrow">→</span>
+    </a>
+
+    <a class="case-card active" href="./04-polypharmacy-elderly.html">
+      <div class="case-card-header">
+        <span class="case-number">4편</span>
+        <span class="status-badge open">공개</span>
+      </div>
+      <h3>다약제 복용 고령 환자 약제 정리</h3>
+      <span class="case-card-arrow">→</span>
+    </a>
+
+    <a class="case-card active" href="./05-pediatric-fever-workup.html">
+      <div class="case-card-header">
+        <span class="case-number">5편</span>
+        <span class="status-badge open">공개</span>
+      </div>
+      <h3>소아 고열 — 응급실에서 AI로 감별진단 접근하기</h3>
+      <span class="case-card-arrow">→</span>
+    </a>
+
+  </div>
+
+</div>
+
+<footer>
+  © 2026 S-Reborn
+</footer>
+
+</body>
+</html>

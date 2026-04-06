@@ -1,5 +1,5 @@
 /**
- * Unifies Doctor AI Academy static HTML under public/doctor-ai (all .html).
+ * Unifies Doctor AI Academy static HTML under public/doctor-ai-academy (all .html).
  * Run: node scripts/unify-dai-theme.mjs
  */
 import fs from "node:fs";
@@ -7,7 +7,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const root = path.join(__dirname, "../public/doctor-ai");
+const root = path.join(__dirname, "../public/doctor-ai-academy");
 
 const GREEN_HERO =
 	"linear-gradient(135deg, #0f4235 0%, #155d4b 50%, #1a7a62 100%)";

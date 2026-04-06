@@ -1,5 +1,5 @@
 /**
- * src/config/site-brand.json → public/doctor-ai/assets/dai-nav.js 임베드 값 갱신,
+ * src/config/site-brand.json → public/doctor-ai-academy/assets/dai-nav.js 임베드 값 갱신,
  * public 이하 html·루트 index.html 브랜드 문자열 일괄 치환.
  * npm run sync:site-brand 또는 prebuild에서 실행.
  */
@@ -15,7 +15,7 @@ const B = brand.blogDisplayName;
 const MARK_START = '/*__SITE_BRAND__*/';
 const MARK_END = '/*__END_SITE_BRAND__*/';
 
-const daiNavPath = join(root, 'public/doctor-ai/assets/dai-nav.js');
+const daiNavPath = join(root, 'public/doctor-ai-academy/assets/dai-nav.js');
 let daiNav = readFileSync(daiNavPath, 'utf8');
 const embedBlock = `${MARK_START}
   var __SITE_BRAND = ${JSON.stringify(brand)};
