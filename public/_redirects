@@ -1,4 +1,6 @@
 # Doctor AI Academy → 독립 도메인으로 301 리디렉트
+/doctor-ai-academy  https://s-reborn-doctor-ai-academy.pages.dev/  301
+/doctor-ai-academy/* https://s-reborn-doctor-ai-academy.pages.dev/:splat  301
 /doctor-ai  https://s-reborn-doctor-ai-academy.pages.dev/  301
 /doctor-ai/* https://s-reborn-doctor-ai-academy.pages.dev/:splat  301
 /blog/doctor-ai/* https://s-reborn-doctor-ai-academy.pages.dev/:splat  301
