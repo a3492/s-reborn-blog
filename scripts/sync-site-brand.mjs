@@ -3,7 +3,7 @@
  * public 이하 html·루트 index.html 브랜드 문자열 일괄 치환.
  * npm run sync:site-brand 또는 prebuild에서 실행.
  */
-import { readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs';
+import { readFileSync, writeFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join, dirname, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -16,22 +16,22 @@ const MARK_START = '/*__SITE_BRAND__*/';
 const MARK_END = '/*__END_SITE_BRAND__*/';
 
 const daiNavPath = join(root, 'public/doctor-ai-academy/assets/dai-nav.js');
-let daiNav = readFileSync(daiNavPath, 'utf8');
-const embedBlock = `${MARK_START}
+if (existsSync(daiNavPath)) {
+  let daiNav = readFileSync(daiNavPath, 'utf8');
+  const embedBlock = `${MARK_START}
   var __SITE_BRAND = ${JSON.stringify(brand)};
   ${MARK_END}`;
-if (!daiNav.includes(MARK_START)) {
-  console.error('dai-nav.js: markers missing:', MARK_START);
-  process.exit(1);
+  const i0 = daiNav.indexOf(MARK_START);
+  const i1 = daiNav.indexOf(MARK_END);
+  if (i0 === -1 || i1 === -1) {
+    console.warn('dai-nav.js: site-brand markers missing, skipping embed');
+  } else {
+    daiNav = daiNav.slice(0, i0) + embedBlock + daiNav.slice(i1 + MARK_END.length);
+    writeFileSync(daiNavPath, daiNav, 'utf8');
+  }
+} else {
+  console.log('dai-nav.js not found, skipping embed');
 }
-const i0 = daiNav.indexOf(MARK_START);
-const i1 = daiNav.indexOf(MARK_END);
-if (i0 === -1 || i1 === -1) {
-  console.error('dai-nav.js: site-brand markers missing');
-  process.exit(1);
-}
-daiNav = daiNav.slice(0, i0) + embedBlock + daiNav.slice(i1 + MARK_END.length);
-writeFileSync(daiNavPath, daiNav, 'utf8');
 
 /** 긴 문자열을 먼저 치환 (부분 일치 방지). 대상은 blogDisplayName(B)과 동기화 */
 const HTML_REPLACEMENTS = [
@@ -91,4 +91,4 @@ for (const file of files) {
   }
 }
 
-console.log('site-brand: dai-nav embed ok, html files updated:', touched);
+console.log('site-brand: html files updated:', touched);
