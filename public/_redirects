@@ -1,6 +1,59 @@
 # Doctor AI Academy → 독립 도메인으로 301 리디렉트
 /doctor-ai-academy  https://s-reborn-doctor-ai-academy.pages.dev/  301
+/doctor-ai-academy/ https://s-reborn-doctor-ai-academy.pages.dev/  301
 /doctor-ai-academy/* https://s-reborn-doctor-ai-academy.pages.dev/:splat  301
 /doctor-ai  https://s-reborn-doctor-ai-academy.pages.dev/  301
 /doctor-ai/* https://s-reborn-doctor-ai-academy.pages.dev/:splat  301
 /blog/doctor-ai/* https://s-reborn-doctor-ai-academy.pages.dev/:splat  301
+
+# 블로그 slug 이전 (301) — faq → ai-coding-tools
+/blog/faq/codex-when-to-use /blog/ai-coding-tools/codex-when-to-use 301
+/blog/faq/codex-when-to-use/ /blog/ai-coding-tools/codex-when-to-use/ 301
+/blog/faq/codex-what-is-it /blog/ai-coding-tools/codex-what-is-it 301
+/blog/faq/codex-what-is-it/ /blog/ai-coding-tools/codex-what-is-it/ 301
+/blog/faq/codex-vs-cursor /blog/ai-coding-tools/codex-vs-cursor 301
+/blog/faq/codex-vs-cursor/ /blog/ai-coding-tools/codex-vs-cursor/ 301
+/blog/faq/codex-vs-claude-code /blog/ai-coding-tools/codex-vs-claude-code 301
+/blog/faq/codex-vs-claude-code/ /blog/ai-coding-tools/codex-vs-claude-code/ 301
+/blog/faq/codex-terminal /blog/ai-coding-tools/codex-terminal 301
+/blog/faq/codex-terminal/ /blog/ai-coding-tools/codex-terminal/ 301
+/blog/faq/codex-security /blog/ai-coding-tools/codex-security 301
+/blog/faq/codex-security/ /blog/ai-coding-tools/codex-security/ 301
+/blog/faq/codex-sandbox-mode /blog/ai-coding-tools/codex-sandbox-mode 301
+/blog/faq/codex-sandbox-mode/ /blog/ai-coding-tools/codex-sandbox-mode/ 301
+/blog/faq/codex-install /blog/ai-coding-tools/codex-install 301
+/blog/faq/codex-install/ /blog/ai-coding-tools/codex-install/ 301
+/blog/faq/codex-cost /blog/ai-coding-tools/codex-cost 301
+/blog/faq/codex-cost/ /blog/ai-coding-tools/codex-cost/ 301
+/blog/faq/claude-code-without-api-key /blog/ai-coding-tools/claude-code-without-api-key 301
+/blog/faq/claude-code-without-api-key/ /blog/ai-coding-tools/claude-code-without-api-key/ 301
+/blog/faq/claude-code-when-to-use /blog/ai-coding-tools/claude-code-when-to-use 301
+/blog/faq/claude-code-when-to-use/ /blog/ai-coding-tools/claude-code-when-to-use/ 301
+/blog/faq/claude-code-what-is-it /blog/ai-coding-tools/claude-code-what-is-it 301
+/blog/faq/claude-code-what-is-it/ /blog/ai-coding-tools/claude-code-what-is-it/ 301
+/blog/faq/claude-code-vs-code /blog/ai-coding-tools/claude-code-vs-code 301
+/blog/faq/claude-code-vs-code/ /blog/ai-coding-tools/claude-code-vs-code/ 301
+/blog/faq/claude-code-terminal /blog/ai-coding-tools/claude-code-terminal 301
+/blog/faq/claude-code-terminal/ /blog/ai-coding-tools/claude-code-terminal/ 301
+/blog/faq/claude-code-security /blog/ai-coding-tools/claude-code-security 301
+/blog/faq/claude-code-security/ /blog/ai-coding-tools/claude-code-security/ 301
+/blog/faq/claude-code-install /blog/ai-coding-tools/claude-code-install 301
+/blog/faq/claude-code-install/ /blog/ai-coding-tools/claude-code-install/ 301
+/blog/faq/claude-code-desktop-app /blog/ai-coding-tools/claude-code-desktop-app 301
+/blog/faq/claude-code-desktop-app/ /blog/ai-coding-tools/claude-code-desktop-app/ 301
+/blog/faq/claude-code-cursor /blog/ai-coding-tools/claude-code-cursor 301
+/blog/faq/claude-code-cursor/ /blog/ai-coding-tools/claude-code-cursor/ 301
+/blog/faq/claude-code-cost /blog/ai-coding-tools/claude-code-cost 301
+/blog/faq/claude-code-cost/ /blog/ai-coding-tools/claude-code-cost/ 301
+/blog/faq/claude-code-cli-vs-ide /blog/ai-coding-tools/claude-code-cli-vs-ide 301
+/blog/faq/claude-code-cli-vs-ide/ /blog/ai-coding-tools/claude-code-cli-vs-ide/ 301
+/blog/faq/ai-coding-tools-comparison /blog/ai-coding-tools/ai-coding-tools-comparison 301
+/blog/faq/ai-coding-tools-comparison/ /blog/ai-coding-tools/ai-coding-tools-comparison/ 301
+
+# doctor-ai/fundamentals → ai-ethics
+/blog/doctor-ai/fundamentals/ai-ethics-healthcare /blog/ai-ethics/ai-ethics-healthcare 301
+/blog/doctor-ai/fundamentals/ai-ethics-healthcare/ /blog/ai-ethics/ai-ethics-healthcare/ 301
+/blog/doctor-ai/fundamentals/ai-bias-healthcare /blog/ai-ethics/ai-bias-healthcare 301
+/blog/doctor-ai/fundamentals/ai-bias-healthcare/ /blog/ai-ethics/ai-bias-healthcare/ 301
+/blog/doctor-ai/fundamentals/ai-explainability /blog/ai-ethics/ai-explainability 301
+/blog/doctor-ai/fundamentals/ai-explainability/ /blog/ai-ethics/ai-explainability/ 301
