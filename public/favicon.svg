@@ -1,20 +1,37 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="S-Reborn Clinic favicon">
   <defs>
-    <clipPath id="shape">
-      <rect width="32" height="32" rx="7" ry="7"/>
-    </clipPath>
+    <linearGradient id="bg" x1="18" y1="12" x2="110" y2="116" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f4d7df" />
+      <stop offset="1" stop-color="#d690a1" />
+    </linearGradient>
+    <linearGradient id="glow" x1="30" y1="26" x2="96" y2="98" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fffaf5" stop-opacity=".98" />
+      <stop offset="1" stop-color="#f8edea" stop-opacity=".9" />
+    </linearGradient>
   </defs>
-  <g clip-path="url(#shape)">
-    <rect width="16" height="32" fill="#1E293B"/>
-    <rect x="16" width="16" height="32" fill="#8B5CF6"/>
-  </g>
+  <rect x="10" y="10" width="108" height="108" rx="30" fill="url(#bg)" />
+  <rect x="16" y="16" width="96" height="96" rx="24" fill="#fff8f2" fill-opacity=".2" />
+  <circle cx="64" cy="64" r="34" fill="url(#glow)" fill-opacity=".42" />
   <text
-    x="16" y="21"
-    font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif"
-    font-weight="800"
-    font-size="13"
-    fill="white"
+    x="73"
+    y="80"
     text-anchor="middle"
-    letter-spacing="-0.5"
-  >SB</text>
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="62"
+    font-weight="700"
+    fill="#b46b80"
+  >
+    C
+  </text>
+  <text
+    x="52"
+    y="77"
+    text-anchor="middle"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="58"
+    font-weight="700"
+    fill="#fffaf6"
+  >
+    S
+  </text>
 </svg>
