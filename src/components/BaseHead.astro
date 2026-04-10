@@ -19,6 +19,13 @@ const afterBlog = pathNorm.startsWith('/blog/') ? pathNorm.slice(6) : '';
 const inferredOgType = afterBlog.includes('/') ? 'article' : 'website';
 const ogType = ogTypeProp ?? inferredOgType;
 
+// hreflang alternate URLs
+const isEnPath = pathNorm.startsWith('/en/');
+const koPath = isEnPath ? pathNorm.replace(/^\/en/, '') || '/' : pathNorm;
+const enPath = isEnPath ? pathNorm : `/en${pathNorm}`;
+const koCanonical = new URL(koPath, Astro.site);
+const enCanonical = new URL(enPath, Astro.site);
+
 const ogImage = image
 	? (image.startsWith('http') ? image : new URL(image, Astro.url).href)
 	: new URL('/blog-og-default.jpg', Astro.url).href;
@@ -46,6 +53,11 @@ const ogImage = image
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
+
+<!-- hreflang alternates -->
+<link rel="alternate" hreflang="ko" href={koCanonical} />
+<link rel="alternate" hreflang="en" href={enCanonical} />
+<link rel="alternate" hreflang="x-default" href={koCanonical} />
 
 <!-- Primary Meta Tags -->
 <title>{title}</title>

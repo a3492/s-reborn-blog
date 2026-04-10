@@ -10,9 +10,10 @@ import { getPublicSiteSettings } from '../lib/site-settings';
 interface Props {
 	title?: string;
 	description?: string;
+	lang?: 'ko' | 'en';
 }
 
-const { title, description = SITE_DESCRIPTION } = Astro.props;
+const { title, description = SITE_DESCRIPTION, lang = 'ko' } = Astro.props;
 const siteSettings = await getPublicSiteSettings();
 const resolvedSiteTitle = siteSettings.siteTitle || SITE_TITLE;
 const resolvedDescription = description || siteSettings.siteDescription || SITE_DESCRIPTION;
@@ -37,7 +38,7 @@ const searchIndex = allPosts.map(post => ({
 ---
 
 <!doctype html>
-<html lang="ko">
+<html lang={lang}>
 	<head>
 		<BaseHead
       title={title ? `${title} | ${resolvedSiteTitle}` : resolvedSiteTitle}
@@ -48,7 +49,7 @@ const searchIndex = allPosts.map(post => ({
 	</head>
 	<body>
 		<div class="site-wrap">
-			<Topbar siteTitle={resolvedSiteTitle} />
+			<Topbar siteTitle={resolvedSiteTitle} lang={lang} />
 			<main class="site-main">
 				<slot />
 			</main>

@@ -1,0 +1,177 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../../layouts/Layout.astro';
+import FormattedDate from '../../../components/FormattedDate.astro';
+import { CATEGORIES, MENU_GROUPS, SITE_DESCRIPTION } from '../../../consts';
+import { getPublicSiteSettings } from '../../../lib/site-settings';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const siteSettings = await getPublicSiteSettings();
+
+const categoryLabel = (id: string) => {
+	const cat = CATEGORIES.find((c) => c.id === id);
+	return cat?.labelEn ?? id;
+};
+
+const countsByCategory = posts.reduce<Record<string, number>>((acc, post) => {
+	const c = post.data.category;
+	if (c) acc[c] = (acc[c] ?? 0) + 1;
+	return acc;
+}, {});
+---
+
+<Layout title="Blog" description={siteSettings.siteDescription || SITE_DESCRIPTION} lang="en">
+	<div class="blog-layout">
+
+		<!-- ── Left Navigation ── -->
+		<nav class="blog-nav" id="blog-nav" aria-label="Category navigation">
+
+			<!-- Mobile toggle -->
+			<button class="blog-nav-mobile-toggle" id="blog-nav-toggle" aria-expanded="false">
+				<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+					<path d="M2 4h12M2 8h12M2 12h12"/>
+				</svg>
+				<span>Categories</span>
+				<svg class="blog-nav-mobile-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
+			</button>
+
+			<div class="blog-nav-body" id="blog-nav-body">
+				<!-- All posts -->
+				<button class="blog-nav-all blog-nav-all--active" id="nav-all" data-cat="" data-label="All Posts">
+					<span class="blog-nav-all-label">⊞ All Posts</span>
+					<span class="blog-nav-count">{posts.length}</span>
+				</button>
+
+				<div class="blog-nav-divider"></div>
+
+				<!-- Groups -->
+				{MENU_GROUPS.map((group) => (
+					<div class="blog-nav-group" data-group={group.id}>
+						<button class="blog-nav-group-hd" data-toggle={group.id}>
+							<span class="blog-nav-group-icon">{group.icon}</span>
+							<span class="blog-nav-group-label">{group.labelEn}</span>
+							<svg class="blog-nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M3 1.5l4 3.5-4 3.5"/>
+							</svg>
+						</button>
+						<div class="blog-nav-group-body">
+							{group.cats.map((catId) => {
+								const cat = CATEGORIES.find((c) => c.id === catId);
+								if (!cat) return null;
+								const count = countsByCategory[catId] ?? 0;
+								return (
+									<button
+										class="blog-nav-item"
+										data-cat={catId}
+										data-label={cat.labelEn}
+									>
+										<span class="blog-nav-item-label">{cat.labelEn}</span>
+										<span class="blog-nav-item-count">{count}</span>
+									</button>
+								);
+							})}
+						</div>
+					</div>
+				))}
+			</div>
+		</nav>
+
+		<!-- ── Content area ── -->
+		<main class="blog-content">
+			<div class="blog-content-hd">
+				<h1 class="blog-content-title" id="blog-content-title">All Posts</h1>
+				<span class="blog-content-count" id="blog-content-count">{posts.length}</span>
+			</div>
+
+			<div class="blog-card-grid" id="blog-card-grid">
+				{posts.map((post) => (
+					<a
+						href={`/en/blog/${post.id}/`}
+						class="blog-card"
+						data-cat={post.data.category ?? ''}
+						data-title={post.data.title_en ?? post.data.title}
+						data-desc={post.data.description_en ?? post.data.description ?? ''}
+						data-tags={(post.data.tags ?? []).join(' ')}
+						data-difficulty={post.data.difficulty ?? ''}
+					>
+						{post.data.category && (
+							<span class="blog-card-cat">{categoryLabel(post.data.category)}</span>
+						)}
+						<h3 class="blog-card-title">{post.data.title_en ?? post.data.title}</h3>
+						{post.data.description && (
+							<p class="blog-card-desc">{post.data.description_en ?? post.data.description}</p>
+						)}
+						<span class="blog-card-date"><FormattedDate date={post.data.date} /></span>
+					</a>
+				))}
+			</div>
+		</main>
+	</div>
+</Layout>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+	const cards = document.querySelectorAll<HTMLElement>('.blog-card');
+	const navAll = document.getElementById('nav-all')!;
+	const navItems = document.querySelectorAll<HTMLButtonElement>('.blog-nav-item');
+	const groupHeaders = document.querySelectorAll<HTMLButtonElement>('.blog-nav-group-hd');
+	const contentTitle = document.getElementById('blog-content-title')!;
+	const contentCount = document.getElementById('blog-content-count')!;
+	const mobileToggle = document.getElementById('blog-nav-toggle')!;
+	const navBody = document.getElementById('blog-nav-body')!;
+
+	mobileToggle.addEventListener('click', () => {
+		const open = navBody.classList.toggle('is-open');
+		mobileToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+	});
+
+	groupHeaders.forEach((hd) => {
+		hd.addEventListener('click', () => {
+			const group = hd.closest('.blog-nav-group')!;
+			group.classList.toggle('is-open');
+		});
+	});
+
+	function filterByCat(catId: string, label: string) {
+		let visible = 0;
+		cards.forEach((card) => {
+			const match = !catId || card.dataset.cat === catId;
+			card.style.display = match ? '' : 'none';
+			if (match) visible++;
+		});
+		contentTitle.textContent = label;
+		contentCount.textContent = `${visible}`;
+	}
+
+	function setActive(target: HTMLButtonElement | null, isAll: boolean) {
+		navAll.classList.toggle('blog-nav-all--active', isAll);
+		navItems.forEach((i) => i.classList.remove('blog-nav-item--active'));
+		if (!isAll && target) target.classList.add('blog-nav-item--active');
+	}
+
+	navAll.addEventListener('click', () => {
+		filterByCat('', 'All Posts');
+		setActive(null, true);
+	});
+
+	navItems.forEach((item) => {
+		item.addEventListener('click', () => {
+			const cat = item.dataset.cat ?? '';
+			const label = item.dataset.label ?? cat;
+			filterByCat(cat, label);
+			setActive(item, false);
+			item.closest('.blog-nav-group')?.classList.add('is-open');
+			navBody.classList.remove('is-open');
+			mobileToggle.setAttribute('aria-expanded', 'false');
+		});
+	});
+
+	const params = new URLSearchParams(window.location.search);
+	const initCat = params.get('category') ?? '';
+	if (initCat) {
+		const target = [...navItems].find((i) => i.dataset.cat === initCat);
+		if (target) target.click();
+	}
+});
+</script>

@@ -3,18 +3,27 @@ import { SITE_BRAND, SITE_TITLE } from '../consts';
 
 interface Props {
   siteTitle?: string;
+  lang?: 'ko' | 'en';
 }
 
-const { siteTitle = SITE_TITLE } = Astro.props;
+const { siteTitle = SITE_TITLE, lang = 'ko' } = Astro.props;
 const path = Astro.url.pathname;
-const isHome = path === '/';
-const isBlog = path.startsWith('/blog');
+const isEn = lang === 'en';
+const isHome = path === '/' || path === '/en' || path === '/en/';
+const isBlog = isEn ? path.startsWith('/en/blog') : (path.startsWith('/blog') && !path.startsWith('/en/'));
 const isAbout = path.startsWith('/about');
 const isLab = path.startsWith('/lab');
+
+// 언어 전환 링크 계산
+const langToggleHref = isEn
+  ? (path.replace(/^\/en/, '') || '/')
+  : `/en${path}`;
+const langToggleLabel = isEn ? '한국어' : 'English';
+const langToggleTitle = isEn ? '한국어로 보기' : 'View in English';
 ---
 
 <header class="topbar">
-  <a href="/" class="tb-brand">{siteTitle}</a>
+  <a href={isEn ? '/en/blog' : '/'} class="tb-brand">{siteTitle}</a>
 
   <div class="tb-search-wrap" data-search-wrap>
     <svg class="tb-search-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -25,9 +34,9 @@ const isLab = path.startsWith('/lab');
       id="search-input"
       class="tb-search"
       type="search"
-      placeholder="의도로 검색 — 입문, 비용, 법적 책임..."
+      placeholder={isEn ? 'Search by intent — beginner, cost, legal...' : '의도로 검색 — 입문, 비용, 법적 책임...'}
       autocomplete="off"
-      aria-label="블로그 글 검색"
+      aria-label={isEn ? 'Search blog posts' : '블로그 글 검색'}
       aria-expanded="false"
       aria-controls="search-dropdown"
       aria-activedescendant=""
@@ -37,26 +46,27 @@ const isLab = path.startsWith('/lab');
 
   <nav class="tb-nav">
     <a href="/" class={`topbar-link${isHome ? ' active' : ''}`}>Home</a>
-    <a href="/blog" class={`topbar-link${isBlog ? ' active' : ''}`}>Blog</a>
+    <a href={isEn ? '/en/blog' : '/blog'} class={`topbar-link${isBlog ? ' active' : ''}`}>Blog</a>
     <a href="/about" class={`topbar-link${isAbout ? ' active' : ''}`}>About</a>
     <a href="/lab/" class={`topbar-link${isLab ? ' active' : ''}`}>{SITE_BRAND.labDisplayName}</a>
+    <a href={langToggleHref} class="topbar-link tb-lang-toggle" title={langToggleTitle}>{langToggleLabel}</a>
   </nav>
 </header>
 
-<div id="search-dropdown" class="search-dropdown hidden" role="listbox" aria-label="검색 결과">
-  <div id="search-status" class="search-status hidden">검색 인덱스를 준비하는 중입니다...</div>
+<div id="search-dropdown" class="search-dropdown hidden" role="listbox" aria-label={isEn ? 'Search results' : '검색 결과'}>
+  <div id="search-status" class="search-status hidden">{isEn ? 'Preparing search index...' : '검색 인덱스를 준비하는 중입니다...'}</div>
   <div id="search-results" class="search-results"></div>
   <div id="search-empty" class="search-empty hidden">
-    <p class="search-empty-text">아직 이 주제의 글이 없어요</p>
-    <p class="search-empty-sub">에디터에게 요청하면 새 글이 올라올 수 있어요</p>
+    <p class="search-empty-text">{isEn ? 'No posts on this topic yet' : '아직 이 주제의 글이 없어요'}</p>
+    <p class="search-empty-sub">{isEn ? 'Request a new post from the editor' : '에디터에게 요청하면 새 글이 올라올 수 있어요'}</p>
     <button id="request-article-btn" class="request-article-btn" type="button">
-      ✉️ 에디터에게 요청하기
+      {isEn ? '✉️ Request from editor' : '✉️ 에디터에게 요청하기'}
     </button>
   </div>
 
   <div id="request-done" class="request-done hidden">
     <span class="request-done-icon">📬</span>
-    <p class="request-done-title">요청이 전달됐어요!</p>
-    <p class="request-done-sub">에디터가 검토 후 글을 올려드릴게요</p>
+    <p class="request-done-title">{isEn ? 'Request sent!' : '요청이 전달됐어요!'}</p>
+    <p class="request-done-sub">{isEn ? 'The editor will review and post it.' : '에디터가 검토 후 글을 올려드릴게요'}</p>
   </div>
 </div>
