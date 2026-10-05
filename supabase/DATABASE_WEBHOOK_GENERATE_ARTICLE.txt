@@ -1,4 +1,4 @@
-S-Reborn Blog — article_requests INSERT → generate-article 웹훅 설정
+S-reborn MD AI HUB — article_requests INSERT → generate-article 웹훅 설정
 ====================================================================
 
 전제: 블로그용 Supabase 프로젝트에 마이그레이션 적용됨
