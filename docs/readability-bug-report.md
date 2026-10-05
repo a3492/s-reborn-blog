@@ -1,4 +1,4 @@
-# S-Reborn AI Blog — 가독성 & UI 오류 보고서
+# S-reborn MD AI HUB — 가독성 & UI 오류 보고서
 
 > 작성일: 2026-03-20
 > 상태: **수정 완료** (커밋 포함)

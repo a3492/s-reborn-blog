@@ -2,7 +2,7 @@
 /**
  * Supabase Auth OAuth 기반 댓글 (Google / GitHub / Kakao + 선택 네이버 custom OIDC).
  * 1) 이 마이그레이션 적용: supabase/migrations/20260330_post_comments.sql
- * 2) Dashboard → Authentication → URL: Site URL 및 Redirect URLs에 배포 도메인(예: https://s-reborn-blog.pages.dev/**)
+ * 2) Dashboard → Authentication → URL: Site URL 및 Redirect URLs에 배포 도메인(https://sreborn.net/**, 기존 https://s-reborn-blog.pages.dev/**)
  * 3) Providers에서 Google, GitHub, Kakao 활성화
  * 4) 네이버: Custom OAuth/OIDC 등록 후 PUBLIC_AUTH_ENABLE_NAVER=true, PUBLIC_AUTH_NAVER_PROVIDER_ID(기본 custom:naver)
  * 5) 선택: Apple / Facebook — Dashboard에서 활성화 후 각각 PUBLIC_AUTH_ENABLE_APPLE, PUBLIC_AUTH_ENABLE_FACEBOOK=true
