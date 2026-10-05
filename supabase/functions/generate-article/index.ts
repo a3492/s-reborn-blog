@@ -92,7 +92,7 @@ async function generateWithClaude(query: string, category: string): Promise<{
 }> {
   const catContext = CATEGORY_CONTEXT[category] ?? 'AI 전반';
 
-  const prompt = `당신은 'S-Reborn Blog'의 AI 전문 에디터입니다. 독자가 "${query}"로 검색했으나 관련 글이 없어 직접 요청했습니다.
+  const prompt = `당신은 'S-reborn MD AI HUB'의 AI 전문 에디터입니다. 독자가 "${query}"로 검색했으나 관련 글이 없어 직접 요청했습니다.
 
 카테고리: ${catContext}
 

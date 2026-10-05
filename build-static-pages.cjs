@@ -3,6 +3,9 @@ const path = require('path');
 
 // 메타데이터 로드
 const metadata = JSON.parse(fs.readFileSync('./content-metadata.json', 'utf-8'));
+const brand = JSON.parse(fs.readFileSync('./src/config/site-brand.json', 'utf-8'));
+const SITE = brand.blogDisplayName;
+const COPYRIGHT = brand.legacyStaticCopyrightLine;
 
 // 디렉토리 생성
 function ensureDirectoryExists(dir) {
@@ -58,7 +61,7 @@ function generateHeader(categoryKey) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${categoryNames[categoryKey]} | S-Reborn Medical AI</title>
+  <title>${categoryNames[categoryKey]} | ${SITE}</title>
   <meta name="description" content="${categoryDescriptions[categoryKey]}">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -326,7 +329,7 @@ function generateHeader(categoryKey) {
 <body>
   <header>
     <nav>
-      <a href="/s-reborn-blog/">S-Reborn Medical AI</a>
+      <a href="/s-reborn-blog/">${SITE}</a>
       <ul>
         <li><a href="/s-reborn-blog/">홈</a></li>
         <li><a href="/s-reborn-blog/category/doctor-ai.html">Doctor AI</a></li>
@@ -369,7 +372,7 @@ function generateHeader(categoryKey) {
   </div>
 
   <footer>
-    <p>© 2026 S-Reborn · Medical AI Content Platform</p>
+    <p>${COPYRIGHT}</p>
     <p style="font-size: 12px; margin-top: 10px; color: #999;">
       <a href="https://github.com/a3492/s-reborn-blog" style="color: #999; text-decoration: none;">GitHub</a>
     </p>
@@ -505,7 +508,7 @@ function generateSearchPage() {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>검색 | S-Reborn Medical AI</title>
+  <title>검색 | ${SITE}</title>
   <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -655,7 +658,7 @@ function generateSearchPage() {
 <body>
   <header>
     <nav>
-      <a href="/s-reborn-blog/">S-Reborn Medical AI</a>
+      <a href="/s-reborn-blog/">${SITE}</a>
       <ul>
         <li><a href="/s-reborn-blog/">홈</a></li>
         <li><a href="/s-reborn-blog/category/doctor-ai.html">Doctor AI</a></li>
@@ -676,7 +679,7 @@ function generateSearchPage() {
   </div>
 
   <footer>
-    <p>© 2026 S-Reborn · Medical AI Content Platform</p>
+    <p>${COPYRIGHT}</p>
   </footer>
 
   <script>

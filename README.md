@@ -1,4 +1,4 @@
-# S-Reborn Blog
+# S-reborn MD AI HUB
 
 AI 기술 블로그. Astro + Supabase + Cloudflare Pages 기반.
 
@@ -82,7 +82,9 @@ Supabase 키는 Supabase 대시보드 → Project Settings → API에서 확인�
 
 ## 배포
 
-`main` 브랜치에 push하면 Cloudflare Pages에 자동 배포됩니다.
+`main` 브랜치에 push하면 Cloudflare Pages 프로젝트 `s-reborn-blog`(`https://s-reborn-blog.pages.dev`)에 자동 배포됩니다.
+
+공개 캐노니컬 도메인은 `https://sreborn.net`입니다. 연결 절차와 필요한 DNS 레코드는 [docs/custom-domain-sreborn-net.md](docs/custom-domain-sreborn-net.md)를 따릅니다.
 
 ## 주요 파일
 

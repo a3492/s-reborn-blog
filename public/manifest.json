@@ -1,7 +1,7 @@
 {
-  "name": "에스리본 클리닉",
-  "short_name": "S-Reborn",
-  "description": "에스리본 클리닉 공식 사이트",
+  "name": "S-reborn MD AI HUB",
+  "short_name": "S-reborn",
+  "description": "S-reborn MD AI HUB — Medical AI Content Platform",
   "icons": [
     {
       "src": "/icon-192.png",
