@@ -1,26 +1,250 @@
-# 1단계 리다이렉트. Cloudflare Pages는 위에서 처음 맞는 규칙만 적용한다.
-# [4]~[7]은 이번 단계에서 넣지 않는다.
-# 구체 경로는 와일드카드보다 먼저 둔다.
+# 2단계 리다이렉트. Cloudflare Pages는 위에서 처음 맞는 규칙만 적용한다.
+# 영어 /en 복제는 3단계에서 적용한다.
+# 정확한 경로는 전부 와일드카드와 :placeholder보다 앞에 둔다.
+# 와일드카드 뒤의 규칙은 동적 규칙으로 세어져 100개에서 잘린다.
 
-# [1] 아카데미. /blog/doctor-ai/* 는 유지한다.
+# 정확한 경로
+
+# [1] 아카데미 정확한 주소
 /doctor-ai-academy/fundamentals/19-ai-in-radiology-and-pathology.html  https://s-reborn-doctor-ai-academy.pages.dev/fundamentals/ai-in-radiology-and-pathology/  301
 /doctor-ai-academy/fundamentals/15-ai-for-resident-education-and-research.html  https://s-reborn-doctor-ai-academy.pages.dev/fundamentals/ai-for-resident-education-and-research/  301
 /doctor-ai-academy/prompts/home.html  https://s-reborn-doctor-ai-academy.pages.dev/prompts/  301
 /doctor-ai-academy  https://s-reborn-doctor-ai-academy.pages.dev/  301
 /doctor-ai-academy/  https://s-reborn-doctor-ai-academy.pages.dev/  301
-/doctor-ai-academy/*  https://s-reborn-doctor-ai-academy.pages.dev/:splat  301
 /doctor-ai  https://s-reborn-doctor-ai-academy.pages.dev/  301
-/doctor-ai/*  https://s-reborn-doctor-ai-academy.pages.dev/:splat  301
-/blog/doctor-ai/*  https://s-reborn-doctor-ai-academy.pages.dev/:splat  301
 
-# [2] 카테고리 경로 → 목록 필터
+# D1 aerini 사본 3건 → faq
+/blog/aerini/should-tell-patient-about-ai/  /blog/faq/should-tell-patient-about-ai/  301
+/blog/aerini/should-tell-patient-about-ai  /blog/faq/should-tell-patient-about-ai/  301
+/blog/aerini/which-ai-is-most-accurate/  /blog/faq/which-ai-is-most-accurate/  301
+/blog/aerini/which-ai-is-most-accurate  /blog/faq/which-ai-is-most-accurate/  301
+/blog/aerini/will-ai-replace-doctors/  /blog/faq/will-ai-replace-doctors/  301
+/blog/aerini/will-ai-replace-doctors  /blog/faq/will-ai-replace-doctors/  301
+
+# [2] /blog/aerini 목록
 /blog/aerini  /blog/?category=aerini  301
 /blog/aerini/  /blog/?category=aerini  301
-/blog/category/:cat  /blog/?category=:cat  301
-/blog/category/:cat/  /blog/?category=:cat  301
 
-# [3] 잘못된 폴더 경로
+# [3] 잘못된 폴더
 /blog/ai/prompt-engineering-for-doctors/  /blog/prompt-engineering/prompt-engineering-for-doctors/  301
 /blog/ai/prompt-engineering-for-doctors  /blog/prompt-engineering/prompt-engineering-for-doctors/  301
 /blog/ai/ai-paper-writing-guide/  /blog/tips/ai-paper-writing-guide/  301
 /blog/ai/ai-paper-writing-guide  /blog/tips/ai-paper-writing-guide/  301
+
+# [4][5][6] /article 100개 → 마크다운 (확장자 없는 주소와 .html)
+/article/5min-ai-adverse-event-report  /blog/tips/5min-ai-adverse-event-report/  301
+/article/5min-ai-adverse-event-report.html  /blog/tips/5min-ai-adverse-event-report/  301
+/article/5min-ai-case-report  /blog/tips/5min-ai-case-report/  301
+/article/5min-ai-case-report.html  /blog/tips/5min-ai-case-report/  301
+/article/5min-ai-clinical-notes  /blog/tips/5min-ai-clinical-notes/  301
+/article/5min-ai-clinical-notes.html  /blog/tips/5min-ai-clinical-notes/  301
+/article/5min-ai-counseling-notes  /blog/tips/5min-ai-counseling-notes/  301
+/article/5min-ai-counseling-notes.html  /blog/tips/5min-ai-counseling-notes/  301
+/article/5min-ai-differential-diagnosis  /blog/tips/5min-ai-differential-diagnosis/  301
+/article/5min-ai-differential-diagnosis.html  /blog/tips/5min-ai-differential-diagnosis/  301
+/article/5min-ai-discharge-instructions  /blog/tips/5min-ai-discharge-instructions/  301
+/article/5min-ai-discharge-instructions.html  /blog/tips/5min-ai-discharge-instructions/  301
+/article/5min-ai-guideline-summary  /blog/tips/5min-ai-guideline-summary/  301
+/article/5min-ai-guideline-summary.html  /blog/tips/5min-ai-guideline-summary/  301
+/article/5min-ai-health-screening-explanation  /blog/tips/5min-ai-health-screening-explanation/  301
+/article/5min-ai-health-screening-explanation.html  /blog/tips/5min-ai-health-screening-explanation/  301
+/article/5min-ai-medical-billing  /blog/tips/5min-ai-medical-billing/  301
+/article/5min-ai-medical-billing.html  /blog/tips/5min-ai-medical-billing/  301
+/article/5min-ai-news-subscription  /blog/tips/5min-ai-news-subscription/  301
+/article/5min-ai-news-subscription.html  /blog/tips/5min-ai-news-subscription/  301
+/article/5min-ai-paper-summary  /blog/tips/5min-ai-paper-summary/  301
+/article/5min-ai-paper-summary.html  /blog/tips/5min-ai-paper-summary/  301
+/article/5min-ai-patient-explanation  /blog/tips/5min-ai-patient-explanation/  301
+/article/5min-ai-patient-explanation.html  /blog/tips/5min-ai-patient-explanation/  301
+/article/5min-ai-patient-qna  /blog/tips/5min-ai-patient-qna/  301
+/article/5min-ai-patient-qna.html  /blog/tips/5min-ai-patient-qna/  301
+/article/5min-ai-prescription-review  /blog/tips/5min-ai-prescription-review/  301
+/article/5min-ai-prescription-review.html  /blog/tips/5min-ai-prescription-review/  301
+/article/5min-ai-presentation-slides  /blog/tips/5min-ai-presentation-slides/  301
+/article/5min-ai-presentation-slides.html  /blog/tips/5min-ai-presentation-slides/  301
+/article/ai-clinical-trial-ethics  /blog/ai-news/ai-clinical-trial-ethics/  301
+/article/ai-clinical-trial-ethics.html  /blog/ai-news/ai-clinical-trial-ethics/  301
+/article/can-non-medical-professionals-use-ai  /blog/faq/can-non-medical-professionals-use-ai/  301
+/article/can-non-medical-professionals-use-ai.html  /blog/faq/can-non-medical-professionals-use-ai/  301
+/article/cancer-detection-ai-study  /blog/ai-news/cancer-detection-ai-study/  301
+/article/cancer-detection-ai-study.html  /blog/ai-news/cancer-detection-ai-study/  301
+/article/cancer-treatment-personalized-ai  /blog/ai-tools/cancer-treatment-personalized-ai/  301
+/article/cancer-treatment-personalized-ai.html  /blog/ai-tools/cancer-treatment-personalized-ai/  301
+/article/chatgpt-medical-review  /blog/ai-tools/chatgpt-medical-review/  301
+/article/chatgpt-medical-review.html  /blog/ai-tools/chatgpt-medical-review/  301
+/article/claude-medical-review  /blog/ai-tools/claude-medical-review/  301
+/article/claude-medical-review.html  /blog/ai-tools/claude-medical-review/  301
+/article/claude-vs-chatgpt-medical  /blog/ai-news/claude-vs-chatgpt-medical/  301
+/article/claude-vs-chatgpt-medical.html  /blog/ai-news/claude-vs-chatgpt-medical/  301
+/article/deepmind-alphafold-medical  /blog/ai-news/deepmind-alphafold-medical/  301
+/article/deepmind-alphafold-medical.html  /blog/ai-news/deepmind-alphafold-medical/  301
+/article/drug-development-ai  /blog/ai-news/drug-development-ai/  301
+/article/drug-development-ai.html  /blog/ai-news/drug-development-ai/  301
+/article/drug-interaction-tools-rank  /blog/ai-tools/drug-interaction-tools-rank/  301
+/article/drug-interaction-tools-rank.html  /blog/ai-tools/drug-interaction-tools-rank/  301
+/article/emergency-medicine-ai  /blog/ai-tools/emergency-medicine-ai/  301
+/article/emergency-medicine-ai.html  /blog/ai-tools/emergency-medicine-ai/  301
+/article/epidemic-prediction-ai  /blog/ai-tools/epidemic-prediction-ai/  301
+/article/epidemic-prediction-ai.html  /blog/ai-tools/epidemic-prediction-ai/  301
+/article/eu-ai-act-medical  /blog/ai-news/eu-ai-act-medical/  301
+/article/eu-ai-act-medical.html  /blog/ai-news/eu-ai-act-medical/  301
+/article/fda-ai-approval-trend  /blog/ai-news/fda-ai-approval-trend/  301
+/article/fda-ai-approval-trend.html  /blog/ai-news/fda-ai-approval-trend/  301
+/article/free-vs-paid-medical-ai  /blog/faq/free-vs-paid-medical-ai/  301
+/article/free-vs-paid-medical-ai.html  /blog/faq/free-vs-paid-medical-ai/  301
+/article/gdpr-patient-data-medical-ai  /blog/regulations/gdpr-patient-data-medical-ai/  301
+/article/gdpr-patient-data-medical-ai.html  /blog/regulations/gdpr-patient-data-medical-ai/  301
+/article/gemini-medical-review  /blog/ai-tools/gemini-medical-review/  301
+/article/gemini-medical-review.html  /blog/ai-tools/gemini-medical-review/  301
+/article/healthcare-cybersecurity-ai  /blog/ai-news/healthcare-cybersecurity-ai/  301
+/article/healthcare-cybersecurity-ai.html  /blog/ai-news/healthcare-cybersecurity-ai/  301
+/article/healthcare-worker-ai-impact  /blog/ai-news/healthcare-worker-ai-impact/  301
+/article/healthcare-worker-ai-impact.html  /blog/ai-news/healthcare-worker-ai-impact/  301
+/article/hospital-ai-adoption-legal-checklist  /blog/regulations/hospital-ai-adoption-legal-checklist/  301
+/article/hospital-ai-adoption-legal-checklist.html  /blog/regulations/hospital-ai-adoption-legal-checklist/  301
+/article/international-medical-ai-regulation  /blog/regulations/international-medical-ai-regulation/  301
+/article/international-medical-ai-regulation.html  /blog/regulations/international-medical-ai-regulation/  301
+/article/is-ai-diagnosis-legal  /blog/faq/is-ai-diagnosis-legal/  301
+/article/is-ai-diagnosis-legal.html  /blog/faq/is-ai-diagnosis-legal/  301
+/article/is-ai-generated-medical-record-legal  /blog/faq/is-ai-generated-medical-record-legal/  301
+/article/is-ai-generated-medical-record-legal.html  /blog/faq/is-ai-generated-medical-record-legal/  301
+/article/is-medical-ai-biased  /blog/faq/is-medical-ai-biased/  301
+/article/is-medical-ai-biased.html  /blog/faq/is-medical-ai-biased/  301
+/article/korea-ai-sandbox  /blog/ai-news/korea-ai-sandbox/  301
+/article/korea-ai-sandbox.html  /blog/ai-news/korea-ai-sandbox/  301
+/article/korean-medical-law-ai  /blog/regulations/korean-medical-law-ai/  301
+/article/korean-medical-law-ai.html  /blog/regulations/korean-medical-law-ai/  301
+/article/medical-ai-accuracy-percentage  /blog/faq/medical-ai-accuracy-percentage/  301
+/article/medical-ai-accuracy-percentage.html  /blog/faq/medical-ai-accuracy-percentage/  301
+/article/medical-ai-apps-comparison  /blog/ai-tools/medical-ai-apps-comparison/  301
+/article/medical-ai-apps-comparison.html  /blog/ai-tools/medical-ai-apps-comparison/  301
+/article/medical-ai-cloud-vs-onprem  /blog/ai-tools/medical-ai-cloud-vs-onprem/  301
+/article/medical-ai-cloud-vs-onprem.html  /blog/ai-tools/medical-ai-cloud-vs-onprem/  301
+/article/medical-ai-consent-form-template  /blog/regulations/medical-ai-consent-form-template/  301
+/article/medical-ai-consent-form-template.html  /blog/regulations/medical-ai-consent-form-template/  301
+/article/medical-ai-cost  /blog/faq/medical-ai-cost/  301
+/article/medical-ai-cost.html  /blog/faq/medical-ai-cost/  301
+/article/medical-ai-data-breach  /blog/ai-news/medical-ai-data-breach/  301
+/article/medical-ai-data-breach.html  /blog/ai-news/medical-ai-data-breach/  301
+/article/medical-ai-ethics-committee  /blog/ai-news/medical-ai-ethics-committee/  301
+/article/medical-ai-ethics-committee.html  /blog/ai-news/medical-ai-ethics-committee/  301
+/article/medical-ai-ethics-difference  /blog/faq/medical-ai-ethics-difference/  301
+/article/medical-ai-ethics-difference.html  /blog/faq/medical-ai-ethics-difference/  301
+/article/medical-ai-gdpr-compliance  /blog/faq/medical-ai-gdpr-compliance/  301
+/article/medical-ai-gdpr-compliance.html  /blog/faq/medical-ai-gdpr-compliance/  301
+/article/medical-ai-investment-cost  /blog/ai-news/medical-ai-investment-cost/  301
+/article/medical-ai-investment-cost.html  /blog/ai-news/medical-ai-investment-cost/  301
+/article/medical-ai-patents-milestone  /blog/ai-news/medical-ai-patents-milestone/  301
+/article/medical-ai-patents-milestone.html  /blog/ai-news/medical-ai-patents-milestone/  301
+/article/medical-chatbot-platforms  /blog/ai-tools/medical-chatbot-platforms/  301
+/article/medical-chatbot-platforms.html  /blog/ai-tools/medical-chatbot-platforms/  301
+/article/medical-device-approval-ai  /blog/regulations/medical-device-approval-ai/  301
+/article/medical-device-approval-ai.html  /blog/regulations/medical-device-approval-ai/  301
+/article/medical-documentation-ai  /blog/ai-tools/medical-documentation-ai/  301
+/article/medical-documentation-ai.html  /blog/ai-tools/medical-documentation-ai/  301
+/article/medical-imaging-ai-tools  /blog/ai-tools/medical-imaging-ai-tools/  301
+/article/medical-imaging-ai-tools.html  /blog/ai-tools/medical-imaging-ai-tools/  301
+/article/medical-malpractice-ai-liability  /blog/regulations/medical-malpractice-ai-liability/  301
+/article/medical-malpractice-ai-liability.html  /blog/regulations/medical-malpractice-ai-liability/  301
+/article/meta-healthcare-ai-investment  /blog/ai-news/meta-healthcare-ai-investment/  301
+/article/meta-healthcare-ai-investment.html  /blog/ai-news/meta-healthcare-ai-investment/  301
+/article/nature-ai-diagnosis-study  /blog/ai-news/nature-ai-diagnosis-study/  301
+/article/nature-ai-diagnosis-study.html  /blog/ai-news/nature-ai-diagnosis-study/  301
+/article/openai-gpt4-medical  /blog/ai-news/openai-gpt4-medical/  301
+/article/openai-gpt4-medical.html  /blog/ai-news/openai-gpt4-medical/  301
+/article/pathology-ai-analysis  /blog/ai-tools/pathology-ai-analysis/  301
+/article/pathology-ai-analysis.html  /blog/ai-tools/pathology-ai-analysis/  301
+/article/patient-consent-for-medical-ai  /blog/faq/patient-consent-for-medical-ai/  301
+/article/patient-consent-for-medical-ai.html  /blog/faq/patient-consent-for-medical-ai/  301
+/article/patient-data-breach-consequences  /blog/faq/patient-data-breach-consequences/  301
+/article/patient-data-breach-consequences.html  /blog/faq/patient-data-breach-consequences/  301
+/article/pediatrics-ai-growth  /blog/ai-tools/pediatrics-ai-growth/  301
+/article/pediatrics-ai-growth.html  /blog/ai-tools/pediatrics-ai-growth/  301
+/article/psychiatry-ai-risk-assessment  /blog/ai-tools/psychiatry-ai-risk-assessment/  301
+/article/psychiatry-ai-risk-assessment.html  /blog/ai-tools/psychiatry-ai-risk-assessment/  301
+/article/radiology-ai-platforms  /blog/ai-tools/radiology-ai-platforms/  301
+/article/radiology-ai-platforms.html  /blog/ai-tools/radiology-ai-platforms/  301
+/article/rehabilitation-medicine-ai  /blog/ai-tools/rehabilitation-medicine-ai/  301
+/article/rehabilitation-medicine-ai.html  /blog/ai-tools/rehabilitation-medicine-ai/  301
+/article/samsung-healthcare-ai  /blog/ai-news/samsung-healthcare-ai/  301
+/article/samsung-healthcare-ai.html  /blog/ai-news/samsung-healthcare-ai/  301
+/article/survey-medical-professionals-ai  /blog/ai-news/survey-medical-professionals-ai/  301
+/article/survey-medical-professionals-ai.html  /blog/ai-news/survey-medical-professionals-ai/  301
+/article/telehealth-ai-rural-areas  /blog/ai-news/telehealth-ai-rural-areas/  301
+/article/telehealth-ai-rural-areas.html  /blog/ai-news/telehealth-ai-rural-areas/  301
+/article/voice-transcription-comparison  /blog/ai-tools/voice-transcription-comparison/  301
+/article/voice-transcription-comparison.html  /blog/ai-tools/voice-transcription-comparison/  301
+/article/who-is-responsible-for-ai-error  /blog/faq/who-is-responsible-for-ai-error/  301
+/article/who-is-responsible-for-ai-error.html  /blog/faq/who-is-responsible-for-ai-error/  301
+/article/should-tell-patient-about-ai  /blog/faq/should-tell-patient-about-ai/  301
+/article/should-tell-patient-about-ai.html  /blog/faq/should-tell-patient-about-ai/  301
+/article/which-ai-is-most-accurate  /blog/faq/which-ai-is-most-accurate/  301
+/article/which-ai-is-most-accurate.html  /blog/faq/which-ai-is-most-accurate/  301
+/article/will-ai-replace-doctors  /blog/faq/will-ai-replace-doctors/  301
+/article/will-ai-replace-doctors.html  /blog/faq/will-ai-replace-doctors/  301
+/article/acute-abdominal-pain-case  /blog/doctor-ai/acute-abdominal-pain-case/  301
+/article/ai-bias-healthcare  /blog/doctor-ai/ai-bias-healthcare/  301
+/article/ai-ethics-healthcare  /blog/doctor-ai/ai-ethics-healthcare/  301
+/article/ai-explainability  /blog/doctor-ai/ai-explainability/  301
+/article/ai-hallucination-medical  /blog/doctor-ai/ai-hallucination-medical/  301
+/article/ai-hallucination-prevention  /blog/doctor-ai/ai-hallucination-prevention/  301
+/article/ai-model-updates-risk  /blog/doctor-ai/ai-model-updates-risk/  301
+/article/ai-reliability-metrics  /blog/doctor-ai/ai-reliability-metrics/  301
+/article/ai-vs-human-doctor  /blog/doctor-ai/ai-vs-human-doctor/  301
+/article/clinical-note-transcription  /blog/doctor-ai/clinical-note-transcription/  301
+/article/clinical-trial-matching-ai  /blog/doctor-ai/clinical-trial-matching-ai/  301
+/article/diabetes-management-ai  /blog/doctor-ai/diabetes-management-ai/  301
+/article/diagnostic-report-prompt  /blog/doctor-ai/diagnostic-report-prompt/  301
+/article/discharge-plan-prompt  /blog/doctor-ai/discharge-plan-prompt/  301
+/article/drug-interaction-ai  /blog/doctor-ai/drug-interaction-ai/  301
+/article/fever-differential-diagnosis  /blog/doctor-ai/fever-differential-diagnosis/  301
+/article/health-screening-prompt  /blog/doctor-ai/health-screening-prompt/  301
+/article/icd-coding-ai  /blog/doctor-ai/icd-coding-ai/  301
+/article/injection-instructions-prompt  /blog/doctor-ai/injection-instructions-prompt/  301
+/article/medical-ai-data-sources  /blog/doctor-ai/medical-ai-data-sources/  301
+/article/medical-ai-regulation  /blog/doctor-ai/medical-ai-regulation/  301
+/article/medical-imaging-ai  /blog/doctor-ai/medical-imaging-ai/  301
+/article/multidisciplinary-ai  /blog/doctor-ai/multidisciplinary-ai/  301
+/article/polypharmacy-review-ai  /blog/doctor-ai/polypharmacy-review-ai/  301
+/article/prescription-review-prompt  /blog/doctor-ai/prescription-review-prompt/  301
+/article/acute-abdominal-pain-case.html  /blog/doctor-ai/acute-abdominal-pain-case/  301
+/article/ai-bias-healthcare.html  /blog/doctor-ai/ai-bias-healthcare/  301
+/article/ai-ethics-healthcare.html  /blog/doctor-ai/ai-ethics-healthcare/  301
+/article/ai-explainability.html  /blog/doctor-ai/ai-explainability/  301
+/article/ai-hallucination-medical.html  /blog/doctor-ai/ai-hallucination-medical/  301
+/article/ai-hallucination-prevention.html  /blog/doctor-ai/ai-hallucination-prevention/  301
+/article/ai-model-updates-risk.html  /blog/doctor-ai/ai-model-updates-risk/  301
+/article/ai-reliability-metrics.html  /blog/doctor-ai/ai-reliability-metrics/  301
+/article/ai-vs-human-doctor.html  /blog/doctor-ai/ai-vs-human-doctor/  301
+/article/clinical-note-transcription.html  /blog/doctor-ai/clinical-note-transcription/  301
+/article/clinical-trial-matching-ai.html  /blog/doctor-ai/clinical-trial-matching-ai/  301
+/article/diabetes-management-ai.html  /blog/doctor-ai/diabetes-management-ai/  301
+/article/diagnostic-report-prompt.html  /blog/doctor-ai/diagnostic-report-prompt/  301
+/article/discharge-plan-prompt.html  /blog/doctor-ai/discharge-plan-prompt/  301
+/article/drug-interaction-ai.html  /blog/doctor-ai/drug-interaction-ai/  301
+/article/fever-differential-diagnosis.html  /blog/doctor-ai/fever-differential-diagnosis/  301
+/article/health-screening-prompt.html  /blog/doctor-ai/health-screening-prompt/  301
+/article/icd-coding-ai.html  /blog/doctor-ai/icd-coding-ai/  301
+/article/injection-instructions-prompt.html  /blog/doctor-ai/injection-instructions-prompt/  301
+/article/medical-ai-data-sources.html  /blog/doctor-ai/medical-ai-data-sources/  301
+/article/medical-ai-regulation.html  /blog/doctor-ai/medical-ai-regulation/  301
+/article/medical-imaging-ai.html  /blog/doctor-ai/medical-imaging-ai/  301
+/article/multidisciplinary-ai.html  /blog/doctor-ai/multidisciplinary-ai/  301
+/article/polypharmacy-review-ai.html  /blog/doctor-ai/polypharmacy-review-ai/  301
+/article/prescription-review-prompt.html  /blog/doctor-ai/prescription-review-prompt/  301
+
+# [6] Doctor AI 전용과 fundamentals 링크
+/blog/doctor-ai-academy/fundamentals/ai-model-updates-risk/  /blog/doctor-ai/ai-model-updates-risk/  301
+/blog/doctor-ai-academy/fundamentals/ai-model-updates-risk  /blog/doctor-ai/ai-model-updates-risk/  301
+/blog/doctor-ai-academy/fundamentals/medical-ai-regulation/  /blog/doctor-ai/medical-ai-regulation/  301
+/blog/doctor-ai-academy/fundamentals/medical-ai-regulation  /blog/doctor-ai/medical-ai-regulation/  301
+/blog/doctor-ai-academy/fundamentals/ai-vs-human-doctor/  /blog/doctor-ai/ai-vs-human-doctor/  301
+/blog/doctor-ai-academy/fundamentals/ai-vs-human-doctor  /blog/doctor-ai/ai-vs-human-doctor/  301
+/blog/doctor-ai-academy/fundamentals/ai-reliability-metrics/  /blog/doctor-ai/ai-reliability-metrics/  301
+/blog/doctor-ai-academy/fundamentals/ai-reliability-metrics  /blog/doctor-ai/ai-reliability-metrics/  301
+
+# 동적 규칙. 정확한 경로 다음에만 둔다.
+/doctor-ai-academy/*  https://s-reborn-doctor-ai-academy.pages.dev/:splat  301
+/doctor-ai/*  https://s-reborn-doctor-ai-academy.pages.dev/:splat  301
+/blog/category/:cat  /blog/?category=:cat  301
+/blog/category/:cat/  /blog/?category=:cat  301
