@@ -25,6 +25,34 @@ function jsonResponse(body: Record<string, unknown>, status = 200) {
   return Response.json(body, { status });
 }
 
+function bearerToken(request: Request) {
+  const header = request.headers.get('authorization') ?? '';
+  const match = /^Bearer\s+(\S+)\s*$/i.exec(header);
+  return match ? match[1] : '';
+}
+
+function timingSafeEqualString(left: string, right: string) {
+  const bytes = new TextEncoder();
+  const a = bytes.encode(left);
+  const b = bytes.encode(right);
+  if (a.byteLength !== b.byteLength) {
+    if (a.byteLength > 0) crypto.subtle.timingSafeEqual(a, a);
+    return false;
+  }
+  return crypto.subtle.timingSafeEqual(a, b);
+}
+
+function isPublishAuthorized(request: Request, env: Record<string, unknown>) {
+  const expected = typeof env.PUBLISH_API_TOKEN === 'string' ? env.PUBLISH_API_TOKEN : '';
+  const presented = bearerToken(request);
+  if (!expected || !presented) {
+    const dummy = new TextEncoder().encode('unauthorized');
+    crypto.subtle.timingSafeEqual(dummy, dummy);
+    return false;
+  }
+  return timingSafeEqualString(presented, expected);
+}
+
 function requiredEnv(env: Record<string, unknown>) {
   return ['SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'GITHUB_TOKEN', 'GITHUB_REPO'].filter((key) => !env[key]);
 }
@@ -139,6 +167,9 @@ async function insertAuditLog(env: any, payload: any) {
 
 export const onRequestPost = async (context: any) => {
   const { request, env } = context;
+  if (!isPublishAuthorized(request, env)) {
+    return jsonResponse({ error: 'Unauthorized' }, 401);
+  }
   const missingEnv = requiredEnv(env);
 
   if (missingEnv.length > 0) {

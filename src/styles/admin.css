@@ -1283,3 +1283,20 @@ body.sidebar-open .admin-sidebar-backdrop {
   border-radius: 20px;
   vertical-align: middle;
 }
+
+.admin-publish-token {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.75rem;
+  margin: 0 0 1rem;
+}
+
+.admin-publish-token .admin-field {
+  flex: 1 1 16rem;
+  margin: 0;
+}
+
+.admin-publish-token .admin-inline-note {
+  margin: 0;
+}

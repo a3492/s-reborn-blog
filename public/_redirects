@@ -1,59 +1,26 @@
-# Doctor AI Academy → 독립 도메인으로 301 리디렉트
+# 1단계 리다이렉트. Cloudflare Pages는 위에서 처음 맞는 규칙만 적용한다.
+# [4]~[7]은 이번 단계에서 넣지 않는다.
+# 구체 경로는 와일드카드보다 먼저 둔다.
+
+# [1] 아카데미. /blog/doctor-ai/* 는 유지한다.
+/doctor-ai-academy/fundamentals/19-ai-in-radiology-and-pathology.html  https://s-reborn-doctor-ai-academy.pages.dev/fundamentals/ai-in-radiology-and-pathology/  301
+/doctor-ai-academy/fundamentals/15-ai-for-resident-education-and-research.html  https://s-reborn-doctor-ai-academy.pages.dev/fundamentals/ai-for-resident-education-and-research/  301
+/doctor-ai-academy/prompts/home.html  https://s-reborn-doctor-ai-academy.pages.dev/prompts/  301
 /doctor-ai-academy  https://s-reborn-doctor-ai-academy.pages.dev/  301
-/doctor-ai-academy/ https://s-reborn-doctor-ai-academy.pages.dev/  301
-/doctor-ai-academy/* https://s-reborn-doctor-ai-academy.pages.dev/:splat  301
+/doctor-ai-academy/  https://s-reborn-doctor-ai-academy.pages.dev/  301
+/doctor-ai-academy/*  https://s-reborn-doctor-ai-academy.pages.dev/:splat  301
 /doctor-ai  https://s-reborn-doctor-ai-academy.pages.dev/  301
-/doctor-ai/* https://s-reborn-doctor-ai-academy.pages.dev/:splat  301
-/blog/doctor-ai/* https://s-reborn-doctor-ai-academy.pages.dev/:splat  301
+/doctor-ai/*  https://s-reborn-doctor-ai-academy.pages.dev/:splat  301
+/blog/doctor-ai/*  https://s-reborn-doctor-ai-academy.pages.dev/:splat  301
 
-# 블로그 slug 이전 (301) — faq → ai-coding-tools
-/blog/faq/codex-when-to-use /blog/ai-coding-tools/codex-when-to-use 301
-/blog/faq/codex-when-to-use/ /blog/ai-coding-tools/codex-when-to-use/ 301
-/blog/faq/codex-what-is-it /blog/ai-coding-tools/codex-what-is-it 301
-/blog/faq/codex-what-is-it/ /blog/ai-coding-tools/codex-what-is-it/ 301
-/blog/faq/codex-vs-cursor /blog/ai-coding-tools/codex-vs-cursor 301
-/blog/faq/codex-vs-cursor/ /blog/ai-coding-tools/codex-vs-cursor/ 301
-/blog/faq/codex-vs-claude-code /blog/ai-coding-tools/codex-vs-claude-code 301
-/blog/faq/codex-vs-claude-code/ /blog/ai-coding-tools/codex-vs-claude-code/ 301
-/blog/faq/codex-terminal /blog/ai-coding-tools/codex-terminal 301
-/blog/faq/codex-terminal/ /blog/ai-coding-tools/codex-terminal/ 301
-/blog/faq/codex-security /blog/ai-coding-tools/codex-security 301
-/blog/faq/codex-security/ /blog/ai-coding-tools/codex-security/ 301
-/blog/faq/codex-sandbox-mode /blog/ai-coding-tools/codex-sandbox-mode 301
-/blog/faq/codex-sandbox-mode/ /blog/ai-coding-tools/codex-sandbox-mode/ 301
-/blog/faq/codex-install /blog/ai-coding-tools/codex-install 301
-/blog/faq/codex-install/ /blog/ai-coding-tools/codex-install/ 301
-/blog/faq/codex-cost /blog/ai-coding-tools/codex-cost 301
-/blog/faq/codex-cost/ /blog/ai-coding-tools/codex-cost/ 301
-/blog/faq/claude-code-without-api-key /blog/ai-coding-tools/claude-code-without-api-key 301
-/blog/faq/claude-code-without-api-key/ /blog/ai-coding-tools/claude-code-without-api-key/ 301
-/blog/faq/claude-code-when-to-use /blog/ai-coding-tools/claude-code-when-to-use 301
-/blog/faq/claude-code-when-to-use/ /blog/ai-coding-tools/claude-code-when-to-use/ 301
-/blog/faq/claude-code-what-is-it /blog/ai-coding-tools/claude-code-what-is-it 301
-/blog/faq/claude-code-what-is-it/ /blog/ai-coding-tools/claude-code-what-is-it/ 301
-/blog/faq/claude-code-vs-code /blog/ai-coding-tools/claude-code-vs-code 301
-/blog/faq/claude-code-vs-code/ /blog/ai-coding-tools/claude-code-vs-code/ 301
-/blog/faq/claude-code-terminal /blog/ai-coding-tools/claude-code-terminal 301
-/blog/faq/claude-code-terminal/ /blog/ai-coding-tools/claude-code-terminal/ 301
-/blog/faq/claude-code-security /blog/ai-coding-tools/claude-code-security 301
-/blog/faq/claude-code-security/ /blog/ai-coding-tools/claude-code-security/ 301
-/blog/faq/claude-code-install /blog/ai-coding-tools/claude-code-install 301
-/blog/faq/claude-code-install/ /blog/ai-coding-tools/claude-code-install/ 301
-/blog/faq/claude-code-desktop-app /blog/ai-coding-tools/claude-code-desktop-app 301
-/blog/faq/claude-code-desktop-app/ /blog/ai-coding-tools/claude-code-desktop-app/ 301
-/blog/faq/claude-code-cursor /blog/ai-coding-tools/claude-code-cursor 301
-/blog/faq/claude-code-cursor/ /blog/ai-coding-tools/claude-code-cursor/ 301
-/blog/faq/claude-code-cost /blog/ai-coding-tools/claude-code-cost 301
-/blog/faq/claude-code-cost/ /blog/ai-coding-tools/claude-code-cost/ 301
-/blog/faq/claude-code-cli-vs-ide /blog/ai-coding-tools/claude-code-cli-vs-ide 301
-/blog/faq/claude-code-cli-vs-ide/ /blog/ai-coding-tools/claude-code-cli-vs-ide/ 301
-/blog/faq/ai-coding-tools-comparison /blog/ai-coding-tools/ai-coding-tools-comparison 301
-/blog/faq/ai-coding-tools-comparison/ /blog/ai-coding-tools/ai-coding-tools-comparison/ 301
+# [2] 카테고리 경로 → 목록 필터
+/blog/aerini  /blog/?category=aerini  301
+/blog/aerini/  /blog/?category=aerini  301
+/blog/category/:cat  /blog/?category=:cat  301
+/blog/category/:cat/  /blog/?category=:cat  301
 
-# doctor-ai/fundamentals → ai-ethics
-/blog/doctor-ai/fundamentals/ai-ethics-healthcare /blog/ai-ethics/ai-ethics-healthcare 301
-/blog/doctor-ai/fundamentals/ai-ethics-healthcare/ /blog/ai-ethics/ai-ethics-healthcare/ 301
-/blog/doctor-ai/fundamentals/ai-bias-healthcare /blog/ai-ethics/ai-bias-healthcare 301
-/blog/doctor-ai/fundamentals/ai-bias-healthcare/ /blog/ai-ethics/ai-bias-healthcare/ 301
-/blog/doctor-ai/fundamentals/ai-explainability /blog/ai-ethics/ai-explainability 301
-/blog/doctor-ai/fundamentals/ai-explainability/ /blog/ai-ethics/ai-explainability/ 301
+# [3] 잘못된 폴더 경로
+/blog/ai/prompt-engineering-for-doctors/  /blog/prompt-engineering/prompt-engineering-for-doctors/  301
+/blog/ai/prompt-engineering-for-doctors  /blog/prompt-engineering/prompt-engineering-for-doctors/  301
+/blog/ai/ai-paper-writing-guide/  /blog/tips/ai-paper-writing-guide/  301
+/blog/ai/ai-paper-writing-guide  /blog/tips/ai-paper-writing-guide/  301

@@ -51,6 +51,14 @@ const pathname = Astro.url.pathname;
       <main class="admin-main">
         <p class="admin-inline-note" data-admin-role-warning hidden></p>
         <AdminHeader title={pageTitle} description={pageDescription} status={status} />
+        <form class="admin-publish-token" data-publish-token-form>
+          <label class="admin-field">
+            <span class="admin-label">발행 토큰</span>
+            <input class="admin-input" type="password" autocomplete="off" data-publish-token-input placeholder="이 브라우저 세션에만 저장" />
+          </label>
+          <button type="submit" class="admin-btn">저장</button>
+          <span class="admin-inline-note" data-publish-token-state>토큰 없음</span>
+        </form>
         <div data-admin-page-slot>
           <slot />
         </div>
@@ -59,6 +67,24 @@ const pathname = Astro.url.pathname;
 
     <script>
       import { createClient } from '@supabase/supabase-js';
+      import { PUBLISH_API_TOKEN_STORAGE_KEY } from '../lib/admin/publish-request';
+      const publishTokenForm = document.querySelector('[data-publish-token-form]');
+      const publishTokenInput = document.querySelector('[data-publish-token-input]');
+      const publishTokenState = document.querySelector('[data-publish-token-state]');
+      const syncPublishTokenState = () => {
+        if (!publishTokenState) return;
+        const saved = Boolean(sessionStorage.getItem(PUBLISH_API_TOKEN_STORAGE_KEY));
+        publishTokenState.textContent = saved ? '이 탭에 발행 토큰이 있습니다.' : '토큰 없음 — 발행 요청은 401이 됩니다.';
+      };
+      syncPublishTokenState();
+      publishTokenForm?.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const value = publishTokenInput instanceof HTMLInputElement ? publishTokenInput.value.trim() : '';
+        if (value) sessionStorage.setItem(PUBLISH_API_TOKEN_STORAGE_KEY, value);
+        else sessionStorage.removeItem(PUBLISH_API_TOKEN_STORAGE_KEY);
+        if (publishTokenInput instanceof HTMLInputElement) publishTokenInput.value = '';
+        syncPublishTokenState();
+      });
       const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
       const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
       const requiredRole = document.body.dataset.requiredRole || 'editor';
