@@ -72,10 +72,10 @@ AI가 "정상"이라고 했지만 환자의 임상 증상이 맞지 않는다면
 
 ## 더 알고 싶다면
 
-🔗 [AI로 심전도 해석 보조하기](/blog/aerini/ai-ecg-interpretation) — 정확도의 한계를 알면서 보조 도구로 쓰는 예시
+🔗 [AI로 심전도 해석 보조하기](/blog/aerini/ai-ecg-interpretation/) — 정확도의 한계를 알면서 보조 도구로 쓰는 예시
 
-🔗 [AI가 틀린 의료 정보를 줬는데 환자에게 영향을 주면?](/blog/aerini/faq-ai-mistakes-consequences) — 오류 발생 시 책임 소재
+🔗 [AI가 틀린 의료 정보를 줬는데 환자에게 영향을 주면?](/blog/aerini/faq-ai-mistakes-consequences/) — 오류 발생 시 책임 소재
 
-🔗 [무료 AI로 충분한가요, 아니면 유료를 써야 하나요?](/blog/aerini/faq-free-vs-paid-ai) — 정확도와 모델 성능의 관계
+🔗 [무료 AI로 충분한가요, 아니면 유료를 써야 하나요?](/blog/aerini/faq-free-vs-paid-ai/) — 정확도와 모델 성능의 관계
 
-👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/aerini)에서 기초부터 시작해 보세요
+👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/?category=aerini)에서 기초부터 시작해 보세요

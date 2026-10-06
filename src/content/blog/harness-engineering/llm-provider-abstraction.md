@@ -134,9 +134,9 @@ PHI가 포함된 요청은 외부로 나가지 않는다. 익명화된 요청은
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [오케스트레이션 비용 최적화](/blog/orchestration/orchestration-cost-optimization) — 모델 계층화로 비용을 줄이는 전략
-- [에러 핸들링](/blog/harness-engineering/error-handling-ai) — API 장애 시 에러 처리 전략
-- [AI 시스템 배포 전략](/blog/harness-engineering/canary-deployment-ai) — 모델 교체 시 안전한 배포 방법
-- [오케스트레이션 모니터링](/blog/orchestration/orchestration-monitoring) — 공급자별 응답 품질과 비용 모니터링
+- [오케스트레이션 비용 최적화](/blog/orchestration/orchestration-cost-optimization/) — 모델 계층화로 비용을 줄이는 전략
+- [에러 핸들링](/blog/harness-engineering/error-handling-ai/) — API 장애 시 에러 처리 전략
+- [AI 시스템 배포 전략](/blog/harness-engineering/canary-deployment-ai/) — 모델 교체 시 안전한 배포 방법
+- [오케스트레이션 모니터링](/blog/orchestration/orchestration-monitoring/) — 공급자별 응답 품질과 비용 모니터링
 
-[← 하네스 엔지니어링 시리즈 전체 보기](/blog/category/harness-engineering)
+[← 하네스 엔지니어링 시리즈 전체 보기](/blog/?category=harness-engineering)

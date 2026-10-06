@@ -47,6 +47,6 @@ ML은 의사가 "어떤 특징을 볼지" 직접 정해줍니다. DL은 AI가 �
 
 ## 더 알고 싶다면
 
-- [AI를 어떻게 가르치나요? — 학습 용어 사전](/blog/aerini/glossary-training-terms)
-- [AI 성능이 '좋다'는 게 뭔가요? — 평가 용어 사전](/blog/aerini/glossary-evaluation-terms)
-- [의료 AI 논문에서 자주 보이는 용어 완전 정복](/blog/aerini/glossary-medical-ai-terms)
+- [AI를 어떻게 가르치나요? — 학습 용어 사전](/blog/aerini/glossary-training-terms/)
+- [AI 성능이 '좋다'는 게 뭔가요? — 평가 용어 사전](/blog/aerini/glossary-evaluation-terms/)
+- [의료 AI 논문에서 자주 보이는 용어 완전 정복](/blog/aerini/glossary-medical-ai-terms/)

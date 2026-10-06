@@ -213,7 +213,7 @@ ChatGPT, Claude, Gemini 등 범용 AI는 의료기기 소프트웨어(SaMD)로 �
 | 병리 | 조직학 패턴 교육 자료 설명 | 실제 슬라이드 분석은 전문 모델 필요 |
 | 행정/기록 | 이미지 포함 문서의 내용 요약 | 의료 이미지 제외 |
 
-> 영상의학·병리 AI의 임상 도입 현황이 궁금하다면 [영상의학·병리에서의 AI](/doctor-ai-academy/fundamentals/19-ai-in-radiology-and-pathology.html)에서 더 자세히 볼 수 있다.
+> 영상의학·병리 AI의 임상 도입 현황이 궁금하다면 [영상의학·병리에서의 AI](https://s-reborn-doctor-ai-academy.pages.dev/fundamentals/ai-in-radiology-and-pathology/)에서 더 자세히 볼 수 있다.
 
 ## 관련 글
 - [AI 에이전트란 무엇인가 — 도구를 사용하는 AI의 작동 방식](/blog/ai/ai-agent-explained/)

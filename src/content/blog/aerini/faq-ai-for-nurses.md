@@ -46,6 +46,6 @@ AI는 의사만의 도구가 아닙니다. 병원 안의 모든 직종이 각자
 
 ## 더 알고 싶다면
 
-- [여러 약을 복용 중인 환자, AI로 전체 검토하기](/blog/aerini/ai-medication-review)
-- [AI로 환자 교육 자료 만들기](/blog/aerini/ai-patient-education)
-- [AI가 의료 현장에서 법적으로 허용되나요?](/blog/aerini/is-medical-ai-legal)
+- [여러 약을 복용 중인 환자, AI로 전체 검토하기](/blog/aerini/ai-medication-review/)
+- [AI로 환자 교육 자료 만들기](/blog/aerini/ai-patient-education/)
+- [AI가 의료 현장에서 법적으로 허용되나요?](/blog/aerini/is-medical-ai-legal/)

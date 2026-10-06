@@ -148,10 +148,10 @@ PHI(개인건강정보) 보호
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [에이전트 간 통신](/blog/orchestration/multi-agent-communication) — 에이전트 간 통신에서 생기는 공격 벡터
-- [오케스트레이션 모니터링](/blog/orchestration/orchestration-monitoring) — 보안 사고를 실시간으로 감지하는 방법
-- [Human-in-the-Loop](/blog/orchestration/human-in-the-loop) — 사람 검증으로 AI 오작동 차단
-- [오케스트레이션 vs 에이전트](/blog/orchestration/orchestration-vs-agents) — 에이전트 권한을 최소화하는 설계
+- [에이전트 간 통신](/blog/orchestration/multi-agent-communication/) — 에이전트 간 통신에서 생기는 공격 벡터
+- [오케스트레이션 모니터링](/blog/orchestration/orchestration-monitoring/) — 보안 사고를 실시간으로 감지하는 방법
+- [Human-in-the-Loop](/blog/orchestration/human-in-the-loop/) — 사람 검증으로 AI 오작동 차단
+- [오케스트레이션 vs 에이전트](/blog/orchestration/orchestration-vs-agents/) — 에이전트 권한을 최소화하는 설계
 
-[← 오케스트레이션 시리즈 전체 보기](/blog/category/orchestration)
+[← 오케스트레이션 시리즈 전체 보기](/blog/?category=orchestration)
 

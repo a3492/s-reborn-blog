@@ -102,8 +102,8 @@ AI가 잘못된 정보를 제공해서 의사가 잘못된 결정을 했다면, 
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [AI Copilot이 뭐예요?](/blog/aerini/what-is-ai-copilot) — 의사-AI 협업의 실제 모습
-- [민감도와 특이도가 뭐예요?](/blog/aerini/what-is-precision-recall) — AI 성능의 한계를 수치로 이해하기
-- [AI Alignment이 뭐예요?](/blog/aerini/what-is-ai-alignment) — AI가 올바른 방향으로 협업하게 만드는 것
+- [AI Copilot이 뭐예요?](/blog/aerini/what-is-ai-copilot/) — 의사-AI 협업의 실제 모습
+- [민감도와 특이도가 뭐예요?](/blog/aerini/what-is-precision-recall/) — AI 성능의 한계를 수치로 이해하기
+- [AI Alignment이 뭐예요?](/blog/aerini/what-is-ai-alignment/) — AI가 올바른 방향으로 협업하게 만드는 것
 
-[← 애린이 AI 용어 시리즈 전체 보기](/blog/category/aerini)
+[← 애린이 AI 용어 시리즈 전체 보기](/blog/?category=aerini)

@@ -53,6 +53,6 @@ draft: false
 
 ## 더 알고 싶다면
 
-- [AI로 약물 용량 계산하기](/blog/aerini/ai-drug-dosing)
-- [AI로 약물 상호작용 확인하기](/blog/aerini/ai-drug-interaction-check)
-- [의사 말고 간호사, 약사도 AI를 쓸 수 있나요?](/blog/aerini/faq-ai-for-nurses)
+- [AI로 약물 용량 계산하기](/blog/aerini/ai-drug-dosing/)
+- [AI로 약물 상호작용 확인하기](/blog/aerini/ai-drug-interaction-check/)
+- [의사 말고 간호사, 약사도 AI를 쓸 수 있나요?](/blog/aerini/faq-ai-for-nurses/)

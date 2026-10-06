@@ -115,6 +115,6 @@ DSMB는 중간 분석 결과를 독립적으로 검토하고 조기 중단 여�
 
 ## 관련 글
 
-- [IRB와 AI 연구 — 동의서에 AI 사용을 어떻게 명시할까](/blog/clinical-research/irb-ai-research)
-- [메타분석 기초 — Forest Plot 직접 만들고 해석하기](/blog/clinical-research/meta-analysis-basics)
-- [EMR 기반 코호트 연구 — 대규모 데이터로 빠르게 연구하는 법](/blog/clinical-research/cohort-study-ehr)
+- [IRB와 AI 연구 — 동의서에 AI 사용을 어떻게 명시할까](/blog/clinical-research/irb-ai-research/)
+- [메타분석 기초 — Forest Plot 직접 만들고 해석하기](/blog/clinical-research/meta-analysis-basics/)
+- [EMR 기반 코호트 연구 — 대규모 데이터로 빠르게 연구하는 법](/blog/clinical-research/cohort-study-ehr/)

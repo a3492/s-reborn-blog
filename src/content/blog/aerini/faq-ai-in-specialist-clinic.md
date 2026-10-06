@@ -78,10 +78,10 @@ AI는 언어를 처리하고, 정보를 정리하고, 문서를 작성하는 도
 
 ## 더 알고 싶다면
 
-🔗 [AI로 치료 계획 초안 만들기](/blog/aerini/ai-treatment-plan) — 내과, 외과 모두 활용 가능한 치료 계획 보조
+🔗 [AI로 치료 계획 초안 만들기](/blog/aerini/ai-treatment-plan/) — 내과, 외과 모두 활용 가능한 치료 계획 보조
 
-🔗 [AI로 인수인계 요약 빠르게 만들기](/blog/aerini/ai-nursing-handover) — 전 과에서 쓸 수 있는 인수인계 효율화
+🔗 [AI로 인수인계 요약 빠르게 만들기](/blog/aerini/ai-nursing-handover/) — 전 과에서 쓸 수 있는 인수인계 효율화
 
-🔗 [의료에서 AI 정확도는 얼마나 되나요?](/blog/aerini/faq-ai-accuracy-medical) — 전공별 AI 성능 차이 이해
+🔗 [의료에서 AI 정확도는 얼마나 되나요?](/blog/aerini/faq-ai-accuracy-medical/) — 전공별 AI 성능 차이 이해
 
-👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/aerini)에서 기초부터 시작해 보세요
+👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/?category=aerini)에서 기초부터 시작해 보세요

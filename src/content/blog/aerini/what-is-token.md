@@ -146,6 +146,6 @@ GPT-4, Claude, Gemini 모두 Token 계산 방법이 달라요.
 🔗 다음 읽으면 좋은 글
 - [Prompt가 뭐예요?](/blog/aerini/what-is-prompt/) — Token을 효율적으로 쓰는 법
 - [ChatGPT로 진료기록 작성하기](/blog/aerini/chatgpt-for-clinical-notes/) — 실전 활용
-- [어떤 AI가 가장 정확한가요?](/blog/aerini/which-ai-is-most-accurate/) — AI 모델 비교
+- [어떤 AI가 가장 정확한가요?](/blog/faq/which-ai-is-most-accurate/) — AI 모델 비교
 
 👉 [모든 애린이 글 보기](/blog/?category=aerini)

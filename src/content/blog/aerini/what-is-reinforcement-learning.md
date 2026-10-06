@@ -89,8 +89,8 @@ draft: false
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [RLHF가 뭐예요?](/blog/aerini/what-is-rlhf) — 강화학습을 AI 정렬에 응용한 방법
-- [지도학습 vs 비지도학습](/blog/aerini/what-is-supervised-unsupervised) — 다른 학습 방식들과 비교
-- [AI와 의사 — 각자 잘하는 게 뭐가 다른가요?](/blog/aerini/what-is-ai-vs-human) — 강화학습 AI가 의사를 대체할 수 있을까
+- [RLHF가 뭐예요?](/blog/aerini/what-is-rlhf/) — 강화학습을 AI 정렬에 응용한 방법
+- [지도학습 vs 비지도학습](/blog/aerini/what-is-supervised-unsupervised/) — 다른 학습 방식들과 비교
+- [AI와 의사 — 각자 잘하는 게 뭐가 다른가요?](/blog/aerini/what-is-ai-vs-human/) — 강화학습 AI가 의사를 대체할 수 있을까
 
-[← 애린이 AI 용어 시리즈 전체 보기](/blog/category/aerini)
+[← 애린이 AI 용어 시리즈 전체 보기](/blog/?category=aerini)

@@ -113,7 +113,7 @@ Q2. 퇴원 후 TMP-SMX 예방 요법은 언제까지?
 - NotebookLM: 논문이나 증례 파일을 올리면 요약과 핵심 포인트를 자동으로 정리해 줍니다.
 
 ## 더 나아가기
-👉 [AI로 감별 진단 목록 빠르게 만들기](/blog/aerini/ai-differential-diagnosis)
-👉 [AI로 임상 연구 아이디어 찾기](/blog/aerini/ai-research-idea)
-👉 [AI로 문헌 검토 계획 세우기](/blog/aerini/ai-literature-review)
+👉 [AI로 감별 진단 목록 빠르게 만들기](/blog/aerini/ai-differential-diagnosis/)
+👉 [AI로 임상 연구 아이디어 찾기](/blog/aerini/ai-research-idea/)
+👉 [AI로 문헌 검토 계획 세우기](/blog/aerini/ai-literature-review/)
 👉 [모든 애린이 글 보기](/blog/?category=aerini)

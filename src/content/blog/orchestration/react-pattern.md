@@ -194,10 +194,10 @@ ReAct가 과한 경우:
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [태스크 분해](/blog/orchestration/task-decomposition) — 루프를 돌기 전에 태스크를 나누는 방법
-- [LangGraph 입문](/blog/orchestration/langgraph-intro) — ReAct 루프를 그래프로 구현하는 방법
-- [오케스트레이션 디버깅](/blog/orchestration/orchestration-debugging) — ReAct 루프가 꼬였을 때 원인 찾는 법
-- [에이전틱 RAG](/blog/orchestration/agentic-rag) — ReAct와 반복 검색의 조합
+- [태스크 분해](/blog/orchestration/task-decomposition/) — 루프를 돌기 전에 태스크를 나누는 방법
+- [LangGraph 입문](/blog/orchestration/langgraph-intro/) — ReAct 루프를 그래프로 구현하는 방법
+- [오케스트레이션 디버깅](/blog/orchestration/orchestration-debugging/) — ReAct 루프가 꼬였을 때 원인 찾는 법
+- [에이전틱 RAG](/blog/orchestration/agentic-rag/) — ReAct와 반복 검색의 조합
 
-[← 오케스트레이션 시리즈 전체 보기](/blog/category/orchestration)
+[← 오케스트레이션 시리즈 전체 보기](/blog/?category=orchestration)
 

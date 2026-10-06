@@ -102,10 +102,10 @@ AI에게: 이 요약을 아래 양식에 맞게 다시 정리해줘.
 
 ## 더 나아가기
 
-👉 [AI로 복잡한 환자 병력 요약하기](/blog/aerini/ai-patient-history) — 인수인계와 병력 요약을 연계해서 활용하기
+👉 [AI로 복잡한 환자 병력 요약하기](/blog/aerini/ai-patient-history/) — 인수인계와 병력 요약을 연계해서 활용하기
 
-👉 [AI에게 환자 정보를 입력하면 개인정보가 유출되나요?](/blog/aerini/faq-ai-patient-privacy) — 안전하게 사용하는 방법 먼저 확인하세요
+👉 [AI에게 환자 정보를 입력하면 개인정보가 유출되나요?](/blog/aerini/faq-ai-patient-privacy/) — 안전하게 사용하는 방법 먼저 확인하세요
 
-👉 [AI로 치료 계획 초안 만들기](/blog/aerini/ai-treatment-plan) — 인수인계 후 다음 팀의 치료 계획 수립까지
+👉 [AI로 치료 계획 초안 만들기](/blog/aerini/ai-treatment-plan/) — 인수인계 후 다음 팀의 치료 계획 수립까지
 
-👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/aerini)에서 기초부터 시작해 보세요
+👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/?category=aerini)에서 기초부터 시작해 보세요

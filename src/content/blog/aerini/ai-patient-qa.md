@@ -91,7 +91,7 @@ Q2 답변을 약물 계열별로 구분해서 조금 더 자세하게 설명해�
 - 헬스 리터러시 도구: 미국 NIH의 Plain Language 가이드라인을 참고하면 환자 눈높이 글쓰기 원칙을 배울 수 있습니다.
 
 ## 더 나아가기
-👉 [AI로 수술 동의서 설명 자료 만들기](/blog/aerini/ai-surgery-consent)
-👉 [AI로 퇴원 요약지 초안 5분 만에 만들기](/blog/aerini/ai-discharge-summary)
-👉 [AI로 의뢰서 2분 만에 작성하기](/blog/aerini/ai-referral-letter)
+👉 [AI로 수술 동의서 설명 자료 만들기](/blog/aerini/ai-surgery-consent/)
+👉 [AI로 퇴원 요약지 초안 5분 만에 만들기](/blog/aerini/ai-discharge-summary/)
+👉 [AI로 의뢰서 2분 만에 작성하기](/blog/aerini/ai-referral-letter/)
 👉 [모든 애린이 글 보기](/blog/?category=aerini)

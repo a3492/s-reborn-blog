@@ -94,8 +94,8 @@ AI 도입 전 학습 데이터의 인구통계학적 구성을 반드시 확인�
 
 ## 더 알고 싶다면
 
-- [AI 안전성이 뭐예요?](/blog/aerini/what-is-ai-safety)
-- [AI 설명가능성(XAI)이 뭐예요?](/blog/aerini/what-is-ai-explainability)
-- [Foundation Model이 뭐예요?](/blog/aerini/what-is-foundation-model)
+- [AI 안전성이 뭐예요?](/blog/aerini/what-is-ai-safety/)
+- [AI 설명가능성(XAI)이 뭐예요?](/blog/aerini/what-is-ai-explainability/)
+- [Foundation Model이 뭐예요?](/blog/aerini/what-is-foundation-model/)
 
-[🩺 모든 애린이 글 보기](/blog/category/aerini)
+[🩺 모든 애린이 글 보기](/blog/?category=aerini)

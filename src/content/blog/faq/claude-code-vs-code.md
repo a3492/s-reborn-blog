@@ -89,8 +89,8 @@ VS Code Marketplace에는 Claude 관련 확장이 있다. 공식 Anthropic의 Cl
 - VS Code Extension은 인라인 도움말 용도로 병행 가능
 
 ## 관련 글
-- [터미널에서 Claude Code를 어떻게 쓰나요?](/blog/faq/claude-code-terminal) — CLI 기본 사용법 먼저 익히기
-- [Cursor와 Claude Code는 어떻게 다른가요?](/blog/faq/claude-code-cursor) — Cursor를 쓰면 더 편할 수 있음
-- [CLI와 IDE 연동 중 어떤 게 좋을까요?](/blog/faq/claude-code-cli-vs-ide) — 어떤 방식이 내 상황에 맞는지
+- [터미널에서 Claude Code를 어떻게 쓰나요?](/blog/faq/claude-code-terminal/) — CLI 기본 사용법 먼저 익히기
+- [Cursor와 Claude Code는 어떻게 다른가요?](/blog/faq/claude-code-cursor/) — Cursor를 쓰면 더 편할 수 있음
+- [CLI와 IDE 연동 중 어떤 게 좋을까요?](/blog/faq/claude-code-cli-vs-ide/) — 어떤 방식이 내 상황에 맞는지
 
-[← FAQ 전체 보기](/blog/category/faq)
+[← FAQ 전체 보기](/blog/?category=faq)

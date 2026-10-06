@@ -89,8 +89,8 @@ Google의 안저 사진 분석 AI는 당뇨망막병증 감지로 시작했지�
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [Overfitting이 뭐예요?](/blog/aerini/what-is-overfitting) — 전이 학습이 해결하는 문제 중 하나
-- [지도학습 vs 비지도학습](/blog/aerini/what-is-supervised-unsupervised) — 학습 방식의 기초
-- [Data Augmentation이 뭐예요?](/blog/aerini/what-is-data-augmentation) — 데이터 부족 문제의 또 다른 해결책
+- [Overfitting이 뭐예요?](/blog/aerini/what-is-overfitting/) — 전이 학습이 해결하는 문제 중 하나
+- [지도학습 vs 비지도학습](/blog/aerini/what-is-supervised-unsupervised/) — 학습 방식의 기초
+- [Data Augmentation이 뭐예요?](/blog/aerini/what-is-data-augmentation/) — 데이터 부족 문제의 또 다른 해결책
 
-[← 애린이 AI 용어 시리즈 전체 보기](/blog/category/aerini)
+[← 애린이 AI 용어 시리즈 전체 보기](/blog/?category=aerini)

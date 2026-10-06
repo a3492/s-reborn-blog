@@ -106,10 +106,10 @@ AI 답변은 출발점입니다. 반드시 아래 출처 중 하나로 확인하
 
 ## 더 나아가기
 
-👉 [AI로 치료 계획 초안 만들기](/blog/aerini/ai-treatment-plan) — 용량 확인 후 전체 치료 계획으로 연결
+👉 [AI로 치료 계획 초안 만들기](/blog/aerini/ai-treatment-plan/) — 용량 확인 후 전체 치료 계획으로 연결
 
-👉 [AI가 틀린 의료 정보를 줬는데 환자에게 영향을 주면?](/blog/aerini/faq-ai-mistakes-consequences) — AI 오류 시 책임 소재를 미리 파악하세요
+👉 [AI가 틀린 의료 정보를 줬는데 환자에게 영향을 주면?](/blog/aerini/faq-ai-mistakes-consequences/) — AI 오류 시 책임 소재를 미리 파악하세요
 
-👉 [의료에서 AI 정확도는 얼마나 되나요?](/blog/aerini/faq-ai-accuracy-medical) — AI를 어느 정도 신뢰할 수 있는지 확인
+👉 [의료에서 AI 정확도는 얼마나 되나요?](/blog/aerini/faq-ai-accuracy-medical/) — AI를 어느 정도 신뢰할 수 있는지 확인
 
-👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/aerini)에서 기초부터 시작해 보세요
+👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/?category=aerini)에서 기초부터 시작해 보세요

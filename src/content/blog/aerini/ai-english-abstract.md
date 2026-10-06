@@ -108,10 +108,10 @@ NEJM 스타일로 더 간결하게 다듬어줘.
 
 ## 더 나아가기
 
-👉 [AI로 학회 발표 슬라이드 구성하기](/blog/aerini/ai-slide-design) — 초록 제출 후 발표 준비도 AI로
+👉 [AI로 학회 발표 슬라이드 구성하기](/blog/aerini/ai-slide-design/) — 초록 제출 후 발표 준비도 AI로
 
-👉 [AI로 저널 클럽 발표 준비하기](/blog/aerini/ai-journal-club) — 논문 읽기와 발표 준비를 AI로 효율화
+👉 [AI로 저널 클럽 발표 준비하기](/blog/aerini/ai-journal-club/) — 논문 읽기와 발표 준비를 AI로 효율화
 
-👉 [영어가 약해도 AI로 영어 논문을 읽을 수 있나요?](/blog/aerini/faq-ai-language-barrier) — 영어 논문 읽기도 AI로 해결
+👉 [영어가 약해도 AI로 영어 논문을 읽을 수 있나요?](/blog/aerini/faq-ai-language-barrier/) — 영어 논문 읽기도 AI로 해결
 
-👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/aerini)에서 기초부터 시작해 보세요
+👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/?category=aerini)에서 기초부터 시작해 보세요

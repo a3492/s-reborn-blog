@@ -137,10 +137,10 @@ Lab 에이전트     → lab_results 필드만 씀
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [병렬 실행](/blog/orchestration/parallel-execution) — 병렬 실행 시 상태 충돌이 발생하는 이유
-- [Human-in-the-Loop](/blog/orchestration/human-in-the-loop) — 사람 개입 전후를 체크포인트로 저장하는 방법
-- [컨텍스트 윈도우 관리](/blog/orchestration/context-window-management) — 상태 저장과 컨텍스트 전달의 차이
-- [LangGraph 입문](/blog/orchestration/langgraph-intro) — 상태 머신을 그래프로 구현하는 방법
+- [병렬 실행](/blog/orchestration/parallel-execution/) — 병렬 실행 시 상태 충돌이 발생하는 이유
+- [Human-in-the-Loop](/blog/orchestration/human-in-the-loop/) — 사람 개입 전후를 체크포인트로 저장하는 방법
+- [컨텍스트 윈도우 관리](/blog/orchestration/context-window-management/) — 상태 저장과 컨텍스트 전달의 차이
+- [LangGraph 입문](/blog/orchestration/langgraph-intro/) — 상태 머신을 그래프로 구현하는 방법
 
-[← 오케스트레이션 시리즈 전체 보기](/blog/category/orchestration)
+[← 오케스트레이션 시리즈 전체 보기](/blog/?category=orchestration)
 

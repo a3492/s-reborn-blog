@@ -103,8 +103,8 @@ AI가 만든 이미지나 텍스트의 저작권은 아직 법적으로 명확�
 
 ## 더 알고 싶다면
 
-- [Hallucination이 뭐예요?](/blog/aerini/what-is-hallucination)
-- [Foundation Model이 뭐예요?](/blog/aerini/what-is-foundation-model)
-- [AI 안전성이 뭐예요?](/blog/aerini/what-is-ai-safety)
+- [Hallucination이 뭐예요?](/blog/aerini/what-is-hallucination/)
+- [Foundation Model이 뭐예요?](/blog/aerini/what-is-foundation-model/)
+- [AI 안전성이 뭐예요?](/blog/aerini/what-is-ai-safety/)
 
-[🩺 모든 애린이 글 보기](/blog/category/aerini)
+[🩺 모든 애린이 글 보기](/blog/?category=aerini)

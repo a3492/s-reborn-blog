@@ -146,6 +146,6 @@ LLM 기반 분류: 작은 LLM을 사용해 질문의 의도를 파악한다. 정
 5. 동적 컨텍스트의 최종 품질은 검색 품질에 의해 결정된다
 
 ## 관련 글
-- [컨텍스트 품질 평가 — 좋은 컨텍스트인지 어떻게 아는가](/blog/context-engineering/context-evaluation-methods)
-- [에이전트형 AI의 컨텍스트 흐름 — 스스로 정보를 수집하는 AI](/blog/context-engineering/agentic-context-flow)
-- [컨텍스트 윈도우 전략 — 제한된 창에 무엇을 넣을 것인가](/blog/context-engineering/context-window-strategy)
+- [컨텍스트 품질 평가 — 좋은 컨텍스트인지 어떻게 아는가](/blog/context-engineering/context-evaluation-methods/)
+- [에이전트형 AI의 컨텍스트 흐름 — 스스로 정보를 수집하는 AI](/blog/context-engineering/agentic-context-flow/)
+- [컨텍스트 윈도우 전략 — 제한된 창에 무엇을 넣을 것인가](/blog/context-engineering/context-window-strategy/)

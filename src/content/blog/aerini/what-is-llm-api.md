@@ -89,8 +89,8 @@ AI 회사가 API를 업데이트하면 기존 연동이 깨질 수 있습니다.
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [Prompt Engineering이 뭐예요?](/blog/aerini/what-is-prompt-engineering) — API를 더 잘 활용하는 방법
-- [RAG vs Fine-tuning](/blog/aerini/what-is-llm-fine-tuning-vs-rag) — API 외에 AI를 병원에 통합하는 방법들
-- [AI Copilot이 뭐예요?](/blog/aerini/what-is-ai-copilot) — API로 구현된 의료 AI 보조 시스템
+- [Prompt Engineering이 뭐예요?](/blog/aerini/what-is-prompt-engineering/) — API를 더 잘 활용하는 방법
+- [RAG vs Fine-tuning](/blog/aerini/what-is-llm-fine-tuning-vs-rag/) — API 외에 AI를 병원에 통합하는 방법들
+- [AI Copilot이 뭐예요?](/blog/aerini/what-is-ai-copilot/) — API로 구현된 의료 AI 보조 시스템
 
-[← 애린이 AI 용어 시리즈 전체 보기](/blog/category/aerini)
+[← 애린이 AI 용어 시리즈 전체 보기](/blog/?category=aerini)

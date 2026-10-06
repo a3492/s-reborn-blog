@@ -89,8 +89,8 @@ $5~$10를 충전하고 시작해보자. 어떤 작업에 얼마나 들지 감을
 - Console에서 지출 한도 설정 가능
 
 ## 관련 글
-- [API 키 없이 Claude Code를 쓸 수 있나요?](/blog/faq/claude-code-without-api-key) — 무료 대안 방법
-- [Claude Code가 뭔가요?](/blog/faq/claude-code-what-is-it) — 기본 개념부터 이해하기
-- [Cursor와 Claude Code는 어떻게 다른가요?](/blog/faq/claude-code-cursor) — 비용 포함 전체 비교
+- [API 키 없이 Claude Code를 쓸 수 있나요?](/blog/faq/claude-code-without-api-key/) — 무료 대안 방법
+- [Claude Code가 뭔가요?](/blog/faq/claude-code-what-is-it/) — 기본 개념부터 이해하기
+- [Cursor와 Claude Code는 어떻게 다른가요?](/blog/faq/claude-code-cursor/) — 비용 포함 전체 비교
 
-[← FAQ 전체 보기](/blog/category/faq)
+[← FAQ 전체 보기](/blog/?category=faq)

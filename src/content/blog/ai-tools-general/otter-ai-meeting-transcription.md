@@ -76,8 +76,8 @@ Otter.ai 무료 플랜은 월 300분 제공. 의료기관 도입 전 법적·보
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [Notion AI 임상 노트](/blog/ai-tools-general/notion-ai-clinical-notes) — 전사된 회의 내용을 정리하는 방법
-- [NotebookLM으로 논문 정리](/blog/ai-tools-general/notebooklm-source-grounded-notes) — 강의·문서를 AI로 정리하는 다른 도구
-- [오케스트레이션 보안](/blog/orchestration/orchestration-security) — AI 도구에 민감한 데이터를 입력할 때의 보안 원칙
+- [Notion AI 임상 노트](/blog/ai-tools-general/notion-ai-clinical-notes/) — 전사된 회의 내용을 정리하는 방법
+- [NotebookLM으로 논문 정리](/blog/ai-tools-general/notebooklm-source-grounded-notes/) — 강의·문서를 AI로 정리하는 다른 도구
+- [오케스트레이션 보안](/blog/orchestration/orchestration-security/) — AI 도구에 민감한 데이터를 입력할 때의 보안 원칙
 
-[← AI 도구 일반 전체 보기](/blog/category/ai-tools-general)
+[← AI 도구 일반 전체 보기](/blog/?category=ai-tools-general)

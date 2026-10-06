@@ -117,6 +117,6 @@ OpenAI API, Google Cloud AI, AWS SageMaker 등 해외 AI 서비스를 사용하�
 
 ## 관련 글
 
-- [RCT 설계에서 AI 활용 — 설계부터 무작위 배정까지](/blog/clinical-research/rct-design-ai)
-- [EMR 기반 코호트 연구 — 대규모 데이터로 빠르게 연구하는 법](/blog/clinical-research/cohort-study-ehr)
-- [AI로 논문 쓰기 — 윤리 기준과 실전 가이드](/blog/clinical-research/ai-paper-writing)
+- [RCT 설계에서 AI 활용 — 설계부터 무작위 배정까지](/blog/clinical-research/rct-design-ai/)
+- [EMR 기반 코호트 연구 — 대규모 데이터로 빠르게 연구하는 법](/blog/clinical-research/cohort-study-ehr/)
+- [AI로 논문 쓰기 — 윤리 기준과 실전 가이드](/blog/clinical-research/ai-paper-writing/)

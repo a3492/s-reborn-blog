@@ -142,10 +142,10 @@ Human-in-the-Loop:
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [ReAct 패턴](/blog/orchestration/react-pattern) — 실행 중 동적으로 태스크를 나누는 패턴
-- [병렬 실행](/blog/orchestration/parallel-execution) — 분해한 태스크를 동시에 실행하는 방법
-- [슈퍼바이저 패턴](/blog/orchestration/supervisor-pattern) — 분해된 태스크를 에이전트에 분배하는 구조
-- [AI 워크플로우 패턴 5가지](/blog/orchestration/workflow-patterns) — 태스크 분해가 포함된 패턴 전체 지도
+- [ReAct 패턴](/blog/orchestration/react-pattern/) — 실행 중 동적으로 태스크를 나누는 패턴
+- [병렬 실행](/blog/orchestration/parallel-execution/) — 분해한 태스크를 동시에 실행하는 방법
+- [슈퍼바이저 패턴](/blog/orchestration/supervisor-pattern/) — 분해된 태스크를 에이전트에 분배하는 구조
+- [AI 워크플로우 패턴 5가지](/blog/orchestration/workflow-patterns/) — 태스크 분해가 포함된 패턴 전체 지도
 
-[← 오케스트레이션 시리즈 전체 보기](/blog/category/orchestration)
+[← 오케스트레이션 시리즈 전체 보기](/blog/?category=orchestration)
 

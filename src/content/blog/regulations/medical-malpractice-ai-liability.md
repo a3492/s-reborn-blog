@@ -116,4 +116,4 @@ AI 오진에 근거한 치료로 환자가 사망하거나 중상해를 입은 �
 - [한국 의료법과 AI 진단: 법적 책임의 경계](/blog/regulations/korean-medical-law-ai/)
 - [의료 AI 동의서: 어떻게 만들어야 하나?](/blog/regulations/medical-ai-consent-form-template/)
 - [의료기기 허가 프로세스: AI는 어디에 걸리나?](/blog/regulations/medical-device-approval-ai/)
-- [의료 AI의 신뢰도 지표: 민감도, 특이도, AUC](/blog/doctor-ai-academy/fundamentals/ai-reliability-metrics/)
+- [의료 AI의 신뢰도 지표: 민감도, 특이도, AUC](/blog/doctor-ai/ai-reliability-metrics/)

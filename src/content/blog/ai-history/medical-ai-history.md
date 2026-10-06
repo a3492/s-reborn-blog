@@ -113,6 +113,6 @@ MIT Technology Review의 2017년 보도가 실패 원인을 정리했다. Watson
 
 ## 관련 글
 
-- [ChatGPT 출시 100일 — 의료계가 가장 먼저 반응한 이유](/blog/ai-history/chatgpt-launch-impact)
-- [한국 AI 개발의 역사 — ETRI에서 뷰노·루닛까지](/blog/ai-history/korea-ai-history)
-- [멀티모달 AI의 역사 — 텍스트에서 이미지·음성까지](/blog/ai-history/multimodal-ai-history)
+- [ChatGPT 출시 100일 — 의료계가 가장 먼저 반응한 이유](/blog/ai-history/chatgpt-launch-impact/)
+- [한국 AI 개발의 역사 — ETRI에서 뷰노·루닛까지](/blog/ai-history/korea-ai-history/)
+- [멀티모달 AI의 역사 — 텍스트에서 이미지·음성까지](/blog/ai-history/multimodal-ai-history/)

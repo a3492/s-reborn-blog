@@ -88,7 +88,7 @@ AI가 심각도별로 정리한 목록을 반환합니다. 예시 결과는 이�
 - Micromedex / Lexicomp: 병원에서 라이선스가 있다면 가장 신뢰할 수 있는 공식 DB입니다. AI 결과 확인용으로 사용하세요.
 
 ## 더 나아가기
-👉 [AI로 감별 진단 목록 빠르게 만들기](/blog/aerini/ai-differential-diagnosis)
-👉 [AI로 퇴원 요약지 초안 5분 만에 만들기](/blog/aerini/ai-discharge-summary)
-👉 [AI로 ICD 코드 빠르게 찾기](/blog/aerini/ai-icd-coding)
+👉 [AI로 감별 진단 목록 빠르게 만들기](/blog/aerini/ai-differential-diagnosis/)
+👉 [AI로 퇴원 요약지 초안 5분 만에 만들기](/blog/aerini/ai-discharge-summary/)
+👉 [AI로 ICD 코드 빠르게 찾기](/blog/aerini/ai-icd-coding/)
 👉 [모든 애린이 글 보기](/blog/?category=aerini)
