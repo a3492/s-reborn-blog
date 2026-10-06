@@ -69,6 +69,6 @@ NLP에서 "prompt"가 등장한 것은 GPT-2(2019년) 시대다. 텍스트 생�
 
 ## 관련 글
 
-- [에이전트 — 철학·경제학·AI에서 공통으로 쓰이는 단어의 의미](/blog/ai-terminology/term-agent)
-- [토큰 — LLM의 언어 단위가 '토큰'이 된 유래](/blog/ai-terminology/term-token)
-- [파인튜닝 — '미세조정'이라는 이름의 정확성](/blog/ai-terminology/term-fine-tuning)
+- [에이전트 — 철학·경제학·AI에서 공통으로 쓰이는 단어의 의미](/blog/ai-terminology/term-agent/)
+- [토큰 — LLM의 언어 단위가 '토큰'이 된 유래](/blog/ai-terminology/term-token/)
+- [파인튜닝 — '미세조정'이라는 이름의 정확성](/blog/ai-terminology/term-fine-tuning/)

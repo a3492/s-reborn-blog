@@ -98,10 +98,10 @@ AI에게: 이 논문에서 가장 약한 부분에 대해
 
 ## 더 나아가기
 
-👉 [AI로 영문 초록 10분 만에 쓰기](/blog/aerini/ai-english-abstract) — 논문 발표 후 직접 쓰는 단계로 연결
+👉 [AI로 영문 초록 10분 만에 쓰기](/blog/aerini/ai-english-abstract/) — 논문 발표 후 직접 쓰는 단계로 연결
 
-👉 [AI로 학회 발표 슬라이드 구성하기](/blog/aerini/ai-slide-design) — 저널 클럽을 넘어 학회 발표까지
+👉 [AI로 학회 발표 슬라이드 구성하기](/blog/aerini/ai-slide-design/) — 저널 클럽을 넘어 학회 발표까지
 
-👉 [영어가 약해도 AI로 영어 논문을 읽을 수 있나요?](/blog/aerini/faq-ai-language-barrier) — 영어 논문이 부담스럽다면 먼저 확인
+👉 [영어가 약해도 AI로 영어 논문을 읽을 수 있나요?](/blog/aerini/faq-ai-language-barrier/) — 영어 논문이 부담스럽다면 먼저 확인
 
-👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/aerini)에서 기초부터 시작해 보세요
+👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/?category=aerini)에서 기초부터 시작해 보세요

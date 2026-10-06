@@ -68,6 +68,6 @@ ChatGPT, GPT-4o, Claude — 지금 우리가 쓰는 도구들은 여전히 "AI"�
 
 ## 관련 글
 
-- [딥러닝 — Hinton이 의도적으로 선택한 브랜딩 전략](/blog/ai-terminology/term-deep-learning)
-- [신경망 — 뇌를 모방한다는 은유의 탄생](/blog/ai-terminology/term-neural-network)
-- [LLM — Large Language Model에서 '대형'과 '언어'가 의미하는 것](/blog/ai-terminology/term-llm)
+- [딥러닝 — Hinton이 의도적으로 선택한 브랜딩 전략](/blog/ai-terminology/term-deep-learning/)
+- [신경망 — 뇌를 모방한다는 은유의 탄생](/blog/ai-terminology/term-neural-network/)
+- [LLM — Large Language Model에서 '대형'과 '언어'가 의미하는 것](/blog/ai-terminology/term-llm/)

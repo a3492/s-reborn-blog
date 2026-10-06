@@ -49,6 +49,6 @@ AI 뉴스에서 GPT, Claude, Gemini, Llama가 쏟아집니다. 다 비슷해 보
 
 ## 더 알고 싶다면
 
-- [LLM 용어 사전 — GPT, Claude, Gemini를 이해하는 단어들](/blog/aerini/glossary-llm-terms)
-- [GPT의 G, P, T는 무슨 뜻인가요?](/blog/aerini/history-gpt-meaning)
-- [AI 필수 용어 10개 — 이것만 알면 대화가 된다](/blog/aerini/glossary-ai-basics)
+- [LLM 용어 사전 — GPT, Claude, Gemini를 이해하는 단어들](/blog/aerini/glossary-llm-terms/)
+- [GPT의 G, P, T는 무슨 뜻인가요?](/blog/aerini/history-gpt-meaning/)
+- [AI 필수 용어 10개 — 이것만 알면 대화가 된다](/blog/aerini/glossary-ai-basics/)

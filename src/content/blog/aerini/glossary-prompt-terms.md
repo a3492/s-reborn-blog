@@ -68,6 +68,6 @@ Chain-of-Thought 방식:
 
 ## 더 알고 싶다면
 
-- [AI 필수 용어 10개 — 이것만 알면 대화가 된다](/blog/aerini/glossary-ai-basics)
-- [LLM 용어 사전 — GPT, Claude, Gemini를 이해하는 단어들](/blog/aerini/glossary-llm-terms)
-- [AI를 어떻게 가르치나요? — 학습 용어 사전](/blog/aerini/glossary-training-terms)
+- [AI 필수 용어 10개 — 이것만 알면 대화가 된다](/blog/aerini/glossary-ai-basics/)
+- [LLM 용어 사전 — GPT, Claude, Gemini를 이해하는 단어들](/blog/aerini/glossary-llm-terms/)
+- [AI를 어떻게 가르치나요? — 학습 용어 사전](/blog/aerini/glossary-training-terms/)

@@ -147,6 +147,6 @@ Step 5: 검증 및 배포
 5. 유효기간 알림과 변경 사항 초안은 자동화할 수 있지만, 임상적 검증은 사람이 한다
 
 ## 관련 글
-- [컨텍스트 품질 평가 — 좋은 컨텍스트인지 어떻게 아는가](/blog/context-engineering/context-evaluation-methods)
-- [컨텍스트와 개인정보 보호 — 환자 데이터를 AI에 넣어도 되는가](/blog/context-engineering/context-safety-privacy)
-- [의료 AI 컨텍스트 설계 체크리스트 — 실전 20항목](/blog/context-engineering/context-engineering-checklist)
+- [컨텍스트 품질 평가 — 좋은 컨텍스트인지 어떻게 아는가](/blog/context-engineering/context-evaluation-methods/)
+- [컨텍스트와 개인정보 보호 — 환자 데이터를 AI에 넣어도 되는가](/blog/context-engineering/context-safety-privacy/)
+- [의료 AI 컨텍스트 설계 체크리스트 — 실전 20항목](/blog/context-engineering/context-engineering-checklist/)

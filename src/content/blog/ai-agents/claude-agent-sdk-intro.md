@@ -235,6 +235,6 @@ def robust_agent_call(messages: list, tools: list,
 
 ## 관련 글
 
-- [Tool Use와 함수 호출 — AI가 외부 세계와 연결되는 방법](/blog/ai-agents/tool-use-function-calling)
-- [AI 에이전트란 — 챗봇과 무엇이 다른가](/blog/ai-agents/what-is-ai-agent)
-- [RAG + 에이전트 — 의료 가이드라인 기반 AI 어시스턴트](/blog/ai-agents/rag-agent-medical)
+- [Tool Use와 함수 호출 — AI가 외부 세계와 연결되는 방법](/blog/ai-agents/tool-use-function-calling/)
+- [AI 에이전트란 — 챗봇과 무엇이 다른가](/blog/ai-agents/what-is-ai-agent/)
+- [RAG + 에이전트 — 의료 가이드라인 기반 AI 어시스턴트](/blog/ai-agents/rag-agent-medical/)

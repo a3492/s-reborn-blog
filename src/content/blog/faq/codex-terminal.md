@@ -108,8 +108,8 @@ Claude Code와 동일하게 여러 번 주고받을 수 있다.
 - 대화 모드(`codex` 단독 실행)도 지원
 
 ## 관련 글
-- [Codex CLI 설치 방법은?](/blog/faq/codex-install) — 아직 설치 전이라면
-- [Codex와 Claude Code 중 어떤 게 나을까요?](/blog/faq/codex-vs-claude-code) — 두 도구 실제 차이
-- [Codex 비용은 어떻게 되나요?](/blog/faq/codex-cost) — 얼마나 드는지
+- [Codex CLI 설치 방법은?](/blog/faq/codex-install/) — 아직 설치 전이라면
+- [Codex와 Claude Code 중 어떤 게 나을까요?](/blog/faq/codex-vs-claude-code/) — 두 도구 실제 차이
+- [Codex 비용은 어떻게 되나요?](/blog/faq/codex-cost/) — 얼마나 드는지
 
-[← FAQ 전체 보기](/blog/category/faq)
+[← FAQ 전체 보기](/blog/?category=faq)

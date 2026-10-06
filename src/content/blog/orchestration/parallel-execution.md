@@ -137,10 +137,10 @@ API 요청 한도
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [태스크 분해](/blog/orchestration/task-decomposition) — 병렬 실행을 위해 태스크를 나누는 방법
-- [상태 관리](/blog/orchestration/state-management) — 병렬로 실행할 때 상태 충돌을 막는 설계
-- [AI 워크플로우 패턴 5가지](/blog/orchestration/workflow-patterns) — 팬아웃/팬인이 포함된 패턴 전체 지도
-- [비용 최적화](/blog/orchestration/orchestration-cost-optimization) — 병렬화가 비용에 미치는 영향
+- [태스크 분해](/blog/orchestration/task-decomposition/) — 병렬 실행을 위해 태스크를 나누는 방법
+- [상태 관리](/blog/orchestration/state-management/) — 병렬로 실행할 때 상태 충돌을 막는 설계
+- [AI 워크플로우 패턴 5가지](/blog/orchestration/workflow-patterns/) — 팬아웃/팬인이 포함된 패턴 전체 지도
+- [비용 최적화](/blog/orchestration/orchestration-cost-optimization/) — 병렬화가 비용에 미치는 영향
 
-[← 오케스트레이션 시리즈 전체 보기](/blog/category/orchestration)
+[← 오케스트레이션 시리즈 전체 보기](/blog/?category=orchestration)
 

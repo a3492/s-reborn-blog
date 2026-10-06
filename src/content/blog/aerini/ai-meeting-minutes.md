@@ -103,7 +103,7 @@ AI가 생성하는 회의록 예시입니다.
 - Otter.ai: 영어 회의에 특화된 실시간 녹취 및 요약 서비스입니다. 영어 발표 컨퍼런스에 유용합니다.
 
 ## 더 나아가기
-👉 [AI로 컨퍼런스/회의 요약 정리하기](/blog/aerini/ai-meeting-minutes)
-👉 [AI로 케이스 발표 준비하기](/blog/aerini/ai-case-presentation)
-👉 [AI로 연구비 신청서 초안 빠르게 쓰기](/blog/aerini/ai-grant-abstract)
+👉 [AI로 컨퍼런스/회의 요약 정리하기](/blog/aerini/ai-meeting-minutes/)
+👉 [AI로 케이스 발표 준비하기](/blog/aerini/ai-case-presentation/)
+👉 [AI로 연구비 신청서 초안 빠르게 쓰기](/blog/aerini/ai-grant-abstract/)
 👉 [모든 애린이 글 보기](/blog/?category=aerini)

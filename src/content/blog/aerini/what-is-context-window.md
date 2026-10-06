@@ -104,8 +104,8 @@ API로 사용 시 처리하는 토큰 수만큼 비용이 발생해요. 불필�
 
 ## 더 알고 싶다면
 
-- [RAG가 뭐예요?](/blog/aerini/what-is-rag)
-- [System Prompt가 뭐예요?](/blog/aerini/what-is-system-prompt)
-- [Vector Database가 뭐예요?](/blog/aerini/what-is-vector-db)
+- [RAG가 뭐예요?](/blog/aerini/what-is-rag/)
+- [System Prompt가 뭐예요?](/blog/aerini/what-is-system-prompt/)
+- [Vector Database가 뭐예요?](/blog/aerini/what-is-vector-db/)
 
-[🩺 모든 애린이 글 보기](/blog/category/aerini)
+[🩺 모든 애린이 글 보기](/blog/?category=aerini)

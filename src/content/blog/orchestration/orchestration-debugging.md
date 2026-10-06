@@ -176,10 +176,10 @@ AI가 "이 환자에게 A 약물보다 B 약물이 더 적합하다"고 판단�
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [오케스트레이션 모니터링](/blog/orchestration/orchestration-monitoring) — 디버깅 이후 상시 모니터링 체계
-- [오케스트레이션 테스팅](/blog/orchestration/orchestration-testing) — 사전 테스트로 버그를 배포 전에 잡는 방법
-- [상태 관리](/blog/orchestration/state-management) — 상태 추적으로 어느 단계에서 문제가 생겼는지 확인
-- [ReAct 패턴](/blog/orchestration/react-pattern) — ReAct 루프가 꼬이는 대표 버그 패턴
+- [오케스트레이션 모니터링](/blog/orchestration/orchestration-monitoring/) — 디버깅 이후 상시 모니터링 체계
+- [오케스트레이션 테스팅](/blog/orchestration/orchestration-testing/) — 사전 테스트로 버그를 배포 전에 잡는 방법
+- [상태 관리](/blog/orchestration/state-management/) — 상태 추적으로 어느 단계에서 문제가 생겼는지 확인
+- [ReAct 패턴](/blog/orchestration/react-pattern/) — ReAct 루프가 꼬이는 대표 버그 패턴
 
-[← 오케스트레이션 시리즈 전체 보기](/blog/category/orchestration)
+[← 오케스트레이션 시리즈 전체 보기](/blog/?category=orchestration)
 

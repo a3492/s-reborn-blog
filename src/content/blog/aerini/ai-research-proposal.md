@@ -50,6 +50,6 @@ draft: false
 
 ## 더 알고 싶다면
 
-- [AI로 연구 아이디어 발굴하기](/blog/aerini/ai-research-idea)
-- [AI로 문헌 검토하기](/blog/aerini/ai-literature-review)
-- [AI로 영문 초록 작성하기](/blog/aerini/ai-english-abstract)
+- [AI로 연구 아이디어 발굴하기](/blog/aerini/ai-research-idea/)
+- [AI로 문헌 검토하기](/blog/aerini/ai-literature-review/)
+- [AI로 영문 초록 작성하기](/blog/aerini/ai-english-abstract/)

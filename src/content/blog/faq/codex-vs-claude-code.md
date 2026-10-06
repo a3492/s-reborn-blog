@@ -91,8 +91,8 @@ claude
 - 실제 선택 기준: 평소 ChatGPT vs Claude 중 어느 쪽이 더 잘 맞나
 
 ## 관련 글
-- [Codex가 뭔가요?](/blog/faq/codex-what-is-it) — Codex 기본 개념
-- [Codex 비용은 어떻게 되나요?](/blog/faq/codex-cost) — 요금 상세 비교
-- [Claude Code가 뭔가요?](/blog/faq/claude-code-what-is-it) — Claude Code 기본 개념
+- [Codex가 뭔가요?](/blog/faq/codex-what-is-it/) — Codex 기본 개념
+- [Codex 비용은 어떻게 되나요?](/blog/faq/codex-cost/) — 요금 상세 비교
+- [Claude Code가 뭔가요?](/blog/faq/claude-code-what-is-it/) — Claude Code 기본 개념
 
-[← FAQ 전체 보기](/blog/category/faq)
+[← FAQ 전체 보기](/blog/?category=faq)

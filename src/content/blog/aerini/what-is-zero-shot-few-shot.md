@@ -107,8 +107,8 @@ AI는 패턴을 학습한 모델이에요. 원하는 결과 형식의 예시를 
 
 ## 더 알고 싶다면
 
-- [Chain of Thought가 뭐예요?](/blog/aerini/what-is-chain-of-thought)
-- [Prompt Engineering이 뭐예요?](/blog/aerini/what-is-prompt-engineering)
-- [System Prompt가 뭐예요?](/blog/aerini/what-is-system-prompt)
+- [Chain of Thought가 뭐예요?](/blog/aerini/what-is-chain-of-thought/)
+- [Prompt Engineering이 뭐예요?](/blog/aerini/what-is-prompt-engineering/)
+- [System Prompt가 뭐예요?](/blog/aerini/what-is-system-prompt/)
 
-[🩺 모든 애린이 글 보기](/blog/category/aerini)
+[🩺 모든 애린이 글 보기](/blog/?category=aerini)

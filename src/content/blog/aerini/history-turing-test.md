@@ -55,6 +55,6 @@ draft: false
 
 ## 더 알고 싶다면
 
-- ["인공지능"이라는 단어는 누가, 언제 만들었나](/blog/aerini/history-word-ai)
-- [AI 겨울이 두 번 있었다 — 그때 무슨 일이?](/blog/aerini/history-ai-winter)
-- [ChatGPT 탄생까지 — AI 70년 역사를 5분에](/blog/aerini/history-chatgpt-birth)
+- ["인공지능"이라는 단어는 누가, 언제 만들었나](/blog/aerini/history-word-ai/)
+- [AI 겨울이 두 번 있었다 — 그때 무슨 일이?](/blog/aerini/history-ai-winter/)
+- [ChatGPT 탄생까지 — AI 70년 역사를 5분에](/blog/aerini/history-chatgpt-birth/)

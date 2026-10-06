@@ -170,10 +170,10 @@ Human-in-the-Loop는 기술 설계만의 문제가 아니다. 의사가 실제�
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [오케스트레이션 보안](/blog/orchestration/orchestration-security) — 사람 검증이 없을 때 생기는 보안 위협
-- [상태 관리](/blog/orchestration/state-management) — 사람 개입을 기다리는 동안 상태를 저장하는 방법
-- [오케스트레이션 테스팅](/blog/orchestration/orchestration-testing) — 사람 개입 흐름을 포함한 테스트 설계
-- [의료 오케스트레이션 케이스 스터디](/blog/orchestration/medical-orchestration-case-study) — 의사 최종 승인이 포함된 실제 설계
+- [오케스트레이션 보안](/blog/orchestration/orchestration-security/) — 사람 검증이 없을 때 생기는 보안 위협
+- [상태 관리](/blog/orchestration/state-management/) — 사람 개입을 기다리는 동안 상태를 저장하는 방법
+- [오케스트레이션 테스팅](/blog/orchestration/orchestration-testing/) — 사람 개입 흐름을 포함한 테스트 설계
+- [의료 오케스트레이션 케이스 스터디](/blog/orchestration/medical-orchestration-case-study/) — 의사 최종 승인이 포함된 실제 설계
 
-[← 오케스트레이션 시리즈 전체 보기](/blog/category/orchestration)
+[← 오케스트레이션 시리즈 전체 보기](/blog/?category=orchestration)
 

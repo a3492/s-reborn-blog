@@ -87,8 +87,8 @@ Grok은 X Premium 구독($8~$22/월)이 있어야 사용 가능.
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [Perplexity AI로 논문 탐색](/blog/ai-tools-general/perplexity-ai-search-research) — 출처 링크가 포함된 AI 검색 도구
-- [Claude.ai 문헌 분석](/blog/ai-tools-general/claude-ai-document-analysis) — 실시간이 아닌 깊이 있는 문서 분석
-- [오케스트레이션 모니터링](/blog/orchestration/orchestration-monitoring) — 여러 정보 소스를 연결해 알람을 만드는 방법
+- [Perplexity AI로 논문 탐색](/blog/ai-tools-general/perplexity-ai-search-research/) — 출처 링크가 포함된 AI 검색 도구
+- [Claude.ai 문헌 분석](/blog/ai-tools-general/claude-ai-document-analysis/) — 실시간이 아닌 깊이 있는 문서 분석
+- [오케스트레이션 모니터링](/blog/orchestration/orchestration-monitoring/) — 여러 정보 소스를 연결해 알람을 만드는 방법
 
-[← AI 도구 일반 전체 보기](/blog/category/ai-tools-general)
+[← AI 도구 일반 전체 보기](/blog/?category=ai-tools-general)

@@ -149,6 +149,6 @@ Step 4: 의사가 오버라이드 가능 — 자동 태깅이 맞지 않으면 �
 5. 페르소나는 기본값이며, 의사의 판단으로 오버라이드할 수 있어야 한다
 
 ## 관련 글
-- [임상 의사결정 지원을 위한 컨텍스트 설계](/blog/context-engineering/context-for-clinical-decision)
-- [동적 컨텍스트 선택 — 질문에 따라 자동으로 맞는 정보 가져오기](/blog/context-engineering/dynamic-context-selection)
-- [의료 AI 컨텍스트 설계 체크리스트 — 실전 20항목](/blog/context-engineering/context-engineering-checklist)
+- [임상 의사결정 지원을 위한 컨텍스트 설계](/blog/context-engineering/context-for-clinical-decision/)
+- [동적 컨텍스트 선택 — 질문에 따라 자동으로 맞는 정보 가져오기](/blog/context-engineering/dynamic-context-selection/)
+- [의료 AI 컨텍스트 설계 체크리스트 — 실전 20항목](/blog/context-engineering/context-engineering-checklist/)

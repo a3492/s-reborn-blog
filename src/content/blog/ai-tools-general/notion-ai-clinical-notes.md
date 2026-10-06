@@ -66,8 +66,8 @@ Notion AI는 Notion 플랜에 포함된 기능이다. 데이터 저장 정책은
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [NotebookLM으로 논문 정리](/blog/ai-tools-general/notebooklm-source-grounded-notes) — PDF 문서를 AI가 정리해주는 다른 방법
-- [Perplexity AI로 논문 탐색](/blog/ai-tools-general/perplexity-ai-search-research) — 정보 수집에 특화된 AI 검색 도구
-- [오케스트레이션이란](/blog/orchestration/what-is-orchestration) — 여러 노트와 AI를 연결하는 더 고도화된 방법
+- [NotebookLM으로 논문 정리](/blog/ai-tools-general/notebooklm-source-grounded-notes/) — PDF 문서를 AI가 정리해주는 다른 방법
+- [Perplexity AI로 논문 탐색](/blog/ai-tools-general/perplexity-ai-search-research/) — 정보 수집에 특화된 AI 검색 도구
+- [오케스트레이션이란](/blog/orchestration/what-is-orchestration/) — 여러 노트와 AI를 연결하는 더 고도화된 방법
 
-[← AI 도구 일반 전체 보기](/blog/category/ai-tools-general)
+[← AI 도구 일반 전체 보기](/blog/?category=ai-tools-general)
