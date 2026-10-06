@@ -25,12 +25,12 @@ const topic = Astro.url.searchParams.get('topic') ?? '';
         <a
           class="gen-btn primary"
           href={topic
-            ? `/admin/posts/new?title=${encodeURIComponent(topic)}`
-            : '/admin/posts/new'}
+            ? `/admin/posts/new/?title=${encodeURIComponent(topic)}`
+            : '/admin/posts/new/'}
         >
           관리자로 글 작성하기 →
         </a>
-        <a class="gen-btn" href="/blog">전체 글 보기</a>
+        <a class="gen-btn" href="/blog/">전체 글 보기</a>
         <a class="gen-btn" href="/">홈으로</a>
       </div>
     </div>
