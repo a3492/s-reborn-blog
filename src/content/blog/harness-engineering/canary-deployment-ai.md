@@ -141,9 +141,9 @@ AI 버그는 조용하다. 틀린 권고를 자신 있게 출력한다. 에러 �
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [오케스트레이션 모니터링](/blog/orchestration/orchestration-monitoring) — 배포 후 품질 드리프트를 실시간으로 감지하는 방법
-- [오케스트레이션 테스팅](/blog/orchestration/orchestration-testing) — 배포 전 테스트로 버그를 미리 잡는 방법
-- [에러 핸들링](/blog/harness-engineering/error-handling-ai) — 배포 중 오류 발생 시 대응 전략
-- [Human-in-the-Loop](/blog/orchestration/human-in-the-loop) — 배포 단계에서 의사 검토를 포함하는 설계
+- [오케스트레이션 모니터링](/blog/orchestration/orchestration-monitoring/) — 배포 후 품질 드리프트를 실시간으로 감지하는 방법
+- [오케스트레이션 테스팅](/blog/orchestration/orchestration-testing/) — 배포 전 테스트로 버그를 미리 잡는 방법
+- [에러 핸들링](/blog/harness-engineering/error-handling-ai/) — 배포 중 오류 발생 시 대응 전략
+- [Human-in-the-Loop](/blog/orchestration/human-in-the-loop/) — 배포 단계에서 의사 검토를 포함하는 설계
 
-[← 하네스 엔지니어링 시리즈 전체 보기](/blog/category/harness-engineering)
+[← 하네스 엔지니어링 시리즈 전체 보기](/blog/?category=harness-engineering)

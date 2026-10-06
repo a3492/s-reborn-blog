@@ -47,6 +47,6 @@ draft: false
 
 ## 더 알고 싶다면
 
-- [의료 AI 논문에서 자주 보이는 용어 완전 정복](/blog/aerini/glossary-medical-ai-terms)
-- [머신러닝 vs 딥러닝 — 용어 차이 완전 정복](/blog/aerini/glossary-ml-dl-terms)
-- [AI 필수 용어 10개 — 이것만 알면 대화가 된다](/blog/aerini/glossary-ai-basics)
+- [의료 AI 논문에서 자주 보이는 용어 완전 정복](/blog/aerini/glossary-medical-ai-terms/)
+- [머신러닝 vs 딥러닝 — 용어 차이 완전 정복](/blog/aerini/glossary-ml-dl-terms/)
+- [AI 필수 용어 10개 — 이것만 알면 대화가 된다](/blog/aerini/glossary-ai-basics/)

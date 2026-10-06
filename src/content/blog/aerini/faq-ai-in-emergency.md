@@ -44,6 +44,6 @@ PCI 시행, TIMI 3 달성. 처치 경과 요약 기록 초안 작성해줘."
 
 ## 더 알고 싶다면
 
-- [AI가 절대 못하는 게 뭔가요?](/blog/aerini/faq-ai-limitations)
-- [AI의 실수가 의료사고로 이어질 수 있나요?](/blog/aerini/faq-ai-mistakes-consequences)
-- [퇴원 요약서, AI로 빠르게 쓰기](/blog/aerini/ai-discharge-summary)
+- [AI가 절대 못하는 게 뭔가요?](/blog/aerini/faq-ai-limitations/)
+- [AI의 실수가 의료사고로 이어질 수 있나요?](/blog/aerini/faq-ai-mistakes-consequences/)
+- [퇴원 요약서, AI로 빠르게 쓰기](/blog/aerini/ai-discharge-summary/)

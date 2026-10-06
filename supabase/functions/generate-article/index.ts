@@ -62,7 +62,7 @@ const CATEGORY_CONTEXT: Record<string, string> = {
   'rag-finetuning':     'RAG·파인튜닝 — 데이터 활용 AI 개선 기법',
   'doctor-ai':          '의사를 위한 AI — 임상 현장 실무 적용 관점',
   'medical-data-science':'의료 데이터 사이언스 — 임상 데이터 분석',
-  'ai-tools-medical':   '의료 AI 도구 — 실제 의료 현장 도구 리뷰',
+  'ai-tools':           '의료 AI 도구 — 실제 의료 현장 도구 리뷰',
   'ai-tools-general':   'AI 도구 리뷰 — 실제 사용 경험 기반 추천',
   'ai-news':            'AI 최신 동향 — 최근 연구·서비스 소식',
   'tips':               '실전 팁 — 바로 적용 가능한 워크플로우',

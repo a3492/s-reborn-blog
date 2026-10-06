@@ -71,8 +71,8 @@ Codex는 코드 실행 시 샌드박스(격리 환경)에서 돌릴 수 있는 �
 - ChatGPT 쓰던 사람은 Codex, Claude 쓰던 사람은 Claude Code가 시작하기 편함
 
 ## 관련 글
-- [Codex CLI 설치 방법은?](/blog/faq/codex-install) — 설치 준비물과 순서
-- [Codex와 Claude Code 중 어떤 게 나을까요?](/blog/faq/codex-vs-claude-code) — 상황별 선택 기준
-- [Claude Code가 뭔가요?](/blog/faq/claude-code-what-is-it) — Claude Code 기본 개념 비교
+- [Codex CLI 설치 방법은?](/blog/faq/codex-install/) — 설치 준비물과 순서
+- [Codex와 Claude Code 중 어떤 게 나을까요?](/blog/faq/codex-vs-claude-code/) — 상황별 선택 기준
+- [Claude Code가 뭔가요?](/blog/faq/claude-code-what-is-it/) — Claude Code 기본 개념 비교
 
-[← FAQ 전체 보기](/blog/category/faq)
+[← FAQ 전체 보기](/blog/?category=faq)

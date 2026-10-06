@@ -100,10 +100,10 @@ AI에게: 이 환자의 현재 가장 중요한 임상 문제
 
 ## 더 나아가기
 
-👉 [AI로 인수인계 요약 빠르게 만들기](/blog/aerini/ai-nursing-handover) — 병력 요약 후 인수인계로 이어지는 워크플로우
+👉 [AI로 인수인계 요약 빠르게 만들기](/blog/aerini/ai-nursing-handover/) — 병력 요약 후 인수인계로 이어지는 워크플로우
 
-👉 [AI로 치료 계획 초안 만들기](/blog/aerini/ai-treatment-plan) — 병력 파악 후 치료 계획 수립까지
+👉 [AI로 치료 계획 초안 만들기](/blog/aerini/ai-treatment-plan/) — 병력 파악 후 치료 계획 수립까지
 
-👉 [AI에게 환자 정보를 입력하면 개인정보가 유출되나요?](/blog/aerini/faq-ai-patient-privacy) — 안전하게 사용하는 방법 먼저 확인하세요
+👉 [AI에게 환자 정보를 입력하면 개인정보가 유출되나요?](/blog/aerini/faq-ai-patient-privacy/) — 안전하게 사용하는 방법 먼저 확인하세요
 
-👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/aerini)에서 기초부터 시작해 보세요
+👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/?category=aerini)에서 기초부터 시작해 보세요

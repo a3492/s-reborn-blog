@@ -123,6 +123,6 @@ Claude 3 (Anthropic, 2024년 3월): Haiku·Sonnet·Opus 시리즈 모두 이미�
 
 ## 관련 글
 
-- [GPT-1에서 GPT-4까지 — OpenAI는 어떻게 세계를 바꿨나](/blog/ai-history/gpt-history)
-- [의료 AI 60년사 — MYCIN에서 ChatGPT까지](/blog/ai-history/medical-ai-history)
-- [2030년 AI는 어디까지 갈까 — 전문가 예측과 의사를 위한 준비](/blog/ai-history/future-of-ai-2030)
+- [GPT-1에서 GPT-4까지 — OpenAI는 어떻게 세계를 바꿨나](/blog/ai-history/gpt-history/)
+- [의료 AI 60년사 — MYCIN에서 ChatGPT까지](/blog/ai-history/medical-ai-history/)
+- [2030년 AI는 어디까지 갈까 — 전문가 예측과 의사를 위한 준비](/blog/ai-history/future-of-ai-2030/)

@@ -70,8 +70,8 @@ Privacy Mode 설정은 Cursor 공식 문서(cursor.com/privacy)를 기준으로 
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [Perplexity AI로 논문 탐색](/blog/ai-tools-general/perplexity-ai-search-research) — 코딩 없이 정보 수집하는 방법
-- [NotebookLM으로 논문 정리](/blog/ai-tools-general/notebooklm-source-grounded-notes) — PDF 데이터를 AI로 분석하는 다른 방법
-- [오케스트레이션 비용 최적화](/blog/orchestration/orchestration-cost-optimization) — AI 도구를 시스템으로 연결할 때의 비용 설계
+- [Perplexity AI로 논문 탐색](/blog/ai-tools-general/perplexity-ai-search-research/) — 코딩 없이 정보 수집하는 방법
+- [NotebookLM으로 논문 정리](/blog/ai-tools-general/notebooklm-source-grounded-notes/) — PDF 데이터를 AI로 분석하는 다른 방법
+- [오케스트레이션 비용 최적화](/blog/orchestration/orchestration-cost-optimization/) — AI 도구를 시스템으로 연결할 때의 비용 설계
 
-[← AI 도구 일반 전체 보기](/blog/category/ai-tools-general)
+[← AI 도구 일반 전체 보기](/blog/?category=ai-tools-general)

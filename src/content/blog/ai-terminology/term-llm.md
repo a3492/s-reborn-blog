@@ -119,6 +119,6 @@ GPT 계열은 기술적 정확성을 우선시한 반면, Claude나 Gemini는 �
 
 ## 관련 글
 
-- [딥러닝(Deep Learning) — Hinton이 선택한 브랜딩 전략](/blog/ai-terminology/term-deep-learning)
-- [RAG — Retrieval-Augmented Generation이라는 이름에 담긴 아이디어](/blog/ai-terminology/term-rag)
-- [환각 vs 작화증 — AI 오류를 의학 용어로 정확하게 부르는 법](/blog/ai-terminology/term-hallucination-vs-confabulation)
+- [딥러닝(Deep Learning) — Hinton이 선택한 브랜딩 전략](/blog/ai-terminology/term-deep-learning/)
+- [RAG — Retrieval-Augmented Generation이라는 이름에 담긴 아이디어](/blog/ai-terminology/term-rag/)
+- [환각 vs 작화증 — AI 오류를 의학 용어로 정확하게 부르는 법](/blog/ai-terminology/term-hallucination-vs-confabulation/)

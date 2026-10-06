@@ -168,6 +168,6 @@ NEJM에서 AI 모델 논문을 채택하는 기준 중 하나가 외부 검증 �
 
 ## 관련 글
 
-- [로지스틱 회귀 — 입원 예측 모델 만드는 법](/blog/medical-data-science/logistic-regression-medical)
-- [AI 연구의 통계 — 의료 AI 논문을 비판적으로 읽는 법](/blog/clinical-research/statistical-methods-ai-studies)
-- [결측 데이터 처리 — 의료 데이터에서 가장 흔한 문제](/blog/medical-data-science/missing-data-handling)
+- [로지스틱 회귀 — 입원 예측 모델 만드는 법](/blog/medical-data-science/logistic-regression-medical/)
+- [AI 연구의 통계 — 의료 AI 논문을 비판적으로 읽는 법](/blog/clinical-research/statistical-methods-ai-studies/)
+- [결측 데이터 처리 — 의료 데이터에서 가장 흔한 문제](/blog/medical-data-science/missing-data-handling/)

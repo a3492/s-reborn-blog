@@ -89,8 +89,8 @@ AI로 가짜 의료 이미지를 생성해 학습 데이터로 쓰는 방법도 
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [Overfitting이 뭐예요?](/blog/aerini/what-is-overfitting) — 데이터 부족이 만드는 또 다른 문제
-- [Transfer Learning이 뭐예요?](/blog/aerini/what-is-transfer-learning) — Data Augmentation과 함께 쓰는 데이터 부족 해결 전략
-- [지도학습 vs 비지도학습](/blog/aerini/what-is-supervised-unsupervised) — 증강 데이터를 어떻게 학습에 활용하는가
+- [Overfitting이 뭐예요?](/blog/aerini/what-is-overfitting/) — 데이터 부족이 만드는 또 다른 문제
+- [Transfer Learning이 뭐예요?](/blog/aerini/what-is-transfer-learning/) — Data Augmentation과 함께 쓰는 데이터 부족 해결 전략
+- [지도학습 vs 비지도학습](/blog/aerini/what-is-supervised-unsupervised/) — 증강 데이터를 어떻게 학습에 활용하는가
 
-[← 애린이 AI 용어 시리즈 전체 보기](/blog/category/aerini)
+[← 애린이 AI 용어 시리즈 전체 보기](/blog/?category=aerini)

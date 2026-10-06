@@ -55,6 +55,6 @@ AI의 제안을 바탕으로 ClinicalTrials.gov에서 직접 검색하세요. AI
 
 ## 더 알고 싶다면
 
-- [AI로 문헌 검토하기](/blog/aerini/ai-literature-review)
-- [연구 계획서 아이디어, AI와 함께 브레인스토밍](/blog/aerini/ai-research-proposal)
-- [AI가 절대 못하는 게 뭔가요?](/blog/aerini/faq-ai-limitations)
+- [AI로 문헌 검토하기](/blog/aerini/ai-literature-review/)
+- [연구 계획서 아이디어, AI와 함께 브레인스토밍](/blog/aerini/ai-research-proposal/)
+- [AI가 절대 못하는 게 뭔가요?](/blog/aerini/faq-ai-limitations/)

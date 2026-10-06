@@ -110,8 +110,8 @@ System Prompt도 Context Window를 차지해요. 수백 줄짜리 규칙은 AI�
 
 ## 더 알고 싶다면
 
-- [Prompt Engineering이 뭐예요?](/blog/aerini/what-is-prompt-engineering)
-- [AI 안전성이 뭐예요?](/blog/aerini/what-is-ai-safety)
-- [Chain of Thought가 뭐예요?](/blog/aerini/what-is-chain-of-thought)
+- [Prompt Engineering이 뭐예요?](/blog/aerini/what-is-prompt-engineering/)
+- [AI 안전성이 뭐예요?](/blog/aerini/what-is-ai-safety/)
+- [Chain of Thought가 뭐예요?](/blog/aerini/what-is-chain-of-thought/)
 
-[🩺 모든 애린이 글 보기](/blog/category/aerini)
+[🩺 모든 애린이 글 보기](/blog/?category=aerini)

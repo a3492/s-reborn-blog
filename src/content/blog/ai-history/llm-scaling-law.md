@@ -124,6 +124,6 @@ Chinchilla 논문의 교훈을 빌리면 — 크기만이 답이 아니다. 어�
 
 ## 관련 글
 
-- [GPT-1에서 GPT-4까지 — OpenAI는 어떻게 세계를 바꿨나](/blog/ai-history/gpt-history)
-- [RLHF — AI를 '착하게' 만든 기술과 그 한계](/blog/ai-history/rlhf-instruct-tuning)
-- [2030년 AI는 어디까지 갈까 — 전문가 예측과 의사를 위한 준비](/blog/ai-history/future-of-ai-2030)
+- [GPT-1에서 GPT-4까지 — OpenAI는 어떻게 세계를 바꿨나](/blog/ai-history/gpt-history/)
+- [RLHF — AI를 '착하게' 만든 기술과 그 한계](/blog/ai-history/rlhf-instruct-tuning/)
+- [2030년 AI는 어디까지 갈까 — 전문가 예측과 의사를 위한 준비](/blog/ai-history/future-of-ai-2030/)

@@ -125,4 +125,4 @@ RAG는 LLM이 "찾아본 문서"를 기반으로 답변하기 때문에, 근거 
 ## 관련 글
 - [토큰이란 무엇인가 — LLM의 언어 단위 이해하기](/blog/ai/what-is-token-llm/)
 - [LLM의 컨텍스트 윈도우, 의사처럼 이해하기](/blog/ai/llm-context-window-explained/)
-- [프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드](/blog/ai/prompt-engineering-for-doctors/)
+- [프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드](/blog/prompt-engineering/prompt-engineering-for-doctors/)

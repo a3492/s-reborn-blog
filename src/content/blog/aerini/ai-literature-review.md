@@ -107,7 +107,7 @@ AND ("Cardiovascular Diseases"[MeSH] OR "MACE"[tiab] OR "heart failure"[tiab])
 - Elicit: AI로 연구 질문에 맞는 논문을 요약하고 비교해 주는 무료 도구입니다.
 
 ## 더 나아가기
-👉 [AI로 임상 연구 아이디어 찾기](/blog/aerini/ai-research-idea)
-👉 [AI로 연구비 신청서 초안 빠르게 쓰기](/blog/aerini/ai-grant-abstract)
-👉 [AI로 케이스 발표 준비하기](/blog/aerini/ai-case-presentation)
+👉 [AI로 임상 연구 아이디어 찾기](/blog/aerini/ai-research-idea/)
+👉 [AI로 연구비 신청서 초안 빠르게 쓰기](/blog/aerini/ai-grant-abstract/)
+👉 [AI로 케이스 발표 준비하기](/blog/aerini/ai-case-presentation/)
 👉 [모든 애린이 글 보기](/blog/?category=aerini)

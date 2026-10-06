@@ -49,6 +49,6 @@ draft: false
 
 ## 더 알고 싶다면
 
-- [AI로 환자 교육 자료 만들기](/blog/aerini/ai-patient-education)
-- [수술 동의서와 AI: 법적으로 괜찮나요?](/blog/aerini/ai-surgery-consent)
-- [AI가 의료 현장에서 법적으로 허용되나요?](/blog/aerini/is-medical-ai-legal)
+- [AI로 환자 교육 자료 만들기](/blog/aerini/ai-patient-education/)
+- [수술 동의서와 AI: 법적으로 괜찮나요?](/blog/aerini/ai-surgery-consent/)
+- [AI가 의료 현장에서 법적으로 허용되나요?](/blog/aerini/is-medical-ai-legal/)

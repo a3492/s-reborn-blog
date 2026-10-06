@@ -139,10 +139,10 @@ LangGraph 같은 프레임워크를 쓰면 이 루프를 명확하게 정의할 
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [컨텍스트 윈도우 관리](/blog/orchestration/context-window-management) — RAG로 컨텍스트 부담을 줄이는 원리
-- [ReAct 패턴](/blog/orchestration/react-pattern) — 반복 검색과 ReAct 루프의 조합
-- [비용 최적화](/blog/orchestration/orchestration-cost-optimization) — 검색 횟수별 비용 차이와 트레이드오프
-- [Human-in-the-Loop](/blog/orchestration/human-in-the-loop) — 검색 결과를 의사가 검토하는 설계
+- [컨텍스트 윈도우 관리](/blog/orchestration/context-window-management/) — RAG로 컨텍스트 부담을 줄이는 원리
+- [ReAct 패턴](/blog/orchestration/react-pattern/) — 반복 검색과 ReAct 루프의 조합
+- [비용 최적화](/blog/orchestration/orchestration-cost-optimization/) — 검색 횟수별 비용 차이와 트레이드오프
+- [Human-in-the-Loop](/blog/orchestration/human-in-the-loop/) — 검색 결과를 의사가 검토하는 설계
 
-[← 오케스트레이션 시리즈 전체 보기](/blog/category/orchestration)
+[← 오케스트레이션 시리즈 전체 보기](/blog/?category=orchestration)
 

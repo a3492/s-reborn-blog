@@ -93,8 +93,8 @@ AI가 군집을 발견했더라도, 그 군집이 임상적으로 의미 있는�
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [강화학습이 뭐예요?](/blog/aerini/what-is-reinforcement-learning) — 세 번째 학습 방식
-- [Transfer Learning이 뭐예요?](/blog/aerini/what-is-transfer-learning) — 라벨 부족 문제를 해결하는 방법
-- [Overfitting이 뭐예요?](/blog/aerini/what-is-overfitting) — 지도학습에서 자주 발생하는 문제
+- [강화학습이 뭐예요?](/blog/aerini/what-is-reinforcement-learning/) — 세 번째 학습 방식
+- [Transfer Learning이 뭐예요?](/blog/aerini/what-is-transfer-learning/) — 라벨 부족 문제를 해결하는 방법
+- [Overfitting이 뭐예요?](/blog/aerini/what-is-overfitting/) — 지도학습에서 자주 발생하는 문제
 
-[← 애린이 AI 용어 시리즈 전체 보기](/blog/category/aerini)
+[← 애린이 AI 용어 시리즈 전체 보기](/blog/?category=aerini)

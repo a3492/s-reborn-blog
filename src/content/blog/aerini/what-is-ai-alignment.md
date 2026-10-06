@@ -89,8 +89,8 @@ AI가 왜 그런 결정을 했는지 의사가 이해할 수 있어야 합니다
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [RLHF가 뭐예요?](/blog/aerini/what-is-rlhf) — Alignment를 구현하는 핵심 기술
-- [AI와 의사 — 각자 잘하는 게 뭐가 다른가요?](/blog/aerini/what-is-ai-vs-human) — AI가 올바른 역할을 하려면 Alignment가 필요한 이유
-- [GPT 버전이 뭐가 다른가요?](/blog/aerini/what-is-gpt-model-versions) — 버전이 올라갈수록 Alignment도 개선되는 이유
+- [RLHF가 뭐예요?](/blog/aerini/what-is-rlhf/) — Alignment를 구현하는 핵심 기술
+- [AI와 의사 — 각자 잘하는 게 뭐가 다른가요?](/blog/aerini/what-is-ai-vs-human/) — AI가 올바른 역할을 하려면 Alignment가 필요한 이유
+- [GPT 버전이 뭐가 다른가요?](/blog/aerini/what-is-gpt-model-versions/) — 버전이 올라갈수록 Alignment도 개선되는 이유
 
-[← 애린이 AI 용어 시리즈 전체 보기](/blog/category/aerini)
+[← 애린이 AI 용어 시리즈 전체 보기](/blog/?category=aerini)

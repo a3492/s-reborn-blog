@@ -1,5 +1,4 @@
-# 2단계 리다이렉트. Cloudflare Pages는 위에서 처음 맞는 규칙만 적용한다.
-# 영어 /en 복제는 3단계에서 적용한다.
+# 리다이렉트. Cloudflare Pages는 위에서 처음 맞는 규칙만 적용한다.
 # 정확한 경로는 전부 와일드카드와 :placeholder보다 앞에 둔다.
 # 와일드카드 뒤의 규칙은 동적 규칙으로 세어져 100개에서 잘린다.
 
@@ -243,8 +242,13 @@
 /blog/doctor-ai-academy/fundamentals/ai-reliability-metrics/  /blog/doctor-ai/ai-reliability-metrics/  301
 /blog/doctor-ai-academy/fundamentals/ai-reliability-metrics  /blog/doctor-ai/ai-reliability-metrics/  301
 
+# [7] 영어 복제. /en 은 정적 규칙이라 동적 한도에 포함되지 않는다.
+/en  /  301
+/en/  /  301
+
 # 동적 규칙. 정확한 경로 다음에만 둔다.
 /doctor-ai-academy/*  https://s-reborn-doctor-ai-academy.pages.dev/:splat  301
 /doctor-ai/*  https://s-reborn-doctor-ai-academy.pages.dev/:splat  301
 /blog/category/:cat  /blog/?category=:cat  301
 /blog/category/:cat/  /blog/?category=:cat  301
+/en/*  /:splat  301

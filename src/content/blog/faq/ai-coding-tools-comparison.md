@@ -98,8 +98,8 @@ GitHub Copilot
 - 입문자는 GitHub Copilot 또는 Cursor 하나로 시작 권장
 
 ## 관련 글
-- [Claude Code가 뭔가요?](/blog/faq/claude-code-what-is-it) — Claude Code 자세히 보기
-- [Codex가 뭔가요?](/blog/faq/codex-what-is-it) — Codex 자세히 보기
-- [Codex와 Claude Code 중 어떤 게 나을까요?](/blog/faq/codex-vs-claude-code) — 두 CLI 도구 집중 비교
+- [Claude Code가 뭔가요?](/blog/faq/claude-code-what-is-it/) — Claude Code 자세히 보기
+- [Codex가 뭔가요?](/blog/faq/codex-what-is-it/) — Codex 자세히 보기
+- [Codex와 Claude Code 중 어떤 게 나을까요?](/blog/faq/codex-vs-claude-code/) — 두 CLI 도구 집중 비교
 
-[← FAQ 전체 보기](/blog/category/faq)
+[← FAQ 전체 보기](/blog/?category=faq)

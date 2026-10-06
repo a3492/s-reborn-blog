@@ -103,8 +103,8 @@ Temperature 0은 "가장 그럴듯한 답을 항상 선택"하는 것이지, "�
 
 ## 더 알고 싶다면
 
-- [Prompt Engineering이 뭐예요?](/blog/aerini/what-is-prompt-engineering)
-- [Hallucination이 뭐예요?](/blog/aerini/what-is-hallucination)
-- [Chain of Thought가 뭐예요?](/blog/aerini/what-is-chain-of-thought)
+- [Prompt Engineering이 뭐예요?](/blog/aerini/what-is-prompt-engineering/)
+- [Hallucination이 뭐예요?](/blog/aerini/what-is-hallucination/)
+- [Chain of Thought가 뭐예요?](/blog/aerini/what-is-chain-of-thought/)
 
-[🩺 모든 애린이 글 보기](/blog/category/aerini)
+[🩺 모든 애린이 글 보기](/blog/?category=aerini)

@@ -126,6 +126,6 @@ AI 출력 (발췌):
 
 ## 관련 글
 
-- [5분 안에: 논문 초록을 AI로 요약하기](/blog/tips/5min-ai-paper-summary)
-- [5분 안에: 진료 후 처방약 AI로 검토하기](/blog/tips/5min-ai-prescription-review)
-- [5분 안에: AI로 감별진단 순서 정하기](/blog/tips/5min-ai-differential-diagnosis)
+- [5분 안에: 논문 초록을 AI로 요약하기](/blog/tips/5min-ai-paper-summary/)
+- [5분 안에: 진료 후 처방약 AI로 검토하기](/blog/tips/5min-ai-prescription-review/)
+- [5분 안에: AI로 감별진단 순서 정하기](/blog/tips/5min-ai-differential-diagnosis/)

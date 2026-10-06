@@ -80,8 +80,8 @@ Claude Code에 넣기 전, 해당 코드에 실제 민감 정보가 하드코딩
 - 의료 환경에서는 더미 데이터 사용 권장
 
 ## 관련 글
-- [Claude Code가 뭔가요?](/blog/faq/claude-code-what-is-it) — 기본 개념 이해
-- [Claude Code를 언제 쓰면 좋을까요?](/blog/faq/claude-code-when-to-use) — 적합한 사용 상황
-- [API 키 없이 Claude Code를 쓸 수 있나요?](/blog/faq/claude-code-without-api-key) — 데이터 보안이 더 중요하다면 로컬 대안 고려
+- [Claude Code가 뭔가요?](/blog/faq/claude-code-what-is-it/) — 기본 개념 이해
+- [Claude Code를 언제 쓰면 좋을까요?](/blog/faq/claude-code-when-to-use/) — 적합한 사용 상황
+- [API 키 없이 Claude Code를 쓸 수 있나요?](/blog/faq/claude-code-without-api-key/) — 데이터 보안이 더 중요하다면 로컬 대안 고려
 
-[← FAQ 전체 보기](/blog/category/faq)
+[← FAQ 전체 보기](/blog/?category=faq)

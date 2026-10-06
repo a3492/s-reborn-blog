@@ -10,7 +10,7 @@ export const CONTACT_EMAIL = 'a01034920591@gmail.com';
 export const CATEGORIES = [
 	// 기초·입문
 	{ id: 'ai', label: '개론', labelEn: 'Overview', icon: '🤖' },
-	{ id: 'aerini', label: '애린이 코너', labelEn: "Beginner's Corner", icon: '🌱' },
+	{ id: 'aerini', label: 'AI 입문(애린이)', labelEn: "Beginner's Corner", icon: '🌱' },
 	{ id: 'ai-terminology', label: '사전', labelEn: 'Glossary', icon: '📖' },
 	// 엔지니어링
 	{ id: 'prompt-engineering', label: '프롬프트', labelEn: 'Prompting', icon: '✏️' },
@@ -30,14 +30,9 @@ export const CATEGORIES = [
 	{ id: 'ai-news', label: '뉴스', labelEn: 'News', icon: '📰' },
 	{ id: 'faq', label: 'FAQ', labelEn: 'FAQ', icon: '❓' },
 	// 도구·실전
-	{ id: 'ai-tools-medical', label: '도구·의료', labelEn: 'Tools · Medical', icon: '🔬' },
+	{ id: 'ai-tools', label: '도구·의료', labelEn: 'Tools · Medical', icon: '🔬' },
 	{ id: 'ai-tools-general', label: '도구·일반', labelEn: 'Tools · General', icon: '🎨' },
 	{ id: 'tips', label: '팁', labelEn: 'Tips', icon: '⏱️' },
-	// 기타
-	{ id: 'medicine', label: '의학', labelEn: 'Medicine', icon: '🏥' },
-	{ id: '학습', label: '학습', labelEn: 'Learning', icon: '📚' },
-	{ id: 'dev', label: '개발', labelEn: 'Development', icon: '💻' },
-	{ id: '연결·패턴', label: '연결·패턴', labelEn: 'Connections & Patterns', icon: '✍️' },
 ] as const;
 
 // 메뉴 그룹 구조 (블로그 좌측 내비게이션용)
@@ -75,7 +70,7 @@ export const MENU_GROUPS = [
 		label: '도구·실전',
 		labelEn: 'Tools & Practice',
 		icon: '⚙️',
-		cats: ['ai-tools-medical', 'ai-tools-general', 'tips'],
+		cats: ['ai-tools', 'ai-tools-general', 'tips'],
 	},
 ] as const;
 

@@ -192,6 +192,6 @@ Azure Healthcare APIs: Microsoft의 의료 특화 클라우드. Azure AD와의 �
 
 ## 관련 글
 
-- [Git — 의사가 코드를 관리하는 법](/blog/doctor-dev/git-for-doctors)
-- [의료 에이전트 평가 — 안전성 측정이 정확도보다 중요한 이유](/blog/ai-agents/agent-evaluation-medical)
-- [RAG — Retrieval-Augmented Generation이라는 이름에 담긴 아이디어](/blog/ai-terminology/term-rag)
+- [Git — 의사가 코드를 관리하는 법](/blog/doctor-dev/git-for-doctors/)
+- [의료 에이전트 평가 — 안전성 측정이 정확도보다 중요한 이유](/blog/ai-agents/agent-evaluation-medical/)
+- [RAG — Retrieval-Augmented Generation이라는 이름에 담긴 아이디어](/blog/ai-terminology/term-rag/)

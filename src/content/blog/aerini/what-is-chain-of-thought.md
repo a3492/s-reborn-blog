@@ -108,8 +108,8 @@ AI는 보통 결론만 바로 출력하는 경향이 있어요. 이때 중간 �
 
 ## 더 알고 싶다면
 
-- [Prompt Engineering이 뭐예요?](/blog/aerini/what-is-prompt-engineering)
-- [Zero-shot과 Few-shot이 뭐예요?](/blog/aerini/what-is-zero-shot-few-shot)
-- [AI 설명가능성(XAI)이 뭐예요?](/blog/aerini/what-is-ai-explainability)
+- [Prompt Engineering이 뭐예요?](/blog/aerini/what-is-prompt-engineering/)
+- [Zero-shot과 Few-shot이 뭐예요?](/blog/aerini/what-is-zero-shot-few-shot/)
+- [AI 설명가능성(XAI)이 뭐예요?](/blog/aerini/what-is-ai-explainability/)
 
-[🩺 모든 애린이 글 보기](/blog/category/aerini)
+[🩺 모든 애린이 글 보기](/blog/?category=aerini)

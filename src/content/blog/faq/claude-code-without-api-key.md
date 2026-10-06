@@ -88,8 +88,8 @@ $5로 어느 정도 쓸 수 있는지 먼저 파악한 후, 더 쓸지 판단하
 - API 키 발급 자체는 어렵지 않고 $5만 충전해도 충분히 시험 가능
 
 ## 관련 글
-- [Claude Code 비용은 어떻게 되나요?](/blog/faq/claude-code-cost) — API 요금 구조 자세히 보기
-- [Claude Code를 설치하려면 뭐가 필요한가요?](/blog/faq/claude-code-install) — API 키 포함 설치 전체 과정
-- [Cursor와 Claude Code는 어떻게 다른가요?](/blog/faq/claude-code-cursor) — 무료 대안인 Cursor 비교
+- [Claude Code 비용은 어떻게 되나요?](/blog/faq/claude-code-cost/) — API 요금 구조 자세히 보기
+- [Claude Code를 설치하려면 뭐가 필요한가요?](/blog/faq/claude-code-install/) — API 키 포함 설치 전체 과정
+- [Cursor와 Claude Code는 어떻게 다른가요?](/blog/faq/claude-code-cursor/) — 무료 대안인 Cursor 비교
 
-[← FAQ 전체 보기](/blog/category/faq)
+[← FAQ 전체 보기](/blog/?category=faq)

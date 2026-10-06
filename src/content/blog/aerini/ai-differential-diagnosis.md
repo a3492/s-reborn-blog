@@ -87,7 +87,7 @@ AI의 응답 예시입니다.
 - UpToDate 검색: 증상 키워드로 접근해 체계적인 감별 진단 알고리즘을 따라갈 수 있습니다.
 
 ## 더 나아가기
-👉 [AI로 약물 상호작용 30초 만에 확인하기](/blog/aerini/ai-drug-interaction-check)
-👉 [AI로 케이스 발표 준비하기](/blog/aerini/ai-case-presentation)
-👉 [AI로 퇴원 요약지 초안 5분 만에 만들기](/blog/aerini/ai-discharge-summary)
+👉 [AI로 약물 상호작용 30초 만에 확인하기](/blog/aerini/ai-drug-interaction-check/)
+👉 [AI로 케이스 발표 준비하기](/blog/aerini/ai-case-presentation/)
+👉 [AI로 퇴원 요약지 초안 5분 만에 만들기](/blog/aerini/ai-discharge-summary/)
 👉 [모든 애린이 글 보기](/blog/?category=aerini)

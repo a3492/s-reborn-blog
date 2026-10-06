@@ -154,9 +154,9 @@ AWS, GCP 모두 청구 알람 기능을 제공한다. OpenAI도 월별 사용 �
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [오케스트레이션 비용 최적화](/blog/orchestration/orchestration-cost-optimization) — 이미 발생하는 비용을 줄이는 전략
-- [컨텍스트 윈도우 관리](/blog/orchestration/context-window-management) — 컨텍스트 누적으로 인한 토큰 폭증 방지
-- [오케스트레이션 모니터링](/blog/orchestration/orchestration-monitoring) — 실시간 비용 추이 모니터링
-- [LLM 공급자 추상화](/blog/harness-engineering/llm-provider-abstraction) — 비용에 따라 모델을 자동으로 전환하는 방법
+- [오케스트레이션 비용 최적화](/blog/orchestration/orchestration-cost-optimization/) — 이미 발생하는 비용을 줄이는 전략
+- [컨텍스트 윈도우 관리](/blog/orchestration/context-window-management/) — 컨텍스트 누적으로 인한 토큰 폭증 방지
+- [오케스트레이션 모니터링](/blog/orchestration/orchestration-monitoring/) — 실시간 비용 추이 모니터링
+- [LLM 공급자 추상화](/blog/harness-engineering/llm-provider-abstraction/) — 비용에 따라 모델을 자동으로 전환하는 방법
 
-[← 하네스 엔지니어링 시리즈 전체 보기](/blog/category/harness-engineering)
+[← 하네스 엔지니어링 시리즈 전체 보기](/blog/?category=harness-engineering)

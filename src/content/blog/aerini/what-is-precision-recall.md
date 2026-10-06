@@ -93,8 +93,8 @@ AI 논문에서 ROC 커브와 AUC 값을 봅니다. AUC 0.9 이상이면 좋은 
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [Overfitting이 뭐예요?](/blog/aerini/what-is-overfitting) — AI 성능을 제대로 측정하지 못하는 또 다른 이유
-- [AI와 의사 — 각자 잘하는 게 뭐가 다른가요?](/blog/aerini/what-is-ai-vs-human) — AI 성능의 한계와 의사의 역할
-- [GPT 버전이 뭐가 다른가요?](/blog/aerini/what-is-gpt-model-versions) — 모델 버전별 성능 차이
+- [Overfitting이 뭐예요?](/blog/aerini/what-is-overfitting/) — AI 성능을 제대로 측정하지 못하는 또 다른 이유
+- [AI와 의사 — 각자 잘하는 게 뭐가 다른가요?](/blog/aerini/what-is-ai-vs-human/) — AI 성능의 한계와 의사의 역할
+- [GPT 버전이 뭐가 다른가요?](/blog/aerini/what-is-gpt-model-versions/) — 모델 버전별 성능 차이
 
-[← 애린이 AI 용어 시리즈 전체 보기](/blog/category/aerini)
+[← 애린이 AI 용어 시리즈 전체 보기](/blog/?category=aerini)

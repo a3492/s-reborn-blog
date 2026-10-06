@@ -104,10 +104,10 @@ IT 인프라 검토
 
 ## 더 알고 싶다면
 
-🔗 [AI에게 환자 정보를 입력하면 개인정보가 유출되나요?](/blog/aerini/faq-ai-patient-privacy) — 병원 도입 시 개인정보 이슈 먼저 파악
+🔗 [AI에게 환자 정보를 입력하면 개인정보가 유출되나요?](/blog/aerini/faq-ai-patient-privacy/) — 병원 도입 시 개인정보 이슈 먼저 파악
 
-🔗 [무료 AI로 충분한가요, 아니면 유료를 써야 하나요?](/blog/aerini/faq-free-vs-paid-ai) — 병원 도입 시 어떤 버전을 선택할지
+🔗 [무료 AI로 충분한가요, 아니면 유료를 써야 하나요?](/blog/aerini/faq-free-vs-paid-ai/) — 병원 도입 시 어떤 버전을 선택할지
 
-🔗 [의료에서 AI 정확도는 얼마나 되나요?](/blog/aerini/faq-ai-accuracy-medical) — 도입 전 AI 성능 기대치 현실적으로 설정하기
+🔗 [의료에서 AI 정확도는 얼마나 되나요?](/blog/aerini/faq-ai-accuracy-medical/) — 도입 전 AI 성능 기대치 현실적으로 설정하기
 
-👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/aerini)에서 기초부터 시작해 보세요
+👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/?category=aerini)에서 기초부터 시작해 보세요

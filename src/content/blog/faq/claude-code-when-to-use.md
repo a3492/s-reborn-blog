@@ -87,8 +87,8 @@ Claude Code는 코딩 작업 도구다. "오늘 점심 메뉴 추천해줘" 같�
 - 파일 수정이 없으면 굳이 Claude Code를 열 필요 없음
 
 ## 관련 글
-- [CLI와 IDE 연동 중 어떤 게 좋을까요?](/blog/faq/claude-code-cli-vs-ide) — 상황별 CLI vs IDE 선택
-- [Claude Code가 뭔가요?](/blog/faq/claude-code-what-is-it) — 기본 개념과 도구 비교
-- [터미널에서 Claude Code를 어떻게 쓰나요?](/blog/faq/claude-code-terminal) — 실제 사용법
+- [CLI와 IDE 연동 중 어떤 게 좋을까요?](/blog/faq/claude-code-cli-vs-ide/) — 상황별 CLI vs IDE 선택
+- [Claude Code가 뭔가요?](/blog/faq/claude-code-what-is-it/) — 기본 개념과 도구 비교
+- [터미널에서 Claude Code를 어떻게 쓰나요?](/blog/faq/claude-code-terminal/) — 실제 사용법
 
-[← FAQ 전체 보기](/blog/category/faq)
+[← FAQ 전체 보기](/blog/?category=faq)

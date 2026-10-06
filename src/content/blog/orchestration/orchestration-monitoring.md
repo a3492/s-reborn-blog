@@ -118,10 +118,10 @@ AI가 다운됐을 때 병동이 마비되면 안 된다. AI 기능을 끄면 �
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [오케스트레이션 디버깅](/blog/orchestration/orchestration-debugging) — 모니터링에서 감지한 문제의 원인 추적
-- [오케스트레이션 테스팅](/blog/orchestration/orchestration-testing) — 배포 전 테스트로 사전 예방
-- [비용 최적화](/blog/orchestration/orchestration-cost-optimization) — 비용도 모니터링의 핵심 지표
-- [오케스트레이션 보안](/blog/orchestration/orchestration-security) — 보안 사고를 모니터링으로 실시간 감지
+- [오케스트레이션 디버깅](/blog/orchestration/orchestration-debugging/) — 모니터링에서 감지한 문제의 원인 추적
+- [오케스트레이션 테스팅](/blog/orchestration/orchestration-testing/) — 배포 전 테스트로 사전 예방
+- [비용 최적화](/blog/orchestration/orchestration-cost-optimization/) — 비용도 모니터링의 핵심 지표
+- [오케스트레이션 보안](/blog/orchestration/orchestration-security/) — 보안 사고를 모니터링으로 실시간 감지
 
-[← 오케스트레이션 시리즈 전체 보기](/blog/category/orchestration)
+[← 오케스트레이션 시리즈 전체 보기](/blog/?category=orchestration)
 

@@ -198,6 +198,6 @@ def analyze_with_version(patient: dict, version: str = "v2") -> str:
 
 ## 관련 글
 
-- [Claude API 첫 호출 — 10줄 코드로 의료 AI 만들기](/blog/doctor-dev/api-first-call)
-- [Pandas로 임상 데이터 분석 — Excel을 Python으로 대체하는 법](/blog/doctor-dev/pandas-for-clinical-data)
-- [Git — 의사가 코드를 관리하는 법](/blog/doctor-dev/git-for-doctors)
+- [Claude API 첫 호출 — 10줄 코드로 의료 AI 만들기](/blog/doctor-dev/api-first-call/)
+- [Pandas로 임상 데이터 분석 — Excel을 Python으로 대체하는 법](/blog/doctor-dev/pandas-for-clinical-data/)
+- [Git — 의사가 코드를 관리하는 법](/blog/doctor-dev/git-for-doctors/)

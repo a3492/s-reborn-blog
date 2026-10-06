@@ -105,8 +105,8 @@ AI가 "이러한 이유로 이 진단을 내렸습니다"라고 설명해도 그
 
 ## 더 알고 싶다면
 
-- [AI 안전성이 뭐예요?](/blog/aerini/what-is-ai-safety)
-- [AI 편향(Bias)이 뭐예요?](/blog/aerini/what-is-ai-bias)
-- [Chain of Thought가 뭐예요?](/blog/aerini/what-is-chain-of-thought)
+- [AI 안전성이 뭐예요?](/blog/aerini/what-is-ai-safety/)
+- [AI 편향(Bias)이 뭐예요?](/blog/aerini/what-is-ai-bias/)
+- [Chain of Thought가 뭐예요?](/blog/aerini/what-is-chain-of-thought/)
 
-[🩺 모든 애린이 글 보기](/blog/category/aerini)
+[🩺 모든 애린이 글 보기](/blog/?category=aerini)

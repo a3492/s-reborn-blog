@@ -95,8 +95,8 @@ API 키 자체는 무료로 발급된다. 비용은 Claude와 대화할 때 사�
 - API 키는 anthropic.com Console에서 무료 발급, 사용량 기반 과금
 
 ## 관련 글
-- [Claude Code가 뭔가요?](/blog/faq/claude-code-what-is-it) — Claude.ai와의 차이부터 이해하기
-- [터미널에서 Claude Code를 어떻게 쓰나요?](/blog/faq/claude-code-terminal) — 설치 후 첫 사용법
-- [Claude Code 비용은 어떻게 되나요?](/blog/faq/claude-code-cost) — API 요금 구조 자세히 보기
+- [Claude Code가 뭔가요?](/blog/faq/claude-code-what-is-it/) — Claude.ai와의 차이부터 이해하기
+- [터미널에서 Claude Code를 어떻게 쓰나요?](/blog/faq/claude-code-terminal/) — 설치 후 첫 사용법
+- [Claude Code 비용은 어떻게 되나요?](/blog/faq/claude-code-cost/) — API 요금 구조 자세히 보기
 
-[← FAQ 전체 보기](/blog/category/faq)
+[← FAQ 전체 보기](/blog/?category=faq)

@@ -99,8 +99,8 @@ Embedding 기반 검색은 "고혈압", "HTN", "Hypertension", "혈압 높음"�
 
 ## 더 알고 싶다면
 
-- [Vector Database가 뭐예요?](/blog/aerini/what-is-vector-db)
-- [NLP(자연어처리)가 뭐예요?](/blog/aerini/what-is-nlp)
-- [Foundation Model이 뭐예요?](/blog/aerini/what-is-foundation-model)
+- [Vector Database가 뭐예요?](/blog/aerini/what-is-vector-db/)
+- [NLP(자연어처리)가 뭐예요?](/blog/aerini/what-is-nlp/)
+- [Foundation Model이 뭐예요?](/blog/aerini/what-is-foundation-model/)
 
-[🩺 모든 애린이 글 보기](/blog/category/aerini)
+[🩺 모든 애린이 글 보기](/blog/?category=aerini)

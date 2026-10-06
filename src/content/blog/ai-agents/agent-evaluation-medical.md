@@ -157,6 +157,6 @@ MedQA / MedMCQA: 의학 지식 기반 다지선다형 평가. 에이전트 평�
 
 ## 관련 글
 
-- [RAG — Retrieval-Augmented Generation이라는 이름에 담긴 아이디어](/blog/ai-terminology/term-rag)
-- [환각 vs 작화증 — AI 오류를 의학 용어로 정확하게 부르는 법](/blog/ai-terminology/term-hallucination-vs-confabulation)
-- [의료 AI 도구 배포 — 개인 사용부터 병원 도입까지](/blog/doctor-dev/deploy-medical-ai-tool)
+- [RAG — Retrieval-Augmented Generation이라는 이름에 담긴 아이디어](/blog/ai-terminology/term-rag/)
+- [환각 vs 작화증 — AI 오류를 의학 용어로 정확하게 부르는 법](/blog/ai-terminology/term-hallucination-vs-confabulation/)
+- [의료 AI 도구 배포 — 개인 사용부터 병원 도입까지](/blog/doctor-dev/deploy-medical-ai-tool/)

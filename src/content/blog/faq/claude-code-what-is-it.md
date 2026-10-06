@@ -72,8 +72,8 @@ Claude Code가 더 맞는 경우
 - 같은 AI 모델이지만 접근 방식이 완전히 다름
 
 ## 관련 글
-- [Claude Code를 설치하려면 뭐가 필요한가요?](/blog/faq/claude-code-install) — 설치 전 준비사항
-- [터미널에서 Claude Code를 어떻게 쓰나요?](/blog/faq/claude-code-terminal) — 첫 실행부터 기본 사용법
-- [Claude Code 비용은 어떻게 되나요?](/blog/faq/claude-code-cost) — 무료인지, 얼마나 드는지
+- [Claude Code를 설치하려면 뭐가 필요한가요?](/blog/faq/claude-code-install/) — 설치 전 준비사항
+- [터미널에서 Claude Code를 어떻게 쓰나요?](/blog/faq/claude-code-terminal/) — 첫 실행부터 기본 사용법
+- [Claude Code 비용은 어떻게 되나요?](/blog/faq/claude-code-cost/) — 무료인지, 얼마나 드는지
 
-[← FAQ 전체 보기](/blog/category/faq)
+[← FAQ 전체 보기](/blog/?category=faq)
