@@ -20,6 +20,8 @@ const blog = defineCollection({
 		type: z.string().optional(),
 		series: z.string().optional(),
 		series_order: z.number().optional(),
+		/** 정적 HTML에서 옮긴 초안. 본문 보강 전임을 표시한다. */
+		needsExpansion: z.boolean().optional().default(false),
 	}),
 });
 
