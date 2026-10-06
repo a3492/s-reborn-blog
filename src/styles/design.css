@@ -1758,6 +1758,25 @@ footer {
   text-decoration-thickness: 1px;
 }
 
+.home-pillar-grid {
+  margin-bottom: 0.75rem;
+}
+
+.home-pillar-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.1rem;
+  margin: 0;
+}
+
+.home-pillar-links a {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--pink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .lab-hub-card--soon {
   cursor: default;
   pointer-events: none;

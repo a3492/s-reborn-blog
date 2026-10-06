@@ -1,0 +1,75 @@
+---
+import '../styles/design.css';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Topbar from '../components/Topbar.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="ko">
+	<head>
+		<BaseHead title={`페이지를 찾을 수 없습니다 | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+		<meta name="robots" content="noindex" />
+	</head>
+	<body>
+		<div class="site-wrap">
+			<Topbar />
+			<main class="site-main">
+				<div class="not-found">
+					<p class="not-found-kicker">404</p>
+					<h1>페이지를 찾을 수 없습니다</h1>
+					<p>주소가 바뀌었거나 없는 페이지입니다.</p>
+					<p class="not-found-links">
+						<a href="/">홈으로</a>
+						<a href="/blog/">글 목록</a>
+					</p>
+				</div>
+			</main>
+			<Footer />
+		</div>
+	</body>
+</html>
+
+<style>
+	.not-found {
+		max-width: 40rem;
+		margin: 4.5rem auto 3rem;
+		padding: 0 1.25rem;
+	}
+
+	.not-found-kicker {
+		margin: 0 0 0.5rem;
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		color: var(--pink);
+	}
+
+	.not-found h1 {
+		margin: 0 0 0.75rem;
+		font-family: var(--display);
+		font-size: 2rem;
+		line-height: 1.25;
+		color: var(--text);
+	}
+
+	.not-found p {
+		margin: 0;
+		color: var(--t2);
+		line-height: 1.6;
+	}
+
+	.not-found-links {
+		display: flex;
+		gap: 1rem;
+		margin-top: 1.25rem;
+	}
+
+	.not-found-links a {
+		font-weight: 700;
+		color: var(--pink);
+		text-decoration: underline;
+		text-underline-offset: 2px;
+	}
+</style>

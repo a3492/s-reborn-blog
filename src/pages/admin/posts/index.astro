@@ -44,6 +44,7 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
 
   <script>
     import { createClient } from '@supabase/supabase-js';
+    import { publishApiHeaders } from '../../../lib/admin/publish-request';
     const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
     const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
@@ -179,7 +180,7 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
         // 2. publish 파이프라인 실행 (markdown 파일 업데이트 + GitHub 커밋)
         const publishRes = await fetch('/api/admin/publish', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: publishApiHeaders(),
           body: JSON.stringify({ slug }),
         });
 

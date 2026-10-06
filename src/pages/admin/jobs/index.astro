@@ -79,6 +79,7 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
 
   <script>
     import { createClient } from '@supabase/supabase-js';
+    import { publishApiHeaders } from '../../../lib/admin/publish-request';
     const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
     const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
@@ -209,7 +210,7 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
 
         const response = await fetch('/api/admin/publish', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: publishApiHeaders(),
           body: JSON.stringify({ slug, requestedBy: currentUserId, dryRun: false }),
         });
 

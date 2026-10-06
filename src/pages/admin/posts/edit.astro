@@ -148,6 +148,7 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
 
   <script>
     import { createClient } from '@supabase/supabase-js';
+    import { publishApiHeaders } from '../../../lib/admin/publish-request';
     const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
     const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
     const slug = new URLSearchParams(window.location.search).get('slug') ?? '';
@@ -479,7 +480,7 @@ const slug = Astro.url.searchParams.get('slug') ?? '';
         setMessage(dryRun ? 'publish dry-run을 실행하는 중입니다...' : 'publish 요청을 실행하는 중입니다...', 'info');
         const response = await fetch('/api/admin/publish', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: publishApiHeaders(),
           body: JSON.stringify({ slug: requestedSlug, requestedBy, dryRun }),
         });
 

@@ -1,8 +1,7 @@
 name: Sync Blog Posts
 
+# 자동 동기화는 1단계에서 멈춤. 볼트 rsync는 수동 workflow_dispatch로만 실행한다.
 on:
-  repository_dispatch:
-    types: [sync-blog]
   workflow_dispatch:
 
 concurrency:

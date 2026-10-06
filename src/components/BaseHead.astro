@@ -46,6 +46,9 @@ const ogImage = image
 />
 <meta name="generator" content={Astro.generator} />
 <meta name="theme-color" content="#d690a1" />
+{pathNorm === '/admin' || pathNorm.startsWith('/admin/') ? (
+	<meta name="robots" content="noindex, nofollow" />
+) : null}
 
 <!-- Font preloads -->
 <link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin />
