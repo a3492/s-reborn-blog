@@ -1,0 +1,125 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { LECTURES } from '../../data/lectures';
+---
+
+<Layout
+	title="강연"
+	description="S-reborn MD AI HUB 웹 강연 모음. 브라우저에서 바로 보는 프레젠테이션입니다."
+>
+	<div class="lectures-page">
+		<header class="lectures-head">
+			<h1>강연</h1>
+			<p class="lectures-lead">
+				브라우저에서 바로 보는 웹 프레젠테이션 모음입니다. 방향키로 넘기고, F로 전체화면을 켤 수 있습니다.
+			</p>
+		</header>
+
+		<div class="lectures-grid">
+			{
+				LECTURES.map((l) => (
+					<a class="lecture-card" href={`/lectures/${l.id}/`}>
+						<img
+							class="lecture-thumb"
+							src={`/lectures/${l.id}/images/${l.id.toUpperCase().split('-')[0]}-S01-image-01.webp`}
+							alt={`${l.title} 대표 이미지`}
+							loading="lazy"
+						/>
+						<div class="lecture-body">
+							{l.subtitle && <span class="lecture-kicker">{l.subtitle}</span>}
+							<h2 class="lecture-title">{l.title}</h2>
+							{l.speaker && (
+								<p class="lecture-meta">
+									{l.speaker}
+									{l.org ? ` · ${l.org}` : ''}
+								</p>
+							)}
+							<p class="lecture-sub">
+								{l.slideCount}장{l.date ? ` · ${l.date}` : ''}
+							</p>
+							<span class="lecture-cta">강연 보기 →</span>
+						</div>
+					</a>
+				))
+			}
+		</div>
+	</div>
+</Layout>
+
+<style>
+	.lectures-page {
+		padding: 2.5rem 0 4rem;
+	}
+	.lectures-head {
+		margin-bottom: 2rem;
+	}
+	.lectures-head h1 {
+		font-family: var(--display);
+		font-size: 2rem;
+		letter-spacing: -0.02em;
+	}
+	.lectures-lead {
+		color: var(--t2);
+		margin-top: 0.5rem;
+		max-width: 46rem;
+	}
+	.lectures-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		gap: 1.25rem;
+	}
+	.lecture-card {
+		display: flex;
+		flex-direction: column;
+		border: 1px solid var(--rule);
+		border-radius: 14px;
+		overflow: hidden;
+		background: var(--bg2);
+		text-decoration: none;
+		color: inherit;
+		transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+	}
+	.lecture-card:hover {
+		border-color: var(--pink);
+		transform: translateY(-2px);
+		box-shadow: 0 14px 34px rgba(28, 25, 23, 0.1);
+	}
+	.lecture-thumb {
+		width: 100%;
+		aspect-ratio: 16 / 9;
+		object-fit: cover;
+		background: #fff;
+	}
+	.lecture-body {
+		padding: 1.1rem 1.2rem 1.3rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.3rem;
+	}
+	.lecture-kicker {
+		font-size: 0.72rem;
+		letter-spacing: 0.06em;
+		color: var(--pink);
+		font-weight: 700;
+	}
+	.lecture-title {
+		font-family: var(--display);
+		font-size: 1.15rem;
+		line-height: 1.35;
+		margin: 0.1rem 0;
+	}
+	.lecture-meta {
+		font-size: 0.82rem;
+		color: var(--t2);
+	}
+	.lecture-sub {
+		font-size: 0.8rem;
+		color: var(--t3);
+	}
+	.lecture-cta {
+		margin-top: 0.6rem;
+		font-size: 0.85rem;
+		font-weight: 600;
+		color: var(--pink);
+	}
+</style>
