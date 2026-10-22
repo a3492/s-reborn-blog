@@ -24,6 +24,7 @@ export default defineConfig({
 				if (path === '/docs' || path.startsWith('/docs/')) return false;
 				if (path === '/en' || path.startsWith('/en/')) return false;
 				if (path === '/404' || path === '/404.html') return false;
+				if (path === '/preview' || path.startsWith('/preview/')) return false;
 				return true;
 			},
 		}),
