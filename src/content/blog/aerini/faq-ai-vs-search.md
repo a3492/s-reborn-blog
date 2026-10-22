@@ -48,6 +48,6 @@ AI로 먼저 전체 그림을 잡고, 구글·PubMed로 근거를 검증하세�
 
 ## 더 알고 싶다면
 
-- [AI는 얼마나 자주 업데이트되나요?](/blog/aerini/faq-how-often-update)
-- [AI 환각(hallucination)이란 무엇인가요?](/blog/aerini/what-is-hallucination)
-- [ChatGPT, 처음 어떻게 시작하나요?](/blog/aerini/how-to-start-chatgpt)
+- [AI는 얼마나 자주 업데이트되나요?](/blog/aerini/faq-how-often-update/)
+- [AI 환각(hallucination)이란 무엇인가요?](/blog/aerini/what-is-hallucination/)
+- [ChatGPT, 처음 어떻게 시작하나요?](/blog/aerini/how-to-start-chatgpt/)

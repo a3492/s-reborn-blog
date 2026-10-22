@@ -150,6 +150,6 @@ AI의 학습 데이터에 포함된 가이드라인은 최신이 아닐 수 있�
 5. 가족과 환자의 의견 차이가 있다면 그 자체를 컨텍스트에 포함한다
 
 ## 관련 글
-- [컨텍스트 엔지니어링이란 — 프롬프트를 넘어서는 AI 활용의 다음 단계](/blog/context-engineering/what-is-context-engineering)
-- [페르소나 컨텍스트 — 환자 유형별 AI 응대 전략](/blog/context-engineering/persona-context-design)
-- [의료 AI 컨텍스트 설계 체크리스트 — 실전 20항목](/blog/context-engineering/context-engineering-checklist)
+- [컨텍스트 엔지니어링이란 — 프롬프트를 넘어서는 AI 활용의 다음 단계](/blog/context-engineering/what-is-context-engineering/)
+- [페르소나 컨텍스트 — 환자 유형별 AI 응대 전략](/blog/context-engineering/persona-context-design/)
+- [의료 AI 컨텍스트 설계 체크리스트 — 실전 20항목](/blog/context-engineering/context-engineering-checklist/)

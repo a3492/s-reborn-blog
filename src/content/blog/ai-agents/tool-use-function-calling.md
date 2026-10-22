@@ -203,6 +203,6 @@ def create_prescription(drug: str, dose: str, patient_id: str) -> dict:
 
 ## 관련 글
 
-- [AI 에이전트란 — 챗봇과 무엇이 다른가](/blog/ai-agents/what-is-ai-agent)
-- [Claude Agent SDK — Anthropic의 에이전트 프레임워크 시작하기](/blog/ai-agents/claude-agent-sdk-intro)
-- [의료 에이전트 안전 설계 — AI가 실수해도 괜찮은 시스템](/blog/ai-agents/agent-safety-medical)
+- [AI 에이전트란 — 챗봇과 무엇이 다른가](/blog/ai-agents/what-is-ai-agent/)
+- [Claude Agent SDK — Anthropic의 에이전트 프레임워크 시작하기](/blog/ai-agents/claude-agent-sdk-intro/)
+- [의료 에이전트 안전 설계 — AI가 실수해도 괜찮은 시스템](/blog/ai-agents/agent-safety-medical/)

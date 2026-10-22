@@ -120,6 +120,6 @@ RLAIF (RL from AI Feedback): 사람 작업자 대신 AI가 피드백을 제공�
 
 ## 관련 글
 
-- [GPT-1에서 GPT-4까지 — OpenAI는 어떻게 세계를 바꿨나](/blog/ai-history/gpt-history)
-- [스케일링 법칙 — 모델을 크게 만들수록 왜 똑똑해지는가](/blog/ai-history/llm-scaling-law)
-- [2030년 AI는 어디까지 갈까 — 전문가 예측과 의사를 위한 준비](/blog/ai-history/future-of-ai-2030)
+- [GPT-1에서 GPT-4까지 — OpenAI는 어떻게 세계를 바꿨나](/blog/ai-history/gpt-history/)
+- [스케일링 법칙 — 모델을 크게 만들수록 왜 똑똑해지는가](/blog/ai-history/llm-scaling-law/)
+- [2030년 AI는 어디까지 갈까 — 전문가 예측과 의사를 위한 준비](/blog/ai-history/future-of-ai-2030/)

@@ -155,10 +155,10 @@ LLM이 필요한 케이스:
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [오케스트레이션 모니터링](/blog/orchestration/orchestration-monitoring) — 비용 추이를 실시간으로 추적하는 방법
-- [컨텍스트 윈도우 관리](/blog/orchestration/context-window-management) — 컨텍스트 길이 줄여 비용 절감
-- [에이전틱 RAG](/blog/orchestration/agentic-rag) — RAG 방식별 비용과 정확도 트레이드오프
-- [오케스트레이션 vs 에이전트](/blog/orchestration/orchestration-vs-agents) — 단순화로 비용 절감하는 판단 기준
+- [오케스트레이션 모니터링](/blog/orchestration/orchestration-monitoring/) — 비용 추이를 실시간으로 추적하는 방법
+- [컨텍스트 윈도우 관리](/blog/orchestration/context-window-management/) — 컨텍스트 길이 줄여 비용 절감
+- [에이전틱 RAG](/blog/orchestration/agentic-rag/) — RAG 방식별 비용과 정확도 트레이드오프
+- [오케스트레이션 vs 에이전트](/blog/orchestration/orchestration-vs-agents/) — 단순화로 비용 절감하는 판단 기준
 
-[← 오케스트레이션 시리즈 전체 보기](/blog/category/orchestration)
+[← 오케스트레이션 시리즈 전체 보기](/blog/?category=orchestration)
 

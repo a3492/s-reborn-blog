@@ -48,6 +48,6 @@ AI 역사에는 두 번의 긴 겨울이 있었습니다. 기대가 현실을 �
 
 ## 더 알고 싶다면
 
-- [ChatGPT 탄생까지 — AI 70년 역사를 5분에](/blog/aerini/history-chatgpt-birth)
-- ["인공지능"이라는 단어는 누가, 언제 만들었나](/blog/aerini/history-word-ai)
-- ["딥러닝"이라는 이름은 누가 지었나](/blog/aerini/history-deep-learning-name)
+- [ChatGPT 탄생까지 — AI 70년 역사를 5분에](/blog/aerini/history-chatgpt-birth/)
+- ["인공지능"이라는 단어는 누가, 언제 만들었나](/blog/aerini/history-word-ai/)
+- ["딥러닝"이라는 이름은 누가 지었나](/blog/aerini/history-deep-learning-name/)

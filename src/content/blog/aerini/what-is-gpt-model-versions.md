@@ -100,8 +100,8 @@ OpenAI는 지속적으로 새 버전을 출시합니다. Claude(Anthropic), Gemi
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [Prompt Engineering이 뭐예요?](/blog/aerini/what-is-prompt-engineering) — 어떤 버전을 쓰든 결과를 높이는 방법
-- [RAG vs Fine-tuning](/blog/aerini/what-is-llm-fine-tuning-vs-rag) — GPT 버전 외에 의료 AI를 커스터마이징하는 방법
-- [AI Alignment이 뭐예요?](/blog/aerini/what-is-ai-alignment) — 버전이 올라갈수록 안전성도 개선되는 이유
+- [Prompt Engineering이 뭐예요?](/blog/aerini/what-is-prompt-engineering/) — 어떤 버전을 쓰든 결과를 높이는 방법
+- [RAG vs Fine-tuning](/blog/aerini/what-is-llm-fine-tuning-vs-rag/) — GPT 버전 외에 의료 AI를 커스터마이징하는 방법
+- [AI Alignment이 뭐예요?](/blog/aerini/what-is-ai-alignment/) — 버전이 올라갈수록 안전성도 개선되는 이유
 
-[← 애린이 AI 용어 시리즈 전체 보기](/blog/category/aerini)
+[← 애린이 AI 용어 시리즈 전체 보기](/blog/?category=aerini)

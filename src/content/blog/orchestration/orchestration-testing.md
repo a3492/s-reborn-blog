@@ -154,10 +154,10 @@ AI가 작성한 치료 계획: [치료 계획]
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [오케스트레이션 모니터링](/blog/orchestration/orchestration-monitoring) — 테스트 이후 배포 후 품질 추적
-- [오케스트레이션 디버깅](/blog/orchestration/orchestration-debugging) — 테스트에서 발견한 버그의 원인 추적
-- [Human-in-the-Loop](/blog/orchestration/human-in-the-loop) — 사람 개입 흐름을 포함한 테스트 설계
-- [의료 오케스트레이션 케이스 스터디](/blog/orchestration/medical-orchestration-case-study) — 실제 케이스 시나리오 테스트 예시
+- [오케스트레이션 모니터링](/blog/orchestration/orchestration-monitoring/) — 테스트 이후 배포 후 품질 추적
+- [오케스트레이션 디버깅](/blog/orchestration/orchestration-debugging/) — 테스트에서 발견한 버그의 원인 추적
+- [Human-in-the-Loop](/blog/orchestration/human-in-the-loop/) — 사람 개입 흐름을 포함한 테스트 설계
+- [의료 오케스트레이션 케이스 스터디](/blog/orchestration/medical-orchestration-case-study/) — 실제 케이스 시나리오 테스트 예시
 
-[← 오케스트레이션 시리즈 전체 보기](/blog/category/orchestration)
+[← 오케스트레이션 시리즈 전체 보기](/blog/?category=orchestration)
 

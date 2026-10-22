@@ -106,10 +106,10 @@ AI 분석은 생각 정리 도구입니다. 최종 결정은 팀과 함께 해�
 
 ## 더 나아가기
 
-👉 [AI로 치료 계획 초안 만들기](/blog/aerini/ai-treatment-plan) — 윤리 검토 후 치료 방향 결정으로 연결
+👉 [AI로 치료 계획 초안 만들기](/blog/aerini/ai-treatment-plan/) — 윤리 검토 후 치료 방향 결정으로 연결
 
-👉 [AI가 틀린 의료 정보를 줬는데 환자에게 영향을 주면?](/blog/aerini/faq-ai-mistakes-consequences) — AI 오류와 책임 소재 미리 파악
+👉 [AI가 틀린 의료 정보를 줬는데 환자에게 영향을 주면?](/blog/aerini/faq-ai-mistakes-consequences/) — AI 오류와 책임 소재 미리 파악
 
-👉 [의료에서 AI 정확도는 얼마나 되나요?](/blog/aerini/faq-ai-accuracy-medical) — AI를 어느 정도 신뢰할 수 있는지 이해
+👉 [의료에서 AI 정확도는 얼마나 되나요?](/blog/aerini/faq-ai-accuracy-medical/) — AI를 어느 정도 신뢰할 수 있는지 이해
 
-👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/aerini)에서 기초부터 시작해 보세요
+👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/?category=aerini)에서 기초부터 시작해 보세요

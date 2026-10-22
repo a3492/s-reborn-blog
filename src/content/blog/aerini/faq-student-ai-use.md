@@ -78,10 +78,10 @@ ECG 케이스를 먼저 혼자 분석해봅니다. 그 다음 AI에게 "내 분�
 
 ## 더 알고 싶다면
 
-🔗 [AI로 나만의 의학 공부 계획 만들기](/blog/aerini/ai-continuing-education) — 학습 파트너로서의 AI 활용 계획
+🔗 [AI로 나만의 의학 공부 계획 만들기](/blog/aerini/ai-continuing-education/) — 학습 파트너로서의 AI 활용 계획
 
-🔗 [AI로 저널 클럽 발표 준비하기](/blog/aerini/ai-journal-club) — 학습과 발표를 동시에 준비하는 방법
+🔗 [AI로 저널 클럽 발표 준비하기](/blog/aerini/ai-journal-club/) — 학습과 발표를 동시에 준비하는 방법
 
-🔗 [의료에서 AI 정확도는 얼마나 되나요?](/blog/aerini/faq-ai-accuracy-medical) — AI를 비판적으로 활용하는 기초
+🔗 [의료에서 AI 정확도는 얼마나 되나요?](/blog/aerini/faq-ai-accuracy-medical/) — AI를 비판적으로 활용하는 기초
 
-👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/aerini)에서 기초부터 시작해 보세요
+👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/?category=aerini)에서 기초부터 시작해 보세요

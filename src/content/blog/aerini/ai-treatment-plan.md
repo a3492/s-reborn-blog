@@ -103,10 +103,10 @@ AI가 정리한 구조를 바탕으로 자신의 판단을 더하는 게 핵심�
 
 ## 더 나아가기
 
-👉 [AI로 신기능/간기능 저하 환자 약물 용량 확인하기](/blog/aerini/ai-drug-dosing) — 치료 계획 후 용량 확인까지 함께 하세요
+👉 [AI로 신기능/간기능 저하 환자 약물 용량 확인하기](/blog/aerini/ai-drug-dosing/) — 치료 계획 후 용량 확인까지 함께 하세요
 
-👉 [AI로 복잡한 환자 병력 요약하기](/blog/aerini/ai-patient-history) — 병력 정리 후 치료 계획 수립으로 이어지는 워크플로우
+👉 [AI로 복잡한 환자 병력 요약하기](/blog/aerini/ai-patient-history/) — 병력 정리 후 치료 계획 수립으로 이어지는 워크플로우
 
-👉 [AI로 의료 윤리 딜레마 사례 분석하기](/blog/aerini/ai-medical-ethics-case) — 치료 계획에서 윤리적 결정이 필요할 때
+👉 [AI로 의료 윤리 딜레마 사례 분석하기](/blog/aerini/ai-medical-ethics-case/) — 치료 계획에서 윤리적 결정이 필요할 때
 
-👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/aerini)에서 기초부터 시작해 보세요
+👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/?category=aerini)에서 기초부터 시작해 보세요

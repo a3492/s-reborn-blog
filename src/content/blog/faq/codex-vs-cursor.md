@@ -91,8 +91,8 @@ codex "작성한 코드 전체에 타입 힌트 추가해줘"
 - 병행 사용이 가장 효율적
 
 ## 관련 글
-- [터미널에서 Codex를 어떻게 쓰나요?](/blog/faq/codex-terminal) — CLI 기본 사용법
-- [Codex와 Claude Code 중 어떤 게 나을까요?](/blog/faq/codex-vs-claude-code) — AI 도구 전반 비교
-- [Cursor와 Claude Code는 어떻게 다른가요?](/blog/faq/claude-code-cursor) — Cursor 관련 Claude 쪽 FAQ
+- [터미널에서 Codex를 어떻게 쓰나요?](/blog/faq/codex-terminal/) — CLI 기본 사용법
+- [Codex와 Claude Code 중 어떤 게 나을까요?](/blog/faq/codex-vs-claude-code/) — AI 도구 전반 비교
+- [Cursor와 Claude Code는 어떻게 다른가요?](/blog/faq/claude-code-cursor/) — Cursor 관련 Claude 쪽 FAQ
 
-[← FAQ 전체 보기](/blog/category/faq)
+[← FAQ 전체 보기](/blog/?category=faq)

@@ -77,8 +77,8 @@ Bolt.new는 bolt.new에서 무료로 시작 가능. 생성된 코드는 다운�
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [Cursor AI 코드 편집기](/blog/ai-tools-general/cursor-ai-code-editor) — 코드를 직접 수정하고 싶을 때의 다음 단계
-- [오케스트레이션이란](/blog/orchestration/what-is-orchestration) — AI 도구들을 연결해 더 복잡한 자동화를 만드는 방법
-- [Human-in-the-Loop](/blog/orchestration/human-in-the-loop) — AI 자동화에 사람 검토를 반드시 포함해야 하는 이유
+- [Cursor AI 코드 편집기](/blog/ai-tools-general/cursor-ai-code-editor/) — 코드를 직접 수정하고 싶을 때의 다음 단계
+- [오케스트레이션이란](/blog/orchestration/what-is-orchestration/) — AI 도구들을 연결해 더 복잡한 자동화를 만드는 방법
+- [Human-in-the-Loop](/blog/orchestration/human-in-the-loop/) — AI 자동화에 사람 검토를 반드시 포함해야 하는 이유
 
-[← AI 도구 일반 전체 보기](/blog/category/ai-tools-general)
+[← AI 도구 일반 전체 보기](/blog/?category=ai-tools-general)

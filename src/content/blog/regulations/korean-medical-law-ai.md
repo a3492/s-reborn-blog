@@ -135,4 +135,4 @@ AI 사용 중 환자 피해가 발생하면 형법 제268조(업무상과실치�
 - [의료 사고와 AI: 책임은 누가 질까?](/blog/regulations/medical-malpractice-ai-liability/)
 - [의료 AI 동의서: 어떻게 만들어야 하나?](/blog/regulations/medical-ai-consent-form-template/)
 - [의료기기 허가 프로세스: AI는 어디에 걸리나?](/blog/regulations/medical-device-approval-ai/)
-- [AI와 인간의 차이: 의료 AI가 의사를 대체할 수 없는 이유](/blog/doctor-ai-academy/fundamentals/ai-vs-human-doctor/)
+- [AI와 인간의 차이: 의료 AI가 의사를 대체할 수 없는 이유](/blog/doctor-ai/ai-vs-human-doctor/)

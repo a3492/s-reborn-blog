@@ -42,6 +42,6 @@ AI 논문 초록을 읽으면 "LLM 기반 RAG 시스템"이라는 문장이 바�
 
 ## 더 알고 싶다면
 
-- [프롬프트 용어 사전 — 제로샷부터 CoT까지](/blog/aerini/glossary-prompt-terms)
-- [LLM 용어 사전 — GPT, Claude, Gemini를 이해하는 단어들](/blog/aerini/glossary-llm-terms)
-- [AI 성능이 '좋다'는 게 뭔가요? — 평가 용어 사전](/blog/aerini/glossary-evaluation-terms)
+- [프롬프트 용어 사전 — 제로샷부터 CoT까지](/blog/aerini/glossary-prompt-terms/)
+- [LLM 용어 사전 — GPT, Claude, Gemini를 이해하는 단어들](/blog/aerini/glossary-llm-terms/)
+- [AI 성능이 '좋다'는 게 뭔가요? — 평가 용어 사전](/blog/aerini/glossary-evaluation-terms/)

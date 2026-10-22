@@ -117,10 +117,10 @@ Results 섹션의 주요 수치만 뽑아달라고 할 수 있습니다.
 
 ## 더 알고 싶다면
 
-🔗 [AI로 저널 클럽 발표 준비하기](/blog/aerini/ai-journal-club) — 번역한 논문으로 발표까지 준비하기
+🔗 [AI로 저널 클럽 발표 준비하기](/blog/aerini/ai-journal-club/) — 번역한 논문으로 발표까지 준비하기
 
-🔗 [AI로 영문 초록 10분 만에 쓰기](/blog/aerini/ai-english-abstract) — 읽기를 넘어 쓰기로 발전시키기
+🔗 [AI로 영문 초록 10분 만에 쓰기](/blog/aerini/ai-english-abstract/) — 읽기를 넘어 쓰기로 발전시키기
 
-🔗 [AI로 나만의 의학 공부 계획 만들기](/blog/aerini/ai-continuing-education) — 영어 논문 읽기를 공부 계획에 포함시키는 방법
+🔗 [AI로 나만의 의학 공부 계획 만들기](/blog/aerini/ai-continuing-education/) — 영어 논문 읽기를 공부 계획에 포함시키는 방법
 
-👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/aerini)에서 기초부터 시작해 보세요
+👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/?category=aerini)에서 기초부터 시작해 보세요

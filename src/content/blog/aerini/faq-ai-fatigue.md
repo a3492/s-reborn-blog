@@ -44,6 +44,6 @@ draft: false
 
 ## 더 알고 싶다면
 
-- [AI가 절대 못하는 게 뭔가요?](/blog/aerini/faq-ai-limitations)
-- [AI는 의사를 대체할까요?](/blog/aerini/will-ai-replace-doctors)
-- [AI로 내 진단에 반론 구하기](/blog/aerini/ai-second-opinion)
+- [AI가 절대 못하는 게 뭔가요?](/blog/aerini/faq-ai-limitations/)
+- [AI는 의사를 대체할까요?](/blog/faq/will-ai-replace-doctors/)
+- [AI로 내 진단에 반론 구하기](/blog/aerini/ai-second-opinion/)

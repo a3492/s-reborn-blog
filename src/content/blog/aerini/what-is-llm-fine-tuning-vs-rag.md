@@ -95,8 +95,8 @@ Fine-tuning으로 의료 전문성을 심고, RAG로 최신 정보를 실시간 
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [Prompt Engineering이 뭐예요?](/blog/aerini/what-is-prompt-engineering) — RAG나 Fine-tuning 전에 먼저 해볼 수 있는 방법
-- [Transfer Learning이 뭐예요?](/blog/aerini/what-is-transfer-learning) — Fine-tuning의 기반 개념
-- [API가 뭐예요?](/blog/aerini/what-is-llm-api) — RAG와 Fine-tuning된 AI를 시스템에 연결하는 방법
+- [Prompt Engineering이 뭐예요?](/blog/aerini/what-is-prompt-engineering/) — RAG나 Fine-tuning 전에 먼저 해볼 수 있는 방법
+- [Transfer Learning이 뭐예요?](/blog/aerini/what-is-transfer-learning/) — Fine-tuning의 기반 개념
+- [API가 뭐예요?](/blog/aerini/what-is-llm-api/) — RAG와 Fine-tuning된 AI를 시스템에 연결하는 방법
 
-[← 애린이 AI 용어 시리즈 전체 보기](/blog/category/aerini)
+[← 애린이 AI 용어 시리즈 전체 보기](/blog/?category=aerini)

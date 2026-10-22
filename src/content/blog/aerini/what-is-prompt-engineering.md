@@ -94,8 +94,8 @@ AI는 질문의 형식, 맥락, 예시에 매우 민감합니다. 같은 정보�
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [API가 뭐예요?](/blog/aerini/what-is-llm-api) — 프롬프트를 시스템에 자동화하는 방법
-- [RAG vs Fine-tuning](/blog/aerini/what-is-llm-fine-tuning-vs-rag) — 프롬프트 외에 AI를 커스터마이징하는 방법
-- [AI Copilot이 뭐예요?](/blog/aerini/what-is-ai-copilot) — 프롬프트 엔지니어링이 내장된 AI 보조 도구
+- [API가 뭐예요?](/blog/aerini/what-is-llm-api/) — 프롬프트를 시스템에 자동화하는 방법
+- [RAG vs Fine-tuning](/blog/aerini/what-is-llm-fine-tuning-vs-rag/) — 프롬프트 외에 AI를 커스터마이징하는 방법
+- [AI Copilot이 뭐예요?](/blog/aerini/what-is-ai-copilot/) — 프롬프트 엔지니어링이 내장된 AI 보조 도구
 
-[← 애린이 AI 용어 시리즈 전체 보기](/blog/category/aerini)
+[← 애린이 AI 용어 시리즈 전체 보기](/blog/?category=aerini)

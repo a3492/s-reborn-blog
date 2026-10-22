@@ -149,6 +149,6 @@ AI 답변만으로 처방, 진단, 처치 결정을 내리지 마세요.
 🔗 다음 읽으면 좋은 글
 - [AI 환각 걸러내는 법](/blog/aerini/how-to-detect-hallucination/) — 실전 검증 방법
 - [AI를 환자 진료에 써도 괜찮나요?](/blog/aerini/is-medical-ai-legal/) — 법적 책임
-- [어떤 AI가 가장 정확한가요?](/blog/aerini/which-ai-is-most-accurate/) — AI 비교
+- [어떤 AI가 가장 정확한가요?](/blog/faq/which-ai-is-most-accurate/) — AI 비교
 
 👉 [모든 애린이 글 보기](/blog/?category=aerini)
