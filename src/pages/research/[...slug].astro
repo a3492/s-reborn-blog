@@ -1,0 +1,109 @@
+---
+import { getCollection, render } from 'astro:content';
+import BrandChrome from '../../components/brand/BrandChrome.astro';
+import TreeNav from '../../components/research/TreeNav.astro';
+import Breadcrumb from '../../components/research/Breadcrumb.astro';
+import Relations from '../../components/research/Relations.astro';
+import '../../styles/brand-home.css';
+import '../../styles/research.css';
+import { breadcrumbs, publicPages, relatedNodes } from '../../lib/research/tree';
+import { loadResearchTree } from '../../lib/research/load';
+
+export async function getStaticPaths() {
+	const { roots } = loadResearchTree();
+	const posts = await getCollection('research');
+	const byDocId = new Map(posts.map((post) => [post.data.documentId, post]));
+	return publicPages(roots).map((node) => {
+		const entry = byDocId.get(node.documentId);
+		if (!entry) {
+			throw new Error(`Published research document ${node.documentId} is missing an MDX file.`);
+		}
+		return {
+			params: { slug: node.path.replace(/^\/research\//, '').replace(/\/$/, '') },
+			props: { documentId: node.documentId, entry },
+		};
+	});
+}
+
+const { documentId, entry } = Astro.props;
+const { roots, byId } = loadResearchTree();
+const node = byId.get(documentId);
+if (!node) {
+	throw new Error(`Unknown research document ${documentId}`);
+}
+const { Content } = await render(entry);
+const trail = breadcrumbs(node, byId);
+const parent = node.parentId ? byId.get(node.parentId) ?? null : null;
+const related = relatedNodes(node, byId);
+---
+
+<BrandChrome
+	title={`${node.title} | S—REBORN`}
+	description={node.description}
+	canonicalPath={node.path}
+	current="research"
+>
+	<main class="research-page">
+		<Breadcrumb trail={trail} />
+		<p class="research-kicker">{node.researchArea}</p>
+		<h1 class="research-title">{node.title}</h1>
+		<p class="research-lead">{node.description}</p>
+		<p class="research-meta">
+			<span>Version {node.version}</span>
+			{node.publishedAt ? <span>Published {node.publishedAt.slice(0, 10)}</span> : null}
+			<span>Updated {node.updatedAt.slice(0, 10)}</span>
+		</p>
+		<div class="research-layout">
+			<TreeNav roots={roots} currentId={node.documentId} />
+			<article class="research-article" data-research-article>
+				<Content />
+				<Relations parent={parent} childNodes={node.children} related={related} />
+			</article>
+			<aside class="research-toc" aria-label="목차">
+				<h2>목차</h2>
+				<ul data-research-toc></ul>
+			</aside>
+		</div>
+	</main>
+	<script slot="scripts" is:inline>
+		const tree = document.querySelector('[data-research-tree]');
+		const toggle = document.querySelector('[data-tree-toggle]');
+		toggle?.addEventListener('click', () => {
+			const opened = tree?.classList.toggle('is-open');
+			toggle.setAttribute('aria-expanded', String(Boolean(opened)));
+			toggle.textContent = opened ? '트리 닫기' : '트리 보기';
+		});
+
+		const article = document.querySelector('[data-research-article]');
+		const toc = document.querySelector('[data-research-toc]');
+		if (article && toc) {
+			article.querySelectorAll('h2, h3').forEach((heading, index) => {
+				if (!(heading instanceof HTMLElement)) return;
+				if (!heading.id) heading.id = `h-${index + 1}`;
+				const item = document.createElement('li');
+				const link = document.createElement('a');
+				link.href = `#${heading.id}`;
+				link.textContent = heading.textContent ?? '';
+				item.appendChild(link);
+				toc.appendChild(item);
+			});
+		}
+
+		const renderMath = () => {
+			const nodes = document.querySelectorAll('.research-math');
+			if (!nodes.length) return;
+			const script = document.createElement('script');
+			script.src = 'https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js';
+			script.onload = () => {
+				nodes.forEach((node) => {
+					window.katex?.render(node.textContent ?? '', node, {
+						displayMode: node.getAttribute('data-display') === 'true',
+						throwOnError: false,
+					});
+				});
+			};
+			document.head.appendChild(script);
+		};
+		renderMath();
+	</script>
+</BrandChrome>

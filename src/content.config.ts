@@ -25,4 +25,22 @@ const blog = defineCollection({
 	}),
 });
 
-export const collections = { blog };
+const research = defineCollection({
+	loader: glob({ base: './src/content/research', pattern: '**/*.{md,mdx}' }),
+	schema: z.object({
+		documentId: z.string(),
+		title: z.string(),
+		description: z.string(),
+		researchArea: z.enum(['multi-ai', 'human-ai', 'workflow']),
+		parentId: z.string().nullable(),
+		relatedIds: z.array(z.string()).default([]),
+		slug: z.string(),
+		status: z.enum(['draft', 'in-review', 'published']),
+		order: z.number().default(0),
+		version: z.string().default('0.1'),
+		publishedAt: z.coerce.date().nullable().optional(),
+		updatedAt: z.coerce.date(),
+	}),
+});
+
+export const collections = { blog, research };
