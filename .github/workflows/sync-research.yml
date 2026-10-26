@@ -1,0 +1,66 @@
+name: Sync Research Registry
+
+on:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: "0 18 * * 1"
+
+concurrency:
+  group: research-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - run: npm ci
+
+      - name: Require Notion secrets
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_RESEARCH_DATABASE_ID: ${{ secrets.NOTION_RESEARCH_DATABASE_ID }}
+        run: |
+          set -euo pipefail
+          if [ -z "${NOTION_TOKEN}" ] || [ -z "${NOTION_RESEARCH_DATABASE_ID}" ]; then
+            echo "Register GitHub Actions secrets NOTION_TOKEN and NOTION_RESEARCH_DATABASE_ID. See docs/research/NOTION_SETUP_KO.md"
+            exit 1
+          fi
+
+      - name: Sync from Notion
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_RESEARCH_DATABASE_ID: ${{ secrets.NOTION_RESEARCH_DATABASE_ID }}
+        run: npm run sync:research && npm run qa:research && npm run test:research
+
+      - name: Open review PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- src/content/research src/data/research-registry.json public/research; then
+            echo "No research changes"
+            exit 0
+          fi
+          branch="sync/research-$(date -u +%Y%m%d-%H%M)"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git checkout -b "$branch"
+          git add src/content/research src/data/research-registry.json public/research
+          git commit -m "sync: research registry from Notion"
+          git push -u origin "$branch"
+          gh pr create --base main --head "$branch" --title "sync: research registry" --body "$(cat <<'EOF'
+          Notion 원본을 검증한 뒤 Published 문서만 갱신했습니다. 프리뷰를 확인한 다음 머지해 주세요.
+
+          원장님 승인 전까지 main 머지·프로덕션 배포 금지.
+          EOF
+          )"
