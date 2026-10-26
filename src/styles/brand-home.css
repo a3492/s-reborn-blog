@@ -246,7 +246,9 @@ h1 {
 .selected .overline { color: #94acff; }
 .selected .secondary { display: inline-block; color: white; border-color: #65717c; margin-top: 15px; }
 .research-items { border-top: 1px solid #43505c; }
-.research-item { border-bottom: 1px solid #43505c; padding: 23px 0; display: flex; justify-content: space-between; gap: 15px; }
+.research-item { border-bottom: 1px solid #43505c; padding: 23px 0; display: flex; justify-content: space-between; gap: 15px; color: inherit; }
+.research-item:hover { color: #fff; }
+.research-item:hover span { color: #94acff; }
 .research-item b { display: block; font-size: 18px; margin-bottom: 7px; }
 .research-item small { color: #9eabb8; font-size: 14px; }
 
