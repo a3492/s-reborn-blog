@@ -311,7 +311,7 @@ h1 {
 .philosophy-grid { display: flex; flex-direction: column; gap: 36px; }
 .philosophy-card {
 	display: grid;
-	grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
+	grid-template-columns: 240px minmax(0, 1fr);
 	gap: 36px;
 	align-items: center;
 	background: transparent;
@@ -319,17 +319,20 @@ h1 {
 	overflow: visible;
 }
 .philosophy-card:nth-child(even) {
-	grid-template-columns: minmax(0, 1fr) minmax(180px, 240px);
+	grid-template-columns: minmax(0, 1fr) 240px;
 }
-.philosophy-card:nth-child(even) img { grid-column: 2; grid-row: 1; }
+.philosophy-card:nth-child(even) img { grid-column: 2; grid-row: 1; justify-self: end; }
 .philosophy-card:nth-child(even) div { grid-column: 1; grid-row: 1; }
 .philosophy-card img {
-	width: 100%;
-	max-width: 240px;
+	width: 240px;
+	height: 240px;
 	aspect-ratio: 1;
 	object-fit: cover;
+	object-position: center;
 	display: block;
 	border: 1px solid var(--line);
+	justify-self: start;
+	align-self: start;
 }
 .philosophy-card div { padding: 0; max-width: 520px; }
 .philosophy-card h3 { margin: 0 0 10px; font-size: 22px; letter-spacing: -0.04em; }
@@ -382,7 +385,7 @@ h1 {
 	.philosophy-card:nth-child(even) { grid-template-columns: 1fr; gap: 16px; }
 	.philosophy-card:nth-child(even) img,
 	.philosophy-card:nth-child(even) div { grid-column: auto; grid-row: auto; }
-	.philosophy-card img { max-width: 220px; }
+	.philosophy-card img { width: 220px; height: 220px; }
 	.cv-wide { grid-column: auto; }
 	.page-hero { padding-top: 40px; }
 	.footer { gap: 15px; align-items: flex-start; }
