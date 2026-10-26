@@ -8,19 +8,16 @@ interface Props {
 }
 
 const { parent, childNodes, related } = Astro.props;
-
-const link = (node: TreeNode) =>
-	node.bodyPublic ? (
-		<a href={node.path}>{node.title}</a>
-	) : (
-		<span class="is-pending">{node.title} · 준비 중</span>
-	);
 ---
 
 <section class="research-relations" aria-label="문서 관계">
 	<div>
 		<h2>상위</h2>
-		{parent ? link(parent) : <span>최상위 연구 영역</span>}
+		{parent ? (
+			parent.bodyPublic ? <a href={parent.path}>{parent.title}</a> : <span class="is-pending">{parent.title} · 준비 중</span>
+		) : (
+			<span>최상위 연구 영역</span>
+		)}
 	</div>
 	<div>
 		<h2>하위</h2>
@@ -29,7 +26,9 @@ const link = (node: TreeNode) =>
 		) : (
 			<ul>
 				{childNodes.map((node) => (
-					<li>{link(node)}</li>
+					<li>
+						{node.bodyPublic ? <a href={node.path}>{node.title}</a> : <span class="is-pending">{node.title} · 준비 중</span>}
+					</li>
 				))}
 			</ul>
 		)}
@@ -41,7 +40,9 @@ const link = (node: TreeNode) =>
 		) : (
 			<ul>
 				{related.map((node) => (
-					<li>{link(node)}</li>
+					<li>
+						{node.bodyPublic ? <a href={node.path}>{node.title}</a> : <span class="is-pending">{node.title} · 준비 중</span>}
+					</li>
 				))}
 			</ul>
 		)}
