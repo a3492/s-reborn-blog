@@ -11,7 +11,10 @@
     "prebuild": "npm run sync:site-brand",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test:research": "node --experimental-strip-types --test src/lib/research/tree.test.ts",
+    "sync:research": "node --experimental-strip-types scripts/research/sync.ts",
+    "qa:research": "node --experimental-strip-types scripts/research/qa.ts"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.0",

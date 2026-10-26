@@ -1,0 +1,66 @@
+{
+  "generatedAt": "2026-10-27T01:16:00+09:00",
+  "source": "SREBORN Research Registry",
+  "documents": [
+    {
+      "documentId": "maos-root",
+      "title": "Multi-AI Operating System",
+      "description": "여러 AI를 하나의 작업 흐름으로 연결하는 실험",
+      "researchArea": "multi-ai",
+      "parentId": null,
+      "relatedIds": ["haci-root", "awe-root"],
+      "slug": "multi-ai",
+      "status": "published",
+      "order": 1,
+      "version": "0.1",
+      "publishedAt": "2026-10-27",
+      "updatedAt": "2026-10-27",
+      "path": "/research/multi-ai/"
+    },
+    {
+      "documentId": "haci-root",
+      "title": "Human–AI Cognitive Interface",
+      "description": "인간과 AI의 소통 및 인지 구조에 관한 연구",
+      "researchArea": "human-ai",
+      "parentId": null,
+      "relatedIds": ["maos-root", "awe-root"],
+      "slug": "human-ai",
+      "status": "published",
+      "order": 2,
+      "version": "0.1",
+      "publishedAt": "2026-10-27",
+      "updatedAt": "2026-10-27",
+      "path": "/research/human-ai/"
+    },
+    {
+      "documentId": "awe-root",
+      "title": "AI Workflow Engineering",
+      "description": "반복 업무를 지식과 시스템으로 전환하는 방법",
+      "researchArea": "workflow",
+      "parentId": null,
+      "relatedIds": ["maos-root", "haci-root"],
+      "slug": "workflow",
+      "status": "published",
+      "order": 3,
+      "version": "0.1",
+      "publishedAt": "2026-10-27",
+      "updatedAt": "2026-10-27",
+      "path": "/research/workflow/"
+    },
+    {
+      "documentId": "maos-ops-rules-draft",
+      "title": "운영 규칙 초안",
+      "description": "아직 본문을 공개하지 않는 후속 집필 항목",
+      "researchArea": "multi-ai",
+      "parentId": "maos-root",
+      "relatedIds": [],
+      "slug": "ops-rules",
+      "status": "draft",
+      "order": 10,
+      "version": "0.1",
+      "publishedAt": null,
+      "updatedAt": "2026-10-27",
+      "path": "/research/multi-ai/ops-rules/"
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+---
+import BrandIcons from '../preview/BrandIcons.astro';
+
+interface Props {
+	title: string;
+	description: string;
+	canonicalPath?: string;
+	current?: 'research' | 'blog' | 'about';
+}
+
+const ACADEMY_URL = 'https://s-reborn-doctor-ai-academy.pages.dev/';
+const { title, description, canonicalPath, current } = Astro.props;
+const canonical = canonicalPath
+	? new URL(canonicalPath, Astro.site ?? 'https://sreborn.net')
+	: new URL(Astro.url.pathname, Astro.site ?? 'https://sreborn.net');
+---
+
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonical} />
+		<link rel="alternate" hreflang="ko" href={canonical} />
+		<link rel="alternate" hreflang="x-default" href={canonical} />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonical} />
+		<meta property="og:locale" content="ko_KR" />
+		<meta property="og:site_name" content="S—REBORN" />
+		<BrandIcons />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" />
+		<slot name="head" />
+	</head>
+	<body>
+		<div class="shell">
+			<header class="topbar">
+				<a class="brand" href="/">
+					<span class="wordmark">S—REBORN</span>
+					<small>KIM DOWI / MD AI HUB</small>
+				</a>
+				<nav class="desktop-nav" aria-label="주요 메뉴">
+					<a href="/research/" aria-current={current === 'research' ? 'page' : undefined}>AI 연구</a>
+					<a href="/blog/" aria-current={current === 'blog' ? 'page' : undefined}>콘텐츠</a>
+					<a href={ACADEMY_URL} target="_blank" rel="noopener noreferrer">아카데미</a>
+					<a href="/about/" aria-current={current === 'about' ? 'page' : undefined}>김도위 소개</a>
+				</nav>
+				<a class="contact" href="/about/#cv" data-example="contact" title="연락처 연결 전 임시 이동">Contact ↗</a>
+				<button class="mobile-menu" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
+			</header>
+			<nav class="mobile-nav" id="mobile-nav" aria-label="모바일 메뉴">
+				<a href="/research/">AI 연구</a>
+				<a href="/blog/">콘텐츠</a>
+				<a href={ACADEMY_URL} target="_blank" rel="noopener noreferrer">아카데미</a>
+				<a href="/about/">김도위 소개</a>
+			</nav>
+			<slot />
+			<footer class="footer">
+				<b>S—REBORN</b>
+				<span>© S-REBORN</span>
+			</footer>
+		</div>
+		<script is:inline>
+			const btn = document.querySelector('.mobile-menu');
+			const nav = document.querySelector('.mobile-nav');
+			if (btn && nav) {
+				btn.addEventListener('click', () => {
+					const opened = nav.classList.toggle('open');
+					btn.setAttribute('aria-expanded', opened);
+					btn.textContent = opened ? '×' : '☰';
+				});
+				nav.querySelectorAll('a').forEach((link) => {
+					link.addEventListener('click', () => {
+						nav.classList.remove('open');
+						btn.setAttribute('aria-expanded', 'false');
+						btn.textContent = '☰';
+					});
+				});
+			}
+		</script>
+		<slot name="scripts" />
+	</body>
+</html>

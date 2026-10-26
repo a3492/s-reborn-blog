@@ -1,3 +1,5 @@
+import { RESEARCH_REDIRECTS } from './research-redirects.js';
+
 // www.sreborn.net → https://sreborn.net (301).
 // Pages 프로젝트의 SPA(없는 경로에 index.html을 200으로 주는 설정)가 켜져 있어도
 // 없는 HTML 경로는 dist/404.html을 404로 돌려준다. 정적 파일과 _redirects는 context.next()에 맡긴다.
@@ -7,6 +9,12 @@ export async function onRequest(context) {
 		url.hostname = 'sreborn.net';
 		url.protocol = 'https:';
 		return Response.redirect(url.toString(), 301);
+	}
+
+	const normalized = url.pathname.replace(/\/+$/, '') || '/';
+	const destination = RESEARCH_REDIRECTS[url.pathname] || RESEARCH_REDIRECTS[normalized];
+	if (destination) {
+		return Response.redirect(new URL(destination, url.origin).toString(), 301);
 	}
 
 	const response = await context.next();

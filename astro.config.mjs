@@ -25,6 +25,12 @@ export default defineConfig({
 				if (path === '/en' || path.startsWith('/en/')) return false;
 				if (path === '/404' || path === '/404.html') return false;
 				if (path === '/preview' || path.startsWith('/preview/')) return false;
+				const redirectedBlogs = [
+					'/blog/orchestration/what-is-orchestration',
+					'/blog/orchestration/human-in-the-loop',
+					'/blog/orchestration/workflow-patterns',
+				];
+				if (redirectedBlogs.some((item) => path === item || path === `${item}/`)) return false;
 				return true;
 			},
 		}),

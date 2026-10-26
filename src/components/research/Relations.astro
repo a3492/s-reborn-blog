@@ -1,0 +1,50 @@
+---
+import type { TreeNode } from '../../lib/research/tree';
+
+interface Props {
+	parent: TreeNode | null;
+	childNodes: TreeNode[];
+	related: TreeNode[];
+}
+
+const { parent, childNodes, related } = Astro.props;
+---
+
+<section class="research-relations" aria-label="문서 관계">
+	<div>
+		<h2>상위</h2>
+		{parent ? (
+			parent.bodyPublic ? <a href={parent.path}>{parent.title}</a> : <span class="is-pending">{parent.title} · 준비 중</span>
+		) : (
+			<span>최상위 연구 영역</span>
+		)}
+	</div>
+	<div>
+		<h2>하위</h2>
+		{childNodes.length === 0 ? (
+			<span>아직 하위 문서가 없습니다.</span>
+		) : (
+			<ul>
+				{childNodes.map((node) => (
+					<li>
+						{node.bodyPublic ? <a href={node.path}>{node.title}</a> : <span class="is-pending">{node.title} · 준비 중</span>}
+					</li>
+				))}
+			</ul>
+		)}
+	</div>
+	<div>
+		<h2>관련</h2>
+		{related.length === 0 ? (
+			<span>연결된 관련 문서가 없습니다.</span>
+		) : (
+			<ul>
+				{related.map((node) => (
+					<li>
+						{node.bodyPublic ? <a href={node.path}>{node.title}</a> : <span class="is-pending">{node.title} · 준비 중</span>}
+					</li>
+				))}
+			</ul>
+		)}
+	</div>
+</section>
