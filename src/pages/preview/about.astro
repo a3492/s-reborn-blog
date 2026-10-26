@@ -1,0 +1,179 @@
+---
+/*
+  브랜드 홈 미리보기용 소개. 운영 about 페이지는 바꾸지 않는다.
+  문장은 2026-10-26 공유용 CV에 적힌 사실만 쓴다. 확인되지 않은 연도는 넣지 않았다.
+*/
+import BrandIcons from '../../components/preview/BrandIcons.astro';
+import '../../styles/brand-home.css';
+
+const ACADEMY_URL = 'https://s-reborn-doctor-ai-academy.pages.dev/';
+const BLOG_INDEX = '/blog/';
+const HOME_HREF = '/preview/home/';
+---
+
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>김도위 소개 | S—REBORN</title>
+		<meta name="description" content="가정의학과 전문의 김도위의 공개 프로필. 진료, AI 교육, 연구와 기록을 연결하는 자리." />
+		<meta name="robots" content="noindex, nofollow" />
+		<BrandIcons />
+	</head>
+	<body>
+		<div class="shell">
+			<header class="topbar">
+				<a class="brand" href={HOME_HREF}>
+					<span class="wordmark">S—REBORN</span>
+					<small>KIM DOWI / MD AI HUB</small>
+				</a>
+				<nav class="desktop-nav" aria-label="주요 메뉴">
+					<a href={`${HOME_HREF}#research`}>AI 연구</a>
+					<a href={BLOG_INDEX}>콘텐츠</a>
+					<a href={ACADEMY_URL} target="_blank" rel="noopener noreferrer">아카데미</a>
+					<a href="/preview/about/" aria-current="page">김도위 소개</a>
+				</nav>
+				<a class="contact" href="#cv" data-example="contact" title="연락처 연결 전 임시 이동">Contact ↗</a>
+				<button class="mobile-menu" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
+			</header>
+			<nav class="mobile-nav" id="mobile-nav" aria-label="모바일 메뉴">
+				<a href={`${HOME_HREF}#research`}>AI 연구</a>
+				<a href={BLOG_INDEX}>콘텐츠</a>
+				<a href={ACADEMY_URL} target="_blank" rel="noopener noreferrer">아카데미</a>
+				<a href="/preview/about/">김도위 소개</a>
+			</nav>
+
+			<main>
+				<section class="page-hero">
+					<figure class="portrait-frame">
+						<img src="/preview/profile-figure.jpg" alt="김도위 전신 프로필" width="410" height="955" />
+					</figure>
+					<div>
+						<div class="eyebrow"><span class="dot"></span> ABOUT KIM DOWI</div>
+						<h1>김도위<br /><span class="accent">KIM DOWI, MD</span></h1>
+						<p class="page-lead">가정의학과 전문의 · 에스리본의원 홍대점 대표원장. 미용의학 임상의이자 의료 AI 교육자입니다. 기술을 소개하는 데 그치지 않고, 진료와 교육 현장에서 실제로 쓰이는 방법을 남깁니다.</p>
+						<p class="page-meta">공유용 프로필 · 2026년 10월 26일 기준 · 민감정보 제외</p>
+						<a class="back-link" href={HOME_HREF}>← 브랜드 홈으로</a>
+					</div>
+				</section>
+
+				<section class="philosophy" id="philosophy">
+					<div class="section-head">
+						<div>
+							<div class="overline">PHILOSOPHY</div>
+							<h2>이해하고, 실험하고, 적용합니다</h2>
+						</div>
+						<p class="section-intro">첫 화면의 한 줄은 구호가 아니라 일의 순서입니다. 공개 약력에 있는 교육·연구·현장 활동을 그 순서로 읽습니다.</p>
+					</div>
+					<div class="philosophy-grid">
+						<article class="philosophy-card">
+							<img src="/preview/philosophy-understand.jpg" alt="펼쳐 둔 노트와 안경. 먼저 개념을 이해하는 자리." width="720" height="720" />
+							<div>
+								<div class="overline">01</div>
+								<h3>이해하기</h3>
+								<p>한국AI리터러시협회 의료분과 전문위원으로, 의료인이 AI를 도구가 아니라 판단의 맥락으로 읽도록 설명합니다. 낯선 용어를 쉬운 문장으로 푸는 일이 여기서 시작됩니다.</p>
+							</div>
+						</article>
+						<article class="philosophy-card">
+							<img src="/preview/philosophy-experiment.jpg" alt="같은 상자를 나란히 두고 비교하는 실험 자리." width="720" height="720" />
+							<div>
+								<div class="overline">02</div>
+								<h3>실험하기</h3>
+								<p>병원 운영 프로그램 부스트리 창립 멤버로 일했고, 2011년 삼성메디슨 의료기기 아이디어 공모전 전문가 부문 대상을 받았습니다. 현장에서 막히는 지점을 시스템으로 바꿔 보는 습관이 이어집니다.</p>
+							</div>
+						</article>
+						<article class="philosophy-card">
+							<img src="/preview/philosophy-apply.jpg" alt="청진기와 단정한 책상. 현실에 적용하는 자리." width="720" height="720" />
+							<div>
+								<div class="overline">03</div>
+								<h3>적용하기</h3>
+								<p>에스리본의원 홍대점에서 진료하고, Doctor AI Academy와 학회 강연으로 같은 방법을 나눕니다. 배운 것이 다음 환자의 설명과 다음 수업의 실습으로 남아야 한다고 봅니다.</p>
+							</div>
+						</article>
+					</div>
+				</section>
+
+				<section class="cv-block" id="cv">
+					<div class="section-head">
+						<div>
+							<div class="overline">PUBLIC CV</div>
+							<h2>공개 약력</h2>
+						</div>
+						<p class="section-intro">학력·수련·전문의 취득 연도와 재직 기간은 아직 확인 전이라 넣지 않았습니다.</p>
+					</div>
+					<div class="cv-grid">
+						<div class="cv-card">
+							<h3>Education</h3>
+							<ul>
+								<li>한양대학교 의과대학 졸업</li>
+								<li>한양대학교병원 인턴 수료</li>
+								<li>서울의료원 가정의학과 전공의 수료</li>
+								<li>가정의학과 전문의 취득</li>
+							</ul>
+						</div>
+						<div class="cv-card">
+							<h3>Clinical appointments</h3>
+							<ul>
+								<li>현) 에스리본의원(S Reborn Clinic) 홍대점 대표원장</li>
+								<li>전) 닥터디자이너 홍대점 대표원장</li>
+								<li>전) 메이퓨어 왕십리점 원장</li>
+							</ul>
+						</div>
+						<div class="cv-card">
+							<h3>Societies</h3>
+							<ul>
+								<li>대한필러학회 — AI 혁신 포럼 위원장; AI 디지털 이사</li>
+								<li>한국피부비만성형학회 — 학술이사; AI 혁신 기획이사 활동 이력</li>
+								<li>한국AI리터러시협회 — 의료분과 전문위원</li>
+							</ul>
+						</div>
+						<div class="cv-card">
+							<h3>Writing &amp; media</h3>
+							<ul>
+								<li>D&amp;PS 미용의학잡지 연재 「AI에서 색소 조절까지: 꼬리에 꼬리를 무는 자연과학 이야기」 — 2025년 5월~2026년 7월, 15편</li>
+								<li>「의료인을 위한 AI 활용서」 집필 진행 이력 (출간 전)</li>
+								<li>「질문의 기술」 후속 공동 저술 기획 이력 (출간 전)</li>
+								<li>MBN 「당신이 아픈 사이」 전문의 출연</li>
+							</ul>
+						</div>
+						<div class="cv-card cv-wide">
+							<h3>Awards &amp; projects</h3>
+							<ul>
+								<li>2011년 삼성메디슨 의료기기 아이디어 공모전 — 전문가 부문 대상</li>
+								<li>부스트리(Boostree) — 병원 운영 프로그램 개발 관련 창립 멤버</li>
+							</ul>
+						</div>
+						<div class="cv-card cv-wide">
+							<h3>English speaker bio</h3>
+							<p class="en-bio">Dowi Kim, MD is a board-certified family medicine physician and the Director of S Reborn Clinic (Hongdae, Seoul). He previously served as Director of Dr. Designer Clinic in Hongdae and as a physician at Maypure Clinic in Wangsimni. His professional interests span aesthetic medicine, energy-based devices, minimally invasive procedures, and practical applications of artificial intelligence in clinical education and healthcare operations. He is active in medical academic societies and contributes to medical writing and professional education.</p>
+						</div>
+					</div>
+					<p class="note">이 페이지는 공유용 CV를 다시 짠 미리보기입니다. 주민등록번호·휴대전화·면허번호 등 행정정보는 넣지 않았습니다.</p>
+					<a class="back-link" href={HOME_HREF}>← 브랜드 홈으로</a>
+				</section>
+			</main>
+
+			<footer class="footer">
+				<b>S—REBORN</b>
+				<span>© S-REBORN · Concept homepage preview</span>
+			</footer>
+		</div>
+		<script is:inline>
+			const btn = document.querySelector('.mobile-menu');
+			const nav = document.querySelector('.mobile-nav');
+			btn.addEventListener('click', () => {
+				const opened = nav.classList.toggle('open');
+				btn.setAttribute('aria-expanded', opened);
+				btn.textContent = opened ? '×' : '☰';
+			});
+			nav.querySelectorAll('a').forEach((link) => {
+				link.addEventListener('click', () => {
+					nav.classList.remove('open');
+					btn.setAttribute('aria-expanded', 'false');
+					btn.textContent = '☰';
+				});
+			});
+		</script>
+	</body>
+</html>

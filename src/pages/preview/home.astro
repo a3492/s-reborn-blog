@@ -1,0 +1,230 @@
+---
+/*
+  브랜드 홈 미리보기. 운영 홈(src/pages/index.astro)은 바꾸지 않는다.
+  글 세 줄과 아카데미, 소개 페이지는 실제 주소다. 연구와 연락처는 예시로 둔다.
+*/
+import { getCollection } from 'astro:content';
+import BrandIcons from '../../components/preview/BrandIcons.astro';
+import '../../styles/brand-home.css';
+
+const ACADEMY_URL = 'https://s-reborn-doctor-ai-academy.pages.dev/';
+const BLOG_INDEX = '/blog/';
+const ABOUT_HREF = '/preview/about/';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const byId = new Map(allPosts.map((post) => [post.id, post]));
+
+const featuredIds = ['aerini/what-is-ai', 'orchestration/workflow-patterns', 'orchestration/what-is-orchestration'] as const;
+const featuredLabels = ['AI FUNDAMENTALS', 'WORKFLOW', 'RESEARCH NOTES'] as const;
+
+const featured = featuredIds.map((id, index) => {
+	const post = byId.get(id);
+	if (!post) {
+		throw new Error(`미리보기 추천 글을 찾지 못했습니다: ${id}`);
+	}
+	return {
+		href: `/blog/${post.id}/`,
+		title: post.data.title,
+		description: post.data.description,
+		label: featuredLabels[index],
+	};
+});
+---
+
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>S—REBORN | Kim Dowi's AI Lab</title>
+		<meta name="description" content="김도위의 AI 연구, 콘텐츠, 아카데미를 연결하는 공간." />
+		<meta name="robots" content="noindex, nofollow" />
+		<BrandIcons />
+	</head>
+	<body>
+		<div class="shell">
+			<header class="topbar">
+				<a class="brand" href="#top">
+					<span class="wordmark">S—REBORN</span>
+					<small>KIM DOWI / MD AI HUB</small>
+				</a>
+				<nav class="desktop-nav" aria-label="주요 메뉴">
+					<a href="#research">AI 연구</a>
+					<a href={BLOG_INDEX}>콘텐츠</a>
+					<a href={ACADEMY_URL} target="_blank" rel="noopener noreferrer">아카데미</a>
+					<a href={ABOUT_HREF}>김도위 소개</a>
+				</nav>
+				<a class="contact" href="#about" data-example="contact" title="연락처 연결 전 임시 이동">Contact ↗</a>
+				<button class="mobile-menu" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
+			</header>
+			<nav class="mobile-nav" id="mobile-nav" aria-label="모바일 메뉴">
+				<a href="#research">AI 연구</a>
+				<a href={BLOG_INDEX}>콘텐츠</a>
+				<a href={ACADEMY_URL} target="_blank" rel="noopener noreferrer">아카데미</a>
+				<a href={ABOUT_HREF}>김도위 소개</a>
+			</nav>
+
+			<main id="top">
+				<section class="hero">
+					<div>
+						<div class="eyebrow"><span class="dot"></span> KIM DOWI'S AI LAB & JOURNAL</div>
+						<h1>AI를 이해하고,<br /><span class="accent">실험하고,</span><br />현실에 적용합니다.</h1>
+						<p class="hero-desc">의사 김도위의 AI 연구, 생각, 실험 그리고 교육.<br />기술을 아는 것에서 멈추지 않고, 실제 변화를 만드는 과정을 기록합니다.</p>
+						<div class="hero-actions">
+							<a class="primary" href="#explore">공간 둘러보기 <span>↗</span></a>
+							<a class="secondary" href={ABOUT_HREF}>김도위 소개 ↗</a>
+						</div>
+						<div class="hero-note">RESEARCH · IDEAS · PRACTICE · EDUCATION</div>
+					</div>
+					<div class="visual">
+						<img class="visual-media" src="/preview/hero-system.jpg" alt="노트와 기록이 놓인 책상. 연구, 기록, 교육이 한자리에서 이어지는 작업 풍경." width="1600" height="1200" />
+						<img class="visual-mark" src="/preview/brand-s.png" alt="" width="46" height="46" />
+						<div class="mini-caption">AN OPEN KNOWLEDGE SYSTEM / 001</div>
+					</div>
+				</section>
+
+				<section class="section" id="explore">
+					<div class="section-head">
+						<div>
+							<div class="overline">01 / EXPLORE</div>
+							<h2>생각에서 실천까지</h2>
+						</div>
+						<p class="section-intro">하나의 질문에서 시작된 연구가 콘텐츠가 되고, 실제로 활용할 수 있는 배움으로 이어집니다.</p>
+					</div>
+					<div class="cards">
+						<a class="card feature" href="#research">
+							<div class="card-top"><span>01 — RESEARCH</span><span class="card-icon">⌁</span></div>
+							<div class="card-bottom">
+								<div>
+									<h3>AI 연구</h3>
+									<p>AI를 어떻게 더 잘 이해하고 활용할 수 있을지 실험하고 체계화합니다.</p>
+								</div>
+								<span class="circle-arrow">↗</span>
+							</div>
+						</a>
+						<a class="card" href={BLOG_INDEX}>
+							<div class="card-top"><span>02 — JOURNAL</span><span class="card-icon">≡</span></div>
+							<div class="card-bottom">
+								<div>
+									<h3>AI 콘텐츠</h3>
+									<p>낯선 개념부터 현장 적용까지, 축적한 지식을 읽기 쉽게 공유합니다.</p>
+								</div>
+								<span class="circle-arrow">↗</span>
+							</div>
+						</a>
+						<a class="card" href={ACADEMY_URL} target="_blank" rel="noopener noreferrer">
+							<div class="card-top"><span>03 — ACADEMY</span><span class="card-icon">↗</span></div>
+							<div class="card-bottom">
+								<div>
+									<h3>AI 아카데미</h3>
+									<p>단순한 기능 소개를 넘어, 스스로 활용할 수 있도록 배우고 실습합니다.</p>
+								</div>
+								<span class="circle-arrow">↗</span>
+							</div>
+						</a>
+					</div>
+				</section>
+
+				<section class="selected" id="research">
+					<div class="selected-wrap">
+						<div>
+							<div class="overline">02 / CURRENT RESEARCH</div>
+							<h2>AI를 사용하는 방법<br />그 자체를 연구합니다.</h2>
+							<p>다중 AI 협업부터 사람과 AI의 상호작용까지.<br />지속적으로 발전하는 연구와 프로젝트의 기록입니다.</p>
+							<a class="secondary" href={BLOG_INDEX}>관련 글 보기 ↗</a>
+						</div>
+						<div class="research-items">
+							<div class="research-item" data-example="research">
+								<div><b>Multi-AI Operating System</b><small>여러 AI를 하나의 작업 흐름으로 연결하는 실험</small></div>
+								<span>↗</span>
+							</div>
+							<div class="research-item" data-example="research">
+								<div><b>Human–AI Cognitive Interface</b><small>인간과 AI의 소통 및 인지 구조에 관한 연구</small></div>
+								<span>↗</span>
+							</div>
+							<div class="research-item" data-example="research">
+								<div><b>AI Workflow Engineering</b><small>반복 업무를 지식과 시스템으로 전환하는 방법</small></div>
+								<span>↗</span>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section class="section" id="writing">
+					<div class="section-head">
+						<div>
+							<div class="overline">03 / SELECTED WRITING</div>
+							<h2>생각과 기록</h2>
+						</div>
+						<p class="section-intro">읽을거리를 무작정 늘리기보다, 이해와 실무에 도움이 되는 주제를 중심으로 큐레이션합니다.</p>
+					</div>
+					<div class="articles">
+						{featured.map((item) => (
+							<a class="article" href={item.href}>
+								<div class="category">{item.label}</div>
+								<div>
+									<b>{item.title}</b>
+									<small>{item.description}</small>
+								</div>
+								<span>↗</span>
+							</a>
+						))}
+					</div>
+				</section>
+
+				<section class="about" id="academy">
+					<div>
+						<div class="overline">04 / LEARN TOGETHER</div>
+						<h2>Doctor AI<br />Academy</h2>
+					</div>
+					<div>
+						<p>AI에 대해 듣는 시간을 넘어, 자신의 업무에 직접 적용하는 방법을 배우는 공간. 초보자를 위한 이해부터 실제 워크플로우 설계까지 단계적으로 확장합니다.</p>
+						<p>
+							<a class="secondary academy-open" href={ACADEMY_URL} target="_blank" rel="noopener noreferrer">Doctor AI Academy 열기 ↗</a>
+						</p>
+					</div>
+				</section>
+
+				<section class="about about-teaser" id="about">
+					<figure class="about-figure">
+						<img src="/preview/profile-figure.jpg" alt="김도위 전신 프로필" width="410" height="955" />
+					</figure>
+					<div>
+						<div class="overline">05 / ABOUT</div>
+						<h2>김도위<br /><span class="role">가정의학과 전문의 · AI 교육자</span></h2>
+						<p class="about-kicker">에스리본의원 홍대점 대표원장. 진료실에서 얻은 질문을 연구와 글로 남기고, 의료인이 AI를 스스로 쓰도록 가르칩니다.</p>
+						<ul class="about-points">
+							<li>한양대학교 의과대학 졸업, 가정의학과 전문의</li>
+							<li>대한필러학회 AI 혁신 포럼 위원장 · 한국AI리터러시협회 의료분과 전문위원</li>
+							<li>D&amp;PS 연재와 Doctor AI Academy로 현장 교육을 이어 갑니다</li>
+						</ul>
+						<p>
+							<a class="secondary academy-open" href={ABOUT_HREF}>철학과 약력 자세히 보기 ↗</a>
+						</p>
+					</div>
+				</section>
+			</main>
+
+			<footer class="footer">
+				<b>S—REBORN</b>
+				<span>© S-REBORN · Concept homepage preview</span>
+			</footer>
+		</div>
+		<script is:inline>
+			const btn = document.querySelector('.mobile-menu');
+			const nav = document.querySelector('.mobile-nav');
+			btn.addEventListener('click', () => {
+				const opened = nav.classList.toggle('open');
+				btn.setAttribute('aria-expanded', opened);
+				btn.textContent = opened ? '×' : '☰';
+			});
+			nav.querySelectorAll('a').forEach((link) => {
+				link.addEventListener('click', () => {
+					nav.classList.remove('open');
+					btn.setAttribute('aria-expanded', 'false');
+					btn.textContent = '☰';
+				});
+			});
+		</script>
+	</body>
+</html>
