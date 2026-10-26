@@ -243,6 +243,12 @@
 /blog/doctor-ai-academy/fundamentals/ai-reliability-metrics/  /blog/doctor-ai/ai-reliability-metrics/  301
 /blog/doctor-ai-academy/fundamentals/ai-reliability-metrics  /blog/doctor-ai/ai-reliability-metrics/  301
 
+# 미리보기 주소를 운영 홈·소개로
+/preview/home  /  301
+/preview/home/  /  301
+/preview/about  /about/  301
+/preview/about/  /about/  301
+
 # 동적 규칙. 정확한 경로 다음에만 둔다.
 /doctor-ai-academy/*  https://s-reborn-doctor-ai-academy.pages.dev/:splat  301
 /doctor-ai/*  https://s-reborn-doctor-ai-academy.pages.dev/:splat  301
