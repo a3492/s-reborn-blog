@@ -89,8 +89,8 @@ AI Copilot이 약물 용량을 잘못 제안하거나 중요 알러지를 누락
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [Prompt Engineering이 뭐예요?](/blog/aerini/what-is-prompt-engineering) — AI Copilot을 더 잘 활용하는 방법
-- [API가 뭐예요?](/blog/aerini/what-is-llm-api) — AI Copilot이 어떻게 EMR에 연결되는가
-- [AI와 의사 — 각자 잘하는 게 뭐가 다른가요?](/blog/aerini/what-is-ai-vs-human) — AI Copilot 시대의 의사 역할
+- [Prompt Engineering이 뭐예요?](/blog/aerini/what-is-prompt-engineering/) — AI Copilot을 더 잘 활용하는 방법
+- [API가 뭐예요?](/blog/aerini/what-is-llm-api/) — AI Copilot이 어떻게 EMR에 연결되는가
+- [AI와 의사 — 각자 잘하는 게 뭐가 다른가요?](/blog/aerini/what-is-ai-vs-human/) — AI Copilot 시대의 의사 역할
 
-[← 애린이 AI 용어 시리즈 전체 보기](/blog/category/aerini)
+[← 애린이 AI 용어 시리즈 전체 보기](/blog/?category=aerini)

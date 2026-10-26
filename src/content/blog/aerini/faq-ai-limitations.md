@@ -41,6 +41,6 @@ AI는 훌륭한 백과사전입니다. 하지만 백과사전이 수술실에 �
 
 ## 더 알고 싶다면
 
-- [AI는 의사를 대체할까요?](/blog/aerini/will-ai-replace-doctors)
-- [AI 환각(hallucination)이란 무엇인가요?](/blog/aerini/what-is-hallucination)
-- [AI가 틀렸을 때 어떻게 알아챌 수 있나요?](/blog/aerini/how-to-detect-hallucination)
+- [AI는 의사를 대체할까요?](/blog/faq/will-ai-replace-doctors/)
+- [AI 환각(hallucination)이란 무엇인가요?](/blog/aerini/what-is-hallucination/)
+- [AI가 틀렸을 때 어떻게 알아챌 수 있나요?](/blog/aerini/how-to-detect-hallucination/)

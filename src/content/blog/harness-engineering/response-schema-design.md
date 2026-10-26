@@ -175,9 +175,9 @@ AI가 확신하지 못하는 경우에도 답을 낸다. 스키마에 확신도 
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [출력 파싱 패턴](/blog/harness-engineering/output-parsing-patterns) — 다양한 AI 출력 형식을 파싱하는 방법
-- [에러 핸들링](/blog/harness-engineering/error-handling-ai) — 스키마 파싱 실패 시 대응 전략
-- [프롬프트 버전 관리](/blog/harness-engineering/prompt-versioning) — 스키마 정의가 포함된 프롬프트 관리법
-- [Human-in-the-Loop](/blog/orchestration/human-in-the-loop) — 낮은 확신도 응답을 사람에게 라우팅하는 설계
+- [출력 파싱 패턴](/blog/harness-engineering/output-parsing-patterns/) — 다양한 AI 출력 형식을 파싱하는 방법
+- [에러 핸들링](/blog/harness-engineering/error-handling-ai/) — 스키마 파싱 실패 시 대응 전략
+- [프롬프트 버전 관리](/blog/harness-engineering/prompt-versioning/) — 스키마 정의가 포함된 프롬프트 관리법
+- [Human-in-the-Loop](/blog/orchestration/human-in-the-loop/) — 낮은 확신도 응답을 사람에게 라우팅하는 설계
 
-[← 하네스 엔지니어링 시리즈 전체 보기](/blog/category/harness-engineering)
+[← 하네스 엔지니어링 시리즈 전체 보기](/blog/?category=harness-engineering)

@@ -107,8 +107,8 @@ Vector DB의 검색 능력은 어떤 Embedding 모델로 벡터를 만들었는�
 
 ## 더 알고 싶다면
 
-- [Embedding이 뭐예요?](/blog/aerini/what-is-embedding)
-- [RAG가 뭐예요?](/blog/aerini/what-is-rag)
-- [NLP(자연어처리)가 뭐예요?](/blog/aerini/what-is-nlp)
+- [Embedding이 뭐예요?](/blog/aerini/what-is-embedding/)
+- [RAG가 뭐예요?](/blog/aerini/what-is-rag/)
+- [NLP(자연어처리)가 뭐예요?](/blog/aerini/what-is-nlp/)
 
-[🩺 모든 애린이 글 보기](/blog/category/aerini)
+[🩺 모든 애린이 글 보기](/blog/?category=aerini)

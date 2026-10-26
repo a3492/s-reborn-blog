@@ -150,10 +150,10 @@ LangGraph가 힘을 발휘하는 경우:
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [오케스트레이션이란](/blog/orchestration/what-is-orchestration) — LangGraph가 해결하려는 문제의 배경
-- [상태 관리](/blog/orchestration/state-management) — LangGraph의 핵심 개념인 상태 머신 원리
-- [ReAct 패턴](/blog/orchestration/react-pattern) — LangGraph로 구현하는 생각-행동 루프
-- [CrewAI 입문](/blog/orchestration/crewai-intro) — 그래프 대신 역할로 팀을 구성하는 다른 방식
+- [오케스트레이션이란](/blog/orchestration/what-is-orchestration/) — LangGraph가 해결하려는 문제의 배경
+- [상태 관리](/blog/orchestration/state-management/) — LangGraph의 핵심 개념인 상태 머신 원리
+- [ReAct 패턴](/blog/orchestration/react-pattern/) — LangGraph로 구현하는 생각-행동 루프
+- [CrewAI 입문](/blog/orchestration/crewai-intro/) — 그래프 대신 역할로 팀을 구성하는 다른 방식
 
-[← 오케스트레이션 시리즈 전체 보기](/blog/category/orchestration)
+[← 오케스트레이션 시리즈 전체 보기](/blog/?category=orchestration)
 

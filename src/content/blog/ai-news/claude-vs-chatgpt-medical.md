@@ -86,5 +86,5 @@ GPT-4o 상대적 강점
 ## 관련 글
 - [OpenAI, 의료 전문가용 GPT-4 Medical Edition 출시](/blog/ai-news/openai-gpt4-medical/)
 - [AI 환각(Hallucination) — LLM은 왜 거짓말을 하는가](/blog/ai/ai-hallucination-why-llm-lies/)
-- [프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드](/blog/ai/prompt-engineering-for-doctors/)
+- [프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드](/blog/prompt-engineering/prompt-engineering-for-doctors/)
 - [의료진 80%, '의료 AI가 미래'라고 생각... 하지만 신뢰도는?](/blog/ai-news/survey-medical-professionals-ai/)

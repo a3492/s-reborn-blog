@@ -89,8 +89,8 @@ X-ray 이미지가 픽셀 값으로 신경망에 입력되면, 첫 번째 층에
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [Transfer Learning이 뭐예요?](/blog/aerini/what-is-transfer-learning) — 신경망을 재활용하는 방법
-- [지도학습 vs 비지도학습](/blog/aerini/what-is-supervised-unsupervised) — 신경망을 어떻게 학습시키는가
-- [Overfitting이 뭐예요?](/blog/aerini/what-is-overfitting) — 신경망이 너무 학습 데이터에 맞춰지는 문제
+- [Transfer Learning이 뭐예요?](/blog/aerini/what-is-transfer-learning/) — 신경망을 재활용하는 방법
+- [지도학습 vs 비지도학습](/blog/aerini/what-is-supervised-unsupervised/) — 신경망을 어떻게 학습시키는가
+- [Overfitting이 뭐예요?](/blog/aerini/what-is-overfitting/) — 신경망이 너무 학습 데이터에 맞춰지는 문제
 
-[← 애린이 AI 용어 시리즈 전체 보기](/blog/category/aerini)
+[← 애린이 AI 용어 시리즈 전체 보기](/blog/?category=aerini)

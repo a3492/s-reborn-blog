@@ -141,7 +141,7 @@ AI 학습 시점 이후 변경된 내용은 모를 수 있어요.
 ## 더 나아가기
 
 👉 [AI 환각이 뭐예요?](/blog/aerini/what-is-hallucination/) — 환각의 원인 이해
-👉 [어떤 AI가 가장 정확한가요?](/blog/aerini/which-ai-is-most-accurate/) — AI별 비교
+👉 [어떤 AI가 가장 정확한가요?](/blog/faq/which-ai-is-most-accurate/) — AI별 비교
 👉 [AI를 환자 진료에 써도 괜찮나요?](/blog/aerini/is-medical-ai-legal/) — 법적 책임
 
 👉 [모든 애린이 글 보기](/blog/?category=aerini)

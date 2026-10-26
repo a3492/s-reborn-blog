@@ -57,6 +57,6 @@ RAG를 쓰면 달라집니다. AI가 질문을 받으면 먼저 도서관(Vector
 
 ## 더 알고 싶다면
 
-- [AI 필수 용어 10개 — 이것만 알면 대화가 된다](/blog/aerini/glossary-ai-basics)
-- [AI가 "환각"을 본다 — 이 표현은 어디서 왔나](/blog/aerini/history-word-hallucination)
-- [LLM 용어 사전 — GPT, Claude, Gemini를 이해하는 단어들](/blog/aerini/glossary-llm-terms)
+- [AI 필수 용어 10개 — 이것만 알면 대화가 된다](/blog/aerini/glossary-ai-basics/)
+- [AI가 "환각"을 본다 — 이 표현은 어디서 왔나](/blog/aerini/history-word-hallucination/)
+- [LLM 용어 사전 — GPT, Claude, Gemini를 이해하는 단어들](/blog/aerini/glossary-llm-terms/)

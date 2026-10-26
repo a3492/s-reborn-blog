@@ -114,7 +114,7 @@ EU에선 "AI Act"로 고위험 AI(의료 포함)에 대해
 
 🔗 다음 읽으면 좋은 글
 - [AI를 환자 진료에 써도 괜찮나요?](/blog/aerini/is-medical-ai-legal/)
-- [환자한테 AI를 썼다고 말해야 하나요?](/blog/aerini/should-tell-patient-about-ai/)
+- [환자한테 AI를 썼다고 말해야 하나요?](/blog/faq/should-tell-patient-about-ai/)
 - [AI 환각 걸러내는 법](/blog/aerini/how-to-detect-hallucination/)
 
 👉 [모든 애린이 글 보기](/blog/?category=aerini)

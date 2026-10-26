@@ -102,6 +102,6 @@ Transformer는 언어 모델에 그치지 않았다:
 
 ## 관련 글
 
-- [GPT-1에서 GPT-4까지 — OpenAI는 어떻게 세계를 바꿨나](/blog/ai-history/gpt-history)
-- [RLHF — AI를 '착하게' 만든 기술의 탄생 배경](/blog/ai-history/rlhf-instruct-tuning)
-- [스케일링 법칙 — 모델을 크게 만들수록 왜 똑똑해지는가](/blog/ai-history/llm-scaling-law)
+- [GPT-1에서 GPT-4까지 — OpenAI는 어떻게 세계를 바꿨나](/blog/ai-history/gpt-history/)
+- [RLHF — AI를 '착하게' 만든 기술의 탄생 배경](/blog/ai-history/rlhf-instruct-tuning/)
+- [스케일링 법칙 — 모델을 크게 만들수록 왜 똑똑해지는가](/blog/ai-history/llm-scaling-law/)

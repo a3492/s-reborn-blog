@@ -115,6 +115,6 @@ AI 스크리닝이 단축하는 것은 양적 처리 시간이다. AI가 판단�
 
 ## 관련 글
 
-- [AI로 문헌 검색하기 — PubMed에서 Perplexity까지](/blog/clinical-research/literature-search-ai)
-- [메타분석 기초 — Forest Plot 직접 만들고 해석하기](/blog/clinical-research/meta-analysis-basics)
-- [의료 AI 논문을 비판적으로 읽는 법 — TRIPOD-AI 체크리스트](/blog/clinical-research/statistical-methods-ai-studies)
+- [AI로 문헌 검색하기 — PubMed에서 Perplexity까지](/blog/clinical-research/literature-search-ai/)
+- [메타분석 기초 — Forest Plot 직접 만들고 해석하기](/blog/clinical-research/meta-analysis-basics/)
+- [의료 AI 논문을 비판적으로 읽는 법 — TRIPOD-AI 체크리스트](/blog/clinical-research/statistical-methods-ai-studies/)

@@ -91,8 +91,8 @@ AI 개발 시 데이터를 학습/검증/테스트로 나눠야 합니다. 이 �
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [Transfer Learning이 뭐예요?](/blog/aerini/what-is-transfer-learning) — overfitting 방지에 도움이 되는 기법
-- [Data Augmentation이 뭐예요?](/blog/aerini/what-is-data-augmentation) — 데이터를 늘려 overfitting을 줄이는 방법
-- [민감도와 특이도가 뭐예요?](/blog/aerini/what-is-precision-recall) — AI 성능을 제대로 평가하는 지표들
+- [Transfer Learning이 뭐예요?](/blog/aerini/what-is-transfer-learning/) — overfitting 방지에 도움이 되는 기법
+- [Data Augmentation이 뭐예요?](/blog/aerini/what-is-data-augmentation/) — 데이터를 늘려 overfitting을 줄이는 방법
+- [민감도와 특이도가 뭐예요?](/blog/aerini/what-is-precision-recall/) — AI 성능을 제대로 평가하는 지표들
 
-[← 애린이 AI 용어 시리즈 전체 보기](/blog/category/aerini)
+[← 애린이 AI 용어 시리즈 전체 보기](/blog/?category=aerini)

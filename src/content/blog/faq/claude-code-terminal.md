@@ -101,8 +101,8 @@ pwd
 - `/exit` 또는 `Ctrl+C`로 종료
 
 ## 관련 글
-- [Claude Code를 설치하려면 뭐가 필요한가요?](/blog/faq/claude-code-install) — 아직 설치 전이라면 여기서 시작
-- [VS Code에서 Claude Code를 쓰려면?](/blog/faq/claude-code-vs-code) — 터미널 없이 에디터 안에서 쓰는 방법
-- [CLI와 IDE 연동 중 어떤 게 좋을까요?](/blog/faq/claude-code-cli-vs-ide) — 두 방식의 장단점 비교
+- [Claude Code를 설치하려면 뭐가 필요한가요?](/blog/faq/claude-code-install/) — 아직 설치 전이라면 여기서 시작
+- [VS Code에서 Claude Code를 쓰려면?](/blog/faq/claude-code-vs-code/) — 터미널 없이 에디터 안에서 쓰는 방법
+- [CLI와 IDE 연동 중 어떤 게 좋을까요?](/blog/faq/claude-code-cli-vs-ide/) — 두 방식의 장단점 비교
 
-[← FAQ 전체 보기](/blog/category/faq)
+[← FAQ 전체 보기](/blog/?category=faq)

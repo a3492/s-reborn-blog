@@ -70,6 +70,6 @@ AI의 hallucination은 이 정의와 부분적으로만 일치한다. AI는 "자
 
 ## 관련 글
 
-- [환각 vs 작화증 — AI 오류를 의학 용어로 정확하게 부르는 법](/blog/ai-terminology/term-hallucination-vs-confabulation)
-- [LLM — Large Language Model에서 '대형'과 '언어'가 의미하는 것](/blog/ai-terminology/term-llm)
-- [RAG — Retrieval-Augmented Generation이라는 이름에 담긴 아이디어](/blog/ai-terminology/term-rag)
+- [환각 vs 작화증 — AI 오류를 의학 용어로 정확하게 부르는 법](/blog/ai-terminology/term-hallucination-vs-confabulation/)
+- [LLM — Large Language Model에서 '대형'과 '언어'가 의미하는 것](/blog/ai-terminology/term-llm/)
+- [RAG — Retrieval-Augmented Generation이라는 이름에 담긴 아이디어](/blog/ai-terminology/term-rag/)

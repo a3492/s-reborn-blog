@@ -152,6 +152,6 @@ A/B 테스트를 실행할 때 주의할 점이 있다.
 5. 의료 분야에서 완전 자동화 평가는 아직 이르며, 자동 필터 + 인간 확인 조합이 현실적이다
 
 ## 관련 글
-- [컨텍스트 엔지니어링이란 — 프롬프트를 넘어서는 AI 활용의 다음 단계](/blog/context-engineering/what-is-context-engineering)
-- [컨텍스트 버전 관리 — 가이드라인이 바뀌면 AI도 바뀌어야 한다](/blog/context-engineering/context-versioning)
-- [동적 컨텍스트 선택 — 질문에 따라 자동으로 맞는 정보 가져오기](/blog/context-engineering/dynamic-context-selection)
+- [컨텍스트 엔지니어링이란 — 프롬프트를 넘어서는 AI 활용의 다음 단계](/blog/context-engineering/what-is-context-engineering/)
+- [컨텍스트 버전 관리 — 가이드라인이 바뀌면 AI도 바뀌어야 한다](/blog/context-engineering/context-versioning/)
+- [동적 컨텍스트 선택 — 질문에 따라 자동으로 맞는 정보 가져오기](/blog/context-engineering/dynamic-context-selection/)

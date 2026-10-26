@@ -175,6 +175,6 @@ plt.show()
 
 ## 관련 글
 
-- [Python 기초 — 의사를 위한 첫 번째 코딩 수업](/blog/doctor-dev/python-basics-for-doctors)
-- [Python으로 반복 업무 자동화 — 의사의 일상을 코드로](/blog/doctor-dev/automation-with-python)
-- [Streamlit으로 의료 도구 만들기 — 코딩 없이 UI 구현](/blog/doctor-dev/streamlit-medical-tool)
+- [Python 기초 — 의사를 위한 첫 번째 코딩 수업](/blog/doctor-dev/python-basics-for-doctors/)
+- [Python으로 반복 업무 자동화 — 의사의 일상을 코드로](/blog/doctor-dev/automation-with-python/)
+- [Streamlit으로 의료 도구 만들기 — 코딩 없이 UI 구현](/blog/doctor-dev/streamlit-medical-tool/)

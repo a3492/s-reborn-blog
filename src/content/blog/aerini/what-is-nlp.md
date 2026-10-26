@@ -103,8 +103,8 @@ NLP는 언어를 이해하는 것부터 생성하는 것까지 폭넓은 기술�
 
 ## 더 알고 싶다면
 
-- [Embedding이 뭐예요?](/blog/aerini/what-is-embedding)
-- [생성형 AI가 뭐예요?](/blog/aerini/what-is-generative-ai)
-- [Foundation Model이 뭐예요?](/blog/aerini/what-is-foundation-model)
+- [Embedding이 뭐예요?](/blog/aerini/what-is-embedding/)
+- [생성형 AI가 뭐예요?](/blog/aerini/what-is-generative-ai/)
+- [Foundation Model이 뭐예요?](/blog/aerini/what-is-foundation-model/)
 
-[🩺 모든 애린이 글 보기](/blog/category/aerini)
+[🩺 모든 애린이 글 보기](/blog/?category=aerini)

@@ -109,6 +109,6 @@ draft: false
 
 ## 관련 글
 
-- [역전파의 재발견 — Hinton이 AI를 다시 살린 방법](/blog/ai-history/backpropagation-revolution)
-- [전문가 시스템의 부상과 몰락 — 두 번째 AI 겨울까지](/blog/ai-history/expert-systems-and-second-ai-winter)
-- [1956 다트머스 회의](/blog/ai-history/dartmouth-conference-1956)
+- [역전파의 재발견 — Hinton이 AI를 다시 살린 방법](/blog/ai-history/backpropagation-revolution/)
+- [전문가 시스템의 부상과 몰락 — 두 번째 AI 겨울까지](/blog/ai-history/expert-systems-and-second-ai-winter/)
+- [1956 다트머스 회의](/blog/ai-history/dartmouth-conference-1956/)

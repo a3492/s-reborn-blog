@@ -110,7 +110,7 @@ MRI 기계, 전자 청진기처럼 — AI도 "의료 도구"로 볼 수 있어�
 
 🔗 다음 읽으면 좋은 글
 - [AI 오류가 발생하면 누가 책임지나요?](/blog/aerini/ai-medical-liability/)
-- [환자한테 AI를 썼다고 말해야 하나요?](/blog/aerini/should-tell-patient-about-ai/)
+- [환자한테 AI를 썼다고 말해야 하나요?](/blog/faq/should-tell-patient-about-ai/)
 - [AI 환각이 뭐예요?](/blog/aerini/what-is-hallucination/)
 
 👉 [모든 애린이 글 보기](/blog/?category=aerini)
