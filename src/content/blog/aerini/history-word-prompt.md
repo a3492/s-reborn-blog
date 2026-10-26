@@ -50,6 +50,6 @@ $ _
 
 ## 더 알고 싶다면
 
-- [프롬프트 용어 사전 — 제로샷부터 CoT까지](/blog/aerini/glossary-prompt-terms)
-- [AI 필수 용어 10개 — 이것만 알면 대화가 된다](/blog/aerini/glossary-ai-basics)
-- ["토큰"이란 말은 어디서 왔나 — 지하철 토큰에서 AI까지](/blog/aerini/history-word-token)
+- [프롬프트 용어 사전 — 제로샷부터 CoT까지](/blog/aerini/glossary-prompt-terms/)
+- [AI 필수 용어 10개 — 이것만 알면 대화가 된다](/blog/aerini/glossary-ai-basics/)
+- ["토큰"이란 말은 어디서 왔나 — 지하철 토큰에서 AI까지](/blog/aerini/history-word-token/)

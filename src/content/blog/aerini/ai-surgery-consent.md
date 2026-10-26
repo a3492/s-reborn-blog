@@ -101,7 +101,7 @@ AI가 생성하는 설명 자료 예시입니다.
 - 의사소통 도구 (그림 설명): 시각적 설명 자료를 함께 쓰면 언어 장벽이 있는 환자에게 더 효과적입니다.
 
 ## 더 나아가기
-👉 [AI로 환자 자주 묻는 질문 미리 준비하기](/blog/aerini/ai-patient-qa)
-👉 [AI로 퇴원 요약지 초안 5분 만에 만들기](/blog/aerini/ai-discharge-summary)
-👉 [AI로 의뢰서 2분 만에 작성하기](/blog/aerini/ai-referral-letter)
+👉 [AI로 환자 자주 묻는 질문 미리 준비하기](/blog/aerini/ai-patient-qa/)
+👉 [AI로 퇴원 요약지 초안 5분 만에 만들기](/blog/aerini/ai-discharge-summary/)
+👉 [AI로 의뢰서 2분 만에 작성하기](/blog/aerini/ai-referral-letter/)
 👉 [모든 애린이 글 보기](/blog/?category=aerini)

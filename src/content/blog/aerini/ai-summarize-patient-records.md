@@ -52,6 +52,6 @@ AI가 만든 요약을 그대로 쓰지 말고, 직접 검토하며 수정하세
 
 ## 더 알고 싶다면
 
-- [아침 회진 준비, AI로 10분 만에 끝내기](/blog/aerini/ai-morning-rounds)
-- [퇴원 요약서, AI로 빠르게 쓰기](/blog/aerini/ai-discharge-summary)
-- [AI에 환자 정보를 입력하면 개인정보 유출 아닌가요?](/blog/aerini/faq-ai-data-security)
+- [아침 회진 준비, AI로 10분 만에 끝내기](/blog/aerini/ai-morning-rounds/)
+- [퇴원 요약서, AI로 빠르게 쓰기](/blog/aerini/ai-discharge-summary/)
+- [AI에 환자 정보를 입력하면 개인정보 유출 아닌가요?](/blog/aerini/faq-ai-data-security/)

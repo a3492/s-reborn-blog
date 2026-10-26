@@ -86,8 +86,8 @@ CLI는 터미널 친숙도가 필요하다. 터미널이 낯설다면 Cursor부�
 - 터미널 초보는 Cursor부터 시작 권장
 
 ## 관련 글
-- [Cursor와 Claude Code는 어떻게 다른가요?](/blog/faq/claude-code-cursor) — 두 도구 상세 비교
-- [VS Code에서 Claude Code를 쓰려면?](/blog/faq/claude-code-vs-code) — VS Code 환경에서 CLI 연동
-- [Claude Code 비용은 어떻게 되나요?](/blog/faq/claude-code-cost) — CLI vs IDE 비용 구조 차이
+- [Cursor와 Claude Code는 어떻게 다른가요?](/blog/faq/claude-code-cursor/) — 두 도구 상세 비교
+- [VS Code에서 Claude Code를 쓰려면?](/blog/faq/claude-code-vs-code/) — VS Code 환경에서 CLI 연동
+- [Claude Code 비용은 어떻게 되나요?](/blog/faq/claude-code-cost/) — CLI vs IDE 비용 구조 차이
 
-[← FAQ 전체 보기](/blog/category/faq)
+[← FAQ 전체 보기](/blog/?category=faq)

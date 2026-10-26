@@ -104,8 +104,8 @@ GPT-3, 4, 4o처럼 버전이 계속 올라가요. 현재 성능 평가가 6개�
 
 ## 더 알고 싶다면
 
-- [생성형 AI가 뭐예요?](/blog/aerini/what-is-generative-ai)
-- [NLP(자연어처리)가 뭐예요?](/blog/aerini/what-is-nlp)
-- [AI 편향(Bias)이 뭐예요?](/blog/aerini/what-is-ai-bias)
+- [생성형 AI가 뭐예요?](/blog/aerini/what-is-generative-ai/)
+- [NLP(자연어처리)가 뭐예요?](/blog/aerini/what-is-nlp/)
+- [AI 편향(Bias)이 뭐예요?](/blog/aerini/what-is-ai-bias/)
 
-[🩺 모든 애린이 글 보기](/blog/category/aerini)
+[🩺 모든 애린이 글 보기](/blog/?category=aerini)

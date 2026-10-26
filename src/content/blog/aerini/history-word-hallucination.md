@@ -51,6 +51,6 @@ AI가 "환각을 본다"는 표현을 처음 들으면 의사들은 잠깐 멈�
 
 ## 더 알고 싶다면
 
-- [AI 필수 용어 10개 — 이것만 알면 대화가 된다](/blog/aerini/glossary-ai-basics)
-- [RAG는 왜 '걸레'라는 뜻인가요? — 이름의 유래](/blog/aerini/history-rag-meaning)
-- [LLM 용어 사전 — GPT, Claude, Gemini를 이해하는 단어들](/blog/aerini/glossary-llm-terms)
+- [AI 필수 용어 10개 — 이것만 알면 대화가 된다](/blog/aerini/glossary-ai-basics/)
+- [RAG는 왜 '걸레'라는 뜻인가요? — 이름의 유래](/blog/aerini/history-rag-meaning/)
+- [LLM 용어 사전 — GPT, Claude, Gemini를 이해하는 단어들](/blog/aerini/glossary-llm-terms/)

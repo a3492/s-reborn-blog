@@ -61,8 +61,8 @@ Anthropic은 공식적으로 Claude Code 데스크탑 앱 출시 계획을 발�
 - VS Code 내 터미널 패널이 절충안
 
 ## 관련 글
-- [Claude Code가 뭔가요?](/blog/faq/claude-code-what-is-it) — Claude.ai · Claude Code · Claude 앱 차이 정리
-- [Cursor와 Claude Code는 어떻게 다른가요?](/blog/faq/claude-code-cursor) — GUI 대안인 Cursor 자세히 알기
-- [터미널에서 Claude Code를 어떻게 쓰나요?](/blog/faq/claude-code-terminal) — 터미널이 처음이라면
+- [Claude Code가 뭔가요?](/blog/faq/claude-code-what-is-it/) — Claude.ai · Claude Code · Claude 앱 차이 정리
+- [Cursor와 Claude Code는 어떻게 다른가요?](/blog/faq/claude-code-cursor/) — GUI 대안인 Cursor 자세히 알기
+- [터미널에서 Claude Code를 어떻게 쓰나요?](/blog/faq/claude-code-terminal/) — 터미널이 처음이라면
 
-[← FAQ 전체 보기](/blog/category/faq)
+[← FAQ 전체 보기](/blog/?category=faq)

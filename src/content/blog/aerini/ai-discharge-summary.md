@@ -89,7 +89,7 @@ AI가 생성한 초안을 EMR에 붙여 넣고 다음 항목을 직접 확인합
 - 병원 EMR 자동완성 기능: 일부 EMR에는 이전 요약지 템플릿이 내장되어 있습니다. AI와 병행하면 효율이 올라갑니다.
 
 ## 더 나아가기
-👉 [AI로 의뢰서 2분 만에 작성하기](/blog/aerini/ai-referral-letter)
-👉 [AI로 수술 동의서 설명 자료 만들기](/blog/aerini/ai-surgery-consent)
-👉 [AI로 환자 자주 묻는 질문 미리 준비하기](/blog/aerini/ai-patient-qa)
+👉 [AI로 의뢰서 2분 만에 작성하기](/blog/aerini/ai-referral-letter/)
+👉 [AI로 수술 동의서 설명 자료 만들기](/blog/aerini/ai-surgery-consent/)
+👉 [AI로 환자 자주 묻는 질문 미리 준비하기](/blog/aerini/ai-patient-qa/)
 👉 [모든 애린이 글 보기](/blog/?category=aerini)

@@ -77,8 +77,8 @@ Descript 무료 플랜은 월 1시간 전사 제공. descript.com에서 시작 �
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [ElevenLabs TTS 음성 복제](/blog/ai-tools-general/elevenlabs-tts-voice-clone) — 영상 나레이션 음성을 AI로 만드는 방법
-- [CapCut AI 자막 효과](/blog/ai-tools-general/capcut-ai-captions-effects) — 모바일에서 빠르게 자막을 넣는 다른 방법
-- [HeyGen AI 아바타 영상](/blog/ai-tools-general/heygen-ai-avatar-video) — 직접 촬영 없이 영상 콘텐츠를 만드는 방법
+- [ElevenLabs TTS 음성 복제](/blog/ai-tools-general/elevenlabs-tts-voice-clone/) — 영상 나레이션 음성을 AI로 만드는 방법
+- [CapCut AI 자막 효과](/blog/ai-tools-general/capcut-ai-captions-effects/) — 모바일에서 빠르게 자막을 넣는 다른 방법
+- [HeyGen AI 아바타 영상](/blog/ai-tools-general/heygen-ai-avatar-video/) — 직접 촬영 없이 영상 콘텐츠를 만드는 방법
 
-[← AI 도구 일반 전체 보기](/blog/category/ai-tools-general)
+[← AI 도구 일반 전체 보기](/blog/?category=ai-tools-general)

@@ -51,6 +51,6 @@ GPT라는 이름을 매일 듣지만, 정작 무슨 뜻인지 아는 사람은 �
 
 ## 더 알고 싶다면
 
-- [LLM 용어 사전 — GPT, Claude, Gemini를 이해하는 단어들](/blog/aerini/glossary-llm-terms)
-- ["Attention is All You Need" — 8페이지짜리 논문이 세상을 바꿨다](/blog/aerini/history-attention-paper)
-- [OpenAI, Anthropic, Google — 회사마다 용어가 다르다](/blog/aerini/glossary-ai-companies)
+- [LLM 용어 사전 — GPT, Claude, Gemini를 이해하는 단어들](/blog/aerini/glossary-llm-terms/)
+- ["Attention is All You Need" — 8페이지짜리 논문이 세상을 바꿨다](/blog/aerini/history-attention-paper/)
+- [OpenAI, Anthropic, Google — 회사마다 용어가 다르다](/blog/aerini/glossary-ai-companies/)

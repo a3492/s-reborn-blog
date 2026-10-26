@@ -105,10 +105,10 @@ AI 제안을 받으면 다음 관점으로 검토하세요.
 
 ## 더 나아가기
 
-👉 [AI로 영문 초록 10분 만에 쓰기](/blog/aerini/ai-english-abstract) — 발표 전 초록 제출도 AI로 빠르게
+👉 [AI로 영문 초록 10분 만에 쓰기](/blog/aerini/ai-english-abstract/) — 발표 전 초록 제출도 AI로 빠르게
 
-👉 [AI로 저널 클럽 발표 준비하기](/blog/aerini/ai-journal-club) — 남의 논문 발표 준비는 저널 클럽으로 연습
+👉 [AI로 저널 클럽 발표 준비하기](/blog/aerini/ai-journal-club/) — 남의 논문 발표 준비는 저널 클럽으로 연습
 
-👉 [AI로 나만의 의학 공부 계획 만들기](/blog/aerini/ai-continuing-education) — 발표 역량도 체계적 공부 계획의 일부
+👉 [AI로 나만의 의학 공부 계획 만들기](/blog/aerini/ai-continuing-education/) — 발표 역량도 체계적 공부 계획의 일부
 
-👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/aerini)에서 기초부터 시작해 보세요
+👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/?category=aerini)에서 기초부터 시작해 보세요

@@ -103,8 +103,8 @@ FDA 승인은 특정 사용 목적에서 위험 대비 이점이 있다는 의�
 
 ## 더 알고 싶다면
 
-- [AI 편향(Bias)이 뭐예요?](/blog/aerini/what-is-ai-bias)
-- [AI 설명가능성(XAI)이 뭐예요?](/blog/aerini/what-is-ai-explainability)
-- [Hallucination이 뭐예요?](/blog/aerini/what-is-hallucination)
+- [AI 편향(Bias)이 뭐예요?](/blog/aerini/what-is-ai-bias/)
+- [AI 설명가능성(XAI)이 뭐예요?](/blog/aerini/what-is-ai-explainability/)
+- [Hallucination이 뭐예요?](/blog/aerini/what-is-hallucination/)
 
-[🩺 모든 애린이 글 보기](/blog/category/aerini)
+[🩺 모든 애린이 글 보기](/blog/?category=aerini)

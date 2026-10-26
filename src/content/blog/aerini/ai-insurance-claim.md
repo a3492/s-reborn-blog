@@ -103,10 +103,10 @@ AI가 제안한 코드를 받으면 다음을 확인하세요.
 
 ## 더 나아가기
 
-👉 [AI로 치료 계획 초안 만들기](/blog/aerini/ai-treatment-plan) — 치료 계획과 청구 코드를 연계해서 관리
+👉 [AI로 치료 계획 초안 만들기](/blog/aerini/ai-treatment-plan/) — 치료 계획과 청구 코드를 연계해서 관리
 
-👉 [AI가 틀린 의료 정보를 줬는데 환자에게 영향을 주면?](/blog/aerini/faq-ai-mistakes-consequences) — AI 오류 시 책임 소재를 미리 알아두세요
+👉 [AI가 틀린 의료 정보를 줬는데 환자에게 영향을 주면?](/blog/aerini/faq-ai-mistakes-consequences/) — AI 오류 시 책임 소재를 미리 알아두세요
 
-👉 [AI에게 환자 정보를 입력하면 개인정보가 유출되나요?](/blog/aerini/faq-ai-patient-privacy) — 안전하게 사용하는 방법 확인
+👉 [AI에게 환자 정보를 입력하면 개인정보가 유출되나요?](/blog/aerini/faq-ai-patient-privacy/) — 안전하게 사용하는 방법 확인
 
-👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/aerini)에서 기초부터 시작해 보세요
+👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/?category=aerini)에서 기초부터 시작해 보세요

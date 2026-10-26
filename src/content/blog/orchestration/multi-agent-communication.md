@@ -129,10 +129,10 @@ AI 에이전트 간 통신도 이 세 가지 방식이 있다.
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [AutoGen 입문](/blog/orchestration/autogen-intro) — 대화 기반 통신을 극단까지 밀어붙인 방식
-- [오케스트레이션 보안](/blog/orchestration/orchestration-security) — 에이전트 간 통신에서 발생하는 보안 위협
-- [상태 관리](/blog/orchestration/state-management) — 공유 상태(블랙보드) 방식의 상세 설계
-- [컨텍스트 윈도우 관리](/blog/orchestration/context-window-management) — 통신 시 컨텍스트가 쌓이는 문제
+- [AutoGen 입문](/blog/orchestration/autogen-intro/) — 대화 기반 통신을 극단까지 밀어붙인 방식
+- [오케스트레이션 보안](/blog/orchestration/orchestration-security/) — 에이전트 간 통신에서 발생하는 보안 위협
+- [상태 관리](/blog/orchestration/state-management/) — 공유 상태(블랙보드) 방식의 상세 설계
+- [컨텍스트 윈도우 관리](/blog/orchestration/context-window-management/) — 통신 시 컨텍스트가 쌓이는 문제
 
-[← 오케스트레이션 시리즈 전체 보기](/blog/category/orchestration)
+[← 오케스트레이션 시리즈 전체 보기](/blog/?category=orchestration)
 

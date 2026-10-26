@@ -77,8 +77,8 @@ Gamma는 gamma.app에서 무료로 시작할 수 있다. AI 슬라이드 생성 
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [NotebookLM으로 논문 정리](/blog/ai-tools-general/notebooklm-source-grounded-notes) — 발표 자료 준비 전 논문을 빠르게 파악하는 방법
-- [Perplexity AI로 논문 탐색](/blog/ai-tools-general/perplexity-ai-search-research) — 발표 배경 자료 빠르게 수집하기
-- [Suno AI 음악 생성](/blog/ai-tools-general/suno-ai-music-generation) — 발표 영상용 배경음악이 필요할 때
+- [NotebookLM으로 논문 정리](/blog/ai-tools-general/notebooklm-source-grounded-notes/) — 발표 자료 준비 전 논문을 빠르게 파악하는 방법
+- [Perplexity AI로 논문 탐색](/blog/ai-tools-general/perplexity-ai-search-research/) — 발표 배경 자료 빠르게 수집하기
+- [Suno AI 음악 생성](/blog/ai-tools-general/suno-ai-music-generation/) — 발표 영상용 배경음악이 필요할 때
 
-[← AI 도구 일반 전체 보기](/blog/category/ai-tools-general)
+[← AI 도구 일반 전체 보기](/blog/?category=ai-tools-general)
