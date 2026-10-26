@@ -273,9 +273,10 @@ h1 {
 .about-figure img {
 	width: 100%;
 	aspect-ratio: 4 / 5;
-	object-fit: cover;
-	object-position: center 18%;
+	object-fit: contain;
+	object-position: center;
 	display: block;
+	background: #efece6;
 }
 .about-kicker { font-size: 13px; color: #5d666c; margin: 14px 0 0; }
 .about-points { margin: 18px 0 0; padding: 0; list-style: none; }
@@ -301,9 +302,10 @@ h1 {
 .portrait-frame img {
 	width: 100%;
 	aspect-ratio: 4 / 5;
-	object-fit: cover;
-	object-position: center 12%;
+	object-fit: contain;
+	object-position: center;
 	display: block;
+	background: #efece6;
 }
 
 .philosophy { padding: 72px 0; }
