@@ -308,14 +308,30 @@ h1 {
 }
 
 .philosophy { padding: 72px 0; }
-.philosophy-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.philosophy-grid { display: flex; flex-direction: column; gap: 36px; }
 .philosophy-card {
-	background: #fff;
-	border: 1px solid var(--line);
-	overflow: hidden;
+	display: grid;
+	grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
+	gap: 36px;
+	align-items: center;
+	background: transparent;
+	border: 0;
+	overflow: visible;
 }
-.philosophy-card img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
-.philosophy-card div { padding: 18px 18px 22px; }
+.philosophy-card:nth-child(even) {
+	grid-template-columns: minmax(0, 1fr) minmax(180px, 240px);
+}
+.philosophy-card:nth-child(even) img { grid-column: 2; grid-row: 1; }
+.philosophy-card:nth-child(even) div { grid-column: 1; grid-row: 1; }
+.philosophy-card img {
+	width: 100%;
+	max-width: 240px;
+	aspect-ratio: 1;
+	object-fit: cover;
+	display: block;
+	border: 1px solid var(--line);
+}
+.philosophy-card div { padding: 0; max-width: 520px; }
 .philosophy-card h3 { margin: 0 0 10px; font-size: 22px; letter-spacing: -0.04em; }
 .philosophy-card p { margin: 0; font-size: 16px; line-height: 1.7; color: #5b646c; word-break: keep-all; }
 
@@ -361,7 +377,12 @@ h1 {
 	.article { grid-template-columns: 1fr 25px; gap: 8px; }
 	.article .category { grid-column: 1 / -1; }
 	.about { grid-template-columns: 1fr; gap: 18px; padding: 55px 0; }
-	.page-hero, .philosophy-grid, .cv-grid { grid-template-columns: 1fr; }
+	.page-hero, .cv-grid { grid-template-columns: 1fr; }
+	.philosophy-card,
+	.philosophy-card:nth-child(even) { grid-template-columns: 1fr; gap: 16px; }
+	.philosophy-card:nth-child(even) img,
+	.philosophy-card:nth-child(even) div { grid-column: auto; grid-row: auto; }
+	.philosophy-card img { max-width: 220px; }
 	.cv-wide { grid-column: auto; }
 	.page-hero { padding-top: 40px; }
 	.footer { gap: 15px; align-items: flex-start; }
