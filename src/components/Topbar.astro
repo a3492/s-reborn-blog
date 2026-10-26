@@ -44,14 +44,36 @@ const langToggleTitle = isEn ? '한국어로 보기' : 'View in English';
     <kbd class="tb-search-shortcut" title="Windows: Ctrl+K, Mac: ⌘K">Ctrl+K · ⌘K</kbd>
   </div>
 
-  <nav class="tb-nav">
+  <nav class="tb-nav" id="tb-nav">
     <a href="/" class={`topbar-link${isHome ? ' active' : ''}`}>Home</a>
     <a href={isEn ? '/en/blog' : '/blog'} class={`topbar-link${isBlog ? ' active' : ''}`}>Blog</a>
     <a href="/about" class={`topbar-link${isAbout ? ' active' : ''}`}>About</a>
     <a href="/lab/" class={`topbar-link${isLab ? ' active' : ''}`}>{SITE_BRAND.labDisplayName}</a>
     <a href={langToggleHref} class="topbar-link tb-lang-toggle" title={langToggleTitle}>{langToggleLabel}</a>
   </nav>
+  <button class="hamburger" type="button" aria-label={isEn ? 'Open menu' : '메뉴 열기'} aria-expanded="false" aria-controls="tb-nav">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 </header>
+<script>
+	const header = document.querySelector('.topbar');
+	const menuBtn = document.querySelector('.hamburger');
+	const nav = document.querySelector('#tb-nav');
+	if (header && menuBtn && nav) {
+		menuBtn.addEventListener('click', () => {
+			const opened = header.classList.toggle('is-nav-open');
+			menuBtn.setAttribute('aria-expanded', String(opened));
+		});
+		nav.querySelectorAll('a').forEach((link) => {
+			link.addEventListener('click', () => {
+				header.classList.remove('is-nav-open');
+				menuBtn.setAttribute('aria-expanded', 'false');
+			});
+		});
+	}
+</script>
 
 <div id="search-dropdown" class="search-dropdown hidden" role="listbox" aria-label={isEn ? 'Search results' : '검색 결과'}>
   <div id="search-status" class="search-status hidden">{isEn ? 'Preparing search index...' : '검색 인덱스를 준비하는 중입니다...'}</div>
