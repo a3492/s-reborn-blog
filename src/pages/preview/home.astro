@@ -1,9 +1,32 @@
 ---
 /*
   브랜드 홈 미리보기. 운영 홈(src/pages/index.astro)은 바꾸지 않는다.
-  data-example 이 붙은 블록은 기준 HTML의 예시 문장이다. 글, 연구, 연락처와 연결하지 않았다.
+  글 세 줄과 아카데미만 실제 주소다. 연구·연락처·소개는 예시로 둔다.
 */
+import { getCollection } from 'astro:content';
 import '../../styles/brand-home.css';
+
+const ACADEMY_URL = 'https://s-reborn-doctor-ai-academy.pages.dev/';
+const BLOG_INDEX = '/blog/';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const byId = new Map(allPosts.map((post) => [post.id, post]));
+
+const featuredIds = ['aerini/what-is-ai', 'orchestration/workflow-patterns', 'orchestration/what-is-orchestration'] as const;
+const featuredLabels = ['AI FUNDAMENTALS', 'WORKFLOW', 'RESEARCH NOTES'] as const;
+
+const featured = featuredIds.map((id, index) => {
+	const post = byId.get(id);
+	if (!post) {
+		throw new Error(`미리보기 추천 글을 찾지 못했습니다: ${id}`);
+	}
+	return {
+		href: `/blog/${post.id}/`,
+		title: post.data.title,
+		description: post.data.description,
+		label: featuredLabels[index],
+	};
+});
 ---
 
 <!doctype html>
@@ -24,8 +47,8 @@ import '../../styles/brand-home.css';
 				</a>
 				<nav class="desktop-nav" aria-label="주요 메뉴">
 					<a href="#research">AI 연구</a>
-					<a href="#writing">콘텐츠</a>
-					<a href="#academy">아카데미</a>
+					<a href={BLOG_INDEX}>콘텐츠</a>
+					<a href={ACADEMY_URL} target="_blank" rel="noopener noreferrer">아카데미</a>
 					<a href="#about">김도위 소개</a>
 				</nav>
 				<a class="contact" href="#about" data-example="contact" title="연락처 연결 전 임시 이동">Contact ↗</a>
@@ -33,8 +56,8 @@ import '../../styles/brand-home.css';
 			</header>
 			<nav class="mobile-nav" id="mobile-nav" aria-label="모바일 메뉴">
 				<a href="#research">AI 연구</a>
-				<a href="#writing">콘텐츠</a>
-				<a href="#academy">아카데미</a>
+				<a href={BLOG_INDEX}>콘텐츠</a>
+				<a href={ACADEMY_URL} target="_blank" rel="noopener noreferrer">아카데미</a>
 				<a href="#about">김도위 소개</a>
 			</nav>
 
@@ -81,7 +104,7 @@ import '../../styles/brand-home.css';
 								<span class="circle-arrow">↗</span>
 							</div>
 						</a>
-						<a class="card" href="#writing">
+						<a class="card" href={BLOG_INDEX}>
 							<div class="card-top"><span>02 — JOURNAL</span><span class="card-icon">≡</span></div>
 							<div class="card-bottom">
 								<div>
@@ -91,7 +114,7 @@ import '../../styles/brand-home.css';
 								<span class="circle-arrow">↗</span>
 							</div>
 						</a>
-						<a class="card" href="#academy">
+						<a class="card" href={ACADEMY_URL} target="_blank" rel="noopener noreferrer">
 							<div class="card-top"><span>03 — ACADEMY</span><span class="card-icon">↗</span></div>
 							<div class="card-bottom">
 								<div>
@@ -110,7 +133,7 @@ import '../../styles/brand-home.css';
 							<div class="overline">02 / CURRENT RESEARCH</div>
 							<h2>AI를 사용하는 방법<br />그 자체를 연구합니다.</h2>
 							<p>다중 AI 협업부터 사람과 AI의 상호작용까지.<br />지속적으로 발전하는 연구와 프로젝트의 기록입니다.</p>
-							<a class="secondary" href="#writing">관련 글 보기 ↗</a>
+							<a class="secondary" href={BLOG_INDEX}>관련 글 보기 ↗</a>
 						</div>
 						<div class="research-items">
 							<div class="research-item" data-example="research">
@@ -138,21 +161,16 @@ import '../../styles/brand-home.css';
 						<p class="section-intro">읽을거리를 무작정 늘리기보다, 이해와 실무에 도움이 되는 주제를 중심으로 큐레이션합니다.</p>
 					</div>
 					<div class="articles">
-						<div class="article" data-example="writing">
-							<div class="category">AI FUNDAMENTALS</div>
-							<div><b>처음 배우는 LLM, 무엇부터 이해해야 할까?</b><small>콘텐츠 제목 예시 · 게시 전 원고 연결 필요</small></div>
-							<span>↗</span>
-						</div>
-						<div class="article" data-example="writing">
-							<div class="category">WORKFLOW</div>
-							<div><b>AI를 잘 쓰는 사람은 무엇이 다른가</b><small>콘텐츠 제목 예시 · 게시 전 원고 연결 필요</small></div>
-							<span>↗</span>
-						</div>
-						<div class="article" data-example="writing">
-							<div class="category">RESEARCH NOTES</div>
-							<div><b>하나의 AI가 아닌 여러 AI와 함께 일하는 법</b><small>콘텐츠 제목 예시 · 게시 전 원고 연결 필요</small></div>
-							<span>↗</span>
-						</div>
+						{featured.map((item) => (
+							<a class="article" href={item.href}>
+								<div class="category">{item.label}</div>
+								<div>
+									<b>{item.title}</b>
+									<small>{item.description}</small>
+								</div>
+								<span>↗</span>
+							</a>
+						))}
 					</div>
 				</section>
 
@@ -163,7 +181,9 @@ import '../../styles/brand-home.css';
 					</div>
 					<div>
 						<p>AI에 대해 듣는 시간을 넘어, 자신의 업무에 직접 적용하는 방법을 배우는 공간. 초보자를 위한 이해부터 실제 워크플로우 설계까지 단계적으로 확장합니다.</p>
-						<p class="note" data-example="academy">아카데미 소개 영역 · 세부 프로그램과 일정은 확정 자료 연결 후 노출</p>
+						<p>
+							<a class="secondary academy-open" href={ACADEMY_URL} target="_blank" rel="noopener noreferrer">Doctor AI Academy 열기 ↗</a>
+						</p>
 					</div>
 				</section>
 
