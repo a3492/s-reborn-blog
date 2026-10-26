@@ -258,7 +258,7 @@ h1 {
 .article b { font-size: 20px; letter-spacing: -0.03em; }
 .article small { display: block; color: #8c949b; font-size: 14px; margin-top: 8px; }
 
-.about { display: grid; grid-template-columns: minmax(180px, 280px) 1fr; gap: 36px; padding: 80px 0; border-top: 1px solid var(--line); align-items: start; }
+.about { display: grid; grid-template-columns: minmax(200px, 340px) 1fr; gap: 36px; padding: 80px 0; border-top: 1px solid var(--line); align-items: start; }
 .about h2 { font-size: 34px; letter-spacing: -0.04em; margin: 0; word-break: keep-all; }
 .about p { font-size: 18px; line-height: 1.75; color: #525e69; margin: 0; word-break: keep-all; }
 .about .note { font-size: 12px; color: #858e96; margin-top: 17px; }
@@ -272,7 +272,7 @@ h1 {
 	border: 0;
 	overflow: hidden;
 	align-self: start;
-	max-width: 280px;
+	max-width: 340px;
 }
 .about-figure img {
 	width: 100%;
@@ -300,7 +300,7 @@ h1 {
 	margin: 0;
 	background: transparent;
 	border: 0;
-	max-width: 320px;
+	max-width: 380px;
 	align-self: start;
 }
 .portrait-frame img {
