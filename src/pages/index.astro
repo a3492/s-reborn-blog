@@ -1,290 +1,228 @@
 ---
+/*
+  운영 브랜드 홈. 글 목록·아카데미·소개는 실제 주소다. 연구 세 줄과 Contact는 아직 예시.
+*/
 import { getCollection } from 'astro:content';
-import Layout from '../layouts/Layout.astro';
-import { CATEGORIES, MENU_GROUPS, SITE_BRAND } from '../consts';
-import { getPublicSiteSettings } from '../lib/site-settings';
+import BrandIcons from '../components/preview/BrandIcons.astro';
+import '../styles/brand-home.css';
 
-const siteSettings = await getPublicSiteSettings();
-const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
-	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const ACADEMY_URL = 'https://s-reborn-doctor-ai-academy.pages.dev/';
+const BLOG_INDEX = '/blog/';
+const ABOUT_HREF = '/about/';
 
-const countsByCategory = allPosts.reduce<Record<string, number>>((acc, post) => {
-	const c = post.data.category;
-	if (c) acc[c] = (acc[c] ?? 0) + 1;
-	return acc;
-}, {});
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const byId = new Map(allPosts.map((post) => [post.id, post]));
 
-const splitTitle = (title: string) => {
-	const [main, ...rest] = title.split(' — ');
-	return { main, sub: rest.length ? '— ' + rest.join(' — ') : null };
-};
+const featuredIds = ['aerini/what-is-ai', 'orchestration/workflow-patterns', 'orchestration/what-is-orchestration'] as const;
+const featuredLabels = ['AI FUNDAMENTALS', 'WORKFLOW', 'RESEARCH NOTES'] as const;
 
-const stripMarkdown = (md: string) =>
-	md
-		.replace(/\r\n/g, '\n')
-		.replace(/<!--[\s\S]*?-->/g, '')
-		.replace(/^\s*\|.*\|\s*$/gm, '')
-		.replace(/^#{1,6}\s+.*$/gm, '')
-		.replace(/\*\*(.+?)\*\*/g, '$1')
-		.replace(/\*(.+?)\*/g, '$1')
-		.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, '$2')
-		.replace(/\[\[([^\]]+)\]\]/g, '$1')
-		.replace(/\[(.+?)\]\(.+?\)/g, '$1')
-		.replace(/`+[^`]*`+/g, '')
-		.replace(/^\s*[-*+]\s+/gm, '')
-		.replace(/\n{3,}/g, '\n\n')
-		.trim();
-
-// SSR 기본값 — JS 로드 전 초기 렌더링용
-const defaultPost = allPosts[0];
-const { main: defaultMain, sub: defaultSub } = defaultPost
-	? splitTitle(defaultPost.data.title)
-	: { main: '', sub: null };
-const defaultBodyRaw = stripMarkdown(defaultPost?.body ?? '').slice(0, 200);
-const defaultParagraphs = defaultBodyRaw.split('\n\n').map(p => p.trim()).filter(Boolean);
-
-// 클라이언트 랜덤화를 위한 전체 포스트 데이터
-const postsData = allPosts.map((p) => {
-	const { main, sub } = splitTitle(p.data.title);
+const featured = featuredIds.map((id, index) => {
+	const post = byId.get(id);
+	if (!post) {
+		throw new Error(`미리보기 추천 글을 찾지 못했습니다: ${id}`);
+	}
 	return {
-		href: `/blog/${p.id}/`,
-		titleMain: main,
-		titleSub: sub ?? null,
-		bodyPreview: stripMarkdown(p.body ?? '').slice(0, 200),
-		category: p.data.category ?? '',
-	};
-});
-
-// 애린이 코너 데이터
-const aeriniPosts = allPosts.filter(p => p.data.category === 'aerini');
-const aeriniData = aeriniPosts.map(p => {
-	const slug = p.id.split('/').pop() ?? '';
-	const badge = slug.startsWith('what-is') ? '개념 설명'
-		: (slug.startsWith('faq-') || slug.startsWith('is-') || slug.startsWith('will-') || slug.startsWith('which-') || slug.startsWith('should-')) ? 'FAQ'
-		: '실전팁';
-	return {
-		href: `/blog/${p.id}/`,
-		title: p.data.title,
-		description: p.data.description ?? '',
-		badge,
+		href: `/blog/${post.id}/`,
+		title: post.data.title,
+		description: post.data.description,
+		label: featuredLabels[index],
 	};
 });
 ---
 
-<Layout>
-	{allPosts.length > 0 ? (
-		<div class="blog-layout">
-
-			<!-- ── 좌측 네비게이션 (블로그와 동일) ── -->
-			<nav class="blog-nav" id="blog-nav" aria-label="카테고리 내비게이션">
-
-				<!-- 모바일 토글 -->
-				<button class="blog-nav-mobile-toggle" id="blog-nav-toggle" aria-expanded="false">
-					<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-						<path d="M2 4h12M2 8h12M2 12h12"/>
-					</svg>
-					<span>카테고리</span>
-					<svg class="blog-nav-mobile-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
-				</button>
-
-				<div class="blog-nav-body" id="blog-nav-body">
-					<!-- 전체 -->
-					<a class="blog-nav-all" href="/blog/" data-navlink>
-						<span class="blog-nav-all-label">⊞ 전체 글</span>
-						<span class="blog-nav-count">{allPosts.length}</span>
-					</a>
-
-					<div class="blog-nav-divider"></div>
-
-					<!-- 그룹 -->
-					{MENU_GROUPS.map((group) => (
-						<div class="blog-nav-group" data-group={group.id}>
-							<button class="blog-nav-group-hd" data-toggle={group.id}>
-								<span class="blog-nav-group-icon">{group.icon}</span>
-								<span class="blog-nav-group-label">{group.label}</span>
-								<svg class="blog-nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-									<path d="M3 1.5l4 3.5-4 3.5"/>
-								</svg>
-							</button>
-							<div class="blog-nav-group-body">
-								{group.cats.map((catId) => {
-									const cat = CATEGORIES.find((c) => c.id === catId);
-									if (!cat) return null;
-									const count = countsByCategory[catId] ?? 0;
-									return (
-										<a
-											class="blog-nav-item"
-											href={`/blog/?category=${catId}`}
-											data-navlink
-										>
-											<span class="blog-nav-item-label">{cat.label}</span>
-											<span class="blog-nav-item-count">{count}</span>
-										</a>
-									);
-								})}
-							</div>
-						</div>
-					))}
-				</div>
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>S—REBORN | Kim Dowi's AI Lab</title>
+		<meta name="description" content="김도위의 AI 연구, 콘텐츠, 아카데미를 연결하는 공간." />
+		<BrandIcons />
+	</head>
+	<body>
+		<div class="shell">
+			<header class="topbar">
+				<a class="brand" href="#top">
+					<span class="wordmark">S—REBORN</span>
+					<small>KIM DOWI / MD AI HUB</small>
+				</a>
+				<nav class="desktop-nav" aria-label="주요 메뉴">
+					<a href="#research">AI 연구</a>
+					<a href={BLOG_INDEX}>콘텐츠</a>
+					<a href={ACADEMY_URL} target="_blank" rel="noopener noreferrer">아카데미</a>
+					<a href={ABOUT_HREF}>김도위 소개</a>
+				</nav>
+				<a class="contact" href="#about" data-example="contact" title="연락처 연결 전 임시 이동">Contact ↗</a>
+				<button class="mobile-menu" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
+			</header>
+			<nav class="mobile-nav" id="mobile-nav" aria-label="모바일 메뉴">
+				<a href="#research">AI 연구</a>
+				<a href={BLOG_INDEX}>콘텐츠</a>
+				<a href={ACADEMY_URL} target="_blank" rel="noopener noreferrer">아카데미</a>
+				<a href={ABOUT_HREF}>김도위 소개</a>
 			</nav>
 
-			<!-- ── 홈 콘텐츠 영역 ── -->
-			<main class="blog-content home-content">
+			<main id="top">
+				<section class="hero">
+					<div>
+						<div class="eyebrow"><span class="dot"></span> KIM DOWI'S AI LAB & JOURNAL</div>
+						<h1>AI를 이해하고,<br /><span class="accent">실험하고,</span><br />현실에 적용합니다.</h1>
+						<p class="hero-desc">의사 김도위의 AI 연구, 생각, 실험 그리고 교육.<br />기술을 아는 것에서 멈추지 않고, 실제 변화를 만드는 과정을 기록합니다.</p>
+						<div class="hero-actions">
+							<a class="primary" href="#explore">공간 둘러보기 <span>↗</span></a>
+							<a class="secondary" href={ABOUT_HREF}>김도위 소개 ↗</a>
+						</div>
+						<div class="hero-note">RESEARCH · IDEAS · PRACTICE · EDUCATION</div>
+					</div>
+					<div class="visual">
+						<img class="visual-media" src="/preview/hero-system.jpg" alt="노트와 기록이 놓인 책상. 연구, 기록, 교육이 한자리에서 이어지는 작업 풍경." width="1600" height="1200" />
+						<img class="visual-mark" src="/preview/brand-s.png" alt="" width="46" height="46" />
+						<div class="mini-caption">AN OPEN KNOWLEDGE SYSTEM / 001</div>
+					</div>
+				</section>
 
-				<!-- 히어로 랜덤 글 카드 -->
-				<a class="yt-hero" id="yt-hero" href={`/blog/${defaultPost?.id}/`}>
-					<h1 class="yt-title" id="yt-hero-title">
-						{defaultMain}
-						{defaultSub && <><br /><span class="yt-title-sub">{defaultSub}</span></>}
-					</h1>
-					<div class="yt-body-wrap" id="yt-body-wrap">
-						<div id="yt-hero-body">
-							{defaultParagraphs.map(p => <p class="yt-body-preview">{p}</p>)}
+				<section class="section" id="explore">
+					<div class="section-head">
+						<div>
+							<div class="overline">01 / EXPLORE</div>
+							<h2>생각에서 실천까지</h2>
+						</div>
+						<p class="section-intro">하나의 질문에서 시작된 연구가 콘텐츠가 되고, 실제로 활용할 수 있는 배움으로 이어집니다.</p>
+					</div>
+					<div class="cards">
+						<a class="card feature" href="#research">
+							<div class="card-top"><span>01 — RESEARCH</span><span class="card-icon">⌁</span></div>
+							<div class="card-bottom">
+								<div>
+									<h3>AI 연구</h3>
+									<p>AI를 어떻게 더 잘 이해하고 활용할 수 있을지 실험하고 체계화합니다.</p>
+								</div>
+								<span class="circle-arrow">↗</span>
+							</div>
+						</a>
+						<a class="card" href={BLOG_INDEX}>
+							<div class="card-top"><span>02 — JOURNAL</span><span class="card-icon">≡</span></div>
+							<div class="card-bottom">
+								<div>
+									<h3>AI 콘텐츠</h3>
+									<p>낯선 개념부터 현장 적용까지, 축적한 지식을 읽기 쉽게 공유합니다.</p>
+								</div>
+								<span class="circle-arrow">↗</span>
+							</div>
+						</a>
+						<a class="card" href={ACADEMY_URL} target="_blank" rel="noopener noreferrer">
+							<div class="card-top"><span>03 — ACADEMY</span><span class="card-icon">↗</span></div>
+							<div class="card-bottom">
+								<div>
+									<h3>AI 아카데미</h3>
+									<p>단순한 기능 소개를 넘어, 스스로 활용할 수 있도록 배우고 실습합니다.</p>
+								</div>
+								<span class="circle-arrow">↗</span>
+							</div>
+						</a>
+					</div>
+				</section>
+
+				<section class="selected" id="research">
+					<div class="selected-wrap">
+						<div>
+							<div class="overline">02 / CURRENT RESEARCH</div>
+							<h2>AI를 사용하는 방법<br />그 자체를 연구합니다.</h2>
+							<p>다중 AI 협업부터 사람과 AI의 상호작용까지.<br />지속적으로 발전하는 연구와 프로젝트의 기록입니다.</p>
+							<a class="secondary" href={BLOG_INDEX}>관련 글 보기 ↗</a>
+						</div>
+						<div class="research-items">
+							<a class="research-item" href="/blog/orchestration/what-is-orchestration/">
+								<div><b>Multi-AI Operating System</b><small>여러 AI를 하나의 작업 흐름으로 연결하는 실험</small></div>
+								<span>↗</span>
+							</a>
+							<a class="research-item" href="/blog/orchestration/human-in-the-loop/">
+								<div><b>Human–AI Cognitive Interface</b><small>인간과 AI의 소통 및 인지 구조에 관한 연구</small></div>
+								<span>↗</span>
+							</a>
+							<a class="research-item" href="/blog/orchestration/workflow-patterns/">
+								<div><b>AI Workflow Engineering</b><small>반복 업무를 지식과 시스템으로 전환하는 방법</small></div>
+								<span>↗</span>
+							</a>
 						</div>
 					</div>
-					<button class="yt-body-toggle" id="yt-body-toggle" aria-label="본문 펼치기">︾︾</button>
-				</a>
+				</section>
 
-				<!-- 애린이 코너 섹션 -->
-				<div class="sec-rule" style="margin-top: 1.5rem;">
-					<div class="sec-copy">
-						<span class="sec-label">🌱 AI 입문(애린이)</span>
+				<section class="section" id="writing">
+					<div class="section-head">
+						<div>
+							<div class="overline">03 / SELECTED WRITING</div>
+							<h2>생각과 기록</h2>
+						</div>
+						<p class="section-intro">읽을거리를 무작정 늘리기보다, 이해와 실무에 도움이 되는 주제를 중심으로 큐레이션합니다.</p>
 					</div>
-					<div class="sec-line"></div>
-					<a href="/blog/?category=aerini" class="sec-all">→</a>
-				</div>
-				<div class="aerini-wrap">
-					<div class="aerini-frame" id="aerini-frame">
-						{aeriniData.slice(0, 5).map(p => (
-							<a class="aerini-card" href={p.href}>
-								<span class="aerini-card-badge">{p.badge}</span>
-								<p class="aerini-card-title">{p.title}</p>
-								<p class="aerini-card-desc">{p.description}</p>
+					<div class="articles">
+						{featured.map((item) => (
+							<a class="article" href={item.href}>
+								<div class="category">{item.label}</div>
+								<div>
+									<b>{item.title}</b>
+									<small>{item.description}</small>
+								</div>
+								<span>↗</span>
 							</a>
 						))}
-						<a class="aerini-more" href="/blog/?category=aerini">전체 {aeriniPosts.length}개 보기 →</a>
 					</div>
-				</div>
+				</section>
 
-				<!-- Lab 허브 (브랜드명은 SITE_BRAND.labDisplayName) -->
-				<div class="sec-rule" style="margin-top: 2rem;">
-					<div class="sec-copy">
-						<span class="sec-label">{SITE_BRAND.labDisplayName}</span>
+				<section class="about" id="academy">
+					<div>
+						<div class="overline">04 / LEARN TOGETHER</div>
+						<h2>Doctor AI<br />Academy</h2>
 					</div>
-					<div class="sec-line"></div>
-					<a href="/lab/" class="sec-all">→</a>
-				</div>
-				<div class="lab-hub-grid home-pillar-grid">
-					<article class="lab-hub-card">
-						<h2 class="lab-hub-title">에스리본의원</h2>
-						<p class="lab-hub-desc">홍대점 클리닉 사이트로 이동합니다.</p>
-						<a class="lab-hub-cta" href="https://s-reborn-clinic.pages.dev" target="_blank" rel="noopener noreferrer">클리닉 사이트 열기 →</a>
-					</article>
-					<article class="lab-hub-card">
-						<h2 class="lab-hub-title">AI 전문가 김도위</h2>
-						<p class="lab-hub-desc">의료 AI 글과 아카데미로 이어집니다.</p>
-						<p class="home-pillar-links">
-							<a href="/blog/">글 보기</a>
-							<a href="https://s-reborn-doctor-ai-academy.pages.dev" target="_blank" rel="noopener noreferrer">Doctor AI 아카데미</a>
+					<div>
+						<p>AI에 대해 듣는 시간을 넘어, 자신의 업무에 직접 적용하는 방법을 배우는 공간. 초보자를 위한 이해부터 실제 워크플로우 설계까지 단계적으로 확장합니다.</p>
+						<p>
+							<a class="secondary academy-open" href={ACADEMY_URL} target="_blank" rel="noopener noreferrer">Doctor AI Academy 열기 ↗</a>
 						</p>
-					</article>
-				</div>
+					</div>
+				</section>
+
+				<section class="about about-teaser" id="about">
+					<figure class="about-figure">
+						<img src="/preview/profile-figure-v2.jpg" alt="김도위 프로필" width="1395" height="1832" />
+					</figure>
+					<div>
+						<div class="overline">05 / ABOUT</div>
+						<h2>김도위<br /><span class="role">가정의학과 전문의 · AI 교육자</span></h2>
+						<p class="about-kicker">에스리본의원 홍대점 대표원장. 진료실에서 얻은 질문을 연구와 글로 남기고, 의료인이 AI를 스스로 쓰도록 가르칩니다.</p>
+						<ul class="about-points">
+							<li>한양대학교 의과대학 졸업, 가정의학과 전문의</li>
+							<li>대한필러학회 AI 혁신 포럼 위원장 · 한국피부비만성형학회 AI 혁신 기획이사 · 한국AI리터러시협회 의료분과 전문위원</li>
+							<li>D&amp;PS 월간 연재와 Doctor AI Academy로 현장 교육을 이어 갑니다</li>
+						</ul>
+						<p>
+							<a class="secondary academy-open" href={ABOUT_HREF}>철학과 약력 자세히 보기 ↗</a>
+						</p>
+					</div>
+				</section>
 			</main>
+
+			<footer class="footer">
+				<b>S—REBORN</b>
+				<span>© S-REBORN</span>
+			</footer>
 		</div>
-	) : (
-		<div style="padding: 4rem 2rem; color: var(--t2); text-align: center;">
-			아직 작성된 글이 없습니다.
-		</div>
-	)}
-
-	<!-- 포스트 데이터 JSON embed -->
-	<script type="application/json" id="yt-posts-data" set:html={JSON.stringify(postsData)}></script>
-	<script type="application/json" id="aerini-posts-data" set:html={JSON.stringify(aeriniData)}></script>
-
-	<script is:inline>
-		(function () {
-			function escapeHtml(str) {
-				return String(str)
-					.replace(/&/g, '&amp;')
-					.replace(/</g, '&lt;')
-					.replace(/>/g, '&gt;')
-					.replace(/"/g, '&quot;');
-			}
-
-			// 히어로 랜덤 선정
-			var dataEl = document.getElementById('yt-posts-data');
-			if (dataEl) {
-				var posts = JSON.parse(dataEl.textContent || '[]');
-				if (posts.length) {
-					var heroIdx = Math.floor(Math.random() * posts.length);
-					var hero = posts[heroIdx];
-
-					var heroEl = document.getElementById('yt-hero');
-					if (heroEl) heroEl.href = hero.href;
-
-					var titleEl = document.getElementById('yt-hero-title');
-					if (titleEl) {
-						titleEl.innerHTML = escapeHtml(hero.titleMain) +
-							(hero.titleSub ? '<br><span class="yt-title-sub">' + escapeHtml(hero.titleSub) + '</span>' : '');
-					}
-
-					var bodyEl = document.getElementById('yt-hero-body');
-					if (bodyEl) {
-						var paragraphs = hero.bodyPreview.split('\n\n').map(function(p) { return p.trim(); }).filter(Boolean);
-						bodyEl.innerHTML = paragraphs.map(function(p) {
-							return '<p class="yt-body-preview">' + escapeHtml(p) + '</p>';
-						}).join('');
-					}
-				}
-			}
-
-			// 펼치기/접기 토글
-			var toggle = document.getElementById('yt-body-toggle');
-			var wrap = document.getElementById('yt-body-wrap');
-			if (toggle && wrap) {
-				toggle.addEventListener('click', function (e) {
-					e.preventDefault();
-					e.stopPropagation();
-					var expanded = wrap.classList.toggle('expanded');
-					toggle.textContent = expanded ? '︽︽' : '︾︾';
-					toggle.setAttribute('aria-label', expanded ? '본문 접기' : '본문 펼치기');
-				});
-			}
-
-			// 애린이 카드 랜덤화
-			var aeriniEl = document.getElementById('aerini-posts-data');
-			var aeriniFrame = document.getElementById('aerini-frame');
-			if (aeriniEl && aeriniFrame) {
-				var aeriniPosts = JSON.parse(aeriniEl.textContent || '[]');
-				aeriniPosts.sort(function () { return Math.random() - 0.5; });
-				var shown = aeriniPosts.slice(0, 5);
-				var totalCount = aeriniPosts.length;
-				aeriniFrame.innerHTML = shown.map(function (p) {
-					return '<a class="aerini-card" href="' + escapeHtml(p.href) + '">' +
-						'<span class="aerini-card-badge">' + escapeHtml(p.badge) + '</span>' +
-						'<p class="aerini-card-title">' + escapeHtml(p.title) + '</p>' +
-						'<p class="aerini-card-desc">' + escapeHtml(p.description) + '</p>' +
-						'</a>';
-				}).join('') +
-				'<a class="aerini-more" href="/blog/?category=aerini">전체 ' + totalCount + '개 보기 →</a>';
-			}
-
-			// 그룹 펼치기/접기
-			document.querySelectorAll('.blog-nav-group-hd').forEach(function(hd) {
-				hd.addEventListener('click', function() {
-					hd.closest('.blog-nav-group').classList.toggle('is-open');
+		<script is:inline>
+			const btn = document.querySelector('.mobile-menu');
+			const nav = document.querySelector('.mobile-nav');
+			btn.addEventListener('click', () => {
+				const opened = nav.classList.toggle('open');
+				btn.setAttribute('aria-expanded', opened);
+				btn.textContent = opened ? '×' : '☰';
+			});
+			nav.querySelectorAll('a').forEach((link) => {
+				link.addEventListener('click', () => {
+					nav.classList.remove('open');
+					btn.setAttribute('aria-expanded', 'false');
+					btn.textContent = '☰';
 				});
 			});
-
-			// 모바일 토글
-			var mobileToggle = document.getElementById('blog-nav-toggle');
-			var navBody = document.getElementById('blog-nav-body');
-			if (mobileToggle && navBody) {
-				mobileToggle.addEventListener('click', function() {
-					var open = navBody.classList.toggle('is-open');
-					mobileToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-				});
-			}
-		})();
-	</script>
-</Layout>
+		</script>
+	</body>
+</html>

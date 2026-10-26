@@ -1,0 +1,3060 @@
+[
+  {
+    "id": "KOAT-S01",
+    "number": 1,
+    "title": "김도위",
+    "image": "images/KOAT-S01-image-01.webp",
+    "elements": [
+      {
+        "text": "KOAT  ·  AI OPEN LECTURE",
+        "x": 0.72,
+        "y": 0.38,
+        "w": 7,
+        "h": 0.35,
+        "size": 14,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "발표자 소개",
+        "x": 0.72,
+        "y": 0.78,
+        "w": 8,
+        "h": 0.55,
+        "size": 31,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "김도위",
+        "x": 0.74,
+        "y": 1.85,
+        "w": 5.5,
+        "h": 0.8,
+        "size": 46,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "에스리본의원 홍대 대표원장",
+        "x": 0.76,
+        "y": 2.72,
+        "w": 3.7323,
+        "h": 0.55,
+        "size": 21,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "의료 현장 × AI 활용",
+        "x": 1.06,
+        "y": 3.97,
+        "w": 5.5,
+        "h": 0.43,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "대한필러학회 AI 혁신 포럼 위원장\n대한필러학회 AI 디지털 이사\n한국피부비만성형학회 학술이사",
+        "x": 1.08,
+        "y": 4.64,
+        "w": 10.8,
+        "h": 1.4,
+        "size": 20,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "왜 우리는 AI를 생각보다 잘 활용하지 못하는가?",
+        "x": 0.76,
+        "y": 6.78,
+        "w": 11.8,
+        "h": 0.3,
+        "size": 13,
+        "bold": false,
+        "align": "left"
+      }
+    ]
+  },
+  {
+    "id": "KOAT-S02",
+    "number": 2,
+    "title": "무엇부터 시작할까?",
+    "image": "images/KOAT-S02-image-01.webp",
+    "elements": [
+      {
+        "text": "KOAT 2026  ·  AI OPEN LECTURE",
+        "x": 0.7,
+        "y": 0.26,
+        "w": 5.8,
+        "h": 0.3,
+        "size": 10.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "시작 장벽",
+        "x": 10.47,
+        "y": 0.25,
+        "w": 1.7,
+        "h": 0.34,
+        "size": 10.5,
+        "bold": true,
+        "align": "right"
+      },
+      {
+        "text": "01 / 24",
+        "x": 12.15,
+        "y": 0.25,
+        "w": 0.52,
+        "h": 0.34,
+        "size": 10,
+        "bold": false,
+        "align": "right"
+      },
+      {
+        "text": "01  /  시작이 어려운 이유",
+        "x": 0.73,
+        "y": 1.27,
+        "w": 6.17,
+        "h": 0.43,
+        "size": 17,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "무엇부터 시작할까?",
+        "x": 0.73,
+        "y": 1.91,
+        "w": 6.17,
+        "h": 1.05,
+        "size": 33,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "첫 질문부터 막막",
+        "x": 0.73,
+        "y": 3.05,
+        "w": 6.13,
+        "h": 0.68,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "도구는 많은데 시작점이 없음",
+        "x": 1.02,
+        "y": 4.12,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "질문을 잘해야 한다는 부담",
+        "x": 1.02,
+        "y": 4.8,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "작은 일 하나부터 시도",
+        "x": 1.02,
+        "y": 5.48,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "왜 우리는 AI를 생각보다 잘 활용하지 못하는가?",
+        "x": 0.7,
+        "y": 7.1,
+        "w": 9.4,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "2026. 10. 18",
+        "x": 11.35,
+        "y": 7.1,
+        "w": 1.3,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "right"
+      }
+    ]
+  },
+  {
+    "id": "KOAT-S03",
+    "number": 3,
+    "title": "무엇을 시킬 수 있을까?",
+    "image": "images/KOAT-S03-image-01.webp",
+    "elements": [
+      {
+        "text": "KOAT 2026  ·  AI OPEN LECTURE",
+        "x": 0.7,
+        "y": 0.26,
+        "w": 5.8,
+        "h": 0.3,
+        "size": 10.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "시작 장벽",
+        "x": 10.47,
+        "y": 0.25,
+        "w": 1.7,
+        "h": 0.34,
+        "size": 10.5,
+        "bold": true,
+        "align": "right"
+      },
+      {
+        "text": "02 / 24",
+        "x": 12.15,
+        "y": 0.25,
+        "w": 0.52,
+        "h": 0.34,
+        "size": 10,
+        "bold": false,
+        "align": "right"
+      },
+      {
+        "text": "01  /  시작이 어려운 이유",
+        "x": 0.73,
+        "y": 1.27,
+        "w": 6.17,
+        "h": 0.43,
+        "size": 17,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "무엇을 시킬 수 있을까?",
+        "x": 0.73,
+        "y": 1.91,
+        "w": 6.17,
+        "h": 1.05,
+        "size": 33,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "가능성을 모르면 활용도 좁다",
+        "x": 0.73,
+        "y": 3.05,
+        "w": 6.13,
+        "h": 0.68,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "검색·번역에만 사용",
+        "x": 1.02,
+        "y": 4.12,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "일상·업무 사례가 떠오르지 않음",
+        "x": 1.02,
+        "y": 4.8,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "자주 하는 일부터 AI에 맡기기",
+        "x": 1.02,
+        "y": 5.48,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "왜 우리는 AI를 생각보다 잘 활용하지 못하는가?",
+        "x": 0.7,
+        "y": 7.1,
+        "w": 9.4,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "2026. 10. 18",
+        "x": 11.35,
+        "y": 7.1,
+        "w": 1.3,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "right"
+      }
+    ]
+  },
+  {
+    "id": "KOAT-S04",
+    "number": 4,
+    "title": "너무 어려워 보인다",
+    "image": "images/KOAT-S04-image-01.webp",
+    "elements": [
+      {
+        "text": "KOAT 2026  ·  AI OPEN LECTURE",
+        "x": 0.7,
+        "y": 0.26,
+        "w": 5.8,
+        "h": 0.3,
+        "size": 10.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "시작 장벽",
+        "x": 10.47,
+        "y": 0.25,
+        "w": 1.7,
+        "h": 0.34,
+        "size": 10.5,
+        "bold": true,
+        "align": "right"
+      },
+      {
+        "text": "03 / 24",
+        "x": 12.15,
+        "y": 0.25,
+        "w": 0.52,
+        "h": 0.34,
+        "size": 10,
+        "bold": false,
+        "align": "right"
+      },
+      {
+        "text": "01  /  시작이 어려운 이유",
+        "x": 0.73,
+        "y": 1.27,
+        "w": 6.17,
+        "h": 0.43,
+        "size": 17,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "너무 어려워 보인다",
+        "x": 0.73,
+        "y": 1.91,
+        "w": 6.17,
+        "h": 1.05,
+        "size": 33,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "기술보다 익숙한 말이 먼저",
+        "x": 0.73,
+        "y": 3.05,
+        "w": 6.13,
+        "h": 0.68,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "낯선 용어와 복잡한 화면",
+        "x": 1.02,
+        "y": 4.12,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "잘못 사용할까 봐 망설임",
+        "x": 1.02,
+        "y": 4.8,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "평소 말하듯 요청하기",
+        "x": 1.02,
+        "y": 5.48,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "왜 우리는 AI를 생각보다 잘 활용하지 못하는가?",
+        "x": 0.7,
+        "y": 7.1,
+        "w": 9.4,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "2026. 10. 18",
+        "x": 11.35,
+        "y": 7.1,
+        "w": 1.3,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "right"
+      }
+    ]
+  },
+  {
+    "id": "KOAT-S05",
+    "number": 5,
+    "title": "내 정보가 새지 않을까?",
+    "image": "images/KOAT-S05-image-01.webp",
+    "elements": [
+      {
+        "text": "KOAT 2026  ·  AI OPEN LECTURE",
+        "x": 0.7,
+        "y": 0.26,
+        "w": 5.8,
+        "h": 0.3,
+        "size": 10.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "시작 장벽",
+        "x": 10.47,
+        "y": 0.25,
+        "w": 1.7,
+        "h": 0.34,
+        "size": 10.5,
+        "bold": true,
+        "align": "right"
+      },
+      {
+        "text": "04 / 24",
+        "x": 12.15,
+        "y": 0.25,
+        "w": 0.52,
+        "h": 0.34,
+        "size": 10,
+        "bold": false,
+        "align": "right"
+      },
+      {
+        "text": "01  /  시작이 어려운 이유",
+        "x": 0.73,
+        "y": 1.27,
+        "w": 6.17,
+        "h": 0.43,
+        "size": 17,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "내 정보가 새지 않을까?",
+        "x": 0.73,
+        "y": 1.91,
+        "w": 6.17,
+        "h": 1.05,
+        "size": 33,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "안전 기준이 없으면 사용도 어렵다",
+        "x": 0.73,
+        "y": 3.05,
+        "w": 6.13,
+        "h": 0.68,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "개인정보 입력이 걱정됨",
+        "x": 1.02,
+        "y": 4.12,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "자료 공유 범위가 불분명",
+        "x": 1.02,
+        "y": 4.8,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "민감정보 제외·보안 설정 확인",
+        "x": 1.02,
+        "y": 5.48,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "왜 우리는 AI를 생각보다 잘 활용하지 못하는가?",
+        "x": 0.7,
+        "y": 7.1,
+        "w": 9.4,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "2026. 10. 18",
+        "x": 11.35,
+        "y": 7.1,
+        "w": 1.3,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "right"
+      }
+    ]
+  },
+  {
+    "id": "KOAT-S06",
+    "number": 6,
+    "title": "AI가 너무 많다",
+    "image": "images/KOAT-S06-image-01.webp",
+    "elements": [
+      {
+        "text": "KOAT 2026  ·  AI OPEN LECTURE",
+        "x": 0.7,
+        "y": 0.26,
+        "w": 5.8,
+        "h": 0.3,
+        "size": 10.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "시작 장벽",
+        "x": 10.47,
+        "y": 0.25,
+        "w": 1.7,
+        "h": 0.34,
+        "size": 10.5,
+        "bold": true,
+        "align": "right"
+      },
+      {
+        "text": "05 / 24",
+        "x": 12.15,
+        "y": 0.25,
+        "w": 0.52,
+        "h": 0.34,
+        "size": 10,
+        "bold": false,
+        "align": "right"
+      },
+      {
+        "text": "01  /  시작이 어려운 이유",
+        "x": 0.73,
+        "y": 1.27,
+        "w": 6.17,
+        "h": 0.43,
+        "size": 17,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "AI가 너무 많다",
+        "x": 0.73,
+        "y": 1.91,
+        "w": 6.17,
+        "h": 1.05,
+        "size": 33,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "도구 선택에 힘을 다 쓴다",
+        "x": 0.73,
+        "y": 3.05,
+        "w": 6.13,
+        "h": 0.68,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "기능·가격 비교만 반복",
+        "x": 1.02,
+        "y": 4.12,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "가입과 구독 관리 부담",
+        "x": 1.02,
+        "y": 4.8,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "목적에 맞는 도구 1~2개 선택",
+        "x": 1.02,
+        "y": 5.48,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "왜 우리는 AI를 생각보다 잘 활용하지 못하는가?",
+        "x": 0.7,
+        "y": 7.1,
+        "w": 9.4,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "2026. 10. 18",
+        "x": 11.35,
+        "y": 7.1,
+        "w": 1.3,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "right"
+      }
+    ]
+  },
+  {
+    "id": "KOAT-S07",
+    "number": 7,
+    "title": "배울 시간이 없다",
+    "image": "images/KOAT-S07-image-01.webp",
+    "elements": [
+      {
+        "text": "KOAT 2026  ·  AI OPEN LECTURE",
+        "x": 0.7,
+        "y": 0.26,
+        "w": 5.8,
+        "h": 0.3,
+        "size": 10.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "시작 장벽",
+        "x": 10.47,
+        "y": 0.25,
+        "w": 1.7,
+        "h": 0.34,
+        "size": 10.5,
+        "bold": true,
+        "align": "right"
+      },
+      {
+        "text": "06 / 24",
+        "x": 12.15,
+        "y": 0.25,
+        "w": 0.52,
+        "h": 0.34,
+        "size": 10,
+        "bold": false,
+        "align": "right"
+      },
+      {
+        "text": "01  /  시작이 어려운 이유",
+        "x": 0.73,
+        "y": 1.27,
+        "w": 6.17,
+        "h": 0.43,
+        "size": 17,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "배울 시간이 없다",
+        "x": 0.73,
+        "y": 1.91,
+        "w": 6.17,
+        "h": 1.05,
+        "size": 33,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "학습 자체가 또 다른 일",
+        "x": 0.73,
+        "y": 3.05,
+        "w": 6.13,
+        "h": 0.68,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "당장 급한 업무가 우선",
+        "x": 1.02,
+        "y": 4.12,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "설명 영상만 보고 중단",
+        "x": 1.02,
+        "y": 4.8,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "하루 5분, 실제 업무에 적용",
+        "x": 1.02,
+        "y": 5.48,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "왜 우리는 AI를 생각보다 잘 활용하지 못하는가?",
+        "x": 0.7,
+        "y": 7.1,
+        "w": 9.4,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "2026. 10. 18",
+        "x": 11.35,
+        "y": 7.1,
+        "w": 1.3,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "right"
+      }
+    ]
+  },
+  {
+    "id": "KOAT-S08",
+    "number": 8,
+    "title": "답변이 너무 평범하다",
+    "image": "images/KOAT-S08-image-01.webp",
+    "elements": [
+      {
+        "text": "KOAT 2026  ·  AI OPEN LECTURE",
+        "x": 0.7,
+        "y": 0.26,
+        "w": 5.8,
+        "h": 0.3,
+        "size": 10.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "활용 장벽",
+        "x": 10.47,
+        "y": 0.25,
+        "w": 1.7,
+        "h": 0.34,
+        "size": 10.5,
+        "bold": true,
+        "align": "right"
+      },
+      {
+        "text": "07 / 24",
+        "x": 12.15,
+        "y": 0.25,
+        "w": 0.52,
+        "h": 0.34,
+        "size": 10,
+        "bold": false,
+        "align": "right"
+      },
+      {
+        "text": "02  /  써도 만족스럽지 않은 이유",
+        "x": 0.73,
+        "y": 1.27,
+        "w": 6.17,
+        "h": 0.43,
+        "size": 17,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "답변이 너무 평범하다",
+        "x": 0.73,
+        "y": 1.91,
+        "w": 6.17,
+        "h": 1.05,
+        "size": 33,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "막연한 요청 → 흔한 답변",
+        "x": 0.73,
+        "y": 3.05,
+        "w": 6.13,
+        "h": 0.68,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "목적·대상·형식이 빠짐",
+        "x": 1.02,
+        "y": 4.12,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "“잘 써줘”만 반복",
+        "x": 1.02,
+        "y": 4.8,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "원하는 결과의 예시 보여주기",
+        "x": 1.02,
+        "y": 5.48,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "왜 우리는 AI를 생각보다 잘 활용하지 못하는가?",
+        "x": 0.7,
+        "y": 7.1,
+        "w": 9.4,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "2026. 10. 18",
+        "x": 11.35,
+        "y": 7.1,
+        "w": 1.3,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "right"
+      }
+    ]
+  },
+  {
+    "id": "KOAT-S09",
+    "number": 9,
+    "title": "내 상황을 이해하지 못한다",
+    "image": "images/KOAT-S09-image-01.webp",
+    "elements": [
+      {
+        "text": "KOAT 2026  ·  AI OPEN LECTURE",
+        "x": 0.7,
+        "y": 0.26,
+        "w": 5.8,
+        "h": 0.3,
+        "size": 10.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "활용 장벽",
+        "x": 10.47,
+        "y": 0.25,
+        "w": 1.7,
+        "h": 0.34,
+        "size": 10.5,
+        "bold": true,
+        "align": "right"
+      },
+      {
+        "text": "08 / 24",
+        "x": 12.15,
+        "y": 0.25,
+        "w": 0.52,
+        "h": 0.34,
+        "size": 10,
+        "bold": false,
+        "align": "right"
+      },
+      {
+        "text": "02  /  써도 만족스럽지 않은 이유",
+        "x": 0.73,
+        "y": 1.27,
+        "w": 6.17,
+        "h": 0.43,
+        "size": 17,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "내 상황을 이해하지 못한다",
+        "x": 0.73,
+        "y": 1.91,
+        "w": 6.17,
+        "h": 1.05,
+        "size": 33,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "배경이 빠지면 결과도 빗나간다",
+        "x": 0.73,
+        "y": 3.05,
+        "w": 6.13,
+        "h": 0.68,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "누구를 위한 일인지 모름",
+        "x": 1.02,
+        "y": 4.12,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "자료·조건·기준이 없음",
+        "x": 1.02,
+        "y": 4.8,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "상황과 참고자료 함께 제공",
+        "x": 1.02,
+        "y": 5.48,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "왜 우리는 AI를 생각보다 잘 활용하지 못하는가?",
+        "x": 0.7,
+        "y": 7.1,
+        "w": 9.4,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "2026. 10. 18",
+        "x": 11.35,
+        "y": 7.1,
+        "w": 1.3,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "right"
+      }
+    ]
+  },
+  {
+    "id": "KOAT-S10",
+    "number": 10,
+    "title": "고칠수록 더 이상해진다",
+    "image": "images/KOAT-S10-image-01.webp",
+    "elements": [
+      {
+        "text": "KOAT 2026  ·  AI OPEN LECTURE",
+        "x": 0.7,
+        "y": 0.26,
+        "w": 5.8,
+        "h": 0.3,
+        "size": 10.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "활용 장벽",
+        "x": 10.47,
+        "y": 0.25,
+        "w": 1.7,
+        "h": 0.34,
+        "size": 10.5,
+        "bold": true,
+        "align": "right"
+      },
+      {
+        "text": "09 / 24",
+        "x": 12.15,
+        "y": 0.25,
+        "w": 0.52,
+        "h": 0.34,
+        "size": 10,
+        "bold": false,
+        "align": "right"
+      },
+      {
+        "text": "02  /  써도 만족스럽지 않은 이유",
+        "x": 0.73,
+        "y": 1.27,
+        "w": 6.17,
+        "h": 0.43,
+        "size": 17,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "고칠수록 더 이상해진다",
+        "x": 0.73,
+        "y": 1.91,
+        "w": 6.17,
+        "h": 1.05,
+        "size": 33,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "수정할수록 방향이 흔들림",
+        "x": 0.73,
+        "y": 3.05,
+        "w": 6.13,
+        "h": 0.68,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "이전 요구와 새 요구가 충돌",
+        "x": 1.02,
+        "y": 4.12,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "좋았던 부분까지 바뀜",
+        "x": 1.02,
+        "y": 4.8,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "좋은 버전 저장·수정 범위 지정",
+        "x": 1.02,
+        "y": 5.48,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "왜 우리는 AI를 생각보다 잘 활용하지 못하는가?",
+        "x": 0.7,
+        "y": 7.1,
+        "w": 9.4,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "2026. 10. 18",
+        "x": 11.35,
+        "y": 7.1,
+        "w": 1.3,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "right"
+      }
+    ]
+  },
+  {
+    "id": "KOAT-S11",
+    "number": 11,
+    "title": "그럴듯한데 틀리다",
+    "image": "images/KOAT-S11-image-01.webp",
+    "elements": [
+      {
+        "text": "KOAT 2026  ·  AI OPEN LECTURE",
+        "x": 0.7,
+        "y": 0.26,
+        "w": 5.8,
+        "h": 0.3,
+        "size": 10.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "활용 장벽",
+        "x": 10.47,
+        "y": 0.25,
+        "w": 1.7,
+        "h": 0.34,
+        "size": 10.5,
+        "bold": true,
+        "align": "right"
+      },
+      {
+        "text": "10 / 24",
+        "x": 12.15,
+        "y": 0.25,
+        "w": 0.52,
+        "h": 0.34,
+        "size": 10,
+        "bold": false,
+        "align": "right"
+      },
+      {
+        "text": "02  /  써도 만족스럽지 않은 이유",
+        "x": 0.73,
+        "y": 1.27,
+        "w": 6.17,
+        "h": 0.43,
+        "size": 17,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "그럴듯한데 틀리다",
+        "x": 0.73,
+        "y": 1.91,
+        "w": 6.17,
+        "h": 1.05,
+        "size": 33,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "자연스러운 답변 ≠ 정확한 답변",
+        "x": 0.73,
+        "y": 3.05,
+        "w": 6.13,
+        "h": 0.68,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "없는 수치나 출처 제시",
+        "x": 1.02,
+        "y": 4.12,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "오류가 눈에 잘 띄지 않음",
+        "x": 1.02,
+        "y": 4.8,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "중요 정보는 원문 확인",
+        "x": 1.02,
+        "y": 5.48,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "왜 우리는 AI를 생각보다 잘 활용하지 못하는가?",
+        "x": 0.7,
+        "y": 7.1,
+        "w": 9.4,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "2026. 10. 18",
+        "x": 11.35,
+        "y": 7.1,
+        "w": 1.3,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "right"
+      }
+    ]
+  },
+  {
+    "id": "KOAT-S12",
+    "number": 12,
+    "title": "어떤 일은 잘하고, 어떤 일은 못한다",
+    "image": "images/KOAT-S12-image-01.webp",
+    "elements": [
+      {
+        "text": "KOAT 2026  ·  AI OPEN LECTURE",
+        "x": 0.7,
+        "y": 0.26,
+        "w": 5.8,
+        "h": 0.3,
+        "size": 10.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "활용 장벽",
+        "x": 10.47,
+        "y": 0.25,
+        "w": 1.7,
+        "h": 0.34,
+        "size": 10.5,
+        "bold": true,
+        "align": "right"
+      },
+      {
+        "text": "11 / 24",
+        "x": 12.15,
+        "y": 0.25,
+        "w": 0.52,
+        "h": 0.34,
+        "size": 10,
+        "bold": false,
+        "align": "right"
+      },
+      {
+        "text": "02  /  써도 만족스럽지 않은 이유",
+        "x": 0.73,
+        "y": 1.27,
+        "w": 6.17,
+        "h": 0.43,
+        "size": 17,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "어떤 일은 잘하고, 어떤 일은 못한다",
+        "x": 0.73,
+        "y": 1.91,
+        "w": 6.17,
+        "h": 1.05,
+        "size": 29,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "AI 실력은 작업마다 다르다",
+        "x": 0.73,
+        "y": 3.05,
+        "w": 6.13,
+        "h": 0.68,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "잘하는 작업과 약한 작업이 공존",
+        "x": 1.02,
+        "y": 4.12,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "쉬워 보이는 일에서도 실패",
+        "x": 1.02,
+        "y": 4.8,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "작업별로 시험한 뒤 맡기기",
+        "x": 1.02,
+        "y": 5.48,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "왜 우리는 AI를 생각보다 잘 활용하지 못하는가?",
+        "x": 0.7,
+        "y": 7.1,
+        "w": 9.4,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "2026. 10. 18",
+        "x": 11.35,
+        "y": 7.1,
+        "w": 1.3,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "right"
+      }
+    ]
+  },
+  {
+    "id": "KOAT-S13",
+    "number": 13,
+    "title": "결과가 업무로 이어지지 않는다",
+    "image": "images/KOAT-S13-image-01.webp",
+    "elements": [
+      {
+        "text": "KOAT 2026  ·  AI OPEN LECTURE",
+        "x": 0.7,
+        "y": 0.26,
+        "w": 5.8,
+        "h": 0.3,
+        "size": 10.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "활용 장벽",
+        "x": 10.47,
+        "y": 0.25,
+        "w": 1.7,
+        "h": 0.34,
+        "size": 10.5,
+        "bold": true,
+        "align": "right"
+      },
+      {
+        "text": "12 / 24",
+        "x": 12.15,
+        "y": 0.25,
+        "w": 0.52,
+        "h": 0.34,
+        "size": 10,
+        "bold": false,
+        "align": "right"
+      },
+      {
+        "text": "02  /  써도 만족스럽지 않은 이유",
+        "x": 0.73,
+        "y": 1.27,
+        "w": 6.17,
+        "h": 0.43,
+        "size": 17,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "결과가 업무로 이어지지 않는다",
+        "x": 0.73,
+        "y": 1.91,
+        "w": 6.17,
+        "h": 1.05,
+        "size": 33,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "답변과 실행 사이의 빈틈",
+        "x": 0.73,
+        "y": 3.05,
+        "w": 6.13,
+        "h": 0.68,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "복사·정리·재입력을 반복",
+        "x": 1.02,
+        "y": 4.12,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "파일·팀 업무와 연결되지 않음",
+        "x": 1.02,
+        "y": 4.8,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "저장·공유·실행 흐름 만들기",
+        "x": 1.02,
+        "y": 5.48,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "왜 우리는 AI를 생각보다 잘 활용하지 못하는가?",
+        "x": 0.7,
+        "y": 7.1,
+        "w": 9.4,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "2026. 10. 18",
+        "x": 11.35,
+        "y": 7.1,
+        "w": 1.3,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "right"
+      }
+    ]
+  },
+  {
+    "id": "KOAT-S14",
+    "number": 14,
+    "title": "도구가 늘수록 복잡하다",
+    "image": "images/KOAT-S14-image-01.webp",
+    "elements": [
+      {
+        "text": "KOAT 2026  ·  AI OPEN LECTURE",
+        "x": 0.7,
+        "y": 0.26,
+        "w": 5.8,
+        "h": 0.3,
+        "size": 10.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "활용 장벽",
+        "x": 10.47,
+        "y": 0.25,
+        "w": 1.7,
+        "h": 0.34,
+        "size": 10.5,
+        "bold": true,
+        "align": "right"
+      },
+      {
+        "text": "13 / 24",
+        "x": 12.15,
+        "y": 0.25,
+        "w": 0.52,
+        "h": 0.34,
+        "size": 10,
+        "bold": false,
+        "align": "right"
+      },
+      {
+        "text": "02  /  써도 만족스럽지 않은 이유",
+        "x": 0.73,
+        "y": 1.27,
+        "w": 6.17,
+        "h": 0.43,
+        "size": 17,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "도구가 늘수록 복잡하다",
+        "x": 0.73,
+        "y": 1.91,
+        "w": 6.17,
+        "h": 1.05,
+        "size": 33,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "서비스 추가 ≠ 생산성 증가",
+        "x": 0.73,
+        "y": 3.05,
+        "w": 6.13,
+        "h": 0.68,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "계정·구독·파일이 분산",
+        "x": 1.02,
+        "y": 4.12,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "도구마다 같은 설명 반복",
+        "x": 1.02,
+        "y": 4.8,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "작업별 기본 도구 정하기",
+        "x": 1.02,
+        "y": 5.48,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "왜 우리는 AI를 생각보다 잘 활용하지 못하는가?",
+        "x": 0.7,
+        "y": 7.1,
+        "w": 9.4,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "2026. 10. 18",
+        "x": 11.35,
+        "y": 7.1,
+        "w": 1.3,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "right"
+      }
+    ]
+  },
+  {
+    "id": "KOAT-S15",
+    "number": 15,
+    "title": "처음만 신기하고 곧 정체된다",
+    "image": "images/KOAT-S15-image-01.webp",
+    "elements": [
+      {
+        "text": "KOAT 2026  ·  AI OPEN LECTURE",
+        "x": 0.7,
+        "y": 0.26,
+        "w": 5.8,
+        "h": 0.3,
+        "size": 10.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "활용 장벽",
+        "x": 10.47,
+        "y": 0.25,
+        "w": 1.7,
+        "h": 0.34,
+        "size": 10.5,
+        "bold": true,
+        "align": "right"
+      },
+      {
+        "text": "14 / 24",
+        "x": 12.15,
+        "y": 0.25,
+        "w": 0.52,
+        "h": 0.34,
+        "size": 10,
+        "bold": false,
+        "align": "right"
+      },
+      {
+        "text": "02  /  써도 만족스럽지 않은 이유",
+        "x": 0.73,
+        "y": 1.27,
+        "w": 6.17,
+        "h": 0.43,
+        "size": 17,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "처음만 신기하고 곧 정체된다",
+        "x": 0.73,
+        "y": 1.91,
+        "w": 6.17,
+        "h": 1.05,
+        "size": 33,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "익숙한 용도에만 머문다",
+        "x": 0.73,
+        "y": 3.05,
+        "w": 6.13,
+        "h": 0.68,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "늘 같은 질문만 반복",
+        "x": 1.02,
+        "y": 4.12,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "새로운 활용 시도가 줄어듦",
+        "x": 1.02,
+        "y": 4.8,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "매주 새로운 업무 하나 실험",
+        "x": 1.02,
+        "y": 5.48,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "왜 우리는 AI를 생각보다 잘 활용하지 못하는가?",
+        "x": 0.7,
+        "y": 7.1,
+        "w": 9.4,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "2026. 10. 18",
+        "x": 11.35,
+        "y": 7.1,
+        "w": 1.3,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "right"
+      }
+    ]
+  },
+  {
+    "id": "KOAT-S16",
+    "number": 16,
+    "title": "AI보다 먼저 목표를 정한다",
+    "image": "images/KOAT-S16-image-01.webp",
+    "elements": [
+      {
+        "text": "KOAT 2026  ·  AI OPEN LECTURE",
+        "x": 0.7,
+        "y": 0.26,
+        "w": 5.8,
+        "h": 0.3,
+        "size": 10.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "해결 전략",
+        "x": 10.47,
+        "y": 0.25,
+        "w": 1.7,
+        "h": 0.34,
+        "size": 10.5,
+        "bold": true,
+        "align": "right"
+      },
+      {
+        "text": "15 / 24",
+        "x": 12.15,
+        "y": 0.25,
+        "w": 0.52,
+        "h": 0.34,
+        "size": 10,
+        "bold": false,
+        "align": "right"
+      },
+      {
+        "text": "03  /  AI를 더 잘 쓰는 방법",
+        "x": 0.73,
+        "y": 1.27,
+        "w": 6.17,
+        "h": 0.43,
+        "size": 17,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "AI보다 먼저 목표를 정한다",
+        "x": 0.73,
+        "y": 1.91,
+        "w": 6.17,
+        "h": 1.05,
+        "size": 33,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "무엇을 얻을지 분명하게",
+        "x": 0.73,
+        "y": 3.05,
+        "w": 6.13,
+        "h": 0.68,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "목적  |  왜 필요한가",
+        "x": 1.02,
+        "y": 4.12,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "대상  |  누가 볼 것인가",
+        "x": 1.02,
+        "y": 4.8,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "형식  |  무엇으로 받을 것인가",
+        "x": 1.02,
+        "y": 5.48,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 20.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "왜 우리는 AI를 생각보다 잘 활용하지 못하는가?",
+        "x": 0.7,
+        "y": 7.1,
+        "w": 9.4,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "2026. 10. 18",
+        "x": 11.35,
+        "y": 7.1,
+        "w": 1.3,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "right"
+      }
+    ]
+  },
+  {
+    "id": "KOAT-S17",
+    "number": 17,
+    "title": "내 상황을 알려준다",
+    "image": "images/KOAT-S17-image-01.webp",
+    "elements": [
+      {
+        "text": "KOAT 2026  ·  AI OPEN LECTURE",
+        "x": 0.7,
+        "y": 0.26,
+        "w": 5.8,
+        "h": 0.3,
+        "size": 10.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "해결 전략",
+        "x": 10.47,
+        "y": 0.25,
+        "w": 1.7,
+        "h": 0.34,
+        "size": 10.5,
+        "bold": true,
+        "align": "right"
+      },
+      {
+        "text": "16 / 24",
+        "x": 12.15,
+        "y": 0.25,
+        "w": 0.52,
+        "h": 0.34,
+        "size": 10,
+        "bold": false,
+        "align": "right"
+      },
+      {
+        "text": "03  /  AI를 더 잘 쓰는 방법",
+        "x": 0.73,
+        "y": 1.27,
+        "w": 6.17,
+        "h": 0.43,
+        "size": 17,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "내 상황을 알려준다",
+        "x": 0.73,
+        "y": 1.91,
+        "w": 6.17,
+        "h": 1.05,
+        "size": 33,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "배경이 있어야 맞춤 결과",
+        "x": 0.73,
+        "y": 3.05,
+        "w": 6.13,
+        "h": 0.68,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "현재 상황과 참고자료",
+        "x": 1.02,
+        "y": 4.12,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "꼭 지켜야 할 조건",
+        "x": 1.02,
+        "y": 4.8,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "좋은 결과물 예시 하나",
+        "x": 1.02,
+        "y": 5.48,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "왜 우리는 AI를 생각보다 잘 활용하지 못하는가?",
+        "x": 0.7,
+        "y": 7.1,
+        "w": 9.4,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "2026. 10. 18",
+        "x": 11.35,
+        "y": 7.1,
+        "w": 1.3,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "right"
+      }
+    ]
+  },
+  {
+    "id": "KOAT-S18",
+    "number": 18,
+    "title": "한 가지 답에 매달리지 않는다",
+    "image": "images/KOAT-S18-image-01.webp",
+    "elements": [
+      {
+        "text": "KOAT 2026  ·  AI OPEN LECTURE",
+        "x": 0.7,
+        "y": 0.26,
+        "w": 5.8,
+        "h": 0.3,
+        "size": 10.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "해결 전략",
+        "x": 10.47,
+        "y": 0.25,
+        "w": 1.7,
+        "h": 0.34,
+        "size": 10.5,
+        "bold": true,
+        "align": "right"
+      },
+      {
+        "text": "17 / 24",
+        "x": 12.15,
+        "y": 0.25,
+        "w": 0.52,
+        "h": 0.34,
+        "size": 10,
+        "bold": false,
+        "align": "right"
+      },
+      {
+        "text": "03  /  AI를 더 잘 쓰는 방법",
+        "x": 0.73,
+        "y": 1.27,
+        "w": 6.17,
+        "h": 0.43,
+        "size": 17,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "한 가지 답에 매달리지 않는다",
+        "x": 0.73,
+        "y": 1.91,
+        "w": 6.17,
+        "h": 1.05,
+        "size": 33,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "비교하면 선택이 쉬워진다",
+        "x": 0.73,
+        "y": 3.05,
+        "w": 6.13,
+        "h": 0.68,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "서로 다른 시안 3개 만들기",
+        "x": 1.02,
+        "y": 4.12,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "장단점을 나란히 비교",
+        "x": 1.02,
+        "y": 4.8,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "좋은 요소만 골라 결합",
+        "x": 1.02,
+        "y": 5.48,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "왜 우리는 AI를 생각보다 잘 활용하지 못하는가?",
+        "x": 0.7,
+        "y": 7.1,
+        "w": 9.4,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "2026. 10. 18",
+        "x": 11.35,
+        "y": 7.1,
+        "w": 1.3,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "right"
+      }
+    ]
+  },
+  {
+    "id": "KOAT-S19",
+    "number": 19,
+    "title": "큰 일은 나눠서 맡긴다",
+    "image": "images/KOAT-S19-image-01.webp",
+    "elements": [
+      {
+        "text": "KOAT 2026  ·  AI OPEN LECTURE",
+        "x": 0.7,
+        "y": 0.26,
+        "w": 5.8,
+        "h": 0.3,
+        "size": 10.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "해결 전략",
+        "x": 10.47,
+        "y": 0.25,
+        "w": 1.7,
+        "h": 0.34,
+        "size": 10.5,
+        "bold": true,
+        "align": "right"
+      },
+      {
+        "text": "18 / 24",
+        "x": 12.15,
+        "y": 0.25,
+        "w": 0.52,
+        "h": 0.34,
+        "size": 10,
+        "bold": false,
+        "align": "right"
+      },
+      {
+        "text": "03  /  AI를 더 잘 쓰는 방법",
+        "x": 0.73,
+        "y": 1.27,
+        "w": 6.17,
+        "h": 0.43,
+        "size": 17,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "큰 일은 나눠서 맡긴다",
+        "x": 0.73,
+        "y": 1.91,
+        "w": 6.17,
+        "h": 1.05,
+        "size": 33,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "성격이 다른 일은 따로 처리",
+        "x": 0.73,
+        "y": 3.05,
+        "w": 6.13,
+        "h": 0.68,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "자료 찾기",
+        "x": 1.02,
+        "y": 4.12,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "내용 정리와 초안 작성",
+        "x": 1.02,
+        "y": 4.8,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "디자인과 최종 점검",
+        "x": 1.02,
+        "y": 5.48,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "왜 우리는 AI를 생각보다 잘 활용하지 못하는가?",
+        "x": 0.7,
+        "y": 7.1,
+        "w": 9.4,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "2026. 10. 18",
+        "x": 11.35,
+        "y": 7.1,
+        "w": 1.3,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "right"
+      }
+    ]
+  },
+  {
+    "id": "KOAT-S20",
+    "number": 20,
+    "title": "좋은 결과의 기준을 정한다",
+    "image": "images/KOAT-S20-image-01.webp",
+    "elements": [
+      {
+        "text": "KOAT 2026  ·  AI OPEN LECTURE",
+        "x": 0.7,
+        "y": 0.26,
+        "w": 5.8,
+        "h": 0.3,
+        "size": 10.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "해결 전략",
+        "x": 10.47,
+        "y": 0.25,
+        "w": 1.7,
+        "h": 0.34,
+        "size": 10.5,
+        "bold": true,
+        "align": "right"
+      },
+      {
+        "text": "19 / 24",
+        "x": 12.15,
+        "y": 0.25,
+        "w": 0.52,
+        "h": 0.34,
+        "size": 10,
+        "bold": false,
+        "align": "right"
+      },
+      {
+        "text": "03  /  AI를 더 잘 쓰는 방법",
+        "x": 0.73,
+        "y": 1.27,
+        "w": 6.17,
+        "h": 0.43,
+        "size": 17,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "좋은 결과의 기준을 정한다",
+        "x": 0.73,
+        "y": 1.91,
+        "w": 6.17,
+        "h": 1.05,
+        "size": 33,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "“잘해줘” 대신 구체적인 기준",
+        "x": 0.73,
+        "y": 3.05,
+        "w": 6.13,
+        "h": 0.68,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "누가 봐도 쉽게 이해되는가",
+        "x": 1.02,
+        "y": 4.12,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "구체적인 사례가 있는가",
+        "x": 1.02,
+        "y": 4.8,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "실제로 바로 쓸 수 있는가",
+        "x": 1.02,
+        "y": 5.48,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "왜 우리는 AI를 생각보다 잘 활용하지 못하는가?",
+        "x": 0.7,
+        "y": 7.1,
+        "w": 9.4,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "2026. 10. 18",
+        "x": 11.35,
+        "y": 7.1,
+        "w": 1.3,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "right"
+      }
+    ]
+  },
+  {
+    "id": "KOAT-S21",
+    "number": 21,
+    "title": "좋은 버전은 지킨다",
+    "image": "images/KOAT-S21-image-01.webp",
+    "elements": [
+      {
+        "text": "KOAT 2026  ·  AI OPEN LECTURE",
+        "x": 0.7,
+        "y": 0.26,
+        "w": 5.8,
+        "h": 0.3,
+        "size": 10.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "해결 전략",
+        "x": 10.47,
+        "y": 0.25,
+        "w": 1.7,
+        "h": 0.34,
+        "size": 10.5,
+        "bold": true,
+        "align": "right"
+      },
+      {
+        "text": "20 / 24",
+        "x": 12.15,
+        "y": 0.25,
+        "w": 0.52,
+        "h": 0.34,
+        "size": 10,
+        "bold": false,
+        "align": "right"
+      },
+      {
+        "text": "03  /  AI를 더 잘 쓰는 방법",
+        "x": 0.73,
+        "y": 1.27,
+        "w": 6.17,
+        "h": 0.43,
+        "size": 17,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "좋은 버전은 지킨다",
+        "x": 0.73,
+        "y": 1.91,
+        "w": 6.17,
+        "h": 1.05,
+        "size": 33,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "무조건 수정보다 비교",
+        "x": 0.73,
+        "y": 3.05,
+        "w": 6.13,
+        "h": 0.68,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "완성도 높은 초안 저장",
+        "x": 1.02,
+        "y": 4.12,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "바꿀 부분만 정확히 지정",
+        "x": 1.02,
+        "y": 4.8,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "이전 버전과 비교 후 선택",
+        "x": 1.02,
+        "y": 5.48,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "왜 우리는 AI를 생각보다 잘 활용하지 못하는가?",
+        "x": 0.7,
+        "y": 7.1,
+        "w": 9.4,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "2026. 10. 18",
+        "x": 11.35,
+        "y": 7.1,
+        "w": 1.3,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "right"
+      }
+    ]
+  },
+  {
+    "id": "KOAT-S22",
+    "number": 22,
+    "title": "중요한 일일수록 더 확인한다",
+    "image": "images/KOAT-S22-image-01.webp",
+    "elements": [
+      {
+        "text": "KOAT 2026  ·  AI OPEN LECTURE",
+        "x": 0.7,
+        "y": 0.26,
+        "w": 5.8,
+        "h": 0.3,
+        "size": 10.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "해결 전략",
+        "x": 10.47,
+        "y": 0.25,
+        "w": 1.7,
+        "h": 0.34,
+        "size": 10.5,
+        "bold": true,
+        "align": "right"
+      },
+      {
+        "text": "21 / 24",
+        "x": 12.15,
+        "y": 0.25,
+        "w": 0.52,
+        "h": 0.34,
+        "size": 10,
+        "bold": false,
+        "align": "right"
+      },
+      {
+        "text": "03  /  AI를 더 잘 쓰는 방법",
+        "x": 0.73,
+        "y": 1.27,
+        "w": 6.17,
+        "h": 0.43,
+        "size": 17,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "중요한 일일수록 더 확인한다",
+        "x": 0.73,
+        "y": 1.91,
+        "w": 6.17,
+        "h": 1.05,
+        "size": 33,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "위험에 맞춰 확인 수준 조절",
+        "x": 0.73,
+        "y": 3.05,
+        "w": 6.13,
+        "h": 0.68,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "아이디어  |  빠르게 실험",
+        "x": 1.02,
+        "y": 4.12,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "업무자료  |  수치·출처 확인",
+        "x": 1.02,
+        "y": 4.8,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "중요 판단  |  원문·전문가 검토",
+        "x": 1.02,
+        "y": 5.48,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 20.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "왜 우리는 AI를 생각보다 잘 활용하지 못하는가?",
+        "x": 0.7,
+        "y": 7.1,
+        "w": 9.4,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "2026. 10. 18",
+        "x": 11.35,
+        "y": 7.1,
+        "w": 1.3,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "right"
+      }
+    ]
+  },
+  {
+    "id": "KOAT-S23",
+    "number": 23,
+    "title": "자주 하는 일은 자동 흐름으로",
+    "image": "images/KOAT-S23-image-01.webp",
+    "elements": [
+      {
+        "text": "KOAT 2026  ·  AI OPEN LECTURE",
+        "x": 0.7,
+        "y": 0.26,
+        "w": 5.8,
+        "h": 0.3,
+        "size": 10.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "해결 전략",
+        "x": 10.47,
+        "y": 0.25,
+        "w": 1.7,
+        "h": 0.34,
+        "size": 10.5,
+        "bold": true,
+        "align": "right"
+      },
+      {
+        "text": "22 / 24",
+        "x": 12.15,
+        "y": 0.25,
+        "w": 0.52,
+        "h": 0.34,
+        "size": 10,
+        "bold": false,
+        "align": "right"
+      },
+      {
+        "text": "03  /  AI를 더 잘 쓰는 방법",
+        "x": 0.73,
+        "y": 1.27,
+        "w": 6.17,
+        "h": 0.43,
+        "size": 17,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "자주 하는 일은 자동 흐름으로",
+        "x": 0.73,
+        "y": 1.91,
+        "w": 6.17,
+        "h": 1.05,
+        "size": 33,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "한 번 만든 방법을 반복 사용",
+        "x": 0.73,
+        "y": 3.05,
+        "w": 6.13,
+        "h": 0.68,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "입력 양식 정하기",
+        "x": 1.02,
+        "y": 4.12,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "처리 순서 정하기",
+        "x": 1.02,
+        "y": 4.8,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "결과 저장·공유 연결",
+        "x": 1.02,
+        "y": 5.48,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "왜 우리는 AI를 생각보다 잘 활용하지 못하는가?",
+        "x": 0.7,
+        "y": 7.1,
+        "w": 9.4,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "2026. 10. 18",
+        "x": 11.35,
+        "y": 7.1,
+        "w": 1.3,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "right"
+      }
+    ]
+  },
+  {
+    "id": "KOAT-S24",
+    "number": 24,
+    "title": "매주 하나씩 새로 시도한다",
+    "image": "images/KOAT-S24-image-01.webp",
+    "elements": [
+      {
+        "text": "KOAT 2026  ·  AI OPEN LECTURE",
+        "x": 0.7,
+        "y": 0.26,
+        "w": 5.8,
+        "h": 0.3,
+        "size": 10.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "해결 전략",
+        "x": 10.47,
+        "y": 0.25,
+        "w": 1.7,
+        "h": 0.34,
+        "size": 10.5,
+        "bold": true,
+        "align": "right"
+      },
+      {
+        "text": "23 / 24",
+        "x": 12.15,
+        "y": 0.25,
+        "w": 0.52,
+        "h": 0.34,
+        "size": 10,
+        "bold": false,
+        "align": "right"
+      },
+      {
+        "text": "03  /  AI를 더 잘 쓰는 방법",
+        "x": 0.73,
+        "y": 1.27,
+        "w": 6.17,
+        "h": 0.43,
+        "size": 17,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "매주 하나씩 새로 시도한다",
+        "x": 0.73,
+        "y": 1.91,
+        "w": 6.17,
+        "h": 1.05,
+        "size": 33,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "작은 성공이 활용 범위를 넓힌다",
+        "x": 0.73,
+        "y": 3.05,
+        "w": 6.13,
+        "h": 0.68,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "반복 업무 하나 선택",
+        "x": 1.02,
+        "y": 4.12,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "AI로 10분 실험",
+        "x": 1.02,
+        "y": 4.8,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "잘된 방법 기록하기",
+        "x": 1.02,
+        "y": 5.48,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "왜 우리는 AI를 생각보다 잘 활용하지 못하는가?",
+        "x": 0.7,
+        "y": 7.1,
+        "w": 9.4,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "2026. 10. 18",
+        "x": 11.35,
+        "y": 7.1,
+        "w": 1.3,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "right"
+      }
+    ]
+  },
+  {
+    "id": "KOAT-S25",
+    "number": 25,
+    "title": "AI의 역할을 바꿔 본다",
+    "image": "images/KOAT-S25-image-01.webp",
+    "elements": [
+      {
+        "text": "KOAT 2026  ·  AI OPEN LECTURE",
+        "x": 0.7,
+        "y": 0.26,
+        "w": 5.8,
+        "h": 0.3,
+        "size": 10.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "해결 전략",
+        "x": 10.47,
+        "y": 0.25,
+        "w": 1.7,
+        "h": 0.34,
+        "size": 10.5,
+        "bold": true,
+        "align": "right"
+      },
+      {
+        "text": "24 / 24",
+        "x": 12.15,
+        "y": 0.25,
+        "w": 0.52,
+        "h": 0.34,
+        "size": 10,
+        "bold": false,
+        "align": "right"
+      },
+      {
+        "text": "03  /  AI를 더 잘 쓰는 방법",
+        "x": 0.73,
+        "y": 1.27,
+        "w": 6.17,
+        "h": 0.43,
+        "size": 17,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "AI의 역할을 바꿔 본다",
+        "x": 0.73,
+        "y": 1.91,
+        "w": 6.17,
+        "h": 1.05,
+        "size": 33,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "질문 도구 → 함께 일하는 도구",
+        "x": 0.73,
+        "y": 3.05,
+        "w": 6.13,
+        "h": 0.68,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "정보를 찾는 조사자",
+        "x": 1.02,
+        "y": 4.12,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "초안을 만드는 제작자",
+        "x": 1.02,
+        "y": 4.8,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "반복 작업을 돕는 실행 보조",
+        "x": 1.02,
+        "y": 5.48,
+        "w": 5.83,
+        "h": 0.54,
+        "size": 21.5,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "왜 우리는 AI를 생각보다 잘 활용하지 못하는가?",
+        "x": 0.7,
+        "y": 7.1,
+        "w": 9.4,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "2026. 10. 18",
+        "x": 11.35,
+        "y": 7.1,
+        "w": 1.3,
+        "h": 0.2,
+        "size": 9,
+        "bold": false,
+        "align": "right"
+      }
+    ]
+  },
+  {
+    "id": "KOAT-S26",
+    "number": 26,
+    "title": "마무리",
+    "image": "images/KOAT-S26-image-01.webp",
+    "elements": [
+      {
+        "text": "집필 중인 책과 오픈톡방 소식",
+        "x": 0.8,
+        "y": 0.48,
+        "w": 11.73,
+        "h": 0.72,
+        "size": 32,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "집필 중",
+        "x": 1.1,
+        "y": 1.88,
+        "w": 1.1,
+        "h": 0.36,
+        "size": 14,
+        "bold": true,
+        "align": "center"
+      },
+      {
+        "text": "무엇이든 만드는\n질문의 기술",
+        "x": 1.1,
+        "y": 2.45,
+        "w": 3.1,
+        "h": 0.95,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "문제를 정의하고, AI에게 묻는 법을 다루는 책",
+        "x": 1.1,
+        "y": 3.55,
+        "w": 3.1,
+        "h": 0.85,
+        "size": 16,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "집필 중",
+        "x": 5,
+        "y": 1.88,
+        "w": 1.1,
+        "h": 0.36,
+        "size": 14,
+        "bold": true,
+        "align": "center"
+      },
+      {
+        "text": "원장님 AI 활용서\n(가제)",
+        "x": 5,
+        "y": 2.45,
+        "w": 3.1,
+        "h": 0.95,
+        "size": 22,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "병원에서 바로 쓰는 AI 실무 가이드북",
+        "x": 5,
+        "y": 3.55,
+        "w": 3.1,
+        "h": 0.85,
+        "size": 16,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "출판  한미의학 출판사 · 영진 출판사에서 각각 집필 진행 중\n출간 소식은 오픈톡방에서 가장 먼저 공개합니다",
+        "x": 1.1,
+        "y": 5.05,
+        "w": 7,
+        "h": 0.9,
+        "size": 16,
+        "bold": true,
+        "align": "left"
+      },
+      {
+        "text": "오픈톡방 입장",
+        "x": 8.9,
+        "y": 1.8,
+        "w": 3.38,
+        "h": 0.4,
+        "size": 20,
+        "bold": true,
+        "align": "center"
+      },
+      {
+        "text": "카메라로 스캔하세요",
+        "x": 8.9,
+        "y": 4.75,
+        "w": 3.38,
+        "h": 0.35,
+        "size": 16,
+        "bold": true,
+        "align": "center"
+      },
+      {
+        "text": "open.kakao.com/o/pkFCQiii",
+        "x": 8.9,
+        "y": 5.15,
+        "w": 3.38,
+        "h": 0.3,
+        "size": 14,
+        "bold": false,
+        "align": "center"
+      },
+      {
+        "text": "에스리본의원 MDAI 커뮤니티",
+        "x": 8.4854,
+        "y": 5.5,
+        "w": 4.2091,
+        "h": 0.3366,
+        "size": 20,
+        "bold": true,
+        "align": "center"
+      },
+      {
+        "text": "김도위 · 에스리본의원 대표원장 · 가정의학과 전문의",
+        "x": 0.8,
+        "y": 6.4,
+        "w": 11.73,
+        "h": 0.5,
+        "size": 18,
+        "bold": false,
+        "align": "left"
+      },
+      {
+        "text": "16",
+        "x": 11.63,
+        "y": 7.1,
+        "w": 0.9,
+        "h": 0.3,
+        "size": 12,
+        "bold": false,
+        "align": "right"
+      }
+    ]
+  }
+]

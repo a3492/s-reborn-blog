@@ -1,0 +1,85 @@
+---
+import { LECTURES, getLecture } from '../../../data/lectures';
+import { SITE_BRAND } from '../../../consts';
+
+export function getStaticPaths() {
+	return LECTURES.map((l) => ({ params: { lecture: l.id } }));
+}
+
+const { lecture } = Astro.params;
+const data = getLecture(lecture!)!;
+const slidesHref = `/lectures/${data.id}/slides.json`;
+const canonicalURL = new URL(`/lectures/${data.id}/`, Astro.site);
+const ogImage = new URL(`/lectures/${data.id}/images/${data.id.toUpperCase().split('-')[0]}-S01-image-01.webp`, Astro.site);
+const pageTitle = `${data.title} | ${data.subtitle ?? SITE_BRAND.blogDisplayName}`;
+---
+
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<meta name="theme-color" content="#101827" />
+		<title>{pageTitle}</title>
+		<meta name="description" content={data.description} />
+		<link rel="canonical" href={canonicalURL} />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<meta property="og:type" content="article" />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:title" content={data.title} />
+		<meta property="og:description" content={data.description} />
+		<meta property="og:image" content={ogImage} />
+		<meta property="og:site_name" content={SITE_BRAND.blogDisplayName} />
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:title" content={data.title} />
+		<meta property="twitter:description" content={data.description} />
+		<meta property="twitter:image" content={ogImage} />
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css"
+		/>
+		<link rel="stylesheet" href="/lectures/_assets/viewer.css" />
+	</head>
+	<body class="lec-viewer" data-slides={slidesHref}>
+		<header class="lec-header">
+			<div class="lec-brand"><b>{data.brandLabel ?? 'LECTURE'}</b><span>{data.subtitle}</span></div>
+			<nav>
+				<a class="lec-home" href="/" title="S-reborn MD AI HUB">← sreborn.net</a>
+				<button id="overview" title="목차">☷ <span>전체 보기</span></button>
+				<button id="fullBtn" title="전체화면">⛶ <span>전체화면</span></button>
+			</nav>
+		</header>
+
+		<main class="lec-main">
+			<div class="presentation">
+				<div class="stage-shell" id="shell">
+					<div class="stage" id="stage" role="group" aria-label="강연 슬라이드">
+						<div id="layer"></div>
+					</div>
+				</div>
+				<div class="below">
+					<div class="slide-info"><span id="chapter"></span><h1 id="title"></h1></div>
+					<div class="controls">
+						<button id="prev" aria-label="이전 슬라이드">←</button>
+						<span id="counter">1 / {data.slideCount}</span>
+						<button id="next" aria-label="다음 슬라이드">→</button>
+					</div>
+				</div>
+				<div class="progress"><div id="progress"></div></div>
+			</div>
+		</main>
+
+		<div class="overview" id="overviewPane" hidden>
+			<div class="overview-top"><h2>전체 슬라이드</h2><button id="closeOverview">닫기 ✕</button></div>
+			<div id="cards" class="cards"></div>
+		</div>
+
+		<footer class="lec-footer">
+			<span>© KOAT · {data.speaker} · {SITE_BRAND.blogDisplayName}</span>
+			<span>← → 이동 · F 전체화면 · ESC 닫기</span>
+		</footer>
+
+		<script src="/lectures/_assets/viewer.js" defer></script>
+	</body>
+</html>

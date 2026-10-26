@@ -1,0 +1,159 @@
+/*
+ * PEOS 재사용 강연 뷰어 스타일
+ * 원본 KOAT 웹 프레젠테이션의 시각적 정체성을 보존한다.
+ * 상단 브랜드 바만 S-reborn 과 시각적으로 연결한다.
+ * 발표자 노트 관련 스타일은 공개 뷰어에서 제외됨.
+ */
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body {
+	font-family: 'Pretendard', 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+	color: #e9eef6;
+	background: #101827;
+}
+.lec-viewer button {
+	cursor: pointer;
+	background: #233044;
+	border: 1px solid #39475c;
+	border-radius: 9px;
+	color: #f0f5ff;
+	padding: 9px 13px;
+	font: inherit;
+}
+.lec-viewer button:hover { background: #31425c; }
+
+/* 상단 바 — S-reborn 과 시각적 연결 */
+.lec-header {
+	height: 68px;
+	padding: 0 clamp(16px, 3vw, 44px);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: 1px solid #283649;
+}
+.lec-brand { display: flex; gap: 12px; align-items: baseline; letter-spacing: .06em; min-width: 0; }
+.lec-brand b { font-size: 23px; }
+.lec-brand span { font-size: 12px; color: #9daec6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lec-home {
+	font-size: 12px;
+	color: #9daec6;
+	text-decoration: none;
+	border: 1px solid #39475c;
+	border-radius: 20px;
+	padding: 5px 12px;
+	white-space: nowrap;
+	transition: background .15s, color .15s;
+}
+.lec-home:hover { background: #233044; color: #f0f5ff; }
+.lec-header nav { display: flex; gap: 9px; }
+
+.lec-main {
+	max-width: 1580px;
+	margin: 0 auto;
+	padding: 24px 24px 12px;
+	display: flex;
+	gap: 22px;
+	align-items: flex-start;
+}
+.presentation { width: 100%; min-width: 0; flex: 1; }
+.stage-shell {
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	border-radius: 12px;
+	overflow: hidden;
+	position: relative;
+	background: #fff;
+	box-shadow: 0 22px 60px #05091066;
+}
+.stage {
+	position: absolute;
+	width: 1333.333px;
+	height: 750px;
+	transform-origin: top left;
+	background: #fff;
+	color: #183451;
+	overflow: hidden;
+}
+.text {
+	position: absolute;
+	white-space: pre-wrap;
+	overflow: visible;
+	line-height: 1.24;
+	letter-spacing: -.025em;
+}
+.hero-img {
+	position: absolute;
+	object-fit: cover;
+	left: 746px;
+	top: 138px;
+	width: 517px;
+	height: 517px;
+	border-radius: 16px;
+}
+.rule { position: absolute; left: 70px; width: 1195px; height: 1px; background: #dce3eb; }
+.rule.top { top: 79px; }
+.rule.bottom { top: 706px; }
+.bullet { position: absolute; width: 10px; height: 10px; border-radius: 50%; background: #25a4be; }
+
+.below {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 15px;
+	margin-top: 20px;
+}
+.slide-info { min-width: 0; }
+.slide-info span { font-size: 12px; color: #8fbacc; letter-spacing: .05em; }
+.slide-info h1 { font-size: clamp(17px, 2vw, 24px); margin: 5px 0; font-weight: 650; }
+.controls { display: flex; align-items: center; gap: 14px; white-space: nowrap; }
+.controls button { font-size: 22px; padding: 6px 14px; }
+.controls span { color: #bdc8da; font-variant-numeric: tabular-nums; }
+.progress { background: #26384d; height: 3px; margin-top: 18px; border-radius: 20px; overflow: hidden; }
+.progress div { height: 100%; background: #42bdd2; transition: width .2s; }
+
+/* 전체 슬라이드 목차 */
+.overview {
+	position: fixed;
+	inset: 0;
+	z-index: 10;
+	background: #101827f8;
+	overflow-y: auto;
+	padding: 30px clamp(20px, 5vw, 80px);
+}
+.overview-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
+.card {
+	background: #1b293a;
+	border: 1px solid #33425a;
+	border-radius: 10px;
+	padding: 14px;
+	text-align: left;
+	color: #e9eef6;
+}
+.card:hover { border-color: #5fd1e1; }
+.card img { width: 100%; aspect-ratio: 1.4; object-fit: cover; border-radius: 6px; background: white; }
+.card strong { display: block; margin-top: 8px; font-size: 13px; }
+.card small { color: #9fbbd3; }
+
+.lec-footer {
+	display: flex;
+	justify-content: space-between;
+	padding: 20px 27px;
+	color: #75879f;
+	font-size: 11px;
+	gap: 12px;
+}
+.lec-footer span { text-align: right; }
+
+@media (max-width: 700px) {
+	.lec-main { padding: 12px; }
+	.lec-header { height: 60px; }
+	.lec-header nav button span { display: none; }
+	.lec-header nav button { padding: 8px; }
+	.lec-brand span { display: none; }
+	.below { flex-wrap: wrap; }
+	.controls { margin-left: auto; }
+	.slide-info h1 { font-size: 18px; }
+	.lec-footer span { display: none; }
+}
+[hidden] { display: none !important; }

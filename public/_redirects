@@ -242,6 +242,12 @@
 /blog/doctor-ai-academy/fundamentals/ai-reliability-metrics/  /blog/doctor-ai/ai-reliability-metrics/  301
 /blog/doctor-ai-academy/fundamentals/ai-reliability-metrics  /blog/doctor-ai/ai-reliability-metrics/  301
 
+# 미리보기 주소를 운영 홈·소개로
+/preview/home  /  301
+/preview/home/  /  301
+/preview/about  /about/  301
+/preview/about/  /about/  301
+
 # [7] 영어 복제. /en 은 정적 규칙이라 동적 한도에 포함되지 않는다.
 /en  /  301
 /en/  /  301

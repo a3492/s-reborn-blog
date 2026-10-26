@@ -1,5 +1,8 @@
 # build output
 dist/
+
+# 비공개 강연 원본 (발표자 노트 포함) — 공개 저장소에 커밋 금지
+private/
 # generated types
 .astro/
 
