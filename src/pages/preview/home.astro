@@ -1,13 +1,15 @@
 ---
 /*
   브랜드 홈 미리보기. 운영 홈(src/pages/index.astro)은 바꾸지 않는다.
-  글 세 줄과 아카데미만 실제 주소다. 연구·연락처·소개는 예시로 둔다.
+  글 세 줄과 아카데미, 소개 페이지는 실제 주소다. 연구와 연락처는 예시로 둔다.
 */
 import { getCollection } from 'astro:content';
+import BrandIcons from '../../components/preview/BrandIcons.astro';
 import '../../styles/brand-home.css';
 
 const ACADEMY_URL = 'https://s-reborn-doctor-ai-academy.pages.dev/';
 const BLOG_INDEX = '/blog/';
+const ABOUT_HREF = '/preview/about/';
 
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
 const byId = new Map(allPosts.map((post) => [post.id, post]));
@@ -37,6 +39,7 @@ const featured = featuredIds.map((id, index) => {
 		<title>S—REBORN | Kim Dowi's AI Lab</title>
 		<meta name="description" content="김도위의 AI 연구, 콘텐츠, 아카데미를 연결하는 공간." />
 		<meta name="robots" content="noindex, nofollow" />
+		<BrandIcons />
 	</head>
 	<body>
 		<div class="shell">
@@ -49,7 +52,7 @@ const featured = featuredIds.map((id, index) => {
 					<a href="#research">AI 연구</a>
 					<a href={BLOG_INDEX}>콘텐츠</a>
 					<a href={ACADEMY_URL} target="_blank" rel="noopener noreferrer">아카데미</a>
-					<a href="#about">김도위 소개</a>
+					<a href={ABOUT_HREF}>김도위 소개</a>
 				</nav>
 				<a class="contact" href="#about" data-example="contact" title="연락처 연결 전 임시 이동">Contact ↗</a>
 				<button class="mobile-menu" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
@@ -58,7 +61,7 @@ const featured = featuredIds.map((id, index) => {
 				<a href="#research">AI 연구</a>
 				<a href={BLOG_INDEX}>콘텐츠</a>
 				<a href={ACADEMY_URL} target="_blank" rel="noopener noreferrer">아카데미</a>
-				<a href="#about">김도위 소개</a>
+				<a href={ABOUT_HREF}>김도위 소개</a>
 			</nav>
 
 			<main id="top">
@@ -69,18 +72,13 @@ const featured = featuredIds.map((id, index) => {
 						<p class="hero-desc">의사 김도위의 AI 연구, 생각, 실험 그리고 교육.<br />기술을 아는 것에서 멈추지 않고, 실제 변화를 만드는 과정을 기록합니다.</p>
 						<div class="hero-actions">
 							<a class="primary" href="#explore">공간 둘러보기 <span>↗</span></a>
-							<a class="secondary" href="#about">김도위 소개 ↗</a>
+							<a class="secondary" href={ABOUT_HREF}>김도위 소개 ↗</a>
 						</div>
 						<div class="hero-note">RESEARCH · IDEAS · PRACTICE · EDUCATION</div>
 					</div>
-					<div class="visual" role="img" aria-label="연구, 콘텐츠, 아카데미가 중심 브랜드와 연결되는 추상적인 지식 궤도 다이어그램">
-						<div class="orbit"></div>
-						<div class="orbit o2"></div>
-						<div class="orbit o3"></div>
-						<div class="core"><b>DOWI.</b><span>AI × PRACTICE</span></div>
-						<div class="node n1"><i></i> RESEARCH</div>
-						<div class="node n2"><i></i> CONTENT</div>
-						<div class="node n3"><i></i> ACADEMY</div>
+					<div class="visual">
+						<img class="visual-media" src="/preview/hero-system.jpg" alt="노트와 기록이 놓인 책상. 연구, 기록, 교육이 한자리에서 이어지는 작업 풍경." width="1600" height="1200" />
+						<img class="visual-mark" src="/preview/brand-s.png" alt="" width="46" height="46" />
 						<div class="mini-caption">AN OPEN KNOWLEDGE SYSTEM / 001</div>
 					</div>
 				</section>
@@ -187,14 +185,22 @@ const featured = featuredIds.map((id, index) => {
 					</div>
 				</section>
 
-				<section class="about" id="about">
+				<section class="about about-teaser" id="about">
+					<figure class="about-figure">
+						<img src="/profile.jpg" alt="김도위 소개용 프로필 이미지" width="832" height="1040" />
+					</figure>
 					<div>
 						<div class="overline">05 / ABOUT</div>
-						<h2>김도위<br /><span class="role">Physician · AI Educator</span></h2>
-					</div>
-					<div>
-						<p>의료 현장에서 일하며 AI의 가능성을 탐구하고 있습니다. 연구와 실험에서 얻은 통찰을 실용적인 콘텐츠와 교육으로 연결하고, 기술이 실제 사람의 일과 판단을 어떻게 바꾸는지 기록합니다.</p>
-						<p class="note" data-example="about">프로필은 공개용 약력 검수 후 보강 예정</p>
+						<h2>김도위<br /><span class="role">가정의학과 전문의 · AI 교육자</span></h2>
+						<p class="about-kicker">에스리본의원 홍대점 대표원장. 진료실에서 얻은 질문을 연구와 글로 남기고, 의료인이 AI를 스스로 쓰도록 가르칩니다.</p>
+						<ul class="about-points">
+							<li>한양대학교 의과대학 졸업, 가정의학과 전문의</li>
+							<li>대한필러학회 AI 혁신 포럼 위원장 · 한국AI리터러시협회 의료분과 전문위원</li>
+							<li>D&amp;PS 연재와 Doctor AI Academy로 현장 교육을 이어 갑니다</li>
+						</ul>
+						<p>
+							<a class="secondary academy-open" href={ABOUT_HREF}>철학과 약력 자세히 보기 ↗</a>
+						</p>
 					</div>
 				</section>
 			</main>

@@ -1,3 +1,4 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
 
 :root {
@@ -7,6 +8,7 @@
 	--line: #dfe3e3;
 	--blue: #2457eb;
 	--cream: #edece6;
+	--pink: #e35c9a;
 }
 
 * { box-sizing: border-box; }
@@ -17,7 +19,7 @@ body {
 	margin: 0;
 	background: var(--bg);
 	color: var(--ink);
-	font-family: 'Manrope', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+	font-family: 'Pretendard', 'Manrope', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
 	-webkit-font-smoothing: antialiased;
 }
 
@@ -39,7 +41,7 @@ button { font: inherit; }
 }
 
 .brand { display: flex; flex-direction: column; gap: 2px; }
-.wordmark { font-size: 24px; font-weight: 800; letter-spacing: -0.075em; }
+.wordmark { font-family: 'Manrope', 'Pretendard', sans-serif; font-size: 24px; font-weight: 800; letter-spacing: -0.075em; }
 .brand small { font-size: 9px; letter-spacing: 0.2em; font-weight: 800; color: #899096; }
 
 .desktop-nav {
@@ -85,10 +87,10 @@ button { font: inherit; }
 .dot { height: 7px; width: 7px; border-radius: 50%; background: var(--blue); }
 
 h1 {
-	font-size: clamp(46px, 5.15vw, 74px);
-	line-height: 1.22;
-	letter-spacing: -0.085em;
-	font-weight: 750;
+	font-size: clamp(40px, 4.6vw, 68px);
+	line-height: 1.28;
+	letter-spacing: -0.04em;
+	font-weight: 720;
 	margin: 28px 0 24px;
 	word-break: keep-all;
 }
@@ -103,7 +105,7 @@ h1 {
 	max-width: 490px;
 }
 
-.hero-actions { display: flex; gap: 11px; align-items: center; flex-wrap: wrap; margin-top: 35px; }
+.hero-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 32px; }
 
 .primary {
 	background: var(--ink);
@@ -134,10 +136,25 @@ h1 {
 	position: relative;
 	display: grid;
 	place-items: center;
-	background: radial-gradient(circle at 53% 44%, #f9fbfc, #e9eceb 64%, #e2e5e3);
+	background: #eceae4;
 	border-radius: 5px;
 	overflow: hidden;
 	border: 1px solid #e5e8e6;
+}
+.visual-media {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+.visual-mark {
+	position: absolute;
+	top: 18px;
+	left: 18px;
+	width: 46px;
+	height: 46px;
+	border-radius: 12px;
+	box-shadow: 0 8px 24px #1b283214;
 }
 .orbit {
 	width: 75%;
@@ -240,11 +257,76 @@ h1 {
 .article small { display: block; color: #8c949b; font-size: 11px; margin-top: 8px; }
 
 .about { display: grid; grid-template-columns: 0.65fr 1.35fr; gap: 50px; padding: 80px 0; border-top: 1px solid var(--line); }
-.about h2 { font-size: 34px; letter-spacing: -0.07em; margin: 0; }
-.about p { font-size: 16px; line-height: 2; color: #525e69; margin: 0; }
+.about h2 { font-size: 34px; letter-spacing: -0.04em; margin: 0; word-break: keep-all; }
+.about p { font-size: 16px; line-height: 1.9; color: #525e69; margin: 0; word-break: keep-all; }
 .about .note { font-size: 12px; color: #858e96; margin-top: 17px; }
 .academy-open { display: inline-block; margin-top: 17px; color: var(--ink); }
 .role { color: #8b949b; font-size: 18px; letter-spacing: 0; }
+
+.about-teaser { align-items: center; }
+.about-figure {
+	margin: 0;
+	background: #efece6;
+	border: 1px solid var(--line);
+	overflow: hidden;
+}
+.about-figure img {
+	width: 100%;
+	aspect-ratio: 4 / 5;
+	object-fit: cover;
+	object-position: center 18%;
+	display: block;
+}
+.about-kicker { font-size: 13px; color: #5d666c; margin: 14px 0 0; }
+.about-points { margin: 18px 0 0; padding: 0; list-style: none; }
+.about-points li {
+	padding: 8px 0;
+	border-top: 1px solid var(--line);
+	font-size: 14px;
+	line-height: 1.6;
+	color: #3f4850;
+	word-break: keep-all;
+}
+.about-points li:last-child { border-bottom: 1px solid var(--line); }
+
+.page-hero { padding: 64px 0 28px; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 48px; align-items: end; }
+.page-hero h1 { margin: 16px 0 12px; }
+.page-lead { font-size: 17px; line-height: 1.9; color: #4c555c; max-width: 560px; word-break: keep-all; }
+.page-meta { font-size: 12px; color: #8a949a; letter-spacing: 0.04em; margin-top: 18px; }
+.portrait-frame {
+	margin: 0;
+	background: #efece6;
+	border: 1px solid var(--line);
+}
+.portrait-frame img {
+	width: 100%;
+	aspect-ratio: 4 / 5;
+	object-fit: cover;
+	object-position: center 12%;
+	display: block;
+}
+
+.philosophy { padding: 72px 0; }
+.philosophy-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.philosophy-card {
+	background: #fff;
+	border: 1px solid var(--line);
+	overflow: hidden;
+}
+.philosophy-card img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; }
+.philosophy-card div { padding: 22px 20px 26px; }
+.philosophy-card h3 { margin: 0 0 10px; font-size: 20px; letter-spacing: -0.04em; }
+.philosophy-card p { margin: 0; font-size: 14px; line-height: 1.8; color: #5b646c; word-break: keep-all; }
+
+.cv-block { padding: 28px 0 72px; border-top: 1px solid var(--line); }
+.cv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 48px; }
+.cv-card h3 { font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase; color: #65727e; margin: 0 0 14px; font-family: 'DM Sans', sans-serif; }
+.cv-card ul { margin: 0; padding-left: 18px; color: #3f4850; }
+.cv-card li { margin: 0 0 8px; line-height: 1.65; word-break: keep-all; }
+.cv-wide { grid-column: 1 / -1; }
+.en-bio { font-size: 15px; line-height: 1.85; color: #525c64; max-width: 72ch; }
+
+.back-link { display: inline-block; margin-top: 22px; font-size: 13px; font-weight: 700; color: var(--blue); }
 
 .footer {
 	border-top: 1px solid var(--line);
@@ -265,7 +347,7 @@ h1 {
 	.mobile-nav.open { display: flex; flex-direction: column; gap: 18px; padding: 20px; background: #fff; border: 1px solid var(--line); }
 	.hero { grid-template-columns: 1fr; gap: 25px; padding: 52px 0; min-height: auto; }
 	.hero-desc { font-size: 14px; }
-	.visual { aspect-ratio: 1.25; max-height: 390px; }
+	.visual { aspect-ratio: 4 / 3; max-height: none; }
 	.hero-note { margin-top: 30px; }
 	.cards { grid-template-columns: 1fr; }
 	.card { min-height: 215px; }
@@ -278,6 +360,9 @@ h1 {
 	.article { grid-template-columns: 1fr 25px; gap: 8px; }
 	.article .category { grid-column: 1 / -1; }
 	.about { grid-template-columns: 1fr; gap: 18px; padding: 55px 0; }
+	.page-hero, .philosophy-grid, .cv-grid { grid-template-columns: 1fr; }
+	.cv-wide { grid-column: auto; }
+	.page-hero { padding-top: 40px; }
 	.footer { gap: 15px; align-items: flex-start; }
 	.core { width: 130px; height: 130px; }
 	.node { font-size: 9px; padding: 9px; }
