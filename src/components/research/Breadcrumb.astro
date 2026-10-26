@@ -1,0 +1,27 @@
+---
+import type { TreeNode } from '../../lib/research/tree';
+
+interface Props {
+	trail: TreeNode[];
+}
+
+const { trail } = Astro.props;
+---
+
+<nav class="research-crumbs" aria-label="위치">
+	<a href="/">홈</a>
+	<span aria-hidden="true">/</span>
+	<a href="/research/">연구</a>
+	{trail.map((node, index) => (
+		<>
+			<span aria-hidden="true">/</span>
+			{index === trail.length - 1 ? (
+				<span>{node.title}</span>
+			) : node.bodyPublic ? (
+				<a href={node.path}>{node.title}</a>
+			) : (
+				<span class="is-pending">{node.title}</span>
+			)}
+		</>
+	))}
+</nav>

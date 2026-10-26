@@ -1,0 +1,33 @@
+---
+import BrandChrome from '../../components/brand/BrandChrome.astro';
+import '../../styles/brand-home.css';
+import '../../styles/research.css';
+import { RESEARCH_AREAS } from '../../lib/research/tree';
+import { loadResearchTree } from '../../lib/research/load';
+
+const { roots } = loadResearchTree();
+---
+
+<BrandChrome
+	title="연구 | S—REBORN"
+	description="김도위의 세 연구 영역. Multi-AI Operating System, Human–AI Cognitive Interface, AI Workflow Engineering."
+	canonicalPath="/research/"
+	current="research"
+>
+	<main class="research-page">
+		<p class="research-kicker">02 / CURRENT RESEARCH</p>
+		<h1 class="research-title">AI를 사용하는 방법<br />그 자체를 연구합니다.</h1>
+		<p class="research-lead">세 영역을 최상위 루트로 두고, Notion에서 Published인 문서만 공개합니다. Draft·Review와 그 하위 문서는 사이트에 나오지 않습니다.</p>
+		<div class="research-index">
+			{roots.filter((root) => root.bodyPublic).map((root) => (
+				<a class="research-hub" href={root.path}>
+					<div>
+						<b>{root.title}</b>
+						<small>{root.description || RESEARCH_AREAS[root.researchArea].summary}</small>
+					</div>
+					<span>↗</span>
+				</a>
+			))}
+		</div>
+	</main>
+</BrandChrome>
