@@ -198,18 +198,23 @@ hr {
 .blog-post-prose {
 	width: 100%;
 	max-width: 720px;
+	min-width: 0;
 	margin: auto;
 	padding: 1em;
 	color: var(--text);
 	box-sizing: border-box;
+	overflow-wrap: anywhere;
 }
 
-.blog-post-prose img {
+.blog-post-prose img,
+.blog-post-prose video,
+.blog-post-prose iframe {
 	max-width: 100%;
 	height: auto;
 }
 
 .blog-post-prose pre {
+	max-width: 100%;
 	overflow-x: auto;
 	white-space: pre-wrap;
 	word-break: break-word;
