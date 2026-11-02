@@ -50,6 +50,6 @@ draft: false
 
 ## 더 알고 싶다면
 
-- [AI 성능이 '좋다'는 게 뭔가요? — 평가 용어 사전](/blog/aerini/glossary-evaluation-terms)
-- [AI 필수 용어 10개 — 이것만 알면 대화가 된다](/blog/aerini/glossary-ai-basics)
-- [머신러닝 vs 딥러닝 — 용어 차이 완전 정복](/blog/aerini/glossary-ml-dl-terms)
+- [AI 성능이 '좋다'는 게 뭔가요? — 평가 용어 사전](/blog/aerini/glossary-evaluation-terms/)
+- [AI 필수 용어 10개 — 이것만 알면 대화가 된다](/blog/aerini/glossary-ai-basics/)
+- [머신러닝 vs 딥러닝 — 용어 차이 완전 정복](/blog/aerini/glossary-ml-dl-terms/)

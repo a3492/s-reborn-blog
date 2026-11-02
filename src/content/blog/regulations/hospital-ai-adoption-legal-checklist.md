@@ -139,4 +139,4 @@ AI 도구 사용 중 오류로 인한 환자 피해가 발생한 경우, 병원�
 - [의료기기 허가 프로세스: AI는 어디에 걸리나?](/blog/regulations/medical-device-approval-ai/)
 - [개인정보보호법과 의료 AI: 환자 데이터 활용의 법적 경계](/blog/regulations/gdpr-patient-data-medical-ai/)
 - [의료 AI 동의서: 어떻게 만들어야 하나?](/blog/regulations/medical-ai-consent-form-template/)
-- [AI 모델 업데이트의 위험성: 새 버전이 항상 더 좋을까?](/blog/doctor-ai-academy/fundamentals/ai-model-updates-risk/)
+- [AI 모델 업데이트의 위험성: 새 버전이 항상 더 좋을까?](/blog/doctor-ai/ai-model-updates-risk/)

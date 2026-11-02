@@ -126,9 +126,9 @@ med-review| v3      | ...     | 김민준     | 형식 수정  | 2026-04-01
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [시스템 프롬프트 설계](/blog/harness-engineering/system-prompt-design) — 버전 관리 전에 좋은 프롬프트를 만드는 법
-- [Eval 설계](/blog/harness-engineering/eval-design) — 프롬프트 변경 전후 성능 비교 방법
-- [오케스트레이션 테스팅](/blog/orchestration/orchestration-testing) — 비결정론적 AI 시스템 테스트 방법
-- [오케스트레이션 모니터링](/blog/orchestration/orchestration-monitoring) — 배포 후 프롬프트 드리프트 감지
+- [시스템 프롬프트 설계](/blog/harness-engineering/system-prompt-design/) — 버전 관리 전에 좋은 프롬프트를 만드는 법
+- [Eval 설계](/blog/harness-engineering/eval-design/) — 프롬프트 변경 전후 성능 비교 방법
+- [오케스트레이션 테스팅](/blog/orchestration/orchestration-testing/) — 비결정론적 AI 시스템 테스트 방법
+- [오케스트레이션 모니터링](/blog/orchestration/orchestration-monitoring/) — 배포 후 프롬프트 드리프트 감지
 
-[← 하네스 엔지니어링 시리즈 전체 보기](/blog/category/harness-engineering)
+[← 하네스 엔지니어링 시리즈 전체 보기](/blog/?category=harness-engineering)

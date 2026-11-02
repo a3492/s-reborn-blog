@@ -60,6 +60,6 @@ GPT-4 기준으로 영어는 대략 1토큰 = 4글자입니다. 한국어는 더
 
 ## 더 알고 싶다면
 
-- [AI 필수 용어 10개 — 이것만 알면 대화가 된다](/blog/aerini/glossary-ai-basics)
-- ["프롬프트"라는 단어는 어디서 왔나](/blog/aerini/history-word-prompt)
-- [프롬프트 용어 사전 — 제로샷부터 CoT까지](/blog/aerini/glossary-prompt-terms)
+- [AI 필수 용어 10개 — 이것만 알면 대화가 된다](/blog/aerini/glossary-ai-basics/)
+- ["프롬프트"라는 단어는 어디서 왔나](/blog/aerini/history-word-prompt/)
+- [프롬프트 용어 사전 — 제로샷부터 CoT까지](/blog/aerini/glossary-prompt-terms/)

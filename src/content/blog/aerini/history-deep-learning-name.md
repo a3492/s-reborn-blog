@@ -50,6 +50,6 @@ draft: false
 
 ## 더 알고 싶다면
 
-- [AI 겨울이 두 번 있었다 — 그때 무슨 일이?](/blog/aerini/history-ai-winter)
-- [왜 "신경망"이라고 부를까 — 뇌 구조에서 온 이름](/blog/aerini/history-neural-network-name)
-- ["Attention is All You Need" — 8페이지짜리 논문이 세상을 바꿨다](/blog/aerini/history-attention-paper)
+- [AI 겨울이 두 번 있었다 — 그때 무슨 일이?](/blog/aerini/history-ai-winter/)
+- [왜 "신경망"이라고 부를까 — 뇌 구조에서 온 이름](/blog/aerini/history-neural-network-name/)
+- ["Attention is All You Need" — 8페이지짜리 논문이 세상을 바꿨다](/blog/aerini/history-attention-paper/)

@@ -141,6 +141,6 @@ AI의 기초를 배웠습니다! 다음 단계로 나아가세요:
 🔗 다음 읽으면 좋은 글
 - [LLM이 뭐예요?](/blog/aerini/what-is-llm/) — ChatGPT의 정체
 - [AI 환각이 뭐예요?](/blog/aerini/what-is-hallucination/) — AI가 거짓말하는 이유
-- [AI가 내 일을 빼앗아가나요?](/blog/aerini/will-ai-replace-doctors/) — 의사의 미래
+- [AI가 내 일을 빼앗아가나요?](/blog/faq/will-ai-replace-doctors/) — 의사의 미래
 
 👉 [모든 애린이 글 보기](/blog/?category=aerini)

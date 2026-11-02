@@ -105,6 +105,6 @@ GPT-1부터 GPT-4까지, 아키텍처의 기본 구조는 크게 바뀌지 않�
 
 ## 관련 글
 
-- [RLHF — AI를 '착하게' 만든 기술과 그 한계](/blog/ai-history/rlhf-instruct-tuning)
-- [스케일링 법칙 — 모델을 크게 만들수록 왜 똑똑해지는가](/blog/ai-history/llm-scaling-law)
-- [ChatGPT 출시 100일 — 의료계가 가장 먼저 반응한 이유](/blog/ai-history/chatgpt-launch-impact)
+- [RLHF — AI를 '착하게' 만든 기술과 그 한계](/blog/ai-history/rlhf-instruct-tuning/)
+- [스케일링 법칙 — 모델을 크게 만들수록 왜 똑똑해지는가](/blog/ai-history/llm-scaling-law/)
+- [ChatGPT 출시 100일 — 의료계가 가장 먼저 반응한 이유](/blog/ai-history/chatgpt-launch-impact/)

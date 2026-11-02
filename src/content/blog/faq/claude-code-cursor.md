@@ -77,8 +77,8 @@ Claude Code는 Anthropic API를 직접 사용한다. API 키에 연결된 모델
 - 구독 비용 vs API 과금 방식 차이 있음
 
 ## 관련 글
-- [VS Code에서 Claude Code를 쓰려면?](/blog/faq/claude-code-vs-code) — VS Code 환경에서의 사용법
-- [CLI와 IDE 연동 중 어떤 게 좋을까요?](/blog/faq/claude-code-cli-vs-ide) — 상황별 선택 기준
-- [Claude Code 비용은 어떻게 되나요?](/blog/faq/claude-code-cost) — Cursor vs Claude Code 비용 비교
+- [VS Code에서 Claude Code를 쓰려면?](/blog/faq/claude-code-vs-code/) — VS Code 환경에서의 사용법
+- [CLI와 IDE 연동 중 어떤 게 좋을까요?](/blog/faq/claude-code-cli-vs-ide/) — 상황별 선택 기준
+- [Claude Code 비용은 어떻게 되나요?](/blog/faq/claude-code-cost/) — Cursor vs Claude Code 비용 비교
 
-[← FAQ 전체 보기](/blog/category/faq)
+[← FAQ 전체 보기](/blog/?category=faq)

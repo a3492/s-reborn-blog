@@ -90,8 +90,8 @@ codex "src/utils.py 파일의 로직을 분석해줘"
 - `.env`·환자 정보·시크릿 키는 절대 포함 금지
 
 ## 관련 글
-- [Codex CLI 설치 방법은?](/blog/faq/codex-install) — API 키 설정 방법
-- [Codex를 언제 쓰면 좋을까요?](/blog/faq/codex-when-to-use) — 적합한 사용 상황
-- [Claude Code 보안 FAQ](/blog/faq/claude-code-security) — Anthropic쪽 동일 이슈 비교
+- [Codex CLI 설치 방법은?](/blog/faq/codex-install/) — API 키 설정 방법
+- [Codex를 언제 쓰면 좋을까요?](/blog/faq/codex-when-to-use/) — 적합한 사용 상황
+- [Claude Code 보안 FAQ](/blog/faq/claude-code-security/) — Anthropic쪽 동일 이슈 비교
 
-[← FAQ 전체 보기](/blog/category/faq)
+[← FAQ 전체 보기](/blog/?category=faq)

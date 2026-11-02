@@ -108,8 +108,8 @@ codex "이 파일에서 TODO 주석을 모두 찾아줘"
 - ChatGPT Plus 구독 ≠ API 사용 권한 (별도 결제)
 
 ## 관련 글
-- [Codex가 뭔가요?](/blog/faq/codex-what-is-it) — 설치 전 기본 개념 이해
-- [터미널에서 Codex를 어떻게 쓰나요?](/blog/faq/codex-terminal) — 설치 후 첫 사용법
-- [Codex 비용은 어떻게 되나요?](/blog/faq/codex-cost) — API 요금 구조
+- [Codex가 뭔가요?](/blog/faq/codex-what-is-it/) — 설치 전 기본 개념 이해
+- [터미널에서 Codex를 어떻게 쓰나요?](/blog/faq/codex-terminal/) — 설치 후 첫 사용법
+- [Codex 비용은 어떻게 되나요?](/blog/faq/codex-cost/) — API 요금 구조
 
-[← FAQ 전체 보기](/blog/category/faq)
+[← FAQ 전체 보기](/blog/?category=faq)

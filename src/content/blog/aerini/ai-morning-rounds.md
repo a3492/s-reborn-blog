@@ -56,6 +56,6 @@ draft: false
 
 ## 더 알고 싶다면
 
-- [장기 입원 환자 기록, AI로 5분 만에 요약하기](/blog/aerini/ai-summarize-patient-records)
-- [퇴원 요약서, AI로 빠르게 쓰기](/blog/aerini/ai-discharge-summary)
-- [퇴원 환자 추적 관리, AI로 일정 계획 세우기](/blog/aerini/ai-patient-follow-up)
+- [장기 입원 환자 기록, AI로 5분 만에 요약하기](/blog/aerini/ai-summarize-patient-records/)
+- [퇴원 요약서, AI로 빠르게 쓰기](/blog/aerini/ai-discharge-summary/)
+- [퇴원 환자 추적 관리, AI로 일정 계획 세우기](/blog/aerini/ai-patient-follow-up/)

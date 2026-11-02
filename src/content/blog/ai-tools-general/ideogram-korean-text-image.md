@@ -81,8 +81,8 @@ Ideogram.ai는 무료 플랜에서 하루 일정 횟수 생성 가능. 유료 �
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [Midjourney 이미지 프롬프트 워크플로우](/blog/ai-tools-general/midjourney-image-prompt-workflow) — 사진 스타일 이미지가 필요할 때의 대안
-- [Adobe Firefly로 교육 자료 만들기](/blog/ai-tools-general/adobe-firefly-medical-education) — 상업적 안전 이미지가 필요할 때
-- [Gamma AI 프레젠테이션](/blog/ai-tools-general/gamma-ai-presentation) — 이미지와 슬라이드를 함께 완성하는 방법
+- [Midjourney 이미지 프롬프트 워크플로우](/blog/ai-tools-general/midjourney-image-prompt-workflow/) — 사진 스타일 이미지가 필요할 때의 대안
+- [Adobe Firefly로 교육 자료 만들기](/blog/ai-tools-general/adobe-firefly-medical-education/) — 상업적 안전 이미지가 필요할 때
+- [Gamma AI 프레젠테이션](/blog/ai-tools-general/gamma-ai-presentation/) — 이미지와 슬라이드를 함께 완성하는 방법
 
-[← AI 도구 일반 전체 보기](/blog/category/ai-tools-general)
+[← AI 도구 일반 전체 보기](/blog/?category=ai-tools-general)

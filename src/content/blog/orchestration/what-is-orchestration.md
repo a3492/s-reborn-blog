@@ -188,10 +188,10 @@ A ──────┤     ├──→ D
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [AI 워크플로우 패턴 5가지](/blog/orchestration/workflow-patterns) — 오케스트레이션 설계에 쓰이는 5가지 패턴 비교
-- [오케스트레이션 vs 에이전트](/blog/orchestration/orchestration-vs-agents) — 단일 에이전트와 멀티 에이전트, 무엇을 먼저 쓸까
-- [LangGraph 입문](/blog/orchestration/langgraph-intro) — 오케스트레이션 구현의 대표 도구
-- [의료 오케스트레이션 케이스 스터디](/blog/orchestration/medical-orchestration-case-study) — 실제 회진 준비 시스템에 적용한 사례
+- [AI 워크플로우 패턴 5가지](/blog/orchestration/workflow-patterns/) — 오케스트레이션 설계에 쓰이는 5가지 패턴 비교
+- [오케스트레이션 vs 에이전트](/blog/orchestration/orchestration-vs-agents/) — 단일 에이전트와 멀티 에이전트, 무엇을 먼저 쓸까
+- [LangGraph 입문](/blog/orchestration/langgraph-intro/) — 오케스트레이션 구현의 대표 도구
+- [의료 오케스트레이션 케이스 스터디](/blog/orchestration/medical-orchestration-case-study/) — 실제 회진 준비 시스템에 적용한 사례
 
-[← 오케스트레이션 시리즈 전체 보기](/blog/category/orchestration)
+[← 오케스트레이션 시리즈 전체 보기](/blog/?category=orchestration)
 

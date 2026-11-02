@@ -119,6 +119,6 @@ NEJM AI 또는 Lancet Digital Health에서 최근 의료 AI 논문 한 편을 �
 
 ## 관련 글
 
-- [체계적 문헌고찰 AI 자동화 — 6개월 작업을 2주로 줄이는 법](/blog/clinical-research/systematic-review-ai)
-- [메타분석 기초 — Forest Plot 직접 만들고 해석하기](/blog/clinical-research/meta-analysis-basics)
-- [EMR 기반 코호트 연구 — 대규모 데이터로 빠르게 연구하는 법](/blog/clinical-research/cohort-study-ehr)
+- [체계적 문헌고찰 AI 자동화 — 6개월 작업을 2주로 줄이는 법](/blog/clinical-research/systematic-review-ai/)
+- [메타분석 기초 — Forest Plot 직접 만들고 해석하기](/blog/clinical-research/meta-analysis-basics/)
+- [EMR 기반 코호트 연구 — 대규모 데이터로 빠르게 연구하는 법](/blog/clinical-research/cohort-study-ehr/)

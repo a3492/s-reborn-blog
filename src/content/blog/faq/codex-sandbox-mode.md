@@ -86,8 +86,8 @@ Claude Code에는 공식적인 샌드박스 모드가 없다. 파일 수정 전 
 - Claude Code에는 없는 Codex 고유 기능
 
 ## 관련 글
-- [터미널에서 Codex를 어떻게 쓰나요?](/blog/faq/codex-terminal) — 기본 사용법과 승인 모드
-- [Codex를 쓸 때 내 코드가 OpenAI에 저장되나요?](/blog/faq/codex-security) — 데이터 전송과 보안
-- [Codex와 Claude Code 중 어떤 게 나을까요?](/blog/faq/codex-vs-claude-code) — 보안 관점 도구 비교
+- [터미널에서 Codex를 어떻게 쓰나요?](/blog/faq/codex-terminal/) — 기본 사용법과 승인 모드
+- [Codex를 쓸 때 내 코드가 OpenAI에 저장되나요?](/blog/faq/codex-security/) — 데이터 전송과 보안
+- [Codex와 Claude Code 중 어떤 게 나을까요?](/blog/faq/codex-vs-claude-code/) — 보안 관점 도구 비교
 
-[← FAQ 전체 보기](/blog/category/faq)
+[← FAQ 전체 보기](/blog/?category=faq)

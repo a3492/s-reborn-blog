@@ -50,6 +50,6 @@ AI에게 "맞아"를 구하지 마세요. "틀렸어"를 구하세요. 이 한 �
 
 ## 더 알고 싶다면
 
-- [AI로 감별 진단 목록 만들기](/blog/aerini/ai-differential-diagnosis)
-- [AI 환각(hallucination)이란 무엇인가요?](/blog/aerini/what-is-hallucination)
-- [AI를 너무 많이 쓰면 의사 실력이 떨어질까요?](/blog/aerini/faq-ai-fatigue)
+- [AI로 감별 진단 목록 만들기](/blog/aerini/ai-differential-diagnosis/)
+- [AI 환각(hallucination)이란 무엇인가요?](/blog/aerini/what-is-hallucination/)
+- [AI를 너무 많이 쓰면 의사 실력이 떨어질까요?](/blog/aerini/faq-ai-fatigue/)

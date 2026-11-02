@@ -88,8 +88,8 @@ Claude.ai의 PDF 업로드 분석, NotebookLM의 소스 기반 답변 등 전문
 - 긴 대화 맥락 필요 → Claude Code가 더 강함
 
 ## 관련 글
-- [터미널에서 Codex를 어떻게 쓰나요?](/blog/faq/codex-terminal) — 실제 사용법
-- [Codex와 Claude Code 중 어떤 게 나을까요?](/blog/faq/codex-vs-claude-code) — 두 도구 상세 비교
-- [Codex CLI와 Cursor는 어떻게 다른가요?](/blog/faq/codex-vs-cursor) — GUI vs CLI 비교
+- [터미널에서 Codex를 어떻게 쓰나요?](/blog/faq/codex-terminal/) — 실제 사용법
+- [Codex와 Claude Code 중 어떤 게 나을까요?](/blog/faq/codex-vs-claude-code/) — 두 도구 상세 비교
+- [Codex CLI와 Cursor는 어떻게 다른가요?](/blog/faq/codex-vs-cursor/) — GUI vs CLI 비교
 
-[← FAQ 전체 보기](/blog/category/faq)
+[← FAQ 전체 보기](/blog/?category=faq)

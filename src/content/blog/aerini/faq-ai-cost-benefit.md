@@ -51,6 +51,6 @@ ChatGPT Plus 월 $20은 하루 약 700원입니다. 아메리카노 한 잔 값�
 
 ## 더 알고 싶다면
 
-- [무료 AI vs 유료 AI, 의사에겐 무엇이 다른가요?](/blog/aerini/faq-free-vs-paid-ai)
-- [ChatGPT, 처음 어떻게 시작하나요?](/blog/aerini/how-to-start-chatgpt)
-- [AI가 절대 못하는 게 뭔가요?](/blog/aerini/faq-ai-limitations)
+- [무료 AI vs 유료 AI, 의사에겐 무엇이 다른가요?](/blog/aerini/faq-free-vs-paid-ai/)
+- [ChatGPT, 처음 어떻게 시작하나요?](/blog/aerini/how-to-start-chatgpt/)
+- [AI가 절대 못하는 게 뭔가요?](/blog/aerini/faq-ai-limitations/)

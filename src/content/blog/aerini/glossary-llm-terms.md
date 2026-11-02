@@ -47,6 +47,6 @@ LLM은 방대한 텍스트(Training data)로 수십억 개의 숫자(Parameter)�
 
 ## 더 알고 싶다면
 
-- [AI 필수 용어 10개 — 이것만 알면 대화가 된다](/blog/aerini/glossary-ai-basics)
-- [OpenAI, Anthropic, Google — 회사마다 용어가 다르다](/blog/aerini/glossary-ai-companies)
-- [GPT의 G, P, T는 무슨 뜻인가요?](/blog/aerini/history-gpt-meaning)
+- [AI 필수 용어 10개 — 이것만 알면 대화가 된다](/blog/aerini/glossary-ai-basics/)
+- [OpenAI, Anthropic, Google — 회사마다 용어가 다르다](/blog/aerini/glossary-ai-companies/)
+- [GPT의 G, P, T는 무슨 뜻인가요?](/blog/aerini/history-gpt-meaning/)

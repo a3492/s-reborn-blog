@@ -98,6 +98,6 @@ XCON / R1 (1980): DEC(Digital Equipment Corporation)의 컴퓨터 주문 처리 
 
 ## 관련 글
 
-- [의료 AI 60년사 — MYCIN에서 ChatGPT까지](/blog/ai-history/medical-ai-history)
-- [역전파의 재발견 — Hinton이 AI를 다시 살린 방법](/blog/ai-history/backpropagation-revolution)
-- [퍼셉트론의 꿈과 첫 번째 AI 겨울](/blog/ai-history/perceptron-and-first-ai-winter)
+- [의료 AI 60년사 — MYCIN에서 ChatGPT까지](/blog/ai-history/medical-ai-history/)
+- [역전파의 재발견 — Hinton이 AI를 다시 살린 방법](/blog/ai-history/backpropagation-revolution/)
+- [퍼셉트론의 꿈과 첫 번째 AI 겨울](/blog/ai-history/perceptron-and-first-ai-winter/)

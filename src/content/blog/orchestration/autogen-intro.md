@@ -127,10 +127,10 @@ GroupChat — 멀티 에이전트 대화방
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [LangGraph 입문](/blog/orchestration/langgraph-intro) — 그래프로 흐름을 고정하는 방식과 비교
-- [CrewAI 입문](/blog/orchestration/crewai-intro) — 역할로 팀을 구성하는 방식과 비교
-- [에이전트 간 통신](/blog/orchestration/multi-agent-communication) — 대화 기반 통신의 원리와 설계
-- [오케스트레이션 vs 에이전트](/blog/orchestration/orchestration-vs-agents) — LangGraph, CrewAI, AutoGen 중 무엇을 선택할까
+- [LangGraph 입문](/blog/orchestration/langgraph-intro/) — 그래프로 흐름을 고정하는 방식과 비교
+- [CrewAI 입문](/blog/orchestration/crewai-intro/) — 역할로 팀을 구성하는 방식과 비교
+- [에이전트 간 통신](/blog/orchestration/multi-agent-communication/) — 대화 기반 통신의 원리와 설계
+- [오케스트레이션 vs 에이전트](/blog/orchestration/orchestration-vs-agents/) — LangGraph, CrewAI, AutoGen 중 무엇을 선택할까
 
-[← 오케스트레이션 시리즈 전체 보기](/blog/category/orchestration)
+[← 오케스트레이션 시리즈 전체 보기](/blog/?category=orchestration)
 

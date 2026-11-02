@@ -42,6 +42,6 @@ draft: false
 
 ## 더 알고 싶다면
 
-- [환자가 AI에 대해 물어볼 때 어떻게 대답하나요?](/blog/aerini/ai-patient-qa)
-- [AI가 절대 못하는 게 뭔가요?](/blog/aerini/faq-ai-limitations)
-- [AI 환각(hallucination)이란 무엇인가요?](/blog/aerini/what-is-hallucination)
+- [환자가 AI에 대해 물어볼 때 어떻게 대답하나요?](/blog/aerini/ai-patient-qa/)
+- [AI가 절대 못하는 게 뭔가요?](/blog/aerini/faq-ai-limitations/)
+- [AI 환각(hallucination)이란 무엇인가요?](/blog/aerini/what-is-hallucination/)

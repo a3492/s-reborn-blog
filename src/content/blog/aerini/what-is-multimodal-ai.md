@@ -103,8 +103,8 @@ GPT-4V, Claude 3 이상의 모델, Gemini 등이 대표적인 멀티모달 AI예
 
 ## 더 알고 싶다면
 
-- [Computer Vision이 뭐예요?](/blog/aerini/what-is-computer-vision)
-- [NLP(자연어처리)가 뭐예요?](/blog/aerini/what-is-nlp)
-- [생성형 AI가 뭐예요?](/blog/aerini/what-is-generative-ai)
+- [Computer Vision이 뭐예요?](/blog/aerini/what-is-computer-vision/)
+- [NLP(자연어처리)가 뭐예요?](/blog/aerini/what-is-nlp/)
+- [생성형 AI가 뭐예요?](/blog/aerini/what-is-generative-ai/)
 
-[🩺 모든 애린이 글 보기](/blog/category/aerini)
+[🩺 모든 애린이 글 보기](/blog/?category=aerini)

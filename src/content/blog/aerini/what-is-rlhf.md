@@ -89,8 +89,8 @@ AI가 여러 답변을 내놓으면, 사람이 어느 답변이 더 좋은지 �
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [강화학습이 뭐예요?](/blog/aerini/what-is-reinforcement-learning) — RLHF의 기반이 되는 강화학습 개념
-- [AI Alignment이 뭐예요?](/blog/aerini/what-is-ai-alignment) — RLHF가 해결하려는 더 큰 문제
-- [AI와 의사 — 각자 잘하는 게 뭐가 다른가요?](/blog/aerini/what-is-ai-vs-human) — AI의 역할과 한계
+- [강화학습이 뭐예요?](/blog/aerini/what-is-reinforcement-learning/) — RLHF의 기반이 되는 강화학습 개념
+- [AI Alignment이 뭐예요?](/blog/aerini/what-is-ai-alignment/) — RLHF가 해결하려는 더 큰 문제
+- [AI와 의사 — 각자 잘하는 게 뭐가 다른가요?](/blog/aerini/what-is-ai-vs-human/) — AI의 역할과 한계
 
-[← 애린이 AI 용어 시리즈 전체 보기](/blog/category/aerini)
+[← 애린이 AI 용어 시리즈 전체 보기](/blog/?category=aerini)

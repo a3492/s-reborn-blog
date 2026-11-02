@@ -87,10 +87,10 @@ AI 자체가 처음이라 유료를 바로 구독했지만 어떻게 쓸지 몰�
 
 ## 더 알고 싶다면
 
-🔗 [의료에서 AI 정확도는 얼마나 되나요?](/blog/aerini/faq-ai-accuracy-medical) — 유료 모델이 더 정확한지 이해하기
+🔗 [의료에서 AI 정확도는 얼마나 되나요?](/blog/aerini/faq-ai-accuracy-medical/) — 유료 모델이 더 정확한지 이해하기
 
-🔗 [AI에게 환자 정보를 입력하면 개인정보가 유출되나요?](/blog/aerini/faq-ai-patient-privacy) — 무료 버전의 보안 주의사항
+🔗 [AI에게 환자 정보를 입력하면 개인정보가 유출되나요?](/blog/aerini/faq-ai-patient-privacy/) — 무료 버전의 보안 주의사항
 
-🔗 [우리 병원에 AI를 도입하려면 어디서부터 시작해야 하나요?](/blog/aerini/faq-hospital-ai-adoption) — 병원 차원의 유료 도입 검토
+🔗 [우리 병원에 AI를 도입하려면 어디서부터 시작해야 하나요?](/blog/aerini/faq-hospital-ai-adoption/) — 병원 차원의 유료 도입 검토
 
-👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/aerini)에서 기초부터 시작해 보세요
+👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/?category=aerini)에서 기초부터 시작해 보세요

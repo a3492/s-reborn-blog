@@ -109,10 +109,10 @@ AI에게: 매주 일요일 밤 30분 복습 루틴을 만들어줘.
 
 ## 더 나아가기
 
-👉 [AI로 저널 클럽 발표 준비하기](/blog/aerini/ai-journal-club) — 공부 계획에 논문 읽기를 통합하는 방법
+👉 [AI로 저널 클럽 발표 준비하기](/blog/aerini/ai-journal-club/) — 공부 계획에 논문 읽기를 통합하는 방법
 
-👉 [의대생/전공의도 AI를 써도 되나요?](/blog/aerini/faq-student-ai-use) — 학습 목적 AI 활용의 장단점 먼저 확인
+👉 [의대생/전공의도 AI를 써도 되나요?](/blog/aerini/faq-student-ai-use/) — 학습 목적 AI 활용의 장단점 먼저 확인
 
-👉 [AI로 학회 발표 슬라이드 구성하기](/blog/aerini/ai-slide-design) — 공부한 내용을 발표로 연결하기
+👉 [AI로 학회 발표 슬라이드 구성하기](/blog/aerini/ai-slide-design/) — 공부한 내용을 발표로 연결하기
 
-👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/aerini)에서 기초부터 시작해 보세요
+👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/?category=aerini)에서 기초부터 시작해 보세요

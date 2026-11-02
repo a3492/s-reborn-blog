@@ -48,6 +48,6 @@ ChatGPT, Claude 같은 해외 AI는 입력한 내용을 학습 데이터로 쓸 
 
 ## 더 알고 싶다면
 
-- [AI가 의료 현장에서 법적으로 허용되나요?](/blog/aerini/is-medical-ai-legal)
-- [AI의 실수가 의료사고로 이어질 수 있나요?](/blog/aerini/faq-ai-mistakes-consequences)
-- [AI 환자 프라이버시: 무엇을 조심해야 하나요?](/blog/aerini/faq-ai-patient-privacy)
+- [AI가 의료 현장에서 법적으로 허용되나요?](/blog/aerini/is-medical-ai-legal/)
+- [AI의 실수가 의료사고로 이어질 수 있나요?](/blog/aerini/faq-ai-mistakes-consequences/)
+- [AI 환자 프라이버시: 무엇을 조심해야 하나요?](/blog/aerini/faq-ai-patient-privacy/)

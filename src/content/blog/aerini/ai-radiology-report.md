@@ -50,6 +50,6 @@ AI는 CT 이미지를 직접 분석하지 못합니다. 하지만 내가 본 소
 
 ## 더 알고 싶다면
 
-- [AI로 ECG 판독 보조하기](/blog/aerini/ai-ecg-interpretation)
-- [AI로 내 진단에 반론 구하기](/blog/aerini/ai-second-opinion)
-- [AI가 절대 못하는 게 뭔가요?](/blog/aerini/faq-ai-limitations)
+- [AI로 ECG 판독 보조하기](/blog/aerini/ai-ecg-interpretation/)
+- [AI로 내 진단에 반론 구하기](/blog/aerini/ai-second-opinion/)
+- [AI가 절대 못하는 게 뭔가요?](/blog/aerini/faq-ai-limitations/)

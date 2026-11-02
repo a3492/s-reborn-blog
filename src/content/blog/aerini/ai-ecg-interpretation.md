@@ -100,10 +100,10 @@ AI가 정리해 준 내용을 토대로 자신의 언어로 다시 말하는 게
 
 ## 더 나아가기
 
-👉 [AI로 치료 계획 초안 만들기](/blog/aerini/ai-treatment-plan) — 심전도 소견 이후 치료 방향 설정에도 AI를 쓸 수 있어요
+👉 [AI로 치료 계획 초안 만들기](/blog/aerini/ai-treatment-plan/) — 심전도 소견 이후 치료 방향 설정에도 AI를 쓸 수 있어요
 
-👉 [의료에서 AI 정확도는 얼마나 되나요?](/blog/aerini/faq-ai-accuracy-medical) — AI를 어느 정도 신뢰할 수 있는지 먼저 확인하세요
+👉 [의료에서 AI 정확도는 얼마나 되나요?](/blog/aerini/faq-ai-accuracy-medical/) — AI를 어느 정도 신뢰할 수 있는지 먼저 확인하세요
 
-👉 [AI로 복잡한 환자 병력 요약하기](/blog/aerini/ai-patient-history) — 심전도 판독과 병력 확인을 함께 하면 더 정확합니다
+👉 [AI로 복잡한 환자 병력 요약하기](/blog/aerini/ai-patient-history/) — 심전도 판독과 병력 확인을 함께 하면 더 정확합니다
 
-👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/aerini)에서 기초부터 시작해 보세요
+👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/?category=aerini)에서 기초부터 시작해 보세요

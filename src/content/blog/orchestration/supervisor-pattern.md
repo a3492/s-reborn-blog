@@ -119,10 +119,10 @@ AI 오케스트레이션의 슈퍼바이저 패턴이 이 구조를 그대로 �
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [AutoGen 입문](/blog/orchestration/autogen-intro) — 계층 구조 대신 수평 대화로 협력하는 방식
-- [CrewAI 입문](/blog/orchestration/crewai-intro) — 역할 기반으로 팀을 구성하는 다른 방법
-- [태스크 분해](/blog/orchestration/task-decomposition) — 슈퍼바이저가 수행하는 태스크 분배의 원리
-- [오케스트레이션 vs 에이전트](/blog/orchestration/orchestration-vs-agents) — 슈퍼바이저 패턴이 필요한 시점
+- [AutoGen 입문](/blog/orchestration/autogen-intro/) — 계층 구조 대신 수평 대화로 협력하는 방식
+- [CrewAI 입문](/blog/orchestration/crewai-intro/) — 역할 기반으로 팀을 구성하는 다른 방법
+- [태스크 분해](/blog/orchestration/task-decomposition/) — 슈퍼바이저가 수행하는 태스크 분배의 원리
+- [오케스트레이션 vs 에이전트](/blog/orchestration/orchestration-vs-agents/) — 슈퍼바이저 패턴이 필요한 시점
 
-[← 오케스트레이션 시리즈 전체 보기](/blog/category/orchestration)
+[← 오케스트레이션 시리즈 전체 보기](/blog/?category=orchestration)
 

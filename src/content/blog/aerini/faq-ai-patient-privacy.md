@@ -83,10 +83,10 @@ HbA1c 10.2%. 현재 metformin 복용 중.
 
 ## 더 알고 싶다면
 
-🔗 [AI로 인수인계 요약 빠르게 만들기](/blog/aerini/ai-nursing-handover) — 비식별화 상태로 인수인계를 활용하는 예시
+🔗 [AI로 인수인계 요약 빠르게 만들기](/blog/aerini/ai-nursing-handover/) — 비식별화 상태로 인수인계를 활용하는 예시
 
-🔗 [AI로 복잡한 환자 병력 요약하기](/blog/aerini/ai-patient-history) — 병력 요약 시 개인정보 처리 방법
+🔗 [AI로 복잡한 환자 병력 요약하기](/blog/aerini/ai-patient-history/) — 병력 요약 시 개인정보 처리 방법
 
-🔗 [우리 병원에 AI를 도입하려면 어디서부터 시작해야 하나요?](/blog/aerini/faq-hospital-ai-adoption) — 병원 차원의 안전한 AI 도입 방법
+🔗 [우리 병원에 AI를 도입하려면 어디서부터 시작해야 하나요?](/blog/aerini/faq-hospital-ai-adoption/) — 병원 차원의 안전한 AI 도입 방법
 
-👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/aerini)에서 기초부터 시작해 보세요
+👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/?category=aerini)에서 기초부터 시작해 보세요

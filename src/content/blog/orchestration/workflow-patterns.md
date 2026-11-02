@@ -202,10 +202,10 @@ AI가 결과를 생성하고, 다른 AI(또는 같은 AI)가 평가하고, 기�
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [오케스트레이션이란](/blog/orchestration/what-is-orchestration) — 패턴 선택 전에 알아야 할 기초 개념
-- [병렬 실행](/blog/orchestration/parallel-execution) — 팬아웃/팬인 패턴을 실제로 적용하는 방법
-- [LangGraph 입문](/blog/orchestration/langgraph-intro) — 패턴을 그래프로 구현하는 도구
-- [태스크 분해](/blog/orchestration/task-decomposition) — 패턴의 기반이 되는 태스크 나누는 방법
+- [오케스트레이션이란](/blog/orchestration/what-is-orchestration/) — 패턴 선택 전에 알아야 할 기초 개념
+- [병렬 실행](/blog/orchestration/parallel-execution/) — 팬아웃/팬인 패턴을 실제로 적용하는 방법
+- [LangGraph 입문](/blog/orchestration/langgraph-intro/) — 패턴을 그래프로 구현하는 도구
+- [태스크 분해](/blog/orchestration/task-decomposition/) — 패턴의 기반이 되는 태스크 나누는 방법
 
-[← 오케스트레이션 시리즈 전체 보기](/blog/category/orchestration)
+[← 오케스트레이션 시리즈 전체 보기](/blog/?category=orchestration)
 

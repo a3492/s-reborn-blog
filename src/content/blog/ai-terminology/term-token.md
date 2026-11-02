@@ -74,6 +74,6 @@ OpenAI를 비롯한 LLM API들은 사용량을 토큰 수로 계산한다. "토�
 
 ## 관련 글
 
-- [파라미터 — 175B 파라미터는 무엇을 세는 숫자인가](/blog/ai-terminology/term-parameter)
-- [프롬프트 — 연극 무대에서 AI로 온 단어의 여정](/blog/ai-terminology/term-prompt)
-- [LLM — Large Language Model에서 '대형'과 '언어'가 의미하는 것](/blog/ai-terminology/term-llm)
+- [파라미터 — 175B 파라미터는 무엇을 세는 숫자인가](/blog/ai-terminology/term-parameter/)
+- [프롬프트 — 연극 무대에서 AI로 온 단어의 여정](/blog/ai-terminology/term-prompt/)
+- [LLM — Large Language Model에서 '대형'과 '언어'가 의미하는 것](/blog/ai-terminology/term-llm/)

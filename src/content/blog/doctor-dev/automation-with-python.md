@@ -204,6 +204,6 @@ while True:
 
 ## 관련 글
 
-- [Pandas로 임상 데이터 분석 — Excel을 Python으로 대체하는 법](/blog/doctor-dev/pandas-for-clinical-data)
-- [Git — 의사가 코드를 관리하는 법](/blog/doctor-dev/git-for-doctors)
-- [의료 AI 도구 배포 — 병원에서 쓸 수 있게 만드는 법](/blog/doctor-dev/deploy-medical-ai-tool)
+- [Pandas로 임상 데이터 분석 — Excel을 Python으로 대체하는 법](/blog/doctor-dev/pandas-for-clinical-data/)
+- [Git — 의사가 코드를 관리하는 법](/blog/doctor-dev/git-for-doctors/)
+- [의료 AI 도구 배포 — 병원에서 쓸 수 있게 만드는 법](/blog/doctor-dev/deploy-medical-ai-tool/)

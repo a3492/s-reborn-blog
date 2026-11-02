@@ -45,6 +45,6 @@ draft: false
 
 ## 더 알고 싶다면
 
-- [ChatGPT 탄생까지 — AI 70년 역사를 5분에](/blog/aerini/history-chatgpt-birth)
-- [AI 겨울이 두 번 있었다 — 그때 무슨 일이?](/blog/aerini/history-ai-winter)
-- [튜링 테스트: 70년 된 질문 — 기계가 생각할 수 있는가](/blog/aerini/history-turing-test)
+- [ChatGPT 탄생까지 — AI 70년 역사를 5분에](/blog/aerini/history-chatgpt-birth/)
+- [AI 겨울이 두 번 있었다 — 그때 무슨 일이?](/blog/aerini/history-ai-winter/)
+- [튜링 테스트: 70년 된 질문 — 기계가 생각할 수 있는가](/blog/aerini/history-turing-test/)

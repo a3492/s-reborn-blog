@@ -99,8 +99,8 @@ platform.openai.com → Usage → Limits에서 월 지출 한도를 설정한다
 - platform.openai.com에서 지출 한도 설정 가능
 
 ## 관련 글
-- [Codex와 Claude Code 중 어떤 게 나을까요?](/blog/faq/codex-vs-claude-code) — 비용 포함 전체 비교
-- [Codex CLI 설치 방법은?](/blog/faq/codex-install) — API 키 발급 포함 설치 안내
-- [Claude Code 비용은?](/blog/faq/claude-code-cost) — Anthropic API 요금 비교
+- [Codex와 Claude Code 중 어떤 게 나을까요?](/blog/faq/codex-vs-claude-code/) — 비용 포함 전체 비교
+- [Codex CLI 설치 방법은?](/blog/faq/codex-install/) — API 키 발급 포함 설치 안내
+- [Claude Code 비용은?](/blog/faq/claude-code-cost/) — Anthropic API 요금 비교
 
-[← FAQ 전체 보기](/blog/category/faq)
+[← FAQ 전체 보기](/blog/?category=faq)

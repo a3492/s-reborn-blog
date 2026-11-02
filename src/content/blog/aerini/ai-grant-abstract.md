@@ -101,7 +101,7 @@ AI가 생성하는 초안 예시입니다.
 - Scite.ai: 인용 신뢰도를 검증해주는 도구입니다. AI가 제안한 참고 문헌의 실제 인용 맥락을 확인할 수 있습니다.
 
 ## 더 나아가기
-👉 [AI로 임상 연구 아이디어 찾기](/blog/aerini/ai-research-idea)
-👉 [AI로 문헌 검토 계획 세우기](/blog/aerini/ai-literature-review)
-👉 [AI로 케이스 발표 준비하기](/blog/aerini/ai-case-presentation)
+👉 [AI로 임상 연구 아이디어 찾기](/blog/aerini/ai-research-idea/)
+👉 [AI로 문헌 검토 계획 세우기](/blog/aerini/ai-literature-review/)
+👉 [AI로 케이스 발표 준비하기](/blog/aerini/ai-case-presentation/)
 👉 [모든 애린이 글 보기](/blog/?category=aerini)

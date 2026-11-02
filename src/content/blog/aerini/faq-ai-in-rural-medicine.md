@@ -43,6 +43,6 @@ draft: false
 
 ## 더 알고 싶다면
 
-- [AI로 내 진단에 반론 구하기](/blog/aerini/ai-second-opinion)
-- [AI가 절대 못하는 게 뭔가요?](/blog/aerini/faq-ai-limitations)
-- [AI가 의료 현장에서 법적으로 허용되나요?](/blog/aerini/is-medical-ai-legal)
+- [AI로 내 진단에 반론 구하기](/blog/aerini/ai-second-opinion/)
+- [AI가 절대 못하는 게 뭔가요?](/blog/aerini/faq-ai-limitations/)
+- [AI가 의료 현장에서 법적으로 허용되나요?](/blog/aerini/is-medical-ai-legal/)

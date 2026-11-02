@@ -42,6 +42,6 @@ AI 모델은 특정 날짜까지의 데이터로만 학습됩니다. 이를 "학
 
 ## 더 알고 싶다면
 
-- [AI가 절대 못하는 게 뭔가요?](/blog/aerini/faq-ai-limitations)
-- [AI 환각(hallucination)이란 무엇인가요?](/blog/aerini/what-is-hallucination)
-- [AI가 구글보다 뭐가 나은가요?](/blog/aerini/faq-ai-vs-search)
+- [AI가 절대 못하는 게 뭔가요?](/blog/aerini/faq-ai-limitations/)
+- [AI 환각(hallucination)이란 무엇인가요?](/blog/aerini/what-is-hallucination/)
+- [AI가 구글보다 뭐가 나은가요?](/blog/aerini/faq-ai-vs-search/)

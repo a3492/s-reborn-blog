@@ -130,6 +130,6 @@ Hinton은 기술의 가능성을 긍정하면서 동시에 통제 가능성에 �
 
 ## 관련 글
 
-- [의료 AI 60년사 — MYCIN에서 ChatGPT까지](/blog/ai-history/medical-ai-history)
-- [스케일링 법칙 — 모델을 크게 만들수록 왜 똑똑해지는가](/blog/ai-history/llm-scaling-law)
-- [한국 AI 개발의 역사 — ETRI에서 뷰노·루닛까지](/blog/ai-history/korea-ai-history)
+- [의료 AI 60년사 — MYCIN에서 ChatGPT까지](/blog/ai-history/medical-ai-history/)
+- [스케일링 법칙 — 모델을 크게 만들수록 왜 똑똑해지는가](/blog/ai-history/llm-scaling-law/)
+- [한국 AI 개발의 역사 — ETRI에서 뷰노·루닛까지](/blog/ai-history/korea-ai-history/)

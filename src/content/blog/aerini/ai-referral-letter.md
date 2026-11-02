@@ -96,7 +96,7 @@ AI 생성 의뢰서 예시입니다.
 - 음성 입력 + AI 변환: 구글 음성 입력으로 환자 상황을 말하고 텍스트로 변환한 뒤 AI에 넘기면 더 빠릅니다.
 
 ## 더 나아가기
-👉 [AI로 퇴원 요약지 초안 5분 만에 만들기](/blog/aerini/ai-discharge-summary)
-👉 [AI로 수술 동의서 설명 자료 만들기](/blog/aerini/ai-surgery-consent)
-👉 [AI로 케이스 발표 준비하기](/blog/aerini/ai-case-presentation)
+👉 [AI로 퇴원 요약지 초안 5분 만에 만들기](/blog/aerini/ai-discharge-summary/)
+👉 [AI로 수술 동의서 설명 자료 만들기](/blog/aerini/ai-surgery-consent/)
+👉 [AI로 케이스 발표 준비하기](/blog/aerini/ai-case-presentation/)
 👉 [모든 애린이 글 보기](/blog/?category=aerini)

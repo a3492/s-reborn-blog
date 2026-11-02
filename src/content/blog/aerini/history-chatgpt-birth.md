@@ -46,6 +46,6 @@ ChatGPT는 갑자기 나타난 게 아닙니다. 70년의 연구가 쌓인 결�
 
 ## 더 알고 싶다면
 
-- ["인공지능"이라는 단어는 누가, 언제 만들었나](/blog/aerini/history-word-ai)
-- [AI 겨울이 두 번 있었다 — 그때 무슨 일이?](/blog/aerini/history-ai-winter)
-- ["Attention is All You Need" — 8페이지짜리 논문이 세상을 바꿨다](/blog/aerini/history-attention-paper)
+- ["인공지능"이라는 단어는 누가, 언제 만들었나](/blog/aerini/history-word-ai/)
+- [AI 겨울이 두 번 있었다 — 그때 무슨 일이?](/blog/aerini/history-ai-winter/)
+- ["Attention is All You Need" — 8페이지짜리 논문이 세상을 바꿨다](/blog/aerini/history-attention-paper/)

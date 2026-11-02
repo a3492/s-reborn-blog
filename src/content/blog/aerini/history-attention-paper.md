@@ -52,6 +52,6 @@ Transformer는 달랐습니다. 문장 전체를 한 번에 보면서 "어떤 �
 
 ## 더 알고 싶다면
 
-- [왜 "신경망"이라고 부를까 — 뇌 구조에서 온 이름](/blog/aerini/history-neural-network-name)
-- ["딥러닝"이라는 이름은 누가 지었나](/blog/aerini/history-deep-learning-name)
-- [ChatGPT 탄생까지 — AI 70년 역사를 5분에](/blog/aerini/history-chatgpt-birth)
+- [왜 "신경망"이라고 부를까 — 뇌 구조에서 온 이름](/blog/aerini/history-neural-network-name/)
+- ["딥러닝"이라는 이름은 누가 지었나](/blog/aerini/history-deep-learning-name/)
+- [ChatGPT 탄생까지 — AI 70년 역사를 5분에](/blog/aerini/history-chatgpt-birth/)

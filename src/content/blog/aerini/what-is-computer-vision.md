@@ -103,8 +103,8 @@ AI가 "이상 없음"이라고 판독해도 임상 소견과 맞지 않으면 �
 
 ## 더 알고 싶다면
 
-- [멀티모달 AI가 뭐예요?](/blog/aerini/what-is-multimodal-ai)
-- [AI 설명가능성(XAI)이 뭐예요?](/blog/aerini/what-is-ai-explainability)
-- [AI 편향(Bias)이 뭐예요?](/blog/aerini/what-is-ai-bias)
+- [멀티모달 AI가 뭐예요?](/blog/aerini/what-is-multimodal-ai/)
+- [AI 설명가능성(XAI)이 뭐예요?](/blog/aerini/what-is-ai-explainability/)
+- [AI 편향(Bias)이 뭐예요?](/blog/aerini/what-is-ai-bias/)
 
-[🩺 모든 애린이 글 보기](/blog/category/aerini)
+[🩺 모든 애린이 글 보기](/blog/?category=aerini)

@@ -69,10 +69,10 @@ AI 출력물을 그대로 처방에 적용한다면 이 주의의무를 다하�
 
 ## 더 알고 싶다면
 
-🔗 [의료에서 AI 정확도는 얼마나 되나요?](/blog/aerini/faq-ai-accuracy-medical) — AI가 얼마나 자주 틀리는지 이해
+🔗 [의료에서 AI 정확도는 얼마나 되나요?](/blog/aerini/faq-ai-accuracy-medical/) — AI가 얼마나 자주 틀리는지 이해
 
-🔗 [AI로 신기능/간기능 저하 환자 약물 용량 확인하기](/blog/aerini/ai-drug-dosing) — 고위험 처방에서 AI를 안전하게 활용하는 방법
+🔗 [AI로 신기능/간기능 저하 환자 약물 용량 확인하기](/blog/aerini/ai-drug-dosing/) — 고위험 처방에서 AI를 안전하게 활용하는 방법
 
-🔗 [AI에게 환자 정보를 입력하면 개인정보가 유출되나요?](/blog/aerini/faq-ai-patient-privacy) — AI 사용의 또 다른 법적 위험 요소
+🔗 [AI에게 환자 정보를 입력하면 개인정보가 유출되나요?](/blog/aerini/faq-ai-patient-privacy/) — AI 사용의 또 다른 법적 위험 요소
 
-👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/aerini)에서 기초부터 시작해 보세요
+👉 애린이가 처음이라면 → [애린이 시작 가이드](/blog/?category=aerini)에서 기초부터 시작해 보세요

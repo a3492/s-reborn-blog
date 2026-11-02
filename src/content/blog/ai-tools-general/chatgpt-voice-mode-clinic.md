@@ -85,8 +85,8 @@ ChatGPT Advanced Voice Mode는 Plus 플랜($20/월) 이상에서 사용 가능. 
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [Otter.ai 회의 전사](/blog/ai-tools-general/otter-ai-meeting-transcription) — 음성을 텍스트로 변환하는 전용 도구
-- [Notion AI 임상 노트](/blog/ai-tools-general/notion-ai-clinical-notes) — 생성된 메모를 체계적으로 정리하는 방법
-- [Human-in-the-Loop](/blog/orchestration/human-in-the-loop) — AI 자동화에 반드시 사람 검토를 포함해야 하는 이유
+- [Otter.ai 회의 전사](/blog/ai-tools-general/otter-ai-meeting-transcription/) — 음성을 텍스트로 변환하는 전용 도구
+- [Notion AI 임상 노트](/blog/ai-tools-general/notion-ai-clinical-notes/) — 생성된 메모를 체계적으로 정리하는 방법
+- [Human-in-the-Loop](/blog/orchestration/human-in-the-loop/) — AI 자동화에 반드시 사람 검토를 포함해야 하는 이유
 
-[← AI 도구 일반 전체 보기](/blog/category/ai-tools-general)
+[← AI 도구 일반 전체 보기](/blog/?category=ai-tools-general)

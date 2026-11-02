@@ -48,6 +48,6 @@ AI를 가르치는 방법은 여러 가지입니다. 의대 교육에도 강의,
 
 ## 더 알고 싶다면
 
-- [AI 필수 용어 10개 — 이것만 알면 대화가 된다](/blog/aerini/glossary-ai-basics)
-- [머신러닝 vs 딥러닝 — 용어 차이 완전 정복](/blog/aerini/glossary-ml-dl-terms)
-- [LLM 용어 사전 — GPT, Claude, Gemini를 이해하는 단어들](/blog/aerini/glossary-llm-terms)
+- [AI 필수 용어 10개 — 이것만 알면 대화가 된다](/blog/aerini/glossary-ai-basics/)
+- [머신러닝 vs 딥러닝 — 용어 차이 완전 정복](/blog/aerini/glossary-ml-dl-terms/)
+- [LLM 용어 사전 — GPT, Claude, Gemini를 이해하는 단어들](/blog/aerini/glossary-llm-terms/)

@@ -47,6 +47,6 @@ draft: false
 
 ## 더 알고 싶다면
 
-- [ChatGPT 탄생까지 — AI 70년 역사를 5분에](/blog/aerini/history-chatgpt-birth)
-- ["딥러닝"이라는 이름은 누가 지었나](/blog/aerini/history-deep-learning-name)
-- ["Attention is All You Need" — 8페이지짜리 논문이 세상을 바꿨다](/blog/aerini/history-attention-paper)
+- [ChatGPT 탄생까지 — AI 70년 역사를 5분에](/blog/aerini/history-chatgpt-birth/)
+- ["딥러닝"이라는 이름은 누가 지었나](/blog/aerini/history-deep-learning-name/)
+- ["Attention is All You Need" — 8페이지짜리 논문이 세상을 바꿨다](/blog/aerini/history-attention-paper/)

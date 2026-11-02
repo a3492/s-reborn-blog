@@ -221,5 +221,5 @@ AI는 의학 지식을 대신 채워 주는 도구가 아니다. 그 지식을 �
 ## 관련 글
 - [AI 환각은 왜 생기는가 — LLM이 거짓말하는 이유](/blog/ai/ai-hallucination-why-llm-lies/)
 - [토큰이란 무엇인가 — LLM의 언어 단위 이해하기](/blog/ai/what-is-token-llm/)
-- [프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드](/blog/ai/prompt-engineering-for-doctors/)
-- [Doctor AI Academy 시리즈 전체 보기](/doctor-ai-academy/)
+- [프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드](/blog/prompt-engineering/prompt-engineering-for-doctors/)
+- [Doctor AI Academy 시리즈 전체 보기](https://s-reborn-doctor-ai-academy.pages.dev/)

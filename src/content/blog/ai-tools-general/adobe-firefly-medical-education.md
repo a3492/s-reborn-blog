@@ -71,8 +71,8 @@ Adobe Firefly는 firefly.adobe.com에서 무료로 사용 가능. Adobe Creative
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [Ideogram 한글 텍스트 이미지](/blog/ai-tools-general/ideogram-korean-text-image) — 텍스트가 포함된 이미지 생성이 필요할 때
-- [Midjourney 이미지 프롬프트 워크플로우](/blog/ai-tools-general/midjourney-image-prompt-workflow) — 더 다양한 스타일의 이미지가 필요할 때
-- [Gamma AI 프레젠테이션](/blog/ai-tools-general/gamma-ai-presentation) — 생성한 이미지를 슬라이드에 빠르게 넣는 방법
+- [Ideogram 한글 텍스트 이미지](/blog/ai-tools-general/ideogram-korean-text-image/) — 텍스트가 포함된 이미지 생성이 필요할 때
+- [Midjourney 이미지 프롬프트 워크플로우](/blog/ai-tools-general/midjourney-image-prompt-workflow/) — 더 다양한 스타일의 이미지가 필요할 때
+- [Gamma AI 프레젠테이션](/blog/ai-tools-general/gamma-ai-presentation/) — 생성한 이미지를 슬라이드에 빠르게 넣는 방법
 
-[← AI 도구 일반 전체 보기](/blog/category/ai-tools-general)
+[← AI 도구 일반 전체 보기](/blog/?category=ai-tools-general)

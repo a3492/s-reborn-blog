@@ -49,6 +49,6 @@ AI가 만든 일정은 표준 프로토콜 기반입니다. 여기에 환자 개
 
 ## 더 알고 싶다면
 
-- [아침 회진 준비, AI로 10분 만에 끝내기](/blog/aerini/ai-morning-rounds)
-- [퇴원 요약서, AI로 빠르게 쓰기](/blog/aerini/ai-discharge-summary)
-- [AI로 치료 계획 초안 잡기](/blog/aerini/ai-treatment-plan)
+- [아침 회진 준비, AI로 10분 만에 끝내기](/blog/aerini/ai-morning-rounds/)
+- [퇴원 요약서, AI로 빠르게 쓰기](/blog/aerini/ai-discharge-summary/)
+- [AI로 치료 계획 초안 잡기](/blog/aerini/ai-treatment-plan/)

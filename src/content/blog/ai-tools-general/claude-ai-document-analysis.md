@@ -77,8 +77,8 @@ Claude.ai 무료 플랜은 파일 업로드 기능이 제한됨. Pro 플랜($20/
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [NotebookLM으로 논문 정리](/blog/ai-tools-general/notebooklm-source-grounded-notes) — 소스 기반으로 더 엄격하게 답하는 AI 도구
-- [Perplexity AI로 논문 탐색](/blog/ai-tools-general/perplexity-ai-search-research) — 논문을 찾는 단계에서 쓰는 AI 검색
-- [에이전틱 RAG](/blog/orchestration/agentic-rag) — 복합 질문에 반복 검색을 결합하는 고급 방법
+- [NotebookLM으로 논문 정리](/blog/ai-tools-general/notebooklm-source-grounded-notes/) — 소스 기반으로 더 엄격하게 답하는 AI 도구
+- [Perplexity AI로 논문 탐색](/blog/ai-tools-general/perplexity-ai-search-research/) — 논문을 찾는 단계에서 쓰는 AI 검색
+- [에이전틱 RAG](/blog/orchestration/agentic-rag/) — 복합 질문에 반복 검색을 결합하는 고급 방법
 
-[← AI 도구 일반 전체 보기](/blog/category/ai-tools-general)
+[← AI 도구 일반 전체 보기](/blog/?category=ai-tools-general)

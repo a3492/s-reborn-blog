@@ -88,7 +88,7 @@ J18.9와 J18.1 중 어떤 상황에서 각각을 선택해야 하는지
 - 건강보험심사평가원 의약품 및 치료재료 코드 조회: 한국 보험 청구용 코드는 심평원 포털에서 직접 확인하는 게 가장 정확합니다.
 
 ## 더 나아가기
-👉 [AI로 퇴원 요약지 초안 5분 만에 만들기](/blog/aerini/ai-discharge-summary)
-👉 [AI로 약물 상호작용 30초 만에 확인하기](/blog/aerini/ai-drug-interaction-check)
-👉 [AI로 환자 자주 묻는 질문 미리 준비하기](/blog/aerini/ai-patient-qa)
+👉 [AI로 퇴원 요약지 초안 5분 만에 만들기](/blog/aerini/ai-discharge-summary/)
+👉 [AI로 약물 상호작용 30초 만에 확인하기](/blog/aerini/ai-drug-interaction-check/)
+👉 [AI로 환자 자주 묻는 질문 미리 준비하기](/blog/aerini/ai-patient-qa/)
 👉 [모든 애린이 글 보기](/blog/?category=aerini)

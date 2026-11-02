@@ -16,7 +16,7 @@ const { title, title_en, description, description_en, date, thumbnail, category,
 const isEn = lang === 'en';
 const displayTitle = isEn && title_en ? title_en : title;
 const displayDescription = isEn && description_en ? description_en : description;
-const slug = Astro.url.pathname.replace(/^\/(?:en\/)?blog\//, '').replace(/\/$/, '');
+const slug = Astro.url.pathname.replace(/^\/blog\//, '').replace(/\/$/, '');
 
 // 카테고리별 글 수 (네비용)
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
@@ -34,7 +34,7 @@ const countsByCategory = allPosts.reduce<Record<string, number>>((acc, post) => 
 
 	<body class="blog-post-shell">
 		<div class="site-wrap">
-		<Topbar lang={lang} />
+		<Topbar />
 		<div class="site-main">
 		<div class="blog-layout">
 
@@ -52,7 +52,7 @@ const countsByCategory = allPosts.reduce<Record<string, number>>((acc, post) => 
 
 				<div class="blog-nav-body" id="blog-nav-body">
 					<!-- 전체 -->
-					<a class="blog-nav-all" href={isEn ? '/en/blog/' : '/blog/'} data-navlink>
+					<a class="blog-nav-all" href="/blog/" data-navlink>
 						<span class="blog-nav-all-label">{isEn ? '⊞ All Posts' : '⊞ 전체 글'}</span>
 						<span class="blog-nav-count">{allPosts.length}</span>
 					</a>
@@ -79,7 +79,7 @@ const countsByCategory = allPosts.reduce<Record<string, number>>((acc, post) => 
 										const count = countsByCategory[catId] ?? 0;
 										const isActive = catId === category;
 										const catLabel = isEn ? cat.labelEn : cat.label;
-										const catHref = isEn ? `/en/blog/?category=${catId}` : `/blog/?category=${catId}`;
+										const catHref = `/blog/?category=${catId}`;
 										return (
 											<a
 												class={`blog-nav-item${isActive ? ' blog-nav-item--active' : ''}`}

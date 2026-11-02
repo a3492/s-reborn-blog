@@ -132,10 +132,10 @@ AI는 컨텍스트 앞부분과 끝부분을 잘 기억하지만 중간은 자�
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [비용 최적화](/blog/orchestration/orchestration-cost-optimization) — 컨텍스트 길이가 비용에 미치는 영향
-- [에이전트 간 통신](/blog/orchestration/multi-agent-communication) — 에이전트 간 선택적 정보 전달 방식
-- [에이전틱 RAG](/blog/orchestration/agentic-rag) — 컨텍스트 대신 검색으로 필요한 정보를 가져오는 방법
-- [상태 관리](/blog/orchestration/state-management) — 컨텍스트 전달 대신 상태 저장소를 쓰는 방법
+- [비용 최적화](/blog/orchestration/orchestration-cost-optimization/) — 컨텍스트 길이가 비용에 미치는 영향
+- [에이전트 간 통신](/blog/orchestration/multi-agent-communication/) — 에이전트 간 선택적 정보 전달 방식
+- [에이전틱 RAG](/blog/orchestration/agentic-rag/) — 컨텍스트 대신 검색으로 필요한 정보를 가져오는 방법
+- [상태 관리](/blog/orchestration/state-management/) — 컨텍스트 전달 대신 상태 저장소를 쓰는 방법
 
-[← 오케스트레이션 시리즈 전체 보기](/blog/category/orchestration)
+[← 오케스트레이션 시리즈 전체 보기](/blog/?category=orchestration)
 

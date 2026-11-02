@@ -247,10 +247,10 @@ AI가 다운됐을 때 병동이 마비되면 안 된다. AI는 보조 도구이
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [오케스트레이션이란](/blog/orchestration/what-is-orchestration) — 회진 시스템 설계의 기초 개념
-- [Human-in-the-Loop](/blog/orchestration/human-in-the-loop) — 의사 최종 승인 흐름 설계 원칙
-- [오케스트레이션 테스팅](/blog/orchestration/orchestration-testing) — 케이스 시나리오 테스트 방법
-- [오케스트레이션 보안](/blog/orchestration/orchestration-security) — 의료 데이터와 처방 시스템 보안
+- [오케스트레이션이란](/blog/orchestration/what-is-orchestration/) — 회진 시스템 설계의 기초 개념
+- [Human-in-the-Loop](/blog/orchestration/human-in-the-loop/) — 의사 최종 승인 흐름 설계 원칙
+- [오케스트레이션 테스팅](/blog/orchestration/orchestration-testing/) — 케이스 시나리오 테스트 방법
+- [오케스트레이션 보안](/blog/orchestration/orchestration-security/) — 의료 데이터와 처방 시스템 보안
 
-[← 오케스트레이션 시리즈 전체 보기](/blog/category/orchestration)
+[← 오케스트레이션 시리즈 전체 보기](/blog/?category=orchestration)
 

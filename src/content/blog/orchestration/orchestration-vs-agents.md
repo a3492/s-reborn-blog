@@ -171,10 +171,10 @@ thumbnail: ""
 ## 더 알고 싶다면
 
 🔗 관련 글
-- [오케스트레이션이란](/blog/orchestration/what-is-orchestration) — 오케스트레이션의 기본 개념
-- [ReAct 패턴](/blog/orchestration/react-pattern) — 단일 에이전트로 시작할 때의 기본 패턴
-- [슈퍼바이저 패턴](/blog/orchestration/supervisor-pattern) — 멀티 에이전트로 확장하는 대표 구조
-- [AI 워크플로우 패턴 5가지](/blog/orchestration/workflow-patterns) — 상황별 설계 선택 기준
+- [오케스트레이션이란](/blog/orchestration/what-is-orchestration/) — 오케스트레이션의 기본 개념
+- [ReAct 패턴](/blog/orchestration/react-pattern/) — 단일 에이전트로 시작할 때의 기본 패턴
+- [슈퍼바이저 패턴](/blog/orchestration/supervisor-pattern/) — 멀티 에이전트로 확장하는 대표 구조
+- [AI 워크플로우 패턴 5가지](/blog/orchestration/workflow-patterns/) — 상황별 설계 선택 기준
 
-[← 오케스트레이션 시리즈 전체 보기](/blog/category/orchestration)
+[← 오케스트레이션 시리즈 전체 보기](/blog/?category=orchestration)
 
