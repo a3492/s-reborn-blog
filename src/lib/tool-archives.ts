@@ -51,7 +51,6 @@ export function itemCopyText(archive: ToolArchiveData, item: ToolArchiveItem): s
 		`# ${item.code}. ${item.title}`,
 		'',
 		`출처: ${archive.sourceTitle}`,
-		`인덱스 표기: ${item.indexLabel}`,
 		'',
 		'## 인덱스 원문',
 		`핵심 질문: ${body.question}`,

@@ -72,9 +72,8 @@ function sourceFields(item: ToolArchiveItem) {
 								<h2>
 									{item.code}. {item.title}
 								</h2>
-								{item.demoInLecture && <span class="archive-flag">강연 원고: 시연</span>}
+								{item.demoInLecture && <span class="archive-flag">시연</span>}
 							</div>
-							<p class="archive-index">{item.indexLabel}</p>
 							<div class="archive-body">
 								<h3>인덱스 원문</h3>
 								<p>
@@ -130,9 +129,7 @@ function sourceFields(item: ToolArchiveItem) {
 					))
 				}
 			</ul>
-			<p class="archive-note">
-				인덱스 문서의 LIVE 번호와 강연 원고의 시연 표시를 각 항목에 그대로 두었습니다.
-			</p>
+			<p class="archive-note">시연 표시는 강연 원고의 B·C·H만 따릅니다.</p>
 		</section>
 	</article>
 </Layout>
@@ -285,11 +282,6 @@ function sourceFields(item: ToolArchiveItem) {
 		font-size: 0.75rem;
 		font-weight: 700;
 		color: var(--pink);
-	}
-	.archive-index {
-		margin: 0.45rem 0 0;
-		font-size: 0.82rem;
-		color: var(--t3);
 	}
 	.archive-howto {
 		margin-top: 0.8rem;

@@ -27,7 +27,6 @@
     {
       "code": "A",
       "title": "CRM 구조의 한계",
-      "indexLabel": "04 A. CRM 구조의 한계 | LIVE 04",
       "question": "기존 기능에 없는 원장 질문은 어떻게 다루는가?",
       "resolution": "질문 명세 → 읽기 전용 맞춤 분석층 설계",
       "lectureLine": "원장님 질문을 기존 CRM 기능으로 못 본다 → 질문 정의 후 원본은 건드리지 않는 분석용 구조",
@@ -38,7 +37,6 @@
     {
       "code": "B",
       "title": "데이터 추출 장벽",
-      "indexLabel": "01 B. 데이터 추출 장벽 | LIVE 01",
       "question": "자료를 꺼내는 것부터 왜 이렇게 어려운가?",
       "resolution": "메뉴별 추출·행 단위 확인 → AI 구조화",
       "lectureLine": "CRM에서 자료를 꺼내는 것부터 어렵다 → 메뉴별 추출·행 단위 확인 후 AI로 정리",
@@ -49,7 +47,6 @@
     {
       "code": "C",
       "title": "외부 채널 분산",
-      "indexLabel": "02 C. 외부 채널 분산 | LIVE 02",
       "question": "예약 전 고객 접점은 어디에 남는가?",
       "resolution": "전화·카톡·DM·예약의 연결 가능/불가 구분",
       "lectureLine": "전화·카톡·인스타 DM·네이버 문의가 CRM에 안 남는다 → 연결 가능/불가 기록 구분",
@@ -60,7 +57,6 @@
     {
       "code": "D",
       "title": "엑셀·데이터 품질",
-      "indexLabel": "03 D. 엑셀·데이터 품질 | LIVE 03",
       "question": "파일을 합친 숫자를 믿을 수 있는가?",
       "resolution": "중복·결측·JOIN 증식 탐지와 독립 검산",
       "lectureLine": "합친 숫자를 믿을 수 있나 → 중복·빈 값·잘못 합쳐 불어난 행 탐지, 따로 검산",
@@ -71,7 +67,6 @@
     {
       "code": "E",
       "title": "지표 정의 불일치",
-      "indexLabel": "05 E. 지표 정의 불일치 | LIVE 05",
       "question": "같은 숫자를 같은 뜻으로 보고 있는가?",
       "resolution": "신규·재방문·선수납 등 KPI 정의 사전",
       "lectureLine": "같은 ‘신규 환자’를 다르게 센다 → 신규·재방문·선수납 정의 사전으로 통일",
@@ -82,7 +77,6 @@
     {
       "code": "F",
       "title": "직원·운영 문제",
-      "indexLabel": "06 F. 직원·운영 문제 | LIVE 06",
       "question": "AI 분석을 누가 매주 반복할 것인가?",
       "resolution": "원장 지시 → SOP·담당·검수·인수인계",
       "lectureLine": "매주 누가 반복하나 → 업무 매뉴얼·담당자·검수·인수인계",
@@ -93,7 +87,6 @@
     {
       "code": "G",
       "title": "개인정보·보안",
-      "indexLabel": "07 G. 개인정보·보안 | LIVE 07",
       "question": "CRM 자료를 AI에 입력해도 되는가?",
       "resolution": "목적·적법성·서비스·최소화·승인 게이트",
       "lectureLine": "CRM 자료를 AI에 넣어도 되나 → 목적·적법성·서비스·최소 정보·승인 확인",
@@ -104,7 +97,6 @@
     {
       "code": "H",
       "title": "의사결정 단절",
-      "indexLabel": "08 H. 의사결정 단절 | LIVE 08",
       "question": "분석한 뒤 원장은 무엇을 바꾸는가?",
       "resolution": "사실→가설→대안→작은 시행→효과 검증",
       "demoInLecture": true,

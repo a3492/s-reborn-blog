@@ -57,7 +57,6 @@ const toolArchives = defineCollection({
 			z.object({
 				code: z.string(),
 				title: z.string(),
-				indexLabel: z.string(),
 				question: z.string(),
 				resolution: z.string(),
 				lectureLine: z.string(),
