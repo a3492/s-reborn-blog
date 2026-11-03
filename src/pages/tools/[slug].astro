@@ -1,0 +1,313 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { itemCopyText, topicLabel, type ToolArchiveItem } from '../../lib/tool-archives';
+
+export async function getStaticPaths() {
+	const archives = await getCollection('toolArchives', ({ data }) => !data.draft);
+	return archives.map((entry) => ({
+		params: { slug: entry.id },
+		props: { entry },
+	}));
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const slug = entry.id;
+
+function sourceFields(item: ToolArchiveItem) {
+	if (item.bodyStatus === 'awaiting-source') {
+		return {
+			question: '원문 입력 대기',
+			resolution: '원문 입력 대기',
+			lectureLine: '원문 입력 대기',
+		};
+	}
+	return {
+		question: item.question,
+		resolution: item.resolution,
+		lectureLine: item.lectureLine,
+	};
+}
+---
+
+<Layout title={data.title} description={data.summary}>
+	<article class="archive" data-archive>
+		<header class="archive-head">
+			<p class="archive-kicker">
+				<a href="/tools/">경영 도구 아카이브</a>
+				<span aria-hidden="true"> / </span>
+				{topicLabel(data.topic)}
+			</p>
+			<h1>{data.title}</h1>
+			<p class="archive-lead">{data.summary}</p>
+			<p class="archive-meta">{data.eventLabel}</p>
+			<p class="archive-meta">{data.audience}</p>
+		</header>
+
+		<section class="archive-panel" aria-label="핵심 메시지">
+			<h2>핵심 메시지</h2>
+			<p>{data.coreMessage}</p>
+		</section>
+
+		<section class="archive-panel" aria-label="파일로 받기">
+			<h2>전체 파일</h2>
+			<p>A–H를 한 파일로 받아 프로젝트 지식에 올리세요. 환자 개인정보, 실명, 가격은 들어 있지 않습니다.</p>
+			<div class="archive-actions">
+				<a class="archive-btn" href={`/tools/${slug}.md`} download={`${slug}.md`}>.md 다운로드</a>
+				<a class="archive-btn archive-btn-ghost" href={`/tools/${slug}.txt`} download={`${slug}.txt`}>.txt 다운로드</a>
+			</div>
+		</section>
+
+		<p class="archive-status" data-copy-status role="status" aria-live="polite"></p>
+
+		<ol class="archive-items">
+			{
+				data.items.map((item) => {
+					const fields = sourceFields(item);
+					return (
+						<li class="archive-item" id={item.code}>
+							<div class="archive-item-top">
+								<span class="archive-code">{item.code}</span>
+								<h2>
+									{item.code}. {item.title}
+								</h2>
+								{item.demoInLecture && <span class="archive-flag">강연 원고: 시연</span>}
+							</div>
+							<p class="archive-index">{item.indexLabel}</p>
+							<div class="archive-body">
+								<h3>인덱스 원문</h3>
+								<p>
+									<strong>핵심 질문. </strong>
+									{fields.question}
+								</p>
+								<p>
+									<strong>해결. </strong>
+									{fields.resolution}
+								</p>
+								<h3>강연 원고 한 줄</h3>
+								<p>{fields.lectureLine}</p>
+								{item.detailUrl && item.bodyStatus === 'source' && (
+									<p>
+										<a href={item.detailUrl} target="_blank" rel="noopener noreferrer">
+											상세 기획안
+										</a>
+									</p>
+								)}
+							</div>
+							<div class="archive-howto">
+								<h3>내 AI에 넣는 법</h3>
+								<p>{data.howTo}</p>
+								<button type="button" data-copy={item.code} data-label="이 항목 복사">
+									이 항목 복사
+								</button>
+							</div>
+							<pre id={`copy-${item.code}`} hidden>{itemCopyText(data, item)}</pre>
+						</li>
+					);
+				})
+			}
+		</ol>
+
+		<section class="archive-panel">
+			<h2>결론</h2>
+			<p>{data.closing}</p>
+			<h2>제작 유의</h2>
+			<p>{data.caution}</p>
+		</section>
+
+		<section class="archive-panel">
+			<h2>출처</h2>
+			<ul>
+				{
+					data.sources.map((source) => (
+						<li>
+							<a href={source.url} target="_blank" rel="noopener noreferrer">
+								{source.label}
+							</a>
+							<span> — {source.note}</span>
+						</li>
+					))
+				}
+			</ul>
+			<p class="archive-note">
+				인덱스 문서의 LIVE 번호와 강연 원고의 시연 표시를 각 항목에 그대로 두었습니다.
+			</p>
+		</section>
+	</article>
+</Layout>
+
+<script>
+	const root = document.querySelector('[data-archive]');
+	const status = document.querySelector('[data-copy-status]');
+	root?.addEventListener('click', async (event) => {
+		const target = event.target;
+		if (!(target instanceof HTMLButtonElement)) return;
+		const code = target.dataset.copy;
+		if (!code) return;
+		const node = document.getElementById(`copy-${code}`);
+		const text = node?.textContent?.trim() ?? '';
+		const label = target.dataset.label ?? '이 항목 복사';
+		try {
+			if (navigator.clipboard?.writeText) {
+				await navigator.clipboard.writeText(text);
+			} else {
+				throw new Error('clipboard unavailable');
+			}
+		} catch {
+			const area = document.createElement('textarea');
+			area.value = text;
+			area.setAttribute('readonly', '');
+			area.style.position = 'fixed';
+			area.style.left = '-9999px';
+			document.body.appendChild(area);
+			area.select();
+			document.execCommand('copy');
+			area.remove();
+		}
+		target.textContent = '복사됨';
+		if (status) status.textContent = `${code} 항목을 복사했습니다. AI 지침이나 지식에 붙여 넣으면 됩니다.`;
+		window.setTimeout(() => {
+			target.textContent = label;
+		}, 1800);
+	});
+</script>
+
+<style>
+	.archive {
+		padding: 2.2rem 0 4rem;
+		max-width: 46rem;
+	}
+	.archive-kicker {
+		font-size: 0.78rem;
+		color: var(--t3);
+	}
+	.archive-kicker a {
+		color: var(--pink);
+		font-weight: 700;
+		text-decoration: none;
+	}
+	.archive h1 {
+		font-family: var(--display);
+		font-size: clamp(1.8rem, 4vw, 2.35rem);
+		letter-spacing: -0.03em;
+		margin: 0.4rem 0 0.7rem;
+	}
+	.archive-lead,
+	.archive-body p,
+	.archive-howto p,
+	.archive-panel p,
+	.archive-note {
+		color: var(--t2);
+		line-height: 1.65;
+	}
+	.archive-meta {
+		margin: 0.15rem 0;
+		font-size: 0.88rem;
+		color: var(--t3);
+	}
+	.archive-panel,
+	.archive-item {
+		margin-top: 1rem;
+		padding: 1rem 1.05rem 1.1rem;
+		border: 1px solid var(--rule);
+		border-radius: 14px;
+		background: var(--bg2);
+	}
+	.archive-panel h2,
+	.archive-item h2,
+	.archive-body h3,
+	.archive-howto h3 {
+		font-family: var(--display);
+		margin: 0 0 0.4rem;
+	}
+	.archive-panel h2,
+	.archive-item h2 {
+		font-size: 1.15rem;
+	}
+	.archive-body h3,
+	.archive-howto h3 {
+		margin-top: 0.85rem;
+		font-size: 0.92rem;
+	}
+	.archive-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin-top: 0.8rem;
+	}
+	.archive-btn,
+	.archive-howto button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 44px;
+		padding: 0.55rem 0.9rem;
+		border-radius: 999px;
+		border: 1px solid var(--pink);
+		background: var(--pink);
+		color: #fff;
+		font: inherit;
+		font-size: 0.9rem;
+		font-weight: 700;
+		text-decoration: none;
+		cursor: pointer;
+	}
+	.archive-btn-ghost {
+		background: transparent;
+		color: var(--text);
+	}
+	.archive-items {
+		list-style: none;
+		padding: 0;
+		margin: 0.4rem 0 0;
+	}
+	.archive-item-top {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.45rem 0.6rem;
+	}
+	.archive-item-top h2 {
+		margin: 0;
+	}
+	.archive-code {
+		display: inline-grid;
+		place-items: center;
+		width: 1.8rem;
+		height: 1.8rem;
+		border-radius: 999px;
+		background: #fff;
+		border: 1px solid var(--rule);
+		font-weight: 800;
+	}
+	.archive-flag {
+		font-size: 0.75rem;
+		font-weight: 700;
+		color: var(--pink);
+	}
+	.archive-index {
+		margin: 0.45rem 0 0;
+		font-size: 0.82rem;
+		color: var(--t3);
+	}
+	.archive-howto {
+		margin-top: 0.8rem;
+		padding-top: 0.2rem;
+	}
+	.archive-status {
+		min-height: 1.2rem;
+		margin: 0.8rem 0 0;
+		font-size: 0.88rem;
+		color: var(--t2);
+	}
+	.archive-panel ul {
+		margin: 0.3rem 0 0;
+		padding-left: 1.1rem;
+		color: var(--t2);
+		line-height: 1.6;
+	}
+	.archive-note {
+		font-size: 0.88rem;
+	}
+</style>

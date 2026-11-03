@@ -13,6 +13,7 @@ const isHome = path === '/' || path === '/en' || path === '/en/';
 const isBlog = isEn ? path.startsWith('/en/blog') : (path.startsWith('/blog') && !path.startsWith('/en/'));
 const isAbout = path.startsWith('/about');
 const isLab = path.startsWith('/lab');
+const isTools = path.startsWith('/tools');
 
 // 언어 전환 링크 계산
 const langToggleHref = isEn
@@ -48,6 +49,7 @@ const langToggleTitle = isEn ? '한국어로 보기' : 'View in English';
     <a href="/" class={`topbar-link${isHome ? ' active' : ''}`}>Home</a>
     <a href={isEn ? '/en/blog' : '/blog'} class={`topbar-link${isBlog ? ' active' : ''}`}>Blog</a>
     <a href="/about" class={`topbar-link${isAbout ? ' active' : ''}`}>About</a>
+    <a href="/tools/" class={`topbar-link${isTools ? ' active' : ''}`}>도구</a>
     <a href="/lab/" class={`topbar-link${isLab ? ' active' : ''}`}>{SITE_BRAND.labDisplayName}</a>
     <a href={langToggleHref} class="topbar-link tb-lang-toggle" title={langToggleTitle}>{langToggleLabel}</a>
   </nav>

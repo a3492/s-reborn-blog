@@ -1,0 +1,126 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { TOOL_TOPICS, topicLabel } from '../../lib/tool-archives';
+
+const archives = (await getCollection('toolArchives', ({ data }) => !data.draft)).sort(
+	(a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title, 'ko'),
+);
+---
+
+<Layout
+	title="경영 도구 아카이브"
+	description="병원 데이터, 개원 준비, 운영 주제를 AI에 붙여 넣을 수 있는 자료로 모읍니다."
+>
+	<div class="tools-hub">
+		<header class="tools-head">
+			<p class="tools-kicker">S-reborn MD AI HUB</p>
+			<h1>경영 도구 아카이브</h1>
+			<p class="tools-lead">
+				수강 원장이 복사하거나 파일로 받아 자기 AI에 넣는 자료입니다. 병원 데이터부터 두고, 개원 준비와 운영 주제를 같은 형식으로 이어 붙입니다.
+			</p>
+		</header>
+
+		{
+			TOOL_TOPICS.map((topic) => {
+				const entries = archives.filter((entry) => entry.data.topic === topic.id);
+				return (
+					<section class="tools-topic" aria-labelledby={`topic-${topic.id}`}>
+						<div class="tools-topic-head">
+							<h2 id={`topic-${topic.id}`}>{topic.label}</h2>
+							<p>{topic.note}</p>
+						</div>
+						{entries.length === 0 ? (
+							<p class="tools-empty">아직 올라온 자료가 없습니다.</p>
+						) : (
+							<ul class="tools-list">
+								{entries.map((entry) => (
+									<li>
+										<a class="tools-card" href={`/tools/${entry.id}/`}>
+											<span class="tools-card-kicker">{topicLabel(entry.data.topic)}</span>
+											<strong>{entry.data.title}</strong>
+											<span>{entry.data.summary}</span>
+											<em>{entry.data.items.length}개 항목 · 복사 · .md / .txt</em>
+										</a>
+									</li>
+								))}
+							</ul>
+						)}
+					</section>
+				);
+			})
+		}
+	</div>
+</Layout>
+
+<style>
+	.tools-hub {
+		padding: 2.5rem 0 4rem;
+		max-width: 46rem;
+	}
+	.tools-kicker {
+		font-size: 0.75rem;
+		letter-spacing: 0.08em;
+		font-weight: 700;
+		color: var(--pink);
+	}
+	.tools-head h1 {
+		font-family: var(--display);
+		font-size: clamp(1.8rem, 4vw, 2.4rem);
+		letter-spacing: -0.03em;
+		margin: 0.35rem 0 0.6rem;
+	}
+	.tools-lead,
+	.tools-topic-head p,
+	.tools-empty {
+		color: var(--t2);
+		line-height: 1.6;
+	}
+	.tools-topic {
+		margin-top: 2rem;
+	}
+	.tools-topic-head h2 {
+		font-family: var(--display);
+		font-size: 1.25rem;
+		margin: 0;
+	}
+	.tools-topic-head p,
+	.tools-empty {
+		margin: 0.35rem 0 0;
+	}
+	.tools-list {
+		list-style: none;
+		padding: 0;
+		margin: 0.9rem 0 0;
+		display: grid;
+		gap: 0.8rem;
+	}
+	.tools-card {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+		padding: 1rem 1.1rem;
+		border: 1px solid var(--rule);
+		border-radius: 14px;
+		background: var(--bg2);
+		text-decoration: none;
+		color: inherit;
+	}
+	.tools-card:hover {
+		border-color: var(--pink);
+	}
+	.tools-card-kicker,
+	.tools-card em {
+		font-style: normal;
+		font-size: 0.78rem;
+		color: var(--t3);
+	}
+	.tools-card strong {
+		font-family: var(--display);
+		font-size: 1.05rem;
+	}
+	.tools-card span:last-of-type {
+		color: var(--t2);
+		line-height: 1.55;
+	}
+</style>
