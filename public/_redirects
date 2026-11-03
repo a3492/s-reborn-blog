@@ -5,6 +5,13 @@
 
 # 정확한 경로
 
+# 11/8 강연 짧은 주소. 원고의 /academy/는 자료 허브, /asls는 발표 자료 QR.
+# /doctor-ai-academy 와일드카드와는 다른 경로다.
+/academy  /tools/  301
+/academy/  /tools/  301
+/asls  /tools/hospital-data-pain-points/  301
+/asls/  /tools/hospital-data-pain-points/  301
+
 # [1] 아카데미 정확한 주소
 /doctor-ai-academy/fundamentals/19-ai-in-radiology-and-pathology.html  https://s-reborn-doctor-ai-academy.pages.dev/fundamentals/ai-in-radiology-and-pathology/  301
 /doctor-ai-academy/fundamentals/15-ai-for-resident-education-and-research.html  https://s-reborn-doctor-ai-academy.pages.dev/fundamentals/ai-for-resident-education-and-research/  301

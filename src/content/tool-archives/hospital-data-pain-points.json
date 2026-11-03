@@ -1,0 +1,108 @@
+{
+  "title": "AI 입력용 페인포인트 아카이브",
+  "summary": "2026년 11월 8일 병원 CRM 강연에서 다루는 병원 데이터 페인포인트 A–H입니다. 구글 문서 인덱스와 강연 원고의 해당 절을 그대로 옮겨, 수강 원장이 자기 AI에 붙여 넣을 수 있게 했습니다.",
+  "topic": "hospital-data",
+  "order": 1,
+  "draft": false,
+  "audience": "개원의·병원 실무자 | 베가스CRM 사용 병원 맥락",
+  "eventLabel": "2026.11.08 | 11:20–12:20 (60분) | 「우리 병원 데이터는 왜 돈이 되지 않는가」",
+  "sourceTitle": "대미레 CRM 강연 — A~H 8대 페인포인트 통합 인덱스 v1.0 (1페이지)",
+  "coreMessage": "데이터가 쌓여도 ‘추출→연결→신뢰→질문→정의→반복→안전→결정’이 이어지지 않으면 경영 자산이 되지 않는다.",
+  "closing": "AI는 CRM을 교체하지 않는다. 데이터를 사용할 수 있는 구조로 바꾸고, 원장이 검증 가능한 결정을 내리도록 돕는다.",
+  "caution": "LIVE 01–08은 개별 기획의 번호이며 전부를 60분 강연에서 동일한 깊이로 시연한다는 뜻이 아니다. 최종 발표에서는 시연을 선별하고 소요시간을 다시 배분한다. 수치·전환율·효과는 검증 없이 생성하지 않는다. 환자정보는 시연하지 않고 교육용 합성 데이터만 사용한다.",
+  "howTo": "이 카드의 원문을 복사해 ChatGPT 프로젝트, Claude 프로젝트, 또는 쓰는 AI의 지침·지식에 붙여 넣으세요. 환자 개인정보, 실명, 실제 진료·수납 기록은 넣지 마세요. 숫자나 효과는 검증 없이 만들지 말라고 적어 두세요.",
+  "sources": [
+    {
+      "label": "구글 문서 통합 인덱스",
+      "url": "https://docs.google.com/document/d/1HEvKAlXJbj47SYvs6I9WOkfTirqVyHOgESQNxNGU8sc/edit",
+      "note": "2026-11-03에 읽은 1페이지 인덱스. 각 항목의 핵심 질문·해결·결론·제작 유의."
+    },
+    {
+      "label": "노션 강연 원고 「페인포인트 A–H 설명」",
+      "url": "https://app.notion.com/p/40ddb6422949816d851ff07e5b556467",
+      "note": "2026-11-03에 읽은 한 줄 설명. B·C·H는 원고에서 시연으로 표시되어 있다."
+    }
+  ],
+  "items": [
+    {
+      "code": "A",
+      "title": "CRM 구조의 한계",
+      "question": "기존 기능에 없는 원장 질문은 어떻게 다루는가?",
+      "resolution": "질문 명세 → 읽기 전용 맞춤 분석층 설계",
+      "lectureLine": "원장님 질문을 기존 CRM 기능으로 못 본다 → 질문 정의 후 원본은 건드리지 않는 분석용 구조",
+      "demoInLecture": false,
+      "detailUrl": "https://docs.google.com/document/d/17ye7ngsKDIYHYmQdL_Ja4IXfMLo7xOGn1EbbEdubqGY/edit",
+      "bodyStatus": "source"
+    },
+    {
+      "code": "B",
+      "title": "데이터 추출 장벽",
+      "question": "자료를 꺼내는 것부터 왜 이렇게 어려운가?",
+      "resolution": "메뉴별 추출·행 단위 확인 → AI 구조화",
+      "lectureLine": "CRM에서 자료를 꺼내는 것부터 어렵다 → 메뉴별 추출·행 단위 확인 후 AI로 정리",
+      "demoInLecture": true,
+      "detailUrl": "https://docs.google.com/document/d/1ptMbqDFaz4_gjwUReXQZv6a3cSI1FyPPxIoCwtfIJg0/edit",
+      "bodyStatus": "source"
+    },
+    {
+      "code": "C",
+      "title": "외부 채널 분산",
+      "question": "예약 전 고객 접점은 어디에 남는가?",
+      "resolution": "전화·카톡·DM·예약의 연결 가능/불가 구분",
+      "lectureLine": "전화·카톡·인스타 DM·네이버 문의가 CRM에 안 남는다 → 연결 가능/불가 기록 구분",
+      "demoInLecture": true,
+      "detailUrl": "https://docs.google.com/document/d/1wjcoab-Vb0OMm_i4ql_eJ2TO2hu4U_iCH-VOftR57Lg/edit",
+      "bodyStatus": "source"
+    },
+    {
+      "code": "D",
+      "title": "엑셀·데이터 품질",
+      "question": "파일을 합친 숫자를 믿을 수 있는가?",
+      "resolution": "중복·결측·JOIN 증식 탐지와 독립 검산",
+      "lectureLine": "합친 숫자를 믿을 수 있나 → 중복·빈 값·잘못 합쳐 불어난 행 탐지, 따로 검산",
+      "demoInLecture": false,
+      "detailUrl": "https://docs.google.com/document/d/1PisR_1GrIRJJljcvOXErxhJj9APdhzgEi3U8gTsRHo4/edit",
+      "bodyStatus": "source"
+    },
+    {
+      "code": "E",
+      "title": "지표 정의 불일치",
+      "question": "같은 숫자를 같은 뜻으로 보고 있는가?",
+      "resolution": "신규·재방문·선수납 등 KPI 정의 사전",
+      "lectureLine": "같은 ‘신규 환자’를 다르게 센다 → 신규·재방문·선수납 정의 사전으로 통일",
+      "demoInLecture": false,
+      "detailUrl": "https://docs.google.com/document/d/1ejkp18M_4FB_DqbGcO7_vKWy5oaSe3Q3LCzeIeyxI7s/edit",
+      "bodyStatus": "source"
+    },
+    {
+      "code": "F",
+      "title": "직원·운영 문제",
+      "question": "AI 분석을 누가 매주 반복할 것인가?",
+      "resolution": "원장 지시 → SOP·담당·검수·인수인계",
+      "lectureLine": "매주 누가 반복하나 → 업무 매뉴얼·담당자·검수·인수인계",
+      "demoInLecture": false,
+      "detailUrl": "https://docs.google.com/document/d/1hm-T-zreSV2e27QCySGfHTv89ZuRtQRQg445LKMvDJs/edit",
+      "bodyStatus": "source"
+    },
+    {
+      "code": "G",
+      "title": "개인정보·보안",
+      "question": "CRM 자료를 AI에 입력해도 되는가?",
+      "resolution": "목적·적법성·서비스·최소화·승인 게이트",
+      "lectureLine": "CRM 자료를 AI에 넣어도 되나 → 목적·적법성·서비스·최소 정보·승인 확인",
+      "demoInLecture": false,
+      "detailUrl": "https://docs.google.com/document/d/1kA5_FMjborZI99jrMPRcYeRBl2XgdVIsC8HCwEmQu2I/edit",
+      "bodyStatus": "source"
+    },
+    {
+      "code": "H",
+      "title": "의사결정 단절",
+      "question": "분석한 뒤 원장은 무엇을 바꾸는가?",
+      "resolution": "사실→가설→대안→작은 시행→효과 검증",
+      "demoInLecture": true,
+      "lectureLine": "분석해도 바뀌는 게 없다 → 사실→가설→대안→작은 시행→효과 검증",
+      "detailUrl": "https://docs.google.com/document/d/1M9ArDrXSaw6RFR7D32DGwdaxXAt-KJw3wF8LyxOvNTY/edit",
+      "bodyStatus": "source"
+    }
+  ]
+}
