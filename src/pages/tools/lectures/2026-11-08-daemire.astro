@@ -7,234 +7,432 @@ const downloadDir = path.join(process.cwd(), 'public/downloads/daemire-1108');
 
 type DownloadFile = {
 	name: string;
-	format: string;
-	slides: string;
 	note: string;
 };
 
 type GuideRow = {
 	id: string;
-	slide: string;
-	file: string;
-	ai: string;
+	title: string;
+	show: string;
+	steps: string[];
 	prompt: string;
-	check: string;
+	success: string;
+	stuck: string;
 };
 
-const lecture1Files: DownloadFile[] = [
+const startGuide = '00_시작하기_자료사용가이드.md';
+
+const downloads: DownloadFile[] = [
 	{
-		name: 'DML_A-H_8대페인포인트_강연순서_1페이지_인덱스_v1.md',
-		format: 'MD',
-		slides: '개념 색인',
-		note: 'A–H 1페이지 색인. 읽기용 본문은 아래 기존 페이지입니다. 환자 사례는 없습니다.',
+		name: startGuide,
+		note: '처음 여는 안내입니다. 파일 이름, 번호, 따라가는 순서가 적혀 있습니다.',
 	},
 	{
-		name: 'L1_CRM_합성데이터_v1.0.xlsx',
-		format: 'XLSX',
-		slides: '가이드 03·05·07·11·13·15',
-		note: '방문 200행. 한 행은 방문 1건.',
+		name: '01_고객정보_수집경로별_원본예시와_자동정리.md',
+		note: '방문·문의 파일을 열기 전에 읽습니다. 대화, 알림, 메모가 한 표로 모이는 과정입니다.',
 	},
 	{
-		name: 'L1_문의_합성데이터_v1.0.csv',
-		format: 'CSV',
-		slides: '가이드 09·13·15',
-		note: '문의 96행. 한 행은 문의 1건. CRM 파일과 공통 ID 없음.',
+		name: '2026년10월_방문시술매출_CRM.xlsx',
+		note: '2026년 10월 방문 200건. 한 행은 방문 1건입니다.',
 	},
 	{
-		name: 'L1_프롬프트와_슬라이드별_실습가이드.md',
-		format: 'MD',
-		slides: '가이드 03–15',
-		note: '복붙 프롬프트와 확인할 점. 슬라이드 번호는 권장 매핑입니다.',
+		name: '2026년10월_상담문의_목록.csv',
+		note: '2026년 10월 상담 문의 96건입니다.',
+	},
+	{
+		name: 'L1_프롬프트와_슬라이드별_실습가이드_v3.md',
+		note: '강연1에서 붙여 넣는 문장과 슬라이드별 순서입니다.',
 	},
 	{
 		name: 'L1_지표정의_결정카드_템플릿.md',
-		format: 'MD',
-		slides: '가이드 15',
-		note: '지표 정의 카드와 경영 결정 카드. 빈칸에 적어 씁니다.',
+		note: '재방문율처럼 숫자를 세기 전에 기준을 적는 카드입니다.',
 	},
 	{
 		name: 'L1_검산과_데이터품질_체크리스트.md',
-		format: 'MD',
-		slides: '집계·결합·검산',
-		note: '행 수, 합계, 조인, AI 결과 확인 목록.',
+		note: '합계, 빠진 값, 중복을 원본과 대조할 때 엽니다.',
 	},
-];
-
-const lecture2Files: DownloadFile[] = [
 	{
 		name: 'L2_원가_BEP_시연입력_v1.0.xlsx',
-		format: 'XLSX',
-		slides: '강연2 7–9',
-		note: '시나리오별 판매단가, 건당 변동원가, 월 고정비, 예상 월시술건수.',
+		note: '강연2 계산기 입력. 월 고정비, 판매단가, 건당 변동원가.',
 	},
 	{
 		name: 'L2_원가_BEP_시연입력.csv',
-		format: 'CSV',
-		slides: '강연2 7–9',
-		note: '같은 입력의 한 행 예시. CSV에는 수식과 여러 시트가 없습니다.',
+		note: '같은 입력의 CSV. 엑셀을 열 수 없을 때 붙입니다.',
 	},
 	{
 		name: 'L2_원가_BEP_독립검산.xlsx',
-		format: 'XLSX',
-		slides: '강연2 8–9',
-		note: 'AI 결과와 따로 대조하는 검산표.',
+		note: 'AI 결과와 따로 맞춰 보는 검산표입니다.',
 	},
 	{
-		name: 'L2_AI도구_제작프롬프트와_검증테스트.md',
-		format: 'MD',
-		slides: '강연2 7–9·11',
-		note: '계산기 제작 프롬프트, 검증 프롬프트, 추가 테스트.',
+		name: 'L2_AI도구_제작프롬프트와_검증테스트_v3.md',
+		note: '강연2에서 붙여 넣는 문장과 확인 숫자입니다.',
 	},
 	{
 		name: 'L2_내병원_작은도구_기획시트.md',
-		format: 'MD',
-		slides: '강연2 1–6·10·13',
-		note: '문제, 입력, 공식, 검증, 다음 버전을 적는 1페이지 시트.',
+		note: '내 병원 고정비와 시술별 원가를 적는 시트입니다.',
+	},
+	{
+		name: 'DML_A-H_8대페인포인트_강연순서_1페이지_인덱스_v1.md',
+		note: 'A–H 한 장 색인. 읽어 보는 본문은 아래 기존 페이지입니다.',
 	},
 ];
 
+if (downloads.length !== 13) {
+	throw new Error(`대미레 다운로드는 13개여야 합니다. 현재 ${downloads.length}개`);
+}
+for (const file of downloads) {
+	fs.accessSync(path.join(downloadDir, file.name));
+}
+
 const lecture1Rows: GuideRow[] = [
 	{
-		id: 'l1-03',
-		slide: '03 데이터 파악',
-		file: 'L1_CRM_합성데이터_v1.0.xlsx',
-		ai: 'ChatGPT 파일 분석',
-		prompt:
-			'첨부 파일은 합성 데이터다. 시트명·행 수·열명·고유 방문ID 수·고유 고객ID 수를 먼저 표로 보여줘. 방문과 고객의 단위를 혼동하지 마.',
-		check: '방문 200행, 방문ID 200개',
+		id: 'l1-1',
+		title: '1. 오늘 할 일',
+		show: 'AI에게 파일을 첨부하고 “먼저 표 구조부터 설명하라”고 요청합니다. 열의 뜻과 한 행의 단위를 먼저 확인합니다.',
+		steps: [
+			'`2026년10월_방문시술매출_CRM.xlsx`를 PC에 다운로드한다.',
+			'ChatGPT 대화를 열고 입력창 옆 파일 첨부 버튼을 누른다.',
+			'파일을 선택한 뒤 아래 문장을 붙여넣고 전송한다.',
+		],
+		prompt: `첨부한 엑셀은 100% 데이터입니다.
+분석은 아직 하지 마세요.
+먼저 시트 이름, 데이터 행 수, 열 제목을 확인해 주세요.
+각 열이 무엇을 뜻하는지 쉬운 한국어로 설명하고, 한 행이 무엇을 의미하는지 데이터만으로 확인할 수 있는지 알려 주세요.
+확인할 수 없는 내용은 추측하지 마세요.`,
+		success:
+			'“방문시술매출 시트 200행. 방문일·시술·금액·재방문·유입채널 열이 있습니다. 한 행이 방문 1건인지 환자 1명인지는 중복 환자 식별 기준을 추가 확인해야 합니다.”처럼 구조와 한계를 함께 말합니다.',
+		stuck: '파일이 첨부되지 않으면 파일 첨부 버튼을 다시 눌러 파일을 선택합니다. AI가 환자 수라고 단정하면 “행 수와 환자 수를 구분해 주세요”라고 추가 입력합니다.',
 	},
 	{
-		id: 'l1-05',
-		slide: '05 기초 집계',
-		file: 'L1_CRM_합성데이터_v1.0.xlsx',
-		ai: 'ChatGPT 파일 분석',
-		prompt:
-			'시술별 방문 건수와 결제금액 합계를 구해줘. 전체 합계와 세부 합계가 일치하는지 검산하고, 분석 기준을 명시해줘.',
-		check: '시술별 건수 합계 200',
+		id: 'l1-2',
+		title: '2. 문의 유형',
+		show: 'CSV를 첨부해 문의 유형별 건수를 세고, 합계가 전체 96건인지 확인합니다.',
+		steps: [
+			'`2026년10월_상담문의_목록.csv`를 다운로드한다.',
+			'새 대화 또는 같은 대화에 파일을 첨부한다.',
+			'아래 프롬프트를 붙여넣는다.',
+		],
+		prompt: `첨부한 CSV는 상담 문의 96건입니다.
+문의 유형별 건수를 세어 표로 보여 주세요.
+유형별 건수의 합이 96건인지 확인하고, 각 유형의 비율도 계산해 주세요.
+예상 분포는 48건, 12건, 8건, 28건입니다.
+실제 집계가 예상과 다르면 숫자를 억지로 맞추지 말고 차이를 알려 주세요.`,
+		success: '4개 유형이 각각 48·12·8·28건이고 합계가 96건입니다. 비율은 각각 50.0%, 12.5%, 약 8.3%, 약 29.2%입니다.',
+		stuck: 'AI가 분류명을 바꾸면 “원본 CSV의 분류명을 그대로 사용하세요”라고 합니다. 합계가 96이 아니면 중복 행이나 빈 행이 있는지 확인해 달라고 요청합니다.',
 	},
 	{
-		id: 'l1-07',
-		slide: '07 재방문 정의',
-		file: 'L1_CRM_합성데이터_v1.0.xlsx',
-		ai: 'ChatGPT 파일 분석',
-		prompt:
-			'재방문여부 열은 생성 순서 기준이다. 고객별 방문일 시간순 재방문과 비교하여 두 정의의 차이 및 왜 다른지 설명해줘. 고유 고객 수를 분모로 쓰는 지표와 방문 수를 분모로 쓰는 지표를 구분해줘.',
-		check: '날짜순 재계산 필요',
+		id: 'l1-3',
+		title: '3. 데이터 품질',
+		show: '분석 전에 데이터가 믿을 만한지 확인합니다. 중복은 같은 기록이 두 번 들어간 것이고, 누락은 있어야 할 값이 비어 있는 것입니다.',
+		steps: [
+			'CRM 엑셀 파일을 첨부한다.',
+			'아래 프롬프트를 입력한다.',
+			'AI가 제시한 행 번호와 열 이름을 원본 엑셀에서 확인한다.',
+		],
+		prompt: `첨부한 CRM 데이터의 품질을 점검해 주세요.
+1. 완전히 똑같은 행이 있는지
+2. 중요한 열에 빈칸이 있는지
+3. 금액이 0원 또는 음수인 행이 있는지
+4. 날짜 형식이 다른 행이 있는지
+5. 재방문 값이나 유입채널처럼 정해진 선택지와 다른 값이 있는지
+항목별 발견 건수와 해당 행 번호를 표로 보여 주세요.
+문제가 없으면 없다고 말하고, 임의로 데이터를 수정하지 마세요.`,
+		success: '“금액 빈칸 2건, 날짜 형식 확인 필요 1건”처럼 건수와 위치가 표시됩니다. 문제가 없는 항목은 0건입니다.',
+		stuck: '행 번호가 실제 엑셀과 다르면 제목 행 포함 여부를 확인합니다. “첫 번째 제목 행을 제외한 데이터 기준 행 번호도 함께 표시해 주세요”라고 요청합니다.',
 	},
 	{
-		id: 'l1-09',
-		slide: '09 문의 분류',
-		file: 'L1_문의_합성데이터_v1.0.csv',
-		ai: 'ChatGPT 파일 분석',
-		prompt:
-			'문의유형별 빈도·비율을 표로 만들고 전체가 96건인지 검산해줘. 분류 순서는 시술·가격, 예약·변경, 부작용·회복, 기타로 해줘.',
-		check: '48/12/8/28, 합계 96',
+		id: 'l1-4',
+		title: '4. 지표 정의',
+		show: '같은 이름의 지표도 계산 방법이 다를 수 있습니다. 재방문율은 환자 수 기준인지 방문 건수 기준인지에 따라 결과가 달라집니다.',
+		steps: [
+			'`L1_지표정의_결정카드_템플릿.md`를 연다.',
+			'오늘 계산할 지표 하나를 고른다. 예: 재방문율.',
+			'아래 문장으로 분모와 분자를 먼저 정리한다.',
+		],
+		prompt: `CRM 데이터에서 재방문율을 계산하고 싶습니다.
+계산하기 전에 다음을 쉬운 말로 정리해 주세요.
+- 분자: 비율에서 위쪽에 들어가는 숫자
+- 분모: 비율에서 아래쪽에 들어가는 전체 숫자
+- 어떤 사람 또는 방문을 세는지
+- 어느 기간을 기준으로 하는지
+데이터에 필요한 정보가 없으면 계산하지 말고 부족한 정보를 알려 주세요.`,
+		success:
+			'“재방문 환자 수 ÷ 첫 방문 환자 수”처럼 계산 기준이 문장으로 정리되고, 기간이 없으면 기간을 정해야 한다고 알려 줍니다.',
+		stuck: '분모가 모호하면 결과 숫자를 요구하지 않습니다. 먼저 병원에서 사용할 정의를 결정카드에 기록합니다.',
 	},
 	{
-		id: 'l1-11',
-		slide: '11 채널별 비교',
-		file: 'L1_CRM_합성데이터_v1.0.xlsx',
-		ai: 'ChatGPT 파일 분석',
-		prompt:
-			'유입채널별 방문 수·매출 합계를 보여줘. 유입채널과 실제 마케팅 기여를 동일시하지 말고 한계를 써줘.',
-		check: '채널별 합계 200',
+		id: 'l1-5',
+		title: '5. 유입채널',
+		show: '인스타그램, 소개, 검색처럼 유입 경로별로 기록을 나눕니다. 건수가 많다는 사실만으로 매출 기여가 높다고 결론 내리지 않습니다.',
+		steps: [
+			'CRM 파일을 첨부한다.',
+			'유입채널 열이 있는지 확인한다.',
+			'아래 문장으로 채널별 건수와 금액을 따로 집계한다.',
+		],
+		prompt: `CRM 데이터에서 유입채널별로 다음 숫자를 계산해 주세요.
+1. 기록 건수
+2. 결제금액 합계
+3. 기록 1건당 평균 결제금액
+표로 정리하고 전체 합계와 맞는지 확인해 주세요.
+유입채널이 비어 있는 행은 별도 항목으로 표시하세요.
+이 결과만으로 광고 효과가 좋다거나 나쁘다고 단정하지 마세요.`,
+		success: '채널별 건수·결제금액 합계·평균 금액이 각각 구분됩니다. 전체 합계와 채널별 합계가 일치합니다.',
+		stuck: 'AI가 문의 수와 방문 수를 섞으면 “이 파일의 한 행이 의미하는 단위부터 다시 확인해 주세요”라고 합니다.',
 	},
 	{
-		id: 'l1-13',
-		slide: '13 데이터 결합 위험',
-		file: 'L1_CRM_합성데이터_v1.0.xlsx + L1_문의_합성데이터_v1.0.csv',
-		ai: 'ChatGPT 파일 분석',
-		prompt:
-			'두 파일은 공통 연결키가 없다. 임의로 고객·방문·문의 행을 조인하지 말고, 조인 가능한 조건과 불가능한 분석을 구분해줘.',
-		check: '무리한 결합 금지',
+		id: 'l1-6',
+		title: '6. 문의에서 방문으로',
+		show: '두 파일을 합치려면 같은 의미의 연결 번호가 있어야 합니다. 이름이 비슷하다고 같은 사람으로 보지 않습니다.',
+		steps: [
+			'CRM 엑셀과 문의 CSV를 같은 대화에 모두 첨부한다.',
+			'두 파일의 ID 열을 확인한다.',
+			'연결문의번호와 문의관리번호를 비교한다. 확인된 연결 30건 외에는 억지로 채우지 않는다.',
+		],
+		prompt: `첨부한 CRM 파일과 문의 파일을 비교해 주세요.
+CRM 연결문의번호와 문의파일 문의관리번호를 서로 비교해 주세요. 연결된 행의 고객관리번호도 교차 검증하고, 미연결 행은 그대로 남겨 주세요.
+CRM의 연결문의번호와 문의 CSV의 문의관리번호가 동일하고, 고객관리번호도 일치하는지 확인하세요. 일치하지 않으면 연결하지 마세요.
+연결 가능한 경우에만 연결 전 행 수와 연결 후 행 수를 비교하고, 중복으로 행이 늘어나는지 점검해 주세요.`,
+		success:
+			'“연결문의번호로 확인된 30건의 연결은 검토할 수 있지만, 미확인 기록의 전환 여부는 판단할 수 없습니다”처럼 근거를 말합니다.',
+		stuck: 'AI가 이름·날짜를 조합해 연결하면 멈춥니다. 병원에서는 승인된 절차로 연결 번호를 만든 뒤에 봅니다.',
 	},
 	{
-		id: 'l1-15',
-		slide: '15 의사결정 카드',
-		file: '위 두 파일',
-		ai: 'ChatGPT 파일 분석',
-		prompt:
-			'관찰된 수치 3개, 가능한 가설 3개, 확인할 추가 데이터 3개, 즉시 실행 가능한 저위험 실험 1개를 분리해서 작성해줘. 인과관계는 주장하지 마.',
-		check: '사실·가설·결정 분리',
+		id: 'l1-7',
+		title: '7. 숫자에서 질문',
+		show: '데이터는 답을 대신 정해 주지 않습니다. 표에서 본 사실과 그럴듯한 설명을 구분합니다.',
+		steps: [
+			'앞 단계에서 확인한 채널별 결과를 준비한다.',
+			'아래 문장을 입력한다.',
+			'사실과 추측이 분리되어 있는지 읽는다.',
+		],
+		prompt: `지금까지 계산한 결과를 바탕으로 관찰된 사실 3개를 적어 주세요.
+각 사실마다 가능한 설명을 2개씩 제시하되, 설명은 아직 가설이라고 표시해 주세요.
+가설을 확인하려면 어떤 추가 데이터가 필요한지 적어 주세요.
+데이터만으로 알 수 없는 원인이나 인과관계를 사실처럼 말하지 마세요.`,
+		success:
+			'“채널 A 기록 건수가 가장 많다”는 사실과 “광고비가 효율적일 수 있다”는 가설이 구분됩니다. 광고비나 신규 환자 여부가 없으면 추가 자료가 필요하다고 말합니다.',
+		stuck: '답이 두루뭉술하면 “각 항목을 실제 병원에서 확인할 수 있는 숫자와 자료명으로 구체화해 주세요”라고 요청합니다.',
+	},
+	{
+		id: 'l1-8',
+		title: '8. 경영 의사결정',
+		show: '결과를 곧바로 큰 변경으로 잇지 않습니다. 작게 시험하고 전후 숫자를 적습니다.',
+		steps: [
+			'관심 있는 문제 하나를 고른다.',
+			'아래 문장을 입력한다.',
+			'실행 전 기준 숫자와 실행 후 확인할 숫자를 기록한다.',
+		],
+		prompt: `데이터에서 확인한 사실을 바탕으로 2주 안에 시험할 수 있는 작은 개선 실험 3개를 제안해 주세요.
+각 실험마다 대상, 바꿀 행동, 기간, 시작 전 숫자, 종료 후 숫자, 성공 기준, 부작용 점검 항목을 적어 주세요.
+실제 데이터로 효과가 확인되기 전에는 매출 상승을 보장한다고 표현하지 마세요.`,
+		success: '“문의 응답 시간을 기록하고 2주 동안 응답 절차를 바꾼 뒤 예약 전환을 비교”처럼 실행과 측정이 한 세트로 나옵니다.',
+		stuck: '실험이 너무 크면 “직원 1명 또는 문의 유형 1개부터 시험하는 최소 규모로 줄여 주세요”라고 요청합니다.',
+	},
+	{
+		id: 'l1-9',
+		title: '9. 결과 검산',
+		show: '합계, 행 수, 중복, 누락을 원본 파일과 대조합니다. 숫자를 베끼기 전에 확인합니다.',
+		steps: [
+			'`L1_검산과_데이터품질_체크리스트.md`를 연다.',
+			'AI가 계산한 합계와 원본 엑셀 합계를 비교한다.',
+			'차이가 있으면 어떤 행이 원인인지 찾는다.',
+		],
+		prompt: `방금 제시한 모든 집계 결과를 다시 검산해 주세요.
+각 결과에 사용한 열, 계산식, 포함한 행 수, 제외한 행 수를 표시해 주세요.
+금액 합계는 원본 데이터의 전체 합계와 비교해 주세요.
+차이가 있으면 차이가 발생한 행을 찾고, 원인을 추측하지 말고 확인 가능한 근거를 제시해 주세요.`,
+		success: '각 숫자에 계산식과 사용 행 수가 붙고, 전체 합계가 원본과 일치하는지 확인됩니다.',
+		stuck: 'AI가 계산식을 설명하지 못하면 그 숫자는 최종 기록에 쓰지 않습니다. 엑셀 합계로 따로 확인합니다.',
+	},
+	{
+		id: 'l1-10',
+		title: '10. 내 병원에 적용',
+		show: '실제 업무로 옮길 때는 개인정보를 빼고, 필요한 항목만 남깁니다.',
+		steps: [
+			'환자 이름·전화번호·차트번호가 없는 집계표부터 준비한다.',
+			'병원 내부 승인 절차와 개인정보 보호 기준을 확인한다.',
+			'아래 문장으로 필요한 열 구조만 설계한다.',
+		],
+		prompt: `우리 병원 CRM 데이터를 분석하기 위한 익명화된 표 구조를 설계해 주세요.
+환자 이름, 전화번호, 주소, 주민등록번호, 차트번호, 상담 원문은 수집하지 마세요.
+필요한 분석 목적은 유입채널별 문의 수, 예약 수, 방문 수, 결제금액 합계입니다.
+각 열의 이름, 의미, 예시 형식, 개인정보 위험, 입력 규칙을 표로 만들어 주세요.
+실제 데이터를 업로드하기 전에 병원 내부 개인정보 검토가 필요하다는 점도 표시해 주세요.`,
+		success: '통합문의ID, 문의일(월 단위), 유입채널, 예약여부, 방문여부, 결제금액처럼 분석에 필요한 열만 제안합니다.',
+		stuck: 'AI가 환자 식별정보를 요구하면 그 요청은 따르지 않습니다. 월별·채널별 집계표부터 사용합니다.',
+	},
+	{
+		id: 'l1-field',
+		title: '보충. 현장 순서',
+		show: '인스타그램 DM, 카카오톡, 네이버 예약, 전화, 구글폼, 베가스CRM 순으로 기록이 남습니다. 연결문의번호가 비어 있으면 연결되지 않음이 아니라 확인할 수 없음입니다.',
+		steps: [
+			'두 파일을 같은 대화에 첨부한다.',
+			'문의관리번호와 연결문의번호를 비교한다.',
+			'고객관리번호가 같을 때만 연결 성공으로 본다.',
+		],
+		prompt: `두 파일을 함께 읽어 주세요.
+상담문의 CSV의 문의관리번호와 방문시술매출 시트의 연결문의번호를 연결하세요.
+반드시 고객관리번호가 양쪽에서 같을 때만 연결 성공으로 표시하세요.
+먼저 파일별 행 수와 ID 중복을 확인하세요.
+연결 전 96건 문의와 200건 방문이 연결 후 몇 행이 되었는지 비교하세요.
+연결되지 않은 문의를 임의로 방문했다고 판단하지 마세요.
+결과 표에는 연결 성공, 연결 실패, ID 불일치, 데이터 부족을 구분해 주세요.`,
+		success: '문의 96행과 방문 200행을 유지하고, 확인된 연결 30건을 따로 표시합니다. 두 파일을 곱해 매출을 중복으로 세지 않습니다.',
+		stuck: '이름이나 날짜가 비슷하다는 이유만으로 연결하지 않습니다.',
 	},
 ];
 
 const lecture2Rows: GuideRow[] = [
 	{
-		id: 'l2-plan',
-		slide: '1–6, 10, 13',
-		file: 'L2_내병원_작은도구_기획시트.md',
-		ai: 'ChatGPT, Claude, Gemini 등 대화',
-		prompt:
-			'아래 업무를 문제→입력→처리→검증→후속 조치로 나눠 주세요. 현재 정보만 사용하고 모르는 조건은 질문으로 남기세요. 먼저 만들 최소 결과물 하나와 사람이 확인할 항목을 제안하세요: [민감정보 없는 반복 업무 설명].',
-		check: '앱부터 만들지 않고, 병목과 원하는 결과를 먼저 정하는지',
+		id: 'l2-1',
+		title: '1. 계산기 만들기',
+		show: '계산 전에 항목의 뜻과 단위를 확인합니다. 월 비용과 건당 비용을 섞으면 결과가 틀립니다.',
+		steps: [
+			'`L2_원가_BEP_시연입력_v1.0.xlsx`를 다운로드한다.',
+			'ChatGPT에 파일을 첨부한다.',
+			'아래 문장을 붙여넣는다.',
+		],
+		prompt: `첨부한 엑셀은 원가와 손익분기점 계산을 연습하기 위한 시연용 입력자료입니다.
+먼저 모든 입력 항목을 표로 정리해 주세요.
+각 항목이 월 기준인지, 시술 1건 기준인지, 원 단위인지 표시해 주세요.
+월 고정비, 판매단가, 건당 변동원가를 구분해 주세요.
+단위가 불분명한 값은 임의로 해석하지 말고 질문해 주세요.`,
+		success: '“월 고정비 12,000,000원 / 판매단가 200,000원/건 / 변동원가 80,000원/건”처럼 단위가 붙어 구분됩니다.',
+		stuck: '항목이 뒤섞이면 “월 기준과 1건 기준을 별도 표로 나눠 주세요”라고 요청합니다. 엑셀을 읽지 못하면 같은 내용의 CSV를 첨부합니다.',
 	},
 	{
-		id: 'l2-build',
-		slide: '7',
-		file: 'L2_원가_BEP_시연입력_v1.0.xlsx 또는 L2_원가_BEP_시연입력.csv',
-		ai: 'ChatGPT, Claude, Gemini 등 코드·표 분석. 파일을 올릴 수 없으면 CSV를 붙여 넣기',
-		prompt: `나는 개원을 준비하는 의사다. 첨부한 파일은 100% 가상 수치다.
-파일을 입력받아 시나리오별 판매단가, 건당 변동원가, 월고정비, 예상 월시술건수를 읽고
-(1) 건당 공헌이익=판매단가-변동원가
-(2) BEP 건수=월고정비/건당 공헌이익을 정수 올림
-(3) BEP 매출=BEP 건수×판매단가
-(4) 예상 월영업이익=예상 건수×건당 공헌이익-월고정비
-를 계산하는 간단한 로컬 경영 계산기를 만들어줘.
-공헌이익이 0 이하이면 BEP 산출 불가로 표시하고, 0/음수/빈칸 입력을 검증해줘.
-가정·계산식·입력값·출력값을 화면에 명시하고 원본 파일은 변경하지 마.`,
-		check: '수식, 단위, 정수 올림. 공헌이익이 0 이하면 BEP 산출 불가. 원본 파일은 바꾸지 않음',
+		id: 'l2-2',
+		title: '2. 계산 규칙',
+		show: '시술비 전체가 이익은 아닙니다. 건당 비용을 먼저 빼고, 남은 금액으로 월 고정비를 채웁니다.',
+		steps: [
+			'판매단가와 건당 변동원가를 확인한다.',
+			'판매단가에서 변동원가를 뺀다.',
+			'그 금액이 공헌이익인지 확인한다.',
+		],
+		prompt: `다음 예시를 초보자도 이해하도록 설명해 주세요.
+시술 판매단가 200,000원, 시술 1건당 변동원가 80,000원입니다.
+공헌이익을 계산하고, 왜 판매금액 전체가 이익이 아닌지 설명해 주세요.
+계산식과 단위를 함께 표시해 주세요.`,
+		success: '200,000원 − 80,000원 = 120,000원. 시술 1건이 고정비에 보태는 금액은 120,000원입니다.',
+		stuck: 'AI가 공헌이익을 순이익이라고 부르면 “아직 월 고정비를 빼기 전 금액이므로 순이익과 구분해 다시 설명해 주세요”라고 합니다.',
 	},
 	{
-		id: 'l2-check',
-		slide: '8–9',
-		file: '시연 입력 파일 + L2_원가_BEP_독립검산.xlsx',
-		ai: '같은 AI. 결과는 독립 검산과 따로 대조',
-		prompt: `만든 계산기를 아래 독립 테스트 케이스로 검증해줘.
-기준: 단가 200000원, 변동원가 80000원, 고정비 12000000원 → BEP 100건, 매출 20000000원.
-단가인하: 단가 180000원, 변동원가 76000원, 고정비 12000000원 → BEP 116건, 매출 20880000원.
-각 테스트의 공헌이익, 올림 전 BEP, 정수 BEP, 매출, BEP 시점 이익을 표로 제시하고
-기대값과 실제값을 비교해 PASS/FAIL로 표시해줘. 공헌이익이 0인 경우도 테스트해줘.`,
-		check: '기준 100건·20,000,000원. 단가 180,000원 시나리오는 변동원가 76,000원 전제에서 116건·20,880,000원. 115건은 고정비를 넘지 못하고 116건은 넘음',
+		id: 'l2-3',
+		title: '3. AI에게 계산기',
+		show: '입력값, 계산식, 오류 상황을 구체적으로 말하면 AI가 작은 계산기를 만들 수 있습니다.',
+		steps: [
+			'아래 문장을 통째로 복사한다.',
+			'ChatGPT 입력창에 붙여넣고 전송한다.',
+			'계산 규칙과 사용법을 읽는다.',
+		],
+		prompt: `초보 병원장도 사용할 수 있는 간단한 손익분기점 계산기를 만들어 주세요.
+입력값은 다음 3개입니다.
+1. 월 고정비(원)
+2. 시술 1건 판매단가(원)
+3. 시술 1건 변동원가(원)
+계산식은 다음과 같습니다.
+건당 공헌이익 = 판매단가 - 건당 변동원가
+손익분기점 건수 = 월 고정비 ÷ 건당 공헌이익을 계산한 뒤 소수점이 있으면 다음 정수로 올림
+손익분기점 매출 = 손익분기점 건수 × 판매단가
+공헌이익이 0 이하이면 결과 대신 경고를 보여 주세요.
+입력값을 바꾸면 결과가 자동으로 바뀌어야 합니다.
+먼저 계산 규칙을 쉬운 한국어로 설명하고, 그 다음 실행 가능한 도구와 실행 방법을 제공해 주세요.
+코드를 제공한다면 어디에 붙여넣고 어떤 버튼을 눌러야 하는지도 단계별로 설명해 주세요.`,
+		success: '입력 세 칸과 결과 영역이 있고, 값을 바꾸면 건수와 매출이 바뀝니다. 공헌이익이 0 이하면 경고가 나옵니다.',
+		stuck: '코드만 나오면 “현재 대화 안에서 실행할 수 있는지 먼저 말해 주세요. 불가능하면 실행할 수 있는 가장 간단한 방법을 안내해 주세요”라고 합니다.',
 	},
 	{
-		id: 'l2-edge',
-		slide: '8–9 예외',
-		file: '시연 입력 파일 또는 위 제작 프롬프트',
-		ai: '같은 AI',
-		prompt: `추가 테스트 입력과 기대 결과를 검증해줘.
-단가 100,000 / 변동원가 100,000 → BEP 산출 불가
-단가 90,000 / 변동원가 100,000 → BEP 산출 불가
-고정비 0 / 공헌이익 양수 → BEP 0건
-단가·변동원가에 음수 입력 → 입력 오류
-필수 항목 빈칸 → 입력 오류`,
-		check: '입력 오류와 BEP 산출 불가를 구분. 예외에서 가짜 숫자를 정상값처럼 보이지 않는지',
+		id: 'l2-4',
+		title: '4. 기준 숫자 시험',
+		show: '계산기가 만들어졌다고 끝나지 않습니다. 답을 아는 숫자로 먼저 시험합니다.',
+		steps: [
+			'월 고정비 12,000,000원, 판매단가 200,000원, 변동원가 80,000원을 입력한다.',
+			'공헌이익이 120,000원인지 확인한다.',
+			'손익분기점 100건, 매출 20,000,000원인지 확인한다.',
+		],
+		prompt: `계산기에 다음 값을 입력했다고 가정하고 결과를 독립적으로 다시 계산해 주세요.
+월 고정비 12,000,000원
+판매단가 200,000원
+건당 변동원가 80,000원
+공헌이익, 손익분기점 건수, 손익분기점 매출을 각각 계산식과 함께 보여 주세요.
+계산기 결과와 비교할 수 있도록 최종 숫자를 명확히 적어 주세요.`,
+		success: '공헌이익 120,000원, 100건, 매출 20,000,000원입니다. 100건 × 120,000원 = 12,000,000원으로 월 고정비와 같습니다.',
+		stuck: '99건이나 101건이 나오면 올림과 입력 단위를 다시 확인합니다.',
 	},
 	{
-		id: 'l2-code',
-		slide: '11',
-		file: 'L2_AI도구_제작프롬프트와_검증테스트.md',
-		ai: '코드 작성 AI (실습을 원하는 경우)',
-		prompt: `나는 개원을 준비하는 의사다. 첨부한 파일은 100% 가상 수치다.
-파일을 입력받아 시나리오별 판매단가, 건당 변동원가, 월고정비, 예상 월시술건수를 읽고
-(1) 건당 공헌이익=판매단가-변동원가
-(2) BEP 건수=월고정비/건당 공헌이익을 정수 올림
-(3) BEP 매출=BEP 건수×판매단가
-(4) 예상 월영업이익=예상 건수×건당 공헌이익-월고정비
-를 계산하는 간단한 로컬 경영 계산기를 만들어줘.
-공헌이익이 0 이하이면 BEP 산출 불가로 표시하고, 0/음수/빈칸 입력을 검증해줘.
-가정·계산식·입력값·출력값을 화면에 명시하고 원본 파일은 변경하지 마.`,
-		check: '만든 코드는 초안. 저장이나 CRM 연결 없이, 독립 검산과 사람이 확인한 뒤에만 씀',
+		id: 'l2-5',
+		title: '5. 단가 인하',
+		show: '단가를 낮추면 한 건에서 남는 금액이 줄어들 수 있습니다. 같은 고정비를 채우려면 건수가 더 필요할 수 있습니다.',
+		steps: [
+			'`L2_원가_BEP_독립검산.xlsx`를 연다.',
+			'단가 180,000원, 변동원가 76,000원, 월 고정비 12,000,000원 시나리오를 확인한다.',
+			'116건과 20,880,000원이 나오는지 확인한다.',
+		],
+		prompt: `두 번째 시나리오를 직접 계산해 주세요.
+월 고정비 12,000,000원
+판매단가 180,000원
+건당 변동원가 76,000원
+공헌이익, 소수점 계산 결과, 올림한 손익분기점 건수, 손익분기점 매출을 보여 주세요.
+115건일 때와 116건일 때의 손익도 각각 계산해 주세요.`,
+		success:
+			'공헌이익 104,000원입니다. 12,000,000 ÷ 104,000 = 약 115.3846건이므로 올림하면 116건입니다. 매출은 20,880,000원입니다. 115건 손익은 −40,000원, 116건 손익은 +64,000원입니다.',
+		stuck: '116건이 아니면 변동원가를 76,000원으로 넣었는지 확인합니다. 80,000원인 첫 시나리오와 섞지 않습니다.',
+	},
+	{
+		id: 'l2-6',
+		title: '6. 오류 테스트',
+		show: '쓸 수 있는 도구는 잘못된 입력도 처리합니다.',
+		steps: [
+			'판매단가를 변동원가와 같게 입력한다.',
+			'판매단가를 변동원가보다 낮게 입력한다.',
+			'숫자 대신 오류 안내가 나오는지 확인한다.',
+		],
+		prompt: `계산기에 대한 오류 테스트를 만들어 주세요.
+아래 상황에서 올바른 반응이 무엇인지 표로 정리해 주세요.
+1. 판매단가와 변동원가가 같은 경우
+2. 판매단가가 변동원가보다 낮은 경우
+3. 월 고정비가 0원인 경우
+4. 입력칸이 비어 있는 경우
+5. 음수를 입력한 경우
+각 상황에서 계산 결과를 표시할지, 경고를 표시할지 설명해 주세요.`,
+		success: '공헌이익이 0 이하면 “손익분기점을 계산할 수 없습니다. 판매단가와 변동원가를 확인하세요.”라는 안내가 나옵니다. 빈칸과 음수도 걸러집니다.',
+		stuck: '잘못된 값으로도 숫자가 나오면 입력 검증을 추가해 달라고 한 뒤 같은 시험을 다시 합니다.',
+	},
+	{
+		id: 'l2-7',
+		title: '7. 내 병원 숫자',
+		show: '예제 숫자를 그대로 복사하지 않습니다. 우리 병원의 고정비와 시술별 원가를 확인합니다.',
+		steps: [
+			'`L2_내병원_작은도구_기획시트.md`를 연다.',
+			'월 고정비 항목과 시술별 변동원가 항목을 적는다.',
+			'확인되지 않은 금액은 비워 두고 회계자료로 확인한다.',
+		],
+		prompt: `우리 병원에서 사용할 원가·손익분기점 계산기를 기획하고 싶습니다.
+먼저 필요한 입력 항목을 질문 목록으로 만들어 주세요.
+월 고정비와 시술 1건당 변동원가를 구분하고, 각 항목에 포함할 비용의 예시를 들어 주세요.
+내가 실제 금액을 입력하기 전에는 임의의 숫자를 넣지 마세요.
+환자 이름, 전화번호, 차트번호 등 환자 개인정보는 필요하지 않습니다.
+마지막에 계산 결과를 검산하는 방법도 제안해 주세요.`,
+		success: '임대료·기본 인건비·관리비는 월 고정비 후보로, 약제·소모품은 시술별 변동원가 후보로 구분합니다. 실제 분류는 병원 회계 기준으로 확인합니다.',
+		stuck: '구분이 애매하면 회계 담당자와 확인합니다. 한 달 총비용을 무조건 고정비로 넣지 않습니다.',
+	},
+	{
+		id: 'l2-8',
+		title: '8. 마지막 확인',
+		show: '손익분기점은 가정 아래의 계산입니다. 인건비 배부, 장비 감가상각, 세금, 할인, 환불, 시술 구성, 가동률에 따라 달라질 수 있습니다.',
+		steps: [
+			'계산에 쓴 가정을 목록으로 적는다.',
+			'독립검산 엑셀과 결과를 비교한다.',
+			'경영 판단 전에 회계자료와 비용 분류를 다시 확인한다.',
+		],
+		prompt: `이 계산기를 실제 병원 경영에 참고하기 전에 점검해 주세요.
+현재 계산에 포함된 항목과 포함되지 않은 항목을 나눠 주세요.
+시술 믹스, 할인·환불, 인건비 배부, 장비 감가상각, 세금, 예약 취소, 가동률 등이 결과에 어떤 영향을 줄 수 있는지 설명해 주세요.
+현재 모델이 단순화한 예제라는 점과 실제 의사결정 전에 확인할 자료를 체크리스트로 만들어 주세요.`,
+		success: '단일 시술·단일 단가·일정한 변동원가를 가정한 계산이며, 실제 손익과 다를 수 있다고 한계를 적습니다.',
+		stuck: '결과를 확정 순이익처럼 말하면 “이 값은 단순 손익분기 추정치이며 순이익이 아님을 명시해 다시 작성해 주세요”라고 요청합니다.',
 	},
 ];
-
-const allFiles = [...lecture1Files, ...lecture2Files];
-if (allFiles.length !== 11) {
-	throw new Error(`대미레 다운로드는 11개여야 합니다. 현재 ${allFiles.length}개`);
-}
-for (const file of allFiles) {
-	fs.accessSync(path.join(downloadDir, file.name));
-}
 
 function fileHref(name: string): string {
 	return `/downloads/daemire-1108/${encodeURIComponent(name)}`;
@@ -249,7 +447,7 @@ function fileSize(name: string): string {
 
 <Layout
 	title="2026-11-08 대미레 강연 자료"
-	description="2026년 11월 8일 대미레 강연1(CRM)과 강연2(경영도구)의 합성 데이터, 프롬프트, 슬라이드별 실습 표."
+	description="2026년 11월 8일 대미레 강연1(CRM)과 강연2(경영도구) 따라하기. 슬라이드별 실습 표와 받을 파일."
 >
 	<article class="lecture" data-lecture>
 		<header class="lecture-head">
@@ -259,16 +457,41 @@ function fileSize(name: string): string {
 				강연 자료
 			</p>
 			<h1>2026-11-08 대미레 강연 자료</h1>
+			<p class="lecture-virtual">모두 실습용 가상 데이터입니다</p>
+			<p class="lecture-notice">
+				<a href={fileHref(startGuide)}>처음이시면 00 시작하기 가이드부터</a>
+			</p>
 			<p class="lecture-lead">
-				강연1(CRM)은 11:20–12:20, 강연2(경영도구)는 10:00–10:30 개원준비방 자료입니다. 파일 11개는 모두 합성 데이터이며, 로그인 없이 받습니다.
+				강연1(CRM)은 11:20–12:20, 강연2(경영도구)는 10:00–10:30 개원준비방 자료입니다. 로그인 없이 받습니다.
 			</p>
 			<p class="lecture-meta">짧은 주소 /daemire1108/ · 공개 페이지</p>
 		</header>
 
-		<div class="lecture-banner" role="note">
-			<strong>합성 데이터.</strong>
-			교육용 가상 자료입니다. 실제 환자 정보, 실명, 상담 원문, 실제 병원 수납은 넣지 마세요. 금액은 가상 예시이고, AI 결과는 사람이 검산하기 전 초안입니다.
-		</div>
+		<section class="lecture-panel" aria-labelledby="download-order">
+			<h2 id="download-order">받는 순서</h2>
+			<p>
+				00 다음에 01을 읽고, 그다음 방문·문의 파일을 엽니다.
+				A–H를 읽는 본문은
+				<a href="/tools/hospital-data-pain-points/">AI 입력용 페인포인트 아카이브</a>
+				입니다.
+			</p>
+			<ol class="file-list">
+				{
+					downloads.map((item) => (
+						<li>
+							<div class="file-top">
+								<strong>{item.name}</strong>
+							</div>
+							<p>{fileSize(item.name)}</p>
+							<p>{item.note}</p>
+							<a class="lecture-btn" href={fileHref(item.name)} download={item.name}>
+								다운로드
+							</a>
+						</li>
+					))
+				}
+			</ol>
+		</section>
 
 		<div class="tablist" role="tablist" aria-label="강연 선택">
 			<input class="tab-input" type="radio" name="lecture-tab" id="tab-crm" checked />
@@ -278,156 +501,104 @@ function fileSize(name: string): string {
 		</div>
 
 		<div class="panel panel-crm">
-			<section class="lecture-panel" aria-labelledby="l1-files">
-				<h2 id="l1-files">받을 파일</h2>
-				<p>
-					A–H를 읽는 정본은
-					<a href="/tools/hospital-data-pain-points/">AI 입력용 페인포인트 아카이브</a>
-					입니다. 이 페이지는 그 페이지를 바꾸지 않고 링크만 겁니다.
-				</p>
-				<ul class="file-list">
-					{
-						lecture1Files.map((file) => (
-							<li>
-								<div class="file-top">
-									<strong>{file.name}</strong>
-									<span class="badge">합성 데이터</span>
-								</div>
-								<p>
-									{file.format} · {fileSize(file.name)} · {file.slides}
-								</p>
-								<p>{file.note}</p>
-								<a class="lecture-btn" href={fileHref(file.name)} download={file.name}>
-									다운로드
-								</a>
-							</li>
-						))
-					}
-				</ul>
-			</section>
-
 			<section class="lecture-panel" aria-labelledby="l1-guide">
-				<h2 id="l1-guide">슬라이드별 실습</h2>
-				<p>
-					표의 프롬프트와 확인할 점은 <code>L1_프롬프트와_슬라이드별_실습가이드.md</code>를 따릅니다. 슬라이드 번호는 실습 순서의 권장 매핑이며 최종 PPT와 다를 수 있습니다. 기획서의 52장 덱은 핵심 실습을 26·32·47번으로 적습니다.
-				</p>
-				<p>사용 AI는 ChatGPT의 파일 분석, 또는 CSV/XLSX를 읽을 수 있는 같은 기능입니다.</p>
+				<h2 id="l1-guide">강연1 따라하기</h2>
+				<p>화면을 본 뒤, 표의 순서대로 합니다. 문장은 그대로 붙여 넣습니다.</p>
 				<div class="table-wrap">
 					<table>
-						<caption class="sr-only">강연1 슬라이드별 실습</caption>
+						<caption class="sr-only">강연1 슬라이드별 따라하기</caption>
 						<thead>
 							<tr>
-								<th scope="col">슬라이드</th>
-								<th scope="col">사용할 파일</th>
-								<th scope="col">사용할 AI</th>
-								<th scope="col">프롬프트</th>
-								<th scope="col">확인할 점</th>
+								<th scope="col">원장님이 보여주는 것</th>
+								<th scope="col">내가 할 일</th>
+								<th scope="col">복붙 프롬프트</th>
+								<th scope="col">성공 예시</th>
+								<th scope="col">막히면</th>
 							</tr>
 						</thead>
 						<tbody>
 							{
 								lecture1Rows.map((row) => (
 									<tr>
-										<th scope="row">{row.slide}</th>
-										<td>{row.file}</td>
-										<td>{row.ai}</td>
+										<th scope="row">
+											<strong>{row.title}</strong>
+											<span>{row.show}</span>
+										</th>
+										<td>
+											<ol>
+												{row.steps.map((step) => (
+													<li>{step}</li>
+												))}
+											</ol>
+										</td>
 										<td>
 											<pre id={`copy-${row.id}`}>{row.prompt}</pre>
-											<button type="button" data-copy={row.id} data-label="프롬프트 복사">
-												프롬프트 복사
+											<button type="button" data-copy={row.id} data-label="문장 복사">
+												문장 복사
 											</button>
 										</td>
-										<td>{row.check}</td>
+										<td>{row.success}</td>
+										<td>{row.stuck}</td>
 									</tr>
 								))
 							}
 						</tbody>
 					</table>
 				</div>
-				<h3>실습 순서와 주의</h3>
-				<ol>
-					<li>파일 업로드 → 데이터 구조 점검 → 집계 → 검산 → 의사결정.</li>
-					<li>AI 답변의 수치가 원본의 전체 행 수·합계와 일치하는지 확인.</li>
-					<li>지표 정의를 먼저 확정한 뒤 경영적 해석을 작성.</li>
-				</ol>
-				<ul>
-					<li><code>재방문여부</code>는 방문일 기준이 아니라 데이터 생성 순서 기준입니다. 시간순 재방문율로 그대로 쓰지 않습니다.</li>
-					<li>문의 파일과 CRM 파일 사이에는 공통 ID가 없습니다. 문의→매출 전환율은 계산하지 않습니다.</li>
-				</ul>
 			</section>
 		</div>
 
 		<div class="panel panel-ops">
-			<section class="lecture-panel" aria-labelledby="l2-files">
-				<h2 id="l2-files">받을 파일</h2>
+			<section class="lecture-panel" aria-labelledby="l2-guide">
+				<h2 id="l2-guide">강연2 따라하기</h2>
 				<div class="lecture-callout">
 					<p>
-						<strong>단가 180,000원 시나리오는 변동원가 76,000원을 전제로 합니다.</strong>
-						월 고정비는 12,000,000원입니다. 건당 공헌이익 104,000원, 올림 전 115.384…건, BEP 116건, BEP 매출 20,880,000원입니다. 115건은 손실 40,000원, 116건은 이익 64,000원입니다.
+						<strong>단가 180,000원 시나리오는 변동원가 76,000원입니다.</strong>
+						월 고정비는 12,000,000원입니다. 건당 공헌이익 104,000원, 올림 전 약 115.3846건, 손익분기점 116건, 매출 20,880,000원입니다. 115건은 −40,000원, 116건은 +64,000원입니다.
 					</p>
 				</div>
-				<ul class="file-list">
-					{
-						lecture2Files.map((file) => (
-							<li>
-								<div class="file-top">
-									<strong>{file.name}</strong>
-									<span class="badge">합성 데이터</span>
-								</div>
-								<p>
-									{file.format} · {fileSize(file.name)} · {file.slides}
-								</p>
-								<p>{file.note}</p>
-								<a class="lecture-btn" href={fileHref(file.name)} download={file.name}>
-									다운로드
-								</a>
-							</li>
-						))
-					}
-				</ul>
-			</section>
-
-			<section class="lecture-panel" aria-labelledby="l2-guide">
-				<h2 id="l2-guide">슬라이드별 실습</h2>
-				<p>
-					슬라이드 묶음은 기획서의 13장 구성입니다. 프롬프트와 검산 숫자는 <code>L2_AI도구_제작프롬프트와_검증테스트.md</code>와 시연 입력 파일을 따릅니다. 1–6·10·13 문장은 기획서의 기획 시트 실습입니다.
-				</p>
+				<p>화면을 본 뒤, 표의 순서대로 합니다. 문장은 그대로 붙여 넣습니다.</p>
 				<div class="table-wrap">
 					<table>
-						<caption class="sr-only">강연2 슬라이드별 실습</caption>
+						<caption class="sr-only">강연2 슬라이드별 따라하기</caption>
 						<thead>
 							<tr>
-								<th scope="col">슬라이드</th>
-								<th scope="col">사용할 파일</th>
-								<th scope="col">사용할 AI</th>
-								<th scope="col">프롬프트</th>
-								<th scope="col">확인할 점</th>
+								<th scope="col">원장님이 보여주는 것</th>
+								<th scope="col">내가 할 일</th>
+								<th scope="col">복붙 프롬프트</th>
+								<th scope="col">성공 예시</th>
+								<th scope="col">막히면</th>
 							</tr>
 						</thead>
 						<tbody>
 							{
 								lecture2Rows.map((row) => (
 									<tr>
-										<th scope="row">{row.slide}</th>
-										<td>{row.file}</td>
-										<td>{row.ai}</td>
+										<th scope="row">
+											<strong>{row.title}</strong>
+											<span>{row.show}</span>
+										</th>
+										<td>
+											<ol>
+												{row.steps.map((step) => (
+													<li>{step}</li>
+												))}
+											</ol>
+										</td>
 										<td>
 											<pre id={`copy-${row.id}`}>{row.prompt}</pre>
-											<button type="button" data-copy={row.id} data-label="프롬프트 복사">
-												프롬프트 복사
+											<button type="button" data-copy={row.id} data-label="문장 복사">
+												문장 복사
 											</button>
 										</td>
-										<td>{row.check}</td>
+										<td>{row.success}</td>
+										<td>{row.stuck}</td>
 									</tr>
 								))
 							}
 						</tbody>
 					</table>
 				</div>
-				<h3>해석 한계</h3>
-				<p>
-					단순 BEP는 세금, 부가세, 환불, 복합 시술 믹스, 가동률, 장비 감가상각, 고정비와 변동비 분류를 자동으로 반영하지 않습니다. 실제 병원에 쓰기 전에 회계 기준과 원가 가정을 확인하세요. 공헌이익은 순이익이 아닙니다. 가격을 바꾼 시나리오를 수요가 늘었다는 뜻으로 읽지 않습니다.
-				</p>
 			</section>
 		</div>
 
@@ -463,7 +634,7 @@ function fileSize(name: string): string {
 		if (!code) return;
 		const node = document.getElementById(`copy-${code}`);
 		const text = node?.textContent?.trim() ?? '';
-		const label = target.dataset.label ?? '프롬프트 복사';
+		const label = target.dataset.label ?? '문장 복사';
 		try {
 			if (navigator.clipboard?.writeText) {
 				await navigator.clipboard.writeText(text);
@@ -482,7 +653,7 @@ function fileSize(name: string): string {
 			area.remove();
 		}
 		target.textContent = '복사됨';
-		if (status) status.textContent = '프롬프트를 복사했습니다. 합성 데이터만 넣으세요.';
+		if (status) status.textContent = '문장을 복사했습니다.';
 		window.setTimeout(() => {
 			target.textContent = label;
 		}, 1800);
@@ -498,7 +669,8 @@ function fileSize(name: string): string {
 		font-size: 0.78rem;
 		color: var(--t3);
 	}
-	.lecture-kicker a {
+	.lecture-kicker a,
+	.lecture-notice a {
 		color: var(--pink);
 		font-weight: 700;
 		text-decoration: none;
@@ -508,6 +680,15 @@ function fileSize(name: string): string {
 		font-size: clamp(1.8rem, 4vw, 2.35rem);
 		letter-spacing: -0.03em;
 		margin: 0.4rem 0 0.7rem;
+	}
+	.lecture-virtual {
+		margin: 0 0 0.45rem;
+		font-weight: 800;
+		color: var(--text);
+	}
+	.lecture-notice {
+		margin: 0 0 0.8rem;
+		font-size: 1.05rem;
 	}
 	.lecture-lead,
 	.lecture-panel p,
@@ -520,7 +701,6 @@ function fileSize(name: string): string {
 		font-size: 0.88rem;
 		color: var(--t3);
 	}
-	.lecture-banner,
 	.lecture-callout,
 	.lecture-panel,
 	.file-list li {
@@ -530,7 +710,6 @@ function fileSize(name: string): string {
 		border-radius: 14px;
 		background: var(--bg2);
 	}
-	.lecture-banner strong,
 	.lecture-callout strong {
 		color: var(--text);
 	}
@@ -569,21 +748,14 @@ function fileSize(name: string): string {
 	.lecture:has(#tab-ops:checked) .panel-crm {
 		display: none;
 	}
-	.lecture-panel h2,
-	.lecture-panel h3 {
+	.lecture-panel h2 {
 		font-family: var(--display);
 		margin: 0 0 0.45rem;
-	}
-	.lecture-panel h2 {
 		font-size: 1.15rem;
 	}
-	.lecture-panel h3 {
-		margin-top: 1rem;
-		font-size: 0.98rem;
-	}
 	.file-list {
-		list-style: none;
-		padding: 0;
+		list-style: decimal;
+		padding: 0 0 0 1.25rem;
 		margin: 0.8rem 0 0;
 		display: grid;
 		gap: 0.75rem;
@@ -596,18 +768,6 @@ function fileSize(name: string): string {
 	}
 	.file-top strong {
 		word-break: break-all;
-	}
-	.badge {
-		display: inline-flex;
-		align-items: center;
-		min-height: 1.6rem;
-		padding: 0 0.55rem;
-		border-radius: 999px;
-		background: #fff;
-		border: 1px solid var(--pink);
-		color: var(--pink);
-		font-size: 0.75rem;
-		font-weight: 800;
 	}
 	.lecture-btn,
 	.lecture-panel button {
@@ -633,7 +793,7 @@ function fileSize(name: string): string {
 	}
 	table {
 		width: 100%;
-		min-width: 52rem;
+		min-width: 64rem;
 		border-collapse: collapse;
 		font-size: 0.92rem;
 	}
@@ -646,6 +806,18 @@ function fileSize(name: string): string {
 	}
 	thead th {
 		background: #fff;
+	}
+	th strong {
+		display: block;
+		margin-bottom: 0.35rem;
+	}
+	th span {
+		font-weight: 500;
+		color: var(--t2);
+	}
+	td ol {
+		margin: 0;
+		padding-left: 1.1rem;
 	}
 	pre {
 		margin: 0 0 0.45rem;
