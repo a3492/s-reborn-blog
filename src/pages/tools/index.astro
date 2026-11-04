@@ -21,6 +21,23 @@ const archives = (await getCollection('toolArchives', ({ data }) => !data.draft)
 			</p>
 		</header>
 
+		<section class="tools-topic" aria-labelledby="topic-lectures">
+			<div class="tools-topic-head">
+				<h2 id="topic-lectures">강연 자료</h2>
+				<p>강연에서 받은 합성 데이터와 슬라이드별 실습 표입니다. 로그인 없이 받습니다.</p>
+			</div>
+			<ul class="tools-list">
+				<li>
+					<a class="tools-card" href="/tools/lectures/2026-11-08-daemire/">
+						<span class="tools-card-kicker">2026-11-08 대미레</span>
+						<strong>강연 자료 아카이브</strong>
+						<span>강연1(CRM)과 강연2(경영도구). 합성 데이터 파일 11개와 슬라이드별 실습 표.</span>
+						<em>공개 · /daemire1108/</em>
+					</a>
+				</li>
+			</ul>
+		</section>
+
 		{
 			TOOL_TOPICS.map((topic) => {
 				const entries = archives.filter((entry) => entry.data.topic === topic.id);
