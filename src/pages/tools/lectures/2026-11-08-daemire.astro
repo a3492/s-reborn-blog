@@ -1,0 +1,671 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import Layout from '../../../layouts/Layout.astro';
+
+const downloadDir = path.join(process.cwd(), 'public/downloads/daemire-1108');
+
+type DownloadFile = {
+	name: string;
+	format: string;
+	slides: string;
+	note: string;
+};
+
+type GuideRow = {
+	id: string;
+	slide: string;
+	file: string;
+	ai: string;
+	prompt: string;
+	check: string;
+};
+
+const lecture1Files: DownloadFile[] = [
+	{
+		name: 'DML_A-H_8대페인포인트_강연순서_1페이지_인덱스_v1.md',
+		format: 'MD',
+		slides: '개념 색인',
+		note: 'A–H 1페이지 색인. 읽기용 본문은 아래 기존 페이지입니다. 환자 사례는 없습니다.',
+	},
+	{
+		name: 'L1_CRM_합성데이터_v1.0.xlsx',
+		format: 'XLSX',
+		slides: '가이드 03·05·07·11·13·15',
+		note: '방문 200행. 한 행은 방문 1건.',
+	},
+	{
+		name: 'L1_문의_합성데이터_v1.0.csv',
+		format: 'CSV',
+		slides: '가이드 09·13·15',
+		note: '문의 96행. 한 행은 문의 1건. CRM 파일과 공통 ID 없음.',
+	},
+	{
+		name: 'L1_프롬프트와_슬라이드별_실습가이드.md',
+		format: 'MD',
+		slides: '가이드 03–15',
+		note: '복붙 프롬프트와 확인할 점. 슬라이드 번호는 권장 매핑입니다.',
+	},
+	{
+		name: 'L1_지표정의_결정카드_템플릿.md',
+		format: 'MD',
+		slides: '가이드 15',
+		note: '지표 정의 카드와 경영 결정 카드. 빈칸에 적어 씁니다.',
+	},
+	{
+		name: 'L1_검산과_데이터품질_체크리스트.md',
+		format: 'MD',
+		slides: '집계·결합·검산',
+		note: '행 수, 합계, 조인, AI 결과 확인 목록.',
+	},
+];
+
+const lecture2Files: DownloadFile[] = [
+	{
+		name: 'L2_원가_BEP_시연입력_v1.0.xlsx',
+		format: 'XLSX',
+		slides: '강연2 7–9',
+		note: '시나리오별 판매단가, 건당 변동원가, 월 고정비, 예상 월시술건수.',
+	},
+	{
+		name: 'L2_원가_BEP_시연입력.csv',
+		format: 'CSV',
+		slides: '강연2 7–9',
+		note: '같은 입력의 한 행 예시. CSV에는 수식과 여러 시트가 없습니다.',
+	},
+	{
+		name: 'L2_원가_BEP_독립검산.xlsx',
+		format: 'XLSX',
+		slides: '강연2 8–9',
+		note: 'AI 결과와 따로 대조하는 검산표.',
+	},
+	{
+		name: 'L2_AI도구_제작프롬프트와_검증테스트.md',
+		format: 'MD',
+		slides: '강연2 7–9·11',
+		note: '계산기 제작 프롬프트, 검증 프롬프트, 추가 테스트.',
+	},
+	{
+		name: 'L2_내병원_작은도구_기획시트.md',
+		format: 'MD',
+		slides: '강연2 1–6·10·13',
+		note: '문제, 입력, 공식, 검증, 다음 버전을 적는 1페이지 시트.',
+	},
+];
+
+const lecture1Rows: GuideRow[] = [
+	{
+		id: 'l1-03',
+		slide: '03 데이터 파악',
+		file: 'L1_CRM_합성데이터_v1.0.xlsx',
+		ai: 'ChatGPT 파일 분석',
+		prompt:
+			'첨부 파일은 합성 데이터다. 시트명·행 수·열명·고유 방문ID 수·고유 고객ID 수를 먼저 표로 보여줘. 방문과 고객의 단위를 혼동하지 마.',
+		check: '방문 200행, 방문ID 200개',
+	},
+	{
+		id: 'l1-05',
+		slide: '05 기초 집계',
+		file: 'L1_CRM_합성데이터_v1.0.xlsx',
+		ai: 'ChatGPT 파일 분석',
+		prompt:
+			'시술별 방문 건수와 결제금액 합계를 구해줘. 전체 합계와 세부 합계가 일치하는지 검산하고, 분석 기준을 명시해줘.',
+		check: '시술별 건수 합계 200',
+	},
+	{
+		id: 'l1-07',
+		slide: '07 재방문 정의',
+		file: 'L1_CRM_합성데이터_v1.0.xlsx',
+		ai: 'ChatGPT 파일 분석',
+		prompt:
+			'재방문여부 열은 생성 순서 기준이다. 고객별 방문일 시간순 재방문과 비교하여 두 정의의 차이 및 왜 다른지 설명해줘. 고유 고객 수를 분모로 쓰는 지표와 방문 수를 분모로 쓰는 지표를 구분해줘.',
+		check: '날짜순 재계산 필요',
+	},
+	{
+		id: 'l1-09',
+		slide: '09 문의 분류',
+		file: 'L1_문의_합성데이터_v1.0.csv',
+		ai: 'ChatGPT 파일 분석',
+		prompt:
+			'문의유형별 빈도·비율을 표로 만들고 전체가 96건인지 검산해줘. 분류 순서는 시술·가격, 예약·변경, 부작용·회복, 기타로 해줘.',
+		check: '48/12/8/28, 합계 96',
+	},
+	{
+		id: 'l1-11',
+		slide: '11 채널별 비교',
+		file: 'L1_CRM_합성데이터_v1.0.xlsx',
+		ai: 'ChatGPT 파일 분석',
+		prompt:
+			'유입채널별 방문 수·매출 합계를 보여줘. 유입채널과 실제 마케팅 기여를 동일시하지 말고 한계를 써줘.',
+		check: '채널별 합계 200',
+	},
+	{
+		id: 'l1-13',
+		slide: '13 데이터 결합 위험',
+		file: 'L1_CRM_합성데이터_v1.0.xlsx + L1_문의_합성데이터_v1.0.csv',
+		ai: 'ChatGPT 파일 분석',
+		prompt:
+			'두 파일은 공통 연결키가 없다. 임의로 고객·방문·문의 행을 조인하지 말고, 조인 가능한 조건과 불가능한 분석을 구분해줘.',
+		check: '무리한 결합 금지',
+	},
+	{
+		id: 'l1-15',
+		slide: '15 의사결정 카드',
+		file: '위 두 파일',
+		ai: 'ChatGPT 파일 분석',
+		prompt:
+			'관찰된 수치 3개, 가능한 가설 3개, 확인할 추가 데이터 3개, 즉시 실행 가능한 저위험 실험 1개를 분리해서 작성해줘. 인과관계는 주장하지 마.',
+		check: '사실·가설·결정 분리',
+	},
+];
+
+const lecture2Rows: GuideRow[] = [
+	{
+		id: 'l2-plan',
+		slide: '1–6, 10, 13',
+		file: 'L2_내병원_작은도구_기획시트.md',
+		ai: 'ChatGPT, Claude, Gemini 등 대화',
+		prompt:
+			'아래 업무를 문제→입력→처리→검증→후속 조치로 나눠 주세요. 현재 정보만 사용하고 모르는 조건은 질문으로 남기세요. 먼저 만들 최소 결과물 하나와 사람이 확인할 항목을 제안하세요: [민감정보 없는 반복 업무 설명].',
+		check: '앱부터 만들지 않고, 병목과 원하는 결과를 먼저 정하는지',
+	},
+	{
+		id: 'l2-build',
+		slide: '7',
+		file: 'L2_원가_BEP_시연입력_v1.0.xlsx 또는 L2_원가_BEP_시연입력.csv',
+		ai: 'ChatGPT, Claude, Gemini 등 코드·표 분석. 파일을 올릴 수 없으면 CSV를 붙여 넣기',
+		prompt: `나는 개원을 준비하는 의사다. 첨부한 파일은 100% 가상 수치다.
+파일을 입력받아 시나리오별 판매단가, 건당 변동원가, 월고정비, 예상 월시술건수를 읽고
+(1) 건당 공헌이익=판매단가-변동원가
+(2) BEP 건수=월고정비/건당 공헌이익을 정수 올림
+(3) BEP 매출=BEP 건수×판매단가
+(4) 예상 월영업이익=예상 건수×건당 공헌이익-월고정비
+를 계산하는 간단한 로컬 경영 계산기를 만들어줘.
+공헌이익이 0 이하이면 BEP 산출 불가로 표시하고, 0/음수/빈칸 입력을 검증해줘.
+가정·계산식·입력값·출력값을 화면에 명시하고 원본 파일은 변경하지 마.`,
+		check: '수식, 단위, 정수 올림. 공헌이익이 0 이하면 BEP 산출 불가. 원본 파일은 바꾸지 않음',
+	},
+	{
+		id: 'l2-check',
+		slide: '8–9',
+		file: '시연 입력 파일 + L2_원가_BEP_독립검산.xlsx',
+		ai: '같은 AI. 결과는 독립 검산과 따로 대조',
+		prompt: `만든 계산기를 아래 독립 테스트 케이스로 검증해줘.
+기준: 단가 200000원, 변동원가 80000원, 고정비 12000000원 → BEP 100건, 매출 20000000원.
+단가인하: 단가 180000원, 변동원가 76000원, 고정비 12000000원 → BEP 116건, 매출 20880000원.
+각 테스트의 공헌이익, 올림 전 BEP, 정수 BEP, 매출, BEP 시점 이익을 표로 제시하고
+기대값과 실제값을 비교해 PASS/FAIL로 표시해줘. 공헌이익이 0인 경우도 테스트해줘.`,
+		check: '기준 100건·20,000,000원. 단가 180,000원 시나리오는 변동원가 76,000원 전제에서 116건·20,880,000원. 115건은 고정비를 넘지 못하고 116건은 넘음',
+	},
+	{
+		id: 'l2-edge',
+		slide: '8–9 예외',
+		file: '시연 입력 파일 또는 위 제작 프롬프트',
+		ai: '같은 AI',
+		prompt: `추가 테스트 입력과 기대 결과를 검증해줘.
+단가 100,000 / 변동원가 100,000 → BEP 산출 불가
+단가 90,000 / 변동원가 100,000 → BEP 산출 불가
+고정비 0 / 공헌이익 양수 → BEP 0건
+단가·변동원가에 음수 입력 → 입력 오류
+필수 항목 빈칸 → 입력 오류`,
+		check: '입력 오류와 BEP 산출 불가를 구분. 예외에서 가짜 숫자를 정상값처럼 보이지 않는지',
+	},
+	{
+		id: 'l2-code',
+		slide: '11',
+		file: 'L2_AI도구_제작프롬프트와_검증테스트.md',
+		ai: '코드 작성 AI (실습을 원하는 경우)',
+		prompt: `나는 개원을 준비하는 의사다. 첨부한 파일은 100% 가상 수치다.
+파일을 입력받아 시나리오별 판매단가, 건당 변동원가, 월고정비, 예상 월시술건수를 읽고
+(1) 건당 공헌이익=판매단가-변동원가
+(2) BEP 건수=월고정비/건당 공헌이익을 정수 올림
+(3) BEP 매출=BEP 건수×판매단가
+(4) 예상 월영업이익=예상 건수×건당 공헌이익-월고정비
+를 계산하는 간단한 로컬 경영 계산기를 만들어줘.
+공헌이익이 0 이하이면 BEP 산출 불가로 표시하고, 0/음수/빈칸 입력을 검증해줘.
+가정·계산식·입력값·출력값을 화면에 명시하고 원본 파일은 변경하지 마.`,
+		check: '만든 코드는 초안. 저장이나 CRM 연결 없이, 독립 검산과 사람이 확인한 뒤에만 씀',
+	},
+];
+
+const allFiles = [...lecture1Files, ...lecture2Files];
+if (allFiles.length !== 11) {
+	throw new Error(`대미레 다운로드는 11개여야 합니다. 현재 ${allFiles.length}개`);
+}
+for (const file of allFiles) {
+	fs.accessSync(path.join(downloadDir, file.name));
+}
+
+function fileHref(name: string): string {
+	return `/downloads/daemire-1108/${encodeURIComponent(name)}`;
+}
+
+function fileSize(name: string): string {
+	const bytes = fs.statSync(path.join(downloadDir, name)).size;
+	if (bytes < 1024) return `${bytes} B`;
+	return `${(bytes / 1024).toFixed(1)} KB`;
+}
+---
+
+<Layout
+	title="2026-11-08 대미레 강연 자료"
+	description="2026년 11월 8일 대미레 강연1(CRM)과 강연2(경영도구)의 합성 데이터, 프롬프트, 슬라이드별 실습 표."
+>
+	<article class="lecture" data-lecture>
+		<header class="lecture-head">
+			<p class="lecture-kicker">
+				<a href="/tools/">경영 도구 아카이브</a>
+				<span aria-hidden="true"> / </span>
+				강연 자료
+			</p>
+			<h1>2026-11-08 대미레 강연 자료</h1>
+			<p class="lecture-lead">
+				강연1(CRM)은 11:20–12:20, 강연2(경영도구)는 10:00–10:30 개원준비방 자료입니다. 파일 11개는 모두 합성 데이터이며, 로그인 없이 받습니다.
+			</p>
+			<p class="lecture-meta">짧은 주소 /daemire1108/ · 공개 페이지</p>
+		</header>
+
+		<div class="lecture-banner" role="note">
+			<strong>합성 데이터.</strong>
+			교육용 가상 자료입니다. 실제 환자 정보, 실명, 상담 원문, 실제 병원 수납은 넣지 마세요. 금액은 가상 예시이고, AI 결과는 사람이 검산하기 전 초안입니다.
+		</div>
+
+		<div class="tablist" role="tablist" aria-label="강연 선택">
+			<input class="tab-input" type="radio" name="lecture-tab" id="tab-crm" checked />
+			<input class="tab-input" type="radio" name="lecture-tab" id="tab-ops" />
+			<label for="tab-crm">강연1(CRM)</label>
+			<label for="tab-ops">강연2(경영도구)</label>
+		</div>
+
+		<div class="panel panel-crm">
+			<section class="lecture-panel" aria-labelledby="l1-files">
+				<h2 id="l1-files">받을 파일</h2>
+				<p>
+					A–H를 읽는 정본은
+					<a href="/tools/hospital-data-pain-points/">AI 입력용 페인포인트 아카이브</a>
+					입니다. 이 페이지는 그 페이지를 바꾸지 않고 링크만 겁니다.
+				</p>
+				<ul class="file-list">
+					{
+						lecture1Files.map((file) => (
+							<li>
+								<div class="file-top">
+									<strong>{file.name}</strong>
+									<span class="badge">합성 데이터</span>
+								</div>
+								<p>
+									{file.format} · {fileSize(file.name)} · {file.slides}
+								</p>
+								<p>{file.note}</p>
+								<a class="lecture-btn" href={fileHref(file.name)} download={file.name}>
+									다운로드
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</section>
+
+			<section class="lecture-panel" aria-labelledby="l1-guide">
+				<h2 id="l1-guide">슬라이드별 실습</h2>
+				<p>
+					표의 프롬프트와 확인할 점은 <code>L1_프롬프트와_슬라이드별_실습가이드.md</code>를 따릅니다. 슬라이드 번호는 실습 순서의 권장 매핑이며 최종 PPT와 다를 수 있습니다. 기획서의 52장 덱은 핵심 실습을 26·32·47번으로 적습니다.
+				</p>
+				<p>사용 AI는 ChatGPT의 파일 분석, 또는 CSV/XLSX를 읽을 수 있는 같은 기능입니다.</p>
+				<div class="table-wrap">
+					<table>
+						<caption class="sr-only">강연1 슬라이드별 실습</caption>
+						<thead>
+							<tr>
+								<th scope="col">슬라이드</th>
+								<th scope="col">사용할 파일</th>
+								<th scope="col">사용할 AI</th>
+								<th scope="col">프롬프트</th>
+								<th scope="col">확인할 점</th>
+							</tr>
+						</thead>
+						<tbody>
+							{
+								lecture1Rows.map((row) => (
+									<tr>
+										<th scope="row">{row.slide}</th>
+										<td>{row.file}</td>
+										<td>{row.ai}</td>
+										<td>
+											<pre id={`copy-${row.id}`}>{row.prompt}</pre>
+											<button type="button" data-copy={row.id} data-label="프롬프트 복사">
+												프롬프트 복사
+											</button>
+										</td>
+										<td>{row.check}</td>
+									</tr>
+								))
+							}
+						</tbody>
+					</table>
+				</div>
+				<h3>실습 순서와 주의</h3>
+				<ol>
+					<li>파일 업로드 → 데이터 구조 점검 → 집계 → 검산 → 의사결정.</li>
+					<li>AI 답변의 수치가 원본의 전체 행 수·합계와 일치하는지 확인.</li>
+					<li>지표 정의를 먼저 확정한 뒤 경영적 해석을 작성.</li>
+				</ol>
+				<ul>
+					<li><code>재방문여부</code>는 방문일 기준이 아니라 데이터 생성 순서 기준입니다. 시간순 재방문율로 그대로 쓰지 않습니다.</li>
+					<li>문의 파일과 CRM 파일 사이에는 공통 ID가 없습니다. 문의→매출 전환율은 계산하지 않습니다.</li>
+				</ul>
+			</section>
+		</div>
+
+		<div class="panel panel-ops">
+			<section class="lecture-panel" aria-labelledby="l2-files">
+				<h2 id="l2-files">받을 파일</h2>
+				<div class="lecture-callout">
+					<p>
+						<strong>단가 180,000원 시나리오는 변동원가 76,000원을 전제로 합니다.</strong>
+						월 고정비는 12,000,000원입니다. 건당 공헌이익 104,000원, 올림 전 115.384…건, BEP 116건, BEP 매출 20,880,000원입니다. 115건은 손실 40,000원, 116건은 이익 64,000원입니다.
+					</p>
+				</div>
+				<ul class="file-list">
+					{
+						lecture2Files.map((file) => (
+							<li>
+								<div class="file-top">
+									<strong>{file.name}</strong>
+									<span class="badge">합성 데이터</span>
+								</div>
+								<p>
+									{file.format} · {fileSize(file.name)} · {file.slides}
+								</p>
+								<p>{file.note}</p>
+								<a class="lecture-btn" href={fileHref(file.name)} download={file.name}>
+									다운로드
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</section>
+
+			<section class="lecture-panel" aria-labelledby="l2-guide">
+				<h2 id="l2-guide">슬라이드별 실습</h2>
+				<p>
+					슬라이드 묶음은 기획서의 13장 구성입니다. 프롬프트와 검산 숫자는 <code>L2_AI도구_제작프롬프트와_검증테스트.md</code>와 시연 입력 파일을 따릅니다. 1–6·10·13 문장은 기획서의 기획 시트 실습입니다.
+				</p>
+				<div class="table-wrap">
+					<table>
+						<caption class="sr-only">강연2 슬라이드별 실습</caption>
+						<thead>
+							<tr>
+								<th scope="col">슬라이드</th>
+								<th scope="col">사용할 파일</th>
+								<th scope="col">사용할 AI</th>
+								<th scope="col">프롬프트</th>
+								<th scope="col">확인할 점</th>
+							</tr>
+						</thead>
+						<tbody>
+							{
+								lecture2Rows.map((row) => (
+									<tr>
+										<th scope="row">{row.slide}</th>
+										<td>{row.file}</td>
+										<td>{row.ai}</td>
+										<td>
+											<pre id={`copy-${row.id}`}>{row.prompt}</pre>
+											<button type="button" data-copy={row.id} data-label="프롬프트 복사">
+												프롬프트 복사
+											</button>
+										</td>
+										<td>{row.check}</td>
+									</tr>
+								))
+							}
+						</tbody>
+					</table>
+				</div>
+				<h3>해석 한계</h3>
+				<p>
+					단순 BEP는 세금, 부가세, 환불, 복합 시술 믹스, 가동률, 장비 감가상각, 고정비와 변동비 분류를 자동으로 반영하지 않습니다. 실제 병원에 쓰기 전에 회계 기준과 원가 가정을 확인하세요. 공헌이익은 순이익이 아닙니다. 가격을 바꾼 시나리오를 수요가 늘었다는 뜻으로 읽지 않습니다.
+				</p>
+			</section>
+		</div>
+
+		<p class="copy-status" data-copy-status role="status" aria-live="polite"></p>
+	</article>
+</Layout>
+
+<script>
+	const root = document.querySelector('[data-lecture]');
+	const status = document.querySelector('[data-copy-status]');
+	const crm = document.querySelector('#tab-crm');
+	const ops = document.querySelector('#tab-ops');
+
+	function applyHash() {
+		if (!(crm instanceof HTMLInputElement) || !(ops instanceof HTMLInputElement)) return;
+		if (location.hash === '#ops' || location.hash === '#lecture-2') ops.checked = true;
+		if (location.hash === '#crm' || location.hash === '#lecture-1') crm.checked = true;
+	}
+
+	applyHash();
+	window.addEventListener('hashchange', applyHash);
+	crm?.addEventListener('change', () => {
+		if (crm instanceof HTMLInputElement && crm.checked) history.replaceState(null, '', '#crm');
+	});
+	ops?.addEventListener('change', () => {
+		if (ops instanceof HTMLInputElement && ops.checked) history.replaceState(null, '', '#ops');
+	});
+
+	root?.addEventListener('click', async (event) => {
+		const target = event.target;
+		if (!(target instanceof HTMLButtonElement)) return;
+		const code = target.dataset.copy;
+		if (!code) return;
+		const node = document.getElementById(`copy-${code}`);
+		const text = node?.textContent?.trim() ?? '';
+		const label = target.dataset.label ?? '프롬프트 복사';
+		try {
+			if (navigator.clipboard?.writeText) {
+				await navigator.clipboard.writeText(text);
+			} else {
+				throw new Error('clipboard unavailable');
+			}
+		} catch {
+			const area = document.createElement('textarea');
+			area.value = text;
+			area.setAttribute('readonly', '');
+			area.style.position = 'fixed';
+			area.style.left = '-9999px';
+			document.body.appendChild(area);
+			area.select();
+			document.execCommand('copy');
+			area.remove();
+		}
+		target.textContent = '복사됨';
+		if (status) status.textContent = '프롬프트를 복사했습니다. 합성 데이터만 넣으세요.';
+		window.setTimeout(() => {
+			target.textContent = label;
+		}, 1800);
+	});
+</script>
+
+<style>
+	.lecture {
+		padding: 2.2rem 0 4rem;
+		max-width: 72rem;
+	}
+	.lecture-kicker {
+		font-size: 0.78rem;
+		color: var(--t3);
+	}
+	.lecture-kicker a {
+		color: var(--pink);
+		font-weight: 700;
+		text-decoration: none;
+	}
+	.lecture h1 {
+		font-family: var(--display);
+		font-size: clamp(1.8rem, 4vw, 2.35rem);
+		letter-spacing: -0.03em;
+		margin: 0.4rem 0 0.7rem;
+	}
+	.lecture-lead,
+	.lecture-panel p,
+	.lecture-panel li {
+		color: var(--t2);
+		line-height: 1.65;
+	}
+	.lecture-meta {
+		margin: 0.15rem 0 0;
+		font-size: 0.88rem;
+		color: var(--t3);
+	}
+	.lecture-banner,
+	.lecture-callout,
+	.lecture-panel,
+	.file-list li {
+		margin-top: 1rem;
+		padding: 1rem 1.05rem 1.1rem;
+		border: 1px solid var(--rule);
+		border-radius: 14px;
+		background: var(--bg2);
+	}
+	.lecture-banner strong,
+	.lecture-callout strong {
+		color: var(--text);
+	}
+	.tablist {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin-top: 1.2rem;
+	}
+	.tab-input {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+	}
+	.tablist label {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 44px;
+		padding: 0.55rem 0.95rem;
+		border-radius: 999px;
+		border: 1px solid var(--rule);
+		background: var(--bg2);
+		font-weight: 700;
+		cursor: pointer;
+	}
+	.lecture:has(#tab-crm:checked) label[for='tab-crm'],
+	.lecture:has(#tab-ops:checked) label[for='tab-ops'] {
+		border-color: var(--pink);
+		background: var(--pink);
+		color: #fff;
+	}
+	.lecture:has(#tab-crm:checked) .panel-ops,
+	.lecture:has(#tab-ops:checked) .panel-crm {
+		display: none;
+	}
+	.lecture-panel h2,
+	.lecture-panel h3 {
+		font-family: var(--display);
+		margin: 0 0 0.45rem;
+	}
+	.lecture-panel h2 {
+		font-size: 1.15rem;
+	}
+	.lecture-panel h3 {
+		margin-top: 1rem;
+		font-size: 0.98rem;
+	}
+	.file-list {
+		list-style: none;
+		padding: 0;
+		margin: 0.8rem 0 0;
+		display: grid;
+		gap: 0.75rem;
+	}
+	.file-top {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem 0.6rem;
+		align-items: center;
+	}
+	.file-top strong {
+		word-break: break-all;
+	}
+	.badge {
+		display: inline-flex;
+		align-items: center;
+		min-height: 1.6rem;
+		padding: 0 0.55rem;
+		border-radius: 999px;
+		background: #fff;
+		border: 1px solid var(--pink);
+		color: var(--pink);
+		font-size: 0.75rem;
+		font-weight: 800;
+	}
+	.lecture-btn,
+	.lecture-panel button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 44px;
+		margin-top: 0.35rem;
+		padding: 0.55rem 0.9rem;
+		border-radius: 999px;
+		border: 1px solid var(--pink);
+		background: var(--pink);
+		color: #fff;
+		font: inherit;
+		font-size: 0.9rem;
+		font-weight: 700;
+		text-decoration: none;
+		cursor: pointer;
+	}
+	.table-wrap {
+		margin-top: 0.8rem;
+		overflow-x: auto;
+	}
+	table {
+		width: 100%;
+		min-width: 52rem;
+		border-collapse: collapse;
+		font-size: 0.92rem;
+	}
+	th,
+	td {
+		border: 1px solid var(--rule);
+		padding: 0.65rem 0.7rem;
+		vertical-align: top;
+		text-align: left;
+	}
+	thead th {
+		background: #fff;
+	}
+	pre {
+		margin: 0 0 0.45rem;
+		white-space: pre-wrap;
+		font-family: inherit;
+		font-size: 0.88rem;
+		line-height: 1.55;
+		color: var(--text);
+	}
+	.copy-status {
+		min-height: 1.2rem;
+		margin: 0.8rem 0 0;
+		font-size: 0.88rem;
+		color: var(--t2);
+	}
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+	}
+</style>
