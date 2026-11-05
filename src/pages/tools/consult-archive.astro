@@ -1,4 +1,5 @@
 ---
+import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import Layout from '../../layouts/Layout.astro';
@@ -347,6 +348,7 @@ const prompts = [
 ];
 
 const downloadDir = path.join(process.cwd(), 'public/downloads/consult-archive');
+const guideName = '상담데이터_가공_연습가이드_공개용.md';
 const zipFiles = ['상담데이터_1차_공개용.zip', '상담데이터_2차_공개용.zip'];
 const longFiles = [
 	'B02-L01_초진고민많은고객_B02-C021.md',
@@ -354,8 +356,15 @@ const longFiles = [
 	'B02-L03_보호자동반_B02-C026.md',
 	'B02-L04_VIP패키지재계약_B01-C005.md',
 ];
-for (const name of [...zipFiles, ...longFiles]) {
+for (const name of [guideName, ...zipFiles, ...longFiles]) {
 	fs.accessSync(path.join(downloadDir, name));
+}
+for (const item of catalog) {
+	fs.accessSync(path.join(downloadDir, item.file));
+}
+const guideMarkdown = fs.readFileSync(path.join(downloadDir, guideName), 'utf8');
+if (/정답|answer/i.test(guideMarkdown)) {
+	throw new Error('가공 연습 가이드에 정답표 문구가 있습니다.');
 }
 function walkPublic(dir: string): string[] {
 	const found: string[] = [];
@@ -371,6 +380,12 @@ for (const file of walkPublic(path.join(process.cwd(), 'public'))) {
 	if (blocked.test(file)) {
 		throw new Error(`공개 경로에 금지 파일이 있습니다: ${file}`);
 	}
+	if (file.endsWith('.zip')) {
+		const listing = execFileSync('unzip', ['-Z', '-1', file], { encoding: 'utf8' });
+		if (blocked.test(listing) || listing.includes('03_정답표')) {
+			throw new Error(`ZIP 안에 금지 이름이 있습니다: ${file}`);
+		}
+	}
 }
 if (catalog.length !== 364) {
 	throw new Error(`상담 원본 목록은 364건이어야 합니다. 현재 ${catalog.length}건`);
@@ -381,7 +396,56 @@ const packWriters = [...new Set(catalog.map((item) => item.writer))];
 const packGrades = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
 function fileHref(name: string): string {
-	return `/downloads/consult-archive/${encodeURIComponent(name)}`;
+	return `/downloads/consult-archive/${name.split('/').map((part) => encodeURIComponent(part)).join('/')}`;
+}
+
+function renderGuide(markdown: string): string {
+	const escape = (value: string) =>
+		value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+	const inline = (value: string) =>
+		escape(value)
+			.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2">$1</a>')
+			.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+			.replace(/`([^`]+)`/g, '<code>$1</code>');
+	const chunks: string[] = [];
+	markdown.replace(/\r\n/g, '\n').split('```').forEach((block, index) => {
+		if (index % 2 === 1) {
+			const code = block.replace(/^[a-zA-Z]*\n/, '').replace(/\n$/, '');
+			chunks.push(`<pre><code>${escape(code)}</code></pre>`);
+			return;
+		}
+		const lines = block.split('\n');
+		let html = '';
+		let list: string[] | null = null;
+		const flush = () => {
+			if (!list) return;
+			html += `<ul>${list.map((item) => `<li>${inline(item)}</li>`).join('')}</ul>`;
+			list = null;
+		};
+		for (const line of lines) {
+			if (/^\s*[-*]\s+/.test(line)) {
+				list ??= [];
+				list.push(line.replace(/^\s*[-*]\s+/, ''));
+				continue;
+			}
+			flush();
+			if (!line.trim()) continue;
+			if (line.startsWith('### ')) html += `<h3>${inline(line.slice(4))}</h3>`;
+			else if (line.startsWith('## ')) html += `<h2>${inline(line.slice(3))}</h2>`;
+			else if (line.startsWith('# ')) html += `<h2>${inline(line.slice(2))}</h2>`;
+			else if (line.startsWith('> ')) html += `<blockquote><p>${inline(line.slice(2))}</p></blockquote>`;
+			else if (line.trim() === '---') html += '<hr />';
+			else html += `<p>${inline(line)}</p>`;
+		}
+		flush();
+		chunks.push(html);
+	});
+	return chunks.join('');
+}
+
+const guideHtml = renderGuide(guideMarkdown);
+if (/정답|answer/i.test(guideHtml)) {
+	throw new Error('가이드 본문 렌더에 정답표 문구가 있습니다.');
 }
 
 const filters = [
@@ -463,7 +527,10 @@ const filters = [
 			<h1>상담데이터 아카이브</h1>
 			<p class="consult-virtual">모두 실습용 가상 데이터입니다</p>
 			<p class="consult-lead">
-				1차 120건은 고객 20명의 경로별 묶음이고, 2차 244건은 개별 원본입니다. 아래 16개 예시는 짧게 따라 하는 용도입니다.
+				1차 120건과 2차 244건을 각각 열어 볼 수 있습니다. 가공 순서는 연습 가이드에 있습니다.
+			</p>
+			<p class="consult-guide-link">
+				<a class="tool-action" href={fileHref(guideName)} download={guideName}>가공 연습 가이드</a>
 			</p>
 			<ol class="consult-steps tool-action-row">
 				<li class="tool-action">고르기</li>
@@ -472,6 +539,15 @@ const filters = [
 				<li class="tool-action">검산하기</li>
 			</ol>
 		</header>
+
+		<section class="consult-panel" aria-labelledby="consult-guide">
+			<h2 id="consult-guide">가공 연습 가이드</h2>
+			<p>원문 말투는 그대로 두고, 출처를 남겨 정리하는 순서입니다.</p>
+			<details class="guide-fold">
+				<summary>가이드 본문 읽기</summary>
+				<div class="guide-body" set:html={guideHtml} />
+			</details>
+		</section>
 
 		<section class="consult-panel" aria-labelledby="consult-packs" data-pack>
 			<h2 id="consult-packs">공개 자료 받기</h2>
@@ -501,7 +577,7 @@ const filters = [
 			<h3>원본 목록</h3>
 			<label class="consult-search">
 				<span class="tool-filter-label">목록 검색</span>
-				<input class="tool-filter-search" type="search" data-pack-search placeholder="번호, 고객키, 경로, 작성자" />
+				<input class="tool-filter-search" type="search" data-pack-search placeholder="이름, 경로, 번호, 작성자" />
 			</label>
 			<fieldset class="tool-filter-group">
 				<legend class="tool-filter-label">배치</legend>
@@ -550,19 +626,15 @@ const filters = [
 							data-channel={item.channel}
 							data-writer={item.writer}
 							data-grade={item.grade}
-							data-pack-text={`${item.id} ${item.customer} ${item.channel} ${item.writer} ${item.grade} ${item.batch}`}
+							data-pack-text={`${item.title} ${item.name} ${item.preview} ${item.id} ${item.customer} ${item.channel} ${item.writer} ${item.grade} ${item.batch}`}
 						>
-							<strong>{item.id}</strong>
-							<span>
-								{item.batch} · {item.channel} · {item.writer} · {item.grade} · {item.chars}자 · {item.customer}
-							</span>
-							{
-								item.file ? (
-									<a href={fileHref(item.file)} download={item.file}>개별 파일</a>
-								) : (
-									<span>{item.batch === '1차' ? '1차 ZIP 안' : '2차 ZIP 안'}</span>
-								)
-							}
+							<strong class="pack-title">{item.title}</strong>
+							<p class="pack-preview">{item.preview}</p>
+							<p class="pack-meta">{item.id} · {item.customer} · {item.writer} · {item.grade} · {item.chars}자</p>
+							<div class="pack-actions">
+								<a href={fileHref(item.file)} target="_blank" rel="noopener">원본 보기</a>
+								<a href={fileHref(item.file)} download={item.file.split('/').pop()}>개별 다운로드</a>
+							</div>
 						</li>
 					))
 				}
@@ -906,11 +978,13 @@ const filters = [
 		padding: 5px 10px;
 		font-size: 13px;
 	}
-	button.tool-action {
+	button.tool-action,
+	a.tool-action {
 		min-height: 36px;
 		padding: 6px 12px;
 		font-size: 13px;
 		white-space: nowrap;
+		text-decoration: none;
 	}
 	.tool-filter-chip[aria-pressed='true'] {
 		background: var(--tool-mint-active);
@@ -991,6 +1065,57 @@ const filters = [
 		display: grid;
 		gap: 2px;
 	}
+	.pack-title {
+		font-size: 1rem;
+		line-height: 1.4;
+	}
+	.pack-preview {
+		margin: 6px 0 0;
+		color: var(--t2);
+		line-height: 1.5;
+	}
+	.pack-meta {
+		margin: 4px 0 0;
+		color: var(--t3);
+		font-size: 0.82rem;
+		line-height: 1.4;
+	}
+	.pack-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+	.guide-fold {
+		margin-top: 12px;
+	}
+	.guide-fold summary {
+		display: inline-flex;
+		align-items: center;
+		min-height: 36px;
+		padding: 6px 12px;
+		border: 1px solid var(--tool-border);
+		border-radius: 6px;
+		background: #fff;
+		font-weight: 600;
+		cursor: pointer;
+	}
+	.guide-body {
+		margin-top: 12px;
+	}
+	.guide-body :is(h2, h3) {
+		margin: 1rem 0 0.4rem;
+	}
+	.guide-body p,
+	.guide-body li {
+		color: var(--t2);
+		line-height: 1.6;
+	}
+	.guide-body pre {
+		padding: 12px;
+		border-radius: 8px;
+		background: #fff;
+		overflow-x: auto;
+	}
 	@media (max-width: 600px) {
 		.tool-filter-panel,
 		.consult-cards li,
@@ -999,8 +1124,10 @@ const filters = [
 		}
 		.consult-steps li,
 		button.tool-action,
+		a.tool-action,
 		.pack-downloads a,
-		.pack-list a {
+		.pack-list a,
+		.guide-fold summary {
 			min-height: 44px;
 			padding: 10px 12px;
 			font-size: 14px;
