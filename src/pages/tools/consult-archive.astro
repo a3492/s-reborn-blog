@@ -1,0 +1,718 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+type Sample = {
+	id: string;
+	title: string;
+	path: string;
+	pathLabel: string;
+	form: string;
+	formLabel: string;
+	stage: string;
+	stageLabel: string;
+	field: string;
+	fieldLabel: string;
+	level: string;
+	levelLabel: string;
+	body: string;
+};
+
+const samples: Sample[] = [
+	{
+		id: 'A1',
+		title: '예약 문의, 시간은 있고 이름은 없음',
+		path: 'kakao',
+		pathLabel: '카카오톡',
+		form: 'chat-text',
+		formLabel: '채팅 원문',
+		stage: 'booking',
+		stageLabel: '예약',
+		field: 'botox',
+		fieldLabel: '보톡스',
+		level: 'easy',
+		levelLabel: '쉬움',
+		body: `[카카오톡 채널 상담]
+10/02 11:04 고객: 안녕하세여 어제 인스타로 보톡스 물어봤는데요
+10/02 11:05 상담실: 네 안녕하세요. 예약 원하시는 날짜 있으실까요?
+10/02 11:06 고객: 16일 오후 3시 이후 될까요
+10/02 11:09 상담실: 확인하고 안내드릴게요.
+[이름 미입력 / 예약 확정 여부 기록 없음]`,
+	},
+	{
+		id: 'A2',
+		title: '시술 후 문의, 방문 날짜 누락',
+		path: 'kakao',
+		pathLabel: '카카오톡',
+		form: 'chat-text',
+		formLabel: '채팅 원문',
+		stage: 'aftercare',
+		stageLabel: '시술 후',
+		field: 'other',
+		fieldLabel: '기타',
+		level: 'medium',
+		levelLabel: '보통',
+		body: `[카카오톡 채널 상담]
+10/18 18:42 박서준: 지난번 시술하고 빨갛게 보이는게 있는데요
+10/18 18:43 상담실: 확인을 위해 담당 의료진에게 전달하겠습니다.
+10/18 18:44 박서준: 사진은 내일 보내도 될까여
+[시술명·방문일 미기록 / 진료 필요 여부 별도 확인]`,
+	},
+	{
+		id: 'B1',
+		title: '인스타 첫 문의',
+		path: 'instagram',
+		pathLabel: '인스타그램',
+		form: 'screen-mock',
+		formLabel: '화면 모형',
+		stage: 'first-inquiry',
+		stageLabel: '첫 문의',
+		field: 'botox',
+		fieldLabel: '보톡스',
+		level: 'easy',
+		levelLabel: '쉬움',
+		body: `[Instagram DM 모형 | 10월 1일]
+김민지: 미간 보톡스 얼마에요?
+병원: 상담 후 시술 범위에 따라 안내드릴 수 있습니다.
+김민지: 16일쯤 갈 수도 있어요
+[계정 식별자 없음 / 연락처 없음 / 예약 확정 아님]`,
+	},
+	{
+		id: 'B2',
+		title: '같은 사람일 수 있는 재문의',
+		path: 'instagram',
+		pathLabel: '인스타그램',
+		form: 'screen-mock',
+		formLabel: '화면 모형',
+		stage: 'follow-up',
+		stageLabel: '재문의',
+		field: 'lifting',
+		fieldLabel: '리프팅',
+		level: 'medium',
+		levelLabel: '보통',
+		body: `[Instagram DM 모형 | 10월 4일]
+이수연: 울쎄라 지난번에 연락 드렸는데요
+병원: 이전 문의 경로가 어디였을까요?
+이수연: 전화였던 것 같아요 ㅎㅎ
+[동일인 연결 근거 미확보]`,
+	},
+	{
+		id: 'C1',
+		title: '예약 알림 문구 모형',
+		path: 'naver',
+		pathLabel: '네이버 예약',
+		form: 'notification',
+		formLabel: '알림',
+		stage: 'booking',
+		stageLabel: '예약',
+		field: 'pigmentation',
+		fieldLabel: '색소',
+		level: 'easy',
+		levelLabel: '쉬움',
+		body: `[예약 접수 알림 예시]
+예약자: 최지우
+희망일: 2026-10-09 14:30
+항목: 색소 상담
+상태: 예약 요청
+메모: 오후는 힘들 수 있어요
+[확정 여부 확인 필요]`,
+	},
+	{
+		id: 'C2',
+		title: '예약 변경 내역 모형',
+		path: 'naver',
+		pathLabel: '네이버 예약',
+		form: 'csv',
+		formLabel: '표',
+		stage: 'booking',
+		stageLabel: '예약',
+		field: 'acne-scar',
+		fieldLabel: '여드름 흉터',
+		level: 'medium',
+		levelLabel: '보통',
+		body: `예약자,예약일시,상담분야,상태,변경요청
+정하늘,2026-10-22 16:00,여드름흉터,변경요청,24일 오전 희망
+[연락처 미포함 / 승인 전]`,
+	},
+	{
+		id: 'D1',
+		title: '빠르게 적은 전화 메모',
+		path: 'phone',
+		pathLabel: '전화',
+		form: 'free-note',
+		formLabel: '자유 메모',
+		stage: 'first-inquiry',
+		stageLabel: '첫 문의',
+		field: 'botox',
+		fieldLabel: '보톡스',
+		level: 'medium',
+		levelLabel: '보통',
+		body: `10/7 오전 통화
+김민지?  보톡스 비용 문의
+16일 3시 넘어서 가능??
+인슷타 보고 연락한 듯 / 회신 필요
+[받아 적은 이름 불확실]`,
+	},
+	{
+		id: 'D2',
+		title: '종이 메모를 옮긴 글',
+		path: 'phone',
+		pathLabel: '전화',
+		form: 'scan-mock',
+		formLabel: '메모 전사',
+		stage: 'undecided',
+		stageLabel: '미결정',
+		field: 'lifting',
+		fieldLabel: '리프팅',
+		level: 'medium',
+		levelLabel: '보통',
+		body: `[직원 수기메모를 텍스트로 옮긴 예시]
+10.11 / 이수연 / 리프팅
+'울쎄? 써마?' 물어봄
+다음주 토요일? 시간 안맞음
+다시 전화하기 ← 체크 안됨
+[시술명·날짜 미확정]`,
+	},
+	{
+		id: 'E1',
+		title: '관심 시술 응답 한 줄',
+		path: 'googleform',
+		pathLabel: '구글폼',
+		form: 'form-row',
+		formLabel: '응답 행',
+		stage: 'first-inquiry',
+		stageLabel: '첫 문의',
+		field: 'skinbooster',
+		fieldLabel: '스킨부스터',
+		level: 'easy',
+		levelLabel: '쉬움',
+		body: `타임스탬프,이름,관심시술,방문희망,메모
+2026-10-05 09:14,한유진,스킨부스터,이번달,피부가 건조한편`,
+	},
+	{
+		id: 'E2',
+		title: '필수 답이 빈 응답',
+		path: 'googleform',
+		pathLabel: '구글폼',
+		form: 'form-row',
+		formLabel: '응답 행',
+		stage: 'first-inquiry',
+		stageLabel: '첫 문의',
+		field: 'other',
+		fieldLabel: '기타',
+		level: 'easy',
+		levelLabel: '쉬움',
+		body: `타임스탬프,이름,관심시술,방문희망,메모
+2026-10-05 20:31,서지민,,주말,상담 먼저 하고 싶어요`,
+	},
+	{
+		id: 'F1',
+		title: 'CRM 입력 항목 모형',
+		path: 'vegascrm',
+		pathLabel: '베가스CRM',
+		form: 'screen-mock',
+		formLabel: '화면 모형',
+		stage: 'visit',
+		stageLabel: '방문',
+		field: 'botox',
+		fieldLabel: '보톡스',
+		level: 'easy',
+		levelLabel: '쉬움',
+		body: `[CRM 입력 화면 구성 예시 - 실제 제품 UI와 다를 수 있음]
+고객관리번호: P-demo-1021
+고객명: 김민지
+방문일: 2026-10-16
+시술: 보톡스
+수납금액: 80,000원
+유입경로: 인스타그램
+상담원: [미기록]`,
+	},
+	{
+		id: 'F2',
+		title: '방문 행 모형',
+		path: 'vegascrm',
+		pathLabel: '베가스CRM',
+		form: 'csv',
+		formLabel: '표',
+		stage: 'visit',
+		stageLabel: '방문',
+		field: 'pigmentation',
+		fieldLabel: '색소',
+		level: 'easy',
+		levelLabel: '쉬움',
+		body: `방문관리번호,고객관리번호,방문일,시술명,결제금액,재방문여부
+VIS-demo-1022,P-demo-1022,2026-10-21,색소레이저,150000,첫방문`,
+	},
+	{
+		id: 'G1',
+		title: '예약 변경 문자',
+		path: 'sms',
+		pathLabel: '문자',
+		form: 'sms-text',
+		formLabel: '문자',
+		stage: 'booking',
+		stageLabel: '예약',
+		field: 'other',
+		fieldLabel: '기타',
+		level: 'medium',
+		levelLabel: '보통',
+		body: `[수신 문자 | 10/14 08:50]
+김하린: 오늘 못가여 ㅠ 토욜로 변경 가능??
+[예약기록 확인 전 / 같은 이름 예약 여러 건일 수 있음]`,
+	},
+	{
+		id: 'G2',
+		title: '시술 후 문자',
+		path: 'sms',
+		pathLabel: '문자',
+		form: 'sms-text',
+		formLabel: '문자',
+		stage: 'aftercare',
+		stageLabel: '시술 후',
+		field: 'other',
+		fieldLabel: '기타',
+		level: 'medium',
+		levelLabel: '보통',
+		body: `[문자 상담 메모 | 10/24]
+장우진: 어제 시술받았는데 관리 안내 다시 받을 수 있을까요?
+직원: 차트 확인 후 안내드리겠습니다.
+[시술명·정확한 방문 날짜 직원 확인 필요]`,
+	},
+	{
+		id: 'H1',
+		title: '같은 행이 두 번인 업체 목록',
+		path: 'agency',
+		pathLabel: '마케팅 업체',
+		form: 'csv',
+		formLabel: '표',
+		stage: 'first-inquiry',
+		stageLabel: '첫 문의',
+		field: 'lifting',
+		fieldLabel: '리프팅',
+		level: 'hard',
+		levelLabel: '어려움',
+		body: `업체관리번호,접수일,고객명,관심분야,광고캠페인,처리상태
+AD-001,2026-10-05,박서준,리프팅,가을리프팅,미응대
+AD-001,2026-10-05,박서준,리프팅,가을리프팅,미응대`,
+	},
+	{
+		id: 'H2',
+		title: '날짜 형식이 다른 업체 목록',
+		path: 'agency',
+		pathLabel: '마케팅 업체',
+		form: 'csv',
+		formLabel: '표',
+		stage: 'first-inquiry',
+		stageLabel: '첫 문의',
+		field: 'other',
+		fieldLabel: '기타',
+		level: 'hard',
+		levelLabel: '어려움',
+		body: `업체관리번호,접수일,고객명,관심분야,광고캠페인,처리상태
+AD-002,26.10.7,이수연,울세라,브랜드키워드,call back
+AD-003,2026/10/07,정다은,흉터 상담,검색광고,`,
+	},
+];
+
+const prompts = [
+	{
+		id: 'easy',
+		title: '초급. 메모에서 칸 뽑기',
+		text: `아래 기록을 읽고 접수일, 접수경로, 고객명, 관심시술, 현재상태, 다음 행동을 표로 정리해 주세요.
+원본에 없는 사실은 추측하지 말고 '미확인'이라고 적으세요.
+오타를 고친 경우 원문도 따로 남기세요.
+날짜 표현이 애매하면 임의의 날짜로 바꾸지 마세요.`,
+		success: '원본 건수와 결과 행 수가 맞고, 빠진 정보를 임의로 채우지 않습니다.',
+	},
+	{
+		id: 'mid',
+		title: '중급. 여러 채널의 같은 사람',
+		text: `원본 기록을 채널별 사건 단위로 나눠 정리하세요.
+동일 고객으로 추정되는 기록은 '연결 후보'에만 표시하세요.
+이름이 같다는 이유만으로 동일 고객이라고 확정하지 마세요.
+실제로 연결을 확정하려면 어떤 내부 확인이 필요한지 별도 칸에 적으세요.`,
+		success: '인스타 문의, 카카오 예약, CRM 방문은 각각 남깁니다. 연결 근거가 없으면 확정하지 않습니다.',
+	},
+	{
+		id: 'hard',
+		title: '고급. 빠진 값과 집계 오류',
+		text: `각 원본의 행 단위(메시지, 문의, 예약, 방문, 결제)를 먼저 적으세요.
+중복 ID, 비어 있는 값, 날짜 형식 차이, 잘못 연결될 가능성을 점검하세요.
+행을 합치기 전후의 행 수와 금액 합계를 따로 비교하세요.
+집계할 수 없는 항목은 계산하지 말고 이유를 말하세요.`,
+		success: '업체 목록의 중복 행이 보이고, 문의 건수를 방문 건수로 세지 않습니다.',
+	},
+];
+
+const filters = [
+	{
+		key: 'path',
+		label: '경로',
+		options: [
+			['kakao', '카카오톡'],
+			['instagram', '인스타그램'],
+			['naver', '네이버 예약'],
+			['phone', '전화'],
+			['googleform', '구글폼'],
+			['vegascrm', '베가스CRM'],
+			['sms', '문자'],
+			['agency', '마케팅 업체'],
+		],
+	},
+	{
+		key: 'form',
+		label: '형태',
+		options: [
+			['chat-text', '채팅 원문'],
+			['screen-mock', '화면 모형'],
+			['notification', '알림'],
+			['free-note', '자유 메모'],
+			['scan-mock', '메모 전사'],
+			['form-row', '응답 행'],
+			['csv', '표'],
+			['sms-text', '문자'],
+		],
+	},
+	{
+		key: 'stage',
+		label: '단계',
+		options: [
+			['first-inquiry', '첫 문의'],
+			['follow-up', '재문의'],
+			['booking', '예약'],
+			['visit', '방문'],
+			['aftercare', '시술 후'],
+			['undecided', '미결정'],
+		],
+	},
+	{
+		key: 'field',
+		label: '시술',
+		options: [
+			['lifting', '리프팅'],
+			['botox', '보톡스'],
+			['pigmentation', '색소'],
+			['acne-scar', '여드름 흉터'],
+			['skinbooster', '스킨부스터'],
+			['other', '기타'],
+		],
+	},
+	{
+		key: 'level',
+		label: '난이도',
+		options: [
+			['easy', '쉬움'],
+			['medium', '보통'],
+			['hard', '어려움'],
+		],
+	},
+];
+---
+
+<Layout
+	title="상담데이터 아카이브"
+	description="흩어진 상담 원본 예시 16개. 경로, 형태, 단계, 시술, 난이도로 고르는 실습 초안."
+>
+	<article class="consult" data-consult>
+		<header>
+			<p class="consult-kicker">
+				<a href="/tools/">경영 도구 아카이브</a>
+				<span aria-hidden="true"> / </span>
+				상담 데이터
+			</p>
+			<h1>상담데이터 아카이브</h1>
+			<p class="consult-virtual">모두 실습용 가상 데이터입니다</p>
+			<p class="consult-lead">
+				대화, 알림, 메모가 한 표가 되기 전의 원본 예시입니다. 지금은 경로별 2개씩 16개이고, 240건은 제작 목표입니다.
+			</p>
+			<ol class="consult-steps">
+				<li>고르기</li>
+				<li>복사하기</li>
+				<li>AI에 넣기</li>
+				<li>검산하기</li>
+			</ol>
+		</header>
+
+		<section class="consult-panel" aria-labelledby="consult-find">
+			<h2 id="consult-find">예시 고르기</h2>
+			<label class="consult-search">
+				<span>검색</span>
+				<input type="search" data-search placeholder="인스타, 울쎄라, 예약, 오타" />
+			</label>
+			{
+				filters.map((group) => (
+					<fieldset>
+						<legend>{group.label}</legend>
+						<div class="consult-chips">
+							{group.options.map(([value, label]) => (
+								<button type="button" data-filter={group.key} data-value={value} aria-pressed="false">
+									{label}
+								</button>
+							))}
+						</div>
+					</fieldset>
+				))
+			}
+			<p class="consult-count" data-count>{samples.length}개 표시</p>
+			<ul class="consult-cards">
+				{
+					samples.map((sample) => (
+						<li
+							data-card
+							data-path={sample.path}
+							data-form={sample.form}
+							data-stage={sample.stage}
+							data-field={sample.field}
+							data-level={sample.level}
+							data-text={`${sample.id} ${sample.title} ${sample.pathLabel} ${sample.formLabel} ${sample.stageLabel} ${sample.fieldLabel} ${sample.body}`}
+						>
+							<div class="consult-card-top">
+								<strong>
+									{sample.id}. {sample.title}
+								</strong>
+								<span>{sample.levelLabel}</span>
+							</div>
+							<p class="consult-tags">
+								{sample.pathLabel} · {sample.formLabel} · {sample.stageLabel} · {sample.fieldLabel}
+							</p>
+							<pre id={`sample-${sample.id}`}>{sample.body}</pre>
+							<button type="button" data-copy={`sample-${sample.id}`}>
+								원문 복사
+							</button>
+						</li>
+					))
+				}
+			</ul>
+			<p class="consult-empty" data-empty hidden>조건에 맞는 예시가 없습니다.</p>
+		</section>
+
+		<section class="consult-panel" aria-labelledby="consult-tasks">
+			<h2 id="consult-tasks">붙여 넣는 문장</h2>
+			<p>정답표는 이 페이지에 없습니다. 아래는 결과의 모양만 확인합니다.</p>
+			{
+				prompts.map((prompt) => (
+					<article class="consult-task">
+						<h3>{prompt.title}</h3>
+						<pre id={`prompt-${prompt.id}`}>{prompt.text}</pre>
+						<button type="button" data-copy={`prompt-${prompt.id}`}>
+							문장 복사
+						</button>
+						<p>{prompt.success}</p>
+					</article>
+				))
+			}
+		</section>
+		<p class="consult-status" data-status role="status" aria-live="polite"></p>
+	</article>
+</Layout>
+
+<script>
+	const root = document.querySelector('[data-consult]');
+	const search = root?.querySelector('[data-search]');
+	const cards = [...(root?.querySelectorAll('[data-card]') ?? [])];
+	const count = root?.querySelector('[data-count]');
+	const empty = root?.querySelector('[data-empty]');
+	const status = root?.querySelector('[data-status]');
+	const selected = new Map();
+
+	function apply() {
+		const query = search instanceof HTMLInputElement ? search.value.trim() : '';
+		let shown = 0;
+		for (const card of cards) {
+			if (!(card instanceof HTMLElement)) continue;
+			const text = card.dataset.text ?? '';
+			const matchesQuery = query === '' || text.includes(query);
+			let matchesFilters = true;
+			for (const [key, values] of selected) {
+				if (values.size === 0) continue;
+				const current = card.dataset[key] ?? '';
+				if (!values.has(current)) matchesFilters = false;
+			}
+			const visible = matchesQuery && matchesFilters;
+			card.hidden = !visible;
+			if (visible) shown += 1;
+		}
+		if (count) count.textContent = `${shown}개 표시`;
+		if (empty instanceof HTMLElement) empty.hidden = shown !== 0;
+	}
+
+	root?.addEventListener('click', async (event) => {
+		const target = event.target;
+		if (!(target instanceof HTMLButtonElement)) return;
+		const filter = target.dataset.filter;
+		const value = target.dataset.value;
+		if (filter && value) {
+			const values = selected.get(filter) ?? new Set();
+			if (values.has(value)) values.delete(value);
+			else values.add(value);
+			selected.set(filter, values);
+			target.setAttribute('aria-pressed', values.has(value) ? 'true' : 'false');
+			apply();
+			return;
+		}
+		const copyId = target.dataset.copy;
+		if (!copyId) return;
+		const text = document.getElementById(copyId)?.textContent?.trim() ?? '';
+		const label = target.textContent ?? '복사';
+		try {
+			await navigator.clipboard.writeText(text);
+		} catch {
+			const area = document.createElement('textarea');
+			area.value = text;
+			area.setAttribute('readonly', '');
+			area.style.position = 'fixed';
+			area.style.left = '-9999px';
+			document.body.appendChild(area);
+			area.select();
+			document.execCommand('copy');
+			area.remove();
+		}
+		target.textContent = '복사됨';
+		if (status) status.textContent = '복사했습니다.';
+		window.setTimeout(() => {
+			target.textContent = label;
+		}, 1600);
+	});
+
+	search?.addEventListener('input', apply);
+</script>
+
+<style>
+	.consult {
+		padding: 2.2rem 0 4rem;
+		max-width: 72rem;
+	}
+	.consult-kicker {
+		font-size: 0.78rem;
+		color: var(--t3);
+	}
+	.consult-kicker a {
+		color: var(--pink);
+		font-weight: 700;
+		text-decoration: none;
+	}
+	.consult h1,
+	.consult h2,
+	.consult h3 {
+		font-family: var(--display);
+	}
+	.consult h1 {
+		font-size: clamp(1.8rem, 4vw, 2.35rem);
+		letter-spacing: -0.03em;
+		margin: 0.4rem 0 0.7rem;
+	}
+	.consult-virtual {
+		margin: 0 0 0.45rem;
+		font-weight: 800;
+	}
+	.consult-lead,
+	.consult-panel p,
+	.consult-tags {
+		color: var(--t2);
+		line-height: 1.65;
+	}
+	.consult-steps {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.45rem;
+		margin: 1rem 0 0;
+		padding: 0;
+		list-style: none;
+	}
+	.consult-steps li {
+		min-height: 44px;
+		display: inline-flex;
+		align-items: center;
+		padding: 0.4rem 0.8rem;
+		border-radius: 999px;
+		background: var(--bg2);
+		border: 1px solid var(--rule);
+		font-weight: 700;
+	}
+	.consult-panel,
+	.consult-cards li,
+	.consult-task {
+		margin-top: 1rem;
+		padding: 1rem 1.05rem 1.1rem;
+		border: 1px solid var(--rule);
+		border-radius: 14px;
+		background: var(--bg2);
+	}
+	.consult h2 {
+		margin: 0 0 0.45rem;
+		font-size: 1.15rem;
+	}
+	.consult h3 {
+		margin: 0 0 0.4rem;
+		font-size: 1rem;
+	}
+	.consult-search {
+		display: grid;
+		gap: 0.3rem;
+		margin-top: 0.8rem;
+		font-weight: 700;
+	}
+	.consult-search input {
+		min-height: 44px;
+		padding: 0.55rem 0.75rem;
+		border: 1px solid var(--rule);
+		border-radius: 12px;
+		font: inherit;
+		background: #fff;
+	}
+	fieldset {
+		margin: 0.8rem 0 0;
+		padding: 0;
+		border: 0;
+	}
+	legend {
+		font-weight: 800;
+		margin-bottom: 0.35rem;
+	}
+	.consult-chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem;
+	}
+	.consult button {
+		min-height: 44px;
+		padding: 0.45rem 0.8rem;
+		border-radius: 999px;
+		border: 1px solid var(--rule);
+		background: #fff;
+		font: inherit;
+		font-weight: 700;
+		cursor: pointer;
+	}
+	.consult button[aria-pressed='true'] {
+		border-color: var(--pink);
+		background: var(--pink);
+		color: #fff;
+	}
+	.consult-cards {
+		list-style: none;
+		padding: 0;
+		margin: 0.4rem 0 0;
+		display: grid;
+		gap: 0.75rem;
+	}
+	.consult-card-top {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 0.4rem;
+	}
+	.consult-tags {
+		margin: 0.3rem 0 0.5rem;
+	}
+	pre {
+		margin: 0 0 0.45rem;
+		white-space: pre-wrap;
+		font-family: inherit;
+		line-height: 1.55;
+	}
+	.consult-status {
+		min-height: 1.2rem;
+		margin-top: 0.8rem;
+		color: var(--t2);
+	}
+</style>
