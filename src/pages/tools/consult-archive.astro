@@ -540,7 +540,7 @@ const filters = [
 				{
 					longFiles.map((name) => (
 						<li>
-							<strong>{name}</strong>
+							<strong>{name.split('/').pop()}</strong>
 							<p>장시간 상담 개별 파일입니다.</p>
 							<a class="tool-action" href={fileHref(name)} download={name.split('/').pop()}>
 								개별 받기
