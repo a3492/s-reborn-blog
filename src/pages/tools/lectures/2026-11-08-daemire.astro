@@ -449,7 +449,7 @@ function fileSize(name: string): string {
 	title="2026-11-08 대미레 강연 자료"
 	description="2026년 11월 8일 대미레 강연1(CRM)과 강연2(경영도구) 따라하기. 슬라이드별 실습 표와 받을 파일."
 >
-	<article class="lecture" data-lecture>
+	<article class="lecture" data-lecture data-tool-page="daemire-archive">
 		<header class="lecture-head">
 			<p class="lecture-kicker">
 				<a href="/tools/">경영 도구 아카이브</a>
@@ -467,7 +467,7 @@ function fileSize(name: string): string {
 			<p class="lecture-meta">짧은 주소 /daemire1108/ · 공개 페이지</p>
 		</header>
 
-		<section class="lecture-panel" aria-labelledby="download-order">
+		<section class="lecture-panel tool-download-panel" aria-labelledby="download-order">
 			<h2 id="download-order">받는 순서</h2>
 			<p>
 				00 다음에 01을 읽고, 그다음 방문·문의 파일을 엽니다.
@@ -475,16 +475,16 @@ function fileSize(name: string): string {
 				<a href="/tools/hospital-data-pain-points/">AI 입력용 페인포인트 아카이브</a>
 				입니다.
 			</p>
-			<ol class="file-list">
+			<ol class="file-list tool-file-list">
 				{
 					downloads.map((item) => (
-						<li>
+						<li class="tool-file-card">
 							<div class="file-top">
-								<strong>{item.name}</strong>
+								<strong class="tool-file-title">{item.name}</strong>
 							</div>
-							<p>{fileSize(item.name)}</p>
-							<p>{item.note}</p>
-							<a class="lecture-btn" href={fileHref(item.name)} download={item.name}>
+							<p class="tool-file-size">{fileSize(item.name)}</p>
+							<p class="tool-file-description">{item.note}</p>
+							<a class="lecture-btn tool-download-button" href={fileHref(item.name)} download={item.name}>
 								다운로드
 							</a>
 						</li>
@@ -662,8 +662,13 @@ function fileSize(name: string): string {
 
 <style>
 	.lecture {
+		box-sizing: border-box;
+		min-width: 0;
 		padding: 2.2rem 0 4rem;
 		max-width: 72rem;
+		--tool-radius-button: 6px;
+		--tool-radius-card: 8px;
+		--tool-border: #d6d9dc;
 	}
 	.lecture-kicker {
 		font-size: 0.78rem;
@@ -694,7 +699,7 @@ function fileSize(name: string): string {
 	.lecture-panel p,
 	.lecture-panel li {
 		color: var(--t2);
-		line-height: 1.65;
+		line-height: 1.5;
 	}
 	.lecture-meta {
 		margin: 0.15rem 0 0;
@@ -702,13 +707,23 @@ function fileSize(name: string): string {
 		color: var(--t3);
 	}
 	.lecture-callout,
-	.lecture-panel,
-	.file-list li {
+	.lecture-panel {
 		margin-top: 1rem;
-		padding: 1rem 1.05rem 1.1rem;
+		padding: 16px;
 		border: 1px solid var(--rule);
-		border-radius: 14px;
+		border-radius: 8px;
 		background: var(--bg2);
+	}
+	.file-list li {
+		min-width: 0;
+		margin-top: 0;
+		padding: 14px 16px;
+		border: 1px solid var(--tool-border);
+		border-radius: 8px;
+		background: var(--bg2);
+	}
+	.file-list li > * {
+		margin-block: 0;
 	}
 	.lecture-callout strong {
 		color: var(--text);
@@ -732,7 +747,7 @@ function fileSize(name: string): string {
 		justify-content: center;
 		min-height: 44px;
 		padding: 0.55rem 0.95rem;
-		border-radius: 999px;
+		border-radius: 6px;
 		border: 1px solid var(--rule);
 		background: var(--bg2);
 		font-weight: 700;
@@ -755,39 +770,58 @@ function fileSize(name: string): string {
 	}
 	.file-list {
 		list-style: decimal;
-		padding: 0 0 0 1.25rem;
-		margin: 0.8rem 0 0;
+		padding: 0 0 0 18px;
+		margin: 12px 0 0;
 		display: grid;
-		gap: 0.75rem;
+		gap: 12px;
 	}
 	.file-top {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.4rem 0.6rem;
 		align-items: center;
+		min-width: 0;
 	}
 	.file-top strong {
-		word-break: break-all;
+		overflow-wrap: anywhere;
+	}
+	.file-list li > .tool-file-size,
+	.file-list li > .tool-file-description {
+		margin-top: 4px;
+		font-size: 13px;
+		line-height: 1.5;
+	}
+	.file-list li > .lecture-btn {
+		margin-top: 10px;
 	}
 	.lecture-btn,
 	.lecture-panel button {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		min-height: 44px;
-		margin-top: 0.35rem;
-		padding: 0.55rem 0.9rem;
-		border-radius: 999px;
+		box-sizing: border-box;
+		min-height: 36px;
+		margin-top: 10px;
+		padding: 6px 12px;
+		border-radius: 6px;
 		border: 1px solid var(--pink);
 		background: var(--pink);
 		color: #fff;
 		font: inherit;
-		font-size: 0.9rem;
-		font-weight: 700;
+		font-size: 13px;
+		font-weight: 600;
+		line-height: 1.3;
 		text-decoration: none;
+		white-space: nowrap;
 		cursor: pointer;
 	}
+	.lecture-btn:focus-visible,
+	.lecture-panel button:focus-visible {
+		outline: 3px solid #2668b5;
+		outline-offset: 2px;
+	}
 	.table-wrap {
+		max-width: 100%;
 		margin-top: 0.8rem;
 		overflow-x: auto;
 	}
@@ -839,5 +873,23 @@ function fileSize(name: string): string {
 		height: 1px;
 		overflow: hidden;
 		clip: rect(0 0 0 0);
+	}
+	@media (max-width: 600px) {
+		.tool-download-panel {
+			padding: 12px;
+		}
+		.file-list {
+			gap: 10px;
+			padding-left: 16px;
+		}
+		.file-list li {
+			padding: 12px;
+		}
+		.lecture-btn,
+		.lecture-panel button {
+			min-height: 44px;
+			padding: 10px 14px;
+			font-size: 14px;
+		}
 	}
 </style>
