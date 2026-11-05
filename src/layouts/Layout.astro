@@ -11,9 +11,10 @@ interface Props {
 	title?: string;
 	description?: string;
 	lang?: 'ko' | 'en';
+	noindex?: boolean;
 }
 
-const { title, description = SITE_DESCRIPTION, lang = 'ko' } = Astro.props;
+const { title, description = SITE_DESCRIPTION, lang = 'ko', noindex = false } = Astro.props;
 const siteSettings = await getPublicSiteSettings();
 const resolvedSiteTitle = siteSettings.siteTitle || SITE_TITLE;
 const resolvedDescription = description || siteSettings.siteDescription || SITE_DESCRIPTION;
@@ -45,6 +46,7 @@ const searchIndex = allPosts.map(post => ({
       description={resolvedDescription}
       image={siteSettings.defaultOgImage || undefined}
       siteTitle={resolvedSiteTitle}
+      noindex={noindex}
     />
 	</head>
 	<body>

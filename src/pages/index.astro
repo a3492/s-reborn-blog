@@ -4,6 +4,7 @@
 */
 import { getCollection } from 'astro:content';
 import BrandIcons from '../components/preview/BrandIcons.astro';
+import SiteHeader from '../components/SiteHeader.astro';
 import '../styles/brand-home.css';
 
 const ACADEMY_URL = 'https://s-reborn-doctor-ai-academy.pages.dev/';
@@ -40,30 +41,8 @@ const featured = featuredIds.map((id, index) => {
 		<BrandIcons />
 	</head>
 	<body>
+		<SiteHeader />
 		<div class="shell">
-			<header class="topbar">
-				<a class="brand" href="#top">
-					<span class="wordmark">S—REBORN</span>
-					<small>KIM DOWI / MD AI HUB</small>
-				</a>
-				<nav class="desktop-nav" aria-label="주요 메뉴">
-					<a href="#research">AI 연구</a>
-					<a href={BLOG_INDEX}>콘텐츠</a>
-					<a href="/tools/">도구</a>
-					<a href={ACADEMY_URL} target="_blank" rel="noopener noreferrer">아카데미</a>
-					<a href={ABOUT_HREF}>김도위 소개</a>
-				</nav>
-				<a class="contact" href="#about" data-example="contact" title="연락처 연결 전 임시 이동">Contact ↗</a>
-				<button class="mobile-menu" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
-			</header>
-			<nav class="mobile-nav" id="mobile-nav" aria-label="모바일 메뉴">
-				<a href="#research">AI 연구</a>
-				<a href={BLOG_INDEX}>콘텐츠</a>
-				<a href="/tools/">도구</a>
-				<a href={ACADEMY_URL} target="_blank" rel="noopener noreferrer">아카데미</a>
-				<a href={ABOUT_HREF}>김도위 소개</a>
-			</nav>
-
 			<main id="top">
 				<section class="hero">
 					<div>
@@ -210,21 +189,5 @@ const featured = featuredIds.map((id, index) => {
 				<span>© S-REBORN</span>
 			</footer>
 		</div>
-		<script is:inline>
-			const btn = document.querySelector('.mobile-menu');
-			const nav = document.querySelector('.mobile-nav');
-			btn.addEventListener('click', () => {
-				const opened = nav.classList.toggle('open');
-				btn.setAttribute('aria-expanded', opened);
-				btn.textContent = opened ? '×' : '☰';
-			});
-			nav.querySelectorAll('a').forEach((link) => {
-				link.addEventListener('click', () => {
-					nav.classList.remove('open');
-					btn.setAttribute('aria-expanded', 'false');
-					btn.textContent = '☰';
-				});
-			});
-		</script>
 	</body>
 </html>

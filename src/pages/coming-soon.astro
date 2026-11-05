@@ -1,0 +1,43 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="준비중" description="아직 공개하지 않은 메뉴입니다." noindex>
+	<section class="soon">
+		<p class="soon-kicker">준비중</p>
+		<h1>이 메뉴는 아직 준비 중입니다.</h1>
+		<p>연결할 주소가 정해지면 이 자리를 바꿉니다. 클리닉 메뉴도 대상이 확정되기 전까지 여기로 둡니다.</p>
+		<p><a href="/">홈으로 돌아가기</a></p>
+	</section>
+</Layout>
+
+<style>
+	.soon {
+		max-width: 40rem;
+		margin: 4.5rem auto 3rem;
+	}
+
+	.soon-kicker {
+		margin: 0;
+		font-size: 0.8rem;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		color: #2457eb;
+	}
+
+	.soon h1 {
+		margin: 0.45rem 0 0.8rem;
+		font-size: clamp(1.8rem, 4vw, 2.4rem);
+		letter-spacing: -0.03em;
+		line-height: 1.25;
+	}
+
+	.soon p {
+		color: #4b4540;
+	}
+
+	.soon a {
+		color: #2457eb;
+		font-weight: 700;
+	}
+</style>

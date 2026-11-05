@@ -10,6 +10,9 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
 const siteSettings = await getPublicSiteSettings();
 
 const categoryLabel = (id: string) => CATEGORIES.find((c) => c.id === id)?.label ?? id;
+const menuGroupsJson = JSON.stringify(
+	MENU_GROUPS.map((group) => ({ id: group.id, label: group.label, cats: [...group.cats] })),
+);
 
 const countsByCategory = posts.reduce<Record<string, number>>((acc, post) => {
 	const c = post.data.category;
@@ -107,6 +110,7 @@ const countsByCategory = posts.reduce<Record<string, number>>((acc, post) => {
 	</div>
 </Layout>
 
+<script type="application/json" id="menu-groups" set:html={menuGroupsJson}></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 	const cards = document.querySelectorAll<HTMLElement>('.blog-card');
@@ -131,6 +135,10 @@ document.addEventListener('DOMContentLoaded', () => {
 			group.classList.toggle('is-open');
 		});
 	});
+
+	const menuGroups: { id: string; label: string; cats: string[] }[] = JSON.parse(
+		document.getElementById('menu-groups')?.textContent || '[]',
+	);
 
 	// ── 필터 함수 ──
 	function filterByCat(catId: string, label: string) {
@@ -280,13 +288,33 @@ document.addEventListener('DOMContentLoaded', () => {
 		setActive(null, false);
 	}
 
-	// ── URL ?q= 검색 / ?category= 카테고리 초기 필터 ──
+	function filterByGroup(group: { id: string; label: string; cats: string[] }) {
+		const cats = new Set(group.cats);
+		let visible = 0;
+		cards.forEach((card) => {
+			const match = cats.has(card.dataset.cat ?? '');
+			card.style.display = match ? '' : 'none';
+			if (match) visible++;
+		});
+		contentTitle.textContent = group.label;
+		contentCount.textContent = `${visible}개`;
+		document.querySelectorAll('.blog-nav-group').forEach((node) => {
+			node.classList.toggle('is-open', node.getAttribute('data-group') === group.id);
+		});
+		setActive(null, false);
+	}
+
+	// ── URL ?q= 검색 / ?category= 카테고리 / ?group= 그룹 초기 필터 ──
 	const params = new URLSearchParams(window.location.search);
 	const initQ   = params.get('q') ?? '';
 	const initCat = params.get('category') ?? '';
+	const initGroup = params.get('group') ?? '';
 
 	if (initQ) {
 		filterBySearch(initQ);
+	} else if (initGroup) {
+		const group = menuGroups.find((entry) => entry.id === initGroup);
+		if (group) filterByGroup(group);
 	} else if (initCat) {
 		const target = [...navItems].find((i) => i.dataset.cat === initCat);
 		if (target) target.click();
