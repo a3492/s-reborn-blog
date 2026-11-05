@@ -1,5 +1,6 @@
 ---
 import { SITE_TITLE } from '../consts';
+import { toEnglishPath, toKoreanPath } from '../data/site-nav';
 
 interface Props {
 	title: string;
@@ -8,23 +9,24 @@ interface Props {
 	siteTitle?: string;
 	/** 미지정 시 URL로 추론: `/blog/분류/slug` 형태만 article, 나머지 website */
 	ogType?: 'website' | 'article';
+	noindex?: boolean;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image, siteTitle = SITE_TITLE, ogType: ogTypeProp } = Astro.props;
+const { title, description, image, siteTitle = SITE_TITLE, ogType: ogTypeProp, noindex = false } = Astro.props;
 
 const pathNorm = Astro.url.pathname.replace(/\/$/, '') || '/';
 const afterBlog = pathNorm.startsWith('/blog/') ? pathNorm.slice(6) : '';
 const inferredOgType = afterBlog.includes('/') ? 'article' : 'website';
 const ogType = ogTypeProp ?? inferredOgType;
 
-// hreflang alternate URLs
-const isEnPath = pathNorm.startsWith('/en/');
-const koPath = isEnPath ? pathNorm.replace(/^\/en/, '') || '/' : pathNorm;
-const enPath = isEnPath ? pathNorm : `/en${pathNorm}`;
+// hreflang alternate URLs. English exists only for /blog/.
+const isEnPath = pathNorm === '/en' || pathNorm.startsWith('/en/');
+const koPath = isEnPath ? toKoreanPath(Astro.url.pathname) : Astro.url.pathname;
+const enPath = isEnPath ? Astro.url.pathname : toEnglishPath(Astro.url.pathname);
 const koCanonical = new URL(koPath, Astro.site);
-const enCanonical = new URL(enPath, Astro.site);
+const enCanonical = enPath ? new URL(enPath, Astro.site) : null;
 
 const ogImage = image
 	? (image.startsWith('http') ? image : new URL(image, Astro.url).href)
@@ -48,7 +50,9 @@ const ogImage = image
 />
 <meta name="generator" content={Astro.generator} />
 <meta name="theme-color" content="#d690a1" />
-{pathNorm === '/admin' || pathNorm.startsWith('/admin/') ? (
+{noindex ? (
+	<meta name="robots" content="noindex" />
+) : pathNorm === '/admin' || pathNorm.startsWith('/admin/') ? (
 	<meta name="robots" content="noindex, nofollow" />
 ) : null}
 
@@ -61,7 +65,7 @@ const ogImage = image
 
 <!-- hreflang alternates -->
 <link rel="alternate" hreflang="ko" href={koCanonical} />
-<link rel="alternate" hreflang="en" href={enCanonical} />
+{enCanonical ? <link rel="alternate" hreflang="en" href={enCanonical} /> : null}
 <link rel="alternate" hreflang="x-default" href={koCanonical} />
 
 <!-- Primary Meta Tags -->

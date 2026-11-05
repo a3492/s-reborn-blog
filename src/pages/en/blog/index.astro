@@ -13,6 +13,9 @@ const categoryLabel = (id: string) => {
 	const cat = CATEGORIES.find((c) => c.id === id);
 	return cat?.labelEn ?? id;
 };
+const menuGroupsJson = JSON.stringify(
+	MENU_GROUPS.map((group) => ({ id: group.id, label: group.labelEn, cats: [...group.cats] })),
+);
 
 const countsByCategory = posts.reduce<Record<string, number>>((acc, post) => {
 	const c = post.data.category;
@@ -110,6 +113,7 @@ const countsByCategory = posts.reduce<Record<string, number>>((acc, post) => {
 	</div>
 </Layout>
 
+<script type="application/json" id="menu-groups" set:html={menuGroupsJson}></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 	const cards = document.querySelectorAll<HTMLElement>('.blog-card');
@@ -132,6 +136,10 @@ document.addEventListener('DOMContentLoaded', () => {
 			group.classList.toggle('is-open');
 		});
 	});
+
+	const menuGroups: { id: string; label: string; cats: string[] }[] = JSON.parse(
+		document.getElementById('menu-groups')?.textContent || '[]',
+	);
 
 	function filterByCat(catId: string, label: string) {
 		let visible = 0;
@@ -167,9 +175,29 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	});
 
+	function filterByGroup(group: { id: string; label: string; cats: string[] }) {
+		const cats = new Set(group.cats);
+		let visible = 0;
+		cards.forEach((card) => {
+			const match = cats.has(card.dataset.cat ?? '');
+			card.style.display = match ? '' : 'none';
+			if (match) visible++;
+		});
+		contentTitle.textContent = group.label;
+		contentCount.textContent = `${visible}`;
+		document.querySelectorAll('.blog-nav-group').forEach((node) => {
+			node.classList.toggle('is-open', node.getAttribute('data-group') === group.id);
+		});
+		setActive(null, false);
+	}
+
 	const params = new URLSearchParams(window.location.search);
 	const initCat = params.get('category') ?? '';
-	if (initCat) {
+	const initGroup = params.get('group') ?? '';
+	if (initGroup) {
+		const group = menuGroups.find((entry) => entry.id === initGroup);
+		if (group) filterByGroup(group);
+	} else if (initCat) {
 		const target = [...navItems].find((i) => i.dataset.cat === initCat);
 		if (target) target.click();
 	}

@@ -1,6 +1,7 @@
 ---
 import { LECTURES, getLecture } from '../../../data/lectures';
 import { SITE_BRAND } from '../../../consts';
+import SiteHeader from '../../../components/SiteHeader.astro';
 
 export function getStaticPaths() {
 	return LECTURES.map((l) => ({ params: { lecture: l.id } }));
@@ -41,7 +42,9 @@ const pageTitle = `${data.title} | ${data.subtitle ?? SITE_BRAND.blogDisplayName
 		/>
 		<link rel="stylesheet" href="/lectures/_assets/viewer.css" />
 	</head>
-	<body class="lec-viewer" data-slides={slidesHref}>
+	<body>
+		<SiteHeader />
+		<div class="lec-viewer" data-slides={slidesHref}>
 		<header class="lec-header">
 			<div class="lec-brand"><b>{data.brandLabel ?? 'LECTURE'}</b><span>{data.subtitle}</span></div>
 			<nav>
@@ -81,5 +84,6 @@ const pageTitle = `${data.title} | ${data.subtitle ?? SITE_BRAND.blogDisplayName
 		</footer>
 
 		<script src="/lectures/_assets/viewer.js" defer></script>
+		</div>
 	</body>
 </html>
