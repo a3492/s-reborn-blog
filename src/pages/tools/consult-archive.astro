@@ -412,7 +412,7 @@ const filters = [
 	title="상담데이터 아카이브"
 	description="흩어진 상담 원본 예시 16개. 경로, 형태, 단계, 시술, 난이도로 고르는 실습 초안."
 >
-	<article class="consult" data-consult>
+	<article class="consult" data-consult data-tool-page="consult-archive">
 		<header>
 			<p class="consult-kicker">
 				<a href="/tools/">경영 도구 아카이브</a>
@@ -424,27 +424,33 @@ const filters = [
 			<p class="consult-lead">
 				대화, 알림, 메모가 한 표가 되기 전의 원본 예시입니다. 지금은 경로별 2개씩 16개이고, 240건은 제작 목표입니다.
 			</p>
-			<ol class="consult-steps">
-				<li>고르기</li>
-				<li>복사하기</li>
-				<li>AI에 넣기</li>
-				<li>검산하기</li>
+			<ol class="consult-steps tool-action-row">
+				<li class="tool-action">고르기</li>
+				<li class="tool-action">복사하기</li>
+				<li class="tool-action">AI에 넣기</li>
+				<li class="tool-action">검산하기</li>
 			</ol>
 		</header>
 
-		<section class="consult-panel" aria-labelledby="consult-find">
+		<section class="consult-panel tool-filter-panel" aria-labelledby="consult-find">
 			<h2 id="consult-find">예시 고르기</h2>
 			<label class="consult-search">
-				<span>검색</span>
-				<input type="search" data-search placeholder="인스타, 울쎄라, 예약, 오타" />
+				<span class="tool-filter-label">검색</span>
+				<input class="tool-filter-search" type="search" data-search placeholder="인스타, 울쎄라, 예약, 오타" />
 			</label>
 			{
 				filters.map((group) => (
-					<fieldset>
-						<legend>{group.label}</legend>
-						<div class="consult-chips">
+					<fieldset class="tool-filter-group">
+						<legend class="tool-filter-label">{group.label}</legend>
+						<div class="consult-chips tool-filter-options">
 							{group.options.map(([value, label]) => (
-								<button type="button" data-filter={group.key} data-value={value} aria-pressed="false">
+								<button
+									class="tool-filter-chip"
+									type="button"
+									data-filter={group.key}
+									data-value={value}
+									aria-pressed="false"
+								>
 									{label}
 								</button>
 							))}
@@ -463,6 +469,7 @@ const filters = [
 							data-stage={sample.stage}
 							data-field={sample.field}
 							data-level={sample.level}
+							class="tool-example-card"
 							data-text={`${sample.id} ${sample.title} ${sample.pathLabel} ${sample.formLabel} ${sample.stageLabel} ${sample.fieldLabel} ${sample.body}`}
 						>
 							<div class="consult-card-top">
@@ -475,7 +482,7 @@ const filters = [
 								{sample.pathLabel} · {sample.formLabel} · {sample.stageLabel} · {sample.fieldLabel}
 							</p>
 							<pre id={`sample-${sample.id}`}>{sample.body}</pre>
-							<button type="button" data-copy={`sample-${sample.id}`}>
+							<button class="tool-action" type="button" data-copy={`sample-${sample.id}`}>
 								원문 복사
 							</button>
 						</li>
@@ -493,7 +500,7 @@ const filters = [
 					<article class="consult-task">
 						<h3>{prompt.title}</h3>
 						<pre id={`prompt-${prompt.id}`}>{prompt.text}</pre>
-						<button type="button" data-copy={`prompt-${prompt.id}`}>
+						<button class="tool-action" type="button" data-copy={`prompt-${prompt.id}`}>
 							문장 복사
 						</button>
 						<p>{prompt.success}</p>
@@ -578,8 +585,16 @@ const filters = [
 
 <style>
 	.consult {
+		box-sizing: border-box;
+		min-width: 0;
 		padding: 2.2rem 0 4rem;
 		max-width: 72rem;
+		--tool-radius-button: 6px;
+		--tool-radius-card: 8px;
+		--tool-border: #d6d9dc;
+		--tool-ink: #1f2937;
+		--tool-mint-active: #d9f3eb;
+		--tool-navy: #17344b;
 	}
 	.consult-kicker {
 		font-size: 0.78rem;
@@ -613,29 +628,38 @@ const filters = [
 	.consult-steps {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.45rem;
-		margin: 1rem 0 0;
+		gap: 8px;
+		margin: 12px 0 0;
 		padding: 0;
 		list-style: none;
 	}
 	.consult-steps li {
-		min-height: 44px;
 		display: inline-flex;
 		align-items: center;
-		padding: 0.4rem 0.8rem;
-		border-radius: 999px;
-		background: var(--bg2);
-		border: 1px solid var(--rule);
-		font-weight: 700;
+		justify-content: center;
+		box-sizing: border-box;
+		min-height: 36px;
+		padding: 6px 12px;
+		border-radius: 6px;
+		background: #fff;
+		border: 1px solid var(--tool-border);
+		color: var(--tool-ink);
+		font-size: 13px;
+		font-weight: 600;
+		line-height: 1.3;
+		white-space: nowrap;
 	}
 	.consult-panel,
 	.consult-cards li,
 	.consult-task {
 		margin-top: 1rem;
-		padding: 1rem 1.05rem 1.1rem;
+		padding: 16px;
 		border: 1px solid var(--rule);
-		border-radius: 14px;
+		border-radius: 8px;
 		background: var(--bg2);
+	}
+	.tool-filter-panel {
+		padding: 16px;
 	}
 	.consult h2 {
 		margin: 0 0 0.45rem;
@@ -647,46 +671,73 @@ const filters = [
 	}
 	.consult-search {
 		display: grid;
-		gap: 0.3rem;
-		margin-top: 0.8rem;
+		gap: 6px;
+		margin-top: 12px;
 		font-weight: 700;
 	}
 	.consult-search input {
-		min-height: 44px;
-		padding: 0.55rem 0.75rem;
-		border: 1px solid var(--rule);
-		border-radius: 12px;
+		box-sizing: border-box;
+		width: 100%;
+		min-height: 38px;
+		padding: 8px 12px;
+		border: 1px solid var(--tool-border);
+		border-radius: 6px;
 		font: inherit;
+		font-size: 14px;
+		line-height: 1.4;
 		background: #fff;
 	}
 	fieldset {
-		margin: 0.8rem 0 0;
+		margin: 12px 0 0;
 		padding: 0;
 		border: 0;
 	}
 	legend {
-		font-weight: 800;
-		margin-bottom: 0.35rem;
+		display: block;
+		margin-bottom: 6px;
+		font-size: 13px;
+		font-weight: 700;
 	}
 	.consult-chips {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.4rem;
+		gap: 6px;
 	}
-	.consult button {
-		min-height: 44px;
-		padding: 0.45rem 0.8rem;
-		border-radius: 999px;
-		border: 1px solid var(--rule);
+	.tool-filter-chip,
+	.tool-action {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		box-sizing: border-box;
+		border: 1px solid var(--tool-border);
+		border-radius: 6px;
 		background: #fff;
+		color: var(--tool-ink);
 		font: inherit;
-		font-weight: 700;
+		font-weight: 600;
+		line-height: 1.35;
 		cursor: pointer;
 	}
-	.consult button[aria-pressed='true'] {
-		border-color: var(--pink);
-		background: var(--pink);
-		color: #fff;
+	.tool-filter-chip {
+		min-height: 32px;
+		padding: 5px 10px;
+		font-size: 13px;
+	}
+	button.tool-action {
+		min-height: 36px;
+		padding: 6px 12px;
+		font-size: 13px;
+		white-space: nowrap;
+	}
+	.tool-filter-chip[aria-pressed='true'] {
+		background: var(--tool-mint-active);
+		border-color: #288a75;
+		color: var(--tool-navy);
+	}
+	.tool-filter-chip:focus-visible,
+	.tool-action:focus-visible {
+		outline: 3px solid #2668b5;
+		outline-offset: 2px;
 	}
 	.consult-cards {
 		list-style: none;
@@ -714,5 +765,32 @@ const filters = [
 		min-height: 1.2rem;
 		margin-top: 0.8rem;
 		color: var(--t2);
+	}
+	@media (max-width: 600px) {
+		.tool-filter-panel,
+		.consult-cards li,
+		.consult-task {
+			padding: 12px;
+		}
+		.consult-steps li,
+		button.tool-action {
+			min-height: 44px;
+			padding: 10px 12px;
+			font-size: 14px;
+		}
+		.tool-filter-chip {
+			min-height: 36px;
+			padding: 8px 10px;
+			font-size: 13px;
+		}
+		.consult-search input {
+			min-height: 44px;
+			font-size: 16px;
+		}
+	}
+	@media (pointer: coarse) {
+		.tool-filter-chip {
+			min-height: 44px;
+		}
 	}
 </style>
