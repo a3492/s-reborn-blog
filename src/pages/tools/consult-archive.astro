@@ -628,14 +628,14 @@ const filters = [
 					return group.folded ? (
 						<details class="pack-fold">
 							<summary>
-								{group.title} · {group.items.length}건. {group.note}
+								{group.title} · <span data-pack-group-count={group.items.length}>{group.items.length}</span>건. {group.note}
 							</summary>
 							{list}
 						</details>
 					) : (
 						<div class="pack-group">
 							<h3>
-								{group.title} · {group.items.length}건
+								{group.title} · <span data-pack-group-count={group.items.length}>{group.items.length}</span>건
 							</h3>
 							<p>{group.note}</p>
 							{list}
@@ -805,8 +805,17 @@ const filters = [
 	const packEmpty = pack?.querySelector('[data-pack-empty]');
 	const packSelected = new Map();
 
+	function packFiltering() {
+		if (packSearch instanceof HTMLInputElement && packSearch.value.trim() !== '') return true;
+		for (const values of packSelected.values()) {
+			if (values.size > 0) return true;
+		}
+		return false;
+	}
+
 	function applyPack() {
 		const query = packSearch instanceof HTMLInputElement ? packSearch.value.trim() : '';
+		const filtering = packFiltering();
 		let shown = 0;
 		for (const item of packItems) {
 			if (!(item instanceof HTMLElement)) continue;
@@ -821,6 +830,21 @@ const filters = [
 			const visible = matchesQuery && matchesFilters;
 			item.hidden = !visible;
 			if (visible) shown += 1;
+		}
+		for (const group of pack?.querySelectorAll('.pack-group, details.pack-fold') ?? []) {
+			if (!(group instanceof HTMLElement)) continue;
+			const entries = [...group.querySelectorAll('[data-pack-item]')].filter(
+				(entry) => entry instanceof HTMLElement,
+			);
+			const visibleCount = entries.filter((entry) => !entry.hidden).length;
+			const countLabel = group.querySelector('[data-pack-group-count]');
+			if (countLabel) countLabel.textContent = String(visibleCount);
+			const any = visibleCount > 0;
+			group.hidden = filtering && !any;
+			if (group instanceof HTMLDetailsElement) {
+				if (filtering && any) group.open = true;
+				if (!filtering) group.open = false;
+			}
 		}
 		if (packCount) packCount.textContent = `${shown}건 표시`;
 		if (packEmpty instanceof HTMLElement) packEmpty.hidden = shown !== 0;
@@ -1068,6 +1092,12 @@ const filters = [
 	.pack-list li {
 		display: grid;
 		gap: 2px;
+	}
+	.pack-list li[hidden],
+	.pack-group[hidden],
+	.pack-fold[hidden],
+	.consult-empty[hidden] {
+		display: none;
 	}
 	.pack-title {
 		font-size: 1rem;
