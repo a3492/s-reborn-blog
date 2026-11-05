@@ -352,10 +352,10 @@ const downloadDir = path.join(process.cwd(), 'public/downloads/consult-archive')
 const guideName = '상담데이터_가공_연습가이드_공개용.md';
 const zipFiles = ['상담데이터_1차_공개용.zip', '상담데이터_2차_공개용.zip'];
 const longFiles = [
-	'B02-L01_초진고민많은고객_B02-C021.md',
-	'B02-L02_부작용걱정재진_B01-C009.md',
-	'B02-L03_보호자동반_B02-C026.md',
-	'B02-L04_VIP패키지재계약_B01-C005.md',
+	'items/B02-L01_초진고민많은고객_B02-C021_녹취형.md',
+	'items/B02-L02_부작용걱정재진_B01-C009_녹취형.md',
+	'items/B02-L03_보호자동반_B02-C026_녹취형.md',
+	'items/B02-L04_VIP패키지재계약_B01-C005_녹취형.md',
 ];
 for (const name of [guideName, ...zipFiles, ...longFiles]) {
 	fs.accessSync(path.join(downloadDir, name));
@@ -400,9 +400,9 @@ if (longItems.length !== 4 || secondItems.length !== 240 || firstItems.length !=
 	);
 }
 const packGroups = [
-	{ key: 'long', title: '장시간 상담', note: '한 건이 약 9,600~9,900자입니다.', items: longItems, folded: false },
-	{ key: 'second', title: '2차 일반 원본', note: '경로별 원본 240건입니다.', items: secondItems, folded: false },
-	{ key: 'first', title: '짧은 첫 문의', note: '1차 120건. 글자 수가 짧은 문의 묶음입니다.', items: firstItems, folded: true },
+	{ key: 'long', title: '장시간 상담', note: '한 건이 약 9,700~10,000자입니다.', items: longItems, folded: false },
+	{ key: 'second', title: '2차 일반 원본', note: '녹취형 일반 원본 240건입니다.', items: secondItems, folded: false },
+	{ key: 'first', title: '짧은 첫 문의', note: '1차 120건. 녹취형 첫 문의입니다.', items: firstItems, folded: true },
 ];
 
 const packChannels = [...new Set(catalog.map((item) => item.channel))];
@@ -529,12 +529,12 @@ const filters = [
 			<ul class="pack-downloads">
 				<li>
 					<strong>상담데이터_1차_공개용.zip</strong>
-					<p>원본 120건, 고객 20명. 경로별 묶음 파일입니다.</p>
+					<p>녹취형 원본 120건, 고객 20명입니다.</p>
 					<a class="tool-action" href={fileHref('상담데이터_1차_공개용.zip')} download="상담데이터_1차_공개용.zip">1차 ZIP</a>
 				</li>
 				<li>
 					<strong>상담데이터_2차_공개용.zip</strong>
-					<p>경로별 원본 240건과 장시간 상담 4건입니다.</p>
+					<p>녹취형 일반 원본 240건과 장시간 상담 4건입니다.</p>
 					<a class="tool-action" href={fileHref('상담데이터_2차_공개용.zip')} download="상담데이터_2차_공개용.zip">2차 ZIP</a>
 				</li>
 				{
@@ -542,7 +542,7 @@ const filters = [
 						<li>
 							<strong>{name}</strong>
 							<p>장시간 상담 개별 파일입니다.</p>
-							<a class="tool-action" href={fileHref(name)} download={name}>
+							<a class="tool-action" href={fileHref(name)} download={name.split('/').pop()}>
 								개별 받기
 							</a>
 						</li>
