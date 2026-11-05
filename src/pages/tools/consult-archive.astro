@@ -1,5 +1,8 @@
 ---
+import fs from 'node:fs';
+import path from 'node:path';
 import Layout from '../../layouts/Layout.astro';
+import catalog from '../../data/consult-public-catalog.json';
 
 type Sample = {
 	id: string;
@@ -343,6 +346,44 @@ const prompts = [
 	},
 ];
 
+const downloadDir = path.join(process.cwd(), 'public/downloads/consult-archive');
+const zipFiles = ['상담데이터_1차_공개용.zip', '상담데이터_2차_공개용.zip'];
+const longFiles = [
+	'B02-L01_초진고민많은고객_B02-C021.md',
+	'B02-L02_부작용걱정재진_B01-C009.md',
+	'B02-L03_보호자동반_B02-C026.md',
+	'B02-L04_VIP패키지재계약_B01-C005.md',
+];
+for (const name of [...zipFiles, ...longFiles]) {
+	fs.accessSync(path.join(downloadDir, name));
+}
+function walkPublic(dir: string): string[] {
+	const found: string[] = [];
+	for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+		const full = path.join(dir, entry.name);
+		if (entry.isDirectory()) found.push(...walkPublic(full));
+		else found.push(full);
+	}
+	return found;
+}
+const blocked = /정답표|정답|answer/i;
+for (const file of walkPublic(path.join(process.cwd(), 'public'))) {
+	if (blocked.test(file)) {
+		throw new Error(`공개 경로에 금지 파일이 있습니다: ${file}`);
+	}
+}
+if (catalog.length !== 364) {
+	throw new Error(`상담 원본 목록은 364건이어야 합니다. 현재 ${catalog.length}건`);
+}
+
+const packChannels = [...new Set(catalog.map((item) => item.channel))];
+const packWriters = [...new Set(catalog.map((item) => item.writer))];
+const packGrades = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+
+function fileHref(name: string): string {
+	return `/downloads/consult-archive/${encodeURIComponent(name)}`;
+}
+
 const filters = [
 	{
 		key: 'path',
@@ -422,7 +463,7 @@ const filters = [
 			<h1>상담데이터 아카이브</h1>
 			<p class="consult-virtual">모두 실습용 가상 데이터입니다</p>
 			<p class="consult-lead">
-				대화, 알림, 메모가 한 표가 되기 전의 원본 예시입니다. 지금은 경로별 2개씩 16개이고, 240건은 제작 목표입니다.
+				1차 120건은 고객 20명의 경로별 묶음이고, 2차 244건은 개별 원본입니다. 아래 16개 예시는 짧게 따라 하는 용도입니다.
 			</p>
 			<ol class="consult-steps tool-action-row">
 				<li class="tool-action">고르기</li>
@@ -431,6 +472,103 @@ const filters = [
 				<li class="tool-action">검산하기</li>
 			</ol>
 		</header>
+
+		<section class="consult-panel" aria-labelledby="consult-packs" data-pack>
+			<h2 id="consult-packs">공개 자료 받기</h2>
+			<ul class="pack-downloads">
+				<li>
+					<strong>상담데이터_1차_공개용.zip</strong>
+					<p>원본 120건, 고객 20명. 경로별 묶음 파일입니다.</p>
+					<a class="tool-action" href={fileHref('상담데이터_1차_공개용.zip')} download="상담데이터_1차_공개용.zip">1차 ZIP</a>
+				</li>
+				<li>
+					<strong>상담데이터_2차_공개용.zip</strong>
+					<p>경로별 원본 240건과 장시간 상담 4건입니다.</p>
+					<a class="tool-action" href={fileHref('상담데이터_2차_공개용.zip')} download="상담데이터_2차_공개용.zip">2차 ZIP</a>
+				</li>
+				{
+					longFiles.map((name) => (
+						<li>
+							<strong>{name}</strong>
+							<p>장시간 상담 개별 파일입니다.</p>
+							<a class="tool-action" href={fileHref(name)} download={name}>
+								개별 받기
+							</a>
+						</li>
+					))
+				}
+			</ul>
+			<h3>원본 목록</h3>
+			<label class="consult-search">
+				<span class="tool-filter-label">목록 검색</span>
+				<input class="tool-filter-search" type="search" data-pack-search placeholder="번호, 고객키, 경로, 작성자" />
+			</label>
+			<fieldset class="tool-filter-group">
+				<legend class="tool-filter-label">배치</legend>
+				<div class="consult-chips">
+					<button class="tool-filter-chip" type="button" data-pack-filter="batch" data-pack-value="1차" aria-pressed="false">1차</button>
+					<button class="tool-filter-chip" type="button" data-pack-filter="batch" data-pack-value="2차" aria-pressed="false">2차</button>
+				</div>
+			</fieldset>
+			<fieldset class="tool-filter-group">
+				<legend class="tool-filter-label">경로</legend>
+				<div class="consult-chips">
+					{packChannels.map((channel) => (
+						<button class="tool-filter-chip" type="button" data-pack-filter="channel" data-pack-value={channel} aria-pressed="false">
+							{channel}
+						</button>
+					))}
+				</div>
+			</fieldset>
+			<fieldset class="tool-filter-group">
+				<legend class="tool-filter-label">작성자</legend>
+				<div class="consult-chips">
+					{packWriters.map((writer) => (
+						<button class="tool-filter-chip" type="button" data-pack-filter="writer" data-pack-value={writer} aria-pressed="false">
+							{writer}
+						</button>
+					))}
+				</div>
+			</fieldset>
+			<fieldset class="tool-filter-group">
+				<legend class="tool-filter-label">길이</legend>
+				<div class="consult-chips">
+					{packGrades.map((grade) => (
+						<button class="tool-filter-chip" type="button" data-pack-filter="grade" data-pack-value={grade} aria-pressed="false">
+							{grade}
+						</button>
+					))}
+				</div>
+			</fieldset>
+			<p class="consult-count" data-pack-count>{catalog.length}건 표시</p>
+			<ul class="pack-list">
+				{
+					catalog.map((item) => (
+						<li
+							data-pack-item
+							data-batch={item.batch}
+							data-channel={item.channel}
+							data-writer={item.writer}
+							data-grade={item.grade}
+							data-pack-text={`${item.id} ${item.customer} ${item.channel} ${item.writer} ${item.grade} ${item.batch}`}
+						>
+							<strong>{item.id}</strong>
+							<span>
+								{item.batch} · {item.channel} · {item.writer} · {item.grade} · {item.chars}자 · {item.customer}
+							</span>
+							{
+								item.file ? (
+									<a href={fileHref(item.file)} download={item.file}>개별 파일</a>
+								) : (
+									<span>{item.batch === '1차' ? '1차 ZIP 안' : '2차 ZIP 안'}</span>
+								)
+							}
+						</li>
+					))
+				}
+			</ul>
+			<p class="consult-empty" data-pack-empty hidden>조건에 맞는 원본이 없습니다.</p>
+		</section>
 
 		<section class="consult-panel tool-filter-panel" aria-labelledby="consult-find">
 			<h2 id="consult-find">예시 고르기</h2>
@@ -581,6 +719,51 @@ const filters = [
 	});
 
 	search?.addEventListener('input', apply);
+</script>
+
+<script>
+	const pack = document.querySelector('[data-pack]');
+	const packSearch = pack?.querySelector('[data-pack-search]');
+	const packItems = [...(pack?.querySelectorAll('[data-pack-item]') ?? [])];
+	const packCount = pack?.querySelector('[data-pack-count]');
+	const packEmpty = pack?.querySelector('[data-pack-empty]');
+	const packSelected = new Map();
+
+	function applyPack() {
+		const query = packSearch instanceof HTMLInputElement ? packSearch.value.trim() : '';
+		let shown = 0;
+		for (const item of packItems) {
+			if (!(item instanceof HTMLElement)) continue;
+			const text = item.dataset.packText ?? '';
+			const matchesQuery = query === '' || text.includes(query);
+			let matchesFilters = true;
+			for (const [key, values] of packSelected) {
+				if (values.size === 0) continue;
+				const current = item.dataset[key] ?? '';
+				if (!values.has(current)) matchesFilters = false;
+			}
+			const visible = matchesQuery && matchesFilters;
+			item.hidden = !visible;
+			if (visible) shown += 1;
+		}
+		if (packCount) packCount.textContent = `${shown}건 표시`;
+		if (packEmpty instanceof HTMLElement) packEmpty.hidden = shown !== 0;
+	}
+
+	pack?.addEventListener('click', (event) => {
+		const target = event.target;
+		if (!(target instanceof HTMLButtonElement)) return;
+		const filter = target.dataset.packFilter;
+		const value = target.dataset.packValue;
+		if (!filter || !value) return;
+		const values = packSelected.get(filter) ?? new Set();
+		if (values.has(value)) values.delete(value);
+		else values.add(value);
+		packSelected.set(filter, values);
+		target.setAttribute('aria-pressed', values.has(value) ? 'true' : 'false');
+		applyPack();
+	});
+	packSearch?.addEventListener('input', applyPack);
 </script>
 
 <style>
@@ -766,6 +949,48 @@ const filters = [
 		margin-top: 0.8rem;
 		color: var(--t2);
 	}
+	.pack-downloads,
+	.pack-list {
+		list-style: none;
+		padding: 0;
+		margin: 12px 0 0;
+		display: grid;
+		gap: 10px;
+	}
+	.pack-downloads li,
+	.pack-list li {
+		min-width: 0;
+		padding: 12px;
+		border: 1px solid var(--tool-border);
+		border-radius: 8px;
+		background: #fff;
+	}
+	.pack-downloads p,
+	.pack-list span {
+		margin: 4px 0 0;
+		color: var(--t2);
+		line-height: 1.5;
+		overflow-wrap: anywhere;
+	}
+	.pack-downloads a,
+	.pack-list a {
+		display: inline-flex;
+		align-items: center;
+		min-height: 36px;
+		margin-top: 8px;
+		padding: 6px 12px;
+		border: 1px solid var(--tool-border);
+		border-radius: 6px;
+		background: #fff;
+		color: var(--tool-ink);
+		font-weight: 600;
+		font-size: 13px;
+		text-decoration: none;
+	}
+	.pack-list li {
+		display: grid;
+		gap: 2px;
+	}
 	@media (max-width: 600px) {
 		.tool-filter-panel,
 		.consult-cards li,
@@ -773,7 +998,9 @@ const filters = [
 			padding: 12px;
 		}
 		.consult-steps li,
-		button.tool-action {
+		button.tool-action,
+		.pack-downloads a,
+		.pack-list a {
 			min-height: 44px;
 			padding: 10px 12px;
 			font-size: 14px;
