@@ -390,6 +390,19 @@ for (const file of walkPublic(path.join(process.cwd(), 'public'))) {
 if (catalog.length !== 364) {
 	throw new Error(`상담 원본 목록은 364건이어야 합니다. 현재 ${catalog.length}건`);
 }
+const longItems = catalog.filter((item) => item.id.startsWith('B02-L'));
+const secondItems = catalog.filter((item) => item.batch === '2차' && !item.id.startsWith('B02-L'));
+const firstItems = catalog.filter((item) => item.batch === '1차');
+if (longItems.length !== 4 || secondItems.length !== 240 || firstItems.length !== 120) {
+	throw new Error(
+		`목록 개수가 맞지 않습니다. 장시간 ${longItems.length}, 2차 ${secondItems.length}, 1차 ${firstItems.length}`,
+	);
+}
+const packGroups = [
+	{ key: 'long', title: '장시간 상담', note: '한 건이 약 9,600~9,900자입니다.', items: longItems, folded: false },
+	{ key: 'second', title: '2차 일반 원본', note: '경로별 원본 240건입니다.', items: secondItems, folded: false },
+	{ key: 'first', title: '짧은 첫 문의', note: '1차 120건. 글자 수가 짧은 문의 묶음입니다.', items: firstItems, folded: true },
+];
 
 const packChannels = [...new Set(catalog.map((item) => item.channel))];
 const packWriters = [...new Set(catalog.map((item) => item.writer))];
@@ -617,28 +630,57 @@ const filters = [
 				</div>
 			</fieldset>
 			<p class="consult-count" data-pack-count>{catalog.length}건 표시</p>
-			<ul class="pack-list">
-				{
-					catalog.map((item) => (
-						<li
-							data-pack-item
-							data-batch={item.batch}
-							data-channel={item.channel}
-							data-writer={item.writer}
-							data-grade={item.grade}
-							data-pack-text={`${item.title} ${item.name} ${item.preview} ${item.id} ${item.customer} ${item.channel} ${item.writer} ${item.grade} ${item.batch}`}
-						>
-							<strong class="pack-title">{item.title}</strong>
-							<p class="pack-preview">{item.preview}</p>
-							<p class="pack-meta">{item.id} · {item.customer} · {item.writer} · {item.grade} · {item.chars}자</p>
-							<div class="pack-actions">
-								<a href={fileHref(item.file)} target="_blank" rel="noopener">원본 보기</a>
-								<a href={fileHref(item.file)} download={item.file.split('/').pop()}>개별 다운로드</a>
-							</div>
-						</li>
-					))
-				}
-			</ul>
+			{
+				packGroups.map((group) => {
+					const list = (
+						<ul class="pack-list">
+							{group.items.map((item) => (
+								<li
+									data-pack-item
+									data-batch={item.batch}
+									data-channel={item.channel}
+									data-writer={item.writer}
+									data-grade={item.grade}
+									data-pack-text={`${item.title} ${item.name} ${item.customerText} ${item.staffText} ${item.id} ${item.customer} ${item.channel} ${item.writer} ${item.grade} ${item.batch}`}
+								>
+									<strong class="pack-title">{item.title}</strong>
+									<p class="pack-staff">작성 직원 {item.writer}</p>
+									<p class="pack-chars">{item.chars.toLocaleString('ko-KR')}자 · {item.grade}</p>
+									<p class="pack-voice">
+										<span>고객 원문</span>
+										{item.customerText}
+									</p>
+									<p class="pack-voice">
+										<span>직원 메모</span>
+										{item.staffText || '이 기록에는 직원 메모가 없습니다.'}
+									</p>
+									<p class="pack-meta">{item.id} · {item.customer}</p>
+									<div class="pack-actions">
+										<a href={fileHref(item.file)} target="_blank" rel="noopener">원본 보기</a>
+										<a href={fileHref(item.file)} download={item.file.split('/').pop()}>개별 다운로드</a>
+									</div>
+								</li>
+							))}
+						</ul>
+					);
+					return group.folded ? (
+						<details class="pack-fold">
+							<summary>
+								{group.title} · {group.items.length}건. {group.note}
+							</summary>
+							{list}
+						</details>
+					) : (
+						<div class="pack-group">
+							<h3>
+								{group.title} · {group.items.length}건
+							</h3>
+							<p>{group.note}</p>
+							{list}
+						</div>
+					);
+				})
+			}
 			<p class="consult-empty" data-pack-empty hidden>조건에 맞는 원본이 없습니다.</p>
 		</section>
 
@@ -1074,20 +1116,38 @@ const filters = [
 		color: var(--t2);
 		line-height: 1.5;
 	}
-	.pack-meta {
+	.pack-meta,
+	.pack-staff,
+	.pack-chars {
 		margin: 4px 0 0;
 		color: var(--t3);
 		font-size: 0.82rem;
 		line-height: 1.4;
 	}
-	.pack-actions {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 8px;
+	.pack-chars {
+		font-weight: 700;
+		color: var(--text);
 	}
-	.guide-fold {
-		margin-top: 12px;
+	.pack-voice {
+		margin: 8px 0 0;
+		color: var(--t2);
+		line-height: 1.5;
 	}
+	.pack-voice span {
+		display: inline-block;
+		margin-right: 6px;
+		padding: 1px 6px;
+		border-radius: 6px;
+		background: #fff;
+		border: 1px solid var(--tool-border);
+		color: var(--tool-navy, #17344b);
+		font-size: 12px;
+		font-weight: 700;
+	}
+	.pack-fold {
+		margin-top: 16px;
+	}
+	.pack-fold summary,
 	.guide-fold summary {
 		display: inline-flex;
 		align-items: center;
@@ -1098,6 +1158,14 @@ const filters = [
 		background: #fff;
 		font-weight: 600;
 		cursor: pointer;
+	}
+	.pack-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+	.guide-fold {
+		margin-top: 12px;
 	}
 	.guide-body {
 		margin-top: 12px;
@@ -1127,6 +1195,7 @@ const filters = [
 		a.tool-action,
 		.pack-downloads a,
 		.pack-list a,
+		.pack-fold summary,
 		.guide-fold summary {
 			min-height: 44px;
 			padding: 10px 12px;
