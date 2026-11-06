@@ -674,8 +674,10 @@ function fileSize(name: string): string {
 	});
 
 	root?.addEventListener('click', async (event) => {
-		const target = event.target;
-		if (!(target instanceof HTMLButtonElement)) return;
+		const clicked = event.target;
+		if (!(clicked instanceof Element)) return;
+		const target = clicked.closest('button');
+		if (!(target instanceof HTMLButtonElement) || !root?.contains(target)) return;
 		if (target.dataset.opsJump !== undefined) {
 			activateOpsStep(Number(target.dataset.opsJump));
 			return;
