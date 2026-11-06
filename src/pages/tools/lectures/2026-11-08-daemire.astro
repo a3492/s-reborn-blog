@@ -452,6 +452,19 @@ function fileSize(name: string): string {
 			<p class="lecture-meta">짧은 주소 /daemire1108/ · 공개 페이지</p>
 		</header>
 
+		<section class="lecture-panel learning-map" aria-labelledby="learning-map-title">
+			<h2 id="learning-map-title">AI 문제 해결 학습 단계</h2>
+			<p>학습 단계는 문제를 해결하는 순서입니다. 페인포인트·상담 데이터·시술 기록은 각 단계에서 활용하는 자료입니다.</p>
+			<ol class="learning-map-grid">
+				<li id="discover"><strong>1. 문제 발견</strong><span>어떤 불편과 반복이 실제 문제인가?</span><a href="/tools/hospital-data-pain-points/">문제의식 A–H 보기</a></li>
+				<li id="validate-problem"><strong>2. 문제 검증</strong><span>기록과 사례로 문제가 실제 존재하는지 확인합니다.</span><a href="/tools/consult-archive/">상담 데이터 확인</a></li>
+				<li id="design"><strong>3. 해결책 설계</strong><span>AI에게 줄 입력·원하는 출력·하지 말 일을 정의합니다.</span><a href="#l1-guide">강연1 프롬프트 보기</a></li>
+				<li id="mvp"><strong>4. MVP 실험</strong><span>작은 도구를 만들고 가상 데이터로 직접 시험합니다.</span><a href="#ops">강연2 실습하기</a></li>
+				<li id="validate-result"><strong>5. 결과 검증</strong><span>AI 자기 점검과 원본·검산표 대조를 구별합니다.</span><a href="#l2-guide">독립 검산 학습</a></li>
+				<li id="apply"><strong>6. 현장 적용</strong><span>검증한 도구만 책임자 승인 후 실제 업무에 적용합니다.</span><a href="/tools/">경영 도구 아카이브</a></li>
+			</ol>
+		</section>
+
 		<section class="lecture-panel tool-download-panel" aria-labelledby="download-order">
 			<h2 id="download-order">받는 순서</h2>
 			<p>
@@ -729,6 +742,13 @@ function fileSize(name: string): string {
 
 <style>
 
+	.learning-map-grid {list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0 0;padding:0;}
+	.learning-map-grid li {min-width:0;display:flex;flex-direction:column;gap:5px;padding:12px;border:1px solid var(--rule);border-radius:8px;background:var(--bg);scroll-margin-top:100px;}
+	.learning-map-grid strong {color:var(--text);font-size:.94rem;}
+	.learning-map-grid span {font-size:.82rem;color:var(--t2);line-height:1.5;}
+	.learning-map-grid a {font-size:.8rem;font-weight:700;margin-top:auto;padding-top:5px;text-decoration:underline;}
+	@media(max-width:720px) {.learning-map-grid {grid-template-columns:repeat(2,minmax(0,1fr));}}
+	@media(max-width:420px) {.learning-map-grid {grid-template-columns:1fr;}}
 	/* 자료 다운로드: 제목 · 설명 · 버튼을 한 줄에 배치하고 파일 용량은 숨김 */
 	.tool-download-panel .tool-file-list {list-style:none;counter-reset:download;display:grid;grid-template-columns:minmax(0,1fr);gap:6px;padding:0;margin:12px 0 0;}
 	.tool-download-panel .tool-file-card {display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0;padding:9px 12px;border:1px solid var(--tool-border);border-radius:6px;}
