@@ -1,0 +1,212 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import catalogJson from '../../../data/consult-public-catalog.json';
+import {
+	consultStories,
+	fileHref,
+	lengthLabel,
+	recordsInOrder,
+	viewHref,
+	type ConsultRecord,
+} from '../../../lib/consult-archive';
+
+const catalog = catalogJson as ConsultRecord[];
+const guideName = '상담데이터_가공_연습가이드_공개용.md';
+const stories = consultStories.map((story) => {
+	const items = recordsInOrder(catalog, story.ids);
+	return {
+		...story,
+		items,
+		chars: items.reduce((sum, item) => sum + item.chars, 0),
+	};
+});
+---
+
+<Layout
+	title="상담 기록을 읽는 순서"
+	description="짧은 상담 메모를 한 고객으로 모아 읽고, 지시문과 함께 AI에 넣은 뒤 원문과 대조하는 순서입니다."
+>
+	<article class="guide" data-tool-page="consult-archive">
+		<p class="guide-kicker">
+			<a href="/tools/consult-archive/">상담데이터 아카이브</a>
+		</p>
+		<h1>상담 기록을 읽는 순서</h1>
+		<p class="guide-virtual">모두 실습용 가상 데이터입니다. 실제 환자 정보는 올리지 마세요.</p>
+		<p class="guide-core">
+			직원에게 메모 양식을 통일하라고 하지 않습니다. 적힌 말투는 그대로 두고, 어느 경로에서 왔는지만 남깁니다.
+		</p>
+
+		<section>
+			<h2>짧은 글이 많은 이유</h2>
+			<p>
+				기록은 364건이고 고객은 60명입니다. 대부분은 카톡, 전화, 문자, 예약처럼 한 번에 남은 메모라서 400자에서 1,500자입니다. 내원해서 이어진 상담은 약 1만 자이고 4건입니다.
+			</p>
+			<p>
+				파일 하나를 열면 내용이 없어 보입니다. 같은 고객의 파일을 모아 보면, 앞에서 묻지 못한 말과 나중에 달라진 말이 보입니다.
+			</p>
+		</section>
+
+		<section id="pick">
+			<h2><span>1</span> 고르기</h2>
+			<p>364건을 한 번에 고르지 않습니다. 한 사람의 기록만 고릅니다. 자료실의 고르기 버튼이 이 세 사람으로 원문과 지시문을 바꿉니다.</p>
+			<ul class="stories">
+				{
+					stories.map((story) => (
+						<li>
+							<strong>
+								{story.title} · {story.person}
+							</strong>
+							<p>{story.lead}</p>
+							<p class="meta">
+								{story.items.length}건 · 합계 {story.chars.toLocaleString('ko-KR')}자 · 먼저 읽을 글 {lengthLabel(story.items[0])}
+							</p>
+							<p class="links">
+								<a href={viewHref(story.items[0].id)}>먼저 읽을 원문</a>
+								<a href={`/tools/consult-archive/#customer-${story.customer}`}>이 고객의 기록 묶음</a>
+							</p>
+						</li>
+					))
+				}
+			</ul>
+		</section>
+
+		<section id="read">
+			<h2><span>2</span> 읽어 보기</h2>
+			<p>장시간 상담이 있으면 그 글부터 읽습니다. 그다음 짧은 메모를 경로 이름과 함께 봅니다. 카톡, 전화, CRM은 같은 날의 한 이야기가 아니라 따로 남은 조각입니다.</p>
+			<p>1차 기록에는 작성자 이름이 없는 경우가 있습니다. 원문에 이름이 없으면 지어 넣지 않습니다.</p>
+			<p class="links">
+				<a href="/tools/consult-archive/#read">자료실에서 고른 원문 보기</a>
+			</p>
+		</section>
+
+		<section id="ai">
+			<h2><span>3</span> AI에 넣기</h2>
+			<p>새 대화를 엽니다. 지시문을 넣고, 이어서 그 고객의 원문을 넣습니다. 지시문만 넣으면 기록에 없는 날짜와 시술을 채웁니다. 압축 파일 자체는 대화에 넣지 않습니다. 풀린 글 또는 화면의 원문 복사를 사용합니다.</p>
+			<p class="links">
+				<a href="/tools/consult-archive/#ai">자료실에서 지시문과 원문 복사</a>
+			</p>
+		</section>
+
+		<section id="check">
+			<h2><span>4</span> 검산하기</h2>
+			<p>나온 문장을 원문으로 되돌아가 확인합니다.</p>
+			<ul>
+				<li>원문에 없는 날짜, 금액, 시술 결정, 예약 확정이 들어갔는가.</li>
+				<li>비어 있던 칸을 없음으로 바꿨는가. 기록에 없음과 해당 없음은 다릅니다.</li>
+				<li>이름이 같다고 다른 고객의 기록을 합쳤는가.</li>
+				<li>직원이 해석한 말을 고객이 직접 말한 사실로 적었는가.</li>
+			</ul>
+			<p class="links">
+				<a href="/tools/consult-archive/#check">자료실에서 이 질문 복사</a>
+			</p>
+		</section>
+
+		<section>
+			<h2>강연 원고</h2>
+			<p>폴더 경로와 시간 배분이 적힌 원고입니다. 화면에서 따라갈 때는 위 네 단계를 쓰면 됩니다.</p>
+			<p class="links">
+				<a href={fileHref(guideName)} download={guideName}>원고 받기</a>
+			</p>
+		</section>
+	</article>
+</Layout>
+
+<style>
+	.guide {
+		box-sizing: border-box;
+		max-width: 46rem;
+		padding: 2.2rem 0 4rem;
+	}
+	.guide-kicker a,
+	.links a {
+		color: var(--pink);
+		font-weight: 700;
+		text-decoration: none;
+	}
+	.guide h1,
+	.guide h2 {
+		font-family: var(--display);
+		letter-spacing: -0.03em;
+	}
+	.guide h1 {
+		margin: 0.45rem 0 0.4rem;
+		font-size: clamp(1.8rem, 4vw, 2.3rem);
+	}
+	.guide-virtual {
+		margin: 0;
+		font-weight: 800;
+	}
+	.guide-core {
+		margin: 0.8rem 0 0;
+		padding: 10px 12px;
+		border-left: 4px solid #17344b;
+		background: #f4f7f8;
+		font-weight: 700;
+		line-height: 1.55;
+	}
+	section {
+		margin-top: 1.3rem;
+	}
+	.guide h2 {
+		display: flex;
+		gap: 8px;
+		align-items: center;
+		margin: 0 0 0.45rem;
+		font-size: 1.2rem;
+	}
+	.guide h2 span {
+		display: inline-grid;
+		place-items: center;
+		width: 28px;
+		height: 28px;
+		border-radius: 6px;
+		background: #17344b;
+		color: #fff;
+		font-size: 0.9rem;
+	}
+	.guide p,
+	.guide li {
+		color: var(--t2);
+		line-height: 1.7;
+	}
+	.stories {
+		list-style: none;
+		margin: 12px 0 0;
+		padding: 0;
+		display: grid;
+		gap: 10px;
+	}
+	.stories li {
+		padding: 12px;
+		border: 1px solid #d6d9dc;
+		border-radius: 8px;
+		background: #fff;
+	}
+	.meta {
+		margin: 4px 0 0;
+		color: #4b5563;
+		font-size: 0.92rem;
+	}
+	.links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin-top: 8px;
+	}
+	.links a {
+		display: inline-flex;
+		align-items: center;
+		min-height: 36px;
+		padding: 6px 12px;
+		border: 1px solid #d6d9dc;
+		border-radius: 6px;
+		background: #fff;
+		color: #17344b;
+	}
+	@media (max-width: 600px) {
+		.links a {
+			min-height: 44px;
+			padding: 10px 12px;
+		}
+	}
+</style>

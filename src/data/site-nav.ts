@@ -102,6 +102,12 @@ export const SITE_NAV: NavItem[] = [
 				href: '/tools/consult-archive/',
 			},
 			{
+				id: 'lectures-consult-guide',
+				label: '상담 기록 읽는 순서',
+				labelEn: 'How to read consult records',
+				href: '/tools/consult-archive/guide/',
+			},
+			{
 				id: 'lectures-procedure',
 				label: '시술 기록 자료실',
 				labelEn: 'Procedure records',

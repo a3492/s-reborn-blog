@@ -3,351 +3,20 @@ import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import Layout from '../../layouts/Layout.astro';
-import catalog from '../../data/consult-public-catalog.json';
-import { renderConsultMarkdown } from '../../lib/consult-markdown';
+import ConsultPractice from '../../components/ConsultPractice.astro';
+import catalogJson from '../../data/consult-public-catalog.json';
+import {
+	fileHref,
+	gradeFilters,
+	groupByCustomer,
+	lengthLabel,
+	previewLine,
+	viewHref,
+	writerLabel,
+	type ConsultRecord,
+} from '../../lib/consult-archive';
 
-type Sample = {
-	id: string;
-	title: string;
-	path: string;
-	pathLabel: string;
-	form: string;
-	formLabel: string;
-	stage: string;
-	stageLabel: string;
-	field: string;
-	fieldLabel: string;
-	level: string;
-	levelLabel: string;
-	body: string;
-};
-
-const samples: Sample[] = [
-	{
-		id: 'A1',
-		title: '예약 문의, 시간은 있고 이름은 없음',
-		path: 'kakao',
-		pathLabel: '카카오톡',
-		form: 'chat-text',
-		formLabel: '채팅 원문',
-		stage: 'booking',
-		stageLabel: '예약',
-		field: 'botox',
-		fieldLabel: '보톡스',
-		level: 'easy',
-		levelLabel: '쉬움',
-		body: `[카카오톡 채널 상담]
-10/02 11:04 고객: 안녕하세여 어제 인스타로 보톡스 물어봤는데요
-10/02 11:05 상담실: 네 안녕하세요. 예약 원하시는 날짜 있으실까요?
-10/02 11:06 고객: 16일 오후 3시 이후 될까요
-10/02 11:09 상담실: 확인하고 안내드릴게요.
-[이름 미입력 / 예약 확정 여부 기록 없음]`,
-	},
-	{
-		id: 'A2',
-		title: '시술 후 문의, 방문 날짜 누락',
-		path: 'kakao',
-		pathLabel: '카카오톡',
-		form: 'chat-text',
-		formLabel: '채팅 원문',
-		stage: 'aftercare',
-		stageLabel: '시술 후',
-		field: 'other',
-		fieldLabel: '기타',
-		level: 'medium',
-		levelLabel: '보통',
-		body: `[카카오톡 채널 상담]
-10/18 18:42 박서준: 지난번 시술하고 빨갛게 보이는게 있는데요
-10/18 18:43 상담실: 확인을 위해 담당 의료진에게 전달하겠습니다.
-10/18 18:44 박서준: 사진은 내일 보내도 될까여
-[시술명·방문일 미기록 / 진료 필요 여부 별도 확인]`,
-	},
-	{
-		id: 'B1',
-		title: '인스타 첫 문의',
-		path: 'instagram',
-		pathLabel: '인스타그램',
-		form: 'screen-mock',
-		formLabel: '화면 모형',
-		stage: 'first-inquiry',
-		stageLabel: '첫 문의',
-		field: 'botox',
-		fieldLabel: '보톡스',
-		level: 'easy',
-		levelLabel: '쉬움',
-		body: `[Instagram DM 모형 | 10월 1일]
-김민지: 미간 보톡스 얼마에요?
-병원: 상담 후 시술 범위에 따라 안내드릴 수 있습니다.
-김민지: 16일쯤 갈 수도 있어요
-[계정 식별자 없음 / 연락처 없음 / 예약 확정 아님]`,
-	},
-	{
-		id: 'B2',
-		title: '같은 사람일 수 있는 재문의',
-		path: 'instagram',
-		pathLabel: '인스타그램',
-		form: 'screen-mock',
-		formLabel: '화면 모형',
-		stage: 'follow-up',
-		stageLabel: '재문의',
-		field: 'lifting',
-		fieldLabel: '리프팅',
-		level: 'medium',
-		levelLabel: '보통',
-		body: `[Instagram DM 모형 | 10월 4일]
-이수연: 울쎄라 지난번에 연락 드렸는데요
-병원: 이전 문의 경로가 어디였을까요?
-이수연: 전화였던 것 같아요 ㅎㅎ
-[동일인 연결 근거 미확보]`,
-	},
-	{
-		id: 'C1',
-		title: '예약 알림 문구 모형',
-		path: 'naver',
-		pathLabel: '네이버 예약',
-		form: 'notification',
-		formLabel: '알림',
-		stage: 'booking',
-		stageLabel: '예약',
-		field: 'pigmentation',
-		fieldLabel: '색소',
-		level: 'easy',
-		levelLabel: '쉬움',
-		body: `[예약 접수 알림 예시]
-예약자: 최지우
-희망일: 2026-10-09 14:30
-항목: 색소 상담
-상태: 예약 요청
-메모: 오후는 힘들 수 있어요
-[확정 여부 확인 필요]`,
-	},
-	{
-		id: 'C2',
-		title: '예약 변경 내역 모형',
-		path: 'naver',
-		pathLabel: '네이버 예약',
-		form: 'csv',
-		formLabel: '표',
-		stage: 'booking',
-		stageLabel: '예약',
-		field: 'acne-scar',
-		fieldLabel: '여드름 흉터',
-		level: 'medium',
-		levelLabel: '보통',
-		body: `예약자,예약일시,상담분야,상태,변경요청
-정하늘,2026-10-22 16:00,여드름흉터,변경요청,24일 오전 희망
-[연락처 미포함 / 승인 전]`,
-	},
-	{
-		id: 'D1',
-		title: '빠르게 적은 전화 메모',
-		path: 'phone',
-		pathLabel: '전화',
-		form: 'free-note',
-		formLabel: '자유 메모',
-		stage: 'first-inquiry',
-		stageLabel: '첫 문의',
-		field: 'botox',
-		fieldLabel: '보톡스',
-		level: 'medium',
-		levelLabel: '보통',
-		body: `10/7 오전 통화
-김민지?  보톡스 비용 문의
-16일 3시 넘어서 가능??
-인슷타 보고 연락한 듯 / 회신 필요
-[받아 적은 이름 불확실]`,
-	},
-	{
-		id: 'D2',
-		title: '종이 메모를 옮긴 글',
-		path: 'phone',
-		pathLabel: '전화',
-		form: 'scan-mock',
-		formLabel: '메모 전사',
-		stage: 'undecided',
-		stageLabel: '미결정',
-		field: 'lifting',
-		fieldLabel: '리프팅',
-		level: 'medium',
-		levelLabel: '보통',
-		body: `[직원 수기메모를 텍스트로 옮긴 예시]
-10.11 / 이수연 / 리프팅
-'울쎄? 써마?' 물어봄
-다음주 토요일? 시간 안맞음
-다시 전화하기 ← 체크 안됨
-[시술명·날짜 미확정]`,
-	},
-	{
-		id: 'E1',
-		title: '관심 시술 응답 한 줄',
-		path: 'googleform',
-		pathLabel: '구글폼',
-		form: 'form-row',
-		formLabel: '응답 행',
-		stage: 'first-inquiry',
-		stageLabel: '첫 문의',
-		field: 'skinbooster',
-		fieldLabel: '스킨부스터',
-		level: 'easy',
-		levelLabel: '쉬움',
-		body: `타임스탬프,이름,관심시술,방문희망,메모
-2026-10-05 09:14,한유진,스킨부스터,이번달,피부가 건조한편`,
-	},
-	{
-		id: 'E2',
-		title: '필수 답이 빈 응답',
-		path: 'googleform',
-		pathLabel: '구글폼',
-		form: 'form-row',
-		formLabel: '응답 행',
-		stage: 'first-inquiry',
-		stageLabel: '첫 문의',
-		field: 'other',
-		fieldLabel: '기타',
-		level: 'easy',
-		levelLabel: '쉬움',
-		body: `타임스탬프,이름,관심시술,방문희망,메모
-2026-10-05 20:31,서지민,,주말,상담 먼저 하고 싶어요`,
-	},
-	{
-		id: 'F1',
-		title: 'CRM 입력 항목 모형',
-		path: 'vegascrm',
-		pathLabel: '베가스CRM',
-		form: 'screen-mock',
-		formLabel: '화면 모형',
-		stage: 'visit',
-		stageLabel: '방문',
-		field: 'botox',
-		fieldLabel: '보톡스',
-		level: 'easy',
-		levelLabel: '쉬움',
-		body: `[CRM 입력 화면 구성 예시 - 실제 제품 UI와 다를 수 있음]
-고객관리번호: P-demo-1021
-고객명: 김민지
-방문일: 2026-10-16
-시술: 보톡스
-수납금액: 80,000원
-유입경로: 인스타그램
-상담원: [미기록]`,
-	},
-	{
-		id: 'F2',
-		title: '방문 행 모형',
-		path: 'vegascrm',
-		pathLabel: '베가스CRM',
-		form: 'csv',
-		formLabel: '표',
-		stage: 'visit',
-		stageLabel: '방문',
-		field: 'pigmentation',
-		fieldLabel: '색소',
-		level: 'easy',
-		levelLabel: '쉬움',
-		body: `방문관리번호,고객관리번호,방문일,시술명,결제금액,재방문여부
-VIS-demo-1022,P-demo-1022,2026-10-21,색소레이저,150000,첫방문`,
-	},
-	{
-		id: 'G1',
-		title: '예약 변경 문자',
-		path: 'sms',
-		pathLabel: '문자',
-		form: 'sms-text',
-		formLabel: '문자',
-		stage: 'booking',
-		stageLabel: '예약',
-		field: 'other',
-		fieldLabel: '기타',
-		level: 'medium',
-		levelLabel: '보통',
-		body: `[수신 문자 | 10/14 08:50]
-김하린: 오늘 못가여 ㅠ 토욜로 변경 가능??
-[예약기록 확인 전 / 같은 이름 예약 여러 건일 수 있음]`,
-	},
-	{
-		id: 'G2',
-		title: '시술 후 문자',
-		path: 'sms',
-		pathLabel: '문자',
-		form: 'sms-text',
-		formLabel: '문자',
-		stage: 'aftercare',
-		stageLabel: '시술 후',
-		field: 'other',
-		fieldLabel: '기타',
-		level: 'medium',
-		levelLabel: '보통',
-		body: `[문자 상담 메모 | 10/24]
-장우진: 어제 시술받았는데 관리 안내 다시 받을 수 있을까요?
-직원: 차트 확인 후 안내드리겠습니다.
-[시술명·정확한 방문 날짜 직원 확인 필요]`,
-	},
-	{
-		id: 'H1',
-		title: '같은 행이 두 번인 업체 목록',
-		path: 'agency',
-		pathLabel: '마케팅 업체',
-		form: 'csv',
-		formLabel: '표',
-		stage: 'first-inquiry',
-		stageLabel: '첫 문의',
-		field: 'lifting',
-		fieldLabel: '리프팅',
-		level: 'hard',
-		levelLabel: '어려움',
-		body: `업체관리번호,접수일,고객명,관심분야,광고캠페인,처리상태
-AD-001,2026-10-05,박서준,리프팅,가을리프팅,미응대
-AD-001,2026-10-05,박서준,리프팅,가을리프팅,미응대`,
-	},
-	{
-		id: 'H2',
-		title: '날짜 형식이 다른 업체 목록',
-		path: 'agency',
-		pathLabel: '마케팅 업체',
-		form: 'csv',
-		formLabel: '표',
-		stage: 'first-inquiry',
-		stageLabel: '첫 문의',
-		field: 'other',
-		fieldLabel: '기타',
-		level: 'hard',
-		levelLabel: '어려움',
-		body: `업체관리번호,접수일,고객명,관심분야,광고캠페인,처리상태
-AD-002,26.10.7,이수연,울세라,브랜드키워드,call back
-AD-003,2026/10/07,정다은,흉터 상담,검색광고,`,
-	},
-];
-
-const prompts = [
-	{
-		id: 'easy',
-		title: '초급. 메모에서 칸 뽑기',
-		text: `아래 기록을 읽고 접수일, 접수경로, 고객명, 관심시술, 현재상태, 다음 행동을 표로 정리해 주세요.
-원본에 없는 사실은 추측하지 말고 '미확인'이라고 적으세요.
-오타를 고친 경우 원문도 따로 남기세요.
-날짜 표현이 애매하면 임의의 날짜로 바꾸지 마세요.`,
-		success: '원본 건수와 결과 행 수가 맞고, 빠진 정보를 임의로 채우지 않습니다.',
-	},
-	{
-		id: 'mid',
-		title: '중급. 여러 채널의 같은 사람',
-		text: `원본 기록을 채널별 사건 단위로 나눠 정리하세요.
-동일 고객으로 추정되는 기록은 '연결 후보'에만 표시하세요.
-이름이 같다는 이유만으로 동일 고객이라고 확정하지 마세요.
-실제로 연결을 확정하려면 어떤 내부 확인이 필요한지 별도 칸에 적으세요.`,
-		success: '인스타 문의, 카카오 예약, CRM 방문은 각각 남깁니다. 연결 근거가 없으면 확정하지 않습니다.',
-	},
-	{
-		id: 'hard',
-		title: '고급. 빠진 값과 집계 오류',
-		text: `각 원본의 행 단위(메시지, 문의, 예약, 방문, 결제)를 먼저 적으세요.
-중복 ID, 비어 있는 값, 날짜 형식 차이, 잘못 연결될 가능성을 점검하세요.
-행을 합치기 전후의 행 수와 금액 합계를 따로 비교하세요.
-집계할 수 없는 항목은 계산하지 말고 이유를 말하세요.`,
-		success: '업체 목록의 중복 행이 보이고, 문의 건수를 방문 건수로 세지 않습니다.',
-	},
-];
-
+const catalog = catalogJson as ConsultRecord[];
 const downloadDir = path.join(process.cwd(), 'public/downloads/consult-archive');
 const guideName = '상담데이터_가공_연습가이드_공개용.md';
 const zipFiles = ['상담데이터_1차_공개용.zip', '상담데이터_2차_공개용.zip'];
@@ -399,99 +68,19 @@ if (longItems.length !== 4 || secondItems.length !== 240 || firstItems.length !=
 		`목록 개수가 맞지 않습니다. 장시간 ${longItems.length}, 2차 ${secondItems.length}, 1차 ${firstItems.length}`,
 	);
 }
-const packGroups = [
-	{ key: 'long', title: '장시간 상담', note: '한 건이 약 9,700~10,000자입니다.', items: longItems, folded: false },
-	{ key: 'second', title: '2차 일반 원본', note: '녹취형 일반 원본 240건입니다.', items: secondItems, folded: false },
-	{ key: 'first', title: '짧은 첫 문의', note: '1차 120건. 녹취형 첫 문의입니다.', items: firstItems, folded: true },
-];
 
+const customers = groupByCustomer(catalog);
 const packChannels = [...new Set(catalog.map((item) => item.channel))];
-const packWriters = [...new Set(catalog.map((item) => item.writer))];
-const packGrades = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
-
-function fileHref(name: string): string {
-	return `/downloads/consult-archive/${name.split('/').map((part) => encodeURIComponent(part)).join('/')}`;
-}
-
-function viewHref(id: string): string {
-	return `/tools/consult-archive/view/${encodeURIComponent(id)}/`;
-}
-
-const guideHtml = renderConsultMarkdown(guideMarkdown);
-if (/정답|answer/i.test(guideHtml)) {
-	throw new Error('가이드 본문 렌더에 정답표 문구가 있습니다.');
-}
-
-const filters = [
-	{
-		key: 'path',
-		label: '경로',
-		options: [
-			['kakao', '카카오톡'],
-			['instagram', '인스타그램'],
-			['naver', '네이버 예약'],
-			['phone', '전화'],
-			['googleform', '구글폼'],
-			['vegascrm', '베가스CRM'],
-			['sms', '문자'],
-			['agency', '마케팅 업체'],
-		],
-	},
-	{
-		key: 'form',
-		label: '형태',
-		options: [
-			['chat-text', '채팅 원문'],
-			['screen-mock', '화면 모형'],
-			['notification', '알림'],
-			['free-note', '자유 메모'],
-			['scan-mock', '메모 전사'],
-			['form-row', '응답 행'],
-			['csv', '표'],
-			['sms-text', '문자'],
-		],
-	},
-	{
-		key: 'stage',
-		label: '단계',
-		options: [
-			['first-inquiry', '첫 문의'],
-			['follow-up', '재문의'],
-			['booking', '예약'],
-			['visit', '방문'],
-			['aftercare', '시술 후'],
-			['undecided', '미결정'],
-		],
-	},
-	{
-		key: 'field',
-		label: '시술',
-		options: [
-			['lifting', '리프팅'],
-			['botox', '보톡스'],
-			['pigmentation', '색소'],
-			['acne-scar', '여드름 흉터'],
-			['skinbooster', '스킨부스터'],
-			['other', '기타'],
-		],
-	},
-	{
-		key: 'level',
-		label: '난이도',
-		options: [
-			['easy', '쉬움'],
-			['medium', '보통'],
-			['hard', '어려움'],
-		],
-	},
-];
+const packWriters = [...new Set(catalog.map((item) => item.writer))].sort((a, b) =>
+	writerLabel(a).localeCompare(writerLabel(b), 'ko'),
+);
 ---
 
 <Layout
 	title="상담데이터 아카이브"
-	description="흩어진 상담 원본 예시 16개. 경로, 형태, 단계, 시술, 난이도로 고르는 실습 초안."
+	description="한 고객의 카톡, 전화, 내원 상담을 모아 읽는 실습 자료입니다. 짧은 메모는 조각이고, 장시간 상담은 따로 있습니다."
 >
-	<article class="consult" data-consult data-tool-page="consult-archive">
+	<article class="consult" data-tool-page="consult-archive">
 		<header>
 			<p class="consult-kicker">
 				<a href="/tools/">경영 도구 아카이브</a>
@@ -499,303 +88,134 @@ const filters = [
 				상담 데이터
 			</p>
 			<h1>상담데이터 아카이브</h1>
-			<p class="consult-virtual">모두 실습용 가상 데이터입니다</p>
+			<p class="consult-virtual">모두 실습용 가상 데이터입니다. 실제 환자 정보는 올리지 마세요.</p>
 			<p class="consult-lead">
-				1차 120건과 2차 244건을 각각 열어 볼 수 있습니다. 가공 순서는 연습 가이드에 있습니다.
+				카톡 한 줄, 전화 메모, 내원 상담이 한 고객에게 따로 쌓여 있습니다. 짧은 글은 미완성이 아니라 그 경로에 남은 조각입니다. 아래에서는 한 사람씩 모아 읽습니다.
 			</p>
-			<p class="consult-guide-link">
-				<a class="tool-action" href={viewHref('guide')}>가이드 보기</a>
-				<a class="tool-action" href={fileHref(guideName)} download={guideName}>가공 연습 가이드</a>
+			<p class="consult-aside">
+				<a href="/tools/consult-archive/guide/">이 순서를 글로 읽기</a>
 			</p>
-			<ol class="consult-steps tool-action-row">
-				<li class="tool-action">고르기</li>
-				<li class="tool-action">복사하기</li>
-				<li class="tool-action">AI에 넣기</li>
-				<li class="tool-action">검산하기</li>
-			</ol>
 		</header>
 
-		<section class="consult-panel" aria-labelledby="consult-guide">
-			<h2 id="consult-guide">가공 연습 가이드</h2>
-			<p>원문 말투는 그대로 두고, 출처를 남겨 정리하는 순서입니다.</p>
-			<details class="guide-fold">
-				<summary>가이드 본문 읽기</summary>
-				<div class="guide-body" set:html={guideHtml} />
+		<ConsultPractice />
+
+		<section class="consult-panel" aria-labelledby="all-title">
+			<h2 id="all-title">60명을 고객별로 찾기</h2>
+			<p>
+				기록 364건, 고객 60명입니다. 장시간 상담이 있는 사람을 먼저 둡니다. 짧은 메모는 그 고객 안에 들어 있습니다.
+			</p>
+			<details id="all" class="fold" data-pack>
+				<summary>전체 목록 열기 · {customers.length}명 · {catalog.length}건</summary>
+				<label class="consult-search">
+					<span>목록 검색</span>
+					<input type="search" data-pack-search placeholder="이름, 경로, 번호, 작성자" />
+				</label>
+				<fieldset>
+					<legend>배치</legend>
+					<div class="chips">
+						<button type="button" data-pack-filter="batch" data-pack-value="1차" aria-pressed="false">1차</button>
+						<button type="button" data-pack-filter="batch" data-pack-value="2차" aria-pressed="false">2차</button>
+					</div>
+				</fieldset>
+				<fieldset>
+					<legend>경로</legend>
+					<div class="chips">
+						{packChannels.map((channel) => (
+							<button type="button" data-pack-filter="channel" data-pack-value={channel} aria-pressed="false">
+								{channel}
+							</button>
+						))}
+					</div>
+				</fieldset>
+				<fieldset>
+					<legend>작성자</legend>
+					<div class="chips">
+						{packWriters.map((writer) => (
+							<button type="button" data-pack-filter="writer" data-pack-value={writer} aria-pressed="false">
+								{writerLabel(writer)}
+							</button>
+						))}
+					</div>
+				</fieldset>
+				<fieldset>
+					<legend>길이</legend>
+					<div class="chips">
+						{gradeFilters.map(([grade, label]) => (
+							<button type="button" data-pack-filter="grade" data-pack-value={grade} aria-pressed="false">
+								{label}
+							</button>
+						))}
+					</div>
+				</fieldset>
+				<p class="consult-count" data-pack-count>{catalog.length}건 표시</p>
+				{
+					customers.map((group) => (
+						<details class="person" id={`customer-${group.customer}`} data-person>
+							<summary>
+								<strong>{group.name}</strong>
+								<span>
+									<span data-person-count={group.items.length}>{group.items.length}</span>건
+									· {group.longCount > 0 ? `장시간 상담 ${group.longCount}건 · ` : '장시간 상담 없음 · '}
+									합계 {group.chars.toLocaleString('ko-KR')}자
+								</span>
+								<small>{group.channels.join(' · ')}</small>
+							</summary>
+							<ul class="person-list">
+								{group.items.map((item) => (
+									<li
+										class="record-row"
+										data-pack-item
+										data-batch={item.batch}
+										data-channel={item.channel}
+										data-writer={item.writer}
+										data-grade={item.grade}
+										data-pack-text={`${item.title} ${item.name} ${item.preview} ${item.id} ${item.customer} ${item.channel} ${item.writer} ${item.grade} ${item.batch} ${writerLabel(item.writer)}`}
+									>
+										<div class="record-top">
+											<strong>{item.title}</strong>
+											<span>{lengthLabel(item)}</span>
+										</div>
+										<p class="record-meta">{item.channel} · {writerLabel(item.writer)} · {item.id}</p>
+										<p class="record-preview">{previewLine(item.preview)}</p>
+										<div class="record-actions">
+											<a href={viewHref(item.id)}>원문 읽기</a>
+											<a href={fileHref(item.file)} download={item.file.split('/').pop()}>파일 받기</a>
+										</div>
+									</li>
+								))}
+							</ul>
+						</details>
+					))
+				}
+				<p class="consult-empty" data-pack-empty hidden>이 조건의 기록이 없습니다.</p>
 			</details>
 		</section>
 
-		<section class="consult-panel" aria-labelledby="consult-packs" data-pack>
-			<h2 id="consult-packs">공개 자료 받기</h2>
-			<ul class="pack-downloads">
+		<section class="consult-panel" aria-labelledby="files-title">
+			<h2 id="files-title">파일로 받기</h2>
+			<p>
+				압축을 풀면 짧은 텍스트가 많이 보입니다. 파일 하나는 카톡 한 번이거나 전화 한 통입니다. 화면에서 고객별로 모아 읽고, 강연에서 폴더가 필요할 때 받으세요.
+			</p>
+			<ul class="downloads">
 				<li>
 					<strong>상담데이터_1차_공개용.zip</strong>
-					<p>녹취형 원본 120건, 고객 20명입니다.</p>
-					<a class="tool-action" href={fileHref('상담데이터_1차_공개용.zip')} download="상담데이터_1차_공개용.zip">1차 ZIP</a>
+					<p>짧은 첫 기록 120건입니다. 고객 20명의 조각입니다.</p>
+					<a href={fileHref('상담데이터_1차_공개용.zip')} download="상담데이터_1차_공개용.zip">1차 ZIP</a>
 				</li>
 				<li>
 					<strong>상담데이터_2차_공개용.zip</strong>
-					<p>녹취형 일반 원본 240건과 장시간 상담 4건입니다.</p>
-					<a class="tool-action" href={fileHref('상담데이터_2차_공개용.zip')} download="상담데이터_2차_공개용.zip">2차 ZIP</a>
+					<p>일반 원본 240건과 장시간 상담 4건입니다.</p>
+					<a href={fileHref('상담데이터_2차_공개용.zip')} download="상담데이터_2차_공개용.zip">2차 ZIP</a>
 				</li>
-				{
-					longFiles.map((name) => (
-						<li>
-							<strong>{name.split('/').pop()}</strong>
-							<p>장시간 상담 개별 파일입니다.</p>
-							<a class="tool-action" href={fileHref(name)} download={name.split('/').pop()}>
-								개별 받기
-							</a>
-						</li>
-					))
-				}
+				<li>
+					<strong>강연 원고</strong>
+					<p>폴더 경로와 시간 배분이 적힌 원고입니다. 화면에서 따라갈 때는 위 네 단계를 쓰면 됩니다.</p>
+					<a href={fileHref(guideName)} download={guideName}>원고 받기</a>
+				</li>
 			</ul>
-			<h3>원본 목록</h3>
-			<label class="consult-search">
-				<span class="tool-filter-label">목록 검색</span>
-				<input class="tool-filter-search" type="search" data-pack-search placeholder="이름, 경로, 번호, 작성자" />
-			</label>
-			<fieldset class="tool-filter-group">
-				<legend class="tool-filter-label">배치</legend>
-				<div class="consult-chips">
-					<button class="tool-filter-chip" type="button" data-pack-filter="batch" data-pack-value="1차" aria-pressed="false">1차</button>
-					<button class="tool-filter-chip" type="button" data-pack-filter="batch" data-pack-value="2차" aria-pressed="false">2차</button>
-				</div>
-			</fieldset>
-			<fieldset class="tool-filter-group">
-				<legend class="tool-filter-label">경로</legend>
-				<div class="consult-chips">
-					{packChannels.map((channel) => (
-						<button class="tool-filter-chip" type="button" data-pack-filter="channel" data-pack-value={channel} aria-pressed="false">
-							{channel}
-						</button>
-					))}
-				</div>
-			</fieldset>
-			<fieldset class="tool-filter-group">
-				<legend class="tool-filter-label">작성자</legend>
-				<div class="consult-chips">
-					{packWriters.map((writer) => (
-						<button class="tool-filter-chip" type="button" data-pack-filter="writer" data-pack-value={writer} aria-pressed="false">
-							{writer}
-						</button>
-					))}
-				</div>
-			</fieldset>
-			<fieldset class="tool-filter-group">
-				<legend class="tool-filter-label">길이</legend>
-				<div class="consult-chips">
-					{packGrades.map((grade) => (
-						<button class="tool-filter-chip" type="button" data-pack-filter="grade" data-pack-value={grade} aria-pressed="false">
-							{grade}
-						</button>
-					))}
-				</div>
-			</fieldset>
-			<p class="consult-count" data-pack-count>{catalog.length}건 표시</p>
-			{
-				packGroups.map((group) => {
-					const list = (
-						<ul class="pack-list">
-							{group.items.map((item) => (
-								<li
-									data-pack-item
-									data-batch={item.batch}
-									data-channel={item.channel}
-									data-writer={item.writer}
-									data-grade={item.grade}
-									data-pack-text={`${item.title} ${item.name} ${item.customerText} ${item.staffText} ${item.id} ${item.customer} ${item.channel} ${item.writer} ${item.grade} ${item.batch}`}
-								>
-									<strong class="pack-title">{item.title}</strong>
-									<p class="pack-staff">작성 직원 {item.writer}</p>
-									<p class="pack-chars">{item.chars.toLocaleString('ko-KR')}자 · {item.grade}</p>
-									<p class="pack-voice">
-										<span>고객 원문</span>
-										{item.customerText}
-									</p>
-									<p class="pack-voice">
-										<span>직원 메모</span>
-										{item.staffText || '이 기록에는 직원 메모가 없습니다.'}
-									</p>
-									<p class="pack-meta">{item.id} · {item.customer}</p>
-									<div class="pack-actions">
-										<a href={viewHref(item.id)}>원본 보기</a>
-										<a href={fileHref(item.file)} download={item.file.split('/').pop()}>개별 다운로드</a>
-									</div>
-								</li>
-							))}
-						</ul>
-					);
-					return group.folded ? (
-						<details class="pack-fold">
-							<summary>
-								{group.title} · <span data-pack-group-count={group.items.length}>{group.items.length}</span>건. {group.note}
-							</summary>
-							{list}
-						</details>
-					) : (
-						<div class="pack-group">
-							<h3>
-								{group.title} · <span data-pack-group-count={group.items.length}>{group.items.length}</span>건
-							</h3>
-							<p>{group.note}</p>
-							{list}
-						</div>
-					);
-				})
-			}
-			<p class="consult-empty" data-pack-empty hidden>조건에 맞는 원본이 없습니다.</p>
 		</section>
-
-		<section class="consult-panel tool-filter-panel" aria-labelledby="consult-find">
-			<h2 id="consult-find">예시 고르기</h2>
-			<label class="consult-search">
-				<span class="tool-filter-label">검색</span>
-				<input class="tool-filter-search" type="search" data-search placeholder="인스타, 울쎄라, 예약, 오타" />
-			</label>
-			{
-				filters.map((group) => (
-					<fieldset class="tool-filter-group">
-						<legend class="tool-filter-label">{group.label}</legend>
-						<div class="consult-chips tool-filter-options">
-							{group.options.map(([value, label]) => (
-								<button
-									class="tool-filter-chip"
-									type="button"
-									data-filter={group.key}
-									data-value={value}
-									aria-pressed="false"
-								>
-									{label}
-								</button>
-							))}
-						</div>
-					</fieldset>
-				))
-			}
-			<p class="consult-count" data-count>{samples.length}개 표시</p>
-			<ul class="consult-cards">
-				{
-					samples.map((sample) => (
-						<li
-							data-card
-							data-path={sample.path}
-							data-form={sample.form}
-							data-stage={sample.stage}
-							data-field={sample.field}
-							data-level={sample.level}
-							class="tool-example-card"
-							data-text={`${sample.id} ${sample.title} ${sample.pathLabel} ${sample.formLabel} ${sample.stageLabel} ${sample.fieldLabel} ${sample.body}`}
-						>
-							<div class="consult-card-top">
-								<strong>
-									{sample.id}. {sample.title}
-								</strong>
-								<span>{sample.levelLabel}</span>
-							</div>
-							<p class="consult-tags">
-								{sample.pathLabel} · {sample.formLabel} · {sample.stageLabel} · {sample.fieldLabel}
-							</p>
-							<pre id={`sample-${sample.id}`}>{sample.body}</pre>
-							<button class="tool-action" type="button" data-copy={`sample-${sample.id}`}>
-								원문 복사
-							</button>
-						</li>
-					))
-				}
-			</ul>
-			<p class="consult-empty" data-empty hidden>조건에 맞는 예시가 없습니다.</p>
-		</section>
-
-		<section class="consult-panel" aria-labelledby="consult-tasks">
-			<h2 id="consult-tasks">붙여 넣는 문장</h2>
-			<p>정답표는 이 페이지에 없습니다. 아래는 결과의 모양만 확인합니다.</p>
-			{
-				prompts.map((prompt) => (
-					<article class="consult-task">
-						<h3>{prompt.title}</h3>
-						<pre id={`prompt-${prompt.id}`}>{prompt.text}</pre>
-						<button class="tool-action" type="button" data-copy={`prompt-${prompt.id}`}>
-							문장 복사
-						</button>
-						<p>{prompt.success}</p>
-					</article>
-				))
-			}
-		</section>
-		<p class="consult-status" data-status role="status" aria-live="polite"></p>
 	</article>
 </Layout>
-
-<script>
-	const root = document.querySelector('[data-consult]');
-	const search = root?.querySelector('[data-search]');
-	const cards = [...(root?.querySelectorAll('[data-card]') ?? [])];
-	const count = root?.querySelector('[data-count]');
-	const empty = root?.querySelector('[data-empty]');
-	const status = root?.querySelector('[data-status]');
-	const selected = new Map();
-
-	function apply() {
-		const query = search instanceof HTMLInputElement ? search.value.trim() : '';
-		let shown = 0;
-		for (const card of cards) {
-			if (!(card instanceof HTMLElement)) continue;
-			const text = card.dataset.text ?? '';
-			const matchesQuery = query === '' || text.includes(query);
-			let matchesFilters = true;
-			for (const [key, values] of selected) {
-				if (values.size === 0) continue;
-				const current = card.dataset[key] ?? '';
-				if (!values.has(current)) matchesFilters = false;
-			}
-			const visible = matchesQuery && matchesFilters;
-			card.hidden = !visible;
-			if (visible) shown += 1;
-		}
-		if (count) count.textContent = `${shown}개 표시`;
-		if (empty instanceof HTMLElement) empty.hidden = shown !== 0;
-	}
-
-	root?.addEventListener('click', async (event) => {
-		const target = event.target;
-		if (!(target instanceof HTMLButtonElement)) return;
-		const filter = target.dataset.filter;
-		const value = target.dataset.value;
-		if (filter && value) {
-			const values = selected.get(filter) ?? new Set();
-			if (values.has(value)) values.delete(value);
-			else values.add(value);
-			selected.set(filter, values);
-			target.setAttribute('aria-pressed', values.has(value) ? 'true' : 'false');
-			apply();
-			return;
-		}
-		const copyId = target.dataset.copy;
-		if (!copyId) return;
-		const text = document.getElementById(copyId)?.textContent?.trim() ?? '';
-		const label = target.textContent ?? '복사';
-		try {
-			await navigator.clipboard.writeText(text);
-		} catch {
-			const area = document.createElement('textarea');
-			area.value = text;
-			area.setAttribute('readonly', '');
-			area.style.position = 'fixed';
-			area.style.left = '-9999px';
-			document.body.appendChild(area);
-			area.select();
-			document.execCommand('copy');
-			area.remove();
-		}
-		target.textContent = '복사됨';
-		if (status) status.textContent = '복사했습니다.';
-		window.setTimeout(() => {
-			target.textContent = label;
-		}, 1600);
-	});
-
-	search?.addEventListener('input', apply);
-</script>
 
 <script>
 	const pack = document.querySelector('[data-pack]');
@@ -831,13 +251,13 @@ const filters = [
 			item.hidden = !visible;
 			if (visible) shown += 1;
 		}
-		for (const group of pack?.querySelectorAll('.pack-group, details.pack-fold') ?? []) {
+		for (const group of pack?.querySelectorAll('[data-person]') ?? []) {
 			if (!(group instanceof HTMLElement)) continue;
 			const entries = [...group.querySelectorAll('[data-pack-item]')].filter(
 				(entry) => entry instanceof HTMLElement,
 			);
 			const visibleCount = entries.filter((entry) => !entry.hidden).length;
-			const countLabel = group.querySelector('[data-pack-group-count]');
+			const countLabel = group.querySelector('[data-person-count]');
 			if (countLabel) countLabel.textContent = String(visibleCount);
 			const any = visibleCount > 0;
 			group.hidden = filtering && !any;
@@ -848,6 +268,17 @@ const filters = [
 		}
 		if (packCount) packCount.textContent = `${shown}건 표시`;
 		if (packEmpty instanceof HTMLElement) packEmpty.hidden = shown !== 0;
+	}
+
+	function openFromHash() {
+		const hash = decodeURIComponent(location.hash.replace(/^#/, ''));
+		if (!hash.startsWith('customer-')) return;
+		if (pack instanceof HTMLDetailsElement) pack.open = true;
+		const person = document.getElementById(hash);
+		if (person instanceof HTMLDetailsElement) {
+			person.open = true;
+			person.scrollIntoView({ block: 'start' });
+		}
 	}
 
 	pack?.addEventListener('click', (event) => {
@@ -864,38 +295,34 @@ const filters = [
 		applyPack();
 	});
 	packSearch?.addEventListener('input', applyPack);
+	openFromHash();
+	window.addEventListener('hashchange', openFromHash);
 </script>
 
 <style>
 	.consult {
 		box-sizing: border-box;
 		min-width: 0;
+		max-width: 48rem;
 		padding: 2.2rem 0 4rem;
-		max-width: 72rem;
-		--tool-radius-button: 6px;
-		--tool-radius-card: 8px;
-		--tool-border: #d6d9dc;
-		--tool-ink: #1f2937;
-		--tool-mint-active: #d9f3eb;
-		--tool-navy: #17344b;
 	}
 	.consult-kicker {
 		font-size: 0.78rem;
 		color: var(--t3);
 	}
-	.consult-kicker a {
+	.consult-kicker a,
+	.consult-aside a {
 		color: var(--pink);
 		font-weight: 700;
 		text-decoration: none;
 	}
 	.consult h1,
-	.consult h2,
-	.consult h3 {
+	.consult h2 {
 		font-family: var(--display);
+		letter-spacing: -0.03em;
 	}
 	.consult h1 {
 		font-size: clamp(1.8rem, 4vw, 2.35rem);
-		letter-spacing: -0.03em;
 		margin: 0.4rem 0 0.7rem;
 	}
 	.consult-virtual {
@@ -904,53 +331,56 @@ const filters = [
 	}
 	.consult-lead,
 	.consult-panel p,
-	.consult-tags {
+	.record-preview,
+	.record-meta {
 		color: var(--t2);
 		line-height: 1.65;
 	}
-	.consult-steps {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 8px;
-		margin: 12px 0 0;
-		padding: 0;
-		list-style: none;
+	.consult-aside {
+		margin: 0.8rem 0 0;
 	}
-	.consult-steps li {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		box-sizing: border-box;
-		min-height: 36px;
-		padding: 6px 12px;
-		border-radius: 6px;
-		background: #fff;
-		border: 1px solid var(--tool-border);
-		color: var(--tool-ink);
-		font-size: 13px;
-		font-weight: 600;
-		line-height: 1.3;
-		white-space: nowrap;
-	}
-	.consult-panel,
-	.consult-cards li,
-	.consult-task {
-		margin-top: 1rem;
+	.consult-panel {
+		margin-top: 1.4rem;
 		padding: 16px;
 		border: 1px solid var(--rule);
 		border-radius: 8px;
 		background: var(--bg2);
 	}
-	.tool-filter-panel {
-		padding: 16px;
-	}
 	.consult h2 {
 		margin: 0 0 0.45rem;
 		font-size: 1.15rem;
 	}
-	.consult h3 {
-		margin: 0 0 0.4rem;
-		font-size: 1rem;
+	.fold,
+	.person {
+		margin-top: 12px;
+	}
+	.fold > summary,
+	.person > summary {
+		cursor: pointer;
+	}
+	.fold > summary {
+		display: inline-flex;
+		align-items: center;
+		min-height: 36px;
+		padding: 6px 12px;
+		border: 1px solid #d6d9dc;
+		border-radius: 6px;
+		background: #fff;
+		font-weight: 700;
+	}
+	.person > summary {
+		display: grid;
+		gap: 2px;
+		padding: 10px 12px;
+		border: 1px solid #d6d9dc;
+		border-radius: 8px;
+		background: #fff;
+	}
+	.person > summary span,
+	.person > summary small {
+		color: var(--t2);
+		font-weight: 500;
+		line-height: 1.45;
 	}
 	.consult-search {
 		display: grid;
@@ -963,11 +393,10 @@ const filters = [
 		width: 100%;
 		min-height: 38px;
 		padding: 8px 12px;
-		border: 1px solid var(--tool-border);
+		border: 1px solid #d6d9dc;
 		border-radius: 6px;
 		font: inherit;
 		font-size: 14px;
-		line-height: 1.4;
 		background: #fff;
 	}
 	fieldset {
@@ -976,236 +405,113 @@ const filters = [
 		border: 0;
 	}
 	legend {
-		display: block;
 		margin-bottom: 6px;
 		font-size: 13px;
 		font-weight: 700;
 	}
-	.consult-chips {
+	.chips {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 6px;
 	}
-	.tool-filter-chip,
-	.tool-action {
+	.chips button,
+	.record-actions a,
+	.downloads a {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
 		box-sizing: border-box;
-		border: 1px solid var(--tool-border);
+		border: 1px solid #d6d9dc;
 		border-radius: 6px;
 		background: #fff;
-		color: var(--tool-ink);
+		color: #1f2937;
 		font: inherit;
-		font-weight: 600;
-		line-height: 1.35;
+		font-weight: 700;
+		text-decoration: none;
 		cursor: pointer;
 	}
-	.tool-filter-chip {
+	.chips button {
 		min-height: 32px;
 		padding: 5px 10px;
 		font-size: 13px;
 	}
-	button.tool-action,
-	a.tool-action {
-		min-height: 36px;
-		padding: 6px 12px;
-		font-size: 13px;
-		white-space: nowrap;
-		text-decoration: none;
-	}
-	.tool-filter-chip[aria-pressed='true'] {
-		background: var(--tool-mint-active);
+	.chips button[aria-pressed='true'] {
+		background: #d9f3eb;
 		border-color: #288a75;
-		color: var(--tool-navy);
+		color: #17344b;
 	}
-	.tool-filter-chip:focus-visible,
-	.tool-action:focus-visible {
-		outline: 3px solid #2668b5;
-		outline-offset: 2px;
-	}
-	.consult-cards {
-		list-style: none;
-		padding: 0;
-		margin: 0.4rem 0 0;
-		display: grid;
-		gap: 0.75rem;
-	}
-	.consult-card-top {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-		gap: 0.4rem;
-	}
-	.consult-tags {
-		margin: 0.3rem 0 0.5rem;
-	}
-	pre {
-		margin: 0 0 0.45rem;
-		white-space: pre-wrap;
-		font-family: inherit;
-		line-height: 1.55;
-	}
-	.consult-status {
-		min-height: 1.2rem;
-		margin-top: 0.8rem;
-		color: var(--t2);
-	}
-	.pack-downloads,
-	.pack-list {
-		list-style: none;
-		padding: 0;
+	.consult-count {
 		margin: 12px 0 0;
-		display: grid;
-		gap: 10px;
+		font-weight: 700;
 	}
-	.pack-downloads li,
-	.pack-list li {
-		min-width: 0;
+	.person-list,
+	.downloads {
+		list-style: none;
+		margin: 8px 0 0;
+		padding: 0;
+		display: grid;
+		gap: 8px;
+	}
+	.record-row,
+	.downloads li {
 		padding: 12px;
-		border: 1px solid var(--tool-border);
+		border: 1px solid #d6d9dc;
 		border-radius: 8px;
 		background: #fff;
 	}
-	.pack-downloads p,
-	.pack-list span {
-		margin: 4px 0 0;
-		color: var(--t2);
-		line-height: 1.5;
-		overflow-wrap: anywhere;
+	.record-top {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 6px;
 	}
-	.pack-downloads a,
-	.pack-list a {
-		display: inline-flex;
-		align-items: center;
-		min-height: 36px;
-		margin-top: 8px;
-		padding: 6px 12px;
-		border: 1px solid var(--tool-border);
-		border-radius: 6px;
-		background: #fff;
-		color: var(--tool-ink);
-		font-weight: 600;
+	.record-top span {
+		color: #17344b;
 		font-size: 13px;
-		text-decoration: none;
+		font-weight: 700;
 	}
-	.pack-list li {
-		display: grid;
-		gap: 2px;
-	}
-	.pack-list li[hidden],
-	.pack-group[hidden],
-	.pack-fold[hidden],
-	.consult-empty[hidden] {
-		display: none;
-	}
-	.pack-title {
-		font-size: 1rem;
-		line-height: 1.4;
-	}
-	.pack-preview {
-		margin: 6px 0 0;
-		color: var(--t2);
-		line-height: 1.5;
-	}
-	.pack-meta,
-	.pack-staff,
-	.pack-chars {
+	.record-meta,
+	.record-preview,
+	.downloads p {
 		margin: 4px 0 0;
-		color: var(--t3);
-		font-size: 0.82rem;
-		line-height: 1.4;
 	}
-	.pack-chars {
-		font-weight: 700;
-		color: var(--text);
-	}
-	.pack-voice {
-		margin: 8px 0 0;
-		color: var(--t2);
-		line-height: 1.5;
-	}
-	.pack-voice span {
-		display: inline-block;
-		margin-right: 6px;
-		padding: 1px 6px;
-		border-radius: 6px;
-		background: #fff;
-		border: 1px solid var(--tool-border);
-		color: var(--tool-navy, #17344b);
-		font-size: 12px;
-		font-weight: 700;
-	}
-	.pack-fold {
-		margin-top: 16px;
-	}
-	.pack-fold summary,
-	.guide-fold summary {
-		display: inline-flex;
-		align-items: center;
-		min-height: 36px;
-		padding: 6px 12px;
-		border: 1px solid var(--tool-border);
-		border-radius: 6px;
-		background: #fff;
-		font-weight: 600;
-		cursor: pointer;
-	}
-	.pack-actions {
+	.record-actions {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 8px;
 	}
-	.guide-fold {
-		margin-top: 12px;
+	.record-actions a,
+	.downloads a {
+		min-height: 36px;
+		margin-top: 8px;
+		padding: 6px 12px;
+		font-size: 13px;
 	}
-	.guide-body {
-		margin-top: 12px;
+	.record-row[hidden],
+	.person[hidden],
+	.consult-empty[hidden] {
+		display: none;
 	}
-	.guide-body :is(h2, h3) {
-		margin: 1rem 0 0.4rem;
-	}
-	.guide-body p,
-	.guide-body li {
-		color: var(--t2);
-		line-height: 1.6;
-	}
-	.guide-body pre {
-		padding: 12px;
-		border-radius: 8px;
-		background: #fff;
-		overflow-x: auto;
+	.chips button:focus-visible,
+	.record-actions a:focus-visible,
+	.downloads a:focus-visible,
+	.fold > summary:focus-visible,
+	.person > summary:focus-visible {
+		outline: 3px solid #2668b5;
+		outline-offset: 2px;
 	}
 	@media (max-width: 600px) {
-		.tool-filter-panel,
-		.consult-cards li,
-		.consult-task {
-			padding: 12px;
-		}
-		.consult-steps li,
-		button.tool-action,
-		a.tool-action,
-		.pack-downloads a,
-		.pack-list a,
-		.pack-fold summary,
-		.guide-fold summary {
+		.chips button,
+		.record-actions a,
+		.downloads a,
+		.fold > summary {
 			min-height: 44px;
 			padding: 10px 12px;
 			font-size: 14px;
 		}
-		.tool-filter-chip {
-			min-height: 36px;
-			padding: 8px 10px;
-			font-size: 13px;
-		}
 		.consult-search input {
 			min-height: 44px;
 			font-size: 16px;
-		}
-	}
-	@media (pointer: coarse) {
-		.tool-filter-chip {
-			min-height: 44px;
 		}
 	}
 </style>
