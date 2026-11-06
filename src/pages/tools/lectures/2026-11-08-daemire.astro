@@ -7,6 +7,7 @@ const downloadDir = path.join(process.cwd(), 'public/downloads/daemire-1108');
 
 type DownloadFile = {
 	name: string;
+	title: string;
 	note: string;
 };
 
@@ -32,54 +33,67 @@ const startGuide = '00_시작하기_자료사용가이드.md';
 const downloads: DownloadFile[] = [
 	{
 		name: startGuide,
+		title: '시작 가이드',
 		note: '처음 여는 안내입니다. 파일 이름, 번호, 따라가는 순서가 적혀 있습니다.',
 	},
 	{
 		name: '01_고객정보_수집경로별_원본예시와_자동정리.md',
+		title: '고객정보 수집 예시',
 		note: '방문·문의 파일을 열기 전에 읽습니다. 대화, 알림, 메모가 한 표로 모이는 과정입니다.',
 	},
 	{
 		name: '2026년10월_방문시술매출_CRM.xlsx',
+		title: '방문·매출 CRM',
 		note: '2026년 10월 방문 200건. 한 행은 방문 1건입니다.',
 	},
 	{
 		name: '2026년10월_상담문의_목록.csv',
+		title: '상담 문의 목록',
 		note: '2026년 10월 상담 문의 96건입니다.',
 	},
 	{
 		name: 'L1_프롬프트와_슬라이드별_실습가이드_v3.md',
+		title: '강연1 실습 가이드',
 		note: '강연1에서 붙여 넣는 문장과 슬라이드별 순서입니다.',
 	},
 	{
 		name: 'L1_지표정의_결정카드_템플릿.md',
+		title: '지표 정의 템플릿',
 		note: '재방문율처럼 숫자를 세기 전에 기준을 적는 카드입니다.',
 	},
 	{
 		name: 'L1_검산과_데이터품질_체크리스트.md',
+		title: '데이터 검산 체크리스트',
 		note: '합계, 빠진 값, 중복을 원본과 대조할 때 엽니다.',
 	},
 	{
 		name: 'L2_원가_BEP_시연입력_v1.0_v4.xlsx',
+		title: '강연2 계산기 입력',
 		note: '강연2 계산기 입력. 기준 단가 200,000원, 변동원가 50,000원, 월 고정비 15,000,000원.',
 	},
 	{
 		name: 'L2_원가_BEP_시연입력_v4.csv',
+		title: '계산기 입력 CSV',
 		note: '같은 입력의 CSV. 엑셀을 열 수 없을 때 붙입니다.',
 	},
 	{
 		name: 'L2_원가_BEP_독립검산_v4.xlsx',
+		title: '독립 검산표',
 		note: 'AI 결과와 따로 맞춰 보는 검산표입니다. 단가 인하는 변동원가 50,000원을 유지합니다.',
 	},
 	{
 		name: 'L2_AI도구_제작프롬프트와_검증테스트_v3.md',
+		title: '강연2 AI 제작 프롬프트',
 		note: '강연2에서 붙여 넣는 문장과 확인 숫자입니다.',
 	},
 	{
 		name: 'L2_내병원_작은도구_기획시트.md',
+		title: '내 병원 도구 기획',
 		note: '내 병원 고정비와 시술별 원가를 적는 시트입니다.',
 	},
 	{
 		name: 'DML_A-H_8대페인포인트_강연순서_1페이지_인덱스_v1.md',
+		title: '8대 문제의식 색인',
 		note: 'A–H 한 장 색인. 읽어 보는 본문은 아래 기존 페이지입니다.',
 	},
 ];
@@ -447,20 +461,15 @@ function fileSize(name: string): string {
 				입니다.
 			</p>
 			<ol class="file-list tool-file-list">
-				{
-					downloads.map((item) => (
-						<li class="tool-file-card">
-							<div class="file-top">
-								<strong class="tool-file-title">{item.name}</strong>
-							</div>
-							<p class="tool-file-size">{fileSize(item.name)}</p>
-							<p class="tool-file-description">{item.note}</p>
-							<a class="lecture-btn tool-download-button" href={fileHref(item.name)} download={item.name}>
-								다운로드
-							</a>
-						</li>
-					))
-				}
+				{downloads.map((item) => (
+					<li class="tool-file-card">
+						<div class="download-info">
+							<strong class="tool-file-title">{item.title}</strong>
+							<span class="tool-file-description">{item.note}</span>
+						</div>
+						<a class="lecture-btn tool-download-button" href={fileHref(item.name)} download={item.name} aria-label={`${item.title} 다운로드`}>다운로드</a>
+					</li>
+				))}
 			</ol>
 		</section>
 
@@ -720,6 +729,19 @@ function fileSize(name: string): string {
 
 <style>
 
+	/* 자료 다운로드: 제목 · 설명 · 버튼을 한 줄에 배치하고 파일 용량은 숨김 */
+	.tool-download-panel .tool-file-list {list-style:none;counter-reset:download;display:grid;grid-template-columns:minmax(0,1fr);gap:6px;padding:0;margin:12px 0 0;}
+	.tool-download-panel .tool-file-card {display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0;padding:9px 12px;border:1px solid var(--tool-border);border-radius:6px;}
+	.tool-download-panel .download-info {display:flex;align-items:baseline;gap:12px;min-width:0;flex:1;}
+	.tool-download-panel .tool-file-title {font-size:.9rem;white-space:nowrap;flex:0 0 auto;color:var(--text);}
+	.tool-download-panel .tool-file-description {font-size:.81rem;line-height:1.4;color:var(--t2);min-width:0;overflow-wrap:anywhere;}
+	.tool-download-panel .tool-download-button {flex:0 0 auto;margin:0;min-height:34px;padding:6px 11px;}
+	@media(max-width:620px) {
+		.tool-download-panel .tool-file-card {padding:9px;gap:8px;}
+		.tool-download-panel .download-info {flex-direction:column;align-items:start;gap:3px;}
+		.tool-download-panel .tool-file-title {white-space:normal;}
+		.tool-download-panel .tool-download-button {min-height:40px;padding:8px 10px;}
+	}
 	/* 강연2: 데스크톱/모바일 실습 카드 UI. 강연1 표와 전역 스타일은 유지합니다. */
 	.panel-ops .ops-workbook { background:var(--bg2); padding:clamp(14px,2.4vw,24px); }
 	.ops-head { display:flex;justify-content:space-between;gap:1rem;align-items:start; }
