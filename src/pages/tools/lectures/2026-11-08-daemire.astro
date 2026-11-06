@@ -21,6 +21,8 @@ type GuideRow = {
 	stuck: string;
 };
 
+type LessonExplanation = { why: string; analogy: string; principle: string; meaning: string; next: string };
+
 type Lecture2Step = GuideRow & {
 	time: string;
 	slide: string;
@@ -419,6 +421,128 @@ const lecture2Rows: Lecture2Step[] = [
   }
 ];
 
+const lessonExplanations: Record<string, LessonExplanation> = {
+  "l1-1": {
+    "why": "분석에 앞서 엑셀의 한 줄이 무엇을 의미하는지 알아야 합니다. 방문 기록 200줄을 환자 200명으로 잘못 해석하면 경영 지표가 틀립니다.",
+    "analogy": "도서관 대출 기록이 200줄이라고 이용 학생도 200명인 것은 아닙니다. 같은 학생이 여러 번 빌렸을 수 있습니다.",
+    "principle": "행은 하나의 기록, 열은 기록의 특징입니다. 행 수·방문 건수·고유 환자 수는 서로 다른 개념이며 확인할 근거가 필요합니다.",
+    "meaning": "200행이라고 해도 환자 수를 바로 계산할 수 있는 것은 아닙니다. 무엇을 확인했고 무엇을 알 수 없는지 구분하는 것이 첫 성과입니다.",
+    "next": "다음에는 별도 상담 문의 파일을 열고, 유형별 기록 건수를 분류합니다."
+  },
+  "l1-2": {
+    "why": "문의 유형을 세면 어떤 질문이 많이 들어오는지 파악하고, 직원 안내 문구나 예약 절차 개선의 우선순위를 정할 수 있습니다.",
+    "analogy": "반 학생 96명을 취미별로 나누었는데 세어 본 합계가 100명이면 누군가 중복으로 세어졌는지 확인해야 합니다.",
+    "principle": "유형별 건수의 합은 전체 건수와 같아야 합니다. 비율은 유형별 건수 ÷ 전체 건수 × 100으로 계산합니다.",
+    "meaning": "48·12·8·28건의 합은 96건입니다. 이 값은 문의량이며 예약률이나 매출 기여를 의미하지는 않습니다.",
+    "next": "이제 숫자에 빈칸이나 중복이 없는지 확인해 데이터 품질을 점검합니다."
+  },
+  "l1-3": {
+    "why": "자료에 빈칸·중복·잘못된 날짜가 있다면 AI가 계산을 정확히 해도 입력이 틀려 결과를 믿을 수 없습니다.",
+    "analogy": "출석부에 한 학생 이름이 두 번 있고 다른 학생이 빠졌다면 출석 인원 계산부터 틀립니다.",
+    "principle": "중복은 같은 기록을 거듭 센 경우, 누락은 필요한 값이 없는 경우입니다. 오류 발견 건수와 원본의 위치를 같이 기록합니다.",
+    "meaning": "결함이 발견되면 바로 임의 수정하지 않고 해당 행을 찾아 확인합니다. 원본 근거 없는 임의 보정은 검증이 아닙니다.",
+    "next": "정리된 자료로 무엇을 세는지, 즉 지표의 분자와 분모를 정합니다."
+  },
+  "l1-4": {
+    "why": "같은 이름의 ‘재방문율’도 환자 기준인지 방문 기준인지에 따라 서로 다른 숫자가 됩니다.",
+    "analogy": "5명이 간식을 10번 샀다면 구매 횟수는 10번이지만 구매한 사람 수는 5명입니다.",
+    "principle": "비율은 분자 ÷ 분모입니다. 기간·대상·중복 처리 기준을 먼저 정해야 비교 가능한 지표가 됩니다.",
+    "meaning": "서로 다른 정의의 숫자를 비교하면 잘못된 결론이 납니다. 기준을 먼저 문서로 남기는 것이 이번 실습의 결과입니다.",
+    "next": "같은 정의를 유지하면서 유입채널별 방문과 매출을 살펴봅니다."
+  },
+  "l1-5": {
+    "why": "어떤 경로로 환자가 들어오는지 파악하면 홍보 자원을 어디에 배분할지 검토할 수 있습니다.",
+    "analogy": "가게 손님이 전단지·소개·검색을 통해 왔다고 해도, 가장 사람이 많은 경로가 반드시 가장 수익성이 높은 것은 아닙니다.",
+    "principle": "채널별 건수·금액 합계·평균 금액은 서로 다른 지표입니다. 집계한 채널별 합은 원본 전체와 맞아야 합니다.",
+    "meaning": "방문 건수만으로 광고 효율이나 순이익을 확정하지 않습니다. 비용·환불·환자 특성 등 추가 자료가 필요합니다.",
+    "next": "다음 단계에서는 서로 다른 파일의 같은 문의를 안전하게 연결합니다."
+  },
+  "l1-6": {
+    "why": "문의가 실제 방문으로 이어졌는지 보려면 두 파일에서 같은 사건임을 확인할 수 있는 연결 기준이 필요합니다.",
+    "analogy": "반 친구 둘의 이름이 같다고 같은 사람인 것은 아닙니다. 각각의 학생 번호가 있어야 확실히 구분할 수 있습니다.",
+    "principle": "문의ID와 방문 기록의 연결키가 일치하는 경우만 확인된 연결로 판단합니다. 비슷한 이름이나 날짜를 근거로 추정해 합치면 안 됩니다.",
+    "meaning": "연결되지 않은 기록은 ‘방문하지 않았다’가 아니라 ‘현재 자료로 연결을 확인하지 못했다’일 수 있습니다.",
+    "next": "연결 결과에서 확인한 사실을 바탕으로 경영 질문을 만듭니다."
+  },
+  "l1-7": {
+    "why": "표에 나타난 숫자는 현상을 설명하지만 원인까지 자동으로 말해 주지는 않습니다. 다음에 확인할 질문을 만드는 연습입니다.",
+    "analogy": "시험 점수가 낮았다고 공부를 안 했다고 확정할 수는 없습니다. 시험 난도나 건강 상태도 확인해야 합니다.",
+    "principle": "관측값(사실), 해석(가설), 추가 확인자료를 구분합니다. AI의 그럴듯한 추정은 증거가 아닙니다.",
+    "meaning": "경영 질문은 어떤 자료로 사실 여부를 확인할 수 있는지까지 함께 적어야 실무에 도움이 됩니다.",
+    "next": "검증 가능한 질문 한 개를 선택해 작은 개선 실험으로 옮깁니다."
+  },
+  "l1-8": {
+    "why": "자료가 시사하는 개선점을 곧바로 병원 전체에 적용하기보다 작은 범위에서 시험하면 비용과 위험을 줄일 수 있습니다.",
+    "analogy": "새 공부법이 좋다는 말을 듣고 전교생에게 적용하기 전에 한 반에서 먼저 시험해 보는 것과 같습니다.",
+    "principle": "개선 전 기준값, 변경한 행동, 관찰 기간, 개선 후 지표를 기록해야 변화가 있었는지 판단할 수 있습니다.",
+    "meaning": "전후 결과가 달라도 원인이 해당 조치라고 단정할 수 없으며 비교 조건을 점검해야 합니다.",
+    "next": "시험 결과를 남기기 전에 원본 수치와 계산이 맞는지 독립 검산합니다."
+  },
+  "l1-9": {
+    "why": "AI가 말하는 숫자를 믿기 전에 원본에서 직접 다시 세어야 잘못된 보고와 경영 결정을 피할 수 있습니다.",
+    "analogy": "계산기 두 대가 같은 잘못된 숫자를 입력받았다면 둘 다 같은 오답을 보여 줄 수 있습니다.",
+    "principle": "원본 행 수·합계·중복·누락을 별도 방식으로 대조합니다. 같은 대화에서 AI에게 다시 묻는 것은 독립 검산이 아닙니다.",
+    "meaning": "수치가 원본과 맞아야 결과를 사용할 수 있습니다. 불일치하면 입력 조건과 중복 집계를 확인합니다.",
+    "next": "검산된 계산 방법을 실제 병원 자료에 적용할 때 개인정보 보호 조건을 점검합니다."
+  },
+  "l1-10": {
+    "why": "실습용 가상 자료와 달리 실제 병원 자료에는 민감한 환자 정보가 있을 수 있으므로 필요한 항목만 사용해야 합니다.",
+    "analogy": "반 전체 급식 선호도를 알아보는 데 학생의 집 주소까지 모을 필요는 없습니다.",
+    "principle": "분석 목적에 필요한 최소 필드만 이용하고 직접 식별정보를 제거합니다. 가명처리만으로 모든 개인정보 문제가 해결되는 것은 아닙니다.",
+    "meaning": "실제 데이터는 병원의 보안·권한·동의·법적 요건을 검토한 뒤 승인된 환경에서 사용해야 합니다.",
+    "next": "현장에서 문의→예약→방문→시술 기록이 연결되는 실제 업무 흐름을 점검합니다."
+  },
+  "l1-field": {
+    "why": "상담 채널과 CRM 기록이 여러 곳에 흩어져 있으면 어느 기록이 이어지는지 혼동하기 쉽습니다.",
+    "analogy": "전화로 약속하고 문자로 다시 확인한 기록은 두 사람이 아니라 한 사람의 두 행동일 수 있습니다.",
+    "principle": "서로 다른 시스템의 데이터를 결합할 때는 공통 식별키와 결합 후 행 수 변화가 중요합니다. 1대다 결합은 합계를 부풀릴 수 있습니다.",
+    "meaning": "확인된 연결만 연결로 기록하고, 연결 불명은 따로 표시합니다. 문의 96행과 방문 200행을 임의로 합쳐 환자 수를 늘리지 않습니다.",
+    "next": "전체 흐름을 다시 보고 어떤 데이터가 추가로 필요한지 목록화합니다."
+  },
+  "l2-1": {
+    "why": "계산기를 만들기 전 숫자의 단위를 분리해야 합니다. ‘한 건당 비용’과 ‘매달 내는 비용’을 섞으면 필요한 시술 건수가 완전히 달라집니다.",
+    "analogy": "빵 한 개를 만들 때 드는 밀가루값과 가게가 매달 내는 월세는 같은 비용이지만 계산할 때 다르게 다룹니다.",
+    "principle": "판매가·변동원가는 원/건, 고정비는 원/월입니다. 예상 월 시술건수와 손익분기점 건수도 구분합니다.",
+    "meaning": "기준값 200,000원/건·50,000원/건·15,000,000원/월의 의미를 먼저 확인하는 것이 계산의 출발점입니다.",
+    "next": "이 세 입력값을 이용하는 작은 계산기를 AI에게 만들어 달라고 요청합니다."
+  },
+  "l2-2": {
+    "why": "AI에게 ‘계산기 만들어줘’라고만 하면 입력 칸이나 계산 규칙이 빠질 수 있습니다. 원하는 입출력과 오류 규칙을 명확히 설명하는 법을 배웁니다.",
+    "analogy": "자동판매기를 만들 때 투입 금액·상품 가격·거스름돈 규칙을 정해야 제대로 작동하는 것과 같습니다.",
+    "principle": "입력(가격·변동원가·고정비) → 계산(공헌이익·BEP) → 출력(건수·매출)의 순서로 설계합니다. 공헌이익은 판매가에서 변동원가를 뺀 값입니다.",
+    "meaning": "화면이 생겼다는 사실만으로 계산이 옳은 것은 아닙니다. 테스트할 정답을 별도로 알고 있어야 합니다.",
+    "next": "기준 시나리오를 입력하고 예상했던 계산 결과와 대조합니다."
+  },
+  "l2-3": {
+    "why": "제작한 도구를 믿기 전에 정답을 알고 있는 숫자로 기능이 정상인지 확인합니다.",
+    "analogy": "새 체중계가 정확한지 알려면 이미 무게를 아는 물건을 올려보는 것과 같습니다.",
+    "principle": "공헌이익 = 200,000 − 50,000 = 150,000원/건. 월 BEP = 15,000,000 ÷ 150,000 = 100건입니다.",
+    "meaning": "BEP 매출 20,000,000원은 월 고정비 15,000,000원과 같은 금액이 아닙니다. 매출에서 변동비를 빼야 합니다.",
+    "next": "이제 다른 조건을 고정한 채 판매가만 바꿔 차이를 확인합니다."
+  },
+  "l2-4": {
+    "why": "가격을 낮췄을 때 필요한 시술 건수가 얼마나 증가하는지 알아야 할인 의사결정의 기준을 세울 수 있습니다.",
+    "analogy": "한 개 팔 때 150원을 남기던 물건을 130원만 남기게 팔면 같은 월세를 내기 위해 더 많이 팔아야 합니다.",
+    "principle": "가격만 180,000원으로 낮추고 다른 두 값은 유지하는 통제 비교입니다. 15,000,000 ÷ 130,000 = 약 115.3846건이므로 116건으로 올림합니다.",
+    "meaning": "115건은 −50,000원, 116건은 +80,000원입니다. 116건의 고객이 실제 방문할지는 이 수식으로 알 수 없습니다.",
+    "next": "올림 직전·직후를 독립 검산표와 비교하고 예외값도 시험합니다."
+  },
+  "l2-5": {
+    "why": "AI가 만든 계산기는 수식이나 입력 검사에 오류가 있을 수 있습니다. 실제 의사결정 전에 오류를 발견하는 방법을 익힙니다.",
+    "analogy": "시험지를 푼 학생이 자기 답을 다시 읽는 것과 정답지로 채점하는 것은 다릅니다.",
+    "principle": "별도 엑셀의 수식과 결과를 대조하고, 빈값·음수·공헌이익 0 이하 같은 경계 조건을 시험합니다.",
+    "meaning": "AI가 재계산한 수치와 외부 검산표 결과를 분리해 기록해야 합니다. 검증을 통과해도 수요 예측이 되지는 않습니다.",
+    "next": "다음에는 각자 실제로 해결하고 싶은 작은 경영 문제를 하나 선택합니다."
+  },
+  "l2-6": {
+    "why": "병원 경영의 모든 것을 한 번에 자동화하기보다 가장 먼저 해결할 의사결정 한 가지를 찾는 것이 중요합니다.",
+    "analogy": "집안 정리를 시작할 때 모든 방을 동시에 바꾸기보다 가장 자주 물건을 잃어버리는 서랍부터 정리합니다.",
+    "principle": "좋은 도구 기획은 문제·필요 입력·원하는 출력·검증 방법·승인 책임을 구분하는 것으로 시작합니다.",
+    "meaning": "임상·노무·재무·개인정보에 영향을 주는 결정은 AI의 제안만으로 시행하지 않고 사람의 검토와 승인을 거칩니다.",
+    "next": "이 강연의 ‘목적→입력→실행→검증’ 틀을 다른 경영 분야에 적용해 봅니다."
+  }
+};
+
 function fileHref(name: string): string {
 	return `/downloads/daemire-1108/${encodeURIComponent(name)}`;
 }
@@ -494,53 +618,29 @@ function fileSize(name: string): string {
 		</div>
 
 		<div class="panel panel-crm">
-			<section class="lecture-panel" aria-labelledby="l1-guide">
-				<h2 id="l1-guide">강연1 따라하기</h2>
-				<p>화면을 본 뒤, 표의 순서대로 합니다. 문장은 그대로 붙여 넣습니다.</p>
-				<div class="table-wrap">
-					<table>
-						<caption class="sr-only">강연1 슬라이드별 따라하기</caption>
-						<thead>
-							<tr>
-								<th scope="col">원장님이 보여주는 것</th>
-								<th scope="col">내가 할 일</th>
-								<th scope="col">복붙 프롬프트</th>
-								<th scope="col">성공 예시</th>
-								<th scope="col">막히면</th>
-							</tr>
-						</thead>
-						<tbody>
-							{
-								lecture1Rows.map((row) => (
-									<tr>
-										<th scope="row">
-											<strong>{row.title}</strong>
-											<span>{row.show}</span>
-										</th>
-										<td>
-											<ol>
-												{row.steps.map((step) => (
-													<li>{step}</li>
-												))}
-											</ol>
-										</td>
-										<td>
-											<pre id={`copy-${row.id}`}>{row.prompt}</pre>
-											<button type="button" data-copy={row.id} data-label="문장 복사">
-												문장 복사
-											</button>
-										</td>
-										<td>{row.success}</td>
-										<td>{row.stuck}</td>
-									</tr>
-								))
-							}
-						</tbody>
-					</table>
+			<section class="lecture-panel crm-workbook" aria-labelledby="l1-guide">
+				<h2 id="l1-guide">강연1 따라하기 · CRM 자료를 경영 판단으로 바꾸는 수업</h2>
+				<p>각 단계에서 <strong>왜 하는지 → 쉬운 비유 → 정확한 원리 → 직접 실행 → 결과의 뜻</strong>을 먼저 이해하세요. 발표자가 없어도 가상 자료로 혼자 실습할 수 있습니다.</p>
+				<p class="education-privacy">실제 환자의 성명·전화번호·차트번호 등 개인정보는 공개 AI 서비스에 올리지 마세요. 제공된 실습용 가상 자료만 사용합니다.</p>
+				<nav class="crm-quick-nav" aria-label="강연1 단계 바로가기">{lecture1Rows.map((row,index)=><a href={'#'+row.id}>{index+1}. {row.title.replace(/^\\d+\\.\\s*/, '')}</a>)}</nav>
+				<div class="crm-lesson-list">
+					{lecture1Rows.map((row,index) => (
+						<section class="education-lesson" id={row.id} aria-labelledby={'title-'+row.id}>
+							<div class="education-lesson-head"><p>강연1 · 미션 {index+1} / {lecture1Rows.length}</p><h3 id={'title-'+row.id}>{row.title}</h3></div>
+							<div class="education-intro"><h4>① 지금 배우는 것 · 청중이 해야 할 일</h4><p>{row.show}</p></div>
+							<div class="education-explain">
+								<div><h4>② 왜 이 작업을 하나요?</h4><p>{lessonExplanations[row.id].why}</p></div>
+								<div><h4>③ 쉽게 이해하는 원리</h4><p><strong>생활 속 비유</strong> {lessonExplanations[row.id].analogy}</p><p><strong>정확한 개념</strong> {lessonExplanations[row.id].principle}</p></div>
+							</div>
+							<div class="education-run"><h4>④ 실행 방법 · 한 단계씩 따라하기</h4><ol>{row.steps.map(step=><li>{step}</li>)}</ol><p>파일은 위쪽 ‘받는 순서’에서 찾습니다. ChatGPT 대화의 메시지 입력칸에 다음 프롬프트를 붙여넣고 전송하세요.</p></div>
+							<div class="education-prompt"><h4>⑤ AI에 입력할 프롬프트</h4><pre id={'copy-'+row.id}>{row.prompt}</pre><button type="button" data-copy={row.id} data-label="문장 복사">문장 복사</button></div>
+							<div class="education-result"><h4>⑥ 성공 확인 · 결과는 무슨 뜻인가요?</h4><p><strong>예상 결과</strong> {row.success}</p><p><strong>결과의 의미</strong> {lessonExplanations[row.id].meaning}</p><details><summary>결과가 다르거나 작업이 막히면</summary><p>{row.stuck}</p></details></div>
+							<div class="education-next"><h4>⑦ 배운 내용 응용하기 · 다음 단계</h4><p>{lessonExplanations[row.id].next}</p>{index<lecture1Rows.length-1&&<a href={'#'+lecture1Rows[index+1].id}>다음 미션으로 이동 →</a>}</div>
+						</section>
+					))}
 				</div>
 			</section>
 		</div>
-
 
 		<div class="panel panel-ops">
 			<section class="lecture-panel ops-workbook" aria-labelledby="l2-guide">
@@ -548,7 +648,7 @@ function fileSize(name: string): string {
 					<div>
 						<p class="ops-eyebrow">강연2 · 개원 원장 실습 워크북</p>
 						<h2 id="l2-guide">AI로 나만의 병원 경영 도구 만들기</h2>
-						<p>문제 발견 → 자료 이해 → 계산기 제작 → 시나리오 변경 → 검산 → 다음 도구 설계. PPT를 보며 한 단계씩 따라오세요.</p>
+						<p>각 미션의 목적과 원리부터 이해하고, 파일·프롬프트·검산표를 이용해 혼자서도 실행할 수 있는 7요소 학습 워크북입니다.</p>
 					</div>
 					<button type="button" class="ops-mode" data-ops-mode aria-pressed="false">복습 모드 켜기</button>
 				</div>
@@ -592,11 +692,15 @@ function fileSize(name: string): string {
 								</div>
 								<span class="ops-step-time">{row.time}</span>
 							</div>
+							<div class="education-l2-intro">
+								<div><h4>② 왜 이 작업을 하나요?</h4><p>{lessonExplanations[row.id].why}</p></div>
+								<div><h4>③ 쉬운 비유에서 정확한 원리까지</h4><p><strong>생활 속 비유</strong> {lessonExplanations[row.id].analogy}</p><p><strong>개념과 계산 원리</strong> {lessonExplanations[row.id].principle}</p></div>
+							</div>
 							<div class="ops-content-grid">
 								<div class="ops-info">
-									<h4>원장님이 보여주는 것</h4>
+									<h4>① 지금 배우는 것 · 청중이 해야 할 일</h4>
 									<p>{row.show}</p>
-									<h4>내가 할 일</h4>
+									<h4>④ 실행 방법 · 한 단계씩 따라하기</h4>
 									<ol>{row.steps.map((step) => <li>{step}</li>)}</ol>
 									{row.resources.length > 0 && (
 										<div class="ops-step-files">
@@ -606,19 +710,20 @@ function fileSize(name: string): string {
 									)}
 								</div>
 								<div class="ops-action">
-									<h4>복붙 프롬프트</h4>
+									<h4>⑤ AI에 입력할 프롬프트</h4>
 									<pre id={'copy-' + row.id}>{row.prompt}</pre>
 									<button type="button" data-copy={row.id} data-label="문장 복사">문장 복사</button>
 								</div>
 							</div>
 							<details class="ops-answer">
-								<summary>성공 확인 · 검산 결과 펼치기</summary>
+								<summary>⑥ 성공 확인 · 검산 결과 펼치기</summary>
 								<p>{row.success}</p>
 							</details>
 							<details class="ops-trouble">
-								<summary>막히면 · 오류 해결 방법</summary>
+								<summary>오류 해결 방법 · 막히면</summary>
 								<p>{row.stuck}</p>
 							</details>
+							<div class="education-l2-outcome"><h4>⑥ 결과의 의미</h4><p>{lessonExplanations[row.id].meaning}</p><h4>⑦ 다음 단계와 다른 업무에 응용하기</h4><p>{lessonExplanations[row.id].next}</p></div>
 							<p class="ops-review-only"><strong>복습 심화</strong> {row.review}</p>
 							<div class="ops-step-footer">
 								<button type="button" class="ops-secondary" data-ops-jump={index - 1} disabled={index === 0}>이전 단계</button>
@@ -762,6 +867,36 @@ function fileSize(name: string): string {
 		.tool-download-panel .tool-file-title {white-space:normal;}
 		.tool-download-panel .tool-download-button {min-height:40px;padding:8px 10px;}
 	}
+	/* 7요소 자기주도 실습 교육 설계: 설명을 감추지 않고 맥락부터 보여줍니다. */
+	.crm-workbook .crm-quick-nav{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 18px;}
+	.crm-workbook .crm-quick-nav a{font-size:.8rem;padding:6px 9px;border:1px solid var(--rule);border-radius:6px;text-decoration:none;background:var(--bg);}
+	.crm-lesson-list{display:grid;gap:14px;}
+	.education-lesson{scroll-margin-top:95px;background:var(--bg);border:1px solid var(--rule);border-radius:8px;padding:clamp(12px,2vw,20px);min-width:0;display:grid;gap:12px;}
+	.education-lesson-head{border-bottom:1px solid var(--rule);padding-bottom:10px;}
+	.education-lesson-head p{font-size:.76rem;font-weight:700;color:#966d40;margin:0 0 3px;}
+	.education-lesson-head h3{margin:0;font-size:1.15rem;color:var(--text);}
+	.education-lesson h4,.education-l2-intro h4,.education-l2-outcome h4{margin:0 0 7px;color:var(--text);font-size:.95rem;}
+	.education-lesson p,.education-l2-intro p,.education-l2-outcome p{line-height:1.65;margin:0 0 7px;font-size:.9rem;}
+	.education-lesson p:last-child,.education-l2-intro p:last-child,.education-l2-outcome p:last-child{margin-bottom:0;}
+	.education-intro,.education-run,.education-result,.education-next,.education-prompt,.education-l2-intro,.education-l2-outcome{padding:13px;border:1px solid var(--rule);border-radius:7px;min-width:0;}
+	.education-intro{background:#f5ede1;}
+	.education-explain,.education-l2-intro{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+	.education-explain>div,.education-l2-intro>div{padding:13px;background:var(--bg2);border:1px solid var(--rule);border-radius:7px;min-width:0;}
+	.education-run ol{margin:4px 0 10px;padding-left:1.4rem;}
+	.education-run li{margin:4px 0;line-height:1.6;}
+	.education-prompt{background:var(--bg2);}
+	.education-prompt pre{background:var(--bg);border:1px solid var(--rule);border-radius:6px;padding:12px;white-space:pre-wrap;overflow-wrap:anywhere;max-height:350px;overflow:auto;font-size:.84rem;}
+	.education-prompt button{margin:6px 0 0;}
+	.education-result{background:#eef6ef;}
+	.education-result details{margin-top:12px;border-top:1px solid var(--rule);padding-top:10px;}
+	.education-result summary{cursor:pointer;font-weight:700;}
+	.education-next{border-left:3px solid #b9976f;}
+	.education-next a{font-weight:700;}
+	.education-privacy{padding:10px 12px;background:#f8efe9;border:1px solid #e7d1bf;border-radius:6px;}
+	.education-l2-intro{margin-bottom:12px;padding:0;border:0;gap:10px;}
+	.education-l2-outcome{margin-top:12px;background:#f5f1e8;}
+	.education-l2-outcome h4:not(:first-child){margin-top:12px;}
+	@media(max-width:720px){.education-explain,.education-l2-intro{grid-template-columns:minmax(0,1fr);}}
 	/* 강연2: 데스크톱/모바일 실습 카드 UI. 강연1 표와 전역 스타일은 유지합니다. */
 	.panel-ops .ops-workbook { background:var(--bg2); padding:clamp(14px,2.4vw,24px); }
 	.ops-head { display:flex;justify-content:space-between;gap:1rem;align-items:start; }
