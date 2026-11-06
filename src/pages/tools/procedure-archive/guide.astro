@@ -105,8 +105,8 @@ const steps = [
 		<nav class="step-nav" aria-label="실습 단계">
 			{
 				steps.map((step) => (
-					<a class={`step-jump step-${step.n}`} href={`#${step.id}`}>
-						<span class="step-num">{step.n}</span>
+					<a class="step-jump" href={`#${step.id}`}>
+						<span class={`step-num step-${step.n}`}>{step.n}</span>
 						<span>
 							<strong>{step.title}</strong>
 							<small>{step.note}</small>
@@ -379,18 +379,19 @@ const steps = [
 		border: 1px solid var(--tool-border);
 		border-radius: 6px;
 		background: #fff;
-		color: inherit;
+		color: var(--tool-ink);
 		text-decoration: none;
 	}
 	.step-jump strong,
 	.task-btn strong {
 		display: block;
+		color: var(--tool-ink);
 	}
 	.step-jump small,
 	.task-btn small,
 	.record-links span {
 		display: block;
-		color: var(--t2);
+		color: #4b5563;
 		font-size: 13px;
 		line-height: 1.4;
 	}
@@ -404,12 +405,12 @@ const steps = [
 		color: #fff;
 		font-weight: 800;
 	}
-	.step-1 { background: #17344b; }
-	.step-2 { background: #2668b5; }
-	.step-3 { background: #288a75; }
-	.step-4 { background: #8a5a28; }
-	.step-5 { background: #6b3fa0; }
-	.step-6 { background: #9a3d4a; }
+	.step-num.step-1 { background: #17344b; }
+	.step-num.step-2 { background: #2668b5; }
+	.step-num.step-3 { background: #288a75; }
+	.step-num.step-4 { background: #8a5a28; }
+	.step-num.step-5 { background: #6b3fa0; }
+	.step-num.step-6 { background: #9a3d4a; }
 	.step-block {
 		margin-top: 18px;
 		padding: 14px;
@@ -461,9 +462,14 @@ const steps = [
 		background: #e7f6f1;
 		border-color: #288a75;
 	}
-	.act-copy { background: #8a5a28; color: #fff; border-color: #8a5a28; }
-	.act-ai { background: #6b3fa0; color: #fff; border-color: #6b3fa0; }
-	.act-check { background: #9a3d4a; color: #fff; border-color: #9a3d4a; }
+	.action-row .act-copy,
+	.action-row .act-ai,
+	.action-row .act-check {
+		color: #fff;
+	}
+	.action-row .act-copy { background: #8a5a28; border-color: #8a5a28; }
+	.action-row .act-ai { background: #6b3fa0; border-color: #6b3fa0; }
+	.action-row .act-check { background: #9a3d4a; border-color: #9a3d4a; }
 	.prompt-view {
 		margin: 10px 0 0;
 		padding: 12px;
