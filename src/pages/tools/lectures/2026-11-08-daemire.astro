@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import Layout from '../../../layouts/Layout.astro';
+import LectureGuideCards from '../../../components/LectureGuideCards.astro';
 
 const downloadDir = path.join(process.cwd(), 'public/downloads/daemire-1108');
 
@@ -447,33 +448,69 @@ function fileSize(name: string): string {
 
 <Layout
 	title="2026-11-08 대미레 강연 자료"
-	description="2026년 11월 8일 대미레 강연1(CRM)과 강연2(경영도구) 따라하기. 슬라이드별 실습 표와 받을 파일."
+	description="2026년 11월 8일 대미레에서 따라가는 순서. 페인포인트, 상담 기록, 시술 기록, 강연1, 강연2."
 >
 	<article class="lecture" data-lecture data-tool-page="daemire-archive">
 		<header class="lecture-head">
 			<p class="lecture-kicker">
-				<a href="/tools/">경영 도구 아카이브</a>
+				<a href="/tools/">강연·자료</a>
 				<span aria-hidden="true"> / </span>
-				강연 자료
+				2026-11-08 대미레
 			</p>
-			<h1>2026-11-08 대미레 강연 자료</h1>
-			<p class="lecture-virtual">모두 실습용 가상 데이터입니다</p>
-			<p class="lecture-notice">
-				<a href={fileHref(startGuide)}>처음이시면 00 시작하기 가이드부터</a>
-			</p>
+			<h1>오늘 따라가기</h1>
+			<p class="lecture-virtual">모두 실습용 가상 데이터입니다. 실제 환자 정보는 올리지 마세요.</p>
 			<p class="lecture-lead">
-				강연1(CRM)은 11:20–12:20, 강연2(경영도구)는 10:00–10:30 개원준비방 자료입니다. 로그인 없이 받습니다.
+				강연1(CRM)은 11:20–12:20, 강연2(경영도구)는 10:00–10:30입니다. 아래 다섯 칸이 오늘 순서입니다.
 			</p>
-			<p class="lecture-meta">짧은 주소 /daemire1108/ · 공개 페이지</p>
 		</header>
 
-		<section class="lecture-panel tool-download-panel" aria-labelledby="download-order">
-			<h2 id="download-order">받는 순서</h2>
+		<ol class="path" aria-label="오늘 순서">
+			<li>
+				<span class="path-num">1</span>
+				<div>
+					<h2>페인포인트 세 글</h2>
+					<p>오늘 보여주는 글은 B 추출, C 채널, H 결정입니다.</p>
+					<a href="/tools/hospital-data-pain-points/">B·C·H 읽기</a>
+				</div>
+			</li>
+			<li>
+				<span class="path-num">2</span>
+				<div>
+					<h2>상담 기록</h2>
+					<p>김민지는 장시간 상담이 없고 카톡·전화 메모 10건만 있습니다. 짧은 글은 그 경로에 남은 조각입니다.</p>
+					<a href="/tools/consult-archive/#pick">김민지 기록 열기</a>
+				</div>
+			</li>
+			<li>
+				<span class="path-num">3</span>
+				<div>
+					<h2>시술 기록 한 건</h2>
+					<p>집에서 온 울쎄라 문의로 경과 요약을 붙여 넣습니다. 지시문과 원문이 그 페이지에 열려 있습니다.</p>
+					<a href="/tools/procedure-archive/#practice">이 실습 열기</a>
+				</div>
+			</li>
+			<li>
+				<span class="path-num">4</span>
+				<div>
+					<h2>강연1 · 방문 표</h2>
+					<p>방문 엑셀을 붙이고, 분석 전에 표의 구조부터 물어 봅니다. 문장은 이 페이지 아래에 있습니다.</p>
+					<a href="#l1-1">강연1 첫 문장</a>
+				</div>
+			</li>
+			<li>
+				<span class="path-num">5</span>
+				<div>
+					<h2>강연2 · 손익분기</h2>
+					<p>단가 180,000원, 변동원가 50,000원, 월 고정비 15,000,000원. 손익분기점은 116건입니다.</p>
+					<a href="#l2-1">강연2 첫 문장</a>
+				</div>
+			</li>
+		</ol>
+
+		<details class="lecture-panel tool-download-panel">
+			<summary id="download-order">받은 파일 13개</summary>
 			<p>
-				00 다음에 01을 읽고, 그다음 방문·문의 파일을 엽니다.
-				A–H를 읽는 본문은
-				<a href="/tools/hospital-data-pain-points/">AI 입력용 페인포인트 아카이브</a>
-				입니다.
+				강연에서 폴더가 필요할 때 받습니다. 00 안내 파일에도 같은 순서가 적혀 있습니다.
 			</p>
 			<ol class="file-list tool-file-list">
 				{
@@ -491,7 +528,7 @@ function fileSize(name: string): string {
 					))
 				}
 			</ol>
-		</section>
+		</details>
 
 		<div class="tablist" role="tablist" aria-label="강연 선택">
 			<input class="tab-input" type="radio" name="lecture-tab" id="tab-crm" checked />
@@ -503,48 +540,8 @@ function fileSize(name: string): string {
 		<div class="panel panel-crm">
 			<section class="lecture-panel" aria-labelledby="l1-guide">
 				<h2 id="l1-guide">강연1 따라하기</h2>
-				<p>화면을 본 뒤, 표의 순서대로 합니다. 문장은 그대로 붙여 넣습니다.</p>
-				<div class="table-wrap">
-					<table>
-						<caption class="sr-only">강연1 슬라이드별 따라하기</caption>
-						<thead>
-							<tr>
-								<th scope="col">원장님이 보여주는 것</th>
-								<th scope="col">내가 할 일</th>
-								<th scope="col">복붙 프롬프트</th>
-								<th scope="col">성공 예시</th>
-								<th scope="col">막히면</th>
-							</tr>
-						</thead>
-						<tbody>
-							{
-								lecture1Rows.map((row) => (
-									<tr>
-										<th scope="row">
-											<strong>{row.title}</strong>
-											<span>{row.show}</span>
-										</th>
-										<td>
-											<ol>
-												{row.steps.map((step) => (
-													<li>{step}</li>
-												))}
-											</ol>
-										</td>
-										<td>
-											<pre id={`copy-${row.id}`}>{row.prompt}</pre>
-											<button type="button" data-copy={row.id} data-label="문장 복사">
-												문장 복사
-											</button>
-										</td>
-										<td>{row.success}</td>
-										<td>{row.stuck}</td>
-									</tr>
-								))
-							}
-						</tbody>
-					</table>
-				</div>
+				<p>한 칸씩 합니다. 문장은 그대로 붙여 넣습니다.</p>
+				<LectureGuideCards rows={lecture1Rows} />
 			</section>
 		</div>
 
@@ -557,48 +554,8 @@ function fileSize(name: string): string {
 						월 고정비는 15,000,000원입니다. 건당 공헌이익 130,000원, 올림 전 약 115.3846건, 손익분기점 116건, 매출 20,880,000원입니다. 115건은 −50,000원, 						116건은 +80,000원입니다.
 					</p>
 				</div>
-				<p>화면을 본 뒤, 표의 순서대로 합니다. 확인 숫자는 v4 파일을 따릅니다.</p>
-				<div class="table-wrap">
-					<table>
-						<caption class="sr-only">강연2 슬라이드별 따라하기</caption>
-						<thead>
-							<tr>
-								<th scope="col">원장님이 보여주는 것</th>
-								<th scope="col">내가 할 일</th>
-								<th scope="col">복붙 프롬프트</th>
-								<th scope="col">성공 예시</th>
-								<th scope="col">막히면</th>
-							</tr>
-						</thead>
-						<tbody>
-							{
-								lecture2Rows.map((row) => (
-									<tr>
-										<th scope="row">
-											<strong>{row.title}</strong>
-											<span>{row.show}</span>
-										</th>
-										<td>
-											<ol>
-												{row.steps.map((step) => (
-													<li>{step}</li>
-												))}
-											</ol>
-										</td>
-										<td>
-											<pre id={`copy-${row.id}`}>{row.prompt}</pre>
-											<button type="button" data-copy={row.id} data-label="문장 복사">
-												문장 복사
-											</button>
-										</td>
-										<td>{row.success}</td>
-										<td>{row.stuck}</td>
-									</tr>
-								))
-							}
-						</tbody>
-					</table>
-				</div>
+				<p>한 칸씩 합니다. 확인 숫자는 v4 파일을 따릅니다.</p>
+				<LectureGuideCards rows={lecture2Rows} />
 			</section>
 		</div>
 
@@ -614,8 +571,12 @@ function fileSize(name: string): string {
 
 	function applyHash() {
 		if (!(crm instanceof HTMLInputElement) || !(ops instanceof HTMLInputElement)) return;
-		if (location.hash === '#ops' || location.hash === '#lecture-2') ops.checked = true;
-		if (location.hash === '#crm' || location.hash === '#lecture-1') crm.checked = true;
+		const hash = location.hash;
+		if (hash === '#ops' || hash === '#lecture-2' || hash.startsWith('#l2-')) ops.checked = true;
+		if (hash === '#crm' || hash === '#lecture-1' || hash.startsWith('#l1-')) crm.checked = true;
+		const id = hash.slice(1);
+		const node = id ? document.getElementById(id) : null;
+		if (node) requestAnimationFrame(() => node.scrollIntoView({ block: 'start' }));
 	}
 
 	applyHash();
@@ -705,6 +666,54 @@ function fileSize(name: string): string {
 		margin: 0.15rem 0 0;
 		font-size: 0.88rem;
 		color: var(--t3);
+	}
+	.path {
+		list-style: none;
+		margin: 1.2rem 0 0;
+		padding: 0;
+		display: grid;
+		gap: 0.7rem;
+	}
+	.path li {
+		display: flex;
+		gap: 0.8rem;
+		align-items: flex-start;
+		padding: 0.9rem 1rem;
+		border: 1px solid var(--rule);
+		border-radius: 12px;
+		background: var(--bg2);
+	}
+	.path h2 {
+		margin: 0 0 0.25rem;
+		font-family: var(--display);
+		font-size: 1.05rem;
+	}
+	.path p {
+		margin: 0 0 0.45rem;
+		color: var(--t2);
+		line-height: 1.55;
+	}
+	.path a {
+		font-weight: 800;
+		color: var(--pink);
+		text-decoration: none;
+	}
+	.path-num {
+		display: inline-grid;
+		place-items: center;
+		flex: 0 0 auto;
+		width: 28px;
+		height: 28px;
+		border-radius: 999px;
+		background: var(--pink);
+		color: #fff;
+		font-weight: 800;
+	}
+	.tool-download-panel > summary {
+		cursor: pointer;
+		font-family: var(--display);
+		font-size: 1.05rem;
+		font-weight: 700;
 	}
 	.lecture-callout,
 	.lecture-panel {

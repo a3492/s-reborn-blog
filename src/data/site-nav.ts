@@ -13,6 +13,9 @@ export type NavChild = {
 	external?: boolean;
 	/** No public page yet. Label renders as 준비중 and href is the shared placeholder. */
 	pending?: boolean;
+	/** Dropdown heading. Shown when it differs from the previous child. */
+	group?: string;
+	groupEn?: string;
 };
 
 export type NavItem = {
@@ -76,50 +79,54 @@ export const SITE_NAV: NavItem[] = [
 		label: '강연·자료',
 		labelEn: 'Talks & materials',
 		children: [
-			{ id: 'lectures-index', label: '웹 강연', labelEn: 'Web lectures', href: '/lectures/' },
 			{
 				id: 'lectures-koat',
-				label: 'KOAT 2026 강연',
-				labelEn: 'KOAT 2026 lecture',
+				group: '이전 강연',
+				groupEn: 'Earlier talk',
+				label: 'KOAT 2026 슬라이드',
+				labelEn: 'KOAT 2026 slides',
 				href: '/lectures/koat-ai-2026/',
 			},
 			{
 				id: 'lectures-daemire',
-				label: '2026-11-08 대미레 자료',
-				labelEn: '2026-11-08 Daemire materials',
+				group: '2026-11-08 대미레',
+				groupEn: '2026-11-08 Daemire',
+				label: '오늘 따라가기',
+				labelEn: 'Follow along today',
 				href: '/tools/lectures/2026-11-08-daemire/',
 			},
 			{
 				id: 'lectures-pain',
-				label: '병원 데이터 페인포인트',
-				labelEn: 'Hospital data pain points',
+				group: '2026-11-08 대미레',
+				groupEn: '2026-11-08 Daemire',
+				label: '페인포인트 B·C·H',
+				labelEn: 'Pain points B, C, H',
 				href: '/tools/hospital-data-pain-points/',
 			},
 			{
 				id: 'lectures-consult',
-				label: '상담 데이터',
-				labelEn: 'Consult archive',
+				group: '2026-11-08 대미레',
+				groupEn: '2026-11-08 Daemire',
+				label: '상담 기록 읽기',
+				labelEn: 'Read a consult',
 				href: '/tools/consult-archive/',
 			},
 			{
-				id: 'lectures-consult-guide',
-				label: '상담 기록 읽는 순서',
-				labelEn: 'How to read consult records',
-				href: '/tools/consult-archive/guide/',
-			},
-			{
 				id: 'lectures-procedure',
-				label: '시술 기록 자료실',
-				labelEn: 'Procedure records',
+				group: '2026-11-08 대미레',
+				groupEn: '2026-11-08 Daemire',
+				label: '시술 기록 한 건',
+				labelEn: 'One procedure record',
 				href: '/tools/procedure-archive/',
 			},
 			{
-				id: 'lectures-procedure-practice',
-				label: '강의 실습 따라하기',
-				labelEn: 'Lecture practice',
-				href: '/tools/procedure-archive/guide/',
+				id: 'lectures-hub',
+				group: '2026-11-08 대미레',
+				groupEn: '2026-11-08 Daemire',
+				label: '이 묶음 한눈에',
+				labelEn: 'This set at a glance',
+				href: '/tools/',
 			},
-			{ id: 'lectures-hub', label: '자료 허브', labelEn: 'Materials hub', href: '/tools/' },
 		],
 	},
 	{

@@ -1,0 +1,241 @@
+---
+import { procedureChecks, procedureTasks } from '../lib/procedure-practice';
+
+const first = procedureTasks[0];
+---
+
+<section class="practice" id="practice" data-procedure-practice aria-labelledby="practice-title">
+	<h2 id="practice-title">오늘 실습</h2>
+	<p class="practice-lead">
+		작업을 고르면 지시문과 원문이 이 자리에서 바뀝니다. 지시문과 원문을 함께 복사한 뒤 새 대화에 붙여 넣습니다.
+	</p>
+	<div class="task-row">
+		{
+			procedureTasks.map((task, index) => (
+				<button type="button" class="task-btn" data-task={task.id} aria-pressed={index === 0 ? 'true' : 'false'}>
+					<strong>{task.label}</strong>
+					<small>{task.note}</small>
+				</button>
+			))
+		}
+	</div>
+	<p class="chosen" data-chosen>{first.record}</p>
+	<h3>지시문</h3>
+	<pre class="prompt-view" data-prompt-view>{first.prompt}</pre>
+	<p class="action-row">
+		<button type="button" class="act" data-copy="prompt">지시문 복사</button>
+		<button type="button" class="act" data-copy="record">원문 복사</button>
+		<a class="act act-ai" data-open-ai href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT에 붙여 넣기</a>
+		<a class="act act-ghost" data-view-link href={first.view}>원문 페이지</a>
+	</p>
+	<p class="practice-status" data-status role="status" aria-live="polite"></p>
+	<h3>원문</h3>
+	<pre class="record-view" data-record-view>{first.text}</pre>
+	<h3>검산</h3>
+	<ul>
+		{procedureChecks.map((check) => <li>{check}</li>)}
+	</ul>
+	<p class="action-row">
+		<button type="button" class="act" data-copy="check">검산 질문 복사</button>
+	</p>
+	{
+		procedureTasks.map((task) => (
+			<pre hidden id={`procedure-task-${task.id}`} data-record={task.record} data-view={task.view}>{task.prompt}</pre>
+		))
+	}
+	{
+		procedureTasks.map((task) => (
+			<pre hidden id={`procedure-text-${task.id}`}>{task.text}</pre>
+		))
+	}
+</section>
+
+<script>
+	const root = document.querySelector('[data-procedure-practice]');
+	const status = root?.querySelector('[data-status]');
+	const promptView = root?.querySelector('[data-prompt-view]');
+	const recordView = root?.querySelector('[data-record-view]');
+	const chosen = root?.querySelector('[data-chosen]');
+	const viewLink = root?.querySelector('[data-view-link]');
+	const checks = [
+		'원문에 없는 호전, 진단, 예약 확정이 들어갔는가.',
+		'비어 있던 항목을 문제없음으로 바꿨는가.',
+		'직원 말투를 하나의 공식 문장으로 합쳤는가.',
+		'위험 신호를 평범한 경과의 문장으로 내렸는가.',
+	];
+	let current = 'summary';
+
+	function taskNode(id: string) {
+		return document.getElementById(`procedure-task-${id}`);
+	}
+
+	function textNode(id: string) {
+		return document.getElementById(`procedure-text-${id}`);
+	}
+
+	function applyTask(id: string) {
+		const task = taskNode(id);
+		const text = textNode(id);
+		if (!(task instanceof HTMLElement) || !(text instanceof HTMLElement)) return;
+		current = id;
+		if (promptView) promptView.textContent = task.textContent ?? '';
+		if (recordView) recordView.textContent = text.textContent ?? '';
+		if (chosen) chosen.textContent = task.dataset.record ?? '';
+		if (viewLink instanceof HTMLAnchorElement && task.dataset.view) viewLink.href = task.dataset.view;
+		for (const button of root?.querySelectorAll('[data-task]') ?? []) {
+			if (button instanceof HTMLButtonElement) {
+				button.setAttribute('aria-pressed', button.dataset.task === id ? 'true' : 'false');
+			}
+		}
+	}
+
+	async function writeClipboard(text: string) {
+		try {
+			if (navigator.clipboard?.writeText) await navigator.clipboard.writeText(text);
+			else throw new Error('clipboard unavailable');
+		} catch {
+			const area = document.createElement('textarea');
+			area.value = text;
+			area.setAttribute('readonly', '');
+			area.style.position = 'fixed';
+			area.style.left = '-9999px';
+			document.body.appendChild(area);
+			area.select();
+			document.execCommand('copy');
+			area.remove();
+		}
+	}
+
+	function say(message: string) {
+		if (status) status.textContent = message;
+	}
+
+	root?.addEventListener('click', async (event) => {
+		const target = event.target;
+		if (!(target instanceof Element)) return;
+		const taskButton = target.closest('[data-task]');
+		if (taskButton instanceof HTMLButtonElement && taskButton.dataset.task) {
+			applyTask(taskButton.dataset.task);
+			say(`${taskButton.querySelector('strong')?.textContent ?? '작업'}으로 바꿨습니다.`);
+			return;
+		}
+		const copyButton = target.closest('[data-copy]');
+		if (copyButton instanceof HTMLButtonElement) {
+			const kind = copyButton.dataset.copy;
+			if (kind === 'prompt') {
+				await writeClipboard(promptView?.textContent?.trim() ?? '');
+				say('지시문을 복사했습니다.');
+			} else if (kind === 'record') {
+				await writeClipboard(recordView?.textContent?.trim() ?? '');
+				say('원문을 복사했습니다.');
+			} else if (kind === 'check') {
+				const record = taskNode(current)?.dataset.record ?? '';
+				await writeClipboard(`검산 질문\n${checks.map((item) => `- ${item}`).join('\n')}\n대조 기록: ${record}`);
+				say('검산 질문을 복사했습니다.');
+			}
+			return;
+		}
+		const opener = target.closest('[data-open-ai]');
+		if (opener instanceof HTMLAnchorElement) {
+			event.preventDefault();
+			const prompt = promptView?.textContent?.trim() ?? '';
+			const record = recordView?.textContent?.trim() ?? '';
+			await writeClipboard(`${prompt}\n\n${record}`);
+			say('지시문과 원문을 복사했습니다. ChatGPT 창에 붙여 넣으세요.');
+			window.open(opener.href, '_blank', 'noopener');
+		}
+	});
+</script>
+
+<style>
+	.practice {
+		margin-top: 1.2rem;
+		padding: 1rem 1.05rem 1.15rem;
+		border: 1px solid var(--rule, #d6d9dc);
+		border-radius: 14px;
+		background: var(--bg2, #fff);
+	}
+	.practice h2,
+	.practice h3 {
+		font-family: var(--display, inherit);
+		margin: 0 0 0.45rem;
+	}
+	.practice h3 {
+		margin-top: 1rem;
+		font-size: 1rem;
+	}
+	.practice-lead,
+	.practice li {
+		color: var(--t2, #374151);
+		line-height: 1.55;
+	}
+	.task-row,
+	.action-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+	.task-btn,
+	.act {
+		border: 1px solid var(--rule, #d6d9dc);
+		border-radius: 8px;
+		background: #fff;
+		color: inherit;
+		text-decoration: none;
+		cursor: pointer;
+	}
+	.task-btn {
+		padding: 8px 10px;
+		text-align: left;
+	}
+	.task-btn strong,
+	.task-btn small {
+		display: block;
+	}
+	.task-btn small {
+		color: #4b5563;
+		font-size: 13px;
+		line-height: 1.4;
+	}
+	.task-btn[aria-pressed='true'] {
+		border-color: var(--pink, #2457eb);
+		box-shadow: inset 0 0 0 1px var(--pink, #2457eb);
+	}
+	.chosen {
+		margin: 0.8rem 0 0;
+		font-weight: 700;
+	}
+	.prompt-view,
+	.record-view {
+		margin: 0;
+		padding: 0.8rem 0.9rem;
+		white-space: pre-wrap;
+		font-family: inherit;
+		font-size: 0.92rem;
+		line-height: 1.55;
+		border: 1px solid var(--rule, #d6d9dc);
+		border-radius: 8px;
+		background: #fff;
+	}
+	.record-view {
+		max-height: 18rem;
+		overflow: auto;
+	}
+	.act {
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
+		padding: 0 14px;
+		font-weight: 700;
+	}
+	.act-ai {
+		background: var(--pink, #2457eb);
+		border-color: var(--pink, #2457eb);
+		color: #fff;
+	}
+	.practice-status {
+		min-height: 1.3rem;
+		margin: 0.7rem 0 0;
+		color: var(--t2, #374151);
+	}
+</style>

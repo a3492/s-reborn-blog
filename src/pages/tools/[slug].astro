@@ -14,6 +14,9 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { data } = entry;
 const slug = entry.id;
+const demoItems = data.items.filter((item) => item.demoInLecture);
+const restItems = data.items.filter((item) => !item.demoInLecture);
+const orderedItems = demoItems.length > 0 ? [...demoItems, ...restItems] : data.items;
 
 function sourceFields(item: ToolArchiveItem) {
 	if (item.bodyStatus === 'awaiting-source') {
@@ -45,25 +48,33 @@ function sourceFields(item: ToolArchiveItem) {
 			<p class="archive-meta">{data.audience}</p>
 		</header>
 
+		{demoItems.length > 0 && (
+			<section class="archive-panel" aria-label="오늘 강연에서 보여주는 글">
+				<h2>오늘 강연에서 보여주는 글</h2>
+				<p>B 추출, C 채널, H 결정입니다. C를 읽은 뒤 상담 기록에서 김민지 메모가 어떻게 흩어져 있는지 봅니다.</p>
+				<p><a href="/tools/consult-archive/#pick">상담 기록 실습</a></p>
+			</section>
+		)}
+
 		<section class="archive-panel" aria-label="핵심 메시지">
 			<h2>핵심 메시지</h2>
 			<p>{data.coreMessage}</p>
 		</section>
 
-		<section class="archive-panel" aria-label="파일로 받기">
-			<h2>전체 파일</h2>
-			<p>A–H를 한 파일로 받아 프로젝트 지식에 올리세요. 환자 개인정보, 실명, 가격은 들어 있지 않습니다.</p>
+		<details class="archive-panel">
+			<summary>전체 파일로 받기</summary>
+			<p>{data.items.length}개 항목을 한 파일로 받아 프로젝트 지식에 올립니다. 환자 개인정보, 실명, 가격은 들어 있지 않습니다.</p>
 			<div class="archive-actions">
 				<a class="archive-btn" href={`/tools/${slug}.md`} download={`${slug}.md`}>.md 다운로드</a>
 				<a class="archive-btn archive-btn-ghost" href={`/tools/${slug}.txt`} download={`${slug}.txt`}>.txt 다운로드</a>
 			</div>
-		</section>
+		</details>
 
 		<p class="archive-status" data-copy-status role="status" aria-live="polite"></p>
 
 		<ol class="archive-items">
 			{
-				data.items.map((item) => {
+				orderedItems.map((item) => {
 					const fields = sourceFields(item);
 					return (
 						<li class="archive-item" id={item.code}>
@@ -217,6 +228,12 @@ function sourceFields(item: ToolArchiveItem) {
 	.archive-howto h3 {
 		font-family: var(--display);
 		margin: 0 0 0.4rem;
+	}
+	.archive-panel > summary {
+		cursor: pointer;
+		font-family: var(--display);
+		font-size: 1.15rem;
+		font-weight: 700;
 	}
 	.archive-panel h2,
 	.archive-item h2 {

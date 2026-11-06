@@ -3,6 +3,7 @@ import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import Layout from '../../layouts/Layout.astro';
+import ProcedurePractice from '../../components/ProcedurePractice.astro';
 import catalog from '../../data/procedure-public-catalog.json';
 
 const downloadDir = path.join(process.cwd(), 'public/downloads/procedure-archive');
@@ -68,27 +69,27 @@ function viewHref(id: string): string {
 ---
 
 <Layout
-	title="시술 기록 자료실"
-	description="120건 원본을 찾아 보고 받습니다. 울쎄라, 필러, 토닝."
+	title="시술 기록 한 건"
+	description="집에서 온 울쎄라 문의 한 건으로 경과 요약을 붙여 넣는 실습입니다."
 >
 	<article class="consult" data-pack data-tool-page="procedure-archive">
 		<header>
 			<p class="consult-kicker">
-				<a href="/tools/">경영 도구 아카이브</a>
+				<a href="/tools/lectures/2026-11-08-daemire/">2026-11-08 대미레</a>
 				<span aria-hidden="true"> / </span>
-				시술 기록 자료실
+				시술 기록
 			</p>
-			<h1>시술 기록 자료실</h1>
-			<p class="consult-virtual">모두 실습용 가상 데이터입니다</p>
-			<p class="consult-lead">120건 원본을 찾아 보고 받습니다.</p>
-			<p class="consult-guide-link">
-				<a class="tool-action" href="/tools/procedure-archive/guide/">강의 실습 따라하기</a>
-				<span>강연에서 단계별로 AI 실습을 합니다.</span>
+			<h1>시술 기록 한 건</h1>
+			<p class="consult-virtual">모두 실습용 가상 데이터입니다. 실제 환자 기록은 올리지 마세요.</p>
+			<p class="consult-lead">
+				집에서 온 울쎄라 문의 한 건으로 경과 요약을 붙여 넣습니다. 다른 작업은 같은 화면에서 바꿉니다.
 			</p>
 		</header>
 
-		<section class="consult-panel" aria-labelledby="procedure-files">
-			<h2 id="procedure-files">공개 자료 받기</h2>
+		<ProcedurePractice />
+
+		<details class="consult-panel fold">
+			<summary>ZIP으로 받기</summary>
 			<ul class="pack-downloads">
 				<li>
 					<strong>{zipName}</strong>
@@ -96,10 +97,10 @@ function viewHref(id: string): string {
 					<a class="tool-action" href={fileHref(zipName)} download={zipName}>ZIP 받기</a>
 				</li>
 			</ul>
-		</section>
+		</details>
 
-		<section class="consult-panel tool-filter-panel" aria-labelledby="procedure-list">
-			<h2 id="procedure-list">원본 목록</h2>
+		<details class="consult-panel tool-filter-panel fold" id="procedure-list">
+			<summary>120건 목록 열기</summary>
 			<label class="consult-search">
 				<span class="tool-filter-label">목록 검색</span>
 				<input class="tool-filter-search" type="search" data-pack-search placeholder="이름, 시술, 번호, 작성자" />
@@ -170,7 +171,7 @@ function viewHref(id: string): string {
 				))
 			}
 			<p class="consult-empty" data-pack-empty hidden>조건에 맞는 기록이 없습니다.</p>
-		</section>
+		</details>
 	</article>
 </Layout>
 
@@ -266,6 +267,12 @@ function viewHref(id: string): string {
 		color: var(--pink);
 		font-weight: 700;
 		text-decoration: none;
+	}
+	.fold > summary {
+		cursor: pointer;
+		font-family: var(--display);
+		font-size: 1.05rem;
+		font-weight: 700;
 	}
 	.consult h1,
 	.consult h2,

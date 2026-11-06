@@ -11,7 +11,8 @@ import { LECTURES } from '../../data/lectures';
 		<header class="lectures-head">
 			<h1>강연</h1>
 			<p class="lectures-lead">
-				브라우저에서 바로 보는 웹 프레젠테이션 모음입니다. 방향키로 넘기고, F로 전체화면을 켤 수 있습니다.
+				이전 웹 강연입니다. 방향키로 넘기고, F로 전체화면을 켭니다.
+				2026-11-08 대미레에서 따라가는 자료는 <a href="/tools/lectures/2026-11-08-daemire/">오늘 따라가기</a>에 있습니다.
 			</p>
 		</header>
 
@@ -62,6 +63,11 @@ import { LECTURES } from '../../data/lectures';
 		color: var(--t2);
 		margin-top: 0.5rem;
 		max-width: 46rem;
+		line-height: 1.6;
+	}
+	.lectures-lead a {
+		color: var(--pink);
+		font-weight: 700;
 	}
 	.lectures-grid {
 		display: grid;

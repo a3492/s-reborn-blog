@@ -9,54 +9,66 @@ const archives = (await getCollection('toolArchives', ({ data }) => !data.draft)
 ---
 
 <Layout
-	title="경영 도구 아카이브"
-	description="병원 데이터, 개원 준비, 운영 주제를 AI에 붙여 넣을 수 있는 자료로 모읍니다."
+	title="강연·자료"
+	description="이전 강연과 2026-11-08 대미레에서 따라가는 자료입니다."
 >
 	<div class="tools-hub">
 		<header class="tools-head">
 			<p class="tools-kicker">S-reborn MD AI HUB</p>
-			<h1>경영 도구 아카이브</h1>
+			<h1>강연·자료</h1>
 			<p class="tools-lead">
-				수강 원장이 복사하거나 파일로 받아 자기 AI에 넣는 자료입니다. 병원 데이터부터 두고, 개원 준비와 운영 주제를 같은 형식으로 이어 붙입니다.
+				이전 강연은 슬라이드를 넘기면 됩니다. 2026-11-08 대미레는 아래 순서대로 한 화면에서 따라갑니다.
 			</p>
 		</header>
 
+		<section class="tools-topic" aria-labelledby="topic-earlier">
+			<div class="tools-topic-head">
+				<h2 id="topic-earlier">이전 강연</h2>
+				<p>브라우저에서 슬라이드를 넘깁니다.</p>
+			</div>
+			<ul class="tools-list">
+				<li>
+					<a class="tools-card" href="/lectures/koat-ai-2026/">
+						<span class="tools-card-kicker">KOAT 2026</span>
+						<strong>슬라이드 보기</strong>
+						<span>방향키로 넘기고, F로 전체화면을 켭니다.</span>
+					</a>
+				</li>
+			</ul>
+		</section>
+
 		<section class="tools-topic" aria-labelledby="topic-lectures">
 			<div class="tools-topic-head">
-				<h2 id="topic-lectures">강연 자료</h2>
-				<p>강연에서 받은 방문·문의·원가 파일과 따라하기 표입니다. 로그인 없이 받습니다.</p>
+				<h2 id="topic-lectures">2026-11-08 대미레</h2>
+				<p>오늘 순서입니다. 각 화면을 열면 할 일이 먼저 보입니다.</p>
 			</div>
 			<ul class="tools-list">
 				<li>
 					<a class="tools-card" href="/tools/lectures/2026-11-08-daemire/">
-						<span class="tools-card-kicker">2026-11-08 대미레</span>
-						<strong>강연 자료 아카이브</strong>
-						<span>강연1(CRM)과 강연2(경영도구). 시작 가이드와 슬라이드별 따라하기 표.</span>
-						<em>공개 · /daemire1108/</em>
+						<span class="tools-card-kicker">1</span>
+						<strong>오늘 따라가기</strong>
+						<span>다섯 칸이 이 페이지에 펼쳐져 있습니다. 강연1과 강연2 문장도 여기 있습니다.</span>
+					</a>
+				</li>
+				<li>
+					<a class="tools-card" href="/tools/hospital-data-pain-points/">
+						<span class="tools-card-kicker">2</span>
+						<strong>페인포인트 B·C·H</strong>
+						<span>오늘 보여주는 글은 추출, 채널, 결정입니다.</span>
 					</a>
 				</li>
 				<li>
 					<a class="tools-card" href="/tools/consult-archive/">
-						<span class="tools-card-kicker">상담 데이터</span>
-						<strong>상담데이터 아카이브</strong>
-						<span>한 고객의 카톡, 전화, 내원 상담을 모아 읽습니다. 짧은 메모는 조각이고, 장시간 상담 4건은 따로 있습니다.</span>
-						<em>모아 보기 · /tools/consult-archive/</em>
+						<span class="tools-card-kicker">3</span>
+						<strong>상담 기록 읽기</strong>
+						<span>김민지 10건으로, 짧은 메모가 한 고객의 조각인 이유를 봅니다.</span>
 					</a>
 				</li>
 				<li>
 					<a class="tools-card" href="/tools/procedure-archive/">
-						<span class="tools-card-kicker">원본 120건</span>
-						<strong>시술 기록 자료실</strong>
-						<span>120건 원본을 찾아 보고 받습니다.</span>
-						<em>초안 · /tools/procedure-archive/</em>
-					</a>
-				</li>
-				<li>
-					<a class="tools-card" href="/tools/procedure-archive/guide/">
-						<span class="tools-card-kicker">강연 실습</span>
-						<strong>강의 실습 따라하기</strong>
-						<span>강연에서 단계별로 AI 실습을 합니다.</span>
-						<em>초안 · /tools/procedure-archive/guide/</em>
+						<span class="tools-card-kicker">4</span>
+						<strong>시술 기록 한 건</strong>
+						<span>울쎄라 문의 한 건으로 경과 요약을 붙여 넣습니다.</span>
 					</a>
 				</li>
 			</ul>
@@ -64,7 +76,10 @@ const archives = (await getCollection('toolArchives', ({ data }) => !data.draft)
 
 		{
 			TOOL_TOPICS.map((topic) => {
-				const entries = archives.filter((entry) => entry.data.topic === topic.id);
+				const entries = archives.filter(
+					(entry) => entry.data.topic === topic.id && entry.id !== 'hospital-data-pain-points',
+				);
+				if (entries.length === 0 && topic.id === 'hospital-data') return null;
 				return (
 					<section class="tools-topic" aria-labelledby={`topic-${topic.id}`}>
 						<div class="tools-topic-head">

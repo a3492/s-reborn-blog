@@ -1,0 +1,105 @@
+---
+interface Row {
+	id: string;
+	title: string;
+	show: string;
+	steps: string[];
+	prompt: string;
+	success: string;
+	stuck: string;
+}
+
+interface Props {
+	rows: Row[];
+}
+
+const { rows } = Astro.props;
+---
+
+<ol class="guide-cards">
+	{
+		rows.map((row) => (
+			<li class="guide-card" id={row.id}>
+				<h3>{row.title}</h3>
+				<p>{row.show}</p>
+				<p class="guide-label">내가 할 일</p>
+				<ol>
+					{row.steps.map((step) => (
+						<li>{step}</li>
+					))}
+				</ol>
+				<p class="guide-label">붙여 넣을 문장</p>
+				<pre id={`copy-${row.id}`}>{row.prompt}</pre>
+				<button type="button" data-copy={row.id} data-label="문장 복사">
+					문장 복사
+				</button>
+				<p>
+					<strong>이렇게 나오면 됩니다. </strong>
+					{row.success}
+				</p>
+				<p>
+					<strong>막히면. </strong>
+					{row.stuck}
+				</p>
+			</li>
+		))
+	}
+</ol>
+
+<style>
+	.guide-cards {
+		list-style: none;
+		margin: 0.8rem 0 0;
+		padding: 0;
+		display: grid;
+		gap: 0.8rem;
+	}
+	.guide-card {
+		padding: 0.9rem 1rem 1rem;
+		border: 1px solid var(--rule, #d6d9dc);
+		border-radius: 12px;
+		background: #fff;
+	}
+	.guide-card h3 {
+		margin: 0 0 0.35rem;
+		font-family: var(--display, inherit);
+		font-size: 1.05rem;
+	}
+	.guide-card p,
+	.guide-card li {
+		color: var(--t2, #374151);
+		line-height: 1.55;
+	}
+	.guide-label {
+		margin: 0.8rem 0 0.25rem;
+		font-size: 0.78rem;
+		font-weight: 800;
+		letter-spacing: 0.02em;
+		color: var(--t3, #6b7280);
+	}
+	.guide-card ol {
+		margin: 0;
+		padding-left: 1.15rem;
+	}
+	.guide-card pre {
+		margin: 0 0 0.55rem;
+		padding: 0.75rem 0.85rem;
+		white-space: pre-wrap;
+		font-family: inherit;
+		font-size: 0.9rem;
+		line-height: 1.55;
+		border: 1px solid var(--rule, #d6d9dc);
+		border-radius: 8px;
+		background: var(--bg2, #f8f8f5);
+		color: var(--text, #171d22);
+	}
+	.guide-card button {
+		min-height: 44px;
+		padding: 0 14px;
+		border: 1px solid var(--rule, #d6d9dc);
+		border-radius: 8px;
+		background: #fff;
+		font-weight: 700;
+		cursor: pointer;
+	}
+</style>
