@@ -2,47 +2,77 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import Layout from '../../../../layouts/Layout.astro';
-import catalog from '../../../../data/consult-public-catalog.json';
+import catalogJson from '../../../../data/consult-public-catalog.json';
 import { renderConsultMarkdown } from '../../../../lib/consult-markdown';
+import {
+	fileHref,
+	lengthKind,
+	lengthLabel,
+	viewHref,
+	writerLabel,
+	type ConsultRecord,
+} from '../../../../lib/consult-archive';
 
-const downloadDir = path.join(process.cwd(), 'public/downloads/consult-archive');
+const catalog = catalogJson as ConsultRecord[];
 
 export function getStaticPaths() {
-	const entries = catalog.map((item) => ({
+	const entries = (catalogJson as ConsultRecord[]).map((item) => ({
 		params: { id: item.id },
-		props: {
-			title: item.title,
-			file: item.file,
-			downloadName: item.file.split('/').pop() ?? item.file,
-		},
 	}));
-	entries.push({
-		params: { id: 'guide' },
-		props: {
-			title: '상담데이터 가공 연습가이드',
-			file: '상담데이터_가공_연습가이드_공개용.md',
-			downloadName: '상담데이터_가공_연습가이드_공개용.md',
-		},
-	});
+	entries.push({ params: { id: 'guide' } });
 	return entries;
 }
 
-const { title, file, downloadName } = Astro.props;
-const source = fs.readFileSync(path.join(downloadDir, file), 'utf8');
+const pageId = Astro.params.id ?? '';
+if (pageId === 'guide') {
+	return Astro.redirect('/tools/consult-archive/guide/');
+}
+const item = catalog.find((entry) => entry.id === pageId);
+if (!item) {
+	throw new Error(`상담 원본을 찾지 못했습니다: ${pageId}`);
+}
+const downloadDir = path.join(process.cwd(), 'public/downloads/consult-archive');
+const source = fs.readFileSync(path.join(downloadDir, item.file), 'utf8');
 const html = renderConsultMarkdown(source);
-const downloadHref = `/downloads/consult-archive/${file.split('/').map((part) => encodeURIComponent(part)).join('/')}`;
+const siblings = catalog
+	.filter((entry) => entry.customer === item.customer && entry.id !== item.id)
+	.sort((a, b) => b.chars - a.chars || a.id.localeCompare(b.id));
+const note =
+	item.grade === 'XXL' || item.grade === 'XL'
+		? '내원해서 이어진 상담입니다. 같은 고객의 짧은 메모와 같이 보면, 앞에서 빠졌던 말이 보입니다.'
+		: `이 파일은 ${lengthKind(item.grade)}입니다. 상담 전부가 아니라 그 경로에 남은 조각이므로, 같은 고객의 다른 기록과 같이 읽습니다.`;
 ---
 
-<Layout title={title} description={`${title} 원문을 읽어 보는 페이지입니다.`}>
+<Layout title={item.title} description={`${item.name}의 ${item.channel} 기록입니다. ${lengthLabel(item)}.`}>
 	<article class="reader" data-tool-page="consult-archive">
 		<p class="reader-kicker">
 			<a href="/tools/consult-archive/">상담데이터 아카이브</a>
+			<span aria-hidden="true"> / </span>
+			<a href={`/tools/consult-archive/#customer-${item.customer}`}>{item.name}의 기록</a>
 		</p>
 		<p class="reader-virtual">모두 실습용 가상 데이터입니다</p>
-		<h1>{title}</h1>
+		<h1>{item.title}</h1>
+		<p class="reader-meta">{lengthLabel(item)} · {item.channel} · {writerLabel(item.writer)} · {item.batch}</p>
+		<p class="reader-note">{note}</p>
 		<p class="reader-actions">
-			<a href={downloadHref} download={downloadName}>원본 다운로드</a>
+			<a href={fileHref(item.file)} download={item.file.split('/').pop()}>파일 받기</a>
+			<a href="/tools/consult-archive/#pick">실습에서 고르기</a>
 		</p>
+		{
+			siblings.length > 0 && (
+				<section class="siblings" aria-labelledby="siblings-title">
+					<h2 id="siblings-title">{item.name}의 다른 기록 · {siblings.length}건</h2>
+					<ul>
+						{siblings.map((sibling) => (
+							<li>
+								<a href={viewHref(sibling.id)}>{sibling.channel}</a>
+								<span>{lengthLabel(sibling)} · {writerLabel(sibling.writer)}</span>
+							</li>
+						))}
+					</ul>
+				</section>
+			)
+		}
 		<div class="reader-body" set:html={html} />
 	</article>
 </Layout>
@@ -52,7 +82,6 @@ const downloadHref = `/downloads/consult-archive/${file.split('/').map((part) =>
 		box-sizing: border-box;
 		max-width: 46rem;
 		padding: 2.2rem 0 4rem;
-		--tool-border: #d6d9dc;
 	}
 	.reader-kicker a {
 		color: var(--pink);
@@ -64,48 +93,97 @@ const downloadHref = `/downloads/consult-archive/${file.split('/').map((part) =>
 		font-weight: 800;
 	}
 	.reader h1,
+	.reader h2,
 	.reader-body :is(h2, h3) {
 		font-family: var(--display);
 		letter-spacing: -0.02em;
 	}
 	.reader h1 {
 		font-size: clamp(1.6rem, 3vw, 2.1rem);
-		margin: 0.3rem 0 0.8rem;
+		margin: 0.3rem 0 0.45rem;
 	}
-	.reader-actions a {
+	.reader-meta {
+		margin: 0;
+		font-weight: 700;
+		color: #17344b;
+	}
+	.reader-note,
+	.reader-body :is(p, li, blockquote) {
+		color: var(--t2);
+		line-height: 1.7;
+	}
+	.reader-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+	.reader-actions a,
+	.siblings a {
 		display: inline-flex;
 		align-items: center;
 		min-height: 36px;
 		padding: 6px 12px;
-		border: 1px solid var(--tool-border);
+		border: 1px solid #d6d9dc;
 		border-radius: 6px;
 		background: #fff;
-		color: inherit;
-		font-weight: 600;
+		color: #17344b;
+		font-weight: 700;
 		font-size: 13px;
 		text-decoration: none;
 	}
+	.siblings {
+		margin-top: 1rem;
+		padding: 12px;
+		border: 1px solid #d6d9dc;
+		border-radius: 8px;
+		background: var(--bg2);
+	}
+	.siblings h2 {
+		margin: 0 0 8px;
+		font-size: 1rem;
+	}
+	.siblings ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 6px;
+	}
+	.siblings li {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		align-items: center;
+	}
+	.siblings span {
+		color: var(--t2);
+		font-size: 13px;
+	}
 	.reader-body {
 		margin-top: 1.2rem;
+		padding: 16px;
+		border: 1px solid #d6d9dc;
+		border-radius: 8px;
+		background: #fff;
 	}
-	.reader-body :is(p, li, blockquote) {
-		color: var(--t2);
-		line-height: 1.65;
+	.reader-body p {
+		margin: 0 0 0.35rem;
 	}
 	.reader-body h2,
 	.reader-body h3 {
-		margin: 1.3rem 0 0.4rem;
+		margin: 1.1rem 0 0.4rem;
 	}
 	.reader-body pre {
 		padding: 12px;
-		border: 1px solid var(--tool-border);
+		border: 1px solid #d6d9dc;
 		border-radius: 8px;
 		background: var(--bg2);
 		overflow-x: auto;
 		white-space: pre-wrap;
 	}
 	@media (max-width: 600px) {
-		.reader-actions a {
+		.reader-actions a,
+		.siblings a {
 			min-height: 44px;
 			padding: 10px 12px;
 			font-size: 14px;

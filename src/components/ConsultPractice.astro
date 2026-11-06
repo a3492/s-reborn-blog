@@ -1,0 +1,325 @@
+---
+import catalogJson from '../data/consult-public-catalog.json';
+import {
+	consultStories,
+	fileHref,
+	lengthLabel,
+	previewLine,
+	recordsInOrder,
+	viewHref,
+	writerLabel,
+	type ConsultRecord,
+} from '../lib/consult-archive';
+
+const catalog = catalogJson as ConsultRecord[];
+const stories = consultStories.map((story) => ({
+	...story,
+	items: recordsInOrder(catalog, story.ids),
+}));
+const steps = [
+	{ id: 'pick', n: '1', title: '고르기', note: '한 고객의 기록만 고릅니다.' },
+	{ id: 'read', n: '2', title: '읽어 보기', note: '긴 글과 짧은 메모를 같이 봅니다.' },
+	{ id: 'ai', n: '3', title: 'AI에 넣기', note: '지시문과 원문을 함께 복사합니다.' },
+	{ id: 'check', n: '4', title: '검산하기', note: '결과 문장을 원문과 대조합니다.' },
+];
+---
+
+<div class="practice" data-practice>
+	<nav class="step-nav" aria-label="상담 기록을 다루는 순서">
+		{
+			steps.map((step) => (
+				<a class="step-jump" href={`#${step.id}`}>
+					<span class={`step-num step-${step.n}`}>{step.n}</span>
+					<span>
+						<strong>{step.title}</strong>
+						<small>{step.note}</small>
+					</span>
+				</a>
+			))
+		}
+	</nav>
+
+	<section id="pick" class="step-block">
+		<h2><span class="step-num step-1">1</span> 고르기</h2>
+		<p>364건을 한꺼번에 고르지 않습니다. 한 사람을 고르면 아래 원문과 지시문과 검산 질문이 그 사람으로 바뀝니다.</p>
+		<div class="story-row">
+			{
+				stories.map((story, index) => (
+					<button type="button" class="story-btn" data-story={story.id} aria-pressed={index === 0 ? 'true' : 'false'}>
+						<strong>{story.title}</strong>
+						<small>
+							{story.person} · {story.items.length}건
+						</small>
+					</button>
+				))
+			}
+		</div>
+		{
+			stories.map((story, index) => (
+				<div data-story-panel={story.id} data-role="pick" hidden={index !== 0}>
+					<p class="story-lead">{story.lead}</p>
+				</div>
+			))
+		}
+	</section>
+
+	<section id="read" class="step-block">
+		<h2><span class="step-num step-2">2</span> 읽어 보기</h2>
+		{
+			stories.map((story, index) => (
+				<div data-story-panel={story.id} data-role="read" hidden={index !== 0}>
+					<p>{story.read}</p>
+					<ol class="record-list">
+						{story.items.map((item, itemIndex) => (
+							<li>
+								<div class="record-top">
+									<strong>
+										{itemIndex === 0 ? '먼저 · ' : ''}
+										{item.title}
+									</strong>
+									<span>{lengthLabel(item)}</span>
+								</div>
+								<p class="record-meta">
+									{item.channel} · {writerLabel(item.writer)} · {item.batch}
+								</p>
+								<p class="record-preview">{previewLine(item.preview)}</p>
+								<a href={viewHref(item.id)}>원문 읽기</a>
+							</li>
+						))}
+					</ol>
+				</div>
+			))
+		}
+	</section>
+
+	<section id="ai" class="step-block">
+		<h2><span class="step-num step-3">3</span> AI에 넣기</h2>
+		<p>지시문과 고른 원문을 함께 넣습니다. 지시문만 넣으면 원문에 없는 사실을 채웁니다.</p>
+		{
+			stories.map((story, index) => (
+				<div
+					data-story-panel={story.id}
+					data-role="prompt"
+					data-files={story.items.map((item) => fileHref(item.file)).join('|')}
+					hidden={index !== 0}
+				>
+					<pre data-prompt>{story.prompt}</pre>
+				</div>
+			))
+		}
+		<p class="action-row">
+			<button type="button" class="act act-copy" data-copy="prompt">지시문 복사</button>
+			<button type="button" class="act act-copy" data-copy="records">원문 복사</button>
+			<a class="act act-ai" data-open-ai href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT에 붙여 넣기</a>
+		</p>
+	</section>
+
+	<section id="check" class="step-block">
+		<h2><span class="step-num step-4">4</span> 검산하기</h2>
+		<p>나온 문장을 원문으로 되돌아가 확인합니다. 보기 좋은 문장도 기록에 없으면 지웁니다.</p>
+		{
+			stories.map((story, index) => (
+				<div data-story-panel={story.id} data-role="check" hidden={index !== 0}>
+					<ul>
+						{story.checks.map((check) => (
+							<li>{check}</li>
+						))}
+					</ul>
+				</div>
+			))
+		}
+		<p class="action-row">
+			<button type="button" class="act act-check" data-copy="check">검산 질문 복사</button>
+		</p>
+	</section>
+	<p class="practice-status" data-status role="status" aria-live="polite"></p>
+</div>
+
+<script>
+	import { mountConsultPractice } from '../scripts/consult-practice';
+
+	mountConsultPractice(document.querySelector('[data-practice]'));
+</script>
+
+<style>
+	.practice {
+		min-width: 0;
+	}
+	.step-nav {
+		display: grid;
+		gap: 8px;
+		margin: 16px 0 0;
+	}
+	.step-jump {
+		display: flex;
+		gap: 10px;
+		align-items: center;
+		padding: 8px 10px;
+		border: 1px solid var(--tool-border, #d6d9dc);
+		border-radius: 8px;
+		background: #fff;
+		color: var(--tool-ink, #1f2937);
+		text-decoration: none;
+	}
+	.step-jump strong,
+	.story-btn strong {
+		display: block;
+	}
+	.step-jump small,
+	.story-btn small {
+		display: block;
+		color: #4b5563;
+		font-size: 13px;
+		line-height: 1.4;
+	}
+	.step-num {
+		display: inline-grid;
+		place-items: center;
+		flex: 0 0 auto;
+		width: 28px;
+		height: 28px;
+		border-radius: 6px;
+		color: #fff;
+		font-weight: 800;
+	}
+	.step-num.step-1 { background: #17344b; }
+	.step-num.step-2 { background: #2668b5; }
+	.step-num.step-3 { background: #6b3fa0; }
+	.step-num.step-4 { background: #9a3d4a; }
+	.step-block {
+		margin-top: 16px;
+		padding: 16px;
+		border: 1px solid var(--rule, #d6d9dc);
+		border-radius: 8px;
+		background: var(--bg2, #f7f4ef);
+	}
+	.step-block h2 {
+		display: flex;
+		gap: 8px;
+		align-items: center;
+		margin: 0 0 8px;
+		font-family: var(--display);
+		font-size: 1.15rem;
+	}
+	.step-block p,
+	.step-block li {
+		color: var(--t2, #3f3a34);
+		line-height: 1.6;
+	}
+	.story-row,
+	.action-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin: 12px 0 0;
+	}
+	.story-btn,
+	.act {
+		box-sizing: border-box;
+		border: 1px solid #d6d9dc;
+		border-radius: 8px;
+		background: #fff;
+		color: #1f2937;
+		font: inherit;
+		font-weight: 700;
+		text-decoration: none;
+		cursor: pointer;
+	}
+	.story-btn {
+		flex: 1 1 14rem;
+		padding: 10px 12px;
+		border-top: 4px solid #17344b;
+		text-align: left;
+	}
+	.story-btn[aria-pressed='true'] {
+		background: #e7eef5;
+		border-color: #17344b;
+	}
+	.story-lead {
+		margin: 12px 0 0;
+		font-weight: 700;
+	}
+	.record-list {
+		list-style: none;
+		margin: 12px 0 0;
+		padding: 0;
+		display: grid;
+		gap: 8px;
+	}
+	.record-list li {
+		padding: 12px;
+		border: 1px solid #d6d9dc;
+		border-radius: 8px;
+		background: #fff;
+	}
+	.record-top {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 6px;
+	}
+	.record-top span,
+	.record-meta,
+	.record-preview {
+		margin: 4px 0 0;
+		color: #4b5563;
+		line-height: 1.5;
+	}
+	.record-top span {
+		font-size: 13px;
+		font-weight: 700;
+		color: #17344b;
+	}
+	.record-list a,
+	.act {
+		display: inline-flex;
+		align-items: center;
+		min-height: 36px;
+		margin-top: 8px;
+		padding: 6px 12px;
+		font-size: 13px;
+	}
+	.record-list a {
+		border: 1px solid #d6d9dc;
+		border-radius: 6px;
+		background: #fff;
+		color: #17344b;
+		font-weight: 700;
+		text-decoration: none;
+	}
+	.action-row .act-copy { background: #8a5a28; border-color: #8a5a28; color: #fff; }
+	.action-row .act-ai { background: #6b3fa0; border-color: #6b3fa0; color: #fff; }
+	.action-row .act-check { background: #9a3d4a; border-color: #9a3d4a; color: #fff; }
+	.step-block pre {
+		margin: 0;
+		padding: 12px;
+		border-radius: 8px;
+		background: #fff;
+		white-space: pre-wrap;
+		line-height: 1.55;
+		font-family: inherit;
+	}
+	.practice-status {
+		min-height: 1.4rem;
+		margin: 12px 0 0;
+		font-weight: 700;
+	}
+	[data-story-panel][hidden] {
+		display: none;
+	}
+	.story-btn:focus-visible,
+	.act:focus-visible,
+	.step-jump:focus-visible,
+	.record-list a:focus-visible {
+		outline: 3px solid #2668b5;
+		outline-offset: 2px;
+	}
+	@media (max-width: 600px) {
+		.story-btn,
+		.act,
+		.record-list a,
+		.step-jump {
+			min-height: 44px;
+		}
+	}
+</style>
