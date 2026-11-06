@@ -622,7 +622,7 @@ function fileSize(name: string): string {
 				<h2 id="l1-guide">강연1 따라하기 · CRM 자료를 경영 판단으로 바꾸는 수업</h2>
 				<p>각 단계에서 <strong>왜 하는지 → 쉬운 비유 → 정확한 원리 → 직접 실행 → 결과의 뜻</strong>을 먼저 이해하세요. 발표자가 없어도 가상 자료로 혼자 실습할 수 있습니다.</p>
 				<p class="education-privacy">실제 환자의 성명·전화번호·차트번호 등 개인정보는 공개 AI 서비스에 올리지 마세요. 제공된 실습용 가상 자료만 사용합니다.</p>
-				<nav class="crm-quick-nav" aria-label="강연1 단계 바로가기">{lecture1Rows.map((row,index)=><a href={'#'+row.id}>{index+1}. {row.title.replace(/^\\d+\\.\\s*/, '')}</a>)}</nav>
+				<nav class="crm-quick-nav" aria-label="강연1 단계 바로가기">{lecture1Rows.map((row, index) => (<a href={'#' + row.id}>{row.title}</a>))}</nav>
 				<div class="crm-lesson-list">
 					{lecture1Rows.map((row,index) => (
 						<section class="education-lesson" id={row.id} aria-labelledby={'title-'+row.id}>
@@ -632,10 +632,10 @@ function fileSize(name: string): string {
 								<div><h4>② 왜 이 작업을 하나요?</h4><p>{lessonExplanations[row.id].why}</p></div>
 								<div><h4>③ 쉽게 이해하는 원리</h4><p><strong>생활 속 비유</strong> {lessonExplanations[row.id].analogy}</p><p><strong>정확한 개념</strong> {lessonExplanations[row.id].principle}</p></div>
 							</div>
-							<div class="education-run"><h4>④ 실행 방법 · 한 단계씩 따라하기</h4><ol>{row.steps.map(step=><li>{step}</li>)}</ol><p>파일은 위쪽 ‘받는 순서’에서 찾습니다. ChatGPT 대화의 메시지 입력칸에 다음 프롬프트를 붙여넣고 전송하세요.</p></div>
+							<div class="education-run"><h4>④ 실행 방법 · 한 단계씩 따라하기</h4><ol>{row.steps.map((step) => (<li>{step}</li>))}</ol><p>파일은 위쪽 ‘받는 순서’에서 찾습니다. ChatGPT 대화의 메시지 입력칸에 다음 프롬프트를 붙여넣고 전송하세요.</p></div>
 							<div class="education-prompt"><h4>⑤ AI에 입력할 프롬프트</h4><pre id={'copy-'+row.id}>{row.prompt}</pre><button type="button" data-copy={row.id} data-label="문장 복사">문장 복사</button></div>
 							<div class="education-result"><h4>⑥ 성공 확인 · 결과는 무슨 뜻인가요?</h4><p><strong>예상 결과</strong> {row.success}</p><p><strong>결과의 의미</strong> {lessonExplanations[row.id].meaning}</p><details><summary>결과가 다르거나 작업이 막히면</summary><p>{row.stuck}</p></details></div>
-							<div class="education-next"><h4>⑦ 배운 내용 응용하기 · 다음 단계</h4><p>{lessonExplanations[row.id].next}</p>{index<lecture1Rows.length-1&&<a href={'#'+lecture1Rows[index+1].id}>다음 미션으로 이동 →</a>}</div>
+							<div class="education-next"><h4>⑦ 배운 내용 응용하기 · 다음 단계</h4><p>{lessonExplanations[row.id].next}</p>{index < lecture1Rows.length - 1 && (<a href={'#' + lecture1Rows[index + 1].id}>다음 미션으로 이동 →</a>)}</div>
 						</section>
 					))}
 				</div>
