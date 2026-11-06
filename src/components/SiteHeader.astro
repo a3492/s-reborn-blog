@@ -86,26 +86,34 @@ function childHref(child: NavChild): string {
 									<span class="site-nav-caret" aria-hidden="true"></span>
 								</button>
 								<ul class="site-nav-sub" id={panelId}>
-									{item.children.map((child) => {
+									{item.children.map((child, index) => {
 										const href = childHref(child);
 										const current = linkIsCurrent(href, Astro.url);
+										const previous = item.children[index - 1];
+										const group = isEn ? child.groupEn : child.group;
+										const previousGroup = isEn ? previous?.groupEn : previous?.group;
 										return (
-											<li>
-												<a
-													href={href}
-													aria-current={current ? 'page' : undefined}
-													target={child.external ? '_blank' : undefined}
-													rel={child.external ? 'noopener noreferrer' : undefined}
-												>
-													{childLabel(child)}
-													{child.external && (
-														<>
-															<span aria-hidden="true"> ↗</span>
-															<span class="sr-only">{isEn ? ' (opens in a new window)' : ' (새 창)'}</span>
-														</>
-													)}
-												</a>
-											</li>
+											<>
+												{group && group !== previousGroup && (
+													<li class="site-nav-group" role="presentation">{group}</li>
+												)}
+												<li>
+													<a
+														href={href}
+														aria-current={current ? 'page' : undefined}
+														target={child.external ? '_blank' : undefined}
+														rel={child.external ? 'noopener noreferrer' : undefined}
+													>
+														{childLabel(child)}
+														{child.external && (
+															<>
+																<span aria-hidden="true"> ↗</span>
+																<span class="sr-only">{isEn ? ' (opens in a new window)' : ' (새 창)'}</span>
+															</>
+														)}
+													</a>
+												</li>
+											</>
 										);
 									})}
 								</ul>
@@ -481,6 +489,14 @@ function childHref(child: NavChild): string {
 
 	.site-nav-item.is-open > .site-nav-sub {
 		display: grid;
+	}
+
+	.site-nav-group {
+		padding: 0.65rem 0.75rem 0.15rem;
+		font-size: 0.72rem;
+		font-weight: 800;
+		letter-spacing: 0.04em;
+		color: var(--sh-muted);
 	}
 
 	.site-nav-sub a {
