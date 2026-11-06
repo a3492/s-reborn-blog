@@ -1,0 +1,157 @@
+---
+interface Row {
+	id: string;
+	title: string;
+	show: string;
+	steps: string[];
+	prompt: string;
+	success: string;
+	stuck: string;
+	attach?: string;
+	pasteWhere: string;
+	verify: string;
+	nextHref: string;
+	nextLabel: string;
+}
+
+interface Props {
+	rows: Row[];
+}
+
+const { rows } = Astro.props;
+---
+
+<ol class="guide-cards">
+	{
+		rows.map((row) => (
+			<li class="guide-card" id={row.id}>
+				<h3>{row.title}</h3>
+				<p>{row.show}</p>
+				{row.attach && (
+					<p>
+						<strong>파일. </strong>
+						{row.attach}
+					</p>
+				)}
+				<p>
+					<strong>문장. </strong>
+					{row.pasteWhere}
+				</p>
+				<p class="guide-label">내가 할 일</p>
+				<ol>
+					{row.steps.map((step) => (
+						<li>{step}</li>
+					))}
+				</ol>
+				<p class="guide-label">붙여 넣을 문장</p>
+				<pre id={`copy-${row.id}`}>{row.prompt}</pre>
+				<p class="guide-actions">
+					<button type="button" data-copy={row.id} data-label="문장 복사">
+						문장 복사
+					</button>
+					<a class="guide-ai" href="https://chatgpt.com/" target="_blank" rel="noopener">
+						ChatGPT 새 대화
+					</a>
+				</p>
+				<p>
+					<strong>이렇게 나오면 됩니다. </strong>
+					{row.success}
+				</p>
+				<p>
+					<strong>원문과 대조. </strong>
+					{row.verify}
+				</p>
+				<p>
+					<strong>막히면. </strong>
+					{row.stuck}
+				</p>
+				<p class="guide-next">
+					<a href={row.nextHref}>{row.nextLabel}</a>
+				</p>
+			</li>
+		))
+	}
+</ol>
+
+<style>
+	.guide-cards {
+		list-style: none;
+		margin: 0.8rem 0 0;
+		padding: 0;
+		display: grid;
+		gap: 0.8rem;
+	}
+	.guide-card {
+		padding: 0.9rem 1rem 1rem;
+		border: 1px solid var(--rule, #d6d9dc);
+		border-radius: 12px;
+		background: #fff;
+		scroll-margin-top: 5rem;
+	}
+	.guide-card h3 {
+		margin: 0 0 0.35rem;
+		font-family: var(--display, inherit);
+		font-size: 1.05rem;
+	}
+	.guide-card p,
+	.guide-card li {
+		color: var(--t2, #374151);
+		line-height: 1.55;
+	}
+	.guide-label {
+		margin: 0.8rem 0 0.25rem;
+		font-size: 0.78rem;
+		font-weight: 800;
+		letter-spacing: 0.02em;
+		color: var(--t3, #6b7280);
+	}
+	.guide-card ol {
+		margin: 0;
+		padding-left: 1.15rem;
+	}
+	.guide-card pre {
+		margin: 0 0 0.55rem;
+		padding: 0.75rem 0.85rem;
+		white-space: pre-wrap;
+		font-family: inherit;
+		font-size: 0.9rem;
+		line-height: 1.55;
+		border: 1px solid var(--rule, #d6d9dc);
+		border-radius: 8px;
+		background: var(--bg2, #f8f8f5);
+		color: var(--text, #171d22);
+	}
+	.guide-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.45rem;
+		align-items: center;
+	}
+	.guide-card button,
+	.guide-ai {
+		min-height: 44px;
+		padding: 0 14px;
+		border: 1px solid var(--rule, #d6d9dc);
+		border-radius: 8px;
+		background: #fff;
+		font-weight: 700;
+		cursor: pointer;
+		display: inline-flex;
+		align-items: center;
+		text-decoration: none;
+		color: inherit;
+		box-sizing: border-box;
+	}
+	.guide-next a {
+		font-weight: 800;
+		color: var(--pink, #e11d48);
+		text-decoration: none;
+	}
+	@media (max-width: 600px) {
+		.guide-card button,
+		.guide-ai {
+			width: 100%;
+			justify-content: center;
+		}
+	}
+</style>

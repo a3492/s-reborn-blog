@@ -77,7 +77,7 @@ export function mountConsultPractice(root: Element | null) {
 					const lines = [...(storyPanel(root, 'check')?.querySelectorAll('li') ?? [])].map(
 						(item) => `- ${item.textContent?.trim() ?? ''}`,
 					);
-					await writeClipboard(`검산\n${lines.join('\n')}`);
+					await writeClipboard(`검산 질문. 답이 나온 같은 대화에 붙여 넣으세요.\n${lines.join('\n')}`);
 				} else {
 					return;
 				}
@@ -85,7 +85,14 @@ export function mountConsultPractice(root: Element | null) {
 				if (status) status.textContent = '원문을 읽지 못했습니다. 원문 읽기로 연 다음 복사해 주세요.';
 				return;
 			}
-			if (status) status.textContent = '복사했습니다.';
+			if (status) {
+				status.textContent =
+					kind === 'check'
+						? '검산 질문을 복사했습니다. 답이 나온 같은 대화에 붙여 넣으세요.'
+						: kind === 'prompt'
+							? '지시문을 복사했습니다. 원문과 함께 새 대화에 붙여 넣으세요.'
+							: '원문을 복사했습니다. 지시문과 함께 새 대화에 붙여 넣으세요.';
+			}
 			copyButton.textContent = '복사했습니다';
 			window.setTimeout(() => {
 				copyButton.textContent = label;

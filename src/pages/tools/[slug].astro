@@ -14,6 +14,18 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { data } = entry;
 const slug = entry.id;
+const isPain = slug === 'hospital-data-pain-points';
+const orderedItems = data.items;
+const stageByCode: Record<string, string> = {
+	A: '문제 발견, 해결책 설계',
+	B: '문제 발견, MVP 실험',
+	C: '문제 발견, 문제 검증',
+	D: '결과 검증',
+	E: '문제 검증, 해결책 설계',
+	F: '현장 적용',
+	G: '문제 발견부터 현장 적용',
+	H: '결과 검증, 현장 적용',
+};
 
 function sourceFields(item: ToolArchiveItem) {
 	if (item.bodyStatus === 'awaiting-source') {
@@ -45,25 +57,35 @@ function sourceFields(item: ToolArchiveItem) {
 			<p class="archive-meta">{data.audience}</p>
 		</header>
 
+		{isPain && (
+			<section class="archive-panel" aria-label="Pain Point의 위치">
+				<h2>Pain Point의 위치</h2>
+				<p>상위 개념은 문제 발견입니다. Pain Point는 그 단계에서 문제의 이름을 적는 칸이고, 교육 단계 자체는 아닙니다.</p>
+				<p>동급 칸은 Persona, Context, JTBD, Workaround, Evidence, Impact, Constraint입니다. 하위 개념은 아래 A부터 H입니다.</p>
+				<p>A–H는 한 단계에 가두지 않습니다. 각 글에 그 장애가 다시 나타나는 단계를 적었습니다. 강연에서 보여주는 글에는 시연 표시만 있습니다.</p>
+				<p><a href="/tools/lectures/2026-11-08-daemire/#discover">문제 발견으로</a></p>
+			</section>
+		)}
+
 		<section class="archive-panel" aria-label="핵심 메시지">
 			<h2>핵심 메시지</h2>
 			<p>{data.coreMessage}</p>
 		</section>
 
-		<section class="archive-panel" aria-label="파일로 받기">
-			<h2>전체 파일</h2>
-			<p>A–H를 한 파일로 받아 프로젝트 지식에 올리세요. 환자 개인정보, 실명, 가격은 들어 있지 않습니다.</p>
+		<details class="archive-panel">
+			<summary>전체 파일로 받기</summary>
+			<p>{data.items.length}개 항목을 한 파일로 받아 프로젝트 지식에 올립니다. 환자 개인정보, 실명, 가격은 들어 있지 않습니다.</p>
 			<div class="archive-actions">
 				<a class="archive-btn" href={`/tools/${slug}.md`} download={`${slug}.md`}>.md 다운로드</a>
 				<a class="archive-btn archive-btn-ghost" href={`/tools/${slug}.txt`} download={`${slug}.txt`}>.txt 다운로드</a>
 			</div>
-		</section>
+		</details>
 
 		<p class="archive-status" data-copy-status role="status" aria-live="polite"></p>
 
 		<ol class="archive-items">
 			{
-				data.items.map((item) => {
+				orderedItems.map((item) => {
 					const fields = sourceFields(item);
 					return (
 						<li class="archive-item" id={item.code}>
@@ -74,6 +96,9 @@ function sourceFields(item: ToolArchiveItem) {
 								</h2>
 								{item.demoInLecture && <span class="archive-flag">시연</span>}
 							</div>
+							{isPain && stageByCode[item.code] && (
+								<p class="archive-meta">나타나는 단계. {stageByCode[item.code]}</p>
+							)}
 							<div class="archive-body">
 								<h3>인덱스 원문</h3>
 								<p>
@@ -217,6 +242,12 @@ function sourceFields(item: ToolArchiveItem) {
 	.archive-howto h3 {
 		font-family: var(--display);
 		margin: 0 0 0.4rem;
+	}
+	.archive-panel > summary {
+		cursor: pointer;
+		font-family: var(--display);
+		font-size: 1.15rem;
+		font-weight: 700;
 	}
 	.archive-panel h2,
 	.archive-item h2 {

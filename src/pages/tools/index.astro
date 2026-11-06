@@ -9,54 +9,75 @@ const archives = (await getCollection('toolArchives', ({ data }) => !data.draft)
 ---
 
 <Layout
-	title="경영 도구 아카이브"
-	description="병원 데이터, 개원 준비, 운영 주제를 AI에 붙여 넣을 수 있는 자료로 모읍니다."
+	title="강연·자료"
+	description="이전 강연과 2026-11-08 대미레에서 따라가는 자료입니다."
 >
 	<div class="tools-hub">
 		<header class="tools-head">
 			<p class="tools-kicker">S-reborn MD AI HUB</p>
-			<h1>경영 도구 아카이브</h1>
+			<h1>강연·자료</h1>
 			<p class="tools-lead">
-				수강 원장이 복사하거나 파일로 받아 자기 AI에 넣는 자료입니다. 병원 데이터부터 두고, 개원 준비와 운영 주제를 같은 형식으로 이어 붙입니다.
+				이전 강연은 슬라이드입니다. 대미레의 학습 단계는 여섯 단계이고, 그 아래 자료는 단계가 아니라 실습에 쓰는 기록입니다.
 			</p>
 		</header>
 
-		<section class="tools-topic" aria-labelledby="topic-lectures">
+		<section class="tools-topic" aria-labelledby="topic-earlier">
 			<div class="tools-topic-head">
-				<h2 id="topic-lectures">강연 자료</h2>
-				<p>강연에서 받은 방문·문의·원가 파일과 따라하기 표입니다. 로그인 없이 받습니다.</p>
+				<h2 id="topic-earlier">이전 강연</h2>
+				<p>브라우저에서 슬라이드를 넘깁니다.</p>
 			</div>
 			<ul class="tools-list">
 				<li>
-					<a class="tools-card" href="/tools/lectures/2026-11-08-daemire/">
-						<span class="tools-card-kicker">2026-11-08 대미레</span>
-						<strong>강연 자료 아카이브</strong>
-						<span>강연1(CRM)과 강연2(경영도구). 시작 가이드와 슬라이드별 따라하기 표.</span>
-						<em>공개 · /daemire1108/</em>
+					<a class="tools-card" href="/lectures/koat-ai-2026/">
+						<span class="tools-card-kicker">KOAT 2026</span>
+						<strong>슬라이드 보기</strong>
+						<span>방향키로 넘기고, F로 전체화면을 켭니다.</span>
+					</a>
+				</li>
+			</ul>
+		</section>
+
+		<section class="tools-topic" aria-labelledby="topic-stages">
+			<div class="tools-topic-head">
+				<h2 id="topic-stages">학습 단계</h2>
+				<p>문제 발견, 문제 검증, 해결책 설계, MVP 실험, 결과 검증, 현장 적용.</p>
+			</div>
+			<ul class="tools-list">
+				<li>
+					<a class="tools-card" href="/tools/lectures/2026-11-08-daemire/#discover">
+						<span class="tools-card-kicker">대미레</span>
+						<strong>여섯 단계</strong>
+						<span>각 단계에 복사할 것, 붙여 넣을 곳, 기대하는 결과, 검증 방법이 적혀 있습니다.</span>
+					</a>
+				</li>
+			</ul>
+		</section>
+
+		<section class="tools-topic" aria-labelledby="topic-materials">
+			<div class="tools-topic-head">
+				<h2 id="topic-materials">실습 자료</h2>
+				<p>단계 메뉴와 같은 줄에 두지 않습니다. 문제 정의 칸과 기록 원본입니다.</p>
+			</div>
+			<ul class="tools-list">
+				<li>
+					<a class="tools-card" href="/tools/hospital-data-pain-points/">
+						<span class="tools-card-kicker">문제 정의 칸</span>
+						<strong>Pain Point A–H</strong>
+						<span>문제 발견에서 읽는 이름입니다. 순서는 A부터 H입니다.</span>
 					</a>
 				</li>
 				<li>
 					<a class="tools-card" href="/tools/consult-archive/">
-						<span class="tools-card-kicker">상담 데이터</span>
-						<strong>상담데이터 아카이브</strong>
-						<span>한 고객의 카톡, 전화, 내원 상담을 모아 읽습니다. 짧은 메모는 조각이고, 장시간 상담 4건은 따로 있습니다.</span>
-						<em>모아 보기 · /tools/consult-archive/</em>
+						<span class="tools-card-kicker">기록 원본</span>
+						<strong>상담 기록</strong>
+						<span>새 대화에 지시문과 원문을 넣습니다. 답이 오면 같은 대화에 검산 질문을 넣습니다.</span>
 					</a>
 				</li>
 				<li>
 					<a class="tools-card" href="/tools/procedure-archive/">
-						<span class="tools-card-kicker">원본 120건</span>
-						<strong>시술 기록 자료실</strong>
-						<span>120건 원본을 찾아 보고 받습니다.</span>
-						<em>초안 · /tools/procedure-archive/</em>
-					</a>
-				</li>
-				<li>
-					<a class="tools-card" href="/tools/procedure-archive/guide/">
-						<span class="tools-card-kicker">강연 실습</span>
-						<strong>강의 실습 따라하기</strong>
-						<span>강연에서 단계별로 AI 실습을 합니다.</span>
-						<em>초안 · /tools/procedure-archive/guide/</em>
+						<span class="tools-card-kicker">기록 원본</span>
+						<strong>시술 기록</strong>
+						<span>울쎄라 문의 한 건으로 같은 순서를 합니다. 120건 목록은 아래에 접혀 있습니다.</span>
 					</a>
 				</li>
 			</ul>
@@ -64,7 +85,10 @@ const archives = (await getCollection('toolArchives', ({ data }) => !data.draft)
 
 		{
 			TOOL_TOPICS.map((topic) => {
-				const entries = archives.filter((entry) => entry.data.topic === topic.id);
+				const entries = archives.filter(
+					(entry) => entry.data.topic === topic.id && entry.id !== 'hospital-data-pain-points',
+				);
+				if (entries.length === 0 && topic.id === 'hospital-data') return null;
 				return (
 					<section class="tools-topic" aria-labelledby={`topic-${topic.id}`}>
 						<div class="tools-topic-head">

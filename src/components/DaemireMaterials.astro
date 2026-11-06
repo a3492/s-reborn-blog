@@ -1,0 +1,251 @@
+---
+import {
+	daemireMaterials,
+	materialCsv,
+	materialText,
+	materialXlsx,
+	tableToTsv,
+} from '../lib/daemire-materials';
+
+const files = daemireMaterials();
+const crm = materialXlsx('2026년10월_방문시술매출_CRM.xlsx', [3]);
+const inquiry = materialCsv('2026년10월_상담문의_목록.csv');
+const bepInput = materialCsv('L2_원가_BEP_시연입력_v4.csv');
+const bepXlsx = materialXlsx('L2_원가_BEP_시연입력_v1.0_v4.xlsx');
+const bepCheck = materialXlsx('L2_원가_BEP_독립검산_v4.xlsx');
+
+const tables: Record<string, { caption: string; rows: string[][]; previewRows: number }> = {
+	'2026년10월_방문시술매출_CRM.xlsx': {
+		caption: crm[0]?.name ?? '방문시술매출',
+		rows: crm[0]?.rows ?? [],
+		previewRows: 8,
+	},
+	'2026년10월_상담문의_목록.csv': {
+		caption: '상담 문의 96건',
+		rows: inquiry,
+		previewRows: 8,
+	},
+	'L2_원가_BEP_시연입력_v4.csv': {
+		caption: '시연 입력',
+		rows: bepInput,
+		previewRows: 20,
+	},
+	'L2_원가_BEP_시연입력_v1.0_v4.xlsx': {
+		caption: bepXlsx[0]?.name ?? '시연 입력',
+		rows: bepXlsx[0]?.rows ?? [],
+		previewRows: 20,
+	},
+	'L2_원가_BEP_독립검산_v4.xlsx': {
+		caption: bepCheck[0]?.name ?? '독립 검산',
+		rows: bepCheck[0]?.rows ?? [],
+		previewRows: 20,
+	},
+};
+
+---
+
+<section class="materials" id="files" data-materials aria-labelledby="files-title">
+	<h2 id="files-title">실습 파일 13개</h2>
+	<p>
+		강연자 없이 이 페이지에서 받거나, 받지 못하면 아래 표·글을 복사해 ChatGPT 입력창에 붙여 넣습니다. 첨부 위치는 입력창 왼쪽 + 또는 클립입니다.
+	</p>
+	<ol class="file-list tool-file-list">
+		{
+			files.map((item) => {
+				const table = tables[item.name];
+				const tsv = table ? tableToTsv(table.rows) : '';
+				const shown = table ? table.rows.slice(0, table.previewRows + 1) : [];
+				return (
+					<li class="tool-file-card" id={item.previewId}>
+						<div class="file-top">
+							<strong class="tool-file-title">{item.name}</strong>
+						</div>
+						<p class="tool-file-size">{item.size}</p>
+						<p class="tool-file-description">{item.note}</p>
+						<p class="file-meta">쓰는 곳. {item.usedIn}</p>
+						<p class="file-meta">어디에 넣나. {item.attachWhere}</p>
+						<p class="file-actions">
+							<a class="lecture-btn tool-download-button" href={item.href} download={item.name}>
+								다운로드
+							</a>
+							{table && (
+								<button type="button" class="lecture-btn" data-copy-pre={`tsv-${item.previewId}`}>
+									표 복사 · ChatGPT에 붙여 넣기
+								</button>
+							)}
+							{item.kind === 'md' && (
+								<button type="button" class="lecture-btn" data-copy-pre={`md-${item.previewId}`}>
+									글 복사
+								</button>
+							)}
+						</p>
+						{item.kind === 'md' && (
+							<details>
+								<summary>이 화면에서 읽기</summary>
+								<pre id={`md-${item.previewId}`}>{materialText(item.name)}</pre>
+							</details>
+						)}
+						{table && (
+							<details>
+								<summary>이 화면에서 표 보기 · {table.rows.length - 1}행</summary>
+								<p>
+									미리보기는 {Math.min(table.previewRows, Math.max(table.rows.length - 1, 0))}행입니다. 표 복사는 전체 {table.rows.length - 1}행입니다.
+								</p>
+								<pre class="sr-tsv" id={`tsv-${item.previewId}`}>{tsv}</pre>
+								<div class="table-wrap">
+									<table>
+										<caption>{table.caption}</caption>
+										<thead>
+											<tr>
+												{shown[0]?.map((cell) => (
+													<th>{cell}</th>
+												))}
+											</tr>
+										</thead>
+										<tbody>
+											{shown.slice(1).map((row) => (
+												<tr>
+													{row.map((cell) => (
+														<td>{cell}</td>
+													))}
+												</tr>
+											))}
+										</tbody>
+									</table>
+								</div>
+							</details>
+						)}
+					</li>
+				);
+			})
+		}
+	</ol>
+</section>
+
+<script>
+	const root = document.querySelector('[data-materials]');
+	root?.addEventListener('click', async (event) => {
+		const target = event.target;
+		if (!(target instanceof HTMLButtonElement)) return;
+		const id = target.dataset.copyPre;
+		if (!id) return;
+		const text = document.getElementById(id)?.textContent ?? '';
+		const label = target.textContent ?? '';
+		try {
+			if (navigator.clipboard?.writeText) await navigator.clipboard.writeText(text);
+			else throw new Error('clipboard unavailable');
+		} catch {
+			const area = document.createElement('textarea');
+			area.value = text;
+			area.setAttribute('readonly', '');
+			area.style.position = 'fixed';
+			area.style.left = '-9999px';
+			document.body.appendChild(area);
+			area.select();
+			document.execCommand('copy');
+			area.remove();
+		}
+		target.textContent = '복사됨. ChatGPT 입력창에 붙여 넣으세요.';
+		window.setTimeout(() => {
+			target.textContent = label;
+		}, 2200);
+	});
+</script>
+
+<style>
+	.materials {
+		margin-top: 1.2rem;
+		padding: 16px;
+		border: 1px solid var(--rule);
+		border-radius: 8px;
+		background: var(--bg2);
+	}
+	.materials h2 {
+		margin: 0 0 0.4rem;
+		font-family: var(--display);
+		font-size: 1.15rem;
+	}
+	.file-meta {
+		margin: 0.25rem 0 0;
+		font-size: 0.88rem;
+		color: var(--t2);
+		line-height: 1.5;
+	}
+	.file-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.45rem;
+		margin-top: 0.55rem;
+	}
+	.file-actions .lecture-btn {
+		margin-top: 0;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		box-sizing: border-box;
+		min-height: 44px;
+		padding: 10px 14px;
+		border-radius: 6px;
+		border: 1px solid var(--pink, #e11d48);
+		background: var(--pink, #e11d48);
+		color: #fff;
+		font: inherit;
+		font-size: 14px;
+		font-weight: 600;
+		text-decoration: none;
+		cursor: pointer;
+	}
+	.materials details {
+		margin-top: 0.7rem;
+	}
+	.materials summary {
+		cursor: pointer;
+		font-weight: 700;
+	}
+	.materials pre {
+		max-height: 22rem;
+		overflow: auto;
+		white-space: pre-wrap;
+		font-family: inherit;
+		font-size: 0.88rem;
+		line-height: 1.5;
+		padding: 0.7rem;
+		border: 1px solid var(--rule);
+		border-radius: 8px;
+		background: #fff;
+	}
+	.sr-tsv {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+	}
+	.table-wrap {
+		max-width: 100%;
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+	.materials table {
+		min-width: 48rem;
+		border-collapse: collapse;
+		font-size: 0.82rem;
+		background: #fff;
+	}
+	.materials th,
+	.materials td {
+		border: 1px solid var(--rule);
+		padding: 0.4rem 0.45rem;
+		text-align: left;
+		white-space: nowrap;
+	}
+	@media (max-width: 600px) {
+		.materials {
+			padding: 12px;
+		}
+		.file-actions .lecture-btn {
+			min-height: 44px;
+			width: 100%;
+		}
+	}
+</style>

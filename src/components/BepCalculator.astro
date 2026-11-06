@@ -1,0 +1,192 @@
+---
+---
+
+<section class="bep" id="bep" data-bep aria-labelledby="bep-title">
+	<h3 id="bep-title">이 페이지에서 실행하는 계산기</h3>
+	<p>
+		ChatGPT가 계산기를 만들어 주지 않아도 됩니다. 세 칸을 바꾸면 결과가 바뀝니다. AI 답과 이 숫자를 대조합니다.
+	</p>
+	<div class="bep-presets">
+		<button type="button" data-preset="base">기준 200,000원</button>
+		<button type="button" data-preset="cut">단가 인하 180,000원</button>
+	</div>
+	<form class="bep-form" data-bep-form>
+		<label>
+			월 고정비(원)
+			<input name="fixed" type="number" inputmode="numeric" value="15000000" min="0" required />
+		</label>
+		<label>
+			시술 1건 판매단가(원)
+			<input name="price" type="number" inputmode="numeric" value="200000" min="0" required />
+		</label>
+		<label>
+			시술 1건 변동원가(원)
+			<input name="variable" type="number" inputmode="numeric" value="50000" min="0" required />
+		</label>
+		<button type="submit">계산하기</button>
+	</form>
+	<p class="bep-out" data-bep-out role="status">계산하기를 누르면 공헌이익, 손익분기 건수, 매출이 나옵니다.</p>
+	<table>
+		<caption>독립 검산. 이 표는 내려받은 엑셀과 같습니다.</caption>
+		<thead>
+			<tr>
+				<th>시나리오</th>
+				<th>단가</th>
+				<th>변동원가</th>
+				<th>공헌이익</th>
+				<th>건수</th>
+				<th>매출</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>기준</td>
+				<td>200,000</td>
+				<td>50,000</td>
+				<td>150,000</td>
+				<td>100</td>
+				<td>20,000,000</td>
+			</tr>
+			<tr>
+				<td>단가 인하</td>
+				<td>180,000</td>
+				<td>50,000</td>
+				<td>130,000</td>
+				<td>116</td>
+				<td>20,880,000</td>
+			</tr>
+		</tbody>
+	</table>
+</section>
+
+<script>
+	function ceilDiv(fixed: number, contrib: number): number {
+		return Math.ceil(fixed / contrib);
+	}
+
+	function won(n: number): string {
+		return `${Math.round(n).toLocaleString('ko-KR')}원`;
+	}
+
+	function render(root: Element, fixed: number, price: number, variable: number) {
+		const out = root.querySelector('[data-bep-out]');
+		if (!out) return;
+		if (![fixed, price, variable].every((n) => Number.isFinite(n))) {
+			out.textContent = '숫자를 모두 입력하세요.';
+			return;
+		}
+		if (fixed < 0 || price < 0 || variable < 0) {
+			out.textContent = '음수는 계산하지 않습니다. 판매단가와 변동원가를 확인하세요.';
+			return;
+		}
+		const contrib = price - variable;
+		if (contrib <= 0) {
+			out.textContent = '손익분기점을 계산할 수 없습니다. 판매단가와 변동원가를 확인하세요.';
+			return;
+		}
+		const units = ceilDiv(fixed, contrib);
+		const sales = units * price;
+		const raw = fixed / contrib;
+		out.textContent = `공헌이익 ${won(contrib)}. 올림 전 ${raw.toFixed(4)}건. 손익분기 ${units.toLocaleString('ko-KR')}건. 매출 ${won(sales)}. ${units - 1}건 손익 ${won((units - 1) * contrib - fixed)}, ${units}건 손익 ${won(units * contrib - fixed)}.`;
+	}
+
+	const root = document.querySelector('[data-bep]');
+	if (root) {
+		const form = root.querySelector('[data-bep-form]');
+		const fixed = () => root.querySelector<HTMLInputElement>('input[name="fixed"]');
+		const price = () => root.querySelector<HTMLInputElement>('input[name="price"]');
+		const variable = () => root.querySelector<HTMLInputElement>('input[name="variable"]');
+		form?.addEventListener('submit', (event) => {
+			event.preventDefault();
+			render(root, Number(fixed()?.value), Number(price()?.value), Number(variable()?.value));
+		});
+		root.querySelector('[data-preset="base"]')?.addEventListener('click', () => {
+			if (price()) price()!.value = '200000';
+			if (variable()) variable()!.value = '50000';
+			if (fixed()) fixed()!.value = '15000000';
+			render(root, 15000000, 200000, 50000);
+		});
+		root.querySelector('[data-preset="cut"]')?.addEventListener('click', () => {
+			if (price()) price()!.value = '180000';
+			if (variable()) variable()!.value = '50000';
+			if (fixed()) fixed()!.value = '15000000';
+			render(root, 15000000, 180000, 50000);
+		});
+		render(root, 15000000, 200000, 50000);
+	}
+</script>
+
+<style>
+	.bep {
+		margin-top: 1rem;
+		padding: 16px;
+		border: 1px solid var(--rule, #d6d9dc);
+		border-radius: 8px;
+		background: #fff;
+	}
+	.bep h3 {
+		margin: 0 0 0.4rem;
+		font-family: var(--display, inherit);
+		font-size: 1.05rem;
+	}
+	.bep-presets,
+	.bep-form {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.55rem;
+		margin: 0.7rem 0;
+	}
+	.bep label {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+		font-size: 0.82rem;
+		font-weight: 700;
+	}
+	.bep input {
+		min-height: 44px;
+		min-width: 10rem;
+		padding: 0 0.7rem;
+		border: 1px solid var(--rule, #d6d9dc);
+		border-radius: 8px;
+		font-size: 16px;
+	}
+	.bep button {
+		min-height: 44px;
+		padding: 0 14px;
+		border-radius: 8px;
+		border: 1px solid var(--pink, #e11d48);
+		background: var(--pink, #e11d48);
+		color: #fff;
+		font-weight: 700;
+		cursor: pointer;
+	}
+	.bep-presets button {
+		background: #fff;
+		color: var(--text, #171d22);
+		border-color: var(--rule, #d6d9dc);
+	}
+	.bep-out {
+		font-weight: 700;
+		line-height: 1.5;
+	}
+	.bep table {
+		width: 100%;
+		min-width: 0;
+		margin-top: 0.8rem;
+		border-collapse: collapse;
+		font-size: 0.88rem;
+	}
+	.bep th,
+	.bep td {
+		border: 1px solid var(--rule, #d6d9dc);
+		padding: 0.45rem 0.5rem;
+		text-align: left;
+	}
+	.bep caption {
+		caption-side: top;
+		text-align: left;
+		margin-bottom: 0.4rem;
+		font-weight: 700;
+	}
+</style>

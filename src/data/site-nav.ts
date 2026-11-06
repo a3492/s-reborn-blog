@@ -13,6 +13,9 @@ export type NavChild = {
 	external?: boolean;
 	/** No public page yet. Label renders as 준비중 and href is the shared placeholder. */
 	pending?: boolean;
+	/** Dropdown heading. Shown when it differs from the previous child. */
+	group?: string;
+	groupEn?: string;
 };
 
 export type NavItem = {
@@ -76,50 +79,62 @@ export const SITE_NAV: NavItem[] = [
 		label: '강연·자료',
 		labelEn: 'Talks & materials',
 		children: [
-			{ id: 'lectures-index', label: '웹 강연', labelEn: 'Web lectures', href: '/lectures/' },
 			{
 				id: 'lectures-koat',
-				label: 'KOAT 2026 강연',
-				labelEn: 'KOAT 2026 lecture',
+				group: '이전 강연',
+				groupEn: 'Earlier talk',
+				label: 'KOAT 2026',
+				labelEn: 'KOAT 2026',
 				href: '/lectures/koat-ai-2026/',
 			},
 			{
-				id: 'lectures-daemire',
-				label: '2026-11-08 대미레 자료',
-				labelEn: '2026-11-08 Daemire materials',
-				href: '/tools/lectures/2026-11-08-daemire/',
+				id: 'lectures-discover',
+				group: '학습 단계',
+				groupEn: 'Learning stages',
+				label: '1. 문제 발견',
+				labelEn: '1. Problem discovery',
+				href: '/tools/lectures/2026-11-08-daemire/#discover',
 			},
 			{
-				id: 'lectures-pain',
-				label: '병원 데이터 페인포인트',
-				labelEn: 'Hospital data pain points',
-				href: '/tools/hospital-data-pain-points/',
+				id: 'lectures-validate-problem',
+				group: '학습 단계',
+				groupEn: 'Learning stages',
+				label: '2. 문제 검증',
+				labelEn: '2. Problem validation',
+				href: '/tools/lectures/2026-11-08-daemire/#validate-problem',
 			},
 			{
-				id: 'lectures-consult',
-				label: '상담 데이터',
-				labelEn: 'Consult archive',
-				href: '/tools/consult-archive/',
+				id: 'lectures-design',
+				group: '학습 단계',
+				groupEn: 'Learning stages',
+				label: '3. 해결책 설계',
+				labelEn: '3. Solution design',
+				href: '/tools/lectures/2026-11-08-daemire/#design',
 			},
 			{
-				id: 'lectures-consult-guide',
-				label: '상담 기록 읽는 순서',
-				labelEn: 'How to read consult records',
-				href: '/tools/consult-archive/guide/',
+				id: 'lectures-mvp',
+				group: '학습 단계',
+				groupEn: 'Learning stages',
+				label: '4. MVP 실험',
+				labelEn: '4. MVP experiment',
+				href: '/tools/lectures/2026-11-08-daemire/#mvp',
 			},
 			{
-				id: 'lectures-procedure',
-				label: '시술 기록 자료실',
-				labelEn: 'Procedure records',
-				href: '/tools/procedure-archive/',
+				id: 'lectures-validate-result',
+				group: '학습 단계',
+				groupEn: 'Learning stages',
+				label: '5. 결과 검증',
+				labelEn: '5. Result validation',
+				href: '/tools/lectures/2026-11-08-daemire/#validate-result',
 			},
 			{
-				id: 'lectures-procedure-practice',
-				label: '강의 실습 따라하기',
-				labelEn: 'Lecture practice',
-				href: '/tools/procedure-archive/guide/',
+				id: 'lectures-apply',
+				group: '학습 단계',
+				groupEn: 'Learning stages',
+				label: '6. 현장 적용',
+				labelEn: '6. Field application',
+				href: '/tools/lectures/2026-11-08-daemire/#apply',
 			},
-			{ id: 'lectures-hub', label: '자료 허브', labelEn: 'Materials hub', href: '/tools/' },
 		],
 	},
 	{
