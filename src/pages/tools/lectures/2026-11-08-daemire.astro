@@ -20,6 +20,13 @@ type GuideRow = {
 	stuck: string;
 };
 
+type Lecture2Step = GuideRow & {
+	time: string;
+	slide: string;
+	resources: string[];
+	review: string;
+};
+
 const startGuide = '00_시작하기_자료사용가이드.md';
 
 const downloads: DownloadFile[] = [
@@ -282,156 +289,120 @@ CRM의 연결문의번호와 문의 CSV의 문의관리번호가 동일하고, �
 	},
 ];
 
-const lecture2Rows: GuideRow[] = [
-	{
-		id: 'l2-1',
-		title: '1. 계산기 만들기',
-		show: '계산 전에 항목의 뜻과 단위를 확인합니다. 월 비용과 건당 비용을 섞으면 결과가 틀립니다.',
-		steps: [
-			'`L2_원가_BEP_시연입력_v1.0_v4.xlsx`를 다운로드한다.',
-			'ChatGPT에 파일을 첨부한다.',
-			'아래 문장을 붙여넣는다.',
-		],
-		prompt: `첨부한 엑셀은 원가와 손익분기점 계산을 연습하기 위한 시연용 입력자료입니다.
-먼저 모든 입력 항목을 표로 정리해 주세요.
-각 항목이 월 기준인지, 시술 1건 기준인지, 원 단위인지 표시해 주세요.
-월 고정비, 판매단가, 건당 변동원가를 구분해 주세요.
-단위가 불분명한 값은 임의로 해석하지 말고 질문해 주세요.`,
-		success: '“월 고정비 15,000,000원 / 판매단가 200,000원/건 / 변동원가 50,000원/건”처럼 단위가 붙어 구분됩니다.',
-		stuck: '항목이 뒤섞이면 “월 기준과 1건 기준을 별도 표로 나눠 주세요”라고 요청합니다. 엑셀을 읽지 못하면 `L2_원가_BEP_시연입력_v4.csv`를 첨부합니다.',
-	},
-	{
-		id: 'l2-2',
-		title: '2. 계산 규칙',
-		show: '시술비 전체가 이익은 아닙니다. 건당 비용을 먼저 빼고, 남은 금액으로 월 고정비를 채웁니다.',
-		steps: [
-			'판매단가와 건당 변동원가를 확인한다.',
-			'판매단가에서 변동원가를 뺀다.',
-			'그 금액이 공헌이익인지 확인한다.',
-		],
-		prompt: `다음 예시를 초보자도 이해하도록 설명해 주세요.
-시술 판매단가 200,000원, 시술 1건당 변동원가 50,000원입니다.
-공헌이익을 계산하고, 왜 판매금액 전체가 이익이 아닌지 설명해 주세요.
-계산식과 단위를 함께 표시해 주세요.`,
-		success: '200,000원 − 50,000원 = 150,000원. 시술 1건이 고정비에 보태는 금액은 150,000원입니다.',
-		stuck: 'AI가 공헌이익을 순이익이라고 부르면 “아직 월 고정비를 빼기 전 금액이므로 순이익과 구분해 다시 설명해 주세요”라고 합니다.',
-	},
-	{
-		id: 'l2-3',
-		title: '3. AI에게 계산기',
-		show: '입력값, 계산식, 오류 상황을 구체적으로 말하면 AI가 작은 계산기를 만들 수 있습니다.',
-		steps: [
-			'아래 문장을 통째로 복사한다.',
-			'ChatGPT 입력창에 붙여넣고 전송한다.',
-			'계산 규칙과 사용법을 읽는다.',
-		],
-		prompt: `초보 병원장도 사용할 수 있는 간단한 손익분기점 계산기를 만들어 주세요.
-입력값은 다음 3개입니다.
-1. 월 고정비(원)
-2. 시술 1건 판매단가(원)
-3. 시술 1건 변동원가(원)
-계산식은 다음과 같습니다.
-건당 공헌이익 = 판매단가 - 건당 변동원가
-손익분기점 건수 = 월 고정비 ÷ 건당 공헌이익을 계산한 뒤 소수점이 있으면 다음 정수로 올림
-손익분기점 매출 = 손익분기점 건수 × 판매단가
-공헌이익이 0 이하이면 결과 대신 경고를 보여 주세요.
-입력값을 바꾸면 결과가 자동으로 바뀌어야 합니다.
-먼저 계산 규칙을 쉬운 한국어로 설명하고, 그 다음 실행 가능한 도구와 실행 방법을 제공해 주세요.
-코드를 제공한다면 어디에 붙여넣고 어떤 버튼을 눌러야 하는지도 단계별로 설명해 주세요.`,
-		success: '입력 세 칸과 결과 영역이 있고, 값을 바꾸면 건수와 매출이 바뀝니다. 공헌이익이 0 이하면 경고가 나옵니다.',
-		stuck: '코드만 나오면 “현재 대화 안에서 실행할 수 있는지 먼저 말해 주세요. 불가능하면 실행할 수 있는 가장 간단한 방법을 안내해 주세요”라고 합니다.',
-	},
-	{
-		id: 'l2-4',
-		title: '4. 기준 숫자 시험',
-		show: '계산기가 만들어졌다고 끝나지 않습니다. 답을 아는 숫자로 먼저 시험합니다.',
-		steps: [
-			'월 고정비 15,000,000원, 판매단가 200,000원, 변동원가 50,000원을 입력한다.',
-			'공헌이익이 150,000원인지 확인한다.',
-			'손익분기점 100건, 매출 20,000,000원인지 확인한다.',
-		],
-		prompt: `계산기에 다음 값을 입력했다고 가정하고 결과를 독립적으로 다시 계산해 주세요.
-월 고정비 15,000,000원
-판매단가 200,000원
-건당 변동원가 50,000원
-공헌이익, 손익분기점 건수, 손익분기점 매출을 각각 계산식과 함께 보여 주세요.
-계산기 결과와 비교할 수 있도록 최종 숫자를 명확히 적어 주세요.`,
-		success: '공헌이익 150,000원, 100건, 매출 20,000,000원입니다. 100건 × 150,000원 = 15,000,000원으로 월 고정비와 같습니다.',
-		stuck: '99건이나 101건이 나오면 올림과 입력 단위를 다시 확인합니다. 단가를 150,000원으로 넣으면 100건 매출은 15,000,000원입니다.',
-	},
-	{
-		id: 'l2-5',
-		title: '5. 단가 인하',
-		show: '단가를 낮추면 한 건에서 남는 금액이 줄어들 수 있습니다. 같은 고정비를 채우려면 건수가 더 필요할 수 있습니다.',
-		steps: [
-			'`L2_원가_BEP_독립검산_v4.xlsx`를 연다.',
-			'단가 180,000원, 변동원가 50,000원, 월 고정비 15,000,000원 시나리오를 확인한다.',
-			'116건과 20,880,000원이 나오는지 확인한다.',
-		],
-		prompt: `두 번째 시나리오를 직접 계산해 주세요.
-월 고정비 15,000,000원
-판매단가 180,000원
-건당 변동원가 50,000원
-공헌이익, 소수점 계산 결과, 올림한 손익분기점 건수, 손익분기점 매출을 보여 주세요.
-115건일 때와 116건일 때의 손익도 각각 계산해 주세요.`,
-		success:
-			'공헌이익 130,000원입니다. 15,000,000 ÷ 130,000 = 약 115.3846건이므로 올림하면 116건입니다. 매출은 20,880,000원입니다. 115건 손익은 −50,000원, 116건 손익은 +80,000원입니다.',
-		stuck: '116건이 아니면 변동원가를 50,000원으로 유지했는지 확인합니다. 단가만 바꾸고 변동원가는 기준과 같습니다.',
-	},
-	{
-		id: 'l2-6',
-		title: '6. 오류 테스트',
-		show: '쓸 수 있는 도구는 잘못된 입력도 처리합니다.',
-		steps: [
-			'판매단가를 변동원가와 같게 입력한다.',
-			'판매단가를 변동원가보다 낮게 입력한다.',
-			'숫자 대신 오류 안내가 나오는지 확인한다.',
-		],
-		prompt: `계산기에 대한 오류 테스트를 만들어 주세요.
-아래 상황에서 올바른 반응이 무엇인지 표로 정리해 주세요.
-1. 판매단가와 변동원가가 같은 경우
-2. 판매단가가 변동원가보다 낮은 경우
-3. 월 고정비가 0원인 경우
-4. 입력칸이 비어 있는 경우
-5. 음수를 입력한 경우
-각 상황에서 계산 결과를 표시할지, 경고를 표시할지 설명해 주세요.`,
-		success: '공헌이익이 0 이하면 “손익분기점을 계산할 수 없습니다. 판매단가와 변동원가를 확인하세요.”라는 안내가 나옵니다. 빈칸과 음수도 걸러집니다.',
-		stuck: '잘못된 값으로도 숫자가 나오면 입력 검증을 추가해 달라고 한 뒤 같은 시험을 다시 합니다.',
-	},
-	{
-		id: 'l2-7',
-		title: '7. 내 병원 숫자',
-		show: '예제 숫자를 그대로 복사하지 않습니다. 우리 병원의 고정비와 시술별 원가를 확인합니다.',
-		steps: [
-			'`L2_내병원_작은도구_기획시트.md`를 연다.',
-			'월 고정비 항목과 시술별 변동원가 항목을 적는다.',
-			'확인되지 않은 금액은 비워 두고 회계자료로 확인한다.',
-		],
-		prompt: `우리 병원에서 사용할 원가·손익분기점 계산기를 기획하고 싶습니다.
-먼저 필요한 입력 항목을 질문 목록으로 만들어 주세요.
-월 고정비와 시술 1건당 변동원가를 구분하고, 각 항목에 포함할 비용의 예시를 들어 주세요.
-내가 실제 금액을 입력하기 전에는 임의의 숫자를 넣지 마세요.
-환자 이름, 전화번호, 차트번호 등 환자 개인정보는 필요하지 않습니다.
-마지막에 계산 결과를 검산하는 방법도 제안해 주세요.`,
-		success: '임대료·기본 인건비·관리비는 월 고정비 후보로, 약제·소모품은 시술별 변동원가 후보로 구분합니다. 실제 분류는 병원 회계 기준으로 확인합니다.',
-		stuck: '구분이 애매하면 회계 담당자와 확인합니다. 한 달 총비용을 무조건 고정비로 넣지 않습니다.',
-	},
-	{
-		id: 'l2-8',
-		title: '8. 마지막 확인',
-		show: '손익분기점은 가정 아래의 계산입니다. 인건비 배부, 장비 감가상각, 세금, 할인, 환불, 시술 구성, 가동률에 따라 달라질 수 있습니다.',
-		steps: [
-			'계산에 쓴 가정을 목록으로 적는다.',
-			'독립검산 엑셀과 결과를 비교한다.',
-			'경영 판단 전에 회계자료와 비용 분류를 다시 확인한다.',
-		],
-		prompt: `이 계산기를 실제 병원 경영에 참고하기 전에 점검해 주세요.
-현재 계산에 포함된 항목과 포함되지 않은 항목을 나눠 주세요.
-시술 믹스, 할인·환불, 인건비 배부, 장비 감가상각, 세금, 예약 취소, 가동률 등이 결과에 어떤 영향을 줄 수 있는지 설명해 주세요.
-현재 모델이 단순화한 예제라는 점과 실제 의사결정 전에 확인할 자료를 체크리스트로 만들어 주세요.`,
-		success: '단일 시술·단일 단가·일정한 변동원가를 가정한 계산이며, 실제 손익과 다를 수 있다고 한계를 적습니다.',
-		stuck: '결과를 확정 순이익처럼 말하면 “이 값은 단순 손익분기 추정치이며 순이익이 아님을 명시해 다시 작성해 주세요”라고 요청합니다.',
-	},
+const lecture2Rows: Lecture2Step[] = [
+  {
+    "id": "l2-1",
+    "title": "자료 이해하기",
+    "time": "07:00–10:00",
+    "slide": "PPT 7장",
+    "show": "계산 전 입력자료의 값·단위·기준 기간을 구분합니다. 시술 1건당 비용과 월 고정비를 섞지 않습니다.",
+    "steps": [
+      "시연 입력 엑셀을 내려받아 AI에 첨부합니다. 파일 첨부가 안 되면 CSV 또는 아래 가상값을 사용합니다.",
+      "프롬프트를 복사해 항목별 단위를 확인합니다.",
+      "CSV의 ‘예상월시술건수 120’과 손익분기 건수는 서로 다른 개념임을 확인합니다."
+    ],
+    "prompt": "병원 개원 준비용 원가·손익분기점 계산기 실습입니다. 실제 환자 자료가 아닌 가상 자료만 사용합니다.\n첨부한 시연 파일의 실제 열 이름과 시나리오별 값을 먼저 읽고 표로 정리해 주세요.\n파일을 첨부하지 못했다면 다음 가상 기준값으로 진행하세요.\n- 시술 판매가: 200,000원/건\n- 건당 변동원가: 50,000원/건\n- 월 고정비: 15,000,000원/월\n1. 각 항목의 값·단위·기준 기간을 구분하세요.\n2. 월 비용과 시술 1건 기준 비용을 따로 표시하세요.\n3. 예상 월 시술건수와 손익분기 건수는 구분하세요.\n4. 원본에 없는 값은 임의로 채우지 말고 미확인이라고 표시하세요.\n아직 계산기를 제작하지 마세요.",
+    "success": "기준 시나리오가 판매가 200,000원/건, 변동원가 50,000원/건, 월 고정비 15,000,000원/월로 구분됩니다. CSV의 예상 월 시술 120건은 BEP 100건과 구분합니다.",
+    "stuck": "엑셀을 읽지 못하면 제공된 v4 CSV를 첨부합니다. 파일을 첨부할 수 없으면 세 가상값을 그대로 텍스트로 입력하세요. 원본에 없는 값을 AI가 추가했다면 출처를 확인하도록 요청합니다.",
+    "resources": [
+      "L2_원가_BEP_시연입력_v1.0_v4.xlsx",
+      "L2_원가_BEP_시연입력_v4.csv"
+    ],
+    "review": "복습: CSV에는 기준·단가인하·고정비증가 시나리오가 들어 있습니다. 세 시나리오의 값을 섞지 말고 먼저 행별로 분리해 보세요."
+  },
+  {
+    "id": "l2-2",
+    "title": "AI 계산기 만들기",
+    "time": "10:00–16:00",
+    "slide": "PPT 7–8장",
+    "show": "입력 3개, 계산식, 예외 처리를 자연어로 설명해 브라우저용 작은 계산기를 제작합니다.",
+    "steps": [
+      "아래 프롬프트를 통째로 복사하고 AI에 붙여넣습니다.",
+      "AI가 만든 HTML 파일을 브라우저에서 열거나 실행 방법을 확인합니다.",
+      "결과가 곧바로 표시되지 않으면 표 형태의 계산 결과부터 요청합니다."
+    ],
+    "prompt": "위 가상값으로 브라우저에서 실행 가능한 단일 HTML 원가·손익분기점(BEP) 계산기를 만들어 주세요.\n입력: 시술 판매가(원/건), 건당 변동원가(원/건), 월 고정비(원/월).\n기본값: 200000, 50000, 15000000.\n공헌이익 = 판매가 − 건당 변동원가.\n월 영업손익(단순 모델) = 시술건수 × 공헌이익 − 월 고정비.\nBEP 건수 = 월 고정비 ÷ 공헌이익을 정수 올림.\nBEP 매출 = BEP 건수 × 판매가.\n공헌이익, 공헌이익률, 올림 전 BEP, 올림 후 건수, BEP 매출, BEP 직전 건수와 BEP 건수의 월 영업손익을 보여 주세요.\n음수·빈칸·비숫자 입력을 검사하고, 월 고정비가 양수이며 공헌이익이 0 이하라면 유한한 BEP가 없다고 안내하세요.\n계산식과 정상·오류 테스트를 보여 주세요. 외부 API, 계정, 개인정보 수집, 사용자 입력 저장은 넣지 마세요.\nHTML 파일을 직접 제공하지 못하면 실행 방법과 함께 복사 가능한 코드 및 표 형태의 대체 결과를 제공해 주세요.",
+    "success": "판매가·변동원가·고정비 입력칸과 결과 영역이 있으며, 값 변경에 따라 공헌이익·BEP 건수·매출이 바뀝니다. 공헌이익이 0 이하이면 경고를 출력합니다.",
+    "stuck": "코드만 나오면 ‘파일로 저장하고 브라우저에서 여는 방법을 순서대로 알려줘’라고 요청합니다. 생성이 지연되면 우선 AI가 제시한 표 계산부터 확인하고 강연 후 복습 모드에서 HTML을 완성합니다.",
+    "resources": [],
+    "review": "복습: 완성된 HTML을 저장한 다음 인터넷 연결 없이 동작하는지 확인해 보세요. 프로그램이 계산을 잘해도 실제 환자 수요를 예측하지는 못합니다."
+  },
+  {
+    "id": "l2-3",
+    "title": "기준 숫자 확인하기",
+    "time": "16:00–18:00",
+    "slide": "PPT 8장",
+    "show": "AI가 만든 도구에 정답을 아는 가상값을 넣고 공헌이익·BEP·매출을 확인합니다.",
+    "steps": [
+      "판매가 200,000원, 변동원가 50,000원, 월 고정비 15,000,000원을 넣습니다.",
+      "공헌이익과 손익분기 건수, 매출을 확인합니다.",
+      "결과 확인을 펼쳐 사전에 계산한 정답과 비교합니다."
+    ],
+    "prompt": "아래 기준 시나리오를 계산하고 각 단계의 식과 단위를 보여 주세요.\n판매가: 200000원/건\n건당 변동원가: 50000원/건\n월 고정비: 15000000원/월\n건당 공헌이익, 공헌이익률, 올림 전 BEP 건수, 정수 올림 BEP 건수, BEP 매출, 99건과 100건의 월 영업손익을 표시해 주세요.\n공헌이익을 순이익이라고 부르지 마세요.",
+    "success": "건당 공헌이익 150,000원, 공헌이익률 75%, BEP 100건, BEP 매출 20,000,000원입니다. 99건의 월 영업손익은 −150,000원, 100건은 0원입니다.",
+    "stuck": "100건이 아니라면 월 고정비와 건당 변동비를 구분했는지 확인합니다. 계산기와 AI가 같은 잘못된 식을 사용할 수 있으니 ‘결과 확인’의 검산표와 따로 대조합니다.",
+    "resources": [
+      "L2_원가_BEP_독립검산_v4.xlsx"
+    ],
+    "review": "복습: 단순 월 영업손익 = 건수 × (판매가 − 변동원가) − 월 고정비입니다. 초기 투자비 회수액이나 대출 원금 상환은 이 식에 포함되지 않습니다."
+  },
+  {
+    "id": "l2-4",
+    "title": "가격만 바꾸어 보기",
+    "time": "18:00–22:00",
+    "slide": "PPT 9장",
+    "show": "판매가 200,000원을 180,000원으로 낮춥니다. 변동원가와 고정비는 그대로 둡니다.",
+    "steps": [
+      "판매가만 180,000원으로 바꾸고 다른 값은 고정합니다.",
+      "BEP의 소수점 계산값과 올림 후 정수 건수를 확인합니다.",
+      "115건과 116건의 차이를 먼저 예상하고 정답을 펼칩니다."
+    ],
+    "prompt": "판매가만 200000원에서 180000원으로 변경하세요.\n건당 변동원가 50000원과 월 고정비 15000000원은 그대로 유지하세요.\n건당 공헌이익, 올림 전 BEP 건수, 올림 후 BEP 건수, BEP 매출, 115건과 116건의 월 영업손익을 계산식과 함께 표로 보여 주세요.\n변경된 입력 항목을 명시하고, 가격 변경이 실제 환자 수요 증가를 의미한다고 추정하지 마세요.",
+    "success": "건당 공헌이익 130,000원, 올림 전 BEP 약 115.384615건, BEP 116건, 매출 20,880,000원입니다. 115건 손익은 −50,000원, 116건 손익은 +80,000원입니다.",
+    "stuck": "116건이 아니면 건당 변동원가를 50,000원으로 유지했는지 확인합니다. 소수점 건수를 버림하지 않고 정수 올림했는지 확인하세요.",
+    "resources": [
+      "L2_원가_BEP_시연입력_v4.csv"
+    ],
+    "review": "복습: 115건 × 130,000원 − 15,000,000원 = −50,000원, 116건 × 130,000원 − 15,000,000원 = +80,000원입니다. 필요 건수 증가는 수요 증가를 보장하지 않습니다."
+  },
+  {
+    "id": "l2-5",
+    "title": "독립 검산과 오류 시험",
+    "time": "22:00–25:00",
+    "slide": "PPT 9장",
+    "show": "계산 결과를 별도 검산 엑셀에 대조하고, 잘못된 입력에 대한 경고를 확인합니다.",
+    "steps": [
+      "독립 검산 v4 엑셀을 열어 기준·가격 인하 두 시나리오와 결과를 대조합니다.",
+      "115건은 손실, 116건은 이익인지 확인합니다.",
+      "고정비가 양수일 때 판매가가 변동원가 이하인 경우 경고가 나오는지 시험합니다."
+    ],
+    "prompt": "이 계산기의 입력 검증 및 경계값 테스트를 설계해 주세요.\n1. 판매가 180000, 변동원가 50000, 고정비 15000000: 115건과 116건 각각의 월 영업손익\n2. 판매가 = 건당 변동원가이고 월 고정비가 양수인 경우\n3. 판매가가 건당 변동원가보다 낮고 월 고정비가 양수인 경우\n4. 빈칸·음수·비숫자 입력\n5. 월 고정비가 0인 특수한 경우\n정상값·예외값별 예상 동작을 표로 정리해 주세요.\n단, AI의 재계산만으로 독립 검산했다고 주장하지 말고, 제공된 별도 검산표와 대조할 항목을 구분해 주세요.",
+    "success": "독립 검산표와 두 시나리오가 일치합니다. 가격 인하안 115건: −50,000원, 116건: +80,000원입니다. 고정비가 양수이고 공헌이익 0 이하이면 유한 BEP가 없다고 안내합니다.",
+    "stuck": "AI와 계산기 값이 다르면 입력값·단위·올림 규칙을 확인하고 검산표의 수식으로 다시 계산합니다. 빈칸·음수에도 숫자를 출력하면 입력 검증을 수정한 뒤 재시험합니다.",
+    "resources": [
+      "L2_원가_BEP_독립검산_v4.xlsx"
+    ],
+    "review": "복습 심화: 월 고정비 0원인 경우는 별도 예외 규칙을 명시해야 합니다. 계산기 수치만으로 실제 손익·현금흐름·수요를 확정하지 마세요."
+  },
+  {
+    "id": "l2-6",
+    "title": "내 병원의 다음 도구 정하기",
+    "time": "25:00–28:00",
+    "slide": "PPT 10–11장",
+    "show": "입지·채용·직원 교육·장비·재고 등 개원 경영 영역에서 다음으로 해결할 문제 한 가지를 선택합니다.",
+    "steps": [
+      "문제가 있는 경영 분야를 하나만 고릅니다.",
+      "문제·필요 입력·원하는 결과·독립 검증 방법을 한 문장씩 적습니다.",
+      "완성된 도구를 곧바로 실무에 적용하지 말고 사람이 검증할 조건을 정합니다."
+    ],
+    "prompt": "나는 개원을 준비하는 의사입니다. 모든 병원 경영 문제를 한 번에 해결하려 하지 않고, 우선 하나의 작은 도구를 기획하겠습니다.\n다음 분야에서 하나를 선택할 수 있도록 도와 주세요: 진료 전략, 입지·부동산, 재무·자금, 인테리어·장비, 진료 안전, 채용·교육·복지, 마케팅·환자 경험, 운영·재고·성과.\n각 선택지에 대해 해결하려는 의사결정 한 문장, 필요한 입력, 얻고 싶은 출력, 선행조건, 검증 방법을 간단히 보여 주세요.\n내가 하나를 선택하면 그 도구의 최소 기능을 설계하되 법률·의료·재무 판단은 최종 승인 항목으로 분리해 주세요.\n실제 환자·직원 개인정보나 비공개 계약 원문은 요구하지 마세요.",
+    "success": "최소 한 가지 문제에 대해 ‘지금 내릴 결정 → 입력 → 출력 → 검증 → 다음 행동’이 정리됩니다. 계산기와 다른 종류의 도구도 시작할 수 있습니다.",
+    "stuck": "너무 범위가 넓다면 ‘개원 후보지 2곳 비교’ 또는 ‘신규 직원 첫날 업무 체크리스트’처럼 작고 검증 가능한 한 가지 과제로 줄입니다.",
+    "resources": [
+      "L2_내병원_작은도구_기획시트.md"
+    ],
+    "review": "복습: AI가 만든 체크리스트는 실제 인허가·의료광고·근로기준·의료기기 관련 법령 검토와 책임자 승인을 대체하지 않습니다."
+  }
 ];
 
 function fileHref(name: string): string {
@@ -548,60 +519,118 @@ function fileSize(name: string): string {
 			</section>
 		</div>
 
+
 		<div class="panel panel-ops">
-			<section class="lecture-panel" aria-labelledby="l2-guide">
-				<h2 id="l2-guide">강연2 따라하기</h2>
-				<div class="lecture-callout">
-					<p>
-						<strong>단가 180,000원 시나리오는 변동원가 50,000원을 유지합니다.</strong>
-						월 고정비는 15,000,000원입니다. 건당 공헌이익 130,000원, 올림 전 약 115.3846건, 손익분기점 116건, 매출 20,880,000원입니다. 115건은 −50,000원, 						116건은 +80,000원입니다.
-					</p>
+			<section class="lecture-panel ops-workbook" aria-labelledby="l2-guide">
+				<div class="ops-head">
+					<div>
+						<p class="ops-eyebrow">강연2 · 개원 원장 실습 워크북</p>
+						<h2 id="l2-guide">AI로 나만의 병원 경영 도구 만들기</h2>
+						<p>문제 발견 → 자료 이해 → 계산기 제작 → 시나리오 변경 → 검산 → 다음 도구 설계. PPT를 보며 한 단계씩 따라오세요.</p>
+					</div>
+					<button type="button" class="ops-mode" data-ops-mode aria-pressed="false">복습 모드 켜기</button>
 				</div>
-				<p>화면을 본 뒤, 표의 순서대로 합니다. 확인 숫자는 v4 파일을 따릅니다.</p>
-				<div class="table-wrap">
-					<table>
-						<caption class="sr-only">강연2 슬라이드별 따라하기</caption>
-						<thead>
-							<tr>
-								<th scope="col">원장님이 보여주는 것</th>
-								<th scope="col">내가 할 일</th>
-								<th scope="col">복붙 프롬프트</th>
-								<th scope="col">성공 예시</th>
-								<th scope="col">막히면</th>
-							</tr>
-						</thead>
-						<tbody>
-							{
-								lecture2Rows.map((row) => (
-									<tr>
-										<th scope="row">
-											<strong>{row.title}</strong>
-											<span>{row.show}</span>
-										</th>
-										<td>
-											<ol>
-												{row.steps.map((step) => (
-													<li>{step}</li>
-												))}
-											</ol>
-										</td>
-										<td>
-											<pre id={`copy-${row.id}`}>{row.prompt}</pre>
-											<button type="button" data-copy={row.id} data-label="문장 복사">
-												문장 복사
-											</button>
-										</td>
-										<td>{row.success}</td>
-										<td>{row.stuck}</td>
-									</tr>
-								))
-							}
-						</tbody>
-					</table>
+				<div class="ops-notice">
+					<strong>현장 실습은 가상 데이터만 사용합니다.</strong>
+					계산기 제작이 어렵다면 표 계산으로 진행한 뒤 복습 모드에서 완성하세요. 기준값은 판매가 200,000원/건, 변동원가 50,000원/건, 월 고정비 15,000,000원입니다.
+				</div>
+				<details class="ops-decision-map">
+					<summary>개원 준비의 8개 경영 분야 살펴보기</summary>
+					<div class="ops-domain-grid">
+						<span>진료 전략</span><span>시장·입지</span><span>재무·자금</span><span>시설·장비·IT</span>
+						<span>진료 품질·안전</span><span>채용·교육·복지</span><span>마케팅·환자 경험</span><span>운영·성과 관리</span>
+					</div>
+					<p>오늘은 여러 개원 결정 중 원가·BEP라는 작은 도구 하나를 만들어 보고, 같은 방법을 다른 분야로 확장합니다.</p>
+				</details>
+				<div class="ops-resources" aria-label="강연2 필수 자료">
+					<span class="ops-resource-title">실습 준비 파일</span>
+					<a href={fileHref('L2_원가_BEP_시연입력_v1.0_v4.xlsx')} download>입력 엑셀 v4</a>
+					<a href={fileHref('L2_원가_BEP_시연입력_v4.csv')} download>CSV 대체 파일</a>
+					<a href={fileHref('L2_원가_BEP_독립검산_v4.xlsx')} download>독립 검산 엑셀</a>
+					<a href={fileHref('L2_내병원_작은도구_기획시트.md')} download>다음 도구 기획시트</a>
+				</div>
+				<div class="ops-progress" aria-live="polite">
+					<strong data-ops-progress>1 / 6 · 자료 이해하기</strong>
+					<span>강연 7–28분 실습 구간 · 강연 후에도 복습 가능</span>
+				</div>
+				<nav class="ops-step-nav" aria-label="강연2 실습 단계">
+					{lecture2Rows.map((row, index) => (
+						<button type="button" data-ops-jump={index} aria-pressed={index === 0 ? 'true' : 'false'}>
+							<span>{index + 1}</span><span>{row.title}</span>
+						</button>
+					))}
+				</nav>
+				<div class="ops-steps">
+					{lecture2Rows.map((row, index) => (
+						<section class="ops-step-card" data-ops-card={index} hidden={index !== 0} aria-label={row.title}>
+							<div class="ops-step-heading">
+								<div>
+									<p class="ops-step-kicker">STEP {index + 1} / {lecture2Rows.length} · {row.slide}</p>
+									<h3>{row.title}</h3>
+								</div>
+								<span class="ops-step-time">{row.time}</span>
+							</div>
+							<div class="ops-content-grid">
+								<div class="ops-info">
+									<h4>원장님이 보여주는 것</h4>
+									<p>{row.show}</p>
+									<h4>내가 할 일</h4>
+									<ol>{row.steps.map((step) => <li>{step}</li>)}</ol>
+									{row.resources.length > 0 && (
+										<div class="ops-step-files">
+											<strong>이 단계에 필요한 자료</strong>
+											{row.resources.map((name) => <a href={fileHref(name)} download={name}>{name}</a>)}
+										</div>
+									)}
+								</div>
+								<div class="ops-action">
+									<h4>복붙 프롬프트</h4>
+									<pre id={'copy-' + row.id}>{row.prompt}</pre>
+									<button type="button" data-copy={row.id} data-label="문장 복사">문장 복사</button>
+								</div>
+							</div>
+							<details class="ops-answer">
+								<summary>성공 확인 · 검산 결과 펼치기</summary>
+								<p>{row.success}</p>
+							</details>
+							<details class="ops-trouble">
+								<summary>막히면 · 오류 해결 방법</summary>
+								<p>{row.stuck}</p>
+							</details>
+							<p class="ops-review-only"><strong>복습 심화</strong> {row.review}</p>
+							<div class="ops-step-footer">
+								<button type="button" class="ops-secondary" data-ops-jump={index - 1} disabled={index === 0}>이전 단계</button>
+								<span>{index + 1} / {lecture2Rows.length}</span>
+								<button type="button" data-ops-jump={index + 1} disabled={index === lecture2Rows.length - 1}>다음 단계</button>
+							</div>
+						</section>
+					))}
+				</div>
+				<div class="ops-summary">
+					<h3>독립 검산 기준값</h3>
+					<p>계산기와 동일한 AI의 재계산은 독립 검산이 아닙니다. 별도 검산 엑셀에 대조해 주세요. 아래 정답은 클릭하여 확인할 수 있습니다.</p>
+					<details>
+						<summary>두 가지 시나리오 정답표 보기</summary>
+						<div class="ops-table-scroll">
+							<table class="ops-check-table">
+								<thead><tr><th>항목</th><th>기준</th><th>판매가 인하</th></tr></thead>
+								<tbody>
+									<tr><th>판매가</th><td>200,000원</td><td>180,000원</td></tr>
+									<tr><th>건당 변동원가</th><td>50,000원</td><td>50,000원</td></tr>
+									<tr><th>월 고정비</th><td>15,000,000원</td><td>15,000,000원</td></tr>
+									<tr><th>건당 공헌이익</th><td>150,000원</td><td>130,000원</td></tr>
+									<tr><th>월 BEP 건수</th><td>100건</td><td>116건</td></tr>
+									<tr><th>BEP 매출</th><td>20,000,000원</td><td>20,880,000원</td></tr>
+									<tr><th>BEP 직전 월 손익</th><td>99건: −150,000원</td><td>115건: −50,000원</td></tr>
+									<tr><th>BEP 건수 월 손익</th><td>100건: 0원</td><td>116건: +80,000원</td></tr>
+								</tbody>
+							</table>
+						</div>
+					</details>
+					<p class="ops-limitation">※ 단일 시술·고정비/변동비 일정 가정. 실제 수요, 시술 믹스, 세금, 초기 투자 회수, 대출 상환 및 현금흐름을 예측하지 않습니다.</p>
 				</div>
 			</section>
 		</div>
-
 		<p class="copy-status" data-copy-status role="status" aria-live="polite"></p>
 	</article>
 </Layout>
@@ -611,6 +640,23 @@ function fileSize(name: string): string {
 	const status = document.querySelector('[data-copy-status]');
 	const crm = document.querySelector('#tab-crm');
 	const ops = document.querySelector('#tab-ops');
+	const opsPanel = document.querySelector('.panel-ops');
+	const stepCards = Array.from(opsPanel?.querySelectorAll('[data-ops-card]') ?? []);
+	const stepNav = Array.from(opsPanel?.querySelectorAll('.ops-step-nav [data-ops-jump]') ?? []);
+	function activateOpsStep(index: number) {
+		if (!Number.isInteger(index) || index < 0 || index >= stepCards.length) return;
+		stepCards.forEach((card, i) => {
+			if (card instanceof HTMLElement) card.hidden = i !== index;
+		});
+		stepNav.forEach((button, i) => {
+			button.setAttribute('aria-pressed', i === index ? 'true' : 'false');
+		});
+		const textNode = opsPanel?.querySelector('[data-ops-progress]');
+		const title = stepNav[index]?.textContent?.trim() ?? '';
+		if (textNode) textNode.textContent = (index + 1) + ' / ' + stepCards.length + ' · ' + title.replace(/^\\d+/, '').trim();
+		opsPanel?.querySelector('.ops-progress')?.scrollIntoView({behavior:'smooth',block:'start'});
+	}
+
 
 	function applyHash() {
 		if (!(crm instanceof HTMLInputElement) || !(ops instanceof HTMLInputElement)) return;
@@ -630,6 +676,16 @@ function fileSize(name: string): string {
 	root?.addEventListener('click', async (event) => {
 		const target = event.target;
 		if (!(target instanceof HTMLButtonElement)) return;
+		if (target.dataset.opsJump !== undefined) {
+			activateOpsStep(Number(target.dataset.opsJump));
+			return;
+		}
+		if (target.dataset.opsMode !== undefined) {
+			const reviewing = opsPanel?.classList.toggle('ops-review') ?? false;
+			target.setAttribute('aria-pressed', reviewing ? 'true' : 'false');
+			target.textContent = reviewing ? '현장 모드로 돌아가기' : '복습 모드 켜기';
+			return;
+		}
 		const code = target.dataset.copy;
 		if (!code) return;
 		const node = document.getElementById(`copy-${code}`);
@@ -661,6 +717,87 @@ function fileSize(name: string): string {
 </script>
 
 <style>
+
+	/* 강연2: 데스크톱/모바일 실습 카드 UI. 강연1 표와 전역 스타일은 유지합니다. */
+	.panel-ops .ops-workbook { background:var(--bg2); padding:clamp(14px,2.4vw,24px); }
+	.ops-head { display:flex;justify-content:space-between;gap:1rem;align-items:start; }
+	.ops-eyebrow {font-size:.8rem;font-weight:800;letter-spacing:.02em;margin:0 0 .3rem;color:#946e45!important;}
+	.panel-ops .ops-head h2 {font-size:clamp(1.25rem,2.8vw,1.65rem);margin:0 0 .35rem;}
+	.panel-ops .ops-head p {margin:.25rem 0 0;max-width:48rem;}
+	.panel-ops .ops-mode {margin:0;white-space:nowrap;background:transparent;color:var(--text);border-color:var(--rule);min-height:40px;}
+	.panel-ops .ops-mode[aria-pressed='true'] {background:#eee4d6;border-color:#b9976f;color:#674626;}
+	.ops-notice {background:#f7f0e5;color:#3d3328;border:1px solid #e1d0b8;border-radius:8px;padding:13px 15px;margin:16px 0;line-height:1.55;font-size:.93rem;}
+	.ops-notice strong {display:block;margin-bottom:3px;}
+	.ops-decision-map {border:1px solid var(--rule);border-radius:8px;padding:11px 14px;margin:0 0 15px;}
+	.ops-decision-map summary,.ops-answer summary,.ops-trouble summary,.ops-summary summary {cursor:pointer;font-weight:800;color:var(--text);}
+	.ops-domain-grid {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:12px 0;}
+	.ops-domain-grid span {background:var(--bg);padding:8px;border:1px solid var(--rule);border-radius:6px;text-align:center;font-size:.85rem;}
+	.ops-resources {display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px;}
+	.ops-resource-title {font-size:.82rem;font-weight:800;margin-right:4px;color:var(--text);}
+	.ops-resources a,.ops-step-files a {color:var(--text);text-decoration:none;border:1px solid var(--rule);padding:7px 10px;border-radius:6px;font-weight:650;font-size:.82rem;background:var(--bg);}
+	.ops-resources a:hover,.ops-step-files a:hover {border-color:#b9976f;text-decoration:underline;}
+	.ops-progress {display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center;border-top:1px solid var(--rule);padding:13px 0 9px;scroll-margin-top:90px;}
+	.ops-progress strong {font-size:1rem;color:var(--text);}
+	.ops-progress span {font-size:.8rem;color:var(--t2);}
+	.ops-step-nav {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 14px;}
+	.panel-ops .ops-step-nav button {margin:0;display:flex;align-items:center;justify-content:start;gap:8px;min-width:0;min-height:43px;border:1px solid var(--rule);background:var(--bg);color:var(--text);text-align:left;white-space:normal;padding:8px 10px;border-radius:7px;font-size:.85rem;}
+	.ops-step-nav button span:first-child {flex:0 0 24px;height:24px;border-radius:5px;background:var(--bg2);border:1px solid var(--rule);display:grid;place-items:center;font-weight:800;}
+	.panel-ops .ops-step-nav button[aria-pressed='true'] {border-color:#b9976f;background:#efe3d2;color:#3d3022;}
+	.panel-ops .ops-step-nav button[aria-pressed='true'] span:first-child {background:#b9976f;color:#fff;border-color:#b9976f;}
+	.ops-step-card {border:1px solid var(--rule);border-radius:9px;padding:clamp(14px,2vw,20px);background:var(--bg);}
+	.ops-step-card[hidden] {display:none!important;}
+	.ops-step-heading {display:flex;gap:12px;align-items:center;justify-content:space-between;padding-bottom:12px;border-bottom:1px solid var(--rule);margin-bottom:14px;}
+	.ops-step-kicker {font-size:.76rem;font-weight:800;color:#946e45!important;margin:0 0 4px;}
+	.ops-step-heading h3 {font-size:clamp(1.14rem,2.4vw,1.4rem);margin:0;color:var(--text);}
+	.ops-step-time {font-size:.79rem;color:var(--t2);white-space:nowrap;}
+	.ops-content-grid {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);gap:14px;align-items:start;}
+	.ops-info,.ops-action {border:1px solid var(--rule);border-radius:8px;padding:15px;min-width:0;}
+	.ops-info h4,.ops-action h4 {color:var(--text);font-size:.96rem;margin:0 0 6px;}
+	.ops-info p {margin:0 0 14px;}
+	.ops-info ol {margin:0 0 8px;padding-left:1.3rem;}
+	.ops-info li {margin:6px 0;}
+	.ops-action {background:var(--bg2);}
+	.ops-action pre {max-height:340px;overflow-y:auto;overflow-wrap:anywhere;border:1px solid var(--rule);padding:12px;background:var(--bg);border-radius:6px;font-size:.84rem;line-height:1.62;}
+	.panel-ops .ops-action button {min-height:43px;padding:8px 14px;margin-top:6px;}
+	.ops-step-files {display:flex;gap:6px;flex-wrap:wrap;align-items:center;border-top:1px solid var(--rule);padding-top:10px;margin-top:12px;}
+	.ops-step-files strong {width:100%;font-size:.8rem;}
+	.ops-step-files a {font-size:.76rem;overflow-wrap:anywhere;max-width:100%;}
+	.ops-answer,.ops-trouble {margin-top:10px;padding:12px 14px;border:1px solid var(--rule);border-radius:7px;}
+	.ops-answer {background:#eef7f0;}
+	.ops-trouble {background:var(--bg2);}
+	.ops-answer p,.ops-trouble p {margin:9px 0 0;}
+	.panel-ops .ops-review-only {display:none;background:#f4efe6;border-left:3px solid #b9976f;padding:12px;margin:12px 0 0;font-size:.87rem;}
+	.panel-ops.ops-review .ops-review-only {display:block;}
+	.ops-step-footer {display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:15px;padding-top:12px;border-top:1px solid var(--rule);font-size:.85rem;color:var(--t2);}
+	.panel-ops .ops-step-footer button {margin:0;min-height:42px;}
+	.panel-ops .ops-step-footer button.ops-secondary {background:transparent;border-color:var(--rule);color:var(--text);}
+	.panel-ops .ops-step-footer button:disabled {opacity:.4;cursor:not-allowed;}
+	.ops-summary {margin-top:18px;padding:15px;border:1px solid var(--rule);border-radius:8px;}
+	.ops-summary h3 {margin:0 0 6px;font-size:1.06rem;}
+	.ops-summary p {margin:6px 0 12px;font-size:.91rem;}
+	.ops-summary details {padding:10px 0;}
+	.ops-table-scroll {overflow-x:auto;max-width:100%;margin-top:10px;}
+	.ops-check-table {min-width:510px;font-size:.83rem;}
+	.ops-check-table th,.ops-check-table td {padding:7px 10px;}
+	.ops-check-table th {background:var(--bg2);font-weight:700;}
+	.ops-check-table td {background:var(--bg);}
+	.ops-summary .ops-limitation {font-size:.78rem;margin-bottom:0;}
+	@media(max-width:720px) {
+		.ops-head {flex-direction:column;}
+		.ops-domain-grid {grid-template-columns:repeat(2,minmax(0,1fr));}
+		.ops-step-nav {grid-template-columns:repeat(2,minmax(0,1fr));}
+		.ops-content-grid {grid-template-columns:minmax(0,1fr);}
+		.ops-step-time {white-space:normal;text-align:right;}
+	}
+	@media(max-width:480px) {
+		.panel-ops .ops-workbook {padding:12px;}
+		.ops-head .ops-mode {width:100%;}
+		.ops-step-nav {grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;}
+		.panel-ops .ops-step-nav button {font-size:.79rem;padding:7px;}
+		.ops-step-heading {align-items:start;}
+		.ops-info,.ops-action {padding:12px;}
+		.ops-resources a {flex:1 1 calc(50% - 8px);text-align:center;}
+	}
 	.lecture {
 		box-sizing: border-box;
 		min-width: 0;
