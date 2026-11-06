@@ -6,7 +6,7 @@ import Layout from '../../layouts/Layout.astro';
 import catalog from '../../data/procedure-public-catalog.json';
 
 const downloadDir = path.join(process.cwd(), 'public/downloads/procedure-archive');
-const guideName = '시술기록_가공_연습가이드.md';
+const guideName = '강의실습_따라하기.md';
 const zipName = '시술기록_120건_공개용.zip';
 for (const name of [guideName, zipName]) {
 	fs.accessSync(path.join(downloadDir, name));
@@ -68,31 +68,23 @@ function viewHref(id: string): string {
 ---
 
 <Layout
-	title="시술 기록 아카이브"
-	description="울쎄라·필러·토닝 시술 기록 120건. 시점, 작성자, 길이로 고르고 원문을 열어 봅니다."
+	title="시술 기록 자료실"
+	description="120건 원본을 찾아 보고 받습니다. 울쎄라, 필러, 토닝."
 >
 	<article class="consult" data-pack data-tool-page="procedure-archive">
 		<header>
 			<p class="consult-kicker">
 				<a href="/tools/">경영 도구 아카이브</a>
 				<span aria-hidden="true"> / </span>
-				시술 기록
+				시술 기록 자료실
 			</p>
-			<h1>시술 기록 아카이브</h1>
+			<h1>시술 기록 자료실</h1>
 			<p class="consult-virtual">모두 실습용 가상 데이터입니다</p>
-			<p class="consult-lead">
-				시술 전 체크부터 부작용 재내원까지 120건입니다. 직원 문장은 그대로 두고, 정리 순서는 연습 가이드에 있습니다.
-			</p>
+			<p class="consult-lead">120건 원본을 찾아 보고 받습니다.</p>
 			<p class="consult-guide-link">
-				<a class="tool-action" href="/tools/procedure-archive/guide/">가이드 보기</a>
-				<a class="tool-action" href={fileHref(guideName)} download={guideName}>연습 가이드</a>
+				<a class="tool-action" href="/tools/procedure-archive/guide/">강의 실습 따라하기</a>
+				<span>강연에서 단계별로 AI 실습을 합니다.</span>
 			</p>
-			<ol class="consult-steps tool-action-row">
-				<li class="tool-action">고르기</li>
-				<li class="tool-action">복사하기</li>
-				<li class="tool-action">AI에 넣기</li>
-				<li class="tool-action">검산하기</li>
-			</ol>
 		</header>
 
 		<section class="consult-panel" aria-labelledby="procedure-files">
@@ -100,7 +92,7 @@ function viewHref(id: string): string {
 			<ul class="pack-downloads">
 				<li>
 					<strong>{zipName}</strong>
-					<p>시술 기록 원본 120건입니다. 울쎄라, 필러, 토닝.</p>
+					<p>자료실의 원본 120건을 한 번에 받습니다. 울쎄라, 필러, 토닝.</p>
 					<a class="tool-action" href={fileHref(zipName)} download={zipName}>ZIP 받기</a>
 				</li>
 			</ul>
@@ -244,6 +236,13 @@ function viewHref(id: string): string {
 		applyPack();
 	});
 	packSearch?.addEventListener('input', applyPack);
+
+	const presetCategory = new URLSearchParams(location.search).get('category');
+	if (presetCategory) {
+		const preset = pack?.querySelector(`[data-pack-filter="category"][data-pack-value="${CSS.escape(presetCategory)}"]`);
+		if (preset instanceof HTMLButtonElement) preset.click();
+		document.getElementById('procedure-list')?.scrollIntoView();
+	}
 </script>
 
 <style>

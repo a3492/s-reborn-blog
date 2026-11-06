@@ -2,86 +2,489 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import Layout from '../../../layouts/Layout.astro';
-import { renderConsultMarkdown } from '../../../lib/consult-markdown';
 
-const guideName = '시술기록_가공_연습가이드.md';
-const filePath = path.join(process.cwd(), 'public/downloads/procedure-archive', guideName);
-const source = fs.readFileSync(filePath, 'utf8');
-const html = renderConsultMarkdown(source);
+const guideName = '강의실습_따라하기.md';
+const guidePath = path.join(process.cwd(), 'public/downloads/procedure-archive', guideName);
+fs.accessSync(guidePath);
 const downloadHref = `/downloads/procedure-archive/${encodeURIComponent(guideName)}`;
+
+const tasks = [
+	{
+		id: 'summary',
+		label: '경과 요약',
+		note: '시간 순서로 확인된 것과 모르는 것을 나눔',
+		record: 'P-055 울쎄라 · 강수연 · 집에서 문의',
+		category: '집에서 문의',
+		view: '/tools/procedure-archive/view/P-055/',
+		files: ['/downloads/procedure-archive/items/P-055_집에서문의_울쎄라.txt'],
+		prompt: `직원 문장은 같은 양식으로 다시 쓰지 마세요.
+아래 원문만 보고, 시간 순서대로 '언제 / 누가 말했는지 / 확인된 내용 / 아직 모르는 것'으로 적으세요.
+고객이 말한 느낌과 직원이 해석한 말을 나누세요.
+기록에 없는 호전, 진단, 예약 확정을 만들지 마세요.
+각 줄 끝에 근거가 된 원문 문장을 짧게 남기세요.`,
+	},
+	{
+		id: 'risk',
+		label: '위험 신호 찾기',
+		note: '혈관 징후, 임신, 복약처럼 놓치면 안 되는 줄만 고름',
+		record: 'P-119 필러 · 신미경 · 부작용 재내원',
+		category: '부작용 재내원',
+		view: '/tools/procedure-archive/view/P-119/',
+		files: ['/downloads/procedure-archive/items/P-119_부작용재내원_필러.txt'],
+		prompt: `직원 문체를 통일하지 마세요.
+아래 원문에서만 위험 신호와 확인이 덜 된 항목을 고르세요.
+혈관 쪽 신호(피부가 하얗거나 그물처럼 변함, 심한 통증, 시야 이상), 임신·수유, 피를 묽게 하는 약, 알레르기, 마취제 반응을 찾으세요.
+기록에 없으면 '기록에 없음'이라고만 적으세요. 없는 내용을 문제없음으로 바꾸지 마세요.`,
+	},
+	{
+		id: 'call',
+		label: '해피콜 체크리스트',
+		note: '다음 전화에서 물어볼 질문만 만듦',
+		record: 'P-082 울쎄라 · 강수연 · 해피콜',
+		category: '해피콜',
+		view: '/tools/procedure-archive/view/P-082/',
+		files: ['/downloads/procedure-archive/items/P-082_해피콜_울쎄라.txt'],
+		prompt: `해피콜 원문은 고치지 마세요. 다음 전화에서 물어볼 목록만 만드세요.
+통증, 피부색 변화, 시야, 갑자기 붓는 느낌, 임신·수유, 새로 먹은 약, 사진을 찍은 시각을 넣으세요.
+원문에 답이 있으면 그 답을 적고, 없으면 '아직 안 물어봄'이라고 적으세요.
+예약이 확정됐는지는 원문에 있을 때만 적으세요. 진단은 내리지 마세요.`,
+	},
+	{
+		id: 'compare',
+		label: '직원별 기록 비교',
+		note: '서로 다른 말투를 합치지 않고 사실만 나눔',
+		record: 'P-001 서유리 · P-019 권수아, 같은 고객 강수연',
+		category: '시술 전 체크',
+		view: '/tools/procedure-archive/view/P-001/',
+		files: [
+			'/downloads/procedure-archive/items/P-001_시술전체크_울쎄라.txt',
+			'/downloads/procedure-archive/items/P-019_시술중_울쎄라.txt',
+		],
+		prompt: `두 직원의 원문을 하나의 문체로 합치지 마세요.
+직원별로 '말투 한 줄 / 실제로 적은 사실 / 적지 않은 것'을 나누세요.
+같은 고객이라는 이유만으로 서로 없는 사실을 옮겨 적지 마세요.`,
+	},
+	{
+		id: 'note',
+		label: '환자 안내문',
+		note: '원문에 있는 내용만 환자가 읽을 글로 옮김',
+		record: 'P-037 울쎄라 · 강수연 · 귀가 안내',
+		category: '귀가 안내',
+		view: '/tools/procedure-archive/view/P-037/',
+		files: ['/downloads/procedure-archive/items/P-037_귀가안내_울쎄라.txt'],
+		prompt: `환자가 읽을 짧은 안내만 쓰세요. 직원 원문의 말투는 안내문에 섞지 말고, 내용은 원문에 있는 것만 쓰세요.
+확인되지 않은 약, 샷수, 다음 예약은 '아직 확인 전'이라고 적으세요.
+심한 통증, 색이 진행되는 변화, 시야 이상이 있으면 메시지를 기다리지 말고 바로 진료받으라고 안내하세요.
+진단명을 만들지 마세요.`,
+	},
+];
+
+const steps = [
+	{ n: '1', id: 'step-1', title: '흐트러진 기록 보기', note: '서로 다른 말투의 원문을 연다', problem: '같은 고객이라도 직원마다 말투와 적는 순서가 다릅니다.', goal: '고치기 전에, 원문이 어떻게 흩어져 있는지 봅니다.' },
+	{ n: '2', id: 'step-2', title: '기록 고르기', note: '이번 작업의 원문만 고른다', problem: '120건을 한 번에 넣으면 무엇이 근거인지 잃습니다.', goal: '이번 작업에 맞는 원문 한두 건만 고릅니다.' },
+	{ n: '3', id: 'step-3', title: '작업 선택', note: '다섯 가지 실습 중 하나를 정한다', problem: '목적을 정하지 않으면 위험 신호를 놓친 요약이 나옵니다.', goal: '경과, 위험, 해피콜, 직원 비교, 환자 안내 중 하나를 정합니다.' },
+	{ n: '4', id: 'step-4', title: '프롬프트와 기록 복사', note: '지시문과 원문을 함께 복사한다', problem: '프롬프트만 넣고 원문을 빼먹으면 없는 사실을 채웁니다.', goal: '지시문과 고른 원문을 함께 복사합니다.' },
+	{ n: '5', id: 'step-5', title: 'AI에 붙여 넣기', note: '새 대화창에 붙여 넣는다', problem: '복사만 하고 대화창에 넣지 않으면 실습이 시작되지 않습니다.', goal: '새 대화에 붙여 넣고, 직원 문장은 다시 쓰지 않습니다.' },
+	{ n: '6', id: 'step-6', title: '결과 검산', note: '결과 문장을 원문과 대조한다', problem: '보기 좋은 문장이 원문에 없을 수 있습니다.', goal: '결과의 각 문장을 원문과 나란히 대조합니다.' },
+];
 ---
 
-<Layout title="시술 기록 가공 연습가이드" description="시술 기록을 고치지 않고 AI가 맥락을 읽어 정리하는 연습입니다.">
-	<article class="reader" data-tool-page="procedure-archive">
-		<p class="reader-kicker">
-			<a href="/tools/procedure-archive/">시술 기록 아카이브</a>
+<Layout title="강의 실습 따라하기" description="강연에서 단계별로 AI 실습을 합니다.">
+	<article class="lesson" data-lesson data-tool-page="procedure-archive">
+		<p class="lesson-kicker">
+			<a href="/tools/procedure-archive/">시술 기록 자료실</a>
+			<span>120건 원본을 찾아 보고 받습니다.</span>
 		</p>
-		<h1>시술 기록 가공 연습가이드</h1>
-		<p class="reader-actions">
-			<a href={downloadHref} download={guideName}>가이드 다운로드</a>
+		<h1>강의 실습 따라하기</h1>
+		<p class="lesson-lead">강연에서 단계별로 AI 실습을 합니다.</p>
+		<p class="lesson-core">직원마다 다른 기록 스타일을 통일하지 말고, AI가 맥락을 읽어 정리합니다.</p>
+		<p>
+			<a class="file-link" href={downloadHref} download={guideName}>실습 순서 파일 받기</a>
 		</p>
-		<div class="reader-body" set:html={html} />
+
+		<nav class="step-nav" aria-label="실습 단계">
+			{
+				steps.map((step) => (
+					<a class={`step-jump step-${step.n}`} href={`#${step.id}`}>
+						<span class="step-num">{step.n}</span>
+						<span>
+							<strong>{step.title}</strong>
+							<small>{step.note}</small>
+						</span>
+					</a>
+				))
+			}
+		</nav>
+
+		<section id="step-1" class="step-block">
+			<h2><span class="step-num step-1">1</span> 흐트러진 기록 보기</h2>
+			<p><strong>문제의식.</strong> {steps[0].problem}</p>
+			<p><strong>목적.</strong> {steps[0].goal}</p>
+			<ul class="record-links">
+				<li>
+					<a href="/tools/procedure-archive/view/P-001/">P-001 원문 열기</a>
+					<span>서유리 상담실장. 문장이 짧게 끊긴 시술 전 체크.</span>
+				</li>
+				<li>
+					<a href="/tools/procedure-archive/view/P-019/">P-019 원문 열기</a>
+					<span>권수아 마케팅 담당. 고객 표현을 반복해 적은 시술 중 메모.</span>
+				</li>
+				<li>
+					<a href="/tools/procedure-archive/view/P-055/">P-055 원문 열기</a>
+					<span>집에서 온 문의. 시간과 메시지가 건너뜁니다.</span>
+				</li>
+			</ul>
+		</section>
+
+		<section id="step-2" class="step-block">
+			<h2><span class="step-num step-2">2</span> 기록 고르기</h2>
+			<p><strong>문제의식.</strong> {steps[1].problem}</p>
+			<p><strong>목적.</strong> {steps[1].goal}</p>
+			<p data-chosen-record>이번 기록: {tasks[0].record}</p>
+			<p class="action-row">
+				<a data-archive-link href={`/tools/procedure-archive/?category=${encodeURIComponent(tasks[0].category)}#procedure-list`}>자료실에서 이 범주만 보기</a>
+				<a data-view-link href={tasks[0].view}>고른 원문 열기</a>
+			</p>
+		</section>
+
+		<section id="step-3" class="step-block">
+			<h2><span class="step-num step-3">3</span> 작업 선택</h2>
+			<p><strong>문제의식.</strong> {steps[2].problem}</p>
+			<p><strong>목적.</strong> {steps[2].goal}</p>
+			<div class="task-row">
+				{
+					tasks.map((task, index) => (
+						<button type="button" class="task-btn" data-task={task.id} aria-pressed={index === 0 ? 'true' : 'false'}>
+							<strong>{task.label}</strong>
+							<small>{task.note}</small>
+						</button>
+					))
+				}
+			</div>
+			{
+				tasks.map((task) => (
+					<pre class="prompt-store" id={`prompt-${task.id}`} hidden data-files={task.files.join('|')} data-view={task.view} data-category={task.category} data-record={task.record}>{task.prompt}</pre>
+				))
+			}
+		</section>
+
+		<section id="step-4" class="step-block">
+			<h2><span class="step-num step-4">4</span> 프롬프트와 기록 복사</h2>
+			<p><strong>문제의식.</strong> {steps[3].problem}</p>
+			<p><strong>목적.</strong> {steps[3].goal}</p>
+			<p class="action-row">
+				<button type="button" class="act act-copy" data-copy="prompt">프롬프트 복사</button>
+				<button type="button" class="act act-copy" data-copy="record">기록 원문 복사</button>
+			</p>
+			<pre class="prompt-view" data-prompt-view>{tasks[0].prompt}</pre>
+		</section>
+
+		<section id="step-5" class="step-block">
+			<h2><span class="step-num step-5">5</span> AI에 붙여 넣기</h2>
+			<p><strong>문제의식.</strong> {steps[4].problem}</p>
+			<p><strong>목적.</strong> {steps[4].goal}</p>
+			<p class="action-row">
+				<a class="act act-ai" data-open-ai href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT 열고 붙여 넣기</a>
+			</p>
+		</section>
+
+		<section id="step-6" class="step-block">
+			<h2><span class="step-num step-6">6</span> 결과 검산</h2>
+			<p><strong>문제의식.</strong> {steps[5].problem}</p>
+			<p><strong>목적.</strong> {steps[5].goal}</p>
+			<ul>
+				<li>원문에 없는 호전, 진단, 예약 확정이 들어갔는가.</li>
+				<li>비어 있던 항목을 문제없음으로 바꿨는가.</li>
+				<li>직원 말투를 하나의 공식 문장으로 합쳤는가.</li>
+				<li>위험 신호를 평범한 경과의 문장으로 내렸는가.</li>
+			</ul>
+			<p class="action-row">
+				<a data-view-link href={tasks[0].view}>원문 페이지에서 대조</a>
+				<button type="button" class="act act-check" data-copy="check">검산 질문 복사</button>
+			</p>
+		</section>
+		<p class="lesson-status" data-status role="status" aria-live="polite"></p>
 	</article>
 </Layout>
 
+<script>
+	const lesson = document.querySelector('[data-lesson]');
+	const status = lesson?.querySelector('[data-status]');
+	const promptView = lesson?.querySelector('[data-prompt-view]');
+	const chosen = lesson?.querySelector('[data-chosen-record]');
+	const archiveLink = lesson?.querySelector('[data-archive-link]');
+	const viewLinks = [...(lesson?.querySelectorAll('[data-view-link]') ?? [])];
+	let current = 'summary';
+
+	function store(id: string) {
+		return document.getElementById(`prompt-${id}`);
+	}
+
+	function applyTask(id: string) {
+		const node = store(id);
+		if (!(node instanceof HTMLElement)) return;
+		current = id;
+		if (promptView) promptView.textContent = node.textContent ?? '';
+		if (chosen) chosen.textContent = `이번 기록: ${node.dataset.record ?? ''}`;
+		if (archiveLink instanceof HTMLAnchorElement) {
+			const category = node.dataset.category ?? '';
+			archiveLink.href = `/tools/procedure-archive/?category=${encodeURIComponent(category)}#procedure-list`;
+			archiveLink.textContent = `자료실에서 ${category}만 보기`;
+		}
+		for (const link of viewLinks) {
+			if (link instanceof HTMLAnchorElement && node.dataset.view) link.href = node.dataset.view;
+		}
+		for (const button of lesson?.querySelectorAll('[data-task]') ?? []) {
+			if (button instanceof HTMLButtonElement) button.setAttribute('aria-pressed', button.dataset.task === id ? 'true' : 'false');
+		}
+	}
+
+	async function writeClipboard(text: string) {
+		try {
+			await navigator.clipboard.writeText(text);
+		} catch {
+			const area = document.createElement('textarea');
+			area.value = text;
+			area.setAttribute('readonly', '');
+			area.style.position = 'fixed';
+			area.style.left = '-9999px';
+			document.body.appendChild(area);
+			area.select();
+			document.execCommand('copy');
+			area.remove();
+		}
+		if (status) status.textContent = '복사했습니다.';
+	}
+
+	async function recordText() {
+		const node = store(current);
+		const files = (node?.dataset.files ?? '').split('|').filter(Boolean);
+		const parts: string[] = [];
+		for (const file of files) {
+			const response = await fetch(file);
+			if (!response.ok) throw new Error(file);
+			const name = decodeURIComponent(file.split('/').pop() ?? file);
+			parts.push(`파일: ${name}\n\n${await response.text()}`);
+		}
+		return parts.join('\n\n----\n\n');
+	}
+
+	lesson?.addEventListener('click', async (event) => {
+		const target = event.target;
+		if (!(target instanceof Element)) return;
+		const taskButton = target.closest('[data-task]');
+		if (taskButton instanceof HTMLButtonElement && taskButton.dataset.task) {
+			applyTask(taskButton.dataset.task);
+			document.getElementById('step-4')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			return;
+		}
+		const copyButton = target.closest('[data-copy]');
+		if (copyButton instanceof HTMLButtonElement) {
+			const kind = copyButton.dataset.copy;
+			if (kind === 'prompt') {
+				await writeClipboard(store(current)?.textContent?.trim() ?? '');
+			} else if (kind === 'record') {
+				if (status) status.textContent = '기록을 읽는 중입니다.';
+				await writeClipboard(await recordText());
+			} else if (kind === 'check') {
+				await writeClipboard(`검산 질문\n- 원문에 없는 호전, 진단, 예약 확정이 들어갔는가.\n- 비어 있던 항목을 문제없음으로 바꿨는가.\n- 직원 말투를 하나의 공식 문장으로 합쳤는가.\n- 위험 신호를 평범한 경과의 문장으로 내렸는가.\n대조 기록: ${store(current)?.dataset.record ?? ''}`);
+			}
+			return;
+		}
+		const opener = target.closest('[data-open-ai]');
+		if (opener instanceof HTMLAnchorElement) {
+			event.preventDefault();
+			if (status) status.textContent = '프롬프트와 기록을 복사하는 중입니다.';
+			const prompt = store(current)?.textContent?.trim() ?? '';
+			const record = await recordText();
+			await writeClipboard(`${prompt}\n\n${record}`);
+			if (status) status.textContent = '복사했습니다. ChatGPT 창에 붙여 넣으세요.';
+			window.open(opener.href, '_blank', 'noopener');
+		}
+	});
+</script>
+
 <style>
-	.reader {
+	.lesson {
 		box-sizing: border-box;
-		max-width: 46rem;
+		max-width: 52rem;
 		padding: 2.2rem 0 4rem;
 		--tool-border: #d6d9dc;
+		--tool-ink: #1f2937;
 	}
-	.reader-kicker a {
+	.lesson-kicker {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		align-items: baseline;
+		margin: 0;
+		color: var(--t2);
+	}
+	.lesson-kicker a,
+	.file-link,
+	.record-links a,
+	.action-row a {
 		color: var(--pink);
 		font-weight: 700;
-		text-decoration: none;
 	}
-	.reader h1,
-	.reader-body :is(h2, h3) {
+	.lesson h1,
+	.lesson h2 {
 		font-family: var(--display);
-		letter-spacing: -0.02em;
+		letter-spacing: -0.03em;
 	}
-	.reader h1 {
-		font-size: clamp(1.6rem, 3vw, 2.1rem);
-		margin: 0.8rem 0 0.8rem;
+	.lesson h1 {
+		margin: 0.45rem 0 0.35rem;
+		font-size: clamp(1.8rem, 4vw, 2.3rem);
 	}
-	.reader-actions a {
+	.lesson-lead {
+		margin: 0;
+		font-weight: 700;
+	}
+	.lesson-core {
+		margin: 0.7rem 0;
+		padding: 10px 12px;
+		border-left: 4px solid #17344b;
+		background: #f4f7f8;
+		font-weight: 700;
+	}
+	.file-link,
+	.record-links a,
+	.action-row a,
+	.act {
 		display: inline-flex;
 		align-items: center;
+		box-sizing: border-box;
 		min-height: 36px;
 		padding: 6px 12px;
 		border: 1px solid var(--tool-border);
 		border-radius: 6px;
 		background: #fff;
-		color: inherit;
-		font-weight: 600;
+		color: var(--tool-ink);
+		font: inherit;
+		font-weight: 700;
 		font-size: 13px;
 		text-decoration: none;
+		cursor: pointer;
 	}
-	.reader-body {
-		margin-top: 1.2rem;
+	.step-nav {
+		display: grid;
+		gap: 8px;
+		margin: 16px 0;
 	}
-	.reader-body :is(p, li, blockquote) {
+	.step-jump {
+		display: flex;
+		gap: 10px;
+		align-items: center;
+		padding: 8px 10px;
+		border: 1px solid var(--tool-border);
+		border-radius: 6px;
+		background: #fff;
+		color: inherit;
+		text-decoration: none;
+	}
+	.step-jump strong,
+	.task-btn strong {
+		display: block;
+	}
+	.step-jump small,
+	.task-btn small,
+	.record-links span {
+		display: block;
 		color: var(--t2);
-		line-height: 1.65;
+		font-size: 13px;
+		line-height: 1.4;
 	}
-	.reader-body h2,
-	.reader-body h3 {
-		margin: 1.3rem 0 0.4rem;
+	.step-num {
+		display: inline-grid;
+		place-items: center;
+		flex: 0 0 auto;
+		width: 28px;
+		height: 28px;
+		border-radius: 6px;
+		color: #fff;
+		font-weight: 800;
 	}
-	.reader-body pre {
-		padding: 12px;
+	.step-1 { background: #17344b; }
+	.step-2 { background: #2668b5; }
+	.step-3 { background: #288a75; }
+	.step-4 { background: #8a5a28; }
+	.step-5 { background: #6b3fa0; }
+	.step-6 { background: #9a3d4a; }
+	.step-block {
+		margin-top: 18px;
+		padding: 14px;
 		border: 1px solid var(--tool-border);
 		border-radius: 8px;
 		background: var(--bg2);
-		overflow-x: auto;
+	}
+	.step-block h2 {
+		display: flex;
+		gap: 8px;
+		align-items: center;
+		margin: 0 0 8px;
+		font-size: 1.15rem;
+	}
+	.step-block p,
+	.step-block li {
+		color: var(--t2);
+		line-height: 1.55;
+	}
+	.record-links,
+	.action-row,
+	.task-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin: 10px 0 0;
+		padding: 0;
+		list-style: none;
+	}
+	.record-links li {
+		flex: 1 1 14rem;
+		padding: 10px;
+		border-radius: 6px;
+		background: #fff;
+	}
+	.task-btn {
+		flex: 1 1 12rem;
+		padding: 8px 10px;
+		border: 1px solid var(--tool-border);
+		border-radius: 6px;
+		border-top: 4px solid #288a75;
+		background: #fff;
+		color: var(--tool-ink);
+		font: inherit;
+		text-align: left;
+		cursor: pointer;
+	}
+	.task-btn[aria-pressed='true'] {
+		background: #e7f6f1;
+		border-color: #288a75;
+	}
+	.act-copy { background: #8a5a28; color: #fff; border-color: #8a5a28; }
+	.act-ai { background: #6b3fa0; color: #fff; border-color: #6b3fa0; }
+	.act-check { background: #9a3d4a; color: #fff; border-color: #9a3d4a; }
+	.prompt-view {
+		margin: 10px 0 0;
+		padding: 12px;
+		border-radius: 6px;
+		background: #fff;
 		white-space: pre-wrap;
+		line-height: 1.5;
+	}
+	.lesson-status {
+		min-height: 1.4rem;
+		margin-top: 12px;
+		font-weight: 700;
 	}
 	@media (max-width: 600px) {
-		.reader-actions a {
+		.file-link,
+		.record-links a,
+		.action-row a,
+		.act,
+		.task-btn,
+		.step-jump {
 			min-height: 44px;
-			padding: 10px 12px;
-			font-size: 14px;
 		}
 	}
 </style>

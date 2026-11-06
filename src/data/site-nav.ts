@@ -103,9 +103,15 @@ export const SITE_NAV: NavItem[] = [
 			},
 			{
 				id: 'lectures-procedure',
-				label: '시술 기록',
-				labelEn: 'Procedure archive',
+				label: '시술 기록 자료실',
+				labelEn: 'Procedure records',
 				href: '/tools/procedure-archive/',
+			},
+			{
+				id: 'lectures-procedure-practice',
+				label: '강의 실습 따라하기',
+				labelEn: 'Lecture practice',
+				href: '/tools/procedure-archive/guide/',
 			},
 			{ id: 'lectures-hub', label: '자료 허브', labelEn: 'Materials hub', href: '/tools/' },
 		],
