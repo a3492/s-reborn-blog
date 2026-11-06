@@ -1,0 +1,87 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import Layout from '../../../layouts/Layout.astro';
+import { renderConsultMarkdown } from '../../../lib/consult-markdown';
+
+const guideName = '시술기록_가공_연습가이드.md';
+const filePath = path.join(process.cwd(), 'public/downloads/procedure-archive', guideName);
+const source = fs.readFileSync(filePath, 'utf8');
+const html = renderConsultMarkdown(source);
+const downloadHref = `/downloads/procedure-archive/${encodeURIComponent(guideName)}`;
+---
+
+<Layout title="시술 기록 가공 연습가이드" description="시술 기록을 고치지 않고 AI가 맥락을 읽어 정리하는 연습입니다.">
+	<article class="reader" data-tool-page="procedure-archive">
+		<p class="reader-kicker">
+			<a href="/tools/procedure-archive/">시술 기록 아카이브</a>
+		</p>
+		<h1>시술 기록 가공 연습가이드</h1>
+		<p class="reader-actions">
+			<a href={downloadHref} download={guideName}>가이드 다운로드</a>
+		</p>
+		<div class="reader-body" set:html={html} />
+	</article>
+</Layout>
+
+<style>
+	.reader {
+		box-sizing: border-box;
+		max-width: 46rem;
+		padding: 2.2rem 0 4rem;
+		--tool-border: #d6d9dc;
+	}
+	.reader-kicker a {
+		color: var(--pink);
+		font-weight: 700;
+		text-decoration: none;
+	}
+	.reader h1,
+	.reader-body :is(h2, h3) {
+		font-family: var(--display);
+		letter-spacing: -0.02em;
+	}
+	.reader h1 {
+		font-size: clamp(1.6rem, 3vw, 2.1rem);
+		margin: 0.8rem 0 0.8rem;
+	}
+	.reader-actions a {
+		display: inline-flex;
+		align-items: center;
+		min-height: 36px;
+		padding: 6px 12px;
+		border: 1px solid var(--tool-border);
+		border-radius: 6px;
+		background: #fff;
+		color: inherit;
+		font-weight: 600;
+		font-size: 13px;
+		text-decoration: none;
+	}
+	.reader-body {
+		margin-top: 1.2rem;
+	}
+	.reader-body :is(p, li, blockquote) {
+		color: var(--t2);
+		line-height: 1.65;
+	}
+	.reader-body h2,
+	.reader-body h3 {
+		margin: 1.3rem 0 0.4rem;
+	}
+	.reader-body pre {
+		padding: 12px;
+		border: 1px solid var(--tool-border);
+		border-radius: 8px;
+		background: var(--bg2);
+		overflow-x: auto;
+		white-space: pre-wrap;
+	}
+	@media (max-width: 600px) {
+		.reader-actions a {
+			min-height: 44px;
+			padding: 10px 12px;
+			font-size: 14px;
+		}
+	}
+</style>

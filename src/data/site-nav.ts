@@ -101,6 +101,12 @@ export const SITE_NAV: NavItem[] = [
 				labelEn: 'Consult archive',
 				href: '/tools/consult-archive/',
 			},
+			{
+				id: 'lectures-procedure',
+				label: '시술 기록',
+				labelEn: 'Procedure archive',
+				href: '/tools/procedure-archive/',
+			},
 			{ id: 'lectures-hub', label: '자료 허브', labelEn: 'Materials hub', href: '/tools/' },
 		],
 	},
