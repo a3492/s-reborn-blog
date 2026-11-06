@@ -13,6 +13,8 @@ export type NavChild = {
 	external?: boolean;
 	/** No public page yet. Label renders as 준비중 and href is the shared placeholder. */
 	pending?: boolean;
+	group?: string;
+	groupEn?: string;
 };
 
 export type NavItem = {
@@ -76,44 +78,20 @@ export const SITE_NAV: NavItem[] = [
 		label: '강연·자료',
 		labelEn: 'Talks & materials',
 		children: [
-			{ id: 'lectures-index', label: '웹 강연', labelEn: 'Web lectures', href: '/lectures/' },
-			{
-				id: 'lectures-koat',
-				label: 'KOAT 2026 강연',
-				labelEn: 'KOAT 2026 lecture',
-				href: '/lectures/koat-ai-2026/',
-			},
-			{
-				id: 'lectures-daemire',
-				label: '2026-11-08 대미레 자료',
-				labelEn: '2026-11-08 Daemire materials',
-				href: '/tools/lectures/2026-11-08-daemire/',
-			},
-			{
-				id: 'lectures-pain',
-				label: '병원 데이터 페인포인트',
-				labelEn: 'Hospital data pain points',
-				href: '/tools/hospital-data-pain-points/',
-			},
-			{
-				id: 'lectures-consult',
-				label: '상담 데이터',
-				labelEn: 'Consult archive',
-				href: '/tools/consult-archive/',
-			},
-			{
-				id: 'lectures-procedure',
-				label: '시술 기록 자료실',
-				labelEn: 'Procedure records',
-				href: '/tools/procedure-archive/',
-			},
-			{
-				id: 'lectures-procedure-practice',
-				label: '강의 실습 따라하기',
-				labelEn: 'Lecture practice',
-				href: '/tools/procedure-archive/guide/',
-			},
-			{ id: 'lectures-hub', label: '자료 허브', labelEn: 'Materials hub', href: '/tools/' },
+			{ id: 'lectures-index', group: '웹 강연', groupEn: 'Web lectures', label: '강연 목록', labelEn: 'Lecture index', href: '/lectures/' },
+			{ id: 'lectures-koat', group: '웹 강연', groupEn: 'Web lectures', label: 'KOAT 2026 강연', labelEn: 'KOAT 2026 lecture', href: '/lectures/koat-ai-2026/' },
+			{ id: 'lectures-daemire', group: '웹 강연', groupEn: 'Web lectures', label: '11/8 대미레 실습', labelEn: 'Daemire workshop', href: '/tools/lectures/2026-11-08-daemire/' },
+			{ id: 'lectures-discover', group: 'AI 문제 해결 학습 단계', groupEn: 'AI problem-solving stages', label: '1. 문제 발견', labelEn: '1. Problem discovery', href: '/tools/lectures/2026-11-08-daemire/#discover' },
+			{ id: 'lectures-validate-problem', group: 'AI 문제 해결 학습 단계', groupEn: 'AI problem-solving stages', label: '2. 문제 검증', labelEn: '2. Problem validation', href: '/tools/lectures/2026-11-08-daemire/#validate-problem' },
+			{ id: 'lectures-design', group: 'AI 문제 해결 학습 단계', groupEn: 'AI problem-solving stages', label: '3. 해결책 설계', labelEn: '3. Solution design', href: '/tools/lectures/2026-11-08-daemire/#design' },
+			{ id: 'lectures-mvp', group: 'AI 문제 해결 학습 단계', groupEn: 'AI problem-solving stages', label: '4. MVP 실험', labelEn: '4. MVP experiment', href: '/tools/lectures/2026-11-08-daemire/#mvp' },
+			{ id: 'lectures-validate-result', group: 'AI 문제 해결 학습 단계', groupEn: 'AI problem-solving stages', label: '5. 결과 검증', labelEn: '5. Result validation', href: '/tools/lectures/2026-11-08-daemire/#validate-result' },
+			{ id: 'lectures-apply', group: 'AI 문제 해결 학습 단계', groupEn: 'AI problem-solving stages', label: '6. 현장 적용', labelEn: '6. Field application', href: '/tools/lectures/2026-11-08-daemire/#apply' },
+			{ id: 'lectures-pain', group: '실습 자료 · 사례', groupEn: 'Practice materials', label: '병원 데이터 페인포인트', labelEn: 'Hospital data pain points', href: '/tools/hospital-data-pain-points/' },
+			{ id: 'lectures-consult', group: '실습 자료 · 사례', groupEn: 'Practice materials', label: '상담 데이터', labelEn: 'Consult archive', href: '/tools/consult-archive/' },
+			{ id: 'lectures-procedure', group: '실습 자료 · 사례', groupEn: 'Practice materials', label: '시술 기록 자료실', labelEn: 'Procedure records', href: '/tools/procedure-archive/' },
+			{ id: 'lectures-procedure-practice', group: '실습 자료 · 사례', groupEn: 'Practice materials', label: '강의 실습 따라하기', labelEn: 'Lecture practice', href: '/tools/procedure-archive/guide/' },
+			{ id: 'lectures-hub', group: '실습 자료 · 사례', groupEn: 'Practice materials', label: '자료 허브', labelEn: 'Materials hub', href: '/tools/' },
 		],
 	},
 	{
