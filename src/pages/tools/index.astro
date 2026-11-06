@@ -17,7 +17,7 @@ const archives = (await getCollection('toolArchives', ({ data }) => !data.draft)
 			<p class="tools-kicker">S-reborn MD AI HUB</p>
 			<h1>강연·자료</h1>
 			<p class="tools-lead">
-				이전 강연은 슬라이드를 넘기면 됩니다. 2026-11-08 대미레는 아래 순서대로 한 화면에서 따라갑니다.
+				이전 강연은 슬라이드입니다. 대미레의 학습 단계는 여섯 단계이고, 그 아래 자료는 단계가 아니라 실습에 쓰는 기록입니다.
 			</p>
 		</header>
 
@@ -37,38 +37,47 @@ const archives = (await getCollection('toolArchives', ({ data }) => !data.draft)
 			</ul>
 		</section>
 
-		<section class="tools-topic" aria-labelledby="topic-lectures">
+		<section class="tools-topic" aria-labelledby="topic-stages">
 			<div class="tools-topic-head">
-				<h2 id="topic-lectures">2026-11-08 대미레</h2>
-				<p>오늘 순서입니다. 각 화면을 열면 할 일이 먼저 보입니다.</p>
+				<h2 id="topic-stages">학습 단계</h2>
+				<p>문제 발견, 문제 검증, 해결책 설계, MVP 실험, 결과 검증, 현장 적용.</p>
 			</div>
 			<ul class="tools-list">
 				<li>
-					<a class="tools-card" href="/tools/lectures/2026-11-08-daemire/">
-						<span class="tools-card-kicker">1</span>
-						<strong>오늘 따라가기</strong>
-						<span>다섯 칸이 이 페이지에 펼쳐져 있습니다. 강연1과 강연2 문장도 여기 있습니다.</span>
+					<a class="tools-card" href="/tools/lectures/2026-11-08-daemire/#discover">
+						<span class="tools-card-kicker">대미레</span>
+						<strong>여섯 단계</strong>
+						<span>각 단계에 복사할 것, 붙여 넣을 곳, 기대하는 결과, 검증 방법이 적혀 있습니다.</span>
 					</a>
 				</li>
+			</ul>
+		</section>
+
+		<section class="tools-topic" aria-labelledby="topic-materials">
+			<div class="tools-topic-head">
+				<h2 id="topic-materials">실습 자료</h2>
+				<p>단계 메뉴와 같은 줄에 두지 않습니다. 문제 정의 칸과 기록 원본입니다.</p>
+			</div>
+			<ul class="tools-list">
 				<li>
 					<a class="tools-card" href="/tools/hospital-data-pain-points/">
-						<span class="tools-card-kicker">2</span>
-						<strong>페인포인트 B·C·H</strong>
-						<span>오늘 보여주는 글은 추출, 채널, 결정입니다.</span>
+						<span class="tools-card-kicker">문제 정의 칸</span>
+						<strong>Pain Point A–H</strong>
+						<span>문제 발견에서 읽는 이름입니다. 순서는 A부터 H입니다.</span>
 					</a>
 				</li>
 				<li>
 					<a class="tools-card" href="/tools/consult-archive/">
-						<span class="tools-card-kicker">3</span>
-						<strong>상담 기록 읽기</strong>
-						<span>김민지 10건으로, 짧은 메모가 한 고객의 조각인 이유를 봅니다.</span>
+						<span class="tools-card-kicker">기록 원본</span>
+						<strong>상담 기록</strong>
+						<span>새 대화에 지시문과 원문을 넣습니다. 답이 오면 같은 대화에 검산 질문을 넣습니다.</span>
 					</a>
 				</li>
 				<li>
 					<a class="tools-card" href="/tools/procedure-archive/">
-						<span class="tools-card-kicker">4</span>
-						<strong>시술 기록 한 건</strong>
-						<span>울쎄라 문의 한 건으로 경과 요약을 붙여 넣습니다.</span>
+						<span class="tools-card-kicker">기록 원본</span>
+						<strong>시술 기록</strong>
+						<span>울쎄라 문의 한 건으로 같은 순서를 합니다. 120건 목록은 아래에 접혀 있습니다.</span>
 					</a>
 				</li>
 			</ul>

@@ -14,9 +14,18 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { data } = entry;
 const slug = entry.id;
-const demoItems = data.items.filter((item) => item.demoInLecture);
-const restItems = data.items.filter((item) => !item.demoInLecture);
-const orderedItems = demoItems.length > 0 ? [...demoItems, ...restItems] : data.items;
+const isPain = slug === 'hospital-data-pain-points';
+const orderedItems = data.items;
+const stageByCode: Record<string, string> = {
+	A: '문제 발견, 해결책 설계',
+	B: '문제 발견, MVP 실험',
+	C: '문제 발견, 문제 검증',
+	D: '결과 검증',
+	E: '문제 검증, 해결책 설계',
+	F: '현장 적용',
+	G: '문제 발견부터 현장 적용',
+	H: '결과 검증, 현장 적용',
+};
 
 function sourceFields(item: ToolArchiveItem) {
 	if (item.bodyStatus === 'awaiting-source') {
@@ -48,11 +57,13 @@ function sourceFields(item: ToolArchiveItem) {
 			<p class="archive-meta">{data.audience}</p>
 		</header>
 
-		{demoItems.length > 0 && (
-			<section class="archive-panel" aria-label="오늘 강연에서 보여주는 글">
-				<h2>오늘 강연에서 보여주는 글</h2>
-				<p>B 추출, C 채널, H 결정입니다. C를 읽은 뒤 상담 기록에서 김민지 메모가 어떻게 흩어져 있는지 봅니다.</p>
-				<p><a href="/tools/consult-archive/#pick">상담 기록 실습</a></p>
+		{isPain && (
+			<section class="archive-panel" aria-label="Pain Point의 위치">
+				<h2>Pain Point의 위치</h2>
+				<p>상위 개념은 문제 발견입니다. Pain Point는 그 단계에서 문제의 이름을 적는 칸이고, 교육 단계 자체는 아닙니다.</p>
+				<p>동급 칸은 Persona, Context, JTBD, Workaround, Evidence, Impact, Constraint입니다. 하위 개념은 아래 A부터 H입니다.</p>
+				<p>A–H는 한 단계에 가두지 않습니다. 각 글에 그 장애가 다시 나타나는 단계를 적었습니다. 강연에서 보여주는 글에는 시연 표시만 있습니다.</p>
+				<p><a href="/tools/lectures/2026-11-08-daemire/#discover">문제 발견으로</a></p>
 			</section>
 		)}
 
@@ -85,6 +96,9 @@ function sourceFields(item: ToolArchiveItem) {
 								</h2>
 								{item.demoInLecture && <span class="archive-flag">시연</span>}
 							</div>
+							{isPain && stageByCode[item.code] && (
+								<p class="archive-meta">나타나는 단계. {stageByCode[item.code]}</p>
+							)}
 							<div class="archive-body">
 								<h3>인덱스 원문</h3>
 								<p>
