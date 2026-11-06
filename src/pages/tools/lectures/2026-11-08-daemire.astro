@@ -1,15 +1,23 @@
 ---
-import fs from 'node:fs';
-import path from 'node:path';
 import Layout from '../../../layouts/Layout.astro';
 import LectureGuideCards from '../../../components/LectureGuideCards.astro';
+import DaemireMaterials from '../../../components/DaemireMaterials.astro';
+import BepCalculator from '../../../components/BepCalculator.astro';
+import {
+	countBy,
+	materialCsv,
+	materialXlsx,
+	nonemptyCount,
+	sumCol,
+} from '../../../lib/daemire-materials';
 
-const downloadDir = path.join(process.cwd(), 'public/downloads/daemire-1108');
-
-type DownloadFile = {
-	name: string;
-	note: string;
-};
+const inquiryRows = materialCsv('2026년10월_상담문의_목록.csv');
+const crmRows = materialXlsx('2026년10월_방문시술매출_CRM.xlsx', [3])[0]?.rows ?? [];
+const inquiryTypes = countBy(inquiryRows, '문의유형');
+const linkedInquiry = countBy(inquiryRows, '예약연결여부');
+const visitCount = Math.max(crmRows.length - 1, 0);
+const paymentSum = sumCol(crmRows, '결제금액(원)');
+const linkedVisits = nonemptyCount(crmRows, '연결문의번호');
 
 type GuideRow = {
 	id: string;
@@ -21,69 +29,11 @@ type GuideRow = {
 	stuck: string;
 };
 
-const startGuide = '00_시작하기_자료사용가이드.md';
-
-const downloads: DownloadFile[] = [
-	{
-		name: startGuide,
-		note: '처음 여는 안내입니다. 파일 이름, 번호, 따라가는 순서가 적혀 있습니다.',
-	},
-	{
-		name: '01_고객정보_수집경로별_원본예시와_자동정리.md',
-		note: '방문·문의 파일을 열기 전에 읽습니다. 대화, 알림, 메모가 한 표로 모이는 과정입니다.',
-	},
-	{
-		name: '2026년10월_방문시술매출_CRM.xlsx',
-		note: '2026년 10월 방문 200건. 한 행은 방문 1건입니다.',
-	},
-	{
-		name: '2026년10월_상담문의_목록.csv',
-		note: '2026년 10월 상담 문의 96건입니다.',
-	},
-	{
-		name: 'L1_프롬프트와_슬라이드별_실습가이드_v3.md',
-		note: '강연1에서 붙여 넣는 문장과 슬라이드별 순서입니다.',
-	},
-	{
-		name: 'L1_지표정의_결정카드_템플릿.md',
-		note: '재방문율처럼 숫자를 세기 전에 기준을 적는 카드입니다.',
-	},
-	{
-		name: 'L1_검산과_데이터품질_체크리스트.md',
-		note: '합계, 빠진 값, 중복을 원본과 대조할 때 엽니다.',
-	},
-	{
-		name: 'L2_원가_BEP_시연입력_v1.0_v4.xlsx',
-		note: '강연2 계산기 입력. 기준 단가 200,000원, 변동원가 50,000원, 월 고정비 15,000,000원.',
-	},
-	{
-		name: 'L2_원가_BEP_시연입력_v4.csv',
-		note: '같은 입력의 CSV. 엑셀을 열 수 없을 때 붙입니다.',
-	},
-	{
-		name: 'L2_원가_BEP_독립검산_v4.xlsx',
-		note: 'AI 결과와 따로 맞춰 보는 검산표입니다. 단가 인하는 변동원가 50,000원을 유지합니다.',
-	},
-	{
-		name: 'L2_AI도구_제작프롬프트와_검증테스트_v3.md',
-		note: '강연2에서 붙여 넣는 문장과 확인 숫자입니다.',
-	},
-	{
-		name: 'L2_내병원_작은도구_기획시트.md',
-		note: '내 병원 고정비와 시술별 원가를 적는 시트입니다.',
-	},
-	{
-		name: 'DML_A-H_8대페인포인트_강연순서_1페이지_인덱스_v1.md',
-		note: 'A–H 한 장 색인. 읽어 보는 본문은 아래 기존 페이지입니다.',
-	},
-];
-
-if (downloads.length !== 13) {
-	throw new Error(`대미레 다운로드는 13개여야 합니다. 현재 ${downloads.length}개`);
-}
-for (const file of downloads) {
-	fs.accessSync(path.join(downloadDir, file.name));
-}
+type GuideMeta = {
+	attach?: string;
+	pasteWhere: string;
+	verify: string;
+};
 
 const lecture1Rows: GuideRow[] = [
 	{
@@ -91,9 +41,9 @@ const lecture1Rows: GuideRow[] = [
 		title: '1. 오늘 할 일',
 		show: 'AI에게 파일을 첨부하고 “먼저 표 구조부터 설명하라”고 요청합니다. 열의 뜻과 한 행의 단위를 먼저 확인합니다.',
 		steps: [
-			'`2026년10월_방문시술매출_CRM.xlsx`를 PC에 다운로드한다.',
-			'ChatGPT 대화를 열고 입력창 옆 파일 첨부 버튼을 누른다.',
-			'파일을 선택한 뒤 아래 문장을 붙여넣고 전송한다.',
+			'아래 실습 파일에서 방문 엑셀을 받거나, 받지 못하면 표 복사를 누른다.',
+			'ChatGPT 새 대화를 연다. 입력창 왼쪽 + 또는 클립이 첨부 위치다.',
+			'파일을 올리거나 표를 붙여 넣은 뒤, 아래 문장을 같은 입력창에 넣고 보낸다.',
 		],
 		prompt: `첨부한 엑셀은 100% 데이터입니다.
 분석은 아직 하지 마세요.
@@ -102,16 +52,16 @@ const lecture1Rows: GuideRow[] = [
 확인할 수 없는 내용은 추측하지 마세요.`,
 		success:
 			'“방문시술매출 시트 200행. 방문일·시술·금액·재방문·유입채널 열이 있습니다. 한 행이 방문 1건인지 환자 1명인지는 중복 환자 식별 기준을 추가 확인해야 합니다.”처럼 구조와 한계를 함께 말합니다.',
-		stuck: '파일이 첨부되지 않으면 파일 첨부 버튼을 다시 눌러 파일을 선택합니다. AI가 환자 수라고 단정하면 “행 수와 환자 수를 구분해 주세요”라고 추가 입력합니다.',
+		stuck: '첨부가 안 되면 이 페이지 표 복사를 사용합니다. AI가 환자 수라고 단정하면 “행 수와 환자 수를 구분해 주세요”라고 같은 대화에 넣습니다.',
 	},
 	{
 		id: 'l1-2',
 		title: '2. 문의 유형',
 		show: 'CSV를 첨부해 문의 유형별 건수를 세고, 합계가 전체 96건인지 확인합니다.',
 		steps: [
-			'`2026년10월_상담문의_목록.csv`를 다운로드한다.',
-			'새 대화 또는 같은 대화에 파일을 첨부한다.',
-			'아래 프롬프트를 붙여넣는다.',
+			'문의 CSV를 받거나 이 페이지에서 표를 복사한다.',
+			'ChatGPT 입력창 왼쪽 + 또는 클립에 올리거나, 표를 붙여 넣는다.',
+			'아래 문장을 같은 입력창에 붙여 넣고 보낸다.',
 		],
 		prompt: `첨부한 CSV는 상담 문의 96건입니다.
 문의 유형별 건수를 세어 표로 보여 주세요.
@@ -283,15 +233,70 @@ CRM의 연결문의번호와 문의 CSV의 문의관리번호가 동일하고, �
 	},
 ];
 
+const lecture1Meta: Record<string, GuideMeta> = {
+	'l1-1': {
+		attach:
+			'방문 엑셀을 ChatGPT 입력창 왼쪽 + 또는 클립에 올립니다. 못 받으면 #files에서 표를 복사해 문장과 함께 붙여 넣습니다.',
+		pasteWhere: 'ChatGPT 새 대화 입력창. 파일을 먼저 올린 뒤 문장을 붙여 넣고 보냅니다.',
+		verify: `이 페이지 표는 방문 ${visitCount}행, 결제금액 합계 ${paymentSum.toLocaleString('ko-KR')}원입니다. AI가 말한 행 수와 열 이름을 이 숫자와 대조합니다.`,
+	},
+	'l1-2': {
+		attach: '문의 CSV를 같은 방식으로 첨부하거나, #files에서 표를 복사합니다.',
+		pasteWhere: '같은 대화 또는 새 대화 입력창. 파일이 메시지에 보인 뒤에 문장을 넣습니다.',
+		verify: `이 원본의 문의 유형은 ${inquiryTypes.map((item) => `${item.label} ${item.count}건`).join(', ')}입니다. 합계는 ${inquiryRows.length - 1}건이어야 합니다.`,
+	},
+	'l1-3': {
+		attach: '방문 엑셀을 첨부하거나 이 페이지 표를 복사합니다.',
+		pasteWhere: '답이 나온 같은 대화에 이 문장을 붙여 넣습니다. 새 숙제가 아닙니다.',
+		verify: 'AI가 적은 행 번호를 이 페이지 표의 같은 열과 대조합니다. 없으면 그 지적은 기록하지 않습니다.',
+	},
+	'l1-4': {
+		pasteWhere: '같은 대화 입력창에 문장만 붙여 넣습니다. 계산 숫자보다 분모·분자가 먼저입니다.',
+		verify: '재방문율 숫자가 나와도, 분모가 환자인지 방문인지 이 페이지 열 이름과 맞는지 봅니다.',
+	},
+	'l1-5': {
+		attach: '방문 엑셀을 첨부합니다.',
+		pasteWhere: '같은 대화 입력창.',
+		verify: `채널별 건수 합이 방문 ${visitCount}건, 금액 합이 ${paymentSum.toLocaleString('ko-KR')}원인지 봅니다. 광고 효과로 단정한 문장은 지웁니다.`,
+	},
+	'l1-6': {
+		attach: '방문 엑셀과 문의 CSV를 같은 메시지에 둘 다 올립니다. 못 받으면 두 표를 차례로 붙여 넣습니다.',
+		pasteWhere: '같은 대화 입력창. 두 파일이 보인 뒤에 문장을 넣습니다.',
+		verify: `문의 ${inquiryRows.length - 1}건, 방문 ${visitCount}건. 연결문의번호가 있는 방문은 ${linkedVisits.filled}건, 빈칸은 ${linkedVisits.empty}건입니다. 이름만으로 채운 연결은 버립니다.`,
+	},
+	'l1-7': {
+		pasteWhere: '같은 대화 입력창. 앞 칸에서 나온 표가 있는 채팅에 넣습니다.',
+		verify: '사실 옆에 원본 열 이름이 있는지 봅니다. 광고비처럼 파일에 없는 숫자는 가설입니다.',
+	},
+	'l1-8': {
+		pasteWhere: '같은 대화 입력창.',
+		verify: '실험 제안에 시작 전 숫자와 종료 후 숫자가 있는지 봅니다. 매출 보장은 지웁니다.',
+	},
+	'l1-9': {
+		attach: '검산 체크리스트는 첨부하지 않습니다. 이 화면과 원본 표를 사람이 봅니다.',
+		pasteWhere: '답이 나온 같은 대화에 검산 문장을 붙여 넣습니다. 이것이 AI 자기 점검입니다.',
+		verify: `독립 검증은 이 페이지 표입니다. 방문 ${visitCount}행, 결제 합계 ${paymentSum.toLocaleString('ko-KR')}원, 문의 유형 합 ${inquiryRows.length - 1}건과 다르면 그 숫자는 쓰지 않습니다.`,
+	},
+	'l1-10': {
+		pasteWhere: '새 대화에 이 문장만 넣습니다. 실제 환자 파일은 올리지 않습니다.',
+		verify: '이름, 전화번호, 차트번호가 열 제안에 있으면 그 안은 쓰지 않습니다.',
+	},
+	'l1-field': {
+		attach: '두 파일을 같은 대화에 첨부하거나 이 페이지 두 표를 복사합니다.',
+		pasteWhere: '같은 대화 입력창.',
+		verify: `확인됨 ${linkedInquiry.find((item) => item.label === '확인됨')?.count ?? 0}건, 미확인 ${linkedInquiry.find((item) => item.label === '미확인')?.count ?? 0}건. 빈 연결문의번호를 전환 실패로 세지 않습니다.`,
+	},
+};
+
 const lecture2Rows: GuideRow[] = [
 	{
 		id: 'l2-1',
 		title: '1. 계산기 만들기',
 		show: '계산 전에 항목의 뜻과 단위를 확인합니다. 월 비용과 건당 비용을 섞으면 결과가 틀립니다.',
 		steps: [
-			'`L2_원가_BEP_시연입력_v1.0_v4.xlsx`를 다운로드한다.',
-			'ChatGPT에 파일을 첨부한다.',
-			'아래 문장을 붙여넣는다.',
+			'시연 입력 엑셀 또는 CSV를 받거나, 이 페이지 표를 복사한다.',
+			'ChatGPT 입력창 왼쪽 + 또는 클립에 올리거나 표를 붙여 넣는다.',
+			'아래 문장을 넣고, 계산은 이 페이지 계산기에서도 실행한다.',
 		],
 		prompt: `첨부한 엑셀은 원가와 손익분기점 계산을 연습하기 위한 시연용 입력자료입니다.
 먼저 모든 입력 항목을 표로 정리해 주세요.
@@ -323,8 +328,8 @@ const lecture2Rows: GuideRow[] = [
 		show: '입력값, 계산식, 오류 상황을 구체적으로 말하면 AI가 작은 계산기를 만들 수 있습니다.',
 		steps: [
 			'아래 문장을 통째로 복사한다.',
-			'ChatGPT 입력창에 붙여넣고 전송한다.',
-			'계산 규칙과 사용법을 읽는다.',
+			'ChatGPT 입력창에 붙여넣고 전송한다. 도구가 안 열리면 이 페이지 계산기를 쓴다.',
+			'기준 200,000원 버튼으로 이 페이지 계산기가 돌아가는지 확인한다.',
 		],
 		prompt: `초보 병원장도 사용할 수 있는 간단한 손익분기점 계산기를 만들어 주세요.
 입력값은 다음 3개입니다.
@@ -435,15 +440,61 @@ const lecture2Rows: GuideRow[] = [
 	},
 ];
 
-function fileHref(name: string): string {
-	return `/downloads/daemire-1108/${encodeURIComponent(name)}`;
+const lecture2Meta: Record<string, GuideMeta> = {
+	'l2-1': {
+		attach:
+			'시연 입력 엑셀 또는 CSV를 첨부합니다. 못 받으면 #files 표를 복사합니다. 계산은 #bep 계산기에서도 실행합니다.',
+		pasteWhere: 'ChatGPT 새 대화. 파일을 올린 뒤 문장을 붙여 넣습니다.',
+		verify: '월 고정비 15,000,000원, 단가 200,000원, 변동원가 50,000원인지 이 페이지 표와 맞춥니다.',
+	},
+	'l2-2': {
+		pasteWhere: '같은 대화 입력창.',
+		verify: '200,000 − 50,000 = 150,000원이어야 합니다. 이 값을 순이익이라고 쓰면 고칩니다.',
+	},
+	'l2-3': {
+		pasteWhere: '같은 대화 입력창에 문장 전체를 넣습니다. AI 도구가 안 열리면 이 페이지 #bep 계산기를 실행합니다.',
+		verify: '입력 세 칸이 보이거나, 이 페이지 계산기에서 값이 바뀌면 이 칸은 통과입니다.',
+	},
+	'l2-4': {
+		pasteWhere: '같은 대화에 넣어 AI에게 다시 계산하게 합니다. 동시에 #bep에서 기준 200,000원을 누릅니다.',
+		verify: '공헌이익 150,000원, 100건, 매출 20,000,000원. 이 페이지 계산기와 독립 검산 표가 같아야 합니다.',
+	},
+	'l2-5': {
+		attach: '독립 검산 엑셀은 첨부하지 않아도 됩니다. #bep에서 단가 인하 180,000원을 누릅니다.',
+		pasteWhere: '같은 대화 입력창.',
+		verify: '130,000원, 116건, 20,880,000원. 115건은 −50,000원, 116건은 +80,000원. 변동원가가 50,000원인지 봅니다.',
+	},
+	'l2-6': {
+		pasteWhere: '같은 대화, 또는 이 페이지 계산기에 단가와 변동원가를 같게 넣어 경고를 확인합니다.',
+		verify: '공헌이익이 0 이하면 숫자가 아니라 경고가 나와야 합니다. 이 페이지 계산기도 같은 경고를 냅니다.',
+	},
+	'l2-7': {
+		pasteWhere: '새 대화. 예제 15,000,000원을 우리 병원 숫자인 것처럼 넣지 않습니다.',
+		verify: '실제 금액을 채우기 전에 임의 숫자를 넣었으면 그 결과는 병원 숫자로 쓰지 않습니다.',
+	},
+	'l2-8': {
+		pasteWhere: '같은 대화 입력창.',
+		verify: '이 계산이 단일 시술 가정인지 적혀 있어야 합니다. #bep 숫자와 달라도 가정을 먼저 적습니다.',
+	},
+};
+
+function withGuide(rows: GuideRow[], meta: Record<string, GuideMeta>, lastHref: string, lastLabel: string) {
+	return rows.map((row, index) => {
+		const next = rows[index + 1];
+		return {
+			...row,
+			...meta[row.id],
+			pasteWhere: meta[row.id]?.pasteWhere ?? 'ChatGPT 입력창에 붙여 넣습니다.',
+			verify: meta[row.id]?.verify ?? '이 페이지의 표와 대조합니다.',
+			nextHref: next ? `#${next.id}` : lastHref,
+			nextLabel: next ? `다음 · ${next.title}` : lastLabel,
+		};
+	});
 }
 
-function fileSize(name: string): string {
-	const bytes = fs.statSync(path.join(downloadDir, name)).size;
-	if (bytes < 1024) return `${bytes} B`;
-	return `${(bytes / 1024).toFixed(1)} KB`;
-}
+const lecture1Guide = withGuide(lecture1Rows, lecture1Meta, '#ops', '강연2 시작');
+const lecture2Guide = withGuide(lecture2Rows, lecture2Meta, '#bep', '계산기로 돌아가기');
+
 ---
 
 <Layout
@@ -463,6 +514,23 @@ function fileSize(name: string): string {
 				강연1(CRM)은 11:20–12:20, 강연2(경영도구)는 10:00–10:30입니다. 여섯 단계는 교육 순서입니다. Pain Point, 상담 기록, 시술 기록은 단계가 아니라 그 안에서 여는 자료입니다.
 			</p>
 		</header>
+
+		<section class="lecture-panel" id="solo" aria-labelledby="solo-title">
+			<h2 id="solo-title">혼자 처음부터 끝까지</h2>
+			<p>강연자가 없어도 됩니다. 파일은 받아도 되고, 못 받으면 이 페이지의 표·글을 복사합니다.</p>
+			<ol>
+				<li>아래 13개 파일 중 오늘 칸에 적힌 파일을 받거나 표를 복사한다.</li>
+				<li>ChatGPT 새 대화를 연다. 파일은 입력창 왼쪽 + 또는 클립에 올린다. 질문은 그 입력창에 붙여 넣는다.</li>
+				<li>강연1 1칸부터 다음 칸 링크로 이동한다. 답이 나오면 이 페이지의 원문 숫자와 대조한다.</li>
+				<li>강연2는 탭을 바꾼다. AI 계산기와 이 페이지 계산기 숫자를 같이 본다.</li>
+			</ol>
+			<p>
+				<a href="#files">파일 13개</a>
+				<a href="#l1-1">강연1 1칸</a>
+				<a href="#ops">강연2</a>
+				<a href="#bep">계산기</a>
+			</p>
+		</section>
 
 		<ol class="path" aria-label="학습 단계">
 			<li id="discover">
@@ -524,28 +592,7 @@ function fileSize(name: string): string {
 			</li>
 		</ol>
 
-		<details class="lecture-panel tool-download-panel">
-			<summary id="download-order">받은 파일 13개</summary>
-			<p>
-				강연에서 폴더가 필요할 때 받습니다. 00 안내 파일에도 같은 순서가 적혀 있습니다.
-			</p>
-			<ol class="file-list tool-file-list">
-				{
-					downloads.map((item) => (
-						<li class="tool-file-card">
-							<div class="file-top">
-								<strong class="tool-file-title">{item.name}</strong>
-							</div>
-							<p class="tool-file-size">{fileSize(item.name)}</p>
-							<p class="tool-file-description">{item.note}</p>
-							<a class="lecture-btn tool-download-button" href={fileHref(item.name)} download={item.name}>
-								다운로드
-							</a>
-						</li>
-					))
-				}
-			</ol>
-		</details>
+		<DaemireMaterials />
 
 		<div class="tablist" role="tablist" aria-label="강연 선택">
 			<input class="tab-input" type="radio" name="lecture-tab" id="tab-crm" checked />
@@ -557,8 +604,8 @@ function fileSize(name: string): string {
 		<div class="panel panel-crm">
 			<section class="lecture-panel" aria-labelledby="l1-guide">
 				<h2 id="l1-guide">강연1 따라하기</h2>
-				<p>한 칸씩 합니다. 문장은 그대로 붙여 넣습니다.</p>
-				<LectureGuideCards rows={lecture1Rows} />
+				<p>한 칸씩 합니다. 문장은 ChatGPT 입력창에 그대로 붙여 넣습니다. 다음 칸 링크로 이동합니다.</p>
+				<LectureGuideCards rows={lecture1Guide} />
 			</section>
 		</div>
 
@@ -571,8 +618,9 @@ function fileSize(name: string): string {
 						월 고정비는 15,000,000원입니다. 건당 공헌이익 130,000원, 올림 전 약 115.3846건, 손익분기점 116건, 매출 20,880,000원입니다. 115건은 −50,000원, 						116건은 +80,000원입니다.
 					</p>
 				</div>
-				<p>한 칸씩 합니다. 확인 숫자는 v4 파일을 따릅니다.</p>
-				<LectureGuideCards rows={lecture2Rows} />
+				<p>한 칸씩 합니다. 확인 숫자는 v4와 아래 계산기를 따릅니다.</p>
+				<BepCalculator />
+				<LectureGuideCards rows={lecture2Guide} />
 			</section>
 		</div>
 
@@ -589,7 +637,7 @@ function fileSize(name: string): string {
 	function applyHash() {
 		if (!(crm instanceof HTMLInputElement) || !(ops instanceof HTMLInputElement)) return;
 		const hash = location.hash;
-		if (hash === '#ops' || hash === '#lecture-2' || hash.startsWith('#l2-')) ops.checked = true;
+		if (hash === '#ops' || hash === '#lecture-2' || hash === '#bep' || hash.startsWith('#l2-')) ops.checked = true;
 		if (hash === '#crm' || hash === '#lecture-1' || hash.startsWith('#l1-')) crm.checked = true;
 		const id = hash.slice(1);
 		const node = id ? document.getElementById(id) : null;
@@ -711,12 +759,17 @@ function fileSize(name: string): string {
 		color: var(--t2);
 		line-height: 1.55;
 	}
-	.path a {
+	.path a,
+	#solo a {
 		display: inline-block;
 		margin: 0 0.8rem 0.2rem 0;
 		font-weight: 800;
 		color: var(--pink);
 		text-decoration: none;
+	}
+	#solo ol {
+		margin: 0.4rem 0 0.8rem;
+		padding-left: 1.2rem;
 	}
 	.path-num {
 		display: inline-grid;
