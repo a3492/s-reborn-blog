@@ -78,12 +78,9 @@ export const SITE_NAV: NavItem[] = [
 		label: '강연·자료',
 		labelEn: 'Talks & materials',
 		children: [
-			{ id: 'lectures-hermes-first', group: '지금 실습', groupEn: 'Start here', label: 'PC에서 AI와 대화 시작하기', labelEn: 'Start chatting with AI on PC', href: '/tutorials/hermes-agent/ep01/' },
-			{ id: 'lectures-crm-first', group: '지금 실습', groupEn: 'Start here', label: 'CRM 데이터 첫 분석 · 5단계', labelEn: 'CRM first analysis · 5 steps', href: '/tutorials/crm-first-analysis/' },
-			{ id: 'lectures-tutorials', group: '전체 실습', groupEn: 'All tutorials', label: '실습 튜토리얼 모음', labelEn: 'Tutorial hub', href: '/tutorials/' },
-			{ id: 'lectures-daemire', group: '강연 자료', groupEn: 'Lecture materials', label: '11/8 대미레 강연 원본 자료실', labelEn: 'Daemire lecture archive', href: '/tools/lectures/2026-11-08-daemire/' },
-			{ id: 'lectures-index', group: '웹 강연', groupEn: 'Web lectures', label: '웹 강연 전체 목록', labelEn: 'All lectures', href: '/lectures/' },
-			{ id: 'lectures-hub', group: '참고 자료', groupEn: 'Reference materials', label: '데이터·시술 자료 아카이브', labelEn: 'Data and procedure archive', href: '/tools/' },
+			{ id: 'lectures-kang-sehee', label: '강세희 원장 강연', labelEn: 'Dr. Kang Sehee lectures', href: '/lecture-materials/kang-sehee/' },
+			{ id: 'lectures-kim-dowi', label: '김도위 원장 강연', labelEn: 'Dr. Kim Dowi lectures', href: '/lecture-materials/kim-dowi/' },
+			{ id: 'lectures-archive', label: '전체 강연 아카이브', labelEn: 'All lecture materials', href: '/lecture-materials/archive/' },
 		],
 	},
 	{
@@ -149,7 +146,7 @@ export function sectionIsCurrent(id: string, url: URL): boolean {
 	if (id === 'home') return path === '/';
 	if (id === 'clinic') return false;
 	if (id === 'research') return path === '/blog/' || path.startsWith('/blog/');
-	if (id === 'lectures') return path === '/lectures/' || path.startsWith('/lectures/') || path === '/tools/' || path.startsWith('/tools/') || path === '/tutorials/' || path.startsWith('/tutorials/');
+	if (id === 'lectures') return path === '/lecture-materials/' || path.startsWith('/lecture-materials/') || path === '/lectures/' || path.startsWith('/lectures/') || path === '/tools/' || path.startsWith('/tools/') || path === '/tutorials/' || path.startsWith('/tutorials/');
 	if (id === 'about') return path === '/about/' || path.startsWith('/about/');
 	return false;
 }
