@@ -85,7 +85,7 @@ jobs:
             await map.locator('summary').click();
             await must('archive-expanded',await map.evaluate(e=>e.open));
             const crmOriginal=page.locator('.panel-crm .education-extra');
-            await must('original-five-lessons',await crmOriginal.count()===5);
+            await must('original-eleven-lessons',await crmOriginal.count()===11);
             await page.locator('label[for="tab-ops"]').click();
             await must('ops-tab',await page.locator('#tab-ops').isChecked()&&await page.locator('.panel-ops').isVisible());
             const opsButton=page.locator('.ops-step-nav [data-ops-jump="1"]');
