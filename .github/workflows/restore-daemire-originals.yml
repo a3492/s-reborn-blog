@@ -1,0 +1,61 @@
+name: Restore original Daemire lecture slide images
+on:
+  push:
+    paths:
+      - 'scripts/lecture-slide-image-manifest-trigger.txt'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: restore-daemire-originals
+  cancel-in-progress: false
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install renderer
+        run: python3 -m pip install --quiet Pillow
+      - name: Download original slide thumbnails and verify output
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, pathlib, urllib.request, io, concurrent.futures
+          from PIL import Image
+          sources=[]
+          for manifest in sorted(pathlib.Path('scripts').glob('lecture-slide-image-manifest-[0-9][0-9].json')):
+              sources+=json.loads(manifest.read_text())['sources']
+          assert len(sources)==65, f'Expected 65 source images, found {len(sources)}'
+          assert len(set(s['path'] for s in sources))==65
+          def download(item):
+              req=urllib.request.Request(item['url'],headers={'User-Agent':'Mozilla/5.0'})
+              with urllib.request.urlopen(req,timeout=35) as response:
+                  data=response.read()
+              if len(data)<5000: raise RuntimeError(f'Too small: {item["path"]}')
+              im=Image.open(io.BytesIO(data))
+              im.load()
+              if im.width<600 or im.height<300: raise RuntimeError(f'Wrong dimensions: {item["path"]} {im.size}')
+              path=pathlib.Path(item['path'])
+              path.parent.mkdir(parents=True,exist_ok=True)
+              im.convert('RGB').save(path,'WEBP',quality=88,method=6)
+              return item['path']
+          with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+              result=list(executor.map(download,sources))
+          assert len(result)==65
+          print(f'Validated {len(result)} original slide images')
+          PY
+      - name: Save slides into website public directory
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/lectures/daemire-crm-2026/images public/lectures/daemire-management-2026/images
+          if git diff --cached --quiet; then
+            echo 'All slide images already present'
+          else
+            git commit -m 'Restore all 65 original Daemire slides as webp'
+            git push
+          fi
