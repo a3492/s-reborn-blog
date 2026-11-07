@@ -1,0 +1,120 @@
+name: Page density wave 1 - baseline vs candidate (no deploy)
+
+on:
+  push:
+    branches:
+      - experiment/page-density-wave1-20261107
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  comparison:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Checkout baseline main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: baseline
+      - name: Checkout candidate
+        uses: actions/checkout@v4
+        with:
+          path: candidate
+      - name: Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: candidate/package-lock.json
+      - name: Install shared dependencies
+        working-directory: candidate
+        run: npm ci
+      - name: Build candidate and main
+        run: |
+          set -eu
+          cd candidate
+          npm run build
+          cd ../baseline
+          ln -s ../candidate/node_modules node_modules
+          npm run build
+      - name: Setup Chromium
+        working-directory: candidate
+        run: |
+          npm install --no-save --package-lock=false playwright@1.58.2
+          npx playwright install --with-deps chromium
+      - name: Compare 2 real pages at 4 screen sizes
+        run: |
+          set -eu
+          mkdir -p /tmp/density-wave1
+          python3 -m http.server 4321 --bind 127.0.0.1 --directory baseline/dist >/tmp/density-base.log 2>&1 &
+          BASE_PID=$!
+          python3 -m http.server 4322 --bind 127.0.0.1 --directory candidate/dist >/tmp/density-candidate.log 2>&1 &
+          CAND_PID=$!
+          trap 'kill "$BASE_PID" "$CAND_PID" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:4321/tutorials/ >/dev/null && curl -fsS http://127.0.0.1:4322/tutorials/ >/dev/null; then break; fi
+            sleep 1
+          done
+          cd candidate
+          node --input-type=module - <<'NODE'
+          import { chromium } from 'playwright';
+          import fs from 'node:fs';
+          const browser=await chromium.launch({headless:true});
+          const paths=[{url:'/tutorials/',first:'.lesson',root:'.hub'},{url:'/lectures/',first:'.lecture-card',root:'.lectures-page'}];
+          const sizes=[[1440,900],[768,1024],[390,844],[320,720]];
+          const output=[];
+          let failed=false;
+          for(const config of paths){
+            for(const [width,height] of sizes){
+              const measurements=[];
+              for(const version of ['before','after']){
+                const page=await browser.newPage({viewport:{width,height}});
+                const errors=[];
+                page.on('pageerror',e=>errors.push(e.message));
+                await page.goto('http://127.0.0.1:'+(version==='before'?'4321':'4322')+config.url,{waitUntil:'networkidle'});
+                const data=await page.evaluate(({first,root})=>{
+                  const target=document.querySelector(first);
+                  const container=document.querySelector(root);
+                  const body=document.body;
+                  return {
+                    viewport:document.documentElement.clientWidth,
+                    docHeight:document.documentElement.scrollHeight,
+                    scrollWidth:document.documentElement.scrollWidth,
+                    targetY:target?.getBoundingClientRect().top??null,
+                    targetHeight:target?.getBoundingClientRect().height??null,
+                    containerPaddingTop:container?getComputedStyle(container).paddingTop:null,
+                    containerPaddingBottom:container?getComputedStyle(container).paddingBottom:null,
+                    links:[...document.querySelectorAll('main a')].map(a=>({text:a.textContent?.trim(),href:a.getAttribute('href')})),
+                    paragraphs:[...document.querySelectorAll('main p')].map(p=>p.textContent?.trim()),
+                    width:body.scrollWidth
+                  };
+                },config);
+                const file='/tmp/density-wave1/'+config.url.replaceAll('/','')+'-'+width+'x'+height+'-'+version+'.png';
+                await page.screenshot({path:file,fullPage:true});
+                measurements.push({version,errors,...data});
+                await page.close();
+              }
+              const [before,after]=measurements;
+              const identity=JSON.stringify(before.links)===JSON.stringify(after.links) && JSON.stringify(before.paragraphs)===JSON.stringify(after.paragraphs);
+              const noRegression=after.scrollWidth<=after.viewport+1 && after.docHeight<=before.docHeight+2 && after.errors.length===0;
+              const ok=identity&&noRegression&&after.targetY!==null&&before.targetY!==null;
+              if(!ok){failed=true;console.error('QA FAIL',config.url,width,{identity,noRegression,before,after})}
+              output.push({url:config.url,viewport:width+'x'+height,ok,identity,beforeHeight:before.docHeight,afterHeight:after.docHeight,savedPixels:before.docHeight-after.docHeight,beforeTargetY:before.targetY,afterTargetY:after.targetY,beforePadding:before.containerPaddingBottom,afterPadding:after.containerPaddingBottom});
+            }
+          }
+          await browser.close();
+          fs.writeFileSync('/tmp/density-wave1/results.json',JSON.stringify(output,null,2));
+          console.log(JSON.stringify(output,null,2));
+          if(failed)process.exit(1);
+          NODE
+      - name: Upload comparison screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: page-density-wave1-before-after
+          path: /tmp/density-wave1/
+          retention-days: 7
+          if-no-files-found: warn
