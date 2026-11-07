@@ -574,42 +574,19 @@ function fileSize(name: string): string {
 				강연1(CRM)은 11:20–12:20, 강연2(경영도구)는 10:00–10:30 개원준비방 자료입니다. 로그인 없이 받습니다.
 			</p>
 			<p class="lecture-meta">짧은 주소 /daemire1108/ · 공개 페이지</p>
-			<p class="lecture-notice"><a href="/tutorials/crm-first-analysis/">CRM 첫 분석 · 5단계 빠른 실습 시작하기 (가상 데이터)</a></p>
+			<p class="lecture-notice"><a href="/lecture-materials/2026-11-08/">현장 진행표 보기 → 처음부터 끝까지 연결된 안내</a> · <a href="/tutorials/crm-first-analysis/">CRM 5단계 바로 실습</a></p>
 		</header>
 
-		<section class="lecture-panel learning-map" aria-labelledby="learning-map-title">
-			<h2 id="learning-map-title">AI 문제 해결의 6단계 — 개념 학습</h2>
-			<p>아래 6단계는 AI 문제 해결의 전체 개념을 설명하는 참고 지도입니다. 실제 CRM 실습은 위의 ‘CRM 첫 분석 · 5단계 빠른 실습 시작하기’에서 진행합니다. 페인포인트·상담 데이터·시술 기록은 참고 자료입니다.</p>
-			<ol class="learning-map-grid">
-				<li id="discover"><strong>1. 문제 발견</strong><span>어떤 불편과 반복이 실제 문제인가?</span><a href="/tools/hospital-data-pain-points/">문제의식 A–H 보기</a></li>
-				<li id="validate-problem"><strong>2. 문제 검증</strong><span>기록과 사례로 문제가 실제 존재하는지 확인합니다.</span><a href="/tools/consult-archive/">상담 데이터 확인</a></li>
-				<li id="design"><strong>3. 해결책 설계</strong><span>AI에게 줄 입력·원하는 출력·하지 말 일을 정의합니다.</span><a href="#l1-guide">강연1 프롬프트 보기</a></li>
-				<li id="mvp"><strong>4. MVP 실험</strong><span>작은 도구를 만들고 가상 데이터로 직접 시험합니다.</span><a href="#ops">강연2 실습하기</a></li>
-				<li id="validate-result"><strong>5. 결과 검증</strong><span>AI 자기 점검과 원본·검산표 대조를 구별합니다.</span><a href="#l2-guide">독립 검산 학습</a></li>
-				<li id="apply"><strong>6. 현장 적용</strong><span>검증한 도구만 책임자 승인 후 실제 업무에 적용합니다.</span><a href="/tools/">경영 도구 아카이브</a></li>
-			</ol>
-		</section>
-
-		<section class="lecture-panel tool-download-panel" aria-labelledby="download-order">
-			<h2 id="download-order">받는 순서</h2>
-			<p>
-				00 다음에 01을 읽고, 그다음 방문·문의 파일을 엽니다.
-				A–H를 읽는 본문은
-				<a href="/tools/hospital-data-pain-points/">AI 입력용 페인포인트 아카이브</a>
-				입니다.
-			</p>
-			<ol class="file-list tool-file-list">
-				{downloads.map((item) => (
-					<li class="tool-file-card">
-						<div class="download-info">
-							<strong class="tool-file-title">{item.title}</strong>
-							<span class="tool-file-description">{item.note}</span>
-						</div>
-						<a class="lecture-btn tool-download-button" href={fileHref(item.name)} download={item.name} aria-label={`${item.title} 다운로드`}>다운로드</a>
-					</li>
-				))}
-			</ol>
-		</section>
+		<div class="today-flow" aria-label="오늘의 강연 시작 순서">
+            <strong>처음 방문했다면 · 지금 들을 강연부터 선택하세요</strong>
+            <p>목적: AI에게 무엇을 시킬지 정하고, 파일을 확인하고, AI의 숫자를 직접 검산하는 연습입니다. 모든 자료를 미리 읽을 필요는 없습니다.</p>
+            <div class="today-actions">
+              <a href="/lecture-materials/2026-11-08/">처음부터 순서대로 따라하기</a>
+              <a href="#crm">11:20 CRM · 5단계</a>
+              <a href="#ops">10:00 경영 도구 · 6단계</a>
+              <a href="/lecture-materials/2026-11-08/archive/">원본 파일 13개 · 참고 아카이브</a>
+            </div>
+          </div>
 
 		<div class="tablist" role="tablist" aria-label="강연 선택">
 			<input class="tab-input" type="radio" name="lecture-tab" id="tab-crm" checked />
@@ -633,10 +610,10 @@ function fileSize(name: string): string {
 								<div><h4>② 왜 이 작업을 하나요?</h4><p>{lessonExplanations[row.id].why}</p></div>
 								<div><h4>③ 쉽게 이해하는 원리</h4><p><strong>생활 속 비유</strong> {lessonExplanations[row.id].analogy}</p><p><strong>정확한 개념</strong> {lessonExplanations[row.id].principle}</p></div>
 							</div>
-							<div class="education-run"><h4>④ 실행 방법 · 한 단계씩 따라하기</h4><ol>{row.steps.map((step) => (<li>{step}</li>))}</ol><p>파일은 위쪽 ‘받는 순서’에서 찾습니다. ChatGPT 대화의 메시지 입력칸에 다음 프롬프트를 붙여넣고 전송하세요.</p></div>
+							<details class="education-extra" open={index===0}><summary>④~⑦ 실행 방법·프롬프트·결과 확인 펼치기</summary><div class="education-run"><h4>④ 실행 방법 · 한 단계씩 따라하기</h4><ol>{row.steps.map((step) => (<li>{step}</li>))}</ol><p>파일은 위쪽 ‘받는 순서’에서 찾습니다. ChatGPT 대화의 메시지 입력칸에 다음 프롬프트를 붙여넣고 전송하세요.</p></div>
 							<div class="education-prompt"><h4>⑤ AI에 입력할 프롬프트</h4><pre id={'copy-'+row.id}>{row.prompt}</pre><button type="button" data-copy={row.id} data-label="문장 복사">문장 복사</button></div>
 							<div class="education-result"><h4>⑥ 성공 확인 · 결과는 무슨 뜻인가요?</h4><p><strong>예상 결과</strong> {row.success}</p><p><strong>결과의 의미</strong> {lessonExplanations[row.id].meaning}</p><details><summary>결과가 다르거나 작업이 막히면</summary><p>{row.stuck}</p></details></div>
-							<div class="education-next"><h4>⑦ 배운 내용 응용하기 · 다음 단계</h4><p>{lessonExplanations[row.id].next}</p>{index < lecture1Rows.length - 1 && (<a href={'#' + lecture1Rows[index + 1].id}>다음 미션으로 이동 →</a>)}</div>
+							<div class="education-next"><h4>⑦ 배운 내용 응용하기 · 다음 단계</h4><p>{lessonExplanations[row.id].next}</p>{index < lecture1Rows.length - 1 && (<a href={'#' + lecture1Rows[index + 1].id}>다음 미션으로 이동 →</a>)}</div></details>
 						</section>
 					))}
 				</div>
@@ -759,6 +736,46 @@ function fileSize(name: string): string {
 				</div>
 			</section>
 		</div>
+		<details class="archived-reference">
+            <summary>복습·참고 보관함: AI 문제 해결 6단계와 원본 다운로드 13개 펼치기</summary>
+            <p>현장 실습 중 꼭 필요한 자료는 위 경로 또는 <a href="/lecture-materials/2026-11-08/archive/">독립 자료 아카이브</a>에서 빠르게 받을 수 있습니다.</p>
+		<section class="lecture-panel learning-map" aria-labelledby="learning-map-title">
+			<h2 id="learning-map-title">AI 문제 해결의 6단계 — 개념 학습</h2>
+			<p>아래 6단계는 AI 문제 해결의 전체 개념을 설명하는 참고 지도입니다. 실제 CRM 실습은 위의 ‘CRM 첫 분석 · 5단계 빠른 실습 시작하기’에서 진행합니다. 페인포인트·상담 데이터·시술 기록은 참고 자료입니다.</p>
+			<ol class="learning-map-grid">
+				<li id="discover"><strong>1. 문제 발견</strong><span>어떤 불편과 반복이 실제 문제인가?</span><a href="/tools/hospital-data-pain-points/">문제의식 A–H 보기</a></li>
+				<li id="validate-problem"><strong>2. 문제 검증</strong><span>기록과 사례로 문제가 실제 존재하는지 확인합니다.</span><a href="/tools/consult-archive/">상담 데이터 확인</a></li>
+				<li id="design"><strong>3. 해결책 설계</strong><span>AI에게 줄 입력·원하는 출력·하지 말 일을 정의합니다.</span><a href="#l1-guide">강연1 프롬프트 보기</a></li>
+				<li id="mvp"><strong>4. MVP 실험</strong><span>작은 도구를 만들고 가상 데이터로 직접 시험합니다.</span><a href="#ops">강연2 실습하기</a></li>
+				<li id="validate-result"><strong>5. 결과 검증</strong><span>AI 자기 점검과 원본·검산표 대조를 구별합니다.</span><a href="#l2-guide">독립 검산 학습</a></li>
+				<li id="apply"><strong>6. 현장 적용</strong><span>검증한 도구만 책임자 승인 후 실제 업무에 적용합니다.</span><a href="/tools/">경영 도구 아카이브</a></li>
+			</ol>
+		</section>
+
+		<section class="lecture-panel tool-download-panel" aria-labelledby="download-order">
+			<h2 id="download-order">받는 순서</h2>
+			<p>
+				00 다음에 01을 읽고, 그다음 방문·문의 파일을 엽니다.
+				A–H를 읽는 본문은
+				<a href="/tools/hospital-data-pain-points/">AI 입력용 페인포인트 아카이브</a>
+				입니다.
+			</p>
+			<ol class="file-list tool-file-list">
+				{downloads.map((item) => (
+					<li class="tool-file-card">
+						<div class="download-info">
+							<strong class="tool-file-title">{item.title}</strong>
+							<span class="tool-file-description">{item.note}</span>
+						</div>
+						<a class="lecture-btn tool-download-button" href={fileHref(item.name)} download={item.name} aria-label={`${item.title} 다운로드`}>다운로드</a>
+					</li>
+				))}
+			</ol>
+		</section>
+
+
+        </details>
+
 		<p class="copy-status" data-copy-status role="status" aria-live="polite"></p>
 	</article>
 </Layout>
@@ -782,7 +799,7 @@ function fileSize(name: string): string {
 		const textNode = opsPanel?.querySelector('[data-ops-progress]');
 		const title = stepNav[index]?.textContent?.trim() ?? '';
 		if (textNode) textNode.textContent = (index + 1) + ' / ' + stepCards.length + ' · ' + title.replace(/^\\d+/, '').trim();
-		opsPanel?.querySelector('.ops-progress')?.scrollIntoView({behavior:'smooth',block:'start'});
+		// Keep the viewport steady when switching steps; do not force a scroll jump.
 	}
 
 
@@ -871,8 +888,8 @@ function fileSize(name: string): string {
 	/* 7요소 자기주도 실습 교육 설계: 설명을 감추지 않고 맥락부터 보여줍니다. */
 	.crm-workbook .crm-quick-nav{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 18px;}
 	.crm-workbook .crm-quick-nav a{font-size:.8rem;padding:6px 9px;border:1px solid var(--rule);border-radius:6px;text-decoration:none;background:var(--bg);}
-	.crm-lesson-list{display:grid;gap:14px;}
-	.education-lesson{scroll-margin-top:95px;background:var(--bg);border:1px solid var(--rule);border-radius:8px;padding:clamp(12px,2vw,20px);min-width:0;display:grid;gap:12px;}
+	.crm-lesson-list{display:grid;gap:8px;}
+	.education-lesson{scroll-margin-top:95px;background:var(--bg);border:1px solid var(--rule);border-radius:6px;padding:clamp(10px,1.5vw,13px);min-width:0;display:grid;gap:8px;}
 	.education-lesson-head{border-bottom:1px solid var(--rule);padding-bottom:10px;}
 	.education-lesson-head p{font-size:.76rem;font-weight:700;color:#966d40;margin:0 0 3px;}
 	.education-lesson-head h3{margin:0;font-size:1.15rem;color:var(--text);}
@@ -919,7 +936,7 @@ function fileSize(name: string): string {
 	.ops-progress {display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center;border-top:1px solid var(--rule);padding:13px 0 9px;scroll-margin-top:90px;}
 	.ops-progress strong {font-size:1rem;color:var(--text);}
 	.ops-progress span {font-size:.8rem;color:var(--t2);}
-	.ops-step-nav {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 14px;}
+	.ops-step-nav {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:0 0 8px;}
 	.panel-ops .ops-step-nav button {margin:0;display:flex;align-items:center;justify-content:start;gap:8px;min-width:0;min-height:43px;border:1px solid var(--rule);background:var(--bg);color:var(--text);text-align:left;white-space:normal;padding:8px 10px;border-radius:7px;font-size:.85rem;}
 	.ops-step-nav button span:first-child {flex:0 0 24px;height:24px;border-radius:5px;background:var(--bg2);border:1px solid var(--rule);display:grid;place-items:center;font-weight:800;}
 	.panel-ops .ops-step-nav button[aria-pressed='true'] {border-color:#b9976f;background:#efe3d2;color:#3d3022;}
@@ -981,7 +998,7 @@ function fileSize(name: string): string {
 	.lecture {
 		box-sizing: border-box;
 		min-width: 0;
-		padding: 2.2rem 0 4rem;
+		padding: 1.05rem 0 1.9rem;
 		max-width: 72rem;
 		--tool-radius-button: 6px;
 		--tool-radius-card: 8px;
@@ -1025,8 +1042,8 @@ function fileSize(name: string): string {
 	}
 	.lecture-callout,
 	.lecture-panel {
-		margin-top: 1rem;
-		padding: 16px;
+		margin-top: .7rem;
+		padding: 12px;
 		border: 1px solid var(--rule);
 		border-radius: 8px;
 		background: var(--bg2);
@@ -1209,4 +1226,30 @@ function fileSize(name: string): string {
 			font-size: 14px;
 		}
 	}
+
+  /* Field-first lecture UX: compact access, optional archive and no scroll jump. */
+  .lecture .lecture-head{margin-bottom:8px}
+  .lecture .lecture-notice{margin-bottom:.35rem;font-size:.93rem}
+  .lecture .lecture-meta{font-size:.77rem}
+  .today-flow{padding:10px 12px;border-left:3px solid #0b8175;background:var(--bg2);margin:8px 0 12px}
+  .today-flow>strong{font-size:.92rem}
+  .today-flow p{margin:4px 0 8px;font-size:.84rem;line-height:1.5;color:var(--t2)}
+  .today-actions{display:flex;gap:6px;flex-wrap:wrap}
+  .today-actions a{display:inline-flex;align-items:center;min-height:40px;border:1px solid var(--rule);border-radius:4px;padding:7px 9px;background:var(--bg);text-decoration:none;font-weight:700;font-size:.82rem;color:var(--text)}
+  .today-actions a:first-child{background:#08786e;border-color:#08786e;color:#fff}
+  .archived-reference{border-top:1px solid var(--rule);margin:15px 0 0;padding-top:8px}
+  .archived-reference>summary{cursor:pointer;min-height:44px;padding:9px 4px;font-size:.87rem;font-weight:750}
+  .archived-reference>p{font-size:.84rem;margin:5px 0 10px}
+  .archived-reference .lecture-panel{margin-top:10px}
+  .education-extra{min-width:0;border-top:1px solid var(--rule);padding-top:6px}
+  .education-extra>summary{cursor:pointer;font-weight:700;font-size:.85rem;color:#08786e;min-height:40px;padding:9px 2px}
+  .education-extra[open]>.education-run{margin-top:7px}
+  .education-extra>div{margin-top:7px}
+  .education-lesson .education-explain>div{padding:9px}
+  .education-lesson .education-intro{padding:9px}
+  .panel-ops .ops-step-card{padding:12px;border-radius:6px}
+  .panel-ops .ops-info,.panel-ops .ops-action{padding:11px}
+  .panel-ops .ops-step-nav button{border-radius:4px}
+  .today-actions a:focus-visible,.archived-reference>summary:focus-visible,.education-extra>summary:focus-visible{outline:2px solid #0b8175;outline-offset:2px}
+  @media(max-width:620px){.today-actions a{flex:1 1 calc(50% - 6px);justify-content:center}.lecture{padding:.75rem 0 1.3rem}}
 </style>
