@@ -30,6 +30,7 @@ jobs:
           test -s dist/lecture-materials/2026-11-08/archive/index.html
           test -s dist/tools/lectures/2026-11-08-daemire/index.html
           test -s dist/tutorials/crm-first-analysis/index.html
+          git diff --exit-code --quiet 52a7bc39960aec022eb5ca926cd194070f35d894 HEAD -- public/downloads/daemire-1108/
       - name: Install browser
         run: |
           npm install --no-save --package-lock=false playwright@1.58.2
@@ -74,6 +75,10 @@ jobs:
             await must('crm-link',crmHref==='/tutorials/crm-first-analysis/');
             await page.goto(base+'/lecture-materials/2026-11-08/archive/',{waitUntil:'networkidle'});
             await must('archive-files',await page.locator('.archive .group li a[download]').count()===13);
+            const urls=await page.locator('.archive .group li a[download]').evaluateAll(a=>a.map(x=>x.getAttribute('href')));
+            let served=0;
+            for(const url of urls){const file=await page.request.get(base+url);if(file.ok()&&(await file.body()).length>0)served++}
+            await must('all-13-files-readable',served===13,{served});
             await page.locator('.archive .group').first().locator('summary').click();
             const link=page.locator('.archive .group li a[download]').first();
             const [download]=await Promise.all([page.waitForEvent('download'),link.click()]);
@@ -100,6 +105,35 @@ jobs:
             const expected=(await page.locator('#copy-'+await copy.getAttribute('data-copy')).textContent())?.trim();
             await must('copy-prompt',copyVal===expected&&expected.length>30);
             await page.screenshot({path:'/tmp/lecture-flow-qa/daemire-'+width+'.png',fullPage:true});
+            await page.goto(base+'/lecture-materials/2026-11-08/',{waitUntil:'networkidle'});
+            for(const kind of ['cost','crm']){
+              const lesson=page.locator('#'+kind+' .do-now');
+              await lesson.locator('details summary').click();
+              const pre=await lesson.locator('pre').innerText();
+              await lesson.locator('[data-copy-guide]').click();
+              const clip=await page.evaluate(()=>navigator.clipboard.readText());
+              await must('selfcontained-copy-'+kind,pre.trim()===clip&&pre.length>50);
+              await must('selfcontained-files-'+kind,await lesson.locator('.file-links a[href]').count()>=3);
+            }
+            await page.screenshot({path:'/tmp/lecture-flow-qa/follow-'+width+'.png',fullPage:true});
+            await context.close();
+          }
+          for(const width of [375,500,1280]){
+            const context=await browser.newContext({viewport:{width,height:900}});
+            const page=await context.newPage();
+            await page.goto(base+'/tutorials/crm-first-analysis/',{waitUntil:'networkidle'});
+            const step=page.locator('[data-step="2"]');
+            await step.click();
+            const focusStep=await step.evaluate(e=>document.activeElement===e);
+            await page.locator('[data-mode="explore"]').click();
+            const box=page.locator('#explorePrompt');
+            await box.fill('수업 중 탐구한 질문을 보존합니다.');
+            await page.locator('[data-step="3"]').click();
+            await page.locator('[data-step="2"]').click();
+            const retains=await page.locator('#explorePrompt').inputValue()==='수업 중 탐구한 질문을 보존합니다.';
+            const focusAfter=await page.locator('[data-step="2"]').evaluate(e=>document.activeElement===e);
+            const ok=focusStep&&retains&&focusAfter;
+            results.push({viewport:width+'x900',name:'crm-focus-and-draft-p5-11',ok,focusStep,retains,focusAfter});if(!ok)fails++;
             await context.close();
           }
           fs.writeFileSync('/tmp/lecture-flow-qa/results.json',JSON.stringify(results,null,2));
