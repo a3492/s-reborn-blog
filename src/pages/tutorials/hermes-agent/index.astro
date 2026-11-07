@@ -1,0 +1,101 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+const files = [
+  {
+    title:'Hermes Agent 설치와 시작 통합 가이드',
+    desc:'Windows 준비부터 PowerShell 설치, 모델 연결, 첫 대화, SOUL과 기억·도구 설명까지.',
+    slug:'Hermes_Agent_설치와_시작_통합가이드_아잉이.md',
+    tag:'EP.01 · PC 설치 및 시작',
+  },
+  {
+    title:'Hermes Agent 텔레그램 연결 통합 가이드',
+    desc:'BotFather 개인 봇 생성, 숫자 ID, .env 설정, Gateway 실행, 실제 메시지 왕복 확인.',
+    slug:'Hermes_텔레그램_연결_통합가이드_아잉이.md',
+    tag:'EP.02 · 메신저 연결',
+  }
+];
+---
+<Layout title="Hermes Agent 강연 실습 자료" description="강세희 원장의 Hermes Agent 실습 강연 원본 다운로드와 단계별 학습 안내입니다.">
+  <div class="hermes">
+    <nav class="crumb" aria-label="현재 위치"><a href="/tools/">강연·자료</a><span>/</span><a href="/tutorials/">실습 튜토리얼</a><span>/</span><strong>Hermes Agent</strong></nav>
+    <header class="intro">
+      <div class="meta">S—REBORN · HANDS-ON TUTORIAL · 10:30–11:30</div>
+      <h1>내 손으로 만드는 <em>AI 비서</em></h1>
+      <p class="sub">Hermes Agent를 내 PC에서 시작하고, 개인 텔레그램까지 연결하는 2편의 실전 가이드</p>
+      <p class="speaker">강연: 강세희 원장 · 골드 G 의원</p>
+    </header>
+
+    <section aria-labelledby="goal-title" class="goals">
+      <h2 id="goal-title">오늘의 목표는 ‘설치’가 아니라 <strong>실제 답변</strong>입니다.</h2>
+      <div class="goal"><span class="step">01</span><div><strong>PC에서 AI 답변 받기</strong><p>설치하고 모델을 연결한 뒤 Hermes가 실제로 답하는지 확인합니다.</p></div></div>
+      <div class="goal"><span class="step">02</span><div><strong>텔레그램에서 AI 답장 받기</strong><p>첫 단계를 완료한 참가자가 개인 봇을 통해 응답을 확인하는 확장 실습입니다.</p></div></div>
+    </section>
+
+    <section aria-labelledby="interactive-title" class="interactive-intro">
+      <div class="sec-head"><span class="index">직접 따라 하는 실습</span><h2 id="interactive-title">명령어를 복사하고 실제 결과를 확인하세요</h2><p>목적 설명 → 한 가지 행동 → 예상 결과 → 성공 확인 또는 오류 해결. 청중이 스스로 속도를 조절하고 브라우저에 진도를 기록할 수 있습니다.</p></div>
+      <a class="start-lesson" href="/tutorials/hermes-agent/ep01/">EP01 인터랙티브 실습 시작 →</a>
+      <a class="start-lesson second-lesson" href="/tutorials/hermes-agent/ep02/">EP02 텔레그램 연결 실습 시작 →</a><p class="micro">PC Hermes에서 실제 AI 답변을 받은 뒤 EP02로 이동하세요. 본인 토큰은 이 웹사이트에 입력하지 않습니다.</p>
+      <p class="micro"><a href="/tutorials/hermes-agent/presenter/">강연자 진행표·시간표 열기 →</a></p>
+    </section>
+    <section aria-labelledby="down-title" class="downloads">
+      <div class="sec-head"><span class="index">자료 01 / 02</span><h2 id="down-title">원본 가이드 다운로드</h2><p>처음 제공된 두 Markdown 파일을 수정하지 않고 내려받을 수 있습니다. 편집된 웹 설명과 원문은 별도로 관리합니다.</p></div>
+      {files.map((f) => <article class="file">
+        <div class="file-info"><span class="tag">{f.tag}</span><h3>{f.title}</h3><p>{f.desc}</p><small>Markdown 원본 · .md 형식 · 텍스트 편집기로 열 수 있습니다.</small></div>
+        <a class="download" href={`/downloads/hermes-agent/${f.slug}`} download={f.slug} aria-label={`${f.title} 원본 다운로드`}>원본 다운로드 <span aria-hidden="true">↓</span></a>
+      </article>)}
+    </section>
+
+    <section aria-labelledby="guide-title" class="guide">
+      <div class="sec-head"><span class="index">실습 순서</span><h2 id="guide-title">이 순서대로 진행하세요</h2></div>
+      <ol>
+        <li><strong>시작 전</strong><span>Windows PC, 인터넷, 계정, 설치 권한을 확인합니다.</span></li>
+        <li><strong>PC 설치</strong><span>첫 번째 파일의 설치·버전 확인·모델 연결을 순서대로 진행합니다.</span></li>
+        <li><strong>실제 응답 확인</strong><span>`hermes` 대화에서 한국어 질문에 답변이 도착해야 첫 번째 목표가 완료됩니다.</span></li>
+        <li><strong>텔레그램 확장</strong><span>PC 응답이 확인된 사람만 두 번째 파일로 이동해 봇과 Gateway를 연결합니다.</span></li>
+        <li><strong>메신저 응답 확인</strong><span>내 봇에 ‘안녕’을 보내 실제 답장을 받아야 두 번째 목표가 완료됩니다.</span></li>
+      </ol>
+    </section>
+
+    <aside class="security" aria-labelledby="secure-title">
+      <h2 id="secure-title">실습 보안 주의</h2>
+      <p>봇 토큰, API 키, 로그인 인증 코드, 실제 환자 정보는 공개 채팅방이나 AI 대화창에 입력하지 마세요. 설치 명령은 공식 출처를 확인한 뒤 실행하고, 기관 PC는 보안 정책을 따르세요. 모델 제공자에 따라 이용 조건과 추가 비용이 다를 수 있습니다.</p>
+    </aside>
+    <p class="footnote">이 페이지는 강연용 자료 다운로드 허브입니다. 단계별 인터랙티브 실습 매거진과 화면 이미지·스크린샷은 별도로 기획 및 검수 중입니다. 안내 화면과 명령은 Hermes 버전·계정·Windows 설정에 따라 달라질 수 있습니다.</p>
+  </div>
+</Layout>
+<style>
+  .hermes{max-width:920px;margin:0 auto;padding:28px 22px 90px;color:var(--text);font-family:inherit}
+  .crumb{display:flex;gap:9px;align-items:center;flex-wrap:wrap;font-size:.78rem;color:var(--t3);margin:0 0 34px}
+  .crumb a{color:var(--t2);text-decoration:none}.crumb a:hover{text-decoration:underline}
+  .intro{padding:34px 0 36px;border-bottom:1px solid var(--rule)}
+  .meta,.index,.tag{color:#159b8e;font-weight:760;font-size:.76rem;letter-spacing:.065em}
+  .intro h1{font-size:clamp(2.2rem,5vw,4rem);line-height:1.18;letter-spacing:-.05em;margin:16px 0;font-family:var(--display)}
+  .intro h1 em{font-style:normal;color:#14978a}
+  .sub{font-size:clamp(1.08rem,2vw,1.32rem);max-width:680px;line-height:1.65;color:var(--t2);margin:0}
+  .speaker{font-size:.89rem;color:var(--t3);margin:20px 0 0}
+  section{margin-top:48px}
+  h2{font-family:var(--display);letter-spacing:-.03em;font-size:clamp(1.4rem,2.5vw,1.85rem);margin:9px 0 17px}
+  p{line-height:1.7}
+  .goals h2{margin-bottom:22px}.goals h2 strong{color:#158a7f}
+  .goal{display:flex;align-items:start;gap:20px;border-top:1px solid var(--rule);padding:17px 0}
+  .goal:last-child{border-bottom:1px solid var(--rule)}
+  .goal .step{font-size:1.5rem;font-weight:800;color:#16a293;line-height:1.1}
+  .goal strong{font-size:1.07rem}.goal p{color:var(--t2);margin:4px 0 0;font-size:.93rem}
+  .sec-head>p{color:var(--t2);margin:0 0 18px}
+  .file{border-top:1px solid var(--rule);padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:20px}
+  .file:last-child{border-bottom:1px solid var(--rule)}
+  .file-info{min-width:0}.file h3{font-family:var(--display);font-size:1.16rem;letter-spacing:-.02em;margin:7px 0}
+  .file p{color:var(--t2);margin:4px 0 7px;font-size:.91rem}.file small{font-size:.8rem;color:var(--t3)}
+  .download{display:inline-flex;align-items:center;justify-content:center;gap:10px;white-space:nowrap;padding:10px 15px;text-decoration:none;font-weight:750;color:#fff;background:#096e66;border-radius:7px;font-size:.89rem;flex-shrink:0}
+  .download:hover,.download:focus-visible{background:#064b47;color:#fff;outline:2px solid #60c8bc;outline-offset:2px}
+  .guide ol{list-style:none;padding:0;margin:0;counter-reset:part}
+  .guide li{counter-increment:part;display:grid;grid-template-columns:34px 155px 1fr;gap:14px;padding:16px 0;border-top:1px solid var(--rule);align-items:start}
+  .guide li:last-child{border-bottom:1px solid var(--rule)}.guide li:before{content:counter(part,decimal-leading-zero);color:#158e83;font-size:.83rem;font-weight:800}
+  .guide li strong{font-weight:760}.guide li span{color:var(--t2);line-height:1.6;font-size:.91rem}
+  .start-lesson{display:inline-block;background:#086f66;color:#fff;text-decoration:none;font-weight:800;padding:12px 17px;border-radius:7px}
+  .start-lesson:hover,.start-lesson:focus-visible{background:#064b47;color:#fff;outline:2px solid #60c8bc;outline-offset:2px}
+  .second-lesson{margin-left:10px;background:transparent;color:#087e72;border:1px solid #168c80}.second-lesson:hover{color:#fff}\n  .micro{font-size:.81rem;color:var(--t3);margin-top:10px}
+  .security{border-left:3px solid #18978a;padding:6px 0 7px 19px;margin-top:46px}.security h2{font-size:1.18rem;margin:0 0 5px}.security p{color:var(--t2);font-size:.91rem;margin:0}
+  .footnote{font-size:.81rem;color:var(--t3);margin-top:38px;border-top:1px solid var(--rule);padding-top:16px}
+  @media(max-width:680px){.hermes{padding:18px 15px 60px}.intro{padding-top:12px}.file{align-items:start;flex-direction:column;gap:12px}.download{align-self:flex-start}.guide li{grid-template-columns:28px 1fr;gap:6px 9px}.guide li span{grid-column:2}}
+</style>

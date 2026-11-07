@@ -1,0 +1,45 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+const agenda = [
+  {time:'10:30–10:35', mins:5, title:'시작과 준비', cue:'오늘의 목표는 설치가 아니라 실제 AI 답변입니다.', action:'청중의 Windows·계정·네트워크 확인', keep:'필수'},
+  {time:'10:35–10:45', mins:10, title:'설치', cue:'PowerShell 설치 명령의 공식 주소를 확인한 뒤 실행합니다.', action:'EP01 단계 02–03', keep:'필수'},
+  {time:'10:45–11:00', mins:15, title:'모델 연결', cue:'Hermes와 AI 모델은 별도이며, 이 단계가 첫 번째 병목입니다.', action:'EP01 단계 04', keep:'최우선'},
+  {time:'11:00–11:08', mins:8, title:'첫 실제 응답', cue:'버전 출력이 아니라 AI 답변이 도착해야 성공입니다.', action:'EP01 단계 05', keep:'최우선'},
+  {time:'11:08–11:13', mins:5, title:'개인화 개념', cue:'말투와 행동 원칙을 바꾸어 나에게 맞는 비서로 만듭니다.', action:'EP01 단계 06 (상황에 따라 단축)', keep:'선택'},
+  {time:'11:13–11:25', mins:12, title:'텔레그램 확장', cue:'이미 PC 응답에 성공한 분부터 개인 봇과 Gateway를 연결합니다.', action:'EP02 단계 01–07. 전원 완주를 강제하지 않음', keep:'확장'},
+  {time:'11:25–11:30', mins:5, title:'완료 확인과 안내', cue:'각자 실제 답변 수신 여부와 막힌 단계를 기록합니다.', action:'사후 복습·원본 다운로드 안내', keep:'필수'}
+];
+---
+<Layout title="Hermes 강연자 진행 큐시트" description="강세희 원장 60분 Hermes Agent 실습 강연 진행 화면" noindex={true}>
+  <div class="presenter">
+    <nav class="crumb"><a href="/tutorials/hermes-agent/">Hermes 자료실</a><span>/</span><strong>강연자 진행 화면</strong></nav>
+    <header>
+      <span class="eyebrow">PRESENTER MODE · HERMES AGENT</span>
+      <h1>60분 강연 진행표</h1>
+      <p>강세희 원장 · 골드 G 의원 · 10:30–11:30</p>
+      <div class="quick"><a href="/tutorials/hermes-agent/ep01/">EP01 청중 화면 ↗</a><a href="/tutorials/hermes-agent/ep02/">EP02 청중 화면 ↗</a><a href="/tutorials/hermes-agent/">원본 다운로드 ↗</a></div>
+    </header>
+    <section aria-labelledby="goal"><h2 id="goal">오늘 반드시 확인할 것</h2><p><strong>필수:</strong> PC Hermes에서 실제 AI 답변을 받았는가? <strong>확장:</strong> 텔레그램에서 실제 답장을 받았는가? 설치·Gateway 상태만으로 성공 판정하지 않습니다.</p></section>
+    <section aria-labelledby="agenda"><h2 id="agenda">시간별 진행 큐</h2>
+      <ol class="agenda">{agenda.map((a,i)=><li>
+        <div class="time"><strong>{a.time}</strong><span>{a.mins}분 · {a.keep}</span></div>
+        <div class="item"><h3>{String(i+1).padStart(2,'0')}. {a.title}</h3><p class="cue">“{a.cue}”</p><p class="action"><strong>청중 행동:</strong> {a.action}</p></div>
+      </li>)}</ol>
+    </section>
+    <section aria-labelledby="fallback"><h2 id="fallback">진행이 늦어질 때의 결정 규칙</h2><p>계정 인증이 지연되면 SOUL 파일·기억·도구 설명을 축약합니다. EP02는 강연자가 흐름을 시연하고 빠른 참가자에게만 현장 실습을 안내합니다. **EP01 실제 AI 답변 확인을 포기하지 않습니다.** 기관 PC 차단은 우회하지 않고 관찰 모드로 전환합니다.</p></section>
+    <section aria-labelledby="security"><h2 id="security">보안·실기기 점검</h2><p>실제 봇 토큰, 인증 코드, 환자정보, 실사용 API 키를 화면 공유하지 않습니다. 모든 명령과 인증 메뉴는 강연 직전 설치 버전에서 재확인합니다. 이 페이지는 권장 운영표이며 청중의 성공 현황을 자동 수집하지 않습니다.</p></section>
+  </div>
+</Layout>
+<style>
+  .presenter{max-width:900px;margin:auto;padding:24px 20px 80px;color:var(--text)}
+  .crumb{display:flex;gap:10px;font-size:.85rem;color:var(--t3);margin-bottom:30px}.crumb a{color:var(--t2)}
+  header{padding:14px 0 30px;border-bottom:1px solid var(--rule)}.eyebrow{font-size:.76rem;font-weight:800;color:#158e80;letter-spacing:.08em}
+  h1{font-family:var(--display);font-size:clamp(2.1rem,4.5vw,3.5rem);letter-spacing:-.04em;margin:12px 0}header p{color:var(--t2);font-size:1.08rem}
+  .quick{display:flex;flex-wrap:wrap;gap:16px;margin-top:20px}.quick a{color:#0d8c7c;font-weight:750;text-decoration:underline;text-underline-offset:4px}
+  section{margin-top:36px}h2{font-family:var(--display);font-size:1.4rem;letter-spacing:-.025em}section>p{line-height:1.8;color:var(--t2)}
+  .agenda{list-style:none;padding:0;margin:15px 0;border-top:1px solid var(--rule)}
+  .agenda li{display:grid;grid-template-columns:160px 1fr;gap:22px;border-bottom:1px solid var(--rule);padding:18px 0}
+  .time{display:grid;align-content:start;gap:5px}.time strong{font-size:.94rem}.time span{font-size:.78rem;color:#128c7e}
+  .item h3{font-family:var(--display);margin:0 0 10px;font-size:1.2rem}.item p{line-height:1.7;margin:5px 0}.cue{font-weight:700}.action{font-size:.87rem;color:var(--t2)}
+  @media(max-width:610px){.agenda li{grid-template-columns:1fr;gap:7px}.time{display:flex;gap:12px;align-items:center}}
+</style>
