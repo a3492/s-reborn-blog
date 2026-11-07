@@ -1,0 +1,116 @@
+name: Page density wave 3 - consult reader and fallback (no deploy)
+
+on:
+  push:
+    branches:
+      - experiment/page-density-wave3-20261107
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Checkout baseline
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: baseline
+      - name: Checkout candidate
+        uses: actions/checkout@v4
+        with:
+          path: candidate
+      - name: Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: candidate/package-lock.json
+      - name: Build both
+        run: |
+          set -eu
+          cd candidate
+          npm ci
+          npm run build
+          cd ../baseline
+          ln -s ../candidate/node_modules node_modules
+          npm run build
+      - name: Browser setup
+        working-directory: candidate
+        run: |
+          npm install --no-save --package-lock=false playwright@1.58.2
+          npx playwright install --with-deps chromium
+      - name: Compare real sample URLs
+        run: |
+          set -eu
+          mkdir -p /tmp/density-wave3
+          python3 -m http.server 4321 --bind 127.0.0.1 --directory baseline/dist > /tmp/wave3-base.log 2>&1 &
+          B=$!
+          python3 -m http.server 4322 --bind 127.0.0.1 --directory candidate/dist > /tmp/wave3-candidate.log 2>&1 &
+          A=$!
+          trap 'kill "$B" "$A" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:4321/coming-soon/ >/dev/null && curl -fsS http://127.0.0.1:4322/coming-soon/ >/dev/null; then break; fi
+            sleep 1
+          done
+          cd candidate
+          node --input-type=module - <<'NODE'
+          import {chromium} from 'playwright';
+          import fs from 'node:fs';
+          const browser=await chromium.launch({headless:true});
+          const samples=[
+            {id:'consult-short',url:'/tools/consult-archive/view/B01-E001/',root:'.reader',first:'.reader-body'},
+            {id:'consult-other',url:'/tools/consult-archive/view/B01-E012/',root:'.reader',first:'.reader-body'},
+            {id:'consult-guide',url:'/tools/consult-archive/view/guide/',root:'.reader',first:'.reader-body'},
+            {id:'coming-soon',url:'/coming-soon/',root:'.soon',first:'.soon h1'}
+          ];
+          const sizes=[[1440,900],[768,1024],[390,844],[320,720]];
+          let fail=false;const results=[];
+          for(const item of samples)for(const [width,height] of sizes){
+            const data=[];
+            for(const version of ['before','after']){
+              const page=await browser.newPage({viewport:{width,height},deviceScaleFactor:1});
+              const jsErrors=[]; page.on('pageerror',error=>jsErrors.push(error.message));
+              const response=await page.goto('http://127.0.0.1:'+(version==='before'?4321:4322)+item.url,{waitUntil:'networkidle'});
+              const result=await page.evaluate(({root,first})=>{
+                const area=document.querySelector(root);
+                const target=document.querySelector(first);
+                const style=area&&getComputedStyle(area);
+                return {
+                  text:area?.innerText?.trim()??null,
+                  links:[...(area?.querySelectorAll('a')||[])].map(a=>[a.textContent?.trim(),a.getAttribute('href'),a.getAttribute('download')]),
+                  viewport:document.documentElement.clientWidth,
+                  scrollWidth:document.documentElement.scrollWidth,
+                  height:document.documentElement.scrollHeight,
+                  firstY:target?.getBoundingClientRect().top??null,
+                  top:style?.paddingTop??style?.marginTop??null,
+                  bottom:style?.paddingBottom??style?.marginBottom??null,
+                  downloadHeight:area?.querySelector('a[download]')?.getBoundingClientRect().height??null
+                };
+              },item);
+              await page.screenshot({path:'/tmp/density-wave3/'+item.id+'-'+width+'x'+height+'-'+version+'.png',fullPage:true});
+              data.push({...result,http:response?.status(),jsErrors});
+              await page.close();
+            }
+            const [before,after]=data;
+            const identical=before.text===after.text&&JSON.stringify(before.links)===JSON.stringify(after.links);
+            const ok=before.http===200&&after.http===200&&identical&&after.scrollWidth<=after.viewport+1&&after.height<=before.height+1&&before.firstY!==null&&after.firstY!==null&&after.firstY<=before.firstY+1&&after.jsErrors.length===0&&after.downloadHeight===before.downloadHeight;
+            if(!ok){fail=true;console.error('FAILED',item.id,width,{before,after,identical})}
+            results.push({id:item.id,viewport:width+'x'+height,ok,identical,beforeHeight:before.height,afterHeight:after.height,save:before.height-after.height,beforeY:before.firstY,afterY:after.firstY,topBefore:before.top,topAfter:after.top,downloadBefore:before.downloadHeight,downloadAfter:after.downloadHeight});
+          }
+          await browser.close();
+          fs.writeFileSync('/tmp/density-wave3/results.json',JSON.stringify(results,null,2));
+          console.log(JSON.stringify(results,null,2));
+          if(fail) process.exit(1);
+          NODE
+      - name: Upload images and measurements
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: page-density-wave3-qa
+          path: /tmp/density-wave3/
+          retention-days: 7
+          if-no-files-found: warn
