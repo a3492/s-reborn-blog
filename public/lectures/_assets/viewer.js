@@ -44,6 +44,26 @@
 		const layer = $('#layer');
 		layer.innerHTML = '';
 
+		if (Array.isArray(s.bullets)) {
+			const slide = document.createElement('section');
+			slide.className = 'native-slide';
+			const eyebrow = document.createElement('div');
+			eyebrow.className = 'native-eyebrow';
+			eyebrow.textContent = '2026.11.08  ·  대미레 AI 강연';
+			const heading = document.createElement('h2');
+			heading.textContent = s.title;
+			const list = document.createElement('ul');
+			for (const bullet of s.bullets) {
+				const li = document.createElement('li');
+				li.textContent = bullet;
+				list.append(li);
+			}
+			const number = document.createElement('span');
+			number.className = 'native-number';
+			number.textContent = String(idx + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+			slide.append(eyebrow, heading, list, number);
+			layer.append(slide);
+		} else {
 		const im = document.createElement('img');
 		im.className = 'hero-img';
 		im.src = resolveImg(s.image);
@@ -54,7 +74,7 @@
 			im.style.top = '138px';
 		}
 
-		for (const e of s.elements) {
+		for (const e of (s.elements || [])) {
 			const d = document.createElement('div');
 			d.className = 'text';
 			d.textContent = e.text;
@@ -87,6 +107,8 @@
 				d.style.top = y * 100 + 'px';
 				layer.append(d);
 			}
+		}
+
 		}
 
 		$('#counter').textContent = `${idx + 1} / ${slides.length}`;
@@ -143,7 +165,8 @@
 				const b = document.createElement('button');
 				b.className = 'card';
 				const im = document.createElement('img');
-				im.src = resolveImg(s.image);
+								if (s.image) im.src = resolveImg(s.image);
+				else { im.style.display = 'none'; b.classList.add('native-card'); }
 				im.loading = 'lazy';
 				im.alt = s.title + ' 썸네일';
 				const small = document.createElement('small');
