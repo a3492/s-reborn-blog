@@ -94,7 +94,7 @@ jobs:
             await opsButton.click();
             const yAfter=await page.evaluate(()=>window.scrollY);
             await must('step-switch-no-jump',await page.locator('[data-ops-card="1"]').isVisible()&&Math.abs(yAfter-yBefore)<=3,{yBefore,yAfter});
-            const copy=page.locator('.panel-ops [data-copy]').first();
+            const copy=page.locator('[data-ops-card="1"] [data-copy]').first();
             await copy.click();
             const copyVal=await page.evaluate(()=>navigator.clipboard.readText());
             const expected=(await page.locator('#copy-'+await copy.getAttribute('data-copy')).textContent())?.trim();
