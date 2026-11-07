@@ -29,6 +29,28 @@ export interface Lecture {
 
 export const LECTURES: Lecture[] = [
 	{
+		id: 'daemire-management-2026',
+		title: 'AI를 활용해 나만의 경영 도구 세팅하기',
+		subtitle: '대미레 2026 · 개원준비방',
+		brandLabel: 'DAEMIRE',
+		speaker: '김도위',
+		org: '에스리본의원 홍대',
+		date: '2026. 11. 08',
+		slideCount: 13,
+		description: '원가 계산기부터 손익분기점 예측까지 · 원본 PPTX v2의 텍스트를 웹 강연으로 재구성한 13장.',
+	},
+	{
+		id: 'daemire-crm-2026',
+		title: 'AI를 활용한 병원 CRM 데이터 분석',
+		subtitle: '대미레 2026 · AI방',
+		brandLabel: 'DAEMIRE',
+		speaker: '김도위',
+		org: '에스리본의원 홍대',
+		date: '2026. 11. 08',
+		slideCount: 52,
+		description: '우리 병원 데이터는 왜 돈이 되지 않는가? · 원본 PPTX v2의 텍스트를 웹 강연으로 재구성한 52장.',
+	},
+	{
 		id: 'koat-ai-2026',
 		title: '왜 우리는 AI를 생각보다 잘 활용하지 못하는가?',
 		subtitle: 'KOAT 2026 · AI OPEN LECTURE',
