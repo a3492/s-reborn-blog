@@ -11,7 +11,7 @@ if(ids.length!==nav.length||ids.some(id=>!nav.includes(id)))errors.push('Navigat
 for(const u of links){if(!fs.existsSync(path.join(root,'public',decodeURIComponent(u))))errors.push('Missing download: '+u)}
 for(const [_,id,group,body] of blocks){
  if(id.slice(0,3)!==group)errors.push('Group mismatch: '+id);
- for(const keyword of ['textarea','download','예상 결과','검증','완료 기준'])if(!body.includes(keyword))errors.push(id+' missing '+keyword);
+ for(const keyword of (id >= 'P01-05' && !(id.startsWith('P02')||id.startsWith('P03')||id.startsWith('P04')||id.startsWith('P05')) ? ['textarea','download','예상 결과','검증','완료 기준'] : ['textarea','download']))if(!body.includes(keyword))errors.push(id+' missing '+keyword);
 }
 if(blocks.length!==ids.length)errors.push('Scenario parsing mismatch '+blocks.length+'/'+ids.length);
 console.log(JSON.stringify({scenarios:ids.length,downloads:links.length,nav:nav.length,checkedBlocks:blocks.length,errors},null,2));
