@@ -10,7 +10,8 @@
       "필요한 결과: 예산표·납품 체크리스트",
       "기존 프로그램의 즉각적 소멸을 뜻하지 않음"
     ],
-    "elements": []
+    "elements": [],
+    "originalImage": "images/slide-001.webp"
   },
   {
     "id": "DMGT-S02",
@@ -23,7 +24,8 @@
       "준비·검증을 마친 자료부터 제공",
       "이용 안내 문의: MDAI 오픈톡방"
     ],
-    "elements": []
+    "elements": [],
+    "originalImage": "images/slide-002.webp"
   },
   {
     "id": "DMGT-S03",
@@ -36,7 +38,8 @@
       "후보별 장단점의 짧은 요약",
       "결정할 일에 맞춘 결과 형태 선택"
     ],
-    "elements": []
+    "elements": [],
+    "originalImage": "images/slide-003.webp"
   },
   {
     "id": "DMGT-S04",
@@ -49,7 +52,8 @@
       "불편 기록: 누가·언제·무엇 때문에",
       "결과물 선택: 체크리스트 또는 일정표"
     ],
-    "elements": []
+    "elements": [],
+    "originalImage": "images/slide-004.webp"
   },
   {
     "id": "DMGT-S05",
@@ -62,7 +66,8 @@
       "처리 결과 검증 → 결정 → 후속 조치",
       "기다림·누락·재작업 지점 확인"
     ],
-    "elements": []
+    "elements": [],
+    "originalImage": "images/slide-005.webp"
   },
   {
     "id": "DMGT-S06",
@@ -75,7 +80,8 @@
       "시술 가격·원가·자금 계획 점검",
       "병원별 우선순위에 따른 첫 문제 선택"
     ],
-    "elements": []
+    "elements": [],
+    "originalImage": "images/slide-006.webp"
   },
   {
     "id": "DMGT-S07",
@@ -88,7 +94,8 @@
       "계산 조건: 손익분기 건수 정수 올림",
       "누락·음수·공헌이익 0 이하 예외 확인"
     ],
-    "elements": []
+    "elements": [],
+    "originalImage": "images/slide-007.webp"
   },
   {
     "id": "DMGT-S08",
@@ -101,7 +108,8 @@
       "손익분기점 매출 ₩20,000,000",
       "단일 시술·일정 비용 가정"
     ],
-    "elements": []
+    "elements": [],
+    "originalImage": "images/slide-008.webp"
   },
   {
     "id": "DMGT-S09",
@@ -114,7 +122,8 @@
       "독립 검산: 115건 미달 / 116건 고정비 충족",
       "누락·음수·공헌이익 0 이하 확인; 수요 증가 보장 아님"
     ],
-    "elements": []
+    "elements": [],
+    "originalImage": "images/slide-009.webp"
   },
   {
     "id": "DMGT-S10",
@@ -127,7 +136,8 @@
       "시니어 경험 기록 전 당사자 동의·검토",
       "장비 점검일·담당자와 재고 발주 기준"
     ],
-    "elements": []
+    "elements": [],
+    "originalImage": "images/slide-010.webp"
   },
   {
     "id": "DMGT-S11",
@@ -140,7 +150,8 @@
       "직원 공유 전 보관 정보·권한·백업 확인",
       "검증된 도구·자료의 아카이브 정리"
     ],
-    "elements": []
+    "elements": [],
+    "originalImage": "images/slide-011.webp"
   },
   {
     "id": "DMGT-S12",
@@ -156,7 +167,8 @@
       "막히는 부분을 묻고, 함께 답을 찾아갑니다",
       "open.kakao.com/o/pkFCQiii"
     ],
-    "elements": []
+    "elements": [],
+    "originalImage": "images/slide-012.webp"
   },
   {
     "id": "DMGT-S13",
@@ -176,6 +188,7 @@
       "오픈톡방 입장",
       "카메라로 스캔하세요"
     ],
-    "elements": []
+    "elements": [],
+    "originalImage": "images/slide-013.webp"
   }
 ]
