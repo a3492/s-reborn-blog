@@ -1,16 +1,16 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 const crm = [
-  ['자료 확인','가상 방문기록을 받아 먼저 행과 열의 뜻을 확인합니다.','반 친구 명단에서 한 줄이 학생 한 명을 뜻하는지 먼저 확인하는 일과 같습니다.','행 수·열 이름을 말할 수 있습니다.'],
-  ['문의와 방문 구분','문의 기록과 방문 기록이 서로 다른 표라는 것을 이해합니다.','전화 문의 1건이 방문 1건과 꼭 같은 것은 아닙니다.','두 표의 건수와 구분 기준을 확인합니다.'],
-  ['오류 찾기','빠진 값, 중복 행, 잘못된 금액을 분석 전에 확인합니다.','틀린 숫자로 만든 계산기는 결과도 틀리기 때문입니다.','AI가 문제가 있는 행과 이유를 표시합니다.'],
-  ['AI 분석','무엇을 알고 싶은지 정의하고 AI에 표를 읽게 합니다.','정답을 알기 전에 무엇을 물을지 정하는 순서입니다.','원본에 있는 사실과 추측을 구분한 분석을 받습니다.'],
-  ['독립 검산','AI의 숫자를 원본 파일로 다시 계산해 비교합니다.','계산기 답을 다른 방법으로 다시 풀어보는 것과 같습니다.','같은 기준에서 숫자가 맞거나 차이 이유를 찾습니다.']
+  ['방문 200건과 고객 141명 구분','교육용 방문기록을 받아 방문 한 건과 사람 한 명의 차이를 먼저 확인합니다.','도서관 대출기록 200줄이라고 책을 빌린 사람이 200명은 아닙니다. 같은 사람이 여러 번 빌릴 수 있습니다.','방문 200건, 고유 고객관리번호 141개를 구분합니다.'],
+  ['누락·중복의 의미 확인','방문 ID가 중복되는지, 연결문의번호가 비어 있는지 원본을 바꾸지 않고 확인합니다.','연락처가 적혀 있지 않다고 그 사람이 연락한 적이 없다고 말할 수는 없습니다.','연결문의번호 빈 값 170건과 방문 ID 중복 0건을 따로 보고합니다.'],
+  ['AI에게 가능한 경영 질문','파일에 실제 있는 유입경로별 방문 건수와 결제금액을 AI에게 계산시킵니다.','학교에서 반별 학생 수를 셀 수 있지만 그 숫자만으로 어떤 반의 공부가 더 잘된다고 말할 수는 없습니다.','6개 유입경로의 건수 합 200건, 결제금액 합 57,060,000원을 비교합니다.'],
+  ['AI 답을 원본으로 검산','AI가 낸 숫자를 엑셀의 행과 별도 계산식으로 다시 확인합니다.','자기 답안을 다시 읽는 것보다 원본 문제를 다른 방법으로 풀어 보는 편이 오류를 찾기 쉽습니다.','=COUNTA(A2:A201) → 200, =SUM(E2:E201) → 57,060,000원을 확인합니다.'],
+  ['다음 행동 한 가지 정하기','확인된 사실과 원인에 대한 추측을 나누고 작은 2주 실험을 설계합니다.','쓰레기통이 빨리 찬다는 사실과 누가 왜 버렸는지는 다릅니다. 확인할 질문부터 고릅니다.','실험의 담당자·기준선·측정 지표·중단 조건을 정합니다.']
 ];
 const cost = [
   ['문제 정하기','새 병원에서 시술 1건을 팔 때 실제로 얼마가 남는지 알아봅니다.','물건을 팔기 전에 재료비를 빼야 남는 돈을 알 수 있습니다.'],
   ['자료 입력','판매가·건당 변동원가·월 고정비를 정합니다.','값이 바뀌면 결과도 바뀌므로 입력값부터 확정합니다.'],
-  ['AI로 도구 만들기','AI에게 계산 규칙과 입력·출력 화면을 구체적으로 요청합니다.','어떤 계산기를 만들지 사용 설명서를 먼저 적는 일입니다.'],
+  ['AI로 도구 만들기','AI에게 계산 규칙과 입력·출력 화면을 구체적으로 요청합니다.','설명만 보고 계산기를 만들 수 있도록 식과 오류 처리 방법을 미리 적어 줍니다.'],
   ['직접 실행','준비된 숫자를 넣고 결과를 확인합니다.','예시: 200,000원 − 50,000원 = 건당 공헌이익 150,000원.'],
   ['원본과 검산','손익분기점 건수와 반올림 규칙을 별도 검산표와 대조합니다.','15,000,000원 ÷ 150,000원 = 100건이 기준값입니다.'],
   ['내 병원에 적용','실제 가격과 비용을 바꿔보되 현장 적용 전 조건을 검토합니다.','세금·장비투자·수요·환자 안전까지 계산기 한 개로 예측할 수는 없습니다.']
@@ -30,14 +30,36 @@ const cost = [
       <div class="example"><strong>이 강연의 핵심 계산</strong><span>판매가 20만 원 − 건당 변동원가 5만 원 = 건당 15만 원</span><span>월 고정비 1,500만 원 ÷ 15만 원 = 손익분기점 100건</span><small>가상 단일 시술의 예시이며 세금·투자비 회수·현금흐름 등은 포함하지 않습니다.</small></div>
       <h3>이 순서대로 진행하세요</h3>
       <ol class="steps">{cost.map((s,i)=><li><span class="num">{i+1}</span><div><strong>{s[0]}</strong><p>{s[1]}</p><details><summary>왜 이 작업을 하나요? · 쉬운 설명</summary><p>{s[2]}</p></details></div></li>)}</ol>
-      <p class="next"><strong>필요한 준비 파일:</strong> <a href="/downloads/daemire-1108/L2_원가_BEP_시연입력_v1.0_v4.xlsx" download>입력 엑셀</a> · <a href="/downloads/daemire-1108/L2_원가_BEP_독립검산_v4.xlsx" download>별도 검산표</a> · <a href="/lecture-materials/2026-11-08/archive/">나머지 파일</a></p>
+      <div class="do-now"><strong>현장에서 바로 실행하기</strong>
+        <p>① 아래 입력 엑셀을 받습니다. ② ChatGPT를 열고 엑셀을 첨부합니다. ③ 문장을 복사해 붙여넣습니다. ④ 결과를 별도 검산표와 대조합니다.</p>
+        <div class="file-links"><a href="/downloads/daemire-1108/L2_원가_BEP_시연입력_v1.0_v4.xlsx" download>① 입력 엑셀 받기</a><a href="/downloads/daemire-1108/L2_원가_BEP_독립검산_v4.xlsx" download>④ 독립 검산표 받기</a><a href="/lecture-materials/2026-11-08/archive/">전체 파일 13개</a></div>
+        <details><summary>②–③ AI 계산기 제작 프롬프트 펼치기</summary><p>다음 문장을 ChatGPT에 복사해 넣으면 간단한 계산기 코드를 만들도록 요청할 수 있습니다. 강연 진행이 빠르면 표 계산까지만 확인해도 됩니다.</p><pre id="prompt-cost">실제 환자정보가 아닌 교육용 가상값으로 병원 원가·손익분기점(BEP) 계산기를 만들어 주세요.
+입력: 판매가(원/건), 건당 변동원가(원/건), 월 고정비(원/월).
+기본값: 200000, 50000, 15000000.
+공헌이익 = 판매가 - 변동원가.
+BEP 건수 = 월 고정비 / 공헌이익을 정수 올림.
+월 영업손익 = 건수 × 공헌이익 - 월 고정비.
+공헌이익, 공헌이익률, 올림 전/후 BEP, BEP 매출, BEP 직전 건수 손익을 표시하고 계산식도 보여주세요.
+공헌이익이 0 이하이고 고정비가 양수라면 유한한 BEP가 없다고 안내하세요. 빈칸, 음수, 비숫자도 검사하세요.
+브라우저에서 실행 가능한 단일 HTML로 작성하세요. 파일이 어려우면 우선 표와 계산식부터 보여 주세요. 개인정보·외부 API·추적 기능은 넣지 마세요.</pre><button type="button" data-copy-guide="prompt-cost">프롬프트 복사</button></details>
+        <p class="verify"><strong>정답 확인:</strong> 기준 BEP 100건·2,000만 원. 판매가만 18만 원으로 내리면 변동원가 5만 원을 유지한 상태에서 BEP 116건·2,088만 원입니다. 115건은 −5만 원, 116건은 +8만 원입니다.</p>
+      </div>
     </section>
     <section class="track" id="crm">
       <div class="track-head"><div><span class="eyebrow">11:20–12:20 · CRM 데이터 분석</span><h2>② 병원 CRM 데이터를 AI로 분석하고 검산하기</h2><p>목적: 기록만 많이 쌓지 않고, 제대로 연결한 숫자를 바탕으로 병원 경영 질문에 답하도록 합니다.</p></div><a class="primary" href="/tutorials/crm-first-analysis/">CRM 5단계 실습 시작</a></div>
       <div class="example"><strong>먼저 구별할 것</strong><span>방문 200행 ≠ 고유 환자 200명 (환자 식별·중복 확인 필요)</span><span>AI가 말한 결과 ≠ 검증된 사실 (원본과 별도 대조 필요)</span></div>
       <h3>이 순서대로 진행하세요</h3>
       <ol class="steps">{crm.map((s,i)=><li><span class="num">{i+1}</span><div><strong>{s[0]}</strong><p>{s[1]}</p><details><summary>왜 하나요? · 쉬운 비유 · 예상 결과</summary><p>{s[2]}</p><p><strong>확인:</strong> {s[3]}</p></details></div></li>)}</ol>
-      <p class="next"><strong>필요한 자료:</strong> <a href="/tutorials/crm-first-analysis/">실습 페이지에서 가상 데이터 내려받기</a> · <a href="/lecture-materials/2026-11-08/archive/">다운로드 전체 목록</a></p>
+      <div class="do-now"><strong>현장에서 바로 실행하기</strong>
+        <p>① 가상 CRM 엑셀을 받습니다. ② ChatGPT에 첨부합니다. ③ 첫 번째 질문을 보냅니다. ④ 5단계 튜토리얼에서 결과를 직접 검산합니다.</p>
+        <div class="file-links"><a href="/downloads/daemire-1108/2026%EB%85%8410%EC%9B%94_%EB%B0%A9%EB%AC%B8%EC%8B%9C%EC%88%A0%EB%A7%A4%EC%B6%9C_CRM.xlsx" download>① 가상 CRM 엑셀 받기</a><a href="/tutorials/crm-first-analysis/">④ 검산·5단계 실습</a><a href="/lecture-materials/2026-11-08/archive/">다른 자료 보기</a></div>
+        <details><summary>②–③ AI에게 처음 보낼 질문 펼치기</summary><p>데이터의 뜻을 확인하기 전에는 분석이나 매출 전략부터 요구하지 마세요.</p><pre id="prompt-crm">첨부 파일은 실제 환자자료가 아닌 교육용 가상 CRM입니다.
+먼저 실제 시트명·열 이름·데이터 행 수를 확인하세요.
+한 행이 방문 한 건인지 환자 한 명인지 구분하고, 고유 방문관리번호 수와 고유 고객관리번호 수를 각각 세어 주세요.
+없는 열은 추측하지 말고 확인 불가라고 표시해 주세요.
+아직 병원 경영 결론을 내리지 마세요.</pre><button type="button" data-copy-guide="prompt-crm">프롬프트 복사</button></details>
+        <p class="verify"><strong>정답 확인:</strong> 가상 방문 200건·고유 고객 141명. 문의 연결번호가 비어 있는 기록 170건은 ‘실제 문의하지 않았다’는 증거가 아닙니다.</p>
+      </div>
     </section>
     <section class="reference">
       <h2>막히면 어떻게 하나요?</h2>
@@ -46,8 +68,24 @@ const cost = [
       <details><summary>실습을 끝내지 못했어요</summary><p>다음 강연 구간은 계속 참여하고, 종료 후 같은 URL에서 이전 단계로 돌아가면 됩니다. 오늘 목표는 모든 버튼을 누르는 것이 아니라 문제·입력·결과·검산을 이해하는 것입니다.</p></details>
       <p><a href="/tools/lectures/2026-11-08-daemire/">기존 원본 상세 워크북 전체 보기</a> · <a href="/lecture-materials/2026-11-08/archive/">13종 원본 파일과 심화 참고 자료</a></p>
     </section>
+  <p class="safety-note" role="note"><strong>중요:</strong> 실제 환자 이름·전화번호·진료기록·로그인 비밀번호·API 키를 공개 AI 대화창에 입력하지 마세요. 실습에는 제공된 가상 자료만 사용하세요.</p>
   </main>
 </Layout>
+<script>
+  document.querySelectorAll('[data-copy-guide]').forEach(button => {
+    button.addEventListener('click', async () => {
+      const id = button.getAttribute('data-copy-guide');
+      const text = document.getElementById(id)?.textContent?.trim();
+      if (!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        button.textContent = '복사됨 · AI 채팅에 붙여넣기';
+      } catch {
+        button.textContent = '복사 실패 · 위 문장을 선택해 복사하세요';
+      }
+    });
+  });
+</script>
 <style>
 .follow{max-width:1080px;margin:auto;padding:15px 20px 36px;color:var(--text)}
 .follow .crumb{display:flex;flex-wrap:wrap;gap:7px;align-items:center;font-size:.78rem;color:var(--t2);margin:0 0 12px}
@@ -82,4 +120,17 @@ const cost = [
 .follow .reference>details{border-top:1px solid var(--rule);padding:8px 0}
 .follow .reference>p{font-size:.85rem}
 @media(max-width:640px){.follow{padding:10px 12px 25px}.follow .track-head{display:block}.follow .primary{margin:0 0 7px}.follow .quick a{flex:1 1 100%}.follow .track{padding:15px 0}}
+
+.follow .do-now{border:1px solid var(--rule);border-radius:5px;padding:13px;margin:13px 0 0;background:var(--bg2)}
+.follow .do-now>strong{font-size:.95rem}
+.follow .do-now>p{font-size:.86rem;line-height:1.55;margin:5px 0}
+.follow .file-links{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.follow .file-links a{display:inline-flex;align-items:center;padding:8px 10px;min-height:42px;border:1px solid var(--rule);border-radius:4px;font-size:.82rem;font-weight:700;text-decoration:none;background:var(--bg)}
+.follow .do-now details{border-top:1px solid var(--rule);padding-top:7px}
+.follow .do-now summary{font-size:.87rem;font-weight:700;min-height:40px}
+.follow .do-now pre{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--bg);border:1px solid var(--rule);border-radius:4px;padding:10px;font-size:.83rem;line-height:1.55;max-height:260px;overflow:auto}
+.follow .do-now button{min-height:42px;padding:9px 12px;font-weight:750;color:#fff;background:#08786e;border:1px solid #08786e;border-radius:4px;cursor:pointer}
+.follow .do-now .verify{margin-top:9px}
+.follow .safety-note{font-size:.83rem;line-height:1.55;margin:10px 0;color:var(--t2)}
+.follow .do-now button:focus-visible{outline:2px solid #0b8175;outline-offset:3px}
 </style>
