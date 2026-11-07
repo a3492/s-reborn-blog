@@ -1,0 +1,126 @@
+name: S-Reborn master integration QA (no production deploy)
+on:
+  push:
+    branches:
+      - integration/sreborn-main-crm-ui-20261107
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build-and-browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install and build Astro
+        run: |
+          npm ci
+          npm run build
+      - name: Verify lecture assets and static pages
+        run: |
+          test -s dist/tutorials/crm-first-analysis/index.html
+          test -s dist/tools/lectures/2026-11-08-daemire/index.html
+          test -s dist/lab/peos/index.html
+          test -s dist/lab/index.html
+          test -s dist/tools/consult-archive/index.html
+          test -s dist/tools/procedure-archive/index.html
+          test -s dist/docs/future-axes-plan/index.html
+          count=$(find dist/downloads/daemire-1108 -type f | wc -l)
+          echo "Daemire downloadable files: $count"
+          test "$count" -eq 13
+          find dist/downloads/daemire-1108 -type f -empty -print | tee /tmp/zero-byte-files.txt
+          test ! -s /tmp/zero-byte-files.txt
+      - name: Install browser
+        run: |
+          npm install --no-save --package-lock=false playwright@1.58.2
+          npx playwright install --with-deps chromium
+      - name: Functional and responsive integration checks
+        run: |
+          set -eu
+          mkdir -p /tmp/sreborn-integrated-qa
+          python3 -m http.server 4321 --bind 127.0.0.1 --directory dist >/tmp/sreborn-preview.log 2>&1 &
+          P=$!
+          trap 'kill "$P" 2>/dev/null || true' EXIT
+          for i in $(seq 1 40); do
+            if curl -fsS http://127.0.0.1:4321/tutorials/crm-first-analysis/ >/dev/null; then break; fi
+            sleep 1
+          done
+          node --input-type=module - <<'NODE'
+          import fs from 'node:fs';
+          import {chromium} from 'playwright';
+          const browser=await chromium.launch({headless:true});
+          const results=[];
+          let failures=0;
+          const routes=['/','/tutorials/','/tutorials/crm-first-analysis/','/tools/','/tools/lectures/2026-11-08-daemire/','/tools/consult-archive/','/tools/procedure-archive/','/lectures/','/lab/','/lab/peos/','/sitemap/','/docs/future-axes-plan/','/generate/','/coming-soon/'];
+          for(const [width,height] of [[1440,900],[390,844],[320,720]]){
+            const page=await browser.newPage({viewport:{width,height}});
+            const errors=[];page.on('pageerror',e=>errors.push(e.message));
+            for(const path of routes){
+              const since=errors.length;
+              const response=await page.goto('http://127.0.0.1:4321'+path,{waitUntil:'networkidle'});
+              const data=await page.evaluate(()=>({width:document.documentElement.clientWidth,scrollWidth:document.documentElement.scrollWidth,hasH1:!!document.querySelector('h1')}));
+              const ok=response?.status()===200&&data.scrollWidth<=data.width+1&&errors.length===since;
+              results.push({kind:'route',path,width,ok,status:response?.status(),overflow:data.scrollWidth-data.width,errors:errors.slice(since)});
+              if(!ok)failures++;
+            }
+            await page.close();
+          }
+          for(const [width,height] of [[375,900],[500,900],[1280,900]]){
+            const page=await browser.newPage({viewport:{width,height}});
+            const errors=[];page.on('pageerror',e=>errors.push(e.message));
+            await page.goto('http://127.0.0.1:4321/tutorials/crm-first-analysis/',{waitUntil:'networkidle'});
+            const nav=page.locator('[data-step="2"]');
+            await nav.click();
+            const focusStep=await nav.evaluate(e=>document.activeElement===e);
+            await page.locator('[data-mode="explore"]').click();
+            const textarea=page.locator('#explorePrompt');
+            const draft='검산 직접 탐구 · 테스트 <가상 데이터>';
+            await textarea.fill(draft);
+            await page.locator('[data-step="3"]').click();
+            await page.locator('[data-step="2"]').click();
+            const restored=await page.locator('#explorePrompt').inputValue()===draft;
+            const focusBack=await page.locator('[data-step="2"]').evaluate(e=>document.activeElement===e);
+            await page.locator('#next').click();
+            const nextFocus=await page.locator('#stage .step-head h2').evaluate(e=>document.activeElement===e);
+            await page.locator('[data-mode="observe"]').click();
+            await page.locator('[data-mode="explore"]').click();
+            await page.locator('[data-step="2"]').click();
+            const persists=await page.locator('#explorePrompt').inputValue()===draft;
+            const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth);
+            const ok=focusStep&&restored&&focusBack&&nextFocus&&persists&&overflow<=1&&errors.length===0;
+            results.push({kind:'crm-interaction',width,ok,focusStep,restored,focusBack,nextFocus,persists,overflow,errors});
+            if(!ok)failures++;
+            await page.screenshot({path:'/tmp/sreborn-integrated-qa/crm-'+width+'.png',fullPage:true});
+            await page.close();
+          }
+          for(const width of [1440,390]){
+            const page=await browser.newPage({viewport:{width,height:900}});
+            await page.goto('http://127.0.0.1:4321/lab/peos/',{waitUntil:'networkidle'});
+            await page.locator('[data-peos-mode="present"]').click();
+            const present=await page.locator('#peos-present').isVisible();
+            await page.locator('[data-peos-mode="review"]').click();
+            const review=await page.locator('#peos-review').isVisible();
+            await page.locator('[data-peos-mode="read"]').click();
+            const read=await page.locator('#peos-read').isVisible();
+            const ok=present&&review&&read;
+            results.push({kind:'peos-mode',width,ok,present,review,read});
+            if(!ok)failures++;
+            await page.close();
+          }
+          await browser.close();
+          fs.writeFileSync('/tmp/sreborn-integrated-qa/results.json',JSON.stringify(results,null,2));
+          console.log(JSON.stringify({count:results.length,passed:results.filter(x=>x.ok).length,failed:failures,failedItems:results.filter(x=>!x.ok)},null,2));
+          if(failures)process.exit(1);
+          NODE
+      - name: Save QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sreborn-master-integration-qa
+          path: /tmp/sreborn-integrated-qa/
+          retention-days: 7
+          if-no-files-found: warn
