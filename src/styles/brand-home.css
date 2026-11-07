@@ -420,3 +420,13 @@ h1 {
 	html { scroll-behavior: auto; }
 	.card { transition: none; }
 }
+
+
+html[data-theme="dark"]{--bg:#11151b;--ink:#edf1f6;--sub:#aab4c0;--line:#343c47;--cream:#252c36;color-scheme:dark}
+html[data-theme="dark"] body{background:var(--bg);color:var(--ink)}
+html[data-theme="dark"] .hero-desc,html[data-theme="dark"] .section-intro,html[data-theme="dark"] .card p,html[data-theme="dark"] .about p{color:#b5beca}
+html[data-theme="dark"] .card,html[data-theme="dark"] .article,html[data-theme="dark"] .selected-wrap,html[data-theme="dark"] .philosophy-card,html[data-theme="dark"] .cv-card{background:#202731;color:#edf1f6;border-color:#343c47}
+html[data-theme="dark"] .secondary{border-color:#596473;color:#edf1f6}
+html[data-theme="dark"] .secondary:hover,html[data-theme="dark"] .contact:hover{background:#2c3440}
+html[data-theme="dark"] .primary{background:#e7ecf4;color:#11151b}
+html[data-theme="dark"] .visual{background:#222a34;border-color:#343c47}
