@@ -191,3 +191,9 @@ body {
 .lec-viewer .overview .card.native-card small { color:#9de6dd !important; font-size:12px; }
 .lec-viewer .overview .card.native-card:hover,
 .lec-viewer .overview .card.native-card:focus-visible { background:#23465a !important; outline:3px solid #59d6c8; outline-offset:2px; }
+
+/* Full-fidelity PPTX: single original slide image replaces text-only approximation. */
+.original-slide-image { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; display:block; background:#f5f8fb; }
+.slide-image-error { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; padding:80px; background:#f5f8fb; color:#173a55; font-size:28px; }
+.lec-viewer .overview .card:not(.native-card) { color:#ecf7ff; }
+.lec-viewer .overview .card.native-card { color:#f7fbff !important; background:#182a3b !important; }
