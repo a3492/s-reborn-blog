@@ -1,0 +1,19 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout title="강연·자료" description="강연자별로 강세희 원장과 김도위 원장 강연의 실습·원본 자료를 안내합니다.">
+<link rel="stylesheet" href="/lecture-materials/hubs.css" />
+<main class="speaker-hub">
+  <nav class="crumb" aria-label="현재 위치"><strong>강연·자료</strong></nav>
+  <header><div class="kicker">S—REBORN · LECTURES & MATERIALS</div><h1>어느 강연 자료를 찾으시나요?</h1><p class="lead">강연자를 선택하면 해당 강연의 실습, 자료 다운로드, 진행표를 순서대로 확인할 수 있습니다.</p></header>
+  <section class="section">
+    <div class="grid">
+      <a class="grid-item" href="/lecture-materials/kang-sehee/"><strong>강세희 원장 강연</strong><p>Hermes Agent 설치부터 텔레그램 연결까지 · 60분 실습</p><small>강연 자료 보기 →</small></a>
+      <a class="grid-item" href="/lecture-materials/kim-dowi/"><strong>김도위 원장 강연</strong><p>AI를 활용한 병원 CRM 데이터 분석과 경영 도구 만들기</p><small>강연 자료 보기 →</small></a>
+    </div>
+  </section>
+  <section class="section">
+    <div class="archive-row"><div><strong>전체 강연 아카이브</strong><p>모든 실습 튜토리얼, 웹 강연, 기존 자료 모음</p></div><a href="/lecture-materials/archive/">전체 보기 →</a></div>
+  </section>
+</main>
+</Layout>
