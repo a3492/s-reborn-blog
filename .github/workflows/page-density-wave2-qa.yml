@@ -43,7 +43,7 @@ jobs:
         run: |
           npm install --no-save --package-lock=false playwright@1.58.2
           npx playwright install --with-deps chromium
-      - name: Compare 4 pages at 3 responsive widths
+      - name: Compare 4 pages at 4 responsive widths
         run: |
           set -eu
           mkdir -p /tmp/page-density-wave2
@@ -63,8 +63,8 @@ jobs:
           const browser=await chromium.launch({headless:true});
           const cases=[
             {slug:'lab',url:'/lab/',root:'.lab-page',target:'.lab-hub-card'},
-            {slug:'context-strategy',url:'/docs/context-strategy-plan/',root:'.wrap',target:'.grid .card'},
-            {slug:'context-worktree',url:'/docs/context-worktree-ops/',root:'.wrap',target:'.grid .card'},
+            {slug:'sitemap',url:'/sitemap/',root:'.sitemap-wrap',target:'.sm-cat'},
+            {slug:'generate',url:'/generate/',root:'.gen-wrap',target:'.gen-card'},
             {slug:'future-axes',url:'/docs/future-axes-plan/',root:'.wrap',target:'.grid .card'},
           ];
           const sizes=[[1440,900],[768,1024],[390,844],[320,720]];
