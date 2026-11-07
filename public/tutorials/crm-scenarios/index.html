@@ -5,7 +5,7 @@
 <title>김도위 원장 | 상황별 CRM AI 실습 — S-Reborn</title>
 <meta name="description" content="가상 상담 자료를 내려받아 ChatGPT로 환자 이해, 문의, 안전, 직원 교육, 매출 분석을 직접 연습하는 상황별 CRM 튜토리얼.">
 <style>
-:root{font-family:system-ui,-apple-system,"Noto Sans KR","Malgun Gothic",sans-serif;color:#182d3e;background:#f6f9fa;font-size:16px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;line-height:1.7}a{color:#12665f}button{font:inherit;cursor:pointer}header{background:#102d3d;color:#fff;padding:26px max(18px,calc((100% - 1050px)/2)) 30px}header a{color:#b6f2df}.eyebrow{font-size:.85rem;color:#b6e4d9;margin:0 0 10px}h1{font-size:clamp(1.7rem,3vw,2.5rem);line-height:1.3;letter-spacing:-.045em;margin:0 0 10px}header p{max-width:800px;margin:6px 0}main{max-width:1050px;padding:26px 18px 70px;margin:auto}h2{letter-spacing:-.035em;line-height:1.35;margin:0 0 12px;font-size:1.55rem}h3{letter-spacing:-.025em;margin:0 0 7px;font-size:1.2rem}p{margin:7px 0 12px}.muted{color:#536a78}.small{font-size:.88rem}.notice{border-left:4px solid #2d9e84;background:#eaf6f2;padding:12px 15px;margin:16px 0;border-radius:5px}.danger{border-left-color:#b35d48;background:#fff2ed}.card{background:#fff;border:1px solid #dbe5e9;border-radius:10px;padding:20px;margin:16px 0}.introgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.introgrid>div{background:#eaf2f2;padding:12px;border-radius:7px;font-size:.92rem}.scenario-nav{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:20px 0}.scenario-nav a{display:flex;flex-direction:column;text-decoration:none;border:1px solid #cfdde0;background:white;color:#173a49;border-radius:8px;padding:11px;line-height:1.4;min-height:100px}.scenario-nav a strong{color:#14756c;font-size:.85rem;margin-bottom:5px}.scenario-nav a:hover,.scenario-nav a:focus{border-color:#148b7f;outline:2px solid #bfece4}.scenario{scroll-margin-top:18px;background:white;border:1px solid #d9e4e7;border-radius:12px;padding:24px;margin:26px 0 34px}.scenario-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.pill{white-space:nowrap;color:#246a62;background:#e3f5ed;border-radius:5px;padding:3px 9px;font-size:.78rem}.sectionlabel{font-size:.78rem;font-weight:750;letter-spacing:.03em;color:#23776d;margin:14px 0 5px;text-transform:uppercase}.step{border-top:1px solid #e4eaed;padding:14px 0}.step:first-child{border:0}.actions{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid #14746b;border-radius:7px;background:#146e65;color:white;padding:9px 13px;text-decoration:none;font-weight:650;font-size:.9rem;min-height:41px}.btn.secondary{background:#fff;color:#146e65}.btn:hover{filter:brightness(.93)}.filename{display:block;overflow-wrap:anywhere;color:#60737c;font-size:.81rem;margin-top:6px}.preview{background:#f1f5f6;border:1px solid #e0e8ea;padding:12px 14px;border-radius:7px;margin:10px 0}.preview p:last-child{margin-bottom:0}.prompt{background:#f6f9f9;border:1px solid #d9e5e8;border-radius:7px;padding:12px;margin:12px 0}.prompt textarea{width:100%;min-height:120px;resize:vertical;border:1px solid #c6d6dc;padding:12px;border-radius:6px;font-size:.91rem;font-family:inherit;line-height:1.55;color:#273c45;background:#fff}.prompt .actions{justify-content:space-between;align-items:center;margin-bottom:0}.result{border-left:3px solid #148a78;background:#f3faf7;padding:11px 13px;margin:10px 0}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:.9rem}th,td{border-bottom:1px solid #dce7e9;padding:9px;text-align:left;vertical-align:top}th{background:#edf4f5}details{background:#f7f9fa;border:1px solid #dce6e9;border-radius:6px;padding:9px 12px;margin:9px 0}summary{cursor:pointer;font-weight:650}.jump{display:inline-block;margin:8px 0}.status{font-size:.85rem;color:#16675d;min-height:24px}.arch{border-top:1px solid #cadadd;padding-top:22px}footer{color:#647782;font-size:.85rem;margin-top:35px}.back{color:#badfd7;text-decoration:none}.quick{font-size:.88rem;color:#627880}@media(max-width:750px){.scenario-nav{grid-template-columns:repeat(2,1fr)}.introgrid{grid-template-columns:1fr}.scenario{padding:17px}.scenario-head{flex-wrap:wrap}header{padding:22px 18px 27px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+:root{font-family:system-ui,-apple-system,"Noto Sans KR","Malgun Gothic",sans-serif;color:#182d3e;background:#f6f9fa;font-size:16px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;line-height:1.7}a{color:#12665f}button{font:inherit;cursor:pointer}header{background:#102d3d;color:#fff;padding:26px max(18px,calc((100% - 1050px)/2)) 30px}header a{color:#b6f2df}.eyebrow{font-size:.85rem;color:#b6e4d9;margin:0 0 10px}h1{font-size:clamp(1.7rem,3vw,2.5rem);line-height:1.3;letter-spacing:-.045em;margin:0 0 10px}header p{max-width:800px;margin:6px 0}main{max-width:1050px;padding:26px 18px 70px;margin:auto}h2{letter-spacing:-.035em;line-height:1.35;margin:0 0 12px;font-size:1.55rem}h3{letter-spacing:-.025em;margin:0 0 7px;font-size:1.2rem}p{margin:7px 0 12px}.muted{color:#536a78}.small{font-size:.88rem}.notice{border-left:4px solid #2d9e84;background:#eaf6f2;padding:12px 15px;margin:16px 0;border-radius:5px}.danger{border-left-color:#b35d48;background:#fff2ed}.card{background:#fff;border:1px solid #dbe5e9;border-radius:10px;padding:20px;margin:16px 0}.introgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.introgrid>div{background:#eaf2f2;padding:12px;border-radius:7px;font-size:.92rem}.scenario-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:20px 0}.scenario-nav a{display:flex;flex-direction:column;text-decoration:none;border:1px solid #cfdde0;background:white;color:#173a49;border-radius:8px;padding:11px;line-height:1.4;min-height:100px}.scenario-nav a strong{color:#14756c;font-size:.85rem;margin-bottom:5px}.scenario-nav a:hover,.scenario-nav a:focus{border-color:#148b7f;outline:2px solid #bfece4}.scenario{scroll-margin-top:18px;background:white;border:1px solid #d9e4e7;border-radius:12px;padding:24px;margin:26px 0 34px}.scenario-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.pill{white-space:nowrap;color:#246a62;background:#e3f5ed;border-radius:5px;padding:3px 9px;font-size:.78rem}.sectionlabel{font-size:.78rem;font-weight:750;letter-spacing:.03em;color:#23776d;margin:14px 0 5px;text-transform:uppercase}.step{border-top:1px solid #e4eaed;padding:14px 0}.step:first-child{border:0}.actions{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid #14746b;border-radius:7px;background:#146e65;color:white;padding:9px 13px;text-decoration:none;font-weight:650;font-size:.9rem;min-height:41px}.btn.secondary{background:#fff;color:#146e65}.btn:hover{filter:brightness(.93)}.filename{display:block;overflow-wrap:anywhere;color:#60737c;font-size:.81rem;margin-top:6px}.preview{background:#f1f5f6;border:1px solid #e0e8ea;padding:12px 14px;border-radius:7px;margin:10px 0}.preview p:last-child{margin-bottom:0}.prompt{background:#f6f9f9;border:1px solid #d9e5e8;border-radius:7px;padding:12px;margin:12px 0}.prompt textarea{width:100%;min-height:120px;resize:vertical;border:1px solid #c6d6dc;padding:12px;border-radius:6px;font-size:.91rem;font-family:inherit;line-height:1.55;color:#273c45;background:#fff}.prompt .actions{justify-content:space-between;align-items:center;margin-bottom:0}.result{border-left:3px solid #148a78;background:#f3faf7;padding:11px 13px;margin:10px 0}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:.9rem}th,td{border-bottom:1px solid #dce7e9;padding:9px;text-align:left;vertical-align:top}th{background:#edf4f5}details{background:#f7f9fa;border:1px solid #dce6e9;border-radius:6px;padding:9px 12px;margin:9px 0}summary{cursor:pointer;font-weight:650}.jump{display:inline-block;margin:8px 0}.status{font-size:.85rem;color:#16675d;min-height:24px}.arch{border-top:1px solid #cadadd;padding-top:22px}footer{color:#647782;font-size:.85rem;margin-top:35px}.back{color:#badfd7;text-decoration:none}.quick{font-size:.88rem;color:#627880}.pain-library{margin:20px 0}.pain-library input{padding:10px;border:1px solid #bacdd1;border-radius:7px;font:inherit;max-width:100%;width:320px;background:white;color:inherit}.pain-filters{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}.pain-filter{border:1px solid #bfd2d5;border-radius:7px;background:white;color:#163d47;padding:9px 12px;font:inherit;font-size:.88rem}.pain-filter.is-active{background:#146e65;color:white}.pain-group{background:#fff;border:1px solid #dbe5e9;border-radius:9px;padding:14px;margin:12px 0}.pain-group h3{margin:0}.pain-group .scenario-nav{margin:10px 0}.pain-group .scenario-nav a{min-height:70px}.pain-heading{margin:24px 0 0;padding:12px 0;border-bottom:1px solid #dbe5e9}.pain-heading h2{font-size:1.25rem}.legacy-anchor{display:block;visibility:hidden;height:0}.pain-group[hidden],.pain-heading[hidden],.scenario[hidden],.scenario-link[hidden]{display:none!important}@media(max-width:750px){.scenario-nav{grid-template-columns:repeat(2,1fr)}.introgrid{grid-template-columns:1fr}.scenario{padding:17px}.scenario-head{flex-wrap:wrap}header{padding:22px 18px 27px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style></head>
 <body>
 <header>
@@ -13,29 +13,17 @@
 <p class="eyebrow">김도위 원장 · 대미레 2026.11.08 · 강연 1 CRM AI</p>
 <h1>병원에서 이런 상황이라면,<br>AI를 어떻게 활용할까요?</h1>
 <p>가상의 상담·시술·매출 기록을 직접 내려받아 ChatGPT로 정리해 봅니다. 각 실습에는 파일, 복사할 문장, 예상 결과, 확인할 점이 모두 들어 있습니다.</p>
-<p class="small">첫 방문이면 A부터 시작하세요. B–J는 관심 있는 상황을 골라 따로 실습해도 됩니다.</p>
+<p class="small">처음에는 P01-01부터 시작하세요. 이후 해결하고 싶은 문제 영역을 선택해 실습할 수 있습니다.</p>
 </header>
 <main>
 <div class="notice danger"><strong>실습은 제공된 가상 자료로만 진행합니다.</strong> 실제 환자의 이름·연락처·상담 녹취·복약·알레르기·진료정보를 외부 AI에 업로드하지 마세요. AI의 요약은 의학적 판단이나 확정 진료기록이 아닙니다.</div>
 <section class="card" aria-label="배우는 내용">
-<h2>오늘 배울 것은 네 가지입니다</h2>
+<h2>오늘 실습은 세 단계로 진행합니다</h2>
 <div class="introgrid"><div><b>자료 받기</b><br>AI가 읽을 가상 기록을 준비합니다.</div><div><b>AI에 부탁하기</b><br>무엇을 정리할지 정확히 말합니다.</div><div><b>검토하고 결정하기</b><br>원문과 비교한 뒤 다음 행동을 정합니다.</div></div>
 <p class="quick">여기서 ‘원문’은 처음 기록된 대화, ‘환자 이해 카드’는 필요한 내용을 뽑은 메모입니다. 자료를 받는 것과 AI 결과를 저장하는 것은 서로 다른 과정입니다.</p>
 </section>
-<nav class="scenario-nav" aria-label="열 가지 실습 시나리오">
-<a href="#A"><strong>시나리오 A · 추천</strong>상담 내용이 너무 많아요</a>
-<a href="#B"><strong>시나리오 B</strong>카톡 문의가 예약일까요?</a>
-<a href="#C"><strong>시나리오 C</strong>과거 불편감은 부작용일까요?</a>
-<a href="#D"><strong>시나리오 D</strong>같은 질문이 반복돼요</a>
-<a href="#E"><strong>시나리오 E</strong>매출이 높은 채널이 좋을까요?</a>
-<a href="#F"><strong>시나리오 F · 추가</strong>두피 검사</a>
-<a href="#G"><strong>시나리오 G · 추가</strong>피부 상태 검사</a>
-<a href="#H"><strong>시나리오 H · 추가</strong>원장 추천</a>
-<a href="#I"><strong>시나리오 I · 추가</strong>상담 후 미결정</a>
-<a href="#J"><strong>시나리오 J · 추가</strong>시술 후 문의</a>
-</nav>
-<section id="A" class="scenario">
-<div class="scenario-head"><div><p class="sectionlabel">시나리오 A · 첫 실습</p><h2>상담에서 이야기를 많이 했어요. 무엇을 남겨야 할까요?</h2></div><span class="pill">입문 · 전체 흐름</span></div>
+<section class="pain-library"><h2>어떤 문제가 있으신가요?</h2><p>페인 포인트를 선택하거나 검색해 실습을 찾으세요. 첫 실습은 <a href="#P01-01">P01-01 긴 상담 정리</a>를 추천합니다.</p><label for="scenario-search">시나리오 검색</label> <input id="scenario-search" type="search" placeholder="예약, 두피, 매출 등" aria-label="시나리오 검색"><div class="pain-filters" role="group" aria-label="문제 영역 선택"><button class="pain-filter is-active" data-filter="all" aria-pressed="true">전체 10개</button><button class="pain-filter" data-filter="P01" aria-pressed="false">P01 고객 이해·상담 준비 (4)</button><button class="pain-filter" data-filter="P02" aria-pressed="false">P02 문의·예약·결정 (2)</button><button class="pain-filter" data-filter="P03" aria-pressed="false">P03 의료 안전·사후관리 (2)</button><button class="pain-filter" data-filter="P04" aria-pressed="false">P04 직원·운영 개선 (1)</button><button class="pain-filter" data-filter="P05" aria-pressed="false">P05 경영·데이터 분석 (1)</button></div><p id="filter-status" role="status" aria-live="polite"></p><div class="pain-directory"><div class="pain-group" data-group="P01"><h3>P01 · 고객 이해·상담 준비</h3><p class="small muted">환자의 고민과 검사·시술 선호 파악</p><div class="scenario-nav"><a class="scenario-link" href="#P01-01"><strong>P01-01</strong>긴 상담 정리</a><a class="scenario-link" href="#P01-02"><strong>P01-02</strong>두피 검사 문의</a><a class="scenario-link" href="#P01-03"><strong>P01-03</strong>피부 상태 검사</a><a class="scenario-link" href="#P01-04"><strong>P01-04</strong>원장 추천 요청</a></div></div><div class="pain-group" data-group="P02"><h3>P02 · 문의·예약·결정</h3><p class="small muted">문의와 예약, 연락 의사를 구분</p><div class="scenario-nav"><a class="scenario-link" href="#P02-01"><strong>P02-01</strong>카카오톡 문의</a><a class="scenario-link" href="#P02-02"><strong>P02-02</strong>상담 후 미결정</a></div></div><div class="pain-group" data-group="P03"><h3>P03 · 의료 안전·사후관리</h3><p class="small muted">불편감과 확정된 의료 사실 구분</p><div class="scenario-nav"><a class="scenario-link" href="#P03-01"><strong>P03-01</strong>과거 불편감</a><a class="scenario-link" href="#P03-02"><strong>P03-02</strong>시술 후 문의</a></div></div><div class="pain-group" data-group="P04"><h3>P04 · 직원·운영 개선</h3><p class="small muted">반복 질문과 직원 교육</p><div class="scenario-nav"><a class="scenario-link" href="#P04-01"><strong>P04-01</strong>반복 질문 비교</a></div></div><div class="pain-group" data-group="P05"><h3>P05 · 경영·데이터 분석</h3><p class="small muted">매출과 광고 효율 구분</p><div class="scenario-nav"><a class="scenario-link" href="#P05-01"><strong>P05-01</strong>유입경로별 매출</a></div></div></div></section><div class="pain-heading" data-group="P01"><h2>P01 · 고객 이해·상담 준비</h2><p class="muted">환자의 고민과 검사·시술 선호 파악</p></div><span id="A" class="legacy-anchor" aria-hidden="true"></span><section id="P01-01" class="scenario" data-group="P01">
+<div class="scenario-head"><div><p class="sectionlabel">시나리오 P01-01 · 첫 실습</p><h2>상담에서 이야기를 많이 했어요. 무엇을 남겨야 할까요?</h2></div><span class="pill">입문 · 전체 흐름</span></div>
 <p>한 고객이 흉터와 리프팅을 이야기하다가 회복기간, 비용, 예전에 받았던 시술까지 질문합니다. 다음에 다른 직원이 상담하더라도 중요한 내용을 놓치지 않도록 정리해 보겠습니다.</p>
 <div class="step"><p class="sectionlabel">1 · 가상 대화 준비</p><h3>먼저 상담 기록을 받아 보세요.</h3>
 <p><b>왜 필요한가요?</b> AI는 상담실에서 있었던 대화를 저절로 알지 못합니다. 어떤 이야기를 정리할지 알려주기 위해 파일을 전달합니다.</p>
@@ -78,9 +66,56 @@
 예약·시술·결제를 확정하지 말고, 자동 연락이나 시술 추천은 하지 마세요.</textarea><div class="actions"><button class="btn copy" type="button">인계 메모 문장 복사하기</button><span class="status" role="status" aria-live="polite"></span></div></div>
 <div class="result"><b>완료했다면</b><p>‘회복이 중요한 고객의 말을 다음 직원에게 전하기’, ‘복약·알레르기 미확인 항목을 의료진이 다시 확인하기’처럼 실제 담당자의 다음 행동을 말할 수 있으면 됩니다.</p></div></div>
 </section>
-
-<section id="B" class="scenario">
-<div class="scenario-head"><div><p class="sectionlabel">시나리오 B · 문의와 예약</p><h2>카카오톡에서 가격을 물어봤어요. 예약한 고객일까요?</h2></div><span class="pill">입문</span></div>
+<span id="F" class="legacy-anchor" aria-hidden="true"></span><section id="P01-02" class="scenario" data-group="P01">
+<div class="scenario-head"><div><p class="sectionlabel">시나리오 P01-02 · 추가 실습</p><h2>머리가 많이 빠지는 것 같아요. 두피 검사를 받아야 할까요?</h2></div><span class="pill">독립 실습</span></div>
+<p>고객은 탈모 치료를 결정하려는 것이 아니라 두피 상태를 먼저 확인하고 싶어 합니다. 검사 희망, 치료 의사, 확정된 진단을 구별합니다.</p>
+<div class="step"><p class="sectionlabel">1 · 자료 다운로드</p><h3>이 상황의 가상 대화를 받아 보세요.</h3>
+<p><b>왜 받나요?</b> 고객이 원하는 첫 단계가 검사 설명인지 치료 결정인지 구분하고 의료진에게 전달할 질문을 준비합니다.</p><p><b>무엇이 들어 있나요?</b> 정수리가 비어 보인다는 걱정, 두피 검사 방법 문의, 복용약 이름과 과거 사용 제품 미확인, 예약 미확정이 들어 있습니다.</p>
+<div class="actions"><a class="btn download" href="/downloads/crm-scenarios/F_%EB%91%90%ED%94%BC%EC%83%81%EB%8B%B4_%EA%B0%80%EC%83%81%EB%8C%80%ED%99%94.txt" download="F_두피상담_가상대화.txt">가상 대화 파일 받기 (.txt)</a></div>
+<span class="filename">F_두피상담_가상대화.txt · 교육용 신규 합성 사례 · 실제 환자 기록 아님</span></div>
+<div class="step"><p class="sectionlabel">2 · ChatGPT 실습</p><h3>받은 파일을 첨부하고 요청문을 입력하세요.</h3>
+<p>ChatGPT 새 대화에서 파일을 첨부하고 아래 문장을 복사해 붙여넣습니다. AI가 원문을 읽었는지 확인한 뒤 결과를 살펴보세요.</p>
+<div class="actions"><a class="btn secondary" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">ChatGPT 열기 ↗</a></div>
+<div class="prompt"><b>AI 분석 요청문</b><textarea readonly>첨부 파일은 실제 환자 자료가 아닌 교육용 가상 두피 상담입니다. 고객이 직접 말한 증상·걱정, 두피 검사 희망 여부, 치료 희망 여부, 예약 확정 여부, 복용약·과거 사용 제품 중 미확인 항목을 구분한 표를 작성하세요. 모든 항목에 원문 발언을 근거로 붙이세요. 탈모 진단이나 치료 필요성을 추정하지 말고, 의료진이 확인할 질문 3개와 직원이 안내할 행정적 질문 2개를 제안하세요.</textarea><div class="actions"><button class="btn copy" type="button">분석 문장 복사하기</button><span class="status" role="status" aria-live="polite"></span></div></div>
+<div class="result"><b>예상 결과와 해석</b><p>두피 검사 과정을 먼저 알고 싶어 한다는 점은 확인되지만 탈모 진단, 검사 완료, 치료 동의, 예약 확정은 확인되지 않습니다.</p></div></div>
+<div class="step"><p class="sectionlabel">3 · 결과 검증</p><h3>원문과 비교해 보세요.</h3><p>검사에 관심을 보인 사실과 검사를 받았다는 사실을 구별했나요?</p>
+<div class="prompt"><b>원문 검토 요청문</b><textarea readonly>방금 작성한 분석표를 첨부한 가상 원문과 다시 비교해 주세요. 각 판단에 원문 근거가 있는지 확인하고, 없는 내용은 ‘미확인’으로 수정해 주세요. 고객의 직접 발언과 AI의 추측을 구분하고, 예약·시술·진단·복약·알레르기 상태를 임의로 확정하지 마세요. ‘기존 표현 / 근거 / 수정 표현’ 표를 만들어 주세요.</textarea><div class="actions"><button class="btn copy" type="button">검토 문장 복사하기</button><span class="status" role="status" aria-live="polite"></span></div></div></div>
+<div class="step"><p class="sectionlabel">4 · 병원에 적용할 질문</p><h3>다음에 무엇을 확인해야 할까요?</h3><div class="result"><p>우리 병원은 ‘검사 문의→검사 예약→검사 시행→의료진 평가’를 각각 기록하고 있나요?</p></div><p class="small muted">이 실습은 실제 환자 진단이나 자동 연락·시술 결정에 사용하지 않습니다.</p></div>
+</section>
+<span id="G" class="legacy-anchor" aria-hidden="true"></span><section id="P01-03" class="scenario" data-group="P01">
+<div class="scenario-head"><div><p class="sectionlabel">시나리오 P01-03 · 추가 실습</p><h2>피부가 민감한 것 같아요. 시술보다 검사를 먼저 받고 싶어요.</h2></div><span class="pill">독립 실습</span></div>
+<p>볼의 붉음과 각질을 이야기하지만 원인을 모르는 고객입니다. AI가 피부 상태를 진단하지 않고 다음 상담 질문을 정리하도록 연습합니다.</p>
+<div class="step"><p class="sectionlabel">1 · 자료 다운로드</p><h3>이 상황의 가상 대화를 받아 보세요.</h3>
+<p><b>왜 받나요?</b> 고객의 증상 호소와 의학적 진단, 검사 희망과 실제 검사 시행을 구분합니다.</p><p><b>무엇이 들어 있나요?</b> 붉음·각질에 대한 주관적 호소, 피부 검사 희망, 사용 제품 불확실, 검사 비용과 소요시간 문의가 들어 있습니다.</p>
+<div class="actions"><a class="btn download" href="/downloads/crm-scenarios/G_%ED%94%BC%EB%B6%80%EA%B2%80%EC%82%AC_%EA%B0%80%EC%83%81%EB%8C%80%ED%99%94.txt" download="G_피부검사_가상대화.txt">가상 대화 파일 받기 (.txt)</a></div>
+<span class="filename">G_피부검사_가상대화.txt · 교육용 신규 합성 사례 · 실제 환자 기록 아님</span></div>
+<div class="step"><p class="sectionlabel">2 · ChatGPT 실습</p><h3>받은 파일을 첨부하고 요청문을 입력하세요.</h3>
+<p>ChatGPT 새 대화에서 파일을 첨부하고 아래 문장을 복사해 붙여넣습니다. AI가 원문을 읽었는지 확인한 뒤 결과를 살펴보세요.</p>
+<div class="actions"><a class="btn secondary" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">ChatGPT 열기 ↗</a></div>
+<div class="prompt"><b>AI 분석 요청문</b><textarea readonly>첨부한 교육용 가상 피부 상담에서 고객이 직접 말한 피부 고민, 원하는 검사, 사용 제품과 과거 진단 중 확인되지 않은 정보, 검사 예약·시행 여부를 분리해 표로 작성하세요. 원문 근거를 짧게 제시하세요. 피부 질환명을 진단하거나 적합한 시술을 확정하지 마세요. 상담 직원에게 필요한 확인 질문 3개와 의료진이 직접 평가할 항목을 별도로 작성하세요.</textarea><div class="actions"><button class="btn copy" type="button">분석 문장 복사하기</button><span class="status" role="status" aria-live="polite"></span></div></div>
+<div class="result"><b>예상 결과와 해석</b><p>고객이 붉음·각질을 호소하며 피부 상태 평가를 희망한 사실은 확인되지만, 질환명·원인·검사 결과는 알 수 없습니다.</p></div></div>
+<div class="step"><p class="sectionlabel">3 · 결과 검증</p><h3>원문과 비교해 보세요.</h3><p>‘피부가 민감하다’는 고객 표현을 확정 진단으로 바꾸지 않았나요?</p>
+<div class="prompt"><b>원문 검토 요청문</b><textarea readonly>방금 작성한 분석표를 첨부한 가상 원문과 다시 비교해 주세요. 각 판단에 원문 근거가 있는지 확인하고, 없는 내용은 ‘미확인’으로 수정해 주세요. 고객의 직접 발언과 AI의 추측을 구분하고, 예약·시술·진단·복약·알레르기 상태를 임의로 확정하지 마세요. ‘기존 표현 / 근거 / 수정 표현’ 표를 만들어 주세요.</textarea><div class="actions"><button class="btn copy" type="button">검토 문장 복사하기</button><span class="status" role="status" aria-live="polite"></span></div></div></div>
+<div class="step"><p class="sectionlabel">4 · 병원에 적용할 질문</p><h3>다음에 무엇을 확인해야 할까요?</h3><div class="result"><p>검사 희망 고객에게 설명해야 할 비용·시간·검사 범위는 정리되어 있나요?</p></div><p class="small muted">이 실습은 실제 환자 진단이나 자동 연락·시술 결정에 사용하지 않습니다.</p></div>
+</section>
+<span id="H" class="legacy-anchor" aria-hidden="true"></span><section id="P01-04" class="scenario" data-group="P01">
+<div class="scenario-head"><div><p class="sectionlabel">시나리오 P01-04 · 추가 실습</p><h2>시술을 정해 온 게 아니에요. 원장님 추천을 받고 싶어요.</h2></div><span class="pill">독립 실습</span></div>
+<p>고객이 장비 이름을 들었지만 그 시술을 선택한 것은 아닙니다. 원하는 변화와 피하고 싶은 변화, 의사결정 방식을 구분합니다.</p>
+<div class="step"><p class="sectionlabel">1 · 자료 다운로드</p><h3>이 상황의 가상 대화를 받아 보세요.</h3>
+<p><b>왜 받나요?</b> 환자의 선호와 진료 요청을 정확히 전달하고 시술 동의로 오해하지 않도록 합니다.</p><p><b>무엇이 들어 있나요?</b> 자연스러운 변화 선호, 다음 날 일정, 특정 장비에 대한 불확실성, 원장에게 선택지 설명을 듣고 싶다는 요청이 들어 있습니다.</p>
+<div class="actions"><a class="btn download" href="/downloads/crm-scenarios/H_%EC%8B%9C%EC%88%A0%EC%B6%94%EC%B2%9C%EB%B0%A9%EC%8B%9D_%EA%B0%80%EC%83%81%EB%8C%80%ED%99%94.txt" download="H_시술추천방식_가상대화.txt">가상 대화 파일 받기 (.txt)</a></div>
+<span class="filename">H_시술추천방식_가상대화.txt · 교육용 신규 합성 사례 · 실제 환자 기록 아님</span></div>
+<div class="step"><p class="sectionlabel">2 · ChatGPT 실습</p><h3>받은 파일을 첨부하고 요청문을 입력하세요.</h3>
+<p>ChatGPT 새 대화에서 파일을 첨부하고 아래 문장을 복사해 붙여넣습니다. AI가 원문을 읽었는지 확인한 뒤 결과를 살펴보세요.</p>
+<div class="actions"><a class="btn secondary" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">ChatGPT 열기 ↗</a></div>
+<div class="prompt"><b>AI 분석 요청문</b><textarea readonly>첨부한 가상 상담에서 고객이 원하는 변화, 피하고 싶은 변화, 일정 제약, 특정 시술을 이미 결정했는지, 원장에게 어떤 설명을 원하는지 각각 정리하세요. 환자 직접 발언을 근거로 제시하세요. 고객이 특정 시술에 동의했다고 추측하지 마세요. 의료진에게 전달할 상담 요약 5줄과 확인할 질문 3개를 작성하고, 실제 적합성 판단은 의료진 몫임을 표시하세요.</textarea><div class="actions"><button class="btn copy" type="button">분석 문장 복사하기</button><span class="status" role="status" aria-live="polite"></span></div></div>
+<div class="result"><b>예상 결과와 해석</b><p>자연스러운 변화와 일정이 중요하고 원장에게 선택지를 설명받기를 원하지만, 특정 시술은 선택하지 않았다는 카드가 나옵니다.</p></div></div>
+<div class="step"><p class="sectionlabel">3 · 결과 검증</p><h3>원문과 비교해 보세요.</h3><p>‘원장 추천을 받고 싶다’를 ‘원장 추천 시술에 동의했다’로 바꾸지 않았나요?</p>
+<div class="prompt"><b>원문 검토 요청문</b><textarea readonly>방금 작성한 분석표를 첨부한 가상 원문과 다시 비교해 주세요. 각 판단에 원문 근거가 있는지 확인하고, 없는 내용은 ‘미확인’으로 수정해 주세요. 고객의 직접 발언과 AI의 추측을 구분하고, 예약·시술·진단·복약·알레르기 상태를 임의로 확정하지 마세요. ‘기존 표현 / 근거 / 수정 표현’ 표를 만들어 주세요.</textarea><div class="actions"><button class="btn copy" type="button">검토 문장 복사하기</button><span class="status" role="status" aria-live="polite"></span></div></div></div>
+<div class="step"><p class="sectionlabel">4 · 병원에 적용할 질문</p><h3>다음에 무엇을 확인해야 할까요?</h3><div class="result"><p>우리 병원 상담 기록에는 고객이 원하는 상담 방식과 피하고 싶은 결과가 남나요?</p></div><p class="small muted">이 실습은 실제 환자 진단이나 자동 연락·시술 결정에 사용하지 않습니다.</p></div>
+</section>
+<div class="pain-heading" data-group="P02"><h2>P02 · 문의·예약·결정</h2><p class="muted">문의와 예약, 연락 의사를 구분</p></div><span id="B" class="legacy-anchor" aria-hidden="true"></span><section id="P02-01" class="scenario" data-group="P02">
+<div class="scenario-head"><div><p class="sectionlabel">시나리오 P02-01 · 문의와 예약</p><h2>카카오톡에서 가격을 물어봤어요. 예약한 고객일까요?</h2></div><span class="pill">입문</span></div>
 <p>보톡스와 고주파 비용, 상담만 먼저 받을 수 있는지, 가능한 시간을 물어본 가상 카카오톡 문의입니다. 질문을 했다는 사실과 예약을 확정했다는 사실은 다릅니다.</p>
 <div class="step"><h3>1. 문의 기록을 내려받으세요.</h3><p>이 TXT 파일은 카카오톡 문의 내용을 글로 정리한 가상 자료입니다. 접수 시간, 고객관리키, 상담 내용이 있지만 예약 완료를 입증하는 파일은 아닙니다.</p>
 <div class="actions"><a class="btn download" href="/downloads/consult-archive/items/B01-E001_%EB%85%B9%EC%B7%A8%ED%98%95.txt" download>카카오톡 문의 파일 받기 (.txt)</a></div>
@@ -95,9 +130,24 @@
 <div class="result"><b>예상 결과와 해석</b><p>보톡스·고주파 비용, 상담 가능 여부, 시간 문의는 확인됩니다. 예약·시술·결제 완료는 확인할 수 없습니다. 따라서 문의 수를 예약 수로 계산하면 안 됩니다.</p></div></div>
 <div class="step"><h3>3. 우리 병원에 적용할 질문</h3><p>“문의한 고객이 실제로 예약했는지 확인하려면 어떤 시스템 기록이나 연결 번호가 필요할까요?” 기록이 없으면 AI도 알 수 없습니다.</p></div>
 </section>
-
-<section id="C" class="scenario">
-<div class="scenario-head"><div><p class="sectionlabel">시나리오 C · 안전과 근거</p><h2>전에 불편한 적이 있다는데, 부작용으로 기록해도 될까요?</h2></div><span class="pill">중급</span></div>
+<span id="I" class="legacy-anchor" aria-hidden="true"></span><section id="P02-02" class="scenario" data-group="P02">
+<div class="scenario-head"><div><p class="sectionlabel">시나리오 P02-02 · 추가 실습</p><h2>상담은 받았지만 아직 결정하지 않았어요. 어떻게 기록할까요?</h2></div><span class="pill">독립 실습</span></div>
+<p>고객은 일정과 비용을 더 생각해 보고 싶고 먼저 연락하지 말아 달라고 했습니다. ‘미결정’의 이유와 연락 의사를 분리해 기록합니다.</p>
+<div class="step"><p class="sectionlabel">1 · 자료 다운로드</p><h3>이 상황의 가상 대화를 받아 보세요.</h3>
+<p><b>왜 받나요?</b> 미결정 고객을 무조건 거절이나 불만으로 분류하지 않고 연락 선호를 존중합니다.</p><p><b>무엇이 들어 있나요?</b> 회복기간과 비용에 대한 고민, 당일 예약 보류, 다음 주 재문의 가능성, 먼저 연락하지 말라는 요청이 있습니다.</p>
+<div class="actions"><a class="btn download" href="/downloads/crm-scenarios/I_%EC%83%81%EB%8B%B4%ED%9B%84%EB%AF%B8%EA%B2%B0%EC%A0%95_%EA%B0%80%EC%83%81%EB%8C%80%ED%99%94.txt" download="I_상담후미결정_가상대화.txt">가상 대화 파일 받기 (.txt)</a></div>
+<span class="filename">I_상담후미결정_가상대화.txt · 교육용 신규 합성 사례 · 실제 환자 기록 아님</span></div>
+<div class="step"><p class="sectionlabel">2 · ChatGPT 실습</p><h3>받은 파일을 첨부하고 요청문을 입력하세요.</h3>
+<p>ChatGPT 새 대화에서 파일을 첨부하고 아래 문장을 복사해 붙여넣습니다. AI가 원문을 읽었는지 확인한 뒤 결과를 살펴보세요.</p>
+<div class="actions"><a class="btn secondary" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">ChatGPT 열기 ↗</a></div>
+<div class="prompt"><b>AI 분석 요청문</b><textarea readonly>첨부한 교육용 가상 상담에서 고객의 결정 상태, 고객이 직접 말한 고려사항, 예약 확정 여부, 향후 연락 의사와 직원이 지켜야 할 연락 제한을 정리하세요. 모든 항목에 원문 근거를 제시하세요. 고객이 거절했다거나 가격이 유일한 이유라고 추정하지 마세요. ‘먼저 연락하지 말아 달라’는 의사를 명확히 보존하세요. 직원 인계용 5줄 메모와 상담 기록에 필요한 상태 필드를 제안하되 자동 메시지 발송은 제안하지 마세요.</textarea><div class="actions"><button class="btn copy" type="button">분석 문장 복사하기</button><span class="status" role="status" aria-live="polite"></span></div></div>
+<div class="result"><b>예상 결과와 해석</b><p>현재는 미결정이며, 고객이 스스로 재문의할 수 있지만 병원 측 선제 연락은 원하지 않는다는 기록이 나옵니다.</p></div></div>
+<div class="step"><p class="sectionlabel">3 · 결과 검증</p><h3>원문과 비교해 보세요.</h3><p>재문의 가능성을 예약으로, 연락 거부를 후속 연락 동의로 바꾸지 않았나요?</p>
+<div class="prompt"><b>원문 검토 요청문</b><textarea readonly>방금 작성한 분석표를 첨부한 가상 원문과 다시 비교해 주세요. 각 판단에 원문 근거가 있는지 확인하고, 없는 내용은 ‘미확인’으로 수정해 주세요. 고객의 직접 발언과 AI의 추측을 구분하고, 예약·시술·진단·복약·알레르기 상태를 임의로 확정하지 마세요. ‘기존 표현 / 근거 / 수정 표현’ 표를 만들어 주세요.</textarea><div class="actions"><button class="btn copy" type="button">검토 문장 복사하기</button><span class="status" role="status" aria-live="polite"></span></div></div></div>
+<div class="step"><p class="sectionlabel">4 · 병원에 적용할 질문</p><h3>다음에 무엇을 확인해야 할까요?</h3><div class="result"><p>상담 기록에 미결정 이유와 연락 허용 여부를 별도 항목으로 남기고 있나요?</p></div><p class="small muted">이 실습은 실제 환자 진단이나 자동 연락·시술 결정에 사용하지 않습니다.</p></div>
+</section>
+<div class="pain-heading" data-group="P03"><h2>P03 · 의료 안전·사후관리</h2><p class="muted">불편감과 확정된 의료 사실 구분</p></div><span id="C" class="legacy-anchor" aria-hidden="true"></span><section id="P03-01" class="scenario" data-group="P03">
+<div class="scenario-head"><div><p class="sectionlabel">시나리오 P03-01 · 안전과 근거</p><h2>전에 불편한 적이 있다는데, 부작용으로 기록해도 될까요?</h2></div><span class="pill">중급</span></div>
 <p>고객이 과거에 불편했던 기억을 말했지만 정확한 시술명과 원인은 확인되지 않았습니다. 기억, 진료기록, 의학적 평가가 어떻게 다른지 살펴봅니다.</p>
 <div class="step"><h3>1. 두 가상 사례를 각각 살펴보세요.</h3><p><b>첫 파일:</b> 과거 불편감에 대한 재진 상담 대화입니다. <b>두 번째 파일:</b> 다른 고객의 울쎄라 시술 전 확인 메모입니다. 두 사람을 같은 환자로 합치지 마세요.</p>
 <div class="actions"><a class="btn download" href="/downloads/consult-archive/items/B02-L02_%EB%B6%80%EC%9E%91%EC%9A%A9%EA%B1%B1%EC%A0%95%EC%9E%AC%EC%A7%84_B01-C009_%EB%85%B9%EC%B7%A8%ED%98%95.md" download>재진 상담 파일 받기</a><a class="btn secondary download" href="/downloads/procedure-archive/items/P-001_%EC%8B%9C%EC%88%A0%EC%A0%84%EC%B2%B4%ED%81%AC_%EC%9A%B8%EC%8E%84%EB%9D%BC.txt" download>별도 시술 전 메모 받기</a></div>
@@ -115,9 +165,24 @@
 <div class="result"><b>예상 결과와 해석</b><p>재진 상담에서는 과거 불편 경험의 원인이 미확인이라는 점, 시술 전 메모에서는 약물명·알레르기·동의서 및 계획 확인이 필요하다는 점이 분리됩니다. 이 표는 의료진의 문진·진료 판단을 대신하지 않습니다.</p></div></div>
 <div class="step"><h3>3. 우리 병원에 적용할 질문</h3><p>“환자가 기억하는 내용과 확인된 의무기록이 다를 때, 누가 어떤 절차로 다시 확인하나요?”</p></div>
 </section>
-
-<section id="D" class="scenario">
-<div class="scenario-head"><div><p class="sectionlabel">시나리오 D · 여러 상담과 직원 교육</p><h2>여러 고객이 비슷한 질문을 합니다. 무엇부터 설명을 바꾸면 좋을까요?</h2></div><span class="pill">중급 · 확장</span></div>
+<span id="J" class="legacy-anchor" aria-hidden="true"></span><section id="P03-02" class="scenario" data-group="P03">
+<div class="scenario-head"><div><p class="sectionlabel">시나리오 P03-02 · 추가 실습</p><h2>시술 후 불편하다고 연락이 왔어요. 무엇을 먼저 전달할까요?</h2></div><span class="pill">독립 실습</span></div>
+<p>시술 후 불편감 문의가 들어왔습니다. AI가 정상 반응이라고 판단하는 것이 아니라, 의료진에게 빠르게 전달할 정보를 정리합니다.</p>
+<div class="step"><p class="sectionlabel">1 · 자료 다운로드</p><h3>이 상황의 가상 대화를 받아 보세요.</h3>
+<p><b>왜 받나요?</b> 환자 진술과 확인되지 않은 정보를 구분해 의료진 평가로 연결하는 안전한 인계 흐름을 연습합니다.</p><p><b>무엇이 들어 있나요?</b> 시술 다음 날 붉음과 불편감, 발생 시점, 증상 변화의 불확실성, 추가 관리 안내 요청이 포함되어 있습니다.</p>
+<div class="actions"><a class="btn download" href="/downloads/crm-scenarios/J_%EC%8B%9C%EC%88%A0%ED%9B%84%EB%AC%B8%EC%9D%98_%EA%B0%80%EC%83%81%EB%8C%80%ED%99%94.txt" download="J_시술후문의_가상대화.txt">가상 대화 파일 받기 (.txt)</a></div>
+<span class="filename">J_시술후문의_가상대화.txt · 교육용 신규 합성 사례 · 실제 환자 기록 아님</span></div>
+<div class="step"><p class="sectionlabel">2 · ChatGPT 실습</p><h3>받은 파일을 첨부하고 요청문을 입력하세요.</h3>
+<p>ChatGPT 새 대화에서 파일을 첨부하고 아래 문장을 복사해 붙여넣습니다. AI가 원문을 읽었는지 확인한 뒤 결과를 살펴보세요.</p>
+<div class="actions"><a class="btn secondary" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">ChatGPT 열기 ↗</a></div>
+<div class="prompt"><b>AI 분석 요청문</b><textarea readonly>첨부 파일은 교육용 가상 시술 후 문의 기록입니다. 환자가 직접 말한 증상, 시작 시점, 변화 여부, 사진 등 확인되지 않은 정보, 의료진에게 즉시 전달할 질문을 구분해 주세요. 증상이 정상인지 합병증인지 판단하거나 치료법을 지시하지 마세요. 의료진에게 전달할 간결한 인계 메모를 작성하고, 증상이 빠르게 악화되거나 심한 통증·호흡곤란 등 위험 징후가 있을 경우 즉시 의료진 또는 응급의료 평가가 필요하다는 안전 안내를 포함하세요. 실제 환자에게 자동 답장하지 마세요.</textarea><div class="actions"><button class="btn copy" type="button">분석 문장 복사하기</button><span class="status" role="status" aria-live="polite"></span></div></div>
+<div class="result"><b>예상 결과와 해석</b><p>불편감이 있다는 환자 진술과 아직 확인되지 않은 증상 변화가 분리되고, 의료진 확인을 위한 인계 메모가 작성됩니다.</p></div></div>
+<div class="step"><p class="sectionlabel">3 · 결과 검증</p><h3>원문과 비교해 보세요.</h3><p>AI가 원문에 없는 진단·원인·치료 지시를 만들어내지 않았나요?</p>
+<div class="prompt"><b>원문 검토 요청문</b><textarea readonly>방금 작성한 분석표를 첨부한 가상 원문과 다시 비교해 주세요. 각 판단에 원문 근거가 있는지 확인하고, 없는 내용은 ‘미확인’으로 수정해 주세요. 고객의 직접 발언과 AI의 추측을 구분하고, 예약·시술·진단·복약·알레르기 상태를 임의로 확정하지 마세요. ‘기존 표현 / 근거 / 수정 표현’ 표를 만들어 주세요.</textarea><div class="actions"><button class="btn copy" type="button">검토 문장 복사하기</button><span class="status" role="status" aria-live="polite"></span></div></div></div>
+<div class="step"><p class="sectionlabel">4 · 병원에 적용할 질문</p><h3>다음에 무엇을 확인해야 할까요?</h3><div class="result"><p>우리 병원은 시술 후 문의를 누가 받고, 언제 의료진에게 인계하며, 어떤 내용을 기록하나요?</p></div><p class="small muted">이 실습은 실제 환자 진단이나 자동 연락·시술 결정에 사용하지 않습니다.</p></div>
+</section>
+<div class="pain-heading" data-group="P04"><h2>P04 · 직원·운영 개선</h2><p class="muted">반복 질문과 직원 교육</p></div><span id="D" class="legacy-anchor" aria-hidden="true"></span><section id="P04-01" class="scenario" data-group="P04">
+<div class="scenario-head"><div><p class="sectionlabel">시나리오 P04-01 · 여러 상담과 직원 교육</p><h2>여러 고객이 비슷한 질문을 합니다. 무엇부터 설명을 바꾸면 좋을까요?</h2></div><span class="pill">중급 · 확장</span></div>
 <p>한 사례만으로 병원의 전체 문제를 알 수는 없습니다. 서로 다른 가상 상담 두 건을 비교해 반복해서 나오는 질문의 <em>종류</em>를 확인합니다.</p>
 <div class="step"><h3>1. 가상 상담 두 건을 준비하세요.</h3><p>A의 초진 발췌본과 C의 재진 상담은 <b>서로 다른 고객</b>입니다. 두 자료를 같은 대화에 첨부하고, 상담별로 따로 정리합니다.</p>
 <div class="actions"><a class="btn download" href="/downloads/crm-scenarios/B02-L01_%EA%B0%80%EC%83%81%EC%83%81%EB%8B%B4_%EB%B0%9C%EC%B7%8C%EB%B3%B8.txt" download>초진 사례 파일 받기</a><a class="btn secondary download" href="/downloads/consult-archive/items/B02-L02_%EB%B6%80%EC%9E%91%EC%9A%A9%EA%B1%B1%EC%A0%95%EC%9E%AC%EC%A7%84_B01-C009_%EB%85%B9%EC%B7%A8%ED%98%95.md" download>재진 사례 파일 받기</a></div></div>
@@ -133,9 +198,8 @@
 고객에게 정확히 확인할 질문과 의료진에게 전달할 질문을 구분하고, 증거가 없는 시술 효과·회복기간·금액은 단정하지 마세요.
 각 질문이 어떤 가상 대화에서 나왔는지 표시하고, 실제 병원 교육에 적용하기 전에 검토할 사항을 덧붙이세요.</textarea><div class="actions"><button class="btn copy" type="button">직원 안내문 문장 복사하기</button><span class="status" role="status" aria-live="polite"></span></div></div></div>
 </section>
-
-<section id="E" class="scenario">
-<div class="scenario-head"><div><p class="sectionlabel">시나리오 E · 방문 매출과 경영 결정</p><h2>매출이 많이 잡힌 유입경로에 광고비를 더 써도 될까요?</h2></div><span class="pill">중급 · 경영</span></div>
+<div class="pain-heading" data-group="P05"><h2>P05 · 경영·데이터 분석</h2><p class="muted">매출과 광고 효율 구분</p></div><span id="E" class="legacy-anchor" aria-hidden="true"></span><section id="P05-01" class="scenario" data-group="P05">
+<div class="scenario-head"><div><p class="sectionlabel">시나리오 P05-01 · 방문 매출과 경영 결정</p><h2>매출이 많이 잡힌 유입경로에 광고비를 더 써도 될까요?</h2></div><span class="pill">중급 · 경영</span></div>
 <p>가상 방문·매출 엑셀에서 유입경로별 방문 건수와 결제금액을 계산합니다. 많이 기록된 금액과 광고 효율은 같은 뜻이 아닙니다.</p>
 <div class="step"><h3>1. 가상 CRM 엑셀을 준비하세요.</h3><p>2026년 10월 방문·매출을 연습용으로 만든 파일입니다. 실제 병원 CRM에서 추출한 파일이 아닙니다. ‘방문시술매출’과 ‘필드설명’ 두 시트가 있으며 한 데이터 행은 방문 한 건입니다.</p>
 <div class="actions"><a class="btn download" href="/downloads/daemire-1108/2026%EB%85%8410%EC%9B%94_%EB%B0%A9%EB%AC%B8%EC%8B%9C%EC%88%A0%EB%A7%A4%EC%B6%9C_CRM.xlsx" download>가상 방문·매출 엑셀 받기 (.xlsx)</a></div><p class="small muted">상담 아카이브 고객과 같은 사람이라고 연결할 수 있는 확인된 키는 없습니다.</p></div>
@@ -148,88 +212,7 @@
 마지막에 확인된 사실 두 개, 아직 모르는 사실 두 개, 다음 경영회의 전에 확보할 자료 세 개를 쉬운 말로 정리해 주세요.</textarea><div class="actions"><button class="btn copy" type="button">매출 분석 문장 복사하기</button><span class="status" role="status" aria-live="polite"></span></div></div>
 <div class="result"><b>검산 기준(교육용 파일의 확인된 수치)</b><p><b>전체 방문 200건 · 고유 고객 141명 · 결제금액 합계 57,060,000원 · 최초유입경로 6개</b></p><p><b>해석:</b> 채널별로 기록된 매출은 비교할 수 있지만 광고비, 원가, 유입 기여도 자료가 없으면 어느 광고가 더 효율적인지 결론 낼 수 없습니다.</p></div></div>
 <div class="step"><h3>3. 경영 결정으로 이어가기</h3><p>“다음 달 광고비를 바꾸기 전에 무엇을 더 확인해야 할까?”라는 질문을 만들어 보세요. AI가 제시한 분석은 의사결정의 근거를 준비하는 과정이지 매출 상승을 보장하는 결과가 아닙니다.</p></div>
-</section>
-<section id="F" class="scenario">
-<div class="scenario-head"><div><p class="sectionlabel">시나리오 F · 추가 실습</p><h2>머리가 많이 빠지는 것 같아요. 두피 검사를 받아야 할까요?</h2></div><span class="pill">독립 실습</span></div>
-<p>고객은 탈모 치료를 결정하려는 것이 아니라 두피 상태를 먼저 확인하고 싶어 합니다. 검사 희망, 치료 의사, 확정된 진단을 구별합니다.</p>
-<div class="step"><p class="sectionlabel">1 · 자료 다운로드</p><h3>이 상황의 가상 대화를 받아 보세요.</h3>
-<p><b>왜 받나요?</b> 고객이 원하는 첫 단계가 검사 설명인지 치료 결정인지 구분하고 의료진에게 전달할 질문을 준비합니다.</p><p><b>무엇이 들어 있나요?</b> 정수리가 비어 보인다는 걱정, 두피 검사 방법 문의, 복용약 이름과 과거 사용 제품 미확인, 예약 미확정이 들어 있습니다.</p>
-<div class="actions"><a class="btn download" href="/downloads/crm-scenarios/F_%EB%91%90%ED%94%BC%EC%83%81%EB%8B%B4_%EA%B0%80%EC%83%81%EB%8C%80%ED%99%94.txt" download="F_두피상담_가상대화.txt">가상 대화 파일 받기 (.txt)</a></div>
-<span class="filename">F_두피상담_가상대화.txt · 교육용 신규 합성 사례 · 실제 환자 기록 아님</span></div>
-<div class="step"><p class="sectionlabel">2 · ChatGPT 실습</p><h3>받은 파일을 첨부하고 요청문을 입력하세요.</h3>
-<p>ChatGPT 새 대화에서 파일을 첨부하고 아래 문장을 복사해 붙여넣습니다. AI가 원문을 읽었는지 확인한 뒤 결과를 살펴보세요.</p>
-<div class="actions"><a class="btn secondary" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">ChatGPT 열기 ↗</a></div>
-<div class="prompt"><b>AI 분석 요청문</b><textarea readonly>첨부 파일은 실제 환자 자료가 아닌 교육용 가상 두피 상담입니다. 고객이 직접 말한 증상·걱정, 두피 검사 희망 여부, 치료 희망 여부, 예약 확정 여부, 복용약·과거 사용 제품 중 미확인 항목을 구분한 표를 작성하세요. 모든 항목에 원문 발언을 근거로 붙이세요. 탈모 진단이나 치료 필요성을 추정하지 말고, 의료진이 확인할 질문 3개와 직원이 안내할 행정적 질문 2개를 제안하세요.</textarea><div class="actions"><button class="btn copy" type="button">분석 문장 복사하기</button><span class="status" role="status" aria-live="polite"></span></div></div>
-<div class="result"><b>예상 결과와 해석</b><p>두피 검사 과정을 먼저 알고 싶어 한다는 점은 확인되지만 탈모 진단, 검사 완료, 치료 동의, 예약 확정은 확인되지 않습니다.</p></div></div>
-<div class="step"><p class="sectionlabel">3 · 결과 검증</p><h3>원문과 비교해 보세요.</h3><p>검사에 관심을 보인 사실과 검사를 받았다는 사실을 구별했나요?</p>
-<div class="prompt"><b>원문 검토 요청문</b><textarea readonly>방금 작성한 분석표를 첨부한 가상 원문과 다시 비교해 주세요. 각 판단에 원문 근거가 있는지 확인하고, 없는 내용은 ‘미확인’으로 수정해 주세요. 고객의 직접 발언과 AI의 추측을 구분하고, 예약·시술·진단·복약·알레르기 상태를 임의로 확정하지 마세요. ‘기존 표현 / 근거 / 수정 표현’ 표를 만들어 주세요.</textarea><div class="actions"><button class="btn copy" type="button">검토 문장 복사하기</button><span class="status" role="status" aria-live="polite"></span></div></div></div>
-<div class="step"><p class="sectionlabel">4 · 병원에 적용할 질문</p><h3>다음에 무엇을 확인해야 할까요?</h3><div class="result"><p>우리 병원은 ‘검사 문의→검사 예약→검사 시행→의료진 평가’를 각각 기록하고 있나요?</p></div><p class="small muted">이 실습은 실제 환자 진단이나 자동 연락·시술 결정에 사용하지 않습니다.</p></div>
-</section>
-<section id="G" class="scenario">
-<div class="scenario-head"><div><p class="sectionlabel">시나리오 G · 추가 실습</p><h2>피부가 민감한 것 같아요. 시술보다 검사를 먼저 받고 싶어요.</h2></div><span class="pill">독립 실습</span></div>
-<p>볼의 붉음과 각질을 이야기하지만 원인을 모르는 고객입니다. AI가 피부 상태를 진단하지 않고 다음 상담 질문을 정리하도록 연습합니다.</p>
-<div class="step"><p class="sectionlabel">1 · 자료 다운로드</p><h3>이 상황의 가상 대화를 받아 보세요.</h3>
-<p><b>왜 받나요?</b> 고객의 증상 호소와 의학적 진단, 검사 희망과 실제 검사 시행을 구분합니다.</p><p><b>무엇이 들어 있나요?</b> 붉음·각질에 대한 주관적 호소, 피부 검사 희망, 사용 제품 불확실, 검사 비용과 소요시간 문의가 들어 있습니다.</p>
-<div class="actions"><a class="btn download" href="/downloads/crm-scenarios/G_%ED%94%BC%EB%B6%80%EA%B2%80%EC%82%AC_%EA%B0%80%EC%83%81%EB%8C%80%ED%99%94.txt" download="G_피부검사_가상대화.txt">가상 대화 파일 받기 (.txt)</a></div>
-<span class="filename">G_피부검사_가상대화.txt · 교육용 신규 합성 사례 · 실제 환자 기록 아님</span></div>
-<div class="step"><p class="sectionlabel">2 · ChatGPT 실습</p><h3>받은 파일을 첨부하고 요청문을 입력하세요.</h3>
-<p>ChatGPT 새 대화에서 파일을 첨부하고 아래 문장을 복사해 붙여넣습니다. AI가 원문을 읽었는지 확인한 뒤 결과를 살펴보세요.</p>
-<div class="actions"><a class="btn secondary" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">ChatGPT 열기 ↗</a></div>
-<div class="prompt"><b>AI 분석 요청문</b><textarea readonly>첨부한 교육용 가상 피부 상담에서 고객이 직접 말한 피부 고민, 원하는 검사, 사용 제품과 과거 진단 중 확인되지 않은 정보, 검사 예약·시행 여부를 분리해 표로 작성하세요. 원문 근거를 짧게 제시하세요. 피부 질환명을 진단하거나 적합한 시술을 확정하지 마세요. 상담 직원에게 필요한 확인 질문 3개와 의료진이 직접 평가할 항목을 별도로 작성하세요.</textarea><div class="actions"><button class="btn copy" type="button">분석 문장 복사하기</button><span class="status" role="status" aria-live="polite"></span></div></div>
-<div class="result"><b>예상 결과와 해석</b><p>고객이 붉음·각질을 호소하며 피부 상태 평가를 희망한 사실은 확인되지만, 질환명·원인·검사 결과는 알 수 없습니다.</p></div></div>
-<div class="step"><p class="sectionlabel">3 · 결과 검증</p><h3>원문과 비교해 보세요.</h3><p>‘피부가 민감하다’는 고객 표현을 확정 진단으로 바꾸지 않았나요?</p>
-<div class="prompt"><b>원문 검토 요청문</b><textarea readonly>방금 작성한 분석표를 첨부한 가상 원문과 다시 비교해 주세요. 각 판단에 원문 근거가 있는지 확인하고, 없는 내용은 ‘미확인’으로 수정해 주세요. 고객의 직접 발언과 AI의 추측을 구분하고, 예약·시술·진단·복약·알레르기 상태를 임의로 확정하지 마세요. ‘기존 표현 / 근거 / 수정 표현’ 표를 만들어 주세요.</textarea><div class="actions"><button class="btn copy" type="button">검토 문장 복사하기</button><span class="status" role="status" aria-live="polite"></span></div></div></div>
-<div class="step"><p class="sectionlabel">4 · 병원에 적용할 질문</p><h3>다음에 무엇을 확인해야 할까요?</h3><div class="result"><p>검사 희망 고객에게 설명해야 할 비용·시간·검사 범위는 정리되어 있나요?</p></div><p class="small muted">이 실습은 실제 환자 진단이나 자동 연락·시술 결정에 사용하지 않습니다.</p></div>
-</section>
-<section id="H" class="scenario">
-<div class="scenario-head"><div><p class="sectionlabel">시나리오 H · 추가 실습</p><h2>시술을 정해 온 게 아니에요. 원장님 추천을 받고 싶어요.</h2></div><span class="pill">독립 실습</span></div>
-<p>고객이 장비 이름을 들었지만 그 시술을 선택한 것은 아닙니다. 원하는 변화와 피하고 싶은 변화, 의사결정 방식을 구분합니다.</p>
-<div class="step"><p class="sectionlabel">1 · 자료 다운로드</p><h3>이 상황의 가상 대화를 받아 보세요.</h3>
-<p><b>왜 받나요?</b> 환자의 선호와 진료 요청을 정확히 전달하고 시술 동의로 오해하지 않도록 합니다.</p><p><b>무엇이 들어 있나요?</b> 자연스러운 변화 선호, 다음 날 일정, 특정 장비에 대한 불확실성, 원장에게 선택지 설명을 듣고 싶다는 요청이 들어 있습니다.</p>
-<div class="actions"><a class="btn download" href="/downloads/crm-scenarios/H_%EC%8B%9C%EC%88%A0%EC%B6%94%EC%B2%9C%EB%B0%A9%EC%8B%9D_%EA%B0%80%EC%83%81%EB%8C%80%ED%99%94.txt" download="H_시술추천방식_가상대화.txt">가상 대화 파일 받기 (.txt)</a></div>
-<span class="filename">H_시술추천방식_가상대화.txt · 교육용 신규 합성 사례 · 실제 환자 기록 아님</span></div>
-<div class="step"><p class="sectionlabel">2 · ChatGPT 실습</p><h3>받은 파일을 첨부하고 요청문을 입력하세요.</h3>
-<p>ChatGPT 새 대화에서 파일을 첨부하고 아래 문장을 복사해 붙여넣습니다. AI가 원문을 읽었는지 확인한 뒤 결과를 살펴보세요.</p>
-<div class="actions"><a class="btn secondary" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">ChatGPT 열기 ↗</a></div>
-<div class="prompt"><b>AI 분석 요청문</b><textarea readonly>첨부한 가상 상담에서 고객이 원하는 변화, 피하고 싶은 변화, 일정 제약, 특정 시술을 이미 결정했는지, 원장에게 어떤 설명을 원하는지 각각 정리하세요. 환자 직접 발언을 근거로 제시하세요. 고객이 특정 시술에 동의했다고 추측하지 마세요. 의료진에게 전달할 상담 요약 5줄과 확인할 질문 3개를 작성하고, 실제 적합성 판단은 의료진 몫임을 표시하세요.</textarea><div class="actions"><button class="btn copy" type="button">분석 문장 복사하기</button><span class="status" role="status" aria-live="polite"></span></div></div>
-<div class="result"><b>예상 결과와 해석</b><p>자연스러운 변화와 일정이 중요하고 원장에게 선택지를 설명받기를 원하지만, 특정 시술은 선택하지 않았다는 카드가 나옵니다.</p></div></div>
-<div class="step"><p class="sectionlabel">3 · 결과 검증</p><h3>원문과 비교해 보세요.</h3><p>‘원장 추천을 받고 싶다’를 ‘원장 추천 시술에 동의했다’로 바꾸지 않았나요?</p>
-<div class="prompt"><b>원문 검토 요청문</b><textarea readonly>방금 작성한 분석표를 첨부한 가상 원문과 다시 비교해 주세요. 각 판단에 원문 근거가 있는지 확인하고, 없는 내용은 ‘미확인’으로 수정해 주세요. 고객의 직접 발언과 AI의 추측을 구분하고, 예약·시술·진단·복약·알레르기 상태를 임의로 확정하지 마세요. ‘기존 표현 / 근거 / 수정 표현’ 표를 만들어 주세요.</textarea><div class="actions"><button class="btn copy" type="button">검토 문장 복사하기</button><span class="status" role="status" aria-live="polite"></span></div></div></div>
-<div class="step"><p class="sectionlabel">4 · 병원에 적용할 질문</p><h3>다음에 무엇을 확인해야 할까요?</h3><div class="result"><p>우리 병원 상담 기록에는 고객이 원하는 상담 방식과 피하고 싶은 결과가 남나요?</p></div><p class="small muted">이 실습은 실제 환자 진단이나 자동 연락·시술 결정에 사용하지 않습니다.</p></div>
-</section>
-<section id="I" class="scenario">
-<div class="scenario-head"><div><p class="sectionlabel">시나리오 I · 추가 실습</p><h2>상담은 받았지만 아직 결정하지 않았어요. 어떻게 기록할까요?</h2></div><span class="pill">독립 실습</span></div>
-<p>고객은 일정과 비용을 더 생각해 보고 싶고 먼저 연락하지 말아 달라고 했습니다. ‘미결정’의 이유와 연락 의사를 분리해 기록합니다.</p>
-<div class="step"><p class="sectionlabel">1 · 자료 다운로드</p><h3>이 상황의 가상 대화를 받아 보세요.</h3>
-<p><b>왜 받나요?</b> 미결정 고객을 무조건 거절이나 불만으로 분류하지 않고 연락 선호를 존중합니다.</p><p><b>무엇이 들어 있나요?</b> 회복기간과 비용에 대한 고민, 당일 예약 보류, 다음 주 재문의 가능성, 먼저 연락하지 말라는 요청이 있습니다.</p>
-<div class="actions"><a class="btn download" href="/downloads/crm-scenarios/I_%EC%83%81%EB%8B%B4%ED%9B%84%EB%AF%B8%EA%B2%B0%EC%A0%95_%EA%B0%80%EC%83%81%EB%8C%80%ED%99%94.txt" download="I_상담후미결정_가상대화.txt">가상 대화 파일 받기 (.txt)</a></div>
-<span class="filename">I_상담후미결정_가상대화.txt · 교육용 신규 합성 사례 · 실제 환자 기록 아님</span></div>
-<div class="step"><p class="sectionlabel">2 · ChatGPT 실습</p><h3>받은 파일을 첨부하고 요청문을 입력하세요.</h3>
-<p>ChatGPT 새 대화에서 파일을 첨부하고 아래 문장을 복사해 붙여넣습니다. AI가 원문을 읽었는지 확인한 뒤 결과를 살펴보세요.</p>
-<div class="actions"><a class="btn secondary" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">ChatGPT 열기 ↗</a></div>
-<div class="prompt"><b>AI 분석 요청문</b><textarea readonly>첨부한 교육용 가상 상담에서 고객의 결정 상태, 고객이 직접 말한 고려사항, 예약 확정 여부, 향후 연락 의사와 직원이 지켜야 할 연락 제한을 정리하세요. 모든 항목에 원문 근거를 제시하세요. 고객이 거절했다거나 가격이 유일한 이유라고 추정하지 마세요. ‘먼저 연락하지 말아 달라’는 의사를 명확히 보존하세요. 직원 인계용 5줄 메모와 상담 기록에 필요한 상태 필드를 제안하되 자동 메시지 발송은 제안하지 마세요.</textarea><div class="actions"><button class="btn copy" type="button">분석 문장 복사하기</button><span class="status" role="status" aria-live="polite"></span></div></div>
-<div class="result"><b>예상 결과와 해석</b><p>현재는 미결정이며, 고객이 스스로 재문의할 수 있지만 병원 측 선제 연락은 원하지 않는다는 기록이 나옵니다.</p></div></div>
-<div class="step"><p class="sectionlabel">3 · 결과 검증</p><h3>원문과 비교해 보세요.</h3><p>재문의 가능성을 예약으로, 연락 거부를 후속 연락 동의로 바꾸지 않았나요?</p>
-<div class="prompt"><b>원문 검토 요청문</b><textarea readonly>방금 작성한 분석표를 첨부한 가상 원문과 다시 비교해 주세요. 각 판단에 원문 근거가 있는지 확인하고, 없는 내용은 ‘미확인’으로 수정해 주세요. 고객의 직접 발언과 AI의 추측을 구분하고, 예약·시술·진단·복약·알레르기 상태를 임의로 확정하지 마세요. ‘기존 표현 / 근거 / 수정 표현’ 표를 만들어 주세요.</textarea><div class="actions"><button class="btn copy" type="button">검토 문장 복사하기</button><span class="status" role="status" aria-live="polite"></span></div></div></div>
-<div class="step"><p class="sectionlabel">4 · 병원에 적용할 질문</p><h3>다음에 무엇을 확인해야 할까요?</h3><div class="result"><p>상담 기록에 미결정 이유와 연락 허용 여부를 별도 항목으로 남기고 있나요?</p></div><p class="small muted">이 실습은 실제 환자 진단이나 자동 연락·시술 결정에 사용하지 않습니다.</p></div>
-</section>
-<section id="J" class="scenario">
-<div class="scenario-head"><div><p class="sectionlabel">시나리오 J · 추가 실습</p><h2>시술 후 불편하다고 연락이 왔어요. 무엇을 먼저 전달할까요?</h2></div><span class="pill">독립 실습</span></div>
-<p>시술 후 불편감 문의가 들어왔습니다. AI가 정상 반응이라고 판단하는 것이 아니라, 의료진에게 빠르게 전달할 정보를 정리합니다.</p>
-<div class="step"><p class="sectionlabel">1 · 자료 다운로드</p><h3>이 상황의 가상 대화를 받아 보세요.</h3>
-<p><b>왜 받나요?</b> 환자 진술과 확인되지 않은 정보를 구분해 의료진 평가로 연결하는 안전한 인계 흐름을 연습합니다.</p><p><b>무엇이 들어 있나요?</b> 시술 다음 날 붉음과 불편감, 발생 시점, 증상 변화의 불확실성, 추가 관리 안내 요청이 포함되어 있습니다.</p>
-<div class="actions"><a class="btn download" href="/downloads/crm-scenarios/J_%EC%8B%9C%EC%88%A0%ED%9B%84%EB%AC%B8%EC%9D%98_%EA%B0%80%EC%83%81%EB%8C%80%ED%99%94.txt" download="J_시술후문의_가상대화.txt">가상 대화 파일 받기 (.txt)</a></div>
-<span class="filename">J_시술후문의_가상대화.txt · 교육용 신규 합성 사례 · 실제 환자 기록 아님</span></div>
-<div class="step"><p class="sectionlabel">2 · ChatGPT 실습</p><h3>받은 파일을 첨부하고 요청문을 입력하세요.</h3>
-<p>ChatGPT 새 대화에서 파일을 첨부하고 아래 문장을 복사해 붙여넣습니다. AI가 원문을 읽었는지 확인한 뒤 결과를 살펴보세요.</p>
-<div class="actions"><a class="btn secondary" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">ChatGPT 열기 ↗</a></div>
-<div class="prompt"><b>AI 분석 요청문</b><textarea readonly>첨부 파일은 교육용 가상 시술 후 문의 기록입니다. 환자가 직접 말한 증상, 시작 시점, 변화 여부, 사진 등 확인되지 않은 정보, 의료진에게 즉시 전달할 질문을 구분해 주세요. 증상이 정상인지 합병증인지 판단하거나 치료법을 지시하지 마세요. 의료진에게 전달할 간결한 인계 메모를 작성하고, 증상이 빠르게 악화되거나 심한 통증·호흡곤란 등 위험 징후가 있을 경우 즉시 의료진 또는 응급의료 평가가 필요하다는 안전 안내를 포함하세요. 실제 환자에게 자동 답장하지 마세요.</textarea><div class="actions"><button class="btn copy" type="button">분석 문장 복사하기</button><span class="status" role="status" aria-live="polite"></span></div></div>
-<div class="result"><b>예상 결과와 해석</b><p>불편감이 있다는 환자 진술과 아직 확인되지 않은 증상 변화가 분리되고, 의료진 확인을 위한 인계 메모가 작성됩니다.</p></div></div>
-<div class="step"><p class="sectionlabel">3 · 결과 검증</p><h3>원문과 비교해 보세요.</h3><p>AI가 원문에 없는 진단·원인·치료 지시를 만들어내지 않았나요?</p>
-<div class="prompt"><b>원문 검토 요청문</b><textarea readonly>방금 작성한 분석표를 첨부한 가상 원문과 다시 비교해 주세요. 각 판단에 원문 근거가 있는지 확인하고, 없는 내용은 ‘미확인’으로 수정해 주세요. 고객의 직접 발언과 AI의 추측을 구분하고, 예약·시술·진단·복약·알레르기 상태를 임의로 확정하지 마세요. ‘기존 표현 / 근거 / 수정 표현’ 표를 만들어 주세요.</textarea><div class="actions"><button class="btn copy" type="button">검토 문장 복사하기</button><span class="status" role="status" aria-live="polite"></span></div></div></div>
-<div class="step"><p class="sectionlabel">4 · 병원에 적용할 질문</p><h3>다음에 무엇을 확인해야 할까요?</h3><div class="result"><p>우리 병원은 시술 후 문의를 누가 받고, 언제 의료진에게 인계하며, 어떤 내용을 기록하나요?</p></div><p class="small muted">이 실습은 실제 환자 진단이나 자동 연락·시술 결정에 사용하지 않습니다.</p></div>
-</section>
-<section class="card arch">
+</section><section class="card arch">
 <h2>마지막 질문: 병원에서 무엇부터 바꿔 볼까요?</h2>
 <p>열 가지 실습을 모두 할 필요는 없습니다. 하나를 끝냈다면 “어떤 원본을 읽었고, 무엇은 알 수 있으며, 다음에 무엇을 확인해야 하는가?”에 답해 보세요.</p>
 <div class="prompt"><b>작은 운영 실험을 정리하는 공통 문장</b><textarea readonly>지금까지 원문과 비교한 가상 CRM 분석을 바탕으로 우리 병원이 먼저 확인할 운영 문제를 하나 골라 주세요.
@@ -242,6 +225,19 @@
 </main>
 <script>
 (function(){
+ const buttons=[...document.querySelectorAll('.pain-filter')],input=document.getElementById('scenario-search'),sections=[...document.querySelectorAll('section.scenario[data-group]')],links=[...document.querySelectorAll('.scenario-link')],status=document.getElementById('filter-status');let active='all';
+ function render(){const q=input.value.trim().toLocaleLowerCase('ko');let n=0;
+  sections.forEach(el=>{el.hidden=!((active==='all'||el.dataset.group===active)&&(!q||el.textContent.toLocaleLowerCase('ko').includes(q)));if(!el.hidden)n++});
+  links.forEach(el=>{el.hidden=document.getElementById(el.hash.slice(1)).hidden});
+  document.querySelectorAll('.pain-group').forEach(el=>el.hidden=![...el.querySelectorAll('.scenario-link')].some(x=>!x.hidden));
+  document.querySelectorAll('.pain-heading').forEach(el=>el.hidden=!sections.some(x=>x.dataset.group===el.dataset.group&&!x.hidden));
+  buttons.forEach(el=>{let yes=el.dataset.filter===active;el.classList.toggle('is-active',yes);el.setAttribute('aria-pressed',String(yes))});
+  status.textContent=n+'개 시나리오 표시'+(n===0?' · 다른 검색어를 입력하세요':'');
+ }
+ buttons.forEach(el=>el.addEventListener('click',()=>{active=el.dataset.filter;render()}));input.addEventListener('input',render);
+ function hashCheck(){const id=decodeURIComponent(location.hash.slice(1));let el=document.getElementById(id);if(el?.classList.contains('legacy-anchor'))el=el.nextElementSibling;if(el?.matches('section.scenario[data-group]')&&el.hidden){active=el.dataset.group;input.value='';render();}}
+ window.addEventListener('hashchange',hashCheck);render();hashCheck();
+
  const encoder=new TextEncoder();
  document.querySelectorAll('.copy').forEach(btn=>btn.addEventListener('click',async()=>{
   const parent=btn.closest('.prompt'),area=parent.querySelector('textarea'),status=parent.querySelector('.status');
