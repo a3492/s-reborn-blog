@@ -13,6 +13,17 @@ const HOME_HREF = '/';
 <!doctype html>
 <html lang="ko">
 	<head>
+		<script is:inline>
+(function(){
+  const key='sreborn-theme';
+  let mode='system';
+  try { const saved=localStorage.getItem(key); if(saved==='light'||saved==='dark') mode=saved; } catch {}
+  const dark=window.matchMedia('(prefers-color-scheme: dark)').matches;
+  document.documentElement.dataset.theme=mode==='system'?(dark?'dark':'light'):mode;
+  document.documentElement.dataset.themePreference=mode;
+  document.documentElement.style.colorScheme=document.documentElement.dataset.theme;
+})();
+</script>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>김도위 소개 | S—REBORN</title>
