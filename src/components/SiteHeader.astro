@@ -65,7 +65,7 @@ function childHref(child: NavChild): string {
 			</div>
 		)}
 
-		<div class="site-header-tools">
+		<div class="site-header-tools"><label class="site-theme-picker"><span class="sr-only">화면 테마</span><select data-theme-select aria-label="화면 테마"><option value="system">시스템</option><option value="light">화이트</option><option value="dark">다크</option></select></label>
 			<nav class="site-nav" id="site-nav" aria-label={isEn ? 'Primary' : '주요 메뉴'}>
 				<ul class="site-nav-list">
 					{SITE_NAV.map((item) => {
@@ -169,6 +169,23 @@ function childHref(child: NavChild): string {
 	)}
 </div>
 
+<script is:inline>
+(function(){
+const key='sreborn-theme';
+const choices=['system','light','dark'];
+const media=window.matchMedia('(prefers-color-scheme: dark)');
+function read(){try{const v=localStorage.getItem(key);return choices.includes(v)?v:'system'}catch{return 'system'}}
+function apply(v){document.documentElement.dataset.theme=v==='system'?(media.matches?'dark':'light'):v;document.documentElement.style.colorScheme=document.documentElement.dataset.theme;document.querySelectorAll('[data-theme-select]').forEach(e=>e.value=v)}
+function init(){apply(read());document.querySelectorAll('[data-theme-select]').forEach(e=>e.addEventListener('change',()=>{const v=choices.includes(e.value)?e.value:'system';try{localStorage.setItem(key,v)}catch{}apply(v)}))}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+media.addEventListener('change',()=>{if(read()==='system')apply('system')});
+})();
+</script>
+<style is:global>
+.site-theme-picker select{max-width:105px;border:1px solid var(--line,var(--rule,#cbd0d5));border-radius:7px;padding:6px 8px;background:var(--bg,#fff);color:var(--ink,var(--text,#171d22));font:inherit;font-size:12px;cursor:pointer}
+html[data-theme="dark"] .site-header,html[data-theme="dark"] .site-nav,html[data-theme="dark"] .site-nav-sub{background:#191e25;color:#f0f2f5}
+html[data-theme="dark"] .site-nav-btn,html[data-theme="dark"] .site-nav-sub a,html[data-theme="dark"] .site-brand,html[data-theme="dark"] .site-lang-link{color:#e4e8ee}
+</style>
 <script>
 	const OPEN_LABEL = { open: '메뉴 열기', close: '메뉴 닫기', openEn: 'Open menu', closeEn: 'Close menu' };
 
