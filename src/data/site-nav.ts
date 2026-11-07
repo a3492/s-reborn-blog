@@ -78,6 +78,8 @@ export const SITE_NAV: NavItem[] = [
 		label: '강연·자료',
 		labelEn: 'Talks & materials',
 		children: [
+			{ id: 'lectures-tutorials', group: '실습 튜토리얼', groupEn: 'Interactive tutorials', label: '실습 튜토리얼 모음', labelEn: 'Tutorial hub', href: '/tutorials/' },
+			{ id: 'lectures-crm-first', group: '실습 튜토리얼', groupEn: 'Interactive tutorials', label: 'CRM 첫 분석 · 5단계', labelEn: 'CRM first analysis', href: '/tutorials/crm-first-analysis/' },
 			{ id: 'lectures-index', group: '웹 강연', groupEn: 'Web lectures', label: '강연 목록', labelEn: 'Lecture index', href: '/lectures/' },
 			{ id: 'lectures-koat', group: '웹 강연', groupEn: 'Web lectures', label: 'KOAT 2026 강연', labelEn: 'KOAT 2026 lecture', href: '/lectures/koat-ai-2026/' },
 			{ id: 'lectures-daemire', group: '웹 강연', groupEn: 'Web lectures', label: '11/8 대미레 실습', labelEn: 'Daemire workshop', href: '/tools/lectures/2026-11-08-daemire/' },
@@ -157,7 +159,7 @@ export function sectionIsCurrent(id: string, url: URL): boolean {
 	if (id === 'home') return path === '/';
 	if (id === 'clinic') return false;
 	if (id === 'research') return path === '/blog/' || path.startsWith('/blog/');
-	if (id === 'lectures') return path === '/lectures/' || path.startsWith('/lectures/') || path === '/tools/' || path.startsWith('/tools/');
+	if (id === 'lectures') return path === '/lectures/' || path.startsWith('/lectures/') || path === '/tools/' || path.startsWith('/tools/') || path === '/tutorials/' || path.startsWith('/tutorials/');
 	if (id === 'about') return path === '/about/' || path.startsWith('/about/');
 	return false;
 }
