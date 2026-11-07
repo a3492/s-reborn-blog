@@ -1,0 +1,125 @@
+name: Page density wave 2 - before vs after (no deploy)
+
+on:
+  push:
+    branches:
+      - experiment/page-density-wave2-20261107
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  page-qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Checkout baseline main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: baseline
+      - name: Checkout candidate branch
+        uses: actions/checkout@v4
+        with:
+          path: candidate
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: candidate/package-lock.json
+      - name: Install dependencies and compile both versions
+        run: |
+          set -eu
+          cd candidate
+          npm ci
+          npm run build
+          cd ../baseline
+          ln -s ../candidate/node_modules node_modules
+          npm run build
+      - name: Install browser for temporary QA
+        working-directory: candidate
+        run: |
+          npm install --no-save --package-lock=false playwright@1.58.2
+          npx playwright install --with-deps chromium
+      - name: Compare 4 pages at 3 responsive widths
+        run: |
+          set -eu
+          mkdir -p /tmp/page-density-wave2
+          python3 -m http.server 4321 --bind 127.0.0.1 --directory baseline/dist >/tmp/wave2-before.log 2>&1 &
+          B=$!
+          python3 -m http.server 4322 --bind 127.0.0.1 --directory candidate/dist >/tmp/wave2-after.log 2>&1 &
+          A=$!
+          trap 'kill "$B" "$A" 2>/dev/null || true' EXIT
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:4321/lab/ >/dev/null && curl -fsS http://127.0.0.1:4322/lab/ >/dev/null; then break; fi
+            sleep 1
+          done
+          cd candidate
+          node --input-type=module - <<'NODE'
+          import { chromium } from 'playwright';
+          import fs from 'node:fs';
+          const browser=await chromium.launch({headless:true});
+          const cases=[
+            {slug:'lab',url:'/lab/',root:'.lab-page',target:'.lab-hub-card'},
+            {slug:'context-strategy',url:'/docs/context-strategy-plan/',root:'.wrap',target:'.grid .card'},
+            {slug:'context-worktree',url:'/docs/context-worktree-ops/',root:'.wrap',target:'.grid .card'},
+            {slug:'future-axes',url:'/docs/future-axes-plan/',root:'.wrap',target:'.grid .card'},
+          ];
+          const sizes=[[1440,900],[768,1024],[390,844],[320,720]];
+          const results=[];
+          let failed=false;
+          for(const test of cases){
+            for(const [width,height] of sizes){
+              const pair=[];
+              for(const version of ['before','after']){
+                const port=version==='before'?4321:4322;
+                const page=await browser.newPage({viewport:{width,height},deviceScaleFactor:1});
+                const errors=[];
+                page.on('pageerror', e=>errors.push(e.message));
+                const response=await page.goto('http://127.0.0.1:'+port+test.url,{waitUntil:'networkidle'});
+                const data=await page.evaluate(({root,target})=>{
+                  const main=document.querySelector('main');
+                  const container=document.querySelector(root);
+                  const first=document.querySelector(target);
+                  const style=container?getComputedStyle(container):null;
+                  return {
+                    title:document.title,
+                    text:main?.innerText?.trim()??null,
+                    links:[...(main?.querySelectorAll('a')??[])].map(a=>[a.getAttribute('href'),a.textContent?.trim()]),
+                    viewport:document.documentElement.clientWidth,
+                    scrollWidth:document.documentElement.scrollWidth,
+                    documentHeight:document.documentElement.scrollHeight,
+                    firstY:first?.getBoundingClientRect().top??null,
+                    rootPaddingTop:style?.paddingTop??null,
+                    rootPaddingBottom:style?.paddingBottom??null
+                  };
+                },test);
+                await page.screenshot({path:'/tmp/page-density-wave2/'+test.slug+'-'+width+'x'+height+'-'+version+'.png',fullPage:true});
+                pair.push({version,status:response?.status(),errors,...data});
+                await page.close();
+              }
+              const [before,after]=pair;
+              const contentEqual=before.text===after.text&&JSON.stringify(before.links)===JSON.stringify(after.links);
+              const noOverflow=after.scrollWidth<=after.viewport+1;
+              const heightNotIncreased=after.documentHeight<=before.documentHeight+2;
+              const firstNotLower=before.firstY===null||after.firstY===null?false:after.firstY<=before.firstY+2;
+              const ok=before.status===200&&after.status===200&&contentEqual&&noOverflow&&heightNotIncreased&&firstNotLower&&after.errors.length===0;
+              if(!ok){failed=true;console.error('FAIL',test.slug,width,{contentEqual,noOverflow,heightNotIncreased,firstNotLower,beforeStatus:before.status,afterStatus:after.status,errors:after.errors})}
+              results.push({page:test.slug,viewport:width+'x'+height,ok,contentEqual,firstBefore:before.firstY,firstAfter:after.firstY,scrollBefore:before.documentHeight,scrollAfter:after.documentHeight,savedPixels:before.documentHeight-after.documentHeight,topBefore:before.rootPaddingTop,topAfter:after.rootPaddingTop,bottomBefore:before.rootPaddingBottom,bottomAfter:after.rootPaddingBottom});
+            }
+          }
+          await browser.close();
+          fs.writeFileSync('/tmp/page-density-wave2/results.json',JSON.stringify(results,null,2));
+          console.log(JSON.stringify(results,null,2));
+          if(failed) process.exit(1);
+          NODE
+      - name: Save screenshots and result JSON
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: page-density-wave2-before-after
+          path: /tmp/page-density-wave2/
+          retention-days: 7
+          if-no-files-found: warn
