@@ -2,6 +2,7 @@
 import { LECTURES, getLecture } from '../../../data/lectures';
 import { SITE_BRAND } from '../../../consts';
 import SiteHeader from '../../../components/SiteHeader.astro';
+import viewerScript from '../../../../public/lectures/_assets/viewer.js?raw';
 
 export function getStaticPaths() {
 	return LECTURES.map((l) => ({ params: { lecture: l.id } }));
@@ -83,7 +84,7 @@ const pageTitle = `${data.title} | ${data.subtitle ?? SITE_BRAND.blogDisplayName
 			<span>← → 이동 · F 전체화면 · ESC 닫기</span>
 		</footer>
 
-		<script src="/lectures/_assets/viewer.js?v=20261108-fix2" defer></script>
+		<script is:inline set:html={viewerScript}></script>
 		</div>
 	</body>
 </html>
