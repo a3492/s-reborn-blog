@@ -26,19 +26,19 @@ const files = [
     </header>
 
     <section aria-labelledby="goal-title" class="goals">
-      <h2 id="goal-title">오늘의 목표는 ‘설치’가 아니라 <strong>실제 답변</strong>입니다.</h2>
-      <div class="goal"><span class="step">01</span><div><strong>PC에서 AI 답변 받기</strong><p>설치하고 모델을 연결한 뒤 Hermes가 실제로 답하는지 확인합니다.</p></div></div>
-      <div class="goal"><span class="step">02</span><div><strong>텔레그램에서 AI 답장 받기</strong><p>첫 단계를 완료한 참가자가 개인 봇을 통해 응답을 확인하는 확장 실습입니다.</p></div></div>
+      <h2 id="goal-title">오늘은 <strong>Hermes를 설치하고 AI와 첫 대화</strong>를 나눠봅니다.</h2>
+      <div class="goal"><span class="step">01</span><div><strong>PC에 Hermes 설치하고 대화 시작하기</strong><p>Hermes를 설치하고 모델을 연결한 다음, PC에서 직접 질문해봅니다.</p></div></div>
+      <div class="goal"><span class="step">02</span><div><strong>텔레그램에서 AI와 대화하기</strong><p>PC 실습을 마쳤다면 텔레그램 봇을 연결해 휴대전화에서도 대화해봅니다.</p></div></div>
     </section>
 
     <section aria-labelledby="interactive-title" class="interactive-intro">
-      <div class="sec-head"><span class="index">직접 따라 하는 실습</span><h2 id="interactive-title">명령어를 복사하고 실제 결과를 확인하세요</h2><p>목적 설명 → 한 가지 행동 → 예상 결과 → 성공 확인 또는 오류 해결. 청중이 스스로 속도를 조절하고 브라우저에 진도를 기록할 수 있습니다.</p></div>
+      <div class="sec-head"><span class="index">직접 따라 하는 실습</span><h2 id="interactive-title">명령어를 복사하고 실제 결과를 확인하세요</h2><p>설명 읽기 → 따라 하기 → 결과 확인 순서로 진행합니다. 막히면 현재 단계에서 해결 방법을 확인할 수 있습니다.</p></div>
       <a class="start-lesson" href="/tutorials/hermes-agent/ep01/">EP01 인터랙티브 실습 시작 →</a>
-      <a class="start-lesson second-lesson" href="/tutorials/hermes-agent/ep02/">EP02 텔레그램 연결 실습 시작 →</a><p class="micro">PC Hermes에서 실제 AI 답변을 받은 뒤 EP02로 이동하세요. 본인 토큰은 이 웹사이트에 입력하지 않습니다.</p>
+      <a class="start-lesson second-lesson" href="/tutorials/hermes-agent/ep02/">EP02 휴대전화 연결 실습 시작 →</a><p class="micro">PC에서 AI와 대화가 되는 것을 확인한 다음 EP02로 이동하세요. 본인 토큰은 이 웹사이트에 입력하지 않습니다.</p>
       <p class="micro"><a href="/tutorials/hermes-agent/presenter/">강연자 진행표·시간표 열기 →</a></p>
     </section>
     <section aria-labelledby="down-title" class="downloads">
-      <div class="sec-head"><span class="index">자료 01 / 02</span><h2 id="down-title">원본 가이드 다운로드</h2><p>처음 제공된 두 Markdown 파일을 수정하지 않고 내려받을 수 있습니다. 편집된 웹 설명과 원문은 별도로 관리합니다.</p></div>
+      <div class="sec-head"><span class="index">자료 01 / 02</span><h2 id="down-title">실습에 필요한 원본 가이드 다운로드</h2><p>처음 제공된 두 Markdown 파일을 수정하지 않고 내려받을 수 있습니다. 편집된 웹 설명과 원문은 별도로 관리합니다.</p></div>
       {files.map((f) => <article class="file">
         <div class="file-info"><span class="tag">{f.tag}</span><h3>{f.title}</h3><p>{f.desc}</p><small>Markdown 원본 · .md 형식 · 텍스트 편집기로 열 수 있습니다.</small></div>
         <a class="download" href={`/downloads/hermes-agent/${f.slug}`} download={f.slug} aria-label={`${f.title} 원본 다운로드`}>원본 다운로드 <span aria-hidden="true">↓</span></a>
@@ -46,13 +46,13 @@ const files = [
     </section>
 
     <section aria-labelledby="guide-title" class="guide">
-      <div class="sec-head"><span class="index">실습 순서</span><h2 id="guide-title">이 순서대로 진행하세요</h2></div>
+      <div class="sec-head"><span class="index">실습 순서</span><h2 id="guide-title">처음부터 순서대로 따라 해보세요</h2></div>
       <ol>
         <li><strong>시작 전</strong><span>Windows PC, 인터넷, 계정, 설치 권한을 확인합니다.</span></li>
         <li><strong>PC 설치</strong><span>첫 번째 파일의 설치·버전 확인·모델 연결을 순서대로 진행합니다.</span></li>
-        <li><strong>실제 응답 확인</strong><span>`hermes` 대화에서 한국어 질문에 답변이 도착해야 첫 번째 목표가 완료됩니다.</span></li>
-        <li><strong>텔레그램 확장</strong><span>PC 응답이 확인된 사람만 두 번째 파일로 이동해 봇과 Gateway를 연결합니다.</span></li>
-        <li><strong>메신저 응답 확인</strong><span>내 봇에 ‘안녕’을 보내 실제 답장을 받아야 두 번째 목표가 완료됩니다.</span></li>
+        <li><strong>첫 대화 확인</strong><span>`hermes` 대화에서 한국어 질문에 답변이 도착해야 첫 번째 목표가 완료됩니다.</span></li>
+        <li><strong>텔레그램 연결</strong><span>PC 응답이 확인된 사람만 두 번째 파일로 이동해 봇과 Gateway를 연결합니다.</span></li>
+        <li><strong>휴대전화에서 답장 확인</strong><span>내 봇에 ‘안녕’을 보내 실제 답장을 받아야 두 번째 목표가 완료됩니다.</span></li>
       </ol>
     </section>
 
@@ -60,7 +60,7 @@ const files = [
       <h2 id="secure-title">실습 보안 주의</h2>
       <p>봇 토큰, API 키, 로그인 인증 코드, 실제 환자 정보는 공개 채팅방이나 AI 대화창에 입력하지 마세요. 설치 명령은 공식 출처를 확인한 뒤 실행하고, 기관 PC는 보안 정책을 따르세요. 모델 제공자에 따라 이용 조건과 추가 비용이 다를 수 있습니다.</p>
     </aside>
-    <p class="footnote">이 페이지는 강연용 자료 다운로드 허브입니다. 단계별 인터랙티브 실습 매거진과 화면 이미지·스크린샷은 별도로 기획 및 검수 중입니다. 안내 화면과 명령은 Hermes 버전·계정·Windows 설정에 따라 달라질 수 있습니다.</p>
+    <p class="footnote">이 페이지에서 강연 실습을 시작하거나 원본 가이드를 다운로드할 수 있습니다. 자세한 화면 예시는 순차적으로 추가하고 있습니다. 안내 화면과 명령은 Hermes 버전·계정·Windows 설정에 따라 달라질 수 있습니다.</p>
   </div>
 </Layout>
 <style>
