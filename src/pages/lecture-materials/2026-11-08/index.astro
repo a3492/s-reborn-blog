@@ -52,13 +52,13 @@ BEP 건수 = 월 고정비 / 공헌이익을 정수 올림.
       <ol class="steps">{crm.map((s,i)=><li><span class="num">{i+1}</span><div><strong>{s[0]}</strong><p>{s[1]}</p><details><summary>왜 하나요? · 쉬운 비유 · 예상 결과</summary><p>{s[2]}</p><p><strong>확인:</strong> {s[3]}</p></details></div></li>)}</ol>
       <div class="do-now"><strong>현장에서 바로 실행하기</strong>
         <p>① 가상 CRM 엑셀을 받습니다. ② ChatGPT에 첨부합니다. ③ 첫 번째 질문을 보냅니다. ④ 5단계 튜토리얼에서 결과를 직접 검산합니다.</p>
-        <div class="file-links"><a href="/downloads/daemire-1108/2026%EB%85%8410%EC%9B%94_%EB%B0%A9%EB%AC%B8%EC%8B%9C%EC%88%A0%EB%A7%A4%EC%B6%9C_CRM.xlsx" download>① 가상 CRM 엑셀 받기</a><a href="/tutorials/crm-first-analysis/">④ 검산·5단계 실습</a><a href="/lecture-materials/2026-11-08/archive/">다른 자료 보기</a></div>
+        <div class="file-links"><a href="/tutorials/crm-first-analysis/">① CRM v1.4 가상 파일 받기·5단계 시작</a><a href="/tools/lectures/2026-11-08-daemire/#crm">11개 심화 미션(선택)</a><a href="/lecture-materials/2026-11-08/archive/">강연 원본 파일 13종(별도 참고)</a></div>
         <details><summary>②–③ AI에게 처음 보낼 질문 펼치기</summary><p>데이터의 뜻을 확인하기 전에는 분석이나 매출 전략부터 요구하지 마세요.</p><pre id="prompt-crm">첨부 파일은 실제 환자자료가 아닌 교육용 가상 CRM입니다.
 먼저 실제 시트명·열 이름·데이터 행 수를 확인하세요.
 한 행이 방문 한 건인지 환자 한 명인지 구분하고, 고유 방문관리번호 수와 고유 고객관리번호 수를 각각 세어 주세요.
 없는 열은 추측하지 말고 확인 불가라고 표시해 주세요.
 아직 병원 경영 결론을 내리지 마세요.</pre><button type="button" data-copy-guide="prompt-crm">프롬프트 복사</button></details>
-        <p class="verify"><strong>정답 확인:</strong> 가상 방문 200건·고유 고객 141명. 문의 연결번호가 비어 있는 기록 170건은 ‘실제 문의하지 않았다’는 증거가 아닙니다.</p>
+        <p class="verify"><strong>정답 확인:</strong> <em>CRM 빠른 실습 v1.4의 자체 가상 데이터 기준</em> 방문 200건·고유 고객 141명입니다. 문의 연결번호 빈 기록 170건은 ‘실제 문의하지 않았다’는 증거가 아닙니다. 별도 강연 원본 엑셀은 열 구조와 기준값을 먼저 확인한 뒤 집계하세요.</p>
       </div>
     </section>
     <section class="reference">
