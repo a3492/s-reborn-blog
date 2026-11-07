@@ -1,0 +1,252 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+
+const scenes = [
+  {
+    id: 'prepare', number: '01', title: '실습 환경 준비', location: 'Windows PC · 브라우저',
+    objective: '설치에 필요한 PC, 계정, 인터넷, 권한을 확인합니다.',
+    why: '시작 전 계정과 설치 권한을 확인하면 실습 중 가장 흔한 중단을 줄일 수 있습니다. 준비가 어려운 사람은 관찰 모드로 따라와도 됩니다.',
+    actions: ['Windows 10/11 노트북의 충전 및 인터넷 연결을 확인하세요.', '브라우저에서 본인이 사용할 모델 제공자 계정에 로그인할 수 있는지 확인하세요.', '기관 PC라면 소프트웨어 설치 권한과 보안 정책을 확인하세요.'],
+    expected: 'PowerShell을 열 수 있고, 필요한 계정의 인증을 본인이 진행할 수 있습니다.',
+    troubleshoot: [
+      ['기관 PC에서 설치가 금지됩니다', '정책을 우회하지 말고 실습 관찰 모드로 전환하거나 관리자에게 문의하세요.'],
+      ['모델 제공자 계정이 없습니다', '강사의 화면으로 개념을 먼저 학습한 뒤, 사후에 본인이 계정을 준비해 이어 하세요.']
+    ]
+  },
+  {
+    id: 'install', number: '02', title: 'Hermes 설치', location: 'PowerShell',
+    objective: '공식 설치 스크립트를 확인하고 Hermes를 PC에 설치합니다.',
+    why: 'PowerShell에서 설치 명령을 실행하면 Hermes 실행에 필요한 프로그램을 설치할 수 있습니다. 인터넷 스크립트이므로 공식 문서의 주소와 일치하는지 먼저 확인하세요.',
+    actions: ['Windows 시작 메뉴에서 PowerShell을 검색하여 실행하세요.', '아래 명령을 공식 출처와 대조한 다음 복사하고 PowerShell에 붙여넣으세요.', '설치 안내에 따라 진행하고 오류가 표시되면 메시지를 확인하세요.'],
+    commands: [
+      {label:'PowerShell에 붙여넣을 설치 명령', text:'iex (irm https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.ps1)'}
+    ],
+    expected: '설치 작업이 완료되고 다음 설정 또는 설치 종료 안내가 나타납니다. 화면은 Windows 및 Hermes 버전에 따라 달라질 수 있습니다.',
+    troubleshoot: [
+      ['스크립트가 차단됩니다', '기관 정책이나 보안 프로그램이 차단했다면 임의로 보호 기능을 해제하지 마세요.'],
+      ['인터넷 연결 오류가 발생합니다', '인터넷 연결을 확인하고 공식 저장소에 접속되는지 살펴보세요.']
+    ]
+  },
+  {
+    id: 'verify', number: '03', title: '설치 확인', location: '새 PowerShell 창',
+    objective: 'Hermes 명령어가 PC에서 인식되는지 검사합니다.',
+    why: '설치 후 PATH 변경이 새 터미널에서 반영되는 경우가 있습니다. 그래서 기존 PowerShell을 닫고 새로 열어 확인합니다.',
+    actions: ['기존 PowerShell 창을 닫고 새 PowerShell을 열어 주세요.', '버전 확인 명령을 실행하세요.', '필요하다면 환경 진단 명령을 별도로 실행하세요.'],
+    commands: [
+      {label:'버전 확인',text:'hermes --version'},
+      {label:'추가 환경 진단 (선택)',text:'hermes doctor'}
+    ],
+    expected: '버전 문자열이 보이면 Hermes 명령이 인식된 것입니다. doctor 경고는 별도로 확인해야 합니다.',
+    caution: '버전이 표시되었다고 AI 모델 연결까지 성공한 것은 아닙니다.',
+    troubleshoot: [
+      ['hermes 명령을 찾을 수 없습니다', '새 PowerShell을 열었는지 확인한 다음, 설치 작업이 실제로 완료됐는지 점검하세요.'],
+      ['doctor에 경고가 있습니다', '경고를 읽고 관련 구성요소를 점검하세요. 모든 경고가 모델 응답 실패를 뜻하지는 않습니다.']
+    ]
+  },
+  {
+    id: 'model', number: '04', title: '모델과 계정 연결', location: 'PowerShell → 브라우저',
+    objective: 'Hermes가 사용할 모델 제공자를 선택하고 본인 계정으로 인증합니다.',
+    why: 'Hermes는 에이전트 프로그램이고, 질문에 답하는 모델은 별도로 연결해야 합니다. API 키 인증과 OpenAI Codex 계정 인증은 다를 수 있습니다.',
+    actions: ['PowerShell에서 모델 설정 명령을 실행하세요.', '목록에서 OpenAI Codex를 선택하거나 본인이 사용할 모델 제공자를 선택하세요.', '터미널이 안내하는 공식 브라우저 인증 절차를 본인이 직접 진행하세요.', '사용 가능한 모델을 목록에서 선택하세요.'],
+    commands: [{label:'모델 설정 시작',text:'hermes model'}],
+    expected: '인증을 완료하고 모델을 선택할 수 있습니다. 메뉴·모델 명칭·지원 조건은 버전과 계정별로 달라질 수 있습니다.',
+    caution: '로그인 코드, 비밀번호, API 키는 강사·강의 채팅방·AI 대화에 보내지 마세요. 결제 화면이 나오면 이용 조건을 직접 확인하세요.',
+    troubleshoot: [
+      ['인증 코드가 만료되었습니다', '명령을 다시 실행하고 새로 표시된 인증 절차를 사용하세요.'],
+      ['모델이 보이지 않습니다', '계정에서 지원되는 모델과 제공자 선택을 확인하세요.'],
+      ['로그인했지만 답변이 오지 않습니다', '다음 단계에서 실제 응답을 테스트한 후 네트워크·모델·인증을 함께 점검하세요.']
+    ]
+  },
+  {
+    id: 'response', number: '05', title: '첫 AI 답변 받기', location: 'PowerShell → Hermes 대화',
+    objective: '실제로 답변을 받아 오늘의 핵심 목표를 달성합니다.',
+    why: '설치·버전 확인·모델 선택은 준비 단계입니다. 질문을 보내고 실제 응답이 돌아왔을 때만 연결을 검증할 수 있습니다.',
+    actions: ['PowerShell에서 Hermes를 실행하세요.', 'Hermes 대화 화면이 열리면 한국어 메시지를 입력하세요.', '실제로 AI 답변이 도착하는지 확인하세요.'],
+    commands: [
+      {label:'PowerShell에서 실행',text:'hermes'},
+      {label:'Hermes 대화 화면에 입력',text:'안녕하세요. 앞으로 한국어 존댓말로, 컴퓨터 작업은 한 단계씩 쉽게 설명해 주세요.'}
+    ],
+    expected: 'Hermes 대화 안에 실제 AI의 한국어 답변이 표시됩니다.',
+    caution: '대화 화면이 열렸다는 이유만으로 성공을 체크하지 마세요. 실제 답변이 와야 합니다.',
+    troubleshoot: [
+      ['답변이 나오지 않습니다', '인터넷 연결, 인증 상태, 사용 가능한 모델을 확인한 후 모델 연결 단계로 돌아가세요.'],
+      ['명령이 대화창에서 오류가 납니다', 'hermes 실행 명령은 PowerShell에, 한국어 질문은 Hermes 대화창에 입력하는지 확인하세요.']
+    ]
+  },
+  {
+    id: 'personalize', number: '06', title: '내 비서의 행동 원칙 정하기', location: 'Hermes 대화',
+    objective: '응답 스타일과 승인 원칙을 스스로 설정합니다.',
+    why: '같은 모델이라도 답변 형식과 실행 전 승인 조건을 정하면 내 작업에 더 적합하게 활용할 수 있습니다. 일회성 대화 지시와 영구 파일 설정은 구분해야 합니다.',
+    actions: ['Hermes 대화 화면에서 아래 예시를 보내세요.', '다음 답변에 존댓말·단계별 설명 방식이 반영되는지 확인하세요.', '영구 설정은 사후에 SOUL.md를 검토하고 적용해도 됩니다.'],
+    commands:[{label:'Hermes 대화 화면에 입력',text:'저를 존댓말로 불러 주세요.\n답변은 결론을 먼저 말하고 필요한 설명을 덧붙여 주세요.\n컴퓨터 작업은 클릭할 곳과 입력할 내용을 한 단계씩 알려 주세요.\n결제, 외부 게시, 파일 삭제나 중요한 설정 변경 전에는 반드시 저에게 확인해 주세요.\n모르면 추측하지 말고 불확실하다고 알려 주세요.'}],
+    expected: '이후 답변에서 원하는 말투와 설명 방식이 관찰됩니다. 새 세션에도 유지되는지는 별도로 확인해야 합니다.',
+    troubleshoot:[['다음 대화에 설정이 유지되지 않습니다','일회성 대화 요청과 SOUL.md 등 파일 기반 설정은 다를 수 있습니다. 사후 학습에서 실제 저장 상태를 확인하세요.']]
+  },
+  {
+    id:'wrap',number:'07',title:'마무리와 사후 이어 하기',location:'Hermes · 실습 페이지',
+    objective:'완료한 항목을 구분하고, 텔레그램 연결 또는 사후 복습으로 이동합니다.',
+    why:'일부 참가자는 인증이나 설치 권한 때문에 같은 속도로 진행하기 어렵습니다. 지금 어디까지 왔는지 남기면 강연 이후에도 이어 할 수 있습니다.',
+    actions:['설치 명령 인식과 실제 AI 응답이 서로 다른 결과라는 점을 다시 확인하세요.', '아직 답변을 받지 못했다면 관련 단계의 문제 해결 섹션으로 돌아가세요.', '실제 답변을 받았다면 텔레그램 연결 원본 가이드를 참고해 다음 실습으로 진행할 수 있습니다.'],
+    commands:[{label:'다시 대화 시작 (PowerShell)',text:'hermes'}],
+    expected:'자신이 완료한 단계가 정리되고, 남은 작업이 분명해집니다.',
+    troubleshoot:[['진도 표시가 사라졌습니다','진도는 이 브라우저에만 저장될 수 있습니다. 시크릿 모드, 다른 PC, 브라우저 데이터 삭제 후에는 보존되지 않을 수 있습니다.']]
+  }
+];
+---
+<Layout title="Hermes Agent EP01 · 직접 따라 하는 설치 실습" description="강세희 원장 Hermes Agent 강연용 대화형 실습: PowerShell 설치, 모델 인증, 첫 AI 응답과 문제 해결" noindex={true}>
+  <div class="lesson">
+    <nav class="crumb" aria-label="현재 위치"><a href="/tutorials/">튜토리얼</a><span>/</span><a href="/tutorials/hermes-agent/">Hermes Agent</a><span>/</span><strong>EP01</strong></nav>
+    <header class="head">
+      <span class="eyebrow">HERMES AGENT · HANDS-ON · EP.01</span>
+      <h1>내 PC에서 <em>AI 답변 받기</em></h1>
+      <p>설치 명령을 실행하고, 모델을 연결하고, 실제 답변을 확인하세요. 한 번에 한 단계씩 진행합니다.</p>
+      <div class="headlinks"><a href="/tutorials/hermes-agent/">강연 자료실</a><a href="/downloads/hermes-agent/Hermes_Agent_설치와_시작_통합가이드_아잉이.md" download>원본 가이드 다운로드 ↓</a></div>
+    </header>
+
+    <section class="intro">
+      <h2>어디부터 시작하면 될까요?</h2>
+      <div class="jump" aria-label="현재 학습 상태 선택">
+        <button type="button" data-jump="prepare">처음 설치해요</button>
+        <button type="button" data-jump="verify">설치했는데 막혔어요</button>
+        <button type="button" data-jump="response">이미 모델을 연결했어요</button>
+      </div>
+      <p class="hint">위 선택은 입력한 상태에 따라 해당 장면으로 이동하는 기능입니다. 컴퓨터 설치 상태를 자동 검사하지 않습니다.</p>
+    </section>
+
+    <section class="steps" aria-label="단계별 실습">
+      <div class="stepsbar"><div><strong id="status-label">01 / 07 · 실습 환경 준비</strong><p id="progress-label">완료 체크 0 / 7</p></div><button class="reset" id="reset-progress" type="button">진도 초기화</button></div>
+      <div class="progress-track" role="progressbar" aria-label="자가 점검 완료 비율" aria-valuemin="0" aria-valuemax="7" aria-valuenow="0" id="progress-track"><div id="progress-fill"></div></div>
+      <div class="layout">
+        <nav class="navsteps" aria-label="실습 단계 목차">
+          {scenes.map((s,i)=><button type="button" data-step-link={s.id} class="stepnav"><span>{s.number}</span>{s.title}<span class="done" aria-hidden="true">✓</span></button>)}
+        </nav>
+        <div class="scene-stack">
+          {scenes.map((s,i)=><article class="scene" data-scene={s.id} hidden={i!==0}>
+            <div class="scene-top"><span class="sequence">STEP {s.number} / 07</span><span class="surface">{s.location}</span></div>
+            <h2>{s.title}</h2>
+            <p class="objective"><strong>지금 목표</strong> {s.objective}</p>
+            <h3>왜 이 작업을 하나요?</h3><p>{s.why}</p>
+            <h3>지금 해야 할 일</h3>
+            <ol class="actions">{s.actions.map(a=><li>{a}</li>)}</ol>
+            {(s.commands||[]).map(c=><div class="command-block"><div class="command-head"><strong>{c.label}</strong><button type="button" data-copy={c.text}>복사하기</button></div><pre><code>{c.text}</code></pre></div>)}
+            <div class="expect"><strong>정상이라면 이렇게 됩니다</strong><p>{s.expected}</p></div>
+            {s.caution&&<div class="caution"><strong>확인하세요</strong><p>{s.caution}</p></div>}
+            <div class="result"><p>직접 해보셨나요? 결과에 따라 선택하세요.</p><div class="resultbtn"><button type="button" data-success={s.id}>성공했어요 · 다음 단계</button><button type="button" data-error={s.id}>다르게 보여요 · 문제 해결</button></div><small>‘성공했어요’는 본인이 확인한 결과를 기록합니다. 웹페이지가 PC 상태를 자동 검증하지는 않습니다.</small></div>
+            <section class="trouble" data-trouble={s.id} hidden><h3>어떤 문제가 생겼나요?</h3>
+              {s.troubleshoot.map(([title,answer])=><details><summary>{title}</summary><p>{answer}</p></details>)}
+              <div class="trouble-footer"><button type="button" data-back={s.id}>실습으로 돌아가기</button><a href="/tutorials/hermes-agent/">자료실로 가기</a></div>
+            </section>
+            <div class="pager"><button type="button" data-prev={s.id} disabled={i===0}>← 이전 단계</button>{i<scenes.length-1?<button type="button" data-next={s.id}>다음 단계 →</button>:<a href="/tutorials/hermes-agent/">강연 자료실로 돌아가기 →</a>}</div>
+          </article>)}
+        </div>
+      </div>
+    </section>
+
+    <aside class="footwarn"><strong>보안 · 비용</strong><p>설치 명령은 인터넷에서 스크립트를 받아 실행합니다. 공식 주소를 확인하세요. 인증 코드, API 키, 환자정보는 강연 채팅·AI 대화에 공유하지 마세요. 모델 제공자에 따라 별도 이용 조건이나 비용이 적용될 수 있습니다.</p></aside>
+  </div>
+</Layout>
+<style>
+  .lesson{max-width:1060px;margin:auto;padding:20px 22px 85px;color:var(--text)}
+  .crumb{display:flex;flex-wrap:wrap;gap:9px;font-size:.81rem;color:var(--t3);margin:8px 0 32px}
+  .crumb a{color:var(--t2)}
+  .head{border-bottom:1px solid var(--rule);padding:15px 0 31px}
+  .eyebrow,.sequence{font-size:.78rem;font-weight:800;letter-spacing:.08em;color:#168f83}
+  .head h1{font-size:clamp(2.15rem,5vw,3.7rem);font-family:var(--display);letter-spacing:-.045em;line-height:1.18;margin:12px 0}
+  .head h1 em{font-style:normal;color:#0a9787}
+  .head>p{font-size:1.1rem;line-height:1.7;color:var(--t2);max-width:700px}
+  .headlinks{display:flex;gap:16px;flex-wrap:wrap;margin-top:18px;font-size:.88rem}
+  .headlinks a{color:#108879;font-weight:700;text-decoration:underline;text-underline-offset:4px}
+  .intro{margin:30px 0 34px}
+  .intro h2{font-size:1.33rem;font-family:var(--display);margin:0 0 16px}
+  .jump{display:flex;gap:10px;flex-wrap:wrap}
+  .jump button,.reset,.pager button,.trouble-footer button{border:1px solid var(--rule);border-radius:7px;padding:10px 12px;color:var(--text);background:var(--bg2);font:inherit;cursor:pointer}
+  .jump button:hover,.reset:hover,.pager button:hover{border-color:#14988a}
+  .hint{font-size:.83rem;color:var(--t3);margin:11px 0 0;line-height:1.6}
+  .stepsbar{display:flex;gap:12px;align-items:center;justify-content:space-between;margin:0 0 10px}
+  .stepsbar strong{font-size:1.03rem}.stepsbar p{color:var(--t3);font-size:.83rem;margin:4px 0 0}
+  .reset{font-size:.8rem;padding:7px 10px}
+  .progress-track{height:5px;background:var(--rule);overflow:hidden;border-radius:4px;margin-bottom:25px}
+  #progress-fill{height:100%;width:0;background:#129586;transition:width .2s}
+  .layout{display:grid;grid-template-columns:205px minmax(0,1fr);gap:35px;align-items:start}
+  .navsteps{position:sticky;top:84px;display:grid;gap:0;border-top:1px solid var(--rule)}
+  .stepnav{width:100%;display:flex;align-items:center;gap:10px;text-align:left;border:0;border-bottom:1px solid var(--rule);background:transparent;color:var(--t2);font:inherit;font-size:.87rem;cursor:pointer;padding:12px 6px}
+  .stepnav>span:first-child{color:var(--t3);font-size:.75rem;font-weight:800}
+  .stepnav.active{font-weight:800;color:#0b8b7f;background:var(--bg2)}
+  .stepnav .done{margin-left:auto;display:none;color:#0b8b7f;font-weight:900}
+  .stepnav.completed .done{display:block}
+  .scene[hidden],.trouble[hidden]{display:none}
+  .scene-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .surface{font-size:.75rem;color:var(--t2);padding:4px 8px;border:1px solid var(--rule);border-radius:4px}
+  .scene h2{font-family:var(--display);font-size:clamp(1.8rem,3.2vw,2.35rem);letter-spacing:-.04em;line-height:1.25;margin:12px 0 20px}
+  .scene h3{font-size:1.1rem;margin:26px 0 9px;font-family:var(--display)}
+  .scene p{line-height:1.75;color:var(--t2);margin:0 0 14px}
+  .objective{border-left:3px solid #0e9989;padding:8px 0 8px 15px;background:var(--bg2);margin-bottom:25px!important}
+  .objective strong{display:block;color:#09887a;font-size:.8rem;letter-spacing:.04em}
+  .actions{padding-left:22px;color:var(--text);line-height:1.8}
+  .actions li{padding:5px 0}
+  .command-block{border:1px solid var(--rule);border-radius:8px;overflow:hidden;margin:18px 0;background:var(--bg2)}
+  .command-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-bottom:1px solid var(--rule);font-size:.83rem}
+  .command-head button{background:#0b8177;border:0;border-radius:5px;padding:8px 12px;color:#fff;font-weight:750;cursor:pointer;white-space:nowrap}
+  .command-head button:focus-visible,.resultbtn button:focus-visible,.stepnav:focus-visible{outline:3px solid #72d6c7;outline-offset:2px}
+  pre{margin:0;padding:18px 14px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.8;font-size:.89rem;user-select:text}
+  pre code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap}
+  .expect,.caution{border-top:1px solid var(--rule);padding-top:16px;margin-top:22px}
+  .expect strong{color:#078c7b}.expect p,.caution p{margin-top:6px}
+  .caution strong{color:#b26b26}
+  .result{margin:28px 0 15px;border-top:2px solid var(--rule);padding-top:18px}
+  .resultbtn{display:flex;gap:9px;flex-wrap:wrap}
+  .resultbtn button{padding:12px 16px;border-radius:7px;font-weight:750;font:inherit;cursor:pointer}
+  .resultbtn button:first-child{border:1px solid #047f73;background:#087e72;color:white}
+  .resultbtn button:last-child{border:1px solid var(--rule);background:var(--bg2);color:var(--text)}
+  .result small{display:block;color:var(--t3);line-height:1.6;margin-top:12px}
+  .trouble{background:var(--bg2);padding:12px 18px 16px;border-left:3px solid #be7c3d;margin:22px 0}
+  .trouble h3{margin:6px 0 10px}
+  .trouble details{border-top:1px solid var(--rule);padding:12px 0}
+  .trouble summary{cursor:pointer;font-weight:700}
+  .trouble details p{margin:9px 0 0}
+  .trouble-footer{display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:.86rem;margin-top:14px}
+  .trouble-footer a{color:#078b7a}
+  .pager{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--rule);padding-top:16px;margin-top:22px;font-size:.88rem}
+  .pager button:disabled{opacity:.35;cursor:not-allowed}
+  .pager a{color:#078b7a;font-weight:700;align-self:center}
+  .footwarn{margin-top:37px;padding:17px 0;border-top:1px solid var(--rule);color:var(--t2);font-size:.88rem}
+  .footwarn strong{color:var(--text)}.footwarn p{line-height:1.7}
+  @media(max-width:760px){.lesson{padding:12px 14px 60px}.layout{grid-template-columns:minmax(0,1fr);gap:12px}.navsteps{position:static;display:flex;overflow-x:auto;gap:5px;border:0;padding-bottom:4px}.stepnav{width:auto;flex:0 0 auto;padding:8px 10px;border:1px solid var(--rule);border-radius:6px;white-space:nowrap;font-size:.8rem}.stepnav .done{margin-left:0}.scene h2{margin-top:15px}.resultbtn{flex-direction:column}.resultbtn button{width:100%}.intro{margin-bottom:22px}}
+</style>
+<script>
+  const steps = ['prepare','install','verify','model','response','personalize','wrap'];
+  const storageKey = 'sreborn-hermes-ep01-progress-v1';
+  let finished = new Set<string>();
+  let current = 'prepare';
+  try {
+    const data = JSON.parse(localStorage.getItem(storageKey) || '{}');
+    if (Array.isArray(data.done)) finished = new Set(data.done.filter((x:unknown)=>typeof x==='string' && steps.includes(x)));
+    if (typeof data.current==='string' && steps.includes(data.current)) current=data.current;
+  } catch {}
+  const label = document.getElementById('status-label');
+  const count = document.getElementById('progress-label');
+  const progress = document.getElementById('progress-track');
+  const fill = document.getElementById('progress-fill');
+  const save = () => { try { localStorage.setItem(storageKey,JSON.stringify({done:[...finished],current})); } catch {} };
+  const render = () => {
+    document.querySelectorAll<HTMLElement>('[data-scene]').forEach(el=>{el.hidden=el.dataset.scene!==current;});
+    document.querySelectorAll<HTMLElement>('[data-step-link]').forEach(el=>{el.classList.toggle('active',el.dataset.stepLink===current);el.classList.toggle('completed',finished.has(el.dataset.stepLink||''));el.setAttribute('aria-current',el.dataset.stepLink===current?'step':'false');});
+    const idx=steps.indexOf(current);
+    const title=document.querySelector<HTMLElement>(`[data-scene="${current}"] h2`)?.textContent||'';
+    if(label)label.textContent=`${String(idx+1).padStart(2,'0')} / 07 · ${title}`;
+    if(count)count.textContent=`완료 체크 ${finished.size} / ${steps.length}`;
+    progress?.setAttribute('aria-valuenow',String(finished.size));
+    if(fill)fill.style.width=`${finished.size/steps.length*100}%`;
+    save();
+  };
+  const go=(id:string) => {if(!steps.includes(id))return;current=id;render();document.querySelector('.steps')?.scrollIntoView({block:'start',behavior:'smooth'});};
+  document.querySelectorAll<HTMLElement>('[data-step-link],[data-jump]').forEach(el=>el.addEventListener('click',()=>go(el.dataset.stepLink||el.dataset.jump||'')));
+  document.querySelectorAll<HTMLButtonElement>('[data-next]').forEach(el=>el.addEventListener('click',()=>{const i=steps.indexOf(el.dataset.next||'');if(i>=0&&i<steps.length-1)go(steps[i+1]);}));
+  document.querySelectorAll<HTMLButtonElement>('[data-prev]').forEach(el=>el.addEventListener('click',()=>{const i=steps.indexOf(el.dataset.prev||'');if(i>0)go(steps[i-1]);}));
+  document.querySelectorAll<HTMLButtonElement>('[data-success]').forEach(el=>el.addEventListener('click',()=>{const id=el.dataset.success||'';finished.add(id);const i=steps.indexOf(id);go(steps[Math.min(i+1,steps.length-1)]);}));
+  document.querySelectorAll<HTMLButtonElement>('[data-error]').forEach(el=>el.addEventListener('click',()=>{const t=document.querySelector<HTMLElement>(`[data-trouble="${el.dataset.error}"]`);if(t){t.hidden=false;t.scrollIntoView({block:'nearest',behavior:'smooth'});}}));
+  document.querySelectorAll<HTMLButtonElement>('[data-back]').forEach(el=>el.addEventListener('click',()=>{const t=document.querySelector<HTMLElement>(`[data-trouble="${el.dataset.back}"]`);if(t)t.hidden=true;}));
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach(el=>el.addEventListener('click',async()=>{const value=el.dataset.copy||'';const original='복사하기';try{await navigator.clipboard.writeText(value);el.textContent='복사됨 ✓';setTimeout(()=>el.textContent=original,1800);}catch{const pre=el.closest('.command-block')?.querySelector('code');if(pre){const range=document.createRange();range.selectNodeContents(pre);const s=window.getSelection();s?.removeAllRanges();s?.addRange(range);}el.textContent='텍스트를 선택했어요';setTimeout(()=>el.textContent=original,2400);}}));
+  document.getElementById('reset-progress')?.addEventListener('click',()=>{if(confirm('이 브라우저에 저장한 EP01 진도를 초기화할까요?')){finished.clear();current='prepare';render();}});
+  render();
+</script>
