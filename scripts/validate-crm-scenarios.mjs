@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 const root=process.cwd(),page=fs.readFileSync(path.join(root,'public/tutorials/crm-scenarios/index.html'),'utf8');
-const blocks=[...page.matchAll(/<section id="(PP\d{2}-\d{2})" class="scenario" data-group="(PP\d{2})">([\s\S]*?)(?=<section id="PP\d{2}-\d{2}" class="scenario"|<div class="pain-heading"|<section class="card arch">)/g)];
+const blocks=[...page.matchAll(/<section id="(PP\d{2}-\d{2})" class="scenario" data-group="(PP\d{2})">([\s\S]*?)(?=<span id="P\d{2}-\d{2}" class="legacy-anchor"|<div class="pain-heading"|<section class="card arch">)/g)];
 const ids=[...page.matchAll(/<section id="(PP\d{2}-\d{2})" class="scenario"/g)].map(m=>m[1]);
 const links=[...page.matchAll(/href="(\/downloads\/[^"]+)"/g)].map(m=>m[1]);
 const nav=[...page.matchAll(/class="scenario-link" href="#(PP\d{2}-\d{2})"/g)].map(m=>m[1]);
