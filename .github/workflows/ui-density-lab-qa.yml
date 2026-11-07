@@ -69,6 +69,16 @@ jobs:
             const page = await browser.newPage({viewport:{width,height},deviceScaleFactor:1});
             page.on('pageerror', error => { console.error('PAGE_ERROR',error); failed=true });
             await page.goto('http://127.0.0.1:4321/lab/ui-density/',{waitUntil:'networkidle'});
+            if(width<=560){
+              const navToggle=page.locator('[data-mobile-nav-toggle]');
+              if(!(await navToggle.isVisible())) { failed=true;console.error('Mobile nav toggle missing',width) }
+              else {
+                await navToggle.click();
+                if(await navToggle.getAttribute('aria-expanded')!=='true') {failed=true;console.error('Mobile nav failed to expand',width)}
+                await navToggle.click();
+                if(await navToggle.getAttribute('aria-expanded')!=='false') {failed=true;console.error('Mobile nav failed to collapse',width)}
+              }
+            }
             for(const mode of ['explorer','wiki']) {
               await page.getByRole('button',{name:mode==='explorer'?'A · GitHub형':'B · Wiki형'}).click();
               for(const density of ['dense','normal']) {
@@ -87,7 +97,7 @@ jobs:
                 });
                 const name=`${width}x${height}-${mode}-${density}`;
                 await page.screenshot({path:`/tmp/ui-density-qa/${name}.png`,fullPage:true});
-                const ok=metric.scrollWidth<=metric.viewport+1 && metric.mode===mode && metric.density===density;
+                const ok=metric.scrollWidth<=metric.viewport+1 && metric.mode===mode && metric.density===density && (width>560 || metric.visibleLinks>0);
                 if(!ok){failed=true;console.error('FAIL',name,metric)}
                 results.push({name,ok,...metric});
               }
