@@ -61,6 +61,7 @@ const examples = [
       .layout{display:grid;grid-template-columns:var(--side) minmax(0,1fr);min-height:550px}
       .left{background:var(--surface);border-right:1px solid var(--line);padding:var(--space);min-width:0}
       .left-title{font-size:11px;letter-spacing:.075em;color:var(--muted);font-weight:800;margin:0 0 8px}
+      .mobile-nav-toggle{display:none}
       .tree-group{margin:0 0 3px}
       .tree-group summary{list-style:none;display:flex;align-items:center;gap:5px;min-height:var(--row);padding:3px 6px;border-radius:5px;font-weight:700;cursor:pointer}
       .tree-group summary::-webkit-details-marker{display:none}
@@ -108,8 +109,10 @@ const examples = [
         .header-right{margin-left:0;width:100%}
         .layout{display:block}
         .left{border-right:0;border-bottom:1px solid var(--line)}
-        .left-title{margin:0 0 5px}
-        .left-groups{display:grid;grid-template-columns:1fr 1fr;gap:3px 8px}
+        .left-title{display:none}
+        .mobile-nav-toggle{display:block;width:100%;min-height:44px;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);text-align:left;font-weight:650}
+        .left-groups{display:none;grid-template-columns:1fr 1fr;gap:3px 8px;margin-top:7px}
+        .left.is-open .left-groups{display:grid}
         .tree-group{margin:0}
         .tree-group summary{min-height:44px}
         .tree-list{grid-column:1/-1}
@@ -137,7 +140,8 @@ const examples = [
     <div class="layout">
       <aside class="left" aria-label="기존 메뉴 데이터의 트리형 미리보기">
         <p class="left-title">EXPLORER · 실제 메뉴</p>
-        <nav class="left-groups" aria-label="페이지 탐색">
+        <button class="mobile-nav-toggle" type="button" aria-expanded="false" aria-controls="left-groups" data-mobile-nav-toggle>메뉴 펼치기 ▾</button>
+        <nav class="left-groups" id="left-groups" aria-label="페이지 탐색">
           {sections.map((group, index) => (
             <details class="tree-group" open={index === 2 || index === 3}>
               <summary>{group.title}</summary>
@@ -176,6 +180,13 @@ const examples = [
       </main>
     </div>
     <script>
+      const mobileNavToggle = document.querySelector<HTMLButtonElement>('[data-mobile-nav-toggle]');
+      mobileNavToggle?.addEventListener('click', () => {
+        const side = mobileNavToggle.closest('.left');
+        const expanded = side?.classList.toggle('is-open') || false;
+        mobileNavToggle.setAttribute('aria-expanded', String(expanded));
+        mobileNavToggle.textContent = expanded ? '메뉴 접기 ▴' : '메뉴 펼치기 ▾';
+      });
       const buttons = document.querySelectorAll<HTMLButtonElement>('[data-switch-mode],[data-switch-density]');
       buttons.forEach((button) => {
         button.addEventListener('click', () => {
