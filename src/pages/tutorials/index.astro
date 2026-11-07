@@ -1,0 +1,47 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout title="실습 튜토리얼" description="청중이 AI 실습을 스스로 따라할 수 있도록 설계한 단계별 웹 튜토리얼 모음입니다.">
+  <main class="hub">
+    <nav class="crumb" aria-label="현재 위치"><a href="/tools/">강연·자료</a><span aria-hidden="true"> / </span>실습 튜토리얼</nav>
+    <p class="eyebrow">S—REBORN · WEB LEARNING</p>
+    <h1>실습 튜토리얼</h1>
+    <p class="lead">강연을 듣지 않아도 스스로 진행할 수 있는 작은 학습 과정입니다. 목적을 이해하고, 직접 해보거나 결과를 관찰하고, 데이터의 의미와 검증 기준까지 확인할 수 있습니다.</p>
+    <section aria-labelledby="available">
+      <h2 id="available">지금 시작할 수 있는 튜토리얼</h2>
+      <a class="lesson" href="/tutorials/crm-first-analysis/">
+        <span class="tag">01 · 병원 데이터</span>
+        <strong>CRM 데이터 첫 분석</strong>
+        <span>가상 방문기록 200건으로 파일 구조 이해 → 품질 점검 → AI 경영 질문 → 원본 검산 → 작은 실험을 해봅니다.</span>
+        <small>5단계 · 따라하기/관찰하기/자유 탐구 · 무료 가상 자료</small>
+        <span class="link">학습 시작 →</span>
+      </a>
+    </section>
+    <section class="guide" aria-labelledby="how">
+      <h2 id="how">원하는 방식으로 배우세요</h2>
+      <div class="ways">
+        <div><strong>따라하기</strong><p>준비된 가상 파일과 프롬프트를 그대로 실행합니다.</p></div>
+        <div><strong>관찰하기</strong><p>파일 업로드가 어려워도 검증된 예시를 보며 원리를 이해합니다.</p></div>
+        <div><strong>자유 탐구</strong><p>자신의 질문으로 바꾸되, 데이터의 한계와 검산 기준은 지킵니다.</p></div>
+      </div>
+    </section>
+    <p class="note">이곳의 데이터와 수치는 교육용 가상 사례입니다. 실제 환자정보를 공개 AI에 입력하지 마세요. <a href="/tools/lectures/2026-11-08-daemire/">2026년 11월 8일 강연 자료실</a></p>
+  </main>
+</Layout>
+<style>
+  .hub{max-width:58rem;margin:0 auto;padding:2.2rem 1rem 5rem;color:var(--text)}
+  .crumb{font-size:.83rem;color:var(--t3);margin-bottom:2rem}.crumb a{color:var(--t2)}
+  .eyebrow{font-size:.75rem;letter-spacing:.14em;color:#168b7b;font-weight:800}
+  h1{font-size:clamp(2rem,4vw,3rem);line-height:1.2;letter-spacing:-.04em;margin:.4rem 0 1rem;font-family:var(--display)}
+  .lead{font-size:1.08rem;line-height:1.8;max-width:52rem;color:var(--t2)}
+  h2{font-family:var(--display);font-size:1.3rem;margin:2.4rem 0 1rem}
+  .lesson{display:flex;flex-direction:column;gap:.5rem;padding:1.6rem;border:1px solid var(--rule);border-radius:18px;text-decoration:none;color:inherit;background:var(--bg2)}
+  .lesson:hover,.lesson:focus-visible{border-color:#159a89;outline-color:#159a89}
+  .lesson strong{font-size:1.28rem;font-family:var(--display)}.lesson span:not(.tag):not(.link){line-height:1.7;color:var(--t2)}
+  .tag{font-size:.77rem;font-weight:700;color:#168b7b}.lesson small{font-size:.84rem;color:var(--t3)}.link{font-weight:800;color:#168b7b}
+  .ways{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem}
+  .ways>div{padding:1.1rem;background:var(--bg2);border:1px solid var(--rule);border-radius:14px}
+  .ways strong{font-size:1rem}.ways p{color:var(--t2);line-height:1.6;font-size:.93rem;margin:.4rem 0 0}
+  .note{margin-top:2rem;font-size:.87rem;color:var(--t3);line-height:1.7}
+  @media(max-width:700px){.hub{padding:1.7rem .85rem 3rem}.ways{grid-template-columns:1fr}.lesson{padding:1.1rem}}
+</style>
