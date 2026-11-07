@@ -2701,3 +2701,9 @@ footer {
 
 
 
+
+
+html[data-theme="dark"]{--bg:#11151b;--bg2:#202731;--bg3:#2b3440;--rule:rgba(235,240,246,.19);--rule2:rgba(235,240,246,.11);--text:#edf1f6;--t2:#c0c8d2;--t3:#a0acba;--pink:#d8b485;--pink-lo:rgba(216,180,133,.16);color-scheme:dark}
+html[data-theme="dark"] body{background:var(--bg);color:var(--text)}
+html[data-theme="dark"] input,html[data-theme="dark"] textarea,html[data-theme="dark"] select{background:var(--bg2);color:var(--text);border-color:var(--rule)}
+html[data-theme="dark"] .topbar,html[data-theme="dark"] .search-dropdown{background:#1b222b;color:var(--text)}
