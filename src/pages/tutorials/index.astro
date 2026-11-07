@@ -1,54 +1,20 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 ---
-<Layout title="실습 튜토리얼" description="청중이 AI 실습을 스스로 따라할 수 있도록 설계한 단계별 웹 튜토리얼 모음입니다.">
-  <main class="hub">
-    <nav class="crumb" aria-label="현재 위치"><a href="/tools/">강연·자료</a><span aria-hidden="true"> / </span>실습 튜토리얼</nav>
-    <p class="eyebrow">S—REBORN · WEB LEARNING</p>
-    <h1>실습 튜토리얼</h1>
-    <p class="lead">강연을 듣지 않아도 스스로 진행할 수 있는 작은 학습 과정입니다. 목적을 이해하고, 직접 해보거나 결과를 관찰하고, 데이터의 의미와 검증 기준까지 확인할 수 있습니다.</p>
-    <section aria-labelledby="available">
-      <h2 id="available">지금 시작할 수 있는 튜토리얼</h2>
-      <a class="lesson" href="/tutorials/hermes-agent/">
-        <span class="tag">02 · AI 에이전트 · 강연 자료</span>
-        <strong>Hermes Agent 설치와 텔레그램 연결</strong>
-        <span>강세희 원장 60분 실습 강연용 두 편의 원본 Markdown 가이드를 다운로드하고, 설치부터 실제 AI 답장 확인까지 순서대로 학습합니다.</span>
-        <small>2편 · Windows PC 실습 · 원본 자료 다운로드</small>
-        <span class="link">자료 열기 →</span>
-      </a>
-      <a class="lesson" href="/tutorials/crm-first-analysis/">
-        <span class="tag">01 · 병원 데이터</span>
-        <strong>CRM 데이터 첫 분석</strong>
-        <span>가상 방문기록 200건으로 파일 구조 이해 → 품질 점검 → AI 경영 질문 → 원본 검산 → 작은 실험을 해봅니다.</span>
-        <small>5단계 · 따라하기/관찰하기/자유 탐구 · 무료 가상 자료</small>
-        <span class="link">학습 시작 →</span>
-      </a>
-    </section>
-    <section class="guide" aria-labelledby="how">
-      <h2 id="how">원하는 방식으로 배우세요</h2>
-      <div class="ways">
-        <div><strong>따라하기</strong><p>준비된 가상 파일과 프롬프트를 그대로 실행합니다.</p></div>
-        <div><strong>관찰하기</strong><p>파일 업로드가 어려워도 검증된 예시를 보며 원리를 이해합니다.</p></div>
-        <div><strong>자유 탐구</strong><p>자신의 질문으로 바꾸되, 데이터의 한계와 검산 기준은 지킵니다.</p></div>
-      </div>
-    </section>
-    <p class="note">이곳의 데이터와 수치는 교육용 가상 사례입니다. 실제 환자정보를 공개 AI에 입력하지 마세요. <a href="/tools/lectures/2026-11-08-daemire/">2026년 11월 8일 강연 자료실</a></p>
-  </main>
+<Layout title="실습 튜토리얼" description="강연자별로 구분한 Hermes Agent 및 병원 CRM 데이터 실습 튜토리얼 모음">
+<link rel="stylesheet" href="/lecture-materials/hubs.css" />
+<main class="speaker-hub">
+<nav class="crumb" aria-label="현재 위치"><a href="/lecture-materials/">강연·자료</a><span>/</span><strong>실습 튜토리얼 모음</strong></nav>
+<header><div class="kicker">S—REBORN · HANDS-ON LEARNING</div><h1>실습 튜토리얼</h1><p class="lead">강연자별로 실습이 구분되어 있습니다. 해당 강연을 선택한 뒤 단계별 안내에 따라 진행하세요.</p></header>
+<section class="section">
+<div class="section-head"><h2>강세희 원장 · Hermes Agent</h2><p>설치부터 첫 AI 대화, 텔레그램 연결까지 이어지는 실습입니다.</p></div>
+<div class="feature"><div class="label">강세희 원장 · 골드 G 의원</div><h3>Hermes Agent 설치와 텔레그램 연결</h3><p>PC에서 설치와 모델 연결을 확인한 뒤 개인 봇으로 대화합니다.</p><div class="actions"><a class="action-primary" href="/lecture-materials/kang-sehee/">강세희 원장 자료 전체 →</a><a class="action-secondary" href="/tutorials/hermes-agent/ep01/">EP01 바로 실습 →</a></div></div>
+</section>
+<section class="section">
+<div class="section-head"><h2>김도위 원장 · 병원 데이터 분석</h2><p>가상 CRM 데이터를 활용해 분석과 검산을 연습합니다.</p></div>
+<div class="feature"><div class="label">김도위 원장 · 에스리본의원</div><h3>CRM 데이터 첫 분석 · 5단계</h3><p>가상 방문기록으로 데이터 구조, 품질 점검, AI 분석, 원본 검산을 순서대로 진행합니다.</p><div class="actions"><a class="action-primary" href="/lecture-materials/kim-dowi/">김도위 원장 자료 전체 →</a><a class="action-secondary" href="/tutorials/crm-first-analysis/">CRM 실습 바로 시작 →</a></div></div>
+</section>
+<p class="small-note">교육용 자료를 사용하세요. 실제 환자정보나 인증 정보는 공개 AI 서비스·강연 채팅방에 입력하지 마세요.</p>
+<div class="muted-links"><a href="/lecture-materials/archive/">전체 강연 아카이브</a><a href="/lecture-materials/">강연·자료로 돌아가기</a></div>
+</main>
 </Layout>
-<style>
-  .hub{max-width:58rem;margin:0 auto;padding:2.2rem 1rem 5rem;color:var(--text)}
-  .crumb{font-size:.83rem;color:var(--t3);margin-bottom:2rem}.crumb a{color:var(--t2)}
-  .eyebrow{font-size:.75rem;letter-spacing:.14em;color:#168b7b;font-weight:800}
-  h1{font-size:clamp(2rem,4vw,3rem);line-height:1.2;letter-spacing:-.04em;margin:.4rem 0 1rem;font-family:var(--display)}
-  .lead{font-size:1.08rem;line-height:1.8;max-width:52rem;color:var(--t2)}
-  h2{font-family:var(--display);font-size:1.3rem;margin:2.4rem 0 1rem}
-  .lesson{display:flex;flex-direction:column;gap:.5rem;padding:1.6rem;border:1px solid var(--rule);border-radius:18px;text-decoration:none;color:inherit;background:var(--bg2)}
-  .lesson:hover,.lesson:focus-visible{border-color:#159a89;outline-color:#159a89}
-  .lesson strong{font-size:1.28rem;font-family:var(--display)}.lesson span:not(.tag):not(.link){line-height:1.7;color:var(--t2)}
-  .tag{font-size:.77rem;font-weight:700;color:#168b7b}.lesson small{font-size:.84rem;color:var(--t3)}.link{font-weight:800;color:#168b7b}
-  .ways{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem}
-  .ways>div{padding:1.1rem;background:var(--bg2);border:1px solid var(--rule);border-radius:14px}
-  .ways strong{font-size:1rem}.ways p{color:var(--t2);line-height:1.6;font-size:.93rem;margin:.4rem 0 0}
-  .note{margin-top:2rem;font-size:.87rem;color:var(--t3);line-height:1.7}
-  @media(max-width:700px){.hub{padding:1.7rem .85rem 3rem}.ways{grid-template-columns:1fr}.lesson{padding:1.1rem}}
-</style>
