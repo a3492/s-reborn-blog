@@ -170,3 +170,24 @@ body {
 .native-slide li:nth-child(n+7){font-size:26px}
 .native-number{position:absolute;right:78px;bottom:38px;font-size:19px;color:#78909b}
 .cards .native-card{background:#eaf5f5;border-top:5px solid #0b8b88}
+
+
+/* DAEMIRE: overview accessibility fix. Prior light tile + light text was invisible. */
+.lec-viewer .overview .card.native-card {
+  background: #182a3b !important;
+  border: 1px solid #4b6579 !important;
+  color: #f7fbff !important;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-height:120px;
+}
+.lec-viewer .overview .card.native-card strong {
+  color:#f7fbff !important;
+  font-size:15px;
+  line-height:1.45;
+  overflow-wrap:anywhere;
+}
+.lec-viewer .overview .card.native-card small { color:#9de6dd !important; font-size:12px; }
+.lec-viewer .overview .card.native-card:hover,
+.lec-viewer .overview .card.native-card:focus-visible { background:#23465a !important; outline:3px solid #59d6c8; outline-offset:2px; }
