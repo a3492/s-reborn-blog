@@ -26,7 +26,7 @@ const cost = [
       <div class="quick"><a href="#cost">10:00 · 경영 도구 강연</a><a href="#crm">11:20 · CRM 분석 강연</a><a href="/lecture-materials/2026-11-08/archive/">전체 자료·참고 아카이브</a></div>
     </header>
     <section class="track" id="cost">
-      <div class="track-head"><div><span class="eyebrow">10:00–10:30 · 개원준비방</span><h2>① AI로 병원 원가·손익분기점 도구 만들기</h2><p>목적: 시술 가격만 보고 판단하지 않고, 실제 남는 돈과 적어도 몇 건을 해야 하는지를 확인합니다.</p></div><a class="primary" href="/tools/lectures/2026-11-08-daemire/#ops">경영 도구 실습 열기</a></div>
+      <p class="slide-source"><strong>발표자료:</strong> <a href="https://docs.google.com/presentation/d/1j2bEdraGEezIK89pvHMY4KLz_azm0bw5/edit" target="_blank" rel="noopener noreferrer">강연 2 · 경영 도구 PPTX v2 (13장) 열기 ↗</a></p><div class="track-head"><div><span class="eyebrow">10:00–10:30 · 개원준비방</span><h2>① AI로 병원 원가·손익분기점 도구 만들기</h2><p>목적: 시술 가격만 보고 판단하지 않고, 실제 남는 돈과 적어도 몇 건을 해야 하는지를 확인합니다.</p></div><a class="primary" href="/tools/lectures/2026-11-08-daemire/#ops">경영 도구 실습 열기</a></div>
       <details class="runofshow"><summary>30분 강연 진행표 · 지금 어느 부분인가요?</summary><p>0–4분 문제 정의 → 4–7분 입력값과 단위 → 7–16분 AI 계산기 설계 원리 → 16–22분 기준값·가격 변경 → 22–26분 독립 검산 → 26–30분 다른 경영 도구에 응용·정리</p><p>강연자의 실시간 제작 시연은 필수가 아닙니다. 청중은 화면을 보고 이해하며, 직접 제작은 강연 후에도 진행할 수 있습니다.</p></details>
       <div class="example"><strong>이 강연의 핵심 계산</strong><span>판매가 20만 원 − 건당 변동원가 5만 원 = 건당 15만 원</span><span>월 고정비 1,500만 원 ÷ 15만 원 = 손익분기점 100건</span><small>가상 단일 시술의 예시이며 세금·투자비 회수·현금흐름 등은 포함하지 않습니다.</small></div>
       <h3>이 순서대로 진행하세요</h3>
@@ -47,7 +47,7 @@ BEP 건수 = 월 고정비 / 공헌이익을 정수 올림.
       </div>
     </section>
     <section class="track" id="crm">
-      <div class="track-head"><div><span class="eyebrow">11:20–12:20 · CRM 데이터 분석</span><h2>② 병원 CRM 데이터를 AI로 분석하고 검산하기</h2><p>목적: 기록만 많이 쌓지 않고, 제대로 연결한 숫자를 바탕으로 병원 경영 질문에 답하도록 합니다.</p></div><a class="primary" href="/tutorials/crm-first-analysis/">CRM 5단계 실습 시작</a></div>
+      <p class="slide-source"><strong>발표자료:</strong> <a href="https://docs.google.com/presentation/d/1S0zyVKZWQ7mojMEHgvdZykDy7-lWVyUd/edit" target="_blank" rel="noopener noreferrer">강연 1 · CRM PPTX v2 (52장) 열기 ↗</a></p><div class="track-head"><div><span class="eyebrow">11:20–12:20 · CRM 데이터 분석</span><h2>② 병원 CRM 데이터를 AI로 분석하고 검산하기</h2><p>목적: 기록만 많이 쌓지 않고, 제대로 연결한 숫자를 바탕으로 병원 경영 질문에 답하도록 합니다.</p></div><a class="primary" href="/tutorials/crm-first-analysis/">CRM 5단계 실습 시작</a></div>
       <details class="runofshow"><summary>60분 강연 진행표 · 지금 어느 부분인가요?</summary><p>0–5분 문제의식 → 5–15분 데이터 구조와 200행 → 15–25분 누락·중복 점검 → 25–40분 AI 분석 → 40–52분 원본 독립 검산 → 52–60분 작은 실행·질문 정리</p><p>실습이 늦어지면 다음 단계는 관찰하면서 듣고, 강연 후 같은 페이지에서 다시 실행해도 됩니다.</p></details>
       <div class="example"><strong>먼저 구별할 것</strong><span>방문 200행 ≠ 고유 환자 200명 (환자 식별·중복 확인 필요)</span><span>AI가 말한 결과 ≠ 검증된 사실 (원본과 별도 대조 필요)</span></div>
       <h3>이 순서대로 진행하세요</h3>
@@ -101,7 +101,7 @@ BEP 건수 = 월 고정비 / 공헌이익을 정수 올림.
 .follow .primary{color:white;background:#08786e;white-space:nowrap}
 .follow a:hover{text-decoration:underline}
 .follow a:focus-visible,.follow summary:focus-visible{outline:2px solid #0c8f80;outline-offset:3px}
-.follow .track{scroll-margin-top:88px;border-bottom:1px solid var(--rule);padding:22px 0}
+.follow .slide-source{margin:0 0 10px;font-size:.85rem;line-height:1.5}.follow .slide-source a{color:#08786e;text-decoration:underline}.follow .track{scroll-margin-top:88px;border-bottom:1px solid var(--rule);padding:22px 0}
 .follow .track-head{display:flex;gap:15px;justify-content:space-between;align-items:start}
 .follow h2{font-size:clamp(1.27rem,2.7vw,1.6rem);margin:4px 0 7px;line-height:1.35}
 .follow .track-head p{margin:0 0 12px;color:var(--t2);line-height:1.55;font-size:.92rem}
