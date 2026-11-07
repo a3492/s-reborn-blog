@@ -2707,3 +2707,45 @@ html[data-theme="dark"]{--bg:#11151b;--bg2:#202731;--bg3:#2b3440;--rule:rgba(235
 html[data-theme="dark"] body{background:var(--bg);color:var(--text)}
 html[data-theme="dark"] input,html[data-theme="dark"] textarea,html[data-theme="dark"] select{background:var(--bg2);color:var(--text);border-color:var(--rule)}
 html[data-theme="dark"] .topbar,html[data-theme="dark"] .search-dropdown{background:#1b222b;color:var(--text)}
+
+
+/* Unified color surfaces: never expose a light body beneath dark components. */
+html[data-theme="dark"] {
+  --surface:#202731; --surface-hover:#2c3541;
+  --surface-muted:#252e39; --on-accent:#17120e;
+  --border:#3b4653; --link:#d8b485;
+}
+html[data-theme="dark"] .tb-nav,
+html[data-theme="dark"] .featured-side,
+html[data-theme="dark"] .post-card,
+html[data-theme="dark"] .home-signal-card,
+html[data-theme="dark"] .blog-summary-card,
+html[data-theme="dark"] .about-glance-card,
+html[data-theme="dark"] .blog-summary-chip,
+html[data-theme="dark"] .about-social-link,
+html[data-theme="dark"] .blog-item,
+html[data-theme="dark"] .yt-sidebar {
+  background:var(--surface);
+  color:var(--text);
+  border-color:var(--rule);
+}
+html[data-theme="dark"] .side-post:hover,
+html[data-theme="dark"] .post-card:hover,
+html[data-theme="dark"] .blog-item:hover,
+html[data-theme="dark"] .blog-summary-card:hover,
+html[data-theme="dark"] .home-signal-card:hover,
+html[data-theme="dark"] .about-glance-card:hover,
+html[data-theme="dark"] .yt-item:hover {
+  background:var(--surface-hover);
+}
+html[data-theme="dark"] .f-title em { color:var(--t3); }
+html[data-theme="dark"] .sr-diff--beginner {background:#173728;color:#a2e6b5}
+html[data-theme="dark"] .sr-diff--intermediate {background:#40301d;color:#ffd39e}
+html[data-theme="dark"] .sr-diff--advanced {background:#392644;color:#ebbef4}
+html[data-theme="dark"] .sr-semantic-badge {background:#222e4b;color:#bdcbff}
+html[data-theme="dark"] .request-article-btn:hover,
+html[data-theme="dark"] .yt-cat-chip--active {color:#17120e}
+html[data-theme="dark"] .featured-main:hover .read-link,
+html[data-theme="dark"] .side-head-link:hover,
+html[data-theme="dark"] .foot-social-link:hover,
+html[data-theme="dark"] .blog-item:hover .blog-item-title {color:var(--link)}
