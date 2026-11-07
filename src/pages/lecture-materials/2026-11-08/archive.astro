@@ -1,0 +1,67 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+const files = [
+  ['00_시작하기_자료사용가이드.md','시작 안내','파일을 언제 받고 어떻게 사용하는지 정리한 원본 가이드'],
+  ['01_고객정보_수집경로별_원본예시와_자동정리.md','고객정보 예시','문의·방문·메모 같은 정보가 왜 따로 흩어지는지 이해하는 참고 글'],
+  ['2026년10월_방문시술매출_CRM.xlsx','CRM 방문·매출 200건','강연1 핵심 실습 데이터. 방문 행과 환자 수를 구별해야 합니다'],
+  ['2026년10월_상담문의_목록.csv','상담 문의 96건','강연1에서 문의 유형별 건수를 확인하는 CSV'],
+  ['L1_프롬프트와_슬라이드별_실습가이드_v3.md','강연1 단계별 프롬프트','현장 강연용 안내와 프롬프트 상세 원문'],
+  ['L1_지표정의_결정카드_템플릿.md','지표 정의 템플릿','숫자를 세기 전에 무엇을 한 건으로 볼지 정하는 문서'],
+  ['L1_검산과_데이터품질_체크리스트.md','데이터 검산 체크리스트','누락·중복·합계를 확인하는 자료'],
+  ['L2_원가_BEP_시연입력_v1.0_v4.xlsx','강연2 입력 엑셀','원가 계산과 손익분기점 도구에 넣는 수치'],
+  ['L2_원가_BEP_시연입력_v4.csv','강연2 입력 CSV','엑셀을 열기 어려울 때 쓰는 대체 파일'],
+  ['L2_원가_BEP_독립검산_v4.xlsx','강연2 독립 검산표','AI의 답을 따로 검증하는 엑셀'],
+  ['L2_AI도구_제작프롬프트와_검증테스트_v3.md','강연2 AI 제작 프롬프트','원가 계산기 제작을 요구하는 구체적인 입력 문장'],
+  ['L2_내병원_작은도구_기획시트.md','내 병원 도구 기획시트','현장 강연 후 내 병원 경영 문제에 응용하는 양식'],
+  ['DML_A-H_8대페인포인트_강연순서_1페이지_인덱스_v1.md','문제의식 A–H 색인','강연 참고용 문제 분류 목록']
+];
+const groups = [
+  {title:'먼저 읽을 자료 · 공통',indices:[0,1]},
+  {title:'강연1 · CRM 분석',indices:[2,3,4,5,6]},
+  {title:'강연2 · AI 경영 도구',indices:[7,8,9,10,11]},
+  {title:'복습·심화',indices:[12]}
+];
+---
+<Layout title="대미레 원본 자료 아카이브" description="11월 8일 대미레 강연에서 사용하는 13개 원본 다운로드와 심화 참고자료를 모았습니다.">
+  <main class="archive">
+    <nav aria-label="현재 위치" class="crumb"><a href="/lecture-materials/">강연·자료</a> / <a href="/lecture-materials/2026-11-08/">11/8 현장 따라하기</a> / 자료 아카이브</nav>
+    <header><p class="eyebrow">REFERENCE · ORIGINAL FILES</p><h1>원본 자료·심화 아카이브</h1><p>현장에서는 <a href="/lecture-materials/2026-11-08/">강연 따라하기 페이지</a>만 먼저 열면 됩니다. 아래 자료는 필요할 때 파일명을 찾아 다운로드하세요. <strong>자료를 모두 내려받는 것이 실습 목표는 아닙니다.</strong></p></header>
+    {groups.map((group,groupIndex) => (
+      <details class="group" open={groupIndex===1||groupIndex===2}>
+        <summary><strong>{group.title}</strong><span>{group.indices.length}개 파일 · 클릭해서 접고 펼치기</span></summary>
+        <ul>{group.indices.map(i=><li><div><strong>{files[i][1]}</strong><p>{files[i][2]}</p></div><a href={'/downloads/daemire-1108/'+encodeURIComponent(files[i][0])} download={files[i][0]}>다운로드</a></li>)}</ul>
+      </details>
+    ))}
+    <section class="extra"><h2>다른 참고 자료</h2><div class="links">
+      <a href="/tools/hospital-data-pain-points/">AI 입력용 병원 페인포인트 A–H</a>
+      <a href="/tools/consult-archive/">상담 기록 자료실</a>
+      <a href="/tools/procedure-archive/">시술 기록 자료실</a>
+      <a href="/tools/lectures/2026-11-08-daemire/">기존 강연1·2 전체 워크북</a>
+      <a href="/tutorials/crm-first-analysis/">CRM 5단계 인터랙티브 실습</a>
+    </div><p>다른 자료실은 선택 학습입니다. 현재 듣는 강연이 끝나기 전에 모두 열 필요는 없습니다.</p></section>
+    <p class="back"><a href="/lecture-materials/2026-11-08/">← 현장 실습 순서로 돌아가기</a></p>
+  </main>
+</Layout>
+<style>
+.archive{max-width:960px;margin:auto;padding:16px 18px 36px;color:var(--text)}
+.archive .crumb{font-size:.8rem;color:var(--t2);margin:0 0 12px}.archive a{color:#08786e;text-underline-offset:3px}
+.archive .eyebrow{font-size:.72rem;letter-spacing:.08em;color:#08786e;font-weight:800;margin:0 0 5px}
+.archive h1{font-size:clamp(1.6rem,3.5vw,2.3rem);margin:3px 0 9px}
+.archive header{padding:8px 0 15px;border-bottom:1px solid var(--rule)}
+.archive header p{font-size:.91rem;line-height:1.55;margin:0}
+.archive .group{border-bottom:1px solid var(--rule)}
+.archive .group>summary{cursor:pointer;display:flex;justify-content:space-between;gap:12px;align-items:center;padding:13px 4px;min-height:46px}
+.archive .group>summary strong{font-size:1rem}
+.archive .group>summary span{font-size:.76rem;color:var(--t2)}
+.archive .group ul{list-style:none;margin:0 0 10px;padding:0}
+.archive .group li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border-top:1px solid var(--rule);padding:8px 6px}
+.archive .group li strong{font-size:.88rem}.archive .group li p{margin:3px 0 0;font-size:.8rem;color:var(--t2);line-height:1.4}
+.archive .group li a{padding:9px 10px;min-height:42px;display:inline-flex;align-items:center;border-radius:4px;border:1px solid var(--rule);font-size:.82rem;font-weight:700;text-decoration:none}
+.archive .extra{padding:18px 0;border-bottom:1px solid var(--rule)}
+.archive .extra h2{font-size:1.17rem;margin:0 0 12px}
+.archive .links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.archive .links a{font-size:.87rem;padding:7px 3px}
+.archive .extra p,.archive .back{font-size:.84rem;line-height:1.5;color:var(--t2)}
+.archive a:focus-visible,.archive summary:focus-visible{outline:2px solid #08877a;outline-offset:3px}
+@media(max-width:600px){.archive{padding:11px 12px 30px}.archive .group>summary{align-items:start;flex-direction:column;gap:3px}.archive .links{grid-template-columns:1fr}}
+</style>
