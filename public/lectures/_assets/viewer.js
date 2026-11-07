@@ -165,9 +165,13 @@
 				const b = document.createElement('button');
 				b.className = 'card';
 				const im = document.createElement('img');
-								if (s.image) im.src = resolveImg(s.image);
-				else { im.style.display = 'none'; b.classList.add('native-card'); }
-				im.loading = 'lazy';
+				if (s.image) {
+					im.src = resolveImg(s.image);
+					im.loading = 'lazy';
+				} else {
+					im.style.display = 'none';
+					b.classList.add('native-card');
+				}
 				im.alt = s.title + ' 썸네일';
 				const small = document.createElement('small');
 				small.textContent = `${i + 1} / ${slides.length}`;
