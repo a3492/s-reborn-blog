@@ -74,6 +74,7 @@ jobs:
             await must('crm-link',crmHref==='/tutorials/crm-first-analysis/');
             await page.goto(base+'/lecture-materials/2026-11-08/archive/',{waitUntil:'networkidle'});
             await must('archive-files',await page.locator('.archive .group li a[download]').count()===13);
+            await page.locator('.archive .group').first().locator('summary').click();
             const link=page.locator('.archive .group li a[download]').first();
             const [download]=await Promise.all([page.waitForEvent('download'),link.click()]);
             const payload=fs.readFileSync(await download.path());
