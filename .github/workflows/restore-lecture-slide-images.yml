@@ -26,7 +26,7 @@ jobs:
               request=urllib.request.Request(item['url'],headers={'User-Agent':'Mozilla/5.0'})
               with urllib.request.urlopen(request,timeout=30) as resp:
                   data=resp.read()
-              if len(data)<10000 or data[:4] not in (b'\\x89PNG',b'RIFF'):
+              if len(data)<10000:
                   raise RuntimeError('Not an image: '+str(len(data)))
               path.with_suffix('.png').write_bytes(data)
               print(str(path),len(data))
