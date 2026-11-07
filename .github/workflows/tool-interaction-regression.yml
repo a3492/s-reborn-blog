@@ -2,7 +2,7 @@ name: Tool interaction regression QA - no deployment
 
 on:
   push:
-    branches: [experiment/density-conflict-reconcile-20261107]
+    branches: [experiment/density-conflict-reconcile-20261107, experiment/ui-density-integrated-wave7-20261107]
     paths:
       - '.github/workflows/tool-interaction-regression.yml'
       - 'src/pages/tools/**'

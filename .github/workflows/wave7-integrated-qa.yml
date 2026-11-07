@@ -1,0 +1,112 @@
+name: Wave 7 integrated density QA (no deploy)
+
+on:
+  push:
+    branches: [experiment/ui-density-integrated-wave7-20261107]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  integrated:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Build combined project
+        run: |
+          npm ci
+          npm run build
+      - name: Assert merged route files exist
+        run: |
+          test -s dist/lab/index.html
+          test -s dist/lab/peos/index.html
+          test -s dist/tutorials/index.html
+          test -s dist/lectures/index.html
+          test -s dist/tools/index.html
+          test -s dist/tools/consult-archive/index.html
+          test -s dist/tools/procedure-archive/index.html
+          test -s dist/sitemap/index.html
+          test -s dist/generate/index.html
+          test -s dist/coming-soon/index.html
+          test -s dist/docs/future-axes-plan/index.html
+      - name: Install Chromium for page QA
+        run: |
+          npm install --no-save --package-lock=false playwright@1.58.2
+          npx playwright install --with-deps chromium
+      - name: Audit integrated routes and links
+        run: |
+          set -eu
+          mkdir -p /tmp/wave7-integrated-qa
+          python3 -m http.server 4321 --bind 127.0.0.1 --directory dist >/tmp/wave7-preview.log 2>&1 &
+          SERVER=$!
+          trap 'kill "$SERVER" 2>/dev/null || true' EXIT
+          for i in $(seq 1 40); do
+            if curl -fsS http://127.0.0.1:4321/lab/ >/dev/null; then break; fi
+            sleep 1
+          done
+          node --input-type=module - <<'NODE'
+          import {chromium} from 'playwright';
+          import fs from 'node:fs';
+          const browser=await chromium.launch({headless:true});
+          const routes=['/','/lab/','/lab/peos/','/tutorials/','/lectures/','/tools/','/tools/consult-archive/','/tools/procedure-archive/','/tools/hospital-data-pain-points/','/tools/lectures/2026-11-08-daemire/','/docs/future-axes-plan/','/sitemap/','/generate/','/coming-soon/'];
+          const dimensions=[[1440,900],[390,844],[320,720]];
+          const data=[];
+          let failures=0;
+          for(const [width,height] of dimensions){
+            const page=await browser.newPage({viewport:{width,height},deviceScaleFactor:1});
+            const errors=[];
+            page.on('pageerror',e=>errors.push(e.message));
+            for(const route of routes){
+              const before=errors.length;
+              const response=await page.goto('http://127.0.0.1:4321'+route,{waitUntil:'networkidle'});
+              const d=await page.evaluate(()=>{
+                const localLinks=[...document.querySelectorAll('a[href^="/"]')].map(a=>a.getAttribute('href'));
+                return {
+                  scrollWidth:document.documentElement.scrollWidth,
+                  viewport:document.documentElement.clientWidth,
+                  title:document.title,
+                  links:localLinks.length,
+                  headings:document.querySelectorAll('h1').length
+                }
+              });
+              const expectedLab=route==='/lab/';
+              const expectedHome=route==='/';
+              const expectedPEOS=route==='/lab/peos/';
+              const labLink=await page.locator('a[href="/lab/peos/"]').count();
+              const homeLabLink=await page.locator('a[href="/lab/"]').count();
+              const peosContent=expectedPEOS?await page.locator('body').innerText():'';
+              const row={
+                route,viewport:width+'x'+height,http:response?.status(),...d,
+                labLink,homeLabLink,peosContent:peosContent.includes('PEOS'),
+                errors:errors.slice(before)
+              };
+              row.ok=row.http===200 && row.scrollWidth<=row.viewport+1 && row.errors.length===0 &&
+                (!expectedLab||labLink>0) && (!expectedHome||homeLabLink>0) &&
+                (!expectedPEOS||row.peosContent);
+              if(!row.ok){failures++;console.error('FAIL',row)}
+              data.push(row);
+              if(width===390 && ['/','/lab/','/lab/peos/','/tutorials/','/tools/'].includes(route)){
+                await page.screenshot({path:'/tmp/wave7-integrated-qa/'+route.replaceAll('/','_').replace(/^_$/,'home')+'.png',fullPage:true})
+              }
+            }
+            await page.close();
+          }
+          await browser.close();
+          fs.writeFileSync('/tmp/wave7-integrated-qa/results.json',JSON.stringify(data,null,2));
+          console.log(JSON.stringify({checked:data.length,passed:data.filter(x=>x.ok).length,failed:failures,failures:data.filter(x=>!x.ok)},null,2));
+          if(failures)process.exit(1);
+          NODE
+      - name: Upload QA results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wave7-integrated-qa
+          path: /tmp/wave7-integrated-qa/
+          retention-days: 7
+          if-no-files-found: warn
