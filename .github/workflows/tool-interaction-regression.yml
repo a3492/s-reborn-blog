@@ -1,0 +1,160 @@
+name: Tool interaction regression QA - no deployment
+
+on:
+  push:
+    branches: [experiment/density-conflict-reconcile-20261107]
+    paths:
+      - '.github/workflows/tool-interaction-regression.yml'
+      - 'src/pages/tools/**'
+      - 'src/pages/lectures/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fd210a2784d8c25b9d1fda161145ea209451fcf8
+          path: baseline
+      - uses: actions/checkout@v4
+        with:
+          path: candidate
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: candidate/package-lock.json
+      - name: Build baseline and candidate
+        run: |
+          set -eu
+          cd candidate
+          npm ci
+          npm run build
+          cd ../baseline
+          ln -s ../candidate/node_modules node_modules
+          npm run build
+      - name: Install Chromium
+        working-directory: candidate
+        run: |
+          npm install --no-save --package-lock=false playwright@1.58.2
+          npx playwright install --with-deps chromium
+      - name: Interactive checks - search, filters, tabs, copy, download
+        run: |
+          set -eu
+          mkdir -p /tmp/tool-actions-qa
+          python3 -m http.server 4321 --bind 127.0.0.1 --directory baseline/dist >/tmp/tool-actions-base.log 2>&1 &
+          B=$!
+          python3 -m http.server 4322 --bind 127.0.0.1 --directory candidate/dist >/tmp/tool-actions-after.log 2>&1 &
+          C=$!
+          trap 'kill "$B" "$C" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 40); do
+            if curl -fsS http://127.0.0.1:4321/tools/ >/dev/null && curl -fsS http://127.0.0.1:4322/tools/ >/dev/null; then break; fi
+            sleep 1
+          done
+          cd candidate
+          node --input-type=module - <<'NODE'
+          import {chromium} from 'playwright';
+          import fs from 'node:fs';
+          import {createHash} from 'node:crypto';
+          const browser=await chromium.launch({headless:true});
+          const sizes=[[1440,900],[390,844]];
+          const scenarios=[
+            {name:'consult-search-filter',url:'/tools/consult-archive/',run:async page=>{
+              await page.locator('[data-pack]').evaluate(e=>e.open=true);
+              const before=await page.locator('[data-pack-item]').count();
+              await page.locator('[data-pack-search]').fill('B01-E001');
+              const after=await page.locator('[data-pack-item]:not([hidden])').count();
+              const count=await page.locator('[data-pack-count]').innerText();
+              await page.locator('[data-pack-search]').fill('');
+              await page.locator('button[data-pack-filter="batch"][data-pack-value="1차"]').click();
+              const pressed=await page.locator('button[data-pack-value="1차"]').getAttribute('aria-pressed');
+              const filtered=await page.locator('[data-pack-item]:not([hidden])').count();
+              return {before,after,count,pressed,filtered,ok:before>0&&after>0&&after<before&&pressed==='true'&&filtered>0&&filtered<before};
+            }},
+            {name:'procedure-search-filter',url:'/tools/procedure-archive/',run:async page=>{
+              await page.locator('#procedure-list').evaluate(e=>e.open=true);
+              const before=await page.locator('[data-pack-item]').count();
+              await page.locator('[data-pack-search]').fill('P-055');
+              const after=await page.locator('[data-pack-item]:not([hidden])').count();
+              const count=await page.locator('[data-pack-count]').innerText();
+              await page.locator('[data-pack-search]').fill('');
+              const filter=page.locator('button[data-pack-filter="grade"]').first();
+              await filter.click();
+              const pressed=await filter.getAttribute('aria-pressed');
+              const filtered=await page.locator('[data-pack-item]:not([hidden])').count();
+              return {before,after,count,pressed,filtered,ok:before>0&&after>0&&after<before&&pressed==='true'&&filtered>0&&filtered<before};
+            }},
+            {name:'daemire-tab',url:'/tools/lectures/2026-11-08-daemire/',run:async page=>{
+              const initial=await page.locator('#tab-crm').isChecked();
+              await page.locator('label[for="tab-ops"]').click();
+              const checked=await page.locator('#tab-ops').isChecked();
+              const visible=await page.locator('.panel-ops').isVisible();
+              const hidden=!(await page.locator('.panel-crm').isVisible());
+              await page.locator('label[for="tab-crm"]').click();
+              const restored=await page.locator('#tab-crm').isChecked();
+              return {initial,checked,visible,hidden,restored,ok:initial&&checked&&visible&&hidden&&restored};
+            }},
+            {name:'tool-copy',url:'/tools/hospital-data-pain-points/',run:async page=>{
+              const btn=page.locator('button[data-copy]').first();
+              const code=await btn.getAttribute('data-copy');
+              const expected=(await page.locator('#copy-'+code).textContent())?.trim();
+              await btn.click();
+              await page.waitForTimeout(100);
+              const message=await page.locator('[data-copy-status]').innerText();
+              const buttonText=await btn.innerText();
+              let clip='';
+              try {clip=await page.evaluate(()=>navigator.clipboard.readText())}catch{}
+              return {code,expectedLength:expected?.length||0,clipMatch:clip===expected,message,buttonText,ok:!!expected&&buttonText.includes('복사됨')&&message.includes('복사')&&clip===expected};
+            }},
+            {name:'consult-download',url:'/tools/consult-archive/view/B01-E001/',run:async page=>{
+              const link=page.locator('a[download]').first();
+              const href=await link.getAttribute('href');
+              const filename=await link.getAttribute('download');
+              const [download]=await Promise.all([page.waitForEvent('download'),link.click()]);
+              const bytes=fs.readFileSync(await download.path());
+              const sha256=createHash('sha256').update(bytes).digest('hex');
+              return {href,filename,suggested:download.suggestedFilename(),bytes:bytes.length,sha256,ok:bytes.length>0&&!!filename&&download.suggestedFilename()===filename};
+            }}
+          ];
+          const results=[];
+          let failures=0;
+          for(const [width,height] of sizes)for(const scenario of scenarios){
+            const observations=[];
+            for(const version of ['baseline','candidate']){
+              const origin='http://127.0.0.1:'+(version==='baseline'?4321:4322);
+              const context=await browser.newContext({viewport:{width,height},acceptDownloads:true,permissions:['clipboard-read','clipboard-write']});
+              const page=await context.newPage();
+              const errors=[];
+              page.on('pageerror',e=>errors.push(e.message));
+              try{
+                const resp=await page.goto(origin+scenario.url,{waitUntil:'networkidle'});
+                const value=await scenario.run(page);
+                observations.push({version,status:resp?.status(),value,errors});
+                await page.screenshot({path:'/tmp/tool-actions-qa/'+scenario.name+'-'+width+'-'+version+'.png',fullPage:false});
+              }catch(e){observations.push({version,error:String(e)});failures++}
+              await context.close();
+            }
+            const [a,b]=observations;
+            const equal=!!a?.value&&!!b?.value&&JSON.stringify(a.value)===JSON.stringify(b.value);
+            const passed=a?.status===200&&b?.status===200&&a?.value?.ok===true&&b?.value?.ok===true&&equal&&a.errors.length===0&&b.errors.length===0;
+            if(!passed){failures++;console.error('INTERACTION_FAILED',scenario.name,width,JSON.stringify(observations))}
+            results.push({scenario:scenario.name,viewport:width+'x'+height,passed,equal,baseline:a,candidate:b});
+          }
+          fs.writeFileSync('/tmp/tool-actions-qa/results.json',JSON.stringify(results,null,2));
+          console.log(JSON.stringify(results.map(r=>({scenario:r.scenario,viewport:r.viewport,passed:r.passed,equal:r.equal})),null,2));
+          await browser.close();
+          if(failures)process.exit(1);
+          NODE
+      - name: Upload interaction results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tool-interaction-regression-results
+          path: /tmp/tool-actions-qa/
+          if-no-files-found: warn
+          retention-days: 7
