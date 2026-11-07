@@ -19,12 +19,12 @@ import { LECTURES } from '../../data/lectures';
 			{
 				LECTURES.map((l) => (
 					<a class="lecture-card" href={`/lectures/${l.id}/`}>
-						<img
+						{l.id.startsWith('daemire-') ? <div class="lecture-thumb lecture-placeholder"><span>DAEMIRE · 2026.11.08</span><strong>{l.id.includes('crm') ? 'CRM DATA ANALYSIS' : 'AI MANAGEMENT TOOLS'}</strong><small>{l.slideCount} SLIDES</small></div> : <img
 							class="lecture-thumb"
 							src={`/lectures/${l.id}/images/${l.id.toUpperCase().split('-')[0]}-S01-image-01.webp`}
 							alt={`${l.title} 대표 이미지`}
 							loading="lazy"
-						/>
+						/>}
 						<div class="lecture-body">
 							{l.subtitle && <span class="lecture-kicker">{l.subtitle}</span>}
 							<h2 class="lecture-title">{l.title}</h2>
@@ -122,4 +122,5 @@ import { LECTURES } from '../../data/lectures';
 		font-weight: 600;
 		color: var(--pink);
 	}
+.lecture-placeholder{display:flex;flex-direction:column;justify-content:center;gap:12px;padding:28px;background:#12364a;color:#d9f6f0}.lecture-placeholder span{font-size:.75rem;letter-spacing:.1em;color:#80d6c9}.lecture-placeholder strong{font-size:1.3rem;line-height:1.2}.lecture-placeholder small{font-size:.75rem;color:#80d6c9}
 </style>
