@@ -1,0 +1,126 @@
+
+  .lesson{max-width:1060px;margin:auto;padding:20px 22px 85px;color:var(--text)}
+  .lesson .crumb{display:flex;flex-wrap:wrap;gap:9px;font-size:.81rem;color:var(--t3);margin:8px 0 32px}
+  .lesson .crumb a{color:var(--t2)}
+  .lesson .head{border-bottom:1px solid var(--rule);padding:15px 0 31px}
+  .lesson .eyebrow, .lesson .sequence{font-size:.78rem;font-weight:800;letter-spacing:.08em;color:#168f83}
+  .lesson .head h1{font-size:clamp(2.15rem,5vw,3.7rem);font-family:var(--display);letter-spacing:-.045em;line-height:1.18;margin:12px 0}
+  .lesson .head h1 em{font-style:normal;color:#0a9787}
+  .lesson .head>p{font-size:1.1rem;line-height:1.7;color:var(--t2);max-width:700px}
+  .lesson .headlinks{display:flex;gap:16px;flex-wrap:wrap;margin-top:18px;font-size:.88rem}
+  .lesson .headlinks a{color:#108879;font-weight:700;text-decoration:underline;text-underline-offset:4px}
+  .lesson .intro{margin:30px 0 34px}
+  .lesson .intro h2{font-size:1.33rem;font-family:var(--display);margin:0 0 16px}
+  .lesson .jump{display:flex;gap:10px;flex-wrap:wrap}
+  .lesson .jump button, .lesson .reset, .lesson .pager button, .lesson .trouble-footer button{border:1px solid var(--rule);border-radius:7px;padding:10px 12px;color:var(--text);background:var(--bg2);font:inherit;cursor:pointer}
+  .lesson .jump button:hover, .lesson .reset:hover, .lesson .pager button:hover{border-color:#14988a}
+  .lesson .hint{font-size:.83rem;color:var(--t3);margin:11px 0 0;line-height:1.6}
+  .lesson .stepsbar{display:flex;gap:12px;align-items:center;justify-content:space-between;margin:0 0 10px}
+  .lesson .stepsbar strong{font-size:1.03rem}.lesson .stepsbar p{color:var(--t3);font-size:.83rem;margin:4px 0 0}
+  .lesson .reset{font-size:.8rem;padding:7px 10px}
+  .lesson .progress-track{height:5px;background:var(--rule);overflow:hidden;border-radius:4px;margin-bottom:25px}
+  .lesson #progress-fill{height:100%;width:0;background:#129586;transition:width .2s}
+  .lesson .layout{display:grid;grid-template-columns:205px minmax(0,1fr);gap:35px;align-items:start}
+  .lesson .navsteps{position:sticky;top:84px;display:grid;gap:0;border-top:1px solid var(--rule)}
+  .lesson .stepnav{width:100%;display:flex;align-items:center;gap:10px;text-align:left;border:0;border-bottom:1px solid var(--rule);background:transparent;color:var(--t2);font:inherit;font-size:.87rem;cursor:pointer;padding:12px 6px}
+  .lesson .stepnav>span:first-child{color:var(--t3);font-size:.75rem;font-weight:800}
+  .lesson .stepnav.active{font-weight:800;color:#0b8b7f;background:var(--bg2)}
+  .lesson .stepnav .done{margin-left:auto;display:none;color:#0b8b7f;font-weight:900}
+  .lesson .stepnav.completed .done{display:block}
+  .lesson .scene[hidden], .lesson .trouble[hidden]{display:none}
+  .lesson .scene-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .lesson .surface{font-size:.75rem;color:var(--t2);padding:4px 8px;border:1px solid var(--rule);border-radius:4px}
+  .lesson .scene h2{font-family:var(--display);font-size:clamp(1.8rem,3.2vw,2.35rem);letter-spacing:-.04em;line-height:1.25;margin:12px 0 20px}
+  .lesson .scene h3{font-size:1.1rem;margin:26px 0 9px;font-family:var(--display)}
+  .lesson .scene p{line-height:1.75;color:var(--t2);margin:0 0 14px}
+  .lesson .objective{border-left:3px solid #0e9989;padding:8px 0 8px 15px;background:var(--bg2);margin-bottom:25px!important}
+  .lesson .objective strong{display:block;color:#09887a;font-size:.8rem;letter-spacing:.04em}
+  .lesson .actions{padding-left:22px;color:var(--text);line-height:1.8}
+  .lesson .actions li{padding:5px 0}
+  .lesson .command-block{border:1px solid var(--rule);border-radius:8px;overflow:hidden;margin:18px 0;background:var(--bg2)}
+  .lesson .command-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-bottom:1px solid var(--rule);font-size:.83rem}
+  .lesson .command-head button{background:#0b8177;border:0;border-radius:5px;padding:8px 12px;color:#fff;font-weight:750;cursor:pointer;white-space:nowrap}
+  .lesson .command-head button:focus-visible, .lesson .resultbtn button:focus-visible, .lesson .stepnav:focus-visible{outline:3px solid #72d6c7;outline-offset:2px}
+  .lesson pre{margin:0;padding:18px 14px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.8;font-size:.89rem;user-select:text}
+  .lesson pre code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap}
+  .lesson .expect, .lesson .caution{border-top:1px solid var(--rule);padding-top:16px;margin-top:22px}
+  .lesson .expect strong{color:#078c7b}.lesson .expect p, .lesson .caution p{margin-top:6px}
+  .lesson .caution strong{color:#b26b26}
+  .lesson .result{margin:28px 0 15px;border-top:2px solid var(--rule);padding-top:18px}
+  .lesson .resultbtn{display:flex;gap:9px;flex-wrap:wrap}
+  .lesson .resultbtn button{padding:12px 16px;border-radius:7px;font-weight:750;font:inherit;cursor:pointer}
+  .lesson .resultbtn button:first-child{border:1px solid #047f73;background:#087e72;color:white}
+  .lesson .resultbtn button:last-child{border:1px solid var(--rule);background:var(--bg2);color:var(--text)}
+  .lesson .result small{display:block;color:var(--t3);line-height:1.6;margin-top:12px}
+  .lesson .trouble{background:var(--bg2);padding:12px 18px 16px;border-left:3px solid #be7c3d;margin:22px 0}
+  .lesson .trouble h3{margin:6px 0 10px}
+  .lesson .trouble details{border-top:1px solid var(--rule);padding:12px 0}
+  .lesson .trouble summary{cursor:pointer;font-weight:700}
+  .lesson .trouble details p{margin:9px 0 0}
+  .lesson .trouble-footer{display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:.86rem;margin-top:14px}
+  .lesson .trouble-footer a{color:#078b7a}
+  .lesson .pager{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--rule);padding-top:16px;margin-top:22px;font-size:.88rem}
+  .lesson .pager button:disabled{opacity:.35;cursor:not-allowed}
+  .lesson .pager a{color:#078b7a;font-weight:700;align-self:center}
+  .lesson .footwarn{margin-top:37px;padding:17px 0;border-top:1px solid var(--rule);color:var(--t2);font-size:.88rem}
+  .lesson .footwarn strong{color:var(--text)}.lesson .footwarn p{line-height:1.7}
+  @media(max-width:760px){.lesson{padding:12px 14px 60px}.lesson .layout{grid-template-columns:minmax(0,1fr);gap:12px}.lesson .navsteps{position:static;display:flex;overflow-x:auto;gap:5px;border:0;padding-bottom:4px}.lesson .stepnav{width:auto;flex:0 0 auto;padding:8px 10px;border:1px solid var(--rule);border-radius:6px;white-space:nowrap;font-size:.8rem}.lesson .stepnav .done{margin-left:0}.lesson .scene h2{margin-top:15px}.lesson .resultbtn{flex-direction:column}.lesson .resultbtn button{width:100%}.lesson .intro{margin-bottom:22px}}
+
+/* Lecture UI v1.1: scoped shared styles for runtime-created lesson elements */
+.lesson { --lesson-green:#08796e; --lesson-border:var(--rule,#dce5e1); }
+.lesson .steps { margin-top:26px; scroll-margin-top:0; }
+.lesson .intro { margin:25px 0 24px; }
+.lesson .jump { gap:8px; }
+.lesson .jump button { background:transparent; border:1px solid var(--lesson-border); font-weight:650; min-height:42px; padding:9px 13px; transition:border-color .15s,background .15s; }
+.lesson .jump button:focus-visible, .lesson .stepnav:focus-visible, .lesson .pager button:focus-visible { outline:3px solid #40c3ae; outline-offset:2px; }
+.lesson .jump button:hover { background:rgba(16,151,129,.07); }
+.lesson .layout { grid-template-columns:215px minmax(0,1fr); gap:21px; }
+.lesson .navsteps { top:92px; border:1px solid var(--lesson-border); border-radius:9px; overflow:hidden; gap:0; }
+.lesson .stepnav { gap:9px; padding:12px 13px; border-bottom:1px solid var(--lesson-border); color:var(--text,#142b35); font-weight:550; background:transparent; line-height:1.38; }
+.lesson .stepnav:last-child { border-bottom:0; }
+.lesson .stepnav.active { color:var(--lesson-green); background:rgba(10,144,119,.09); border-left:3px solid var(--lesson-green); padding-left:10px; }
+.lesson .stepnav>span:first-child { min-width:23px; color:var(--lesson-green); }
+.lesson .scene-stack {
+  height:clamp(480px,72vh,820px);
+  min-height:480px;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  scrollbar-gutter:stable;
+  border:1px solid var(--lesson-border);
+  border-radius:12px;
+  background:var(--bg,#fff);
+  padding:24px 29px 28px;
+  scroll-behavior:auto;
+}
+.lesson .scene { display:block; min-height:100%; }
+.lesson .scene[hidden], .lesson .trouble[hidden] { display:none !important; }
+.lesson .scene h2 { font-weight:800; }
+.lesson .scene .scene-top { margin-bottom:8px; }
+.lesson .objective { background:rgba(16,151,129,.06); border-left-color:var(--lesson-green); padding:10px 13px; border-radius:0 7px 7px 0; }
+.lesson .objective strong { margin-bottom:4px; }
+.lesson .command-block { background:var(--bg2,#f5f8f7); }
+.lesson .command-head { padding:10px 13px; }
+.lesson .command-head strong { color:var(--text,#162a35); }
+.lesson .command-head button { min-height:36px; }
+.lesson .resultbtn button { min-height:46px; font-weight:750; }
+.lesson .resultbtn button:first-child { background:var(--lesson-green); }
+.lesson .trouble { border-radius:0 7px 7px 0; }
+.lesson .pager { padding-bottom:4px; }
+.lesson .footwarn { margin-top:25px; }
+@media(max-width:760px) {
+ .lesson .layout { grid-template-columns:minmax(0,1fr); gap:10px; }
+ .lesson .navsteps { display:flex; overflow-x:auto; position:static; flex-wrap:nowrap; border:0; border-radius:0; gap:6px; padding-bottom:8px; }
+ .lesson .stepnav { flex:0 0 auto; width:auto; padding:8px 11px; border:1px solid var(--lesson-border); border-radius:6px; white-space:normal; max-width:175px; font-size:.8rem; }
+ .lesson .stepnav.active { border:1px solid var(--lesson-green); padding:8px 11px; }
+ .lesson .scene-stack { height:clamp(420px,66svh,680px); min-height:420px; padding:17px 16px; border-radius:9px; }
+ .lesson .scene h2 { font-size:1.75rem; }
+ .lesson .jump button { flex:1 1 170px; }
+ .lesson .intro { margin:23px 0 18px; }
+ .lesson .scene h3 { margin-top:22px; }
+}
+@media(max-width:420px) {
+ .lesson .scene-stack { padding:15px 12px; min-height:390px; height:65svh; }
+ .lesson .stepnav { max-width:145px; }
+ .lesson .command-head { flex-wrap:wrap; }
+ .lesson .command-head button { margin-left:auto; }
+}
