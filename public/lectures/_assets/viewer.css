@@ -157,3 +157,16 @@ body {
 	.lec-footer span { display: none; }
 }
 [hidden] { display: none !important; }
+
+
+/* Text-native Daemire presentation mode: original slide wording, responsive 16:9 stage. */
+.native-slide{box-sizing:border-box;position:absolute;inset:0;background:#f7fbfc;color:#173a55;padding:58px 86px 64px;font-family:Pretendard,sans-serif;display:flex;flex-direction:column}
+.native-slide:before{content:"";position:absolute;left:0;top:0;right:0;height:12px;background:#0b8b88}
+.native-eyebrow{font-size:23px;font-weight:700;color:#0b8b88;letter-spacing:1.4px;margin-bottom:42px}
+.native-slide h2{font-size:57px;line-height:1.25;letter-spacing:-1.8px;margin:0 0 43px;max-width:1150px;color:#173a55}
+.native-slide ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:21px;max-width:1150px}
+.native-slide li{font-size:33px;line-height:1.35;letter-spacing:-.5px;position:relative;padding-left:36px}
+.native-slide li:before{content:"";position:absolute;left:3px;top:16px;width:13px;height:13px;border-radius:50%;background:#10a9a0}
+.native-slide li:nth-child(n+7){font-size:26px}
+.native-number{position:absolute;right:78px;bottom:38px;font-size:19px;color:#78909b}
+.cards .native-card{background:#eaf5f5;border-top:5px solid #0b8b88}
