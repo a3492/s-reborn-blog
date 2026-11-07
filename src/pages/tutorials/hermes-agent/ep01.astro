@@ -3,7 +3,7 @@ import Layout from '../../../layouts/Layout.astro';
 
 const scenes = [
   {
-    id: 'prepare', number: '01', title: '실습 환경 준비', location: 'Windows PC · 브라우저',
+    id: 'prepare', number: '01', title: '시작 전 준비', location: 'Windows PC · 브라우저',
     objective: '설치에 필요한 PC, 계정, 인터넷, 권한을 확인합니다.',
     why: '시작 전 계정과 설치 권한을 확인하면 실습 중 가장 흔한 중단을 줄일 수 있습니다. 준비가 어려운 사람은 관찰 모드로 따라와도 됩니다.',
     actions: ['Windows 10/11 노트북의 충전 및 인터넷 연결을 확인하세요.', '브라우저에서 본인이 사용할 모델 제공자 계정에 로그인할 수 있는지 확인하세요.', '기관 PC라면 소프트웨어 설치 권한과 보안 정책을 확인하세요.'],
@@ -28,8 +28,8 @@ const scenes = [
     ]
   },
   {
-    id: 'verify', number: '03', title: '설치 확인', location: '새 PowerShell 창',
-    objective: 'Hermes 명령어가 PC에서 인식되는지 검사합니다.',
+    id: 'verify', number: '03', title: '설치 상태 확인', location: '새 PowerShell 창',
+    objective: 'Hermes가 PC에 정상적으로 설치됐는지 확인합니다.',
     why: '설치 후 PATH 변경이 새 터미널에서 반영되는 경우가 있습니다. 그래서 기존 PowerShell을 닫고 새로 열어 확인합니다.',
     actions: ['기존 PowerShell 창을 닫고 새 PowerShell을 열어 주세요.', '버전 확인 명령을 실행하세요.', '필요하다면 환경 진단 명령을 별도로 실행하세요.'],
     commands: [
@@ -94,12 +94,13 @@ const scenes = [
 ];
 ---
 <Layout title="Hermes Agent EP01 · 직접 따라 하는 설치 실습" description="강세희 원장 Hermes Agent 강연용 대화형 실습: PowerShell 설치, 모델 인증, 첫 AI 응답과 문제 해결" noindex={true}>
+<link rel="stylesheet" href="/tutorials/hermes-agent/lesson-ui.css" />
   <div class="lesson">
     <nav class="crumb" aria-label="현재 위치"><a href="/tutorials/">튜토리얼</a><span>/</span><a href="/tutorials/hermes-agent/">Hermes Agent</a><span>/</span><strong>EP01</strong></nav>
     <header class="head">
       <span class="eyebrow">HERMES AGENT · HANDS-ON · EP.01</span>
-      <h1>내 PC에서 <em>AI 답변 받기</em></h1>
-      <p>설치 명령을 실행하고, 모델을 연결하고, 실제 답변을 확인하세요. 한 번에 한 단계씩 진행합니다.</p>
+      <h1>PC에서 <em>AI와 대화 시작하기</em></h1>
+      <p>Hermes 설치부터 AI 모델 연결, 첫 대화까지 차근차근 따라 해보세요.</p>
       <div class="headlinks"><a href="/tutorials/hermes-agent/">강연 자료실</a><a href="/downloads/hermes-agent/Hermes_Agent_설치와_시작_통합가이드_아잉이.md" download>원본 가이드 다운로드 ↓</a></div>
     </header>
 
@@ -114,7 +115,7 @@ const scenes = [
     </section>
 
     <section class="steps" aria-label="단계별 실습">
-      <div class="stepsbar"><div><strong id="status-label">01 / 07 · 실습 환경 준비</strong><p id="progress-label">완료 체크 0 / 7</p></div><button class="reset" id="reset-progress" type="button">진도 초기화</button></div>
+      <div class="stepsbar"><div><strong id="status-label">01 / 07 · 시작 전 준비</strong><p id="progress-label">완료한 단계 0/7</p></div><button class="reset" id="reset-progress" type="button">진도 초기화</button></div>
       <div class="progress-track" role="progressbar" aria-label="자가 점검 완료 비율" aria-valuemin="0" aria-valuemax="7" aria-valuenow="0" id="progress-track"><div id="progress-fill"></div></div>
       <div class="layout">
         <nav id="lesson-nav" class="navsteps" aria-label="실습 단계 목차"></nav>
@@ -126,73 +127,6 @@ const scenes = [
     <aside class="footwarn"><strong>보안 · 비용</strong><p>설치 명령은 인터넷에서 스크립트를 받아 실행합니다. 공식 주소를 확인하세요. 인증 코드, API 키, 환자정보는 강연 채팅·AI 대화에 공유하지 마세요. 모델 제공자에 따라 별도 이용 조건이나 비용이 적용될 수 있습니다.</p></aside>
   </div>
 </Layout>
-<style>
-  .lesson{max-width:1060px;margin:auto;padding:20px 22px 85px;color:var(--text)}
-  .crumb{display:flex;flex-wrap:wrap;gap:9px;font-size:.81rem;color:var(--t3);margin:8px 0 32px}
-  .crumb a{color:var(--t2)}
-  .head{border-bottom:1px solid var(--rule);padding:15px 0 31px}
-  .eyebrow,.sequence{font-size:.78rem;font-weight:800;letter-spacing:.08em;color:#168f83}
-  .head h1{font-size:clamp(2.15rem,5vw,3.7rem);font-family:var(--display);letter-spacing:-.045em;line-height:1.18;margin:12px 0}
-  .head h1 em{font-style:normal;color:#0a9787}
-  .head>p{font-size:1.1rem;line-height:1.7;color:var(--t2);max-width:700px}
-  .headlinks{display:flex;gap:16px;flex-wrap:wrap;margin-top:18px;font-size:.88rem}
-  .headlinks a{color:#108879;font-weight:700;text-decoration:underline;text-underline-offset:4px}
-  .intro{margin:30px 0 34px}
-  .intro h2{font-size:1.33rem;font-family:var(--display);margin:0 0 16px}
-  .jump{display:flex;gap:10px;flex-wrap:wrap}
-  .jump button,.reset,.pager button,.trouble-footer button{border:1px solid var(--rule);border-radius:7px;padding:10px 12px;color:var(--text);background:var(--bg2);font:inherit;cursor:pointer}
-  .jump button:hover,.reset:hover,.pager button:hover{border-color:#14988a}
-  .hint{font-size:.83rem;color:var(--t3);margin:11px 0 0;line-height:1.6}
-  .stepsbar{display:flex;gap:12px;align-items:center;justify-content:space-between;margin:0 0 10px}
-  .stepsbar strong{font-size:1.03rem}.stepsbar p{color:var(--t3);font-size:.83rem;margin:4px 0 0}
-  .reset{font-size:.8rem;padding:7px 10px}
-  .progress-track{height:5px;background:var(--rule);overflow:hidden;border-radius:4px;margin-bottom:25px}
-  #progress-fill{height:100%;width:0;background:#129586;transition:width .2s}
-  .layout{display:grid;grid-template-columns:205px minmax(0,1fr);gap:35px;align-items:start}
-  .navsteps{position:sticky;top:84px;display:grid;gap:0;border-top:1px solid var(--rule)}
-  .stepnav{width:100%;display:flex;align-items:center;gap:10px;text-align:left;border:0;border-bottom:1px solid var(--rule);background:transparent;color:var(--t2);font:inherit;font-size:.87rem;cursor:pointer;padding:12px 6px}
-  .stepnav>span:first-child{color:var(--t3);font-size:.75rem;font-weight:800}
-  .stepnav.active{font-weight:800;color:#0b8b7f;background:var(--bg2)}
-  .stepnav .done{margin-left:auto;display:none;color:#0b8b7f;font-weight:900}
-  .stepnav.completed .done{display:block}
-  .scene[hidden],.trouble[hidden]{display:none}
-  .scene-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
-  .surface{font-size:.75rem;color:var(--t2);padding:4px 8px;border:1px solid var(--rule);border-radius:4px}
-  .scene h2{font-family:var(--display);font-size:clamp(1.8rem,3.2vw,2.35rem);letter-spacing:-.04em;line-height:1.25;margin:12px 0 20px}
-  .scene h3{font-size:1.1rem;margin:26px 0 9px;font-family:var(--display)}
-  .scene p{line-height:1.75;color:var(--t2);margin:0 0 14px}
-  .objective{border-left:3px solid #0e9989;padding:8px 0 8px 15px;background:var(--bg2);margin-bottom:25px!important}
-  .objective strong{display:block;color:#09887a;font-size:.8rem;letter-spacing:.04em}
-  .actions{padding-left:22px;color:var(--text);line-height:1.8}
-  .actions li{padding:5px 0}
-  .command-block{border:1px solid var(--rule);border-radius:8px;overflow:hidden;margin:18px 0;background:var(--bg2)}
-  .command-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-bottom:1px solid var(--rule);font-size:.83rem}
-  .command-head button{background:#0b8177;border:0;border-radius:5px;padding:8px 12px;color:#fff;font-weight:750;cursor:pointer;white-space:nowrap}
-  .command-head button:focus-visible,.resultbtn button:focus-visible,.stepnav:focus-visible{outline:3px solid #72d6c7;outline-offset:2px}
-  pre{margin:0;padding:18px 14px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.8;font-size:.89rem;user-select:text}
-  pre code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap}
-  .expect,.caution{border-top:1px solid var(--rule);padding-top:16px;margin-top:22px}
-  .expect strong{color:#078c7b}.expect p,.caution p{margin-top:6px}
-  .caution strong{color:#b26b26}
-  .result{margin:28px 0 15px;border-top:2px solid var(--rule);padding-top:18px}
-  .resultbtn{display:flex;gap:9px;flex-wrap:wrap}
-  .resultbtn button{padding:12px 16px;border-radius:7px;font-weight:750;font:inherit;cursor:pointer}
-  .resultbtn button:first-child{border:1px solid #047f73;background:#087e72;color:white}
-  .resultbtn button:last-child{border:1px solid var(--rule);background:var(--bg2);color:var(--text)}
-  .result small{display:block;color:var(--t3);line-height:1.6;margin-top:12px}
-  .trouble{background:var(--bg2);padding:12px 18px 16px;border-left:3px solid #be7c3d;margin:22px 0}
-  .trouble h3{margin:6px 0 10px}
-  .trouble details{border-top:1px solid var(--rule);padding:12px 0}
-  .trouble summary{cursor:pointer;font-weight:700}
-  .trouble details p{margin:9px 0 0}
-  .trouble-footer{display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:.86rem;margin-top:14px}
-  .trouble-footer a{color:#078b7a}
-  .pager{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--rule);padding-top:16px;margin-top:22px;font-size:.88rem}
-  .pager button:disabled{opacity:.35;cursor:not-allowed}
-  .pager a{color:#078b7a;font-weight:700;align-self:center}
-  .footwarn{margin-top:37px;padding:17px 0;border-top:1px solid var(--rule);color:var(--t2);font-size:.88rem}
-  .footwarn strong{color:var(--text)}.footwarn p{line-height:1.7}
-  @media(max-width:760px){.lesson{padding:12px 14px 60px}.layout{grid-template-columns:minmax(0,1fr);gap:12px}.navsteps{position:static;display:flex;overflow-x:auto;gap:5px;border:0;padding-bottom:4px}.stepnav{width:auto;flex:0 0 auto;padding:8px 10px;border:1px solid var(--rule);border-radius:6px;white-space:nowrap;font-size:.8rem}.stepnav .done{margin-left:0}.scene h2{margin-top:15px}.resultbtn{flex-direction:column}.resultbtn button{width:100%}.intro{margin-bottom:22px}}
-</style>
+
 <script is:inline src="/tutorials/hermes-agent/runtime.js"></script>
 <script is:inline src="/tutorials/hermes-agent/ep01-interactions.js"></script>
