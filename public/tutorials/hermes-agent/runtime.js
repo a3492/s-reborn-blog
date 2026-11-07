@@ -35,8 +35,8 @@
     append(top, el('span','sequence', 'STEP '+s.number+' / '+scenes.length), el('span','surface',s.location));
     append(article,top,el('h2',null,s.title));
     const objective = el('p','objective');
-    append(objective,el('strong',null,'지금 목표'),document.createTextNode(' '+s.objective));
-    append(article,objective,el('h3',null,'왜 이 작업을 하나요?'),el('p',null,s.why),el('h3',null,'지금 해야 할 일'));
+    append(objective,el('strong',null,'이 단계에서 확인할 것'),document.createTextNode(' '+s.objective));
+    append(article,objective,el('h3',null,'왜 필요한가요?'),el('p',null,s.why),el('h3',null,'따라 해보세요'));
     const list=el('ol','actions');
     for(const action of s.actions || []) list.appendChild(el('li',null,action));
     article.appendChild(list);
