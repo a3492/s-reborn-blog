@@ -117,29 +117,10 @@ const scenes = [
       <div class="stepsbar"><div><strong id="status-label">01 / 07 · 실습 환경 준비</strong><p id="progress-label">완료 체크 0 / 7</p></div><button class="reset" id="reset-progress" type="button">진도 초기화</button></div>
       <div class="progress-track" role="progressbar" aria-label="자가 점검 완료 비율" aria-valuemin="0" aria-valuemax="7" aria-valuenow="0" id="progress-track"><div id="progress-fill"></div></div>
       <div class="layout">
-        <nav class="navsteps" aria-label="실습 단계 목차">
-          {scenes.map((s) => (\n            <button type="button" data-step-link={s.id} class="stepnav"><span>{s.number}</span>{s.title}<span class="done" aria-hidden="true">✓</span></button>\n          ))}
-        </nav>
-        <div class="scene-stack">
-          {scenes.map((s, i) => (\n          <article class="scene" data-scene={s.id} hidden={i !== 0}>
-            <div class="scene-top"><span class="sequence">STEP {s.number} / 07</span><span class="surface">{s.location}</span></div>
-            <h2>{s.title}</h2>
-            <p class="objective"><strong>지금 목표</strong> {s.objective}</p>
-            <h3>왜 이 작업을 하나요?</h3><p>{s.why}</p>
-            <h3>지금 해야 할 일</h3>
-            <ol class="actions">{s.actions.map(a => (<li>{a}</li>))}</ol>
-            {(s.commands || []).map(c => (\n              <div class="command-block"><div class="command-head"><strong>{c.label}</strong><button type="button" data-copy={c.text}>복사하기</button></div><pre><code>{c.text}</code></pre></div>\n            ))}
-            <div class="expect"><strong>정상이라면 이렇게 됩니다</strong><p>{s.expected}</p></div>
-            {s.caution&&<div class="caution"><strong>확인하세요</strong><p>{s.caution}</p></div>}
-            <div class="result"><p>직접 해보셨나요? 결과에 따라 선택하세요.</p><div class="resultbtn"><button type="button" data-success={s.id}>성공했어요 · 다음 단계</button><button type="button" data-error={s.id}>다르게 보여요 · 문제 해결</button></div><small>‘성공했어요’는 본인이 확인한 결과를 기록합니다. 웹페이지가 PC 상태를 자동 검증하지는 않습니다.</small></div>
-            <section class="trouble" data-trouble={s.id} hidden><h3>어떤 문제가 생겼나요?</h3>
-              {s.troubleshoot.map(([title,answer]) => (<details><summary>{title}</summary><p>{answer}</p></details>))}
-              <div class="trouble-footer"><button type="button" data-back={s.id}>실습으로 돌아가기</button><a href="/tutorials/hermes-agent/">자료실로 가기</a></div>
-            </section>
-            <div class="pager"><button type="button" data-prev={s.id} disabled={i===0}>← 이전 단계</button>{i < scenes.length - 1 ? (<button type="button" data-next={s.id}>다음 단계 →</button>) : (<a href="/tutorials/hermes-agent/">강연 자료실로 돌아가기 →</a>)}</div>
-          </article>\n          ))}
-        </div>
+        <nav id="lesson-nav" class="navsteps" aria-label="실습 단계 목차"></nav>
+        <div id="lesson-stack" class="scene-stack"></div>
       </div>
+      <script id="lesson-data" type="application/json" set:html={JSON.stringify(scenes)}></script>
     </section>
 
     <aside class="footwarn"><strong>보안 · 비용</strong><p>설치 명령은 인터넷에서 스크립트를 받아 실행합니다. 공식 주소를 확인하세요. 인증 코드, API 키, 환자정보는 강연 채팅·AI 대화에 공유하지 마세요. 모델 제공자에 따라 별도 이용 조건이나 비용이 적용될 수 있습니다.</p></aside>
@@ -213,4 +194,5 @@ const scenes = [
   .footwarn strong{color:var(--text)}.footwarn p{line-height:1.7}
   @media(max-width:760px){.lesson{padding:12px 14px 60px}.layout{grid-template-columns:minmax(0,1fr);gap:12px}.navsteps{position:static;display:flex;overflow-x:auto;gap:5px;border:0;padding-bottom:4px}.stepnav{width:auto;flex:0 0 auto;padding:8px 10px;border:1px solid var(--rule);border-radius:6px;white-space:nowrap;font-size:.8rem}.stepnav .done{margin-left:0}.scene h2{margin-top:15px}.resultbtn{flex-direction:column}.resultbtn button{width:100%}.intro{margin-bottom:22px}}
 </style>
+<script is:inline src="/tutorials/hermes-agent/runtime.js"></script>
 <script is:inline src="/tutorials/hermes-agent/ep01-interactions.js"></script>
