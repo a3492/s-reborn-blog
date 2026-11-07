@@ -11,7 +11,7 @@ const { lecture } = Astro.params;
 const data = getLecture(lecture!)!;
 const slidesHref = `/lectures/${data.id}/slides.json`;
 const canonicalURL = new URL(`/lectures/${data.id}/`, Astro.site);
-const ogImage = new URL(`/lectures/${data.id}/images/${data.id.toUpperCase().split('-')[0]}-S01-image-01.webp`, Astro.site);
+const ogImage = new URL(data.id.startsWith('daemire-') ? '/favicon.svg' : `/lectures/${data.id}/images/${data.id.toUpperCase().split('-')[0]}-S01-image-01.webp`, Astro.site);
 const pageTitle = `${data.title} | ${data.subtitle ?? SITE_BRAND.blogDisplayName}`;
 ---
 
@@ -79,7 +79,7 @@ const pageTitle = `${data.title} | ${data.subtitle ?? SITE_BRAND.blogDisplayName
 		</div>
 
 		<footer class="lec-footer">
-			<span>© KOAT · {data.speaker} · {SITE_BRAND.blogDisplayName}</span>
+			<span>© {data.brandLabel ?? 'LECTURE'} · {data.speaker} · {SITE_BRAND.blogDisplayName}</span>
 			<span>← → 이동 · F 전체화면 · ESC 닫기</span>
 		</footer>
 
