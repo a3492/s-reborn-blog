@@ -67,6 +67,10 @@ function childHref(child: NavChild): string {
 
 		<div class="site-header-tools"><label class="site-theme-picker"><span class="sr-only">화면 테마</span><select data-theme-select aria-label="화면 테마"><option value="system">시스템</option><option value="light">화이트</option><option value="dark">다크</option></select></label>
 			<nav class="site-nav" id="site-nav" aria-label={isEn ? 'Primary' : '주요 메뉴'}>
+                <button type="button" class="site-nav-close" data-nav-close aria-label={isEn ? 'Close menu' : '메뉴 닫기'}>
+                  <span aria-hidden="true">×</span>
+                  <span>{isEn ? 'Close' : '닫기'}</span>
+                </button>
 				<ul class="site-nav-list">
 					{SITE_NAV.map((item) => {
 						const label = isEn ? item.labelEn : item.label;
@@ -283,6 +287,7 @@ html[data-theme="dark"] .site-header {
 		const toggle = root.querySelector('[data-nav-toggle]');
 		const toggleLabel = root.querySelector('[data-nav-toggle-label]');
 		const backdrop = root.querySelector('[data-nav-backdrop]');
+        const closeButton = root.querySelector('[data-nav-close]');
 		if (!(header instanceof HTMLElement) || !(nav instanceof HTMLElement) || !(toggle instanceof HTMLButtonElement)) return;
 
 		const isEn = document.documentElement.lang === 'en';
@@ -316,8 +321,11 @@ html[data-theme="dark"] .site-header {
 		};
 
 		toggle.addEventListener('click', () => {
-			setMobile(!header.classList.contains('is-open'));
-		});
+            const opening = !header.classList.contains('is-open');
+            setMobile(opening);
+            if (opening && closeButton instanceof HTMLButtonElement) closeButton.focus();
+        });
+        closeButton?.addEventListener('click', () => { setMobile(false); toggle.focus(); });
 
 		const closeFromBackdrop = (event: Event) => {
 			event.preventDefault();
@@ -795,4 +803,119 @@ html[data-theme="dark"] .site-header {
 	:global(body.site-nav-lock) {
 		overflow: hidden;
 	}
+</style>
+
+
+<style is:global>
+/* Navigation contrast contract: explicit theme tokens, never inherited page colors. */
+.site-header-root .site-header {
+  --nav-bg:#f8f8f5;
+  --nav-panel:#ffffff;
+  --nav-fg:#171d22;
+  --nav-muted:#424c56;
+  --nav-border:#b9c2cb;
+  --nav-hover:#e7edfa;
+  --nav-active:#194acc;
+}
+html[data-theme="dark"] .site-header-root .site-header {
+  --nav-bg:#191e25;
+  --nav-panel:#222b36;
+  --nav-fg:#f4f6fa;
+  --nav-muted:#d1d9e3;
+  --nav-border:#596575;
+  --nav-hover:#34445b;
+  --nav-active:#a9c2ff;
+}
+.site-header-root .site-header {
+  background:var(--nav-bg);
+  color:var(--nav-fg);
+  border-color:var(--nav-border);
+}
+.site-header-root .site-header .site-brand,
+.site-header-root .site-header .site-nav-btn,
+.site-header-root .site-header .site-nav-sub a,
+.site-header-root .site-header .site-nav-group,
+.site-header-root .site-header .site-lang-link {
+  opacity:1;
+  visibility:visible;
+  -webkit-text-fill-color:currentColor;
+}
+.site-header-root .site-header .site-brand,
+.site-header-root .site-header .site-nav-btn,
+.site-header-root .site-header .site-nav-sub a {
+  color:var(--nav-fg);
+}
+.site-header-root .site-header .site-nav-group,
+.site-header-root .site-header .site-brand small {
+  color:var(--nav-muted);
+}
+.site-header-root .site-header .site-nav-sub,
+.site-header-root .site-header .site-lang,
+.site-header-root .site-header .site-theme-picker select {
+  background:var(--nav-panel);
+  color:var(--nav-fg);
+  border-color:var(--nav-border);
+}
+.site-header-root .site-header .site-nav-btn:is(:hover,:focus-visible),
+.site-header-root .site-header .site-nav-item.is-open > .site-nav-btn,
+.site-header-root .site-header .site-nav-sub a:is(:hover,:focus-visible) {
+  color:var(--nav-fg);
+  background:var(--nav-hover);
+}
+.site-header-root .site-header .site-nav-item.is-current > .site-nav-btn,
+.site-header-root .site-header .site-nav-sub a[aria-current="page"] {
+  color:var(--nav-active);
+}
+.site-header-root .site-header .site-nav-toggle {
+  color:var(--nav-fg);
+  background:var(--nav-panel);
+  border:1px solid var(--nav-border);
+}
+.site-header-root .site-header .site-nav-toggle span[aria-hidden="true"] {
+  background:var(--nav-fg);
+  opacity:1;
+}
+.site-header-root .site-header .site-nav-close {
+  display:none;
+  color:var(--nav-fg);
+  background:var(--nav-hover);
+  border:1px solid var(--nav-border);
+  border-radius:10px;
+  min-height:44px;
+  padding:0.5rem 0.9rem;
+  font:inherit;
+  font-weight:700;
+  cursor:pointer;
+  align-items:center;
+  gap:0.5rem;
+}
+.site-header-root .site-header .site-nav-close span[aria-hidden="true"] {
+  font-size:1.6rem;
+  line-height:1;
+}
+.site-header-root .site-header .site-nav-close:focus-visible {
+  outline:2px solid var(--nav-active);
+  outline-offset:2px;
+}
+@media (max-width:1200px) {
+  .site-header-root .site-header .site-nav {
+    background:var(--nav-panel);
+    color:var(--nav-fg);
+    padding-top:1rem;
+    z-index:5;
+  }
+  .site-header-root .site-header .site-nav-close {
+    display:inline-flex;
+    margin:0 0 0.75rem auto;
+  }
+  .site-header-root .site-header .site-nav-sub {background:transparent;}
+  .site-header-root .site-header .site-nav-sub a {
+    color:var(--nav-fg);
+    min-height:44px;
+  }
+  .site-header-root .site-header .site-nav-btn {
+    color:var(--nav-fg);
+    min-height:48px;
+  }
+}
 </style>
