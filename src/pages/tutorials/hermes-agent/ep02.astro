@@ -7,7 +7,7 @@ const scenes = [
     "number": "01",
     "title": "PC Hermes 응답 확인",
     "location": "PowerShell · Telegram",
-    "objective": "EP02의 선행조건과 준비물을 확인합니다.",
+    "objective": "텔레그램 연결에 앞서 PC에서 Hermes가 작동하는지 확인합니다.",
     "why": "텔레그램은 Hermes와 AI 모델이 이미 작동한다는 전제 위에서 연결됩니다. PC에서 답변이 오지 않는다면 먼저 EP01을 끝내야 합니다.",
     "actions": [
       "PC의 PowerShell에서 Hermes를 실행하여 실제 AI 답변이 오는지 확인하세요.",
@@ -201,7 +201,7 @@ const scenes = [
     "number": "07",
     "title": "오류 점검과 사후 이어 하기",
     "location": "PC · Telegram",
-    "objective": "어느 단계까지 성공했는지 확인하고 미완료 부분을 복구합니다.",
+    "objective": "완료한 단계와 추가로 확인할 문제를 정리합니다.",
     "why": "텔레그램 연결은 봇·계정 ID·Gateway·모델이 연속으로 연결되는 구조입니다. 실패 위치를 순서대로 좁히는 것이 효율적입니다.",
     "actions": [
       "내 봇과 Start, Gateway 상태, .env 토큰과 숫자 ID, Hermes 모델 응답을 순서대로 확인하세요.",
@@ -252,11 +252,11 @@ const scenes = [
         <button type="button" data-jump="userid">봇은 만들었어요</button>
         <button type="button" data-jump="reply">Gateway까지 실행했어요</button>
       </div>
-      <p class="hint">위 선택은 입력한 상태에 따라 해당 장면으로 이동하는 기능입니다. 컴퓨터 설치 상태를 자동 검사하지 않습니다.</p>
+      <p class="hint">현재 진행 상황에 맞는 단계를 선택하세요. Telegram 연결 상태는 자동으로 확인하지 않습니다.</p>
     </section>
 
     <section class="steps" aria-label="단계별 실습">
-      <div class="stepsbar"><div><strong id="status-label">01 / 07 · 시작 전 준비</strong><p id="progress-label">완료한 단계 0/7</p></div><button class="reset" id="reset-progress" type="button">진도 초기화</button></div>
+      <div class="stepsbar"><div><strong id="status-label">01 / 07 · PC Hermes 응답 확인</strong><p id="progress-label">완료한 단계 0/7</p></div><button class="reset" id="reset-progress" type="button">진도 초기화</button></div>
       <div class="progress-track" role="progressbar" aria-label="자가 점검 완료 비율" aria-valuemin="0" aria-valuemax="7" aria-valuenow="0" id="progress-track"><div id="progress-fill"></div></div>
       <div class="layout">
         <nav id="lesson-nav" class="navsteps" aria-label="실습 단계 목차"></nav>
