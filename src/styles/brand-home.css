@@ -430,3 +430,13 @@ html[data-theme="dark"] .secondary{border-color:#596473;color:#edf1f6}
 html[data-theme="dark"] .secondary:hover,html[data-theme="dark"] .contact:hover{background:#2c3440}
 html[data-theme="dark"] .primary{background:#e7ecf4;color:#11151b}
 html[data-theme="dark"] .visual{background:#222a34;border-color:#343c47}
+
+
+html[data-theme="dark"]{--surface:#202731;--muted:#b5c0ce;--border:#3b4653}
+html[data-theme="dark"] .card.feature{background:#263555;border-color:#344767}
+html[data-theme="dark"] .card-top,html[data-theme="dark"] .card-bottom p,html[data-theme="dark"] .article .category,html[data-theme="dark"] .article small,html[data-theme="dark"] .about .note,html[data-theme="dark"] .role,html[data-theme="dark"] .about-kicker,html[data-theme="dark"] .about-points li,html[data-theme="dark"] .page-lead,html[data-theme="dark"] .page-meta,html[data-theme="dark"] .philosophy-card p,html[data-theme="dark"] .cv-card h3,html[data-theme="dark"] .cv-card ul,html[data-theme="dark"] .en-bio,html[data-theme="dark"] .footer,html[data-theme="dark"] .overline{color:var(--muted)}
+html[data-theme="dark"] .selected p,html[data-theme="dark"] .research-item small{color:#b5c0ce}
+html[data-theme="dark"] .selected .secondary{color:#edf1f6;border-color:#566476}
+html[data-theme="dark"] .node,html[data-theme="dark"] .mobile-nav.open{background:var(--surface);border-color:var(--border);color:var(--ink)}
+html[data-theme="dark"] .desktop-nav,html[data-theme="dark"] .hero-note,html[data-theme="dark"] .mini-caption,html[data-theme="dark"] .brand small{color:var(--muted)}
+html[data-theme="dark"] .contact{border-color:var(--border)}
