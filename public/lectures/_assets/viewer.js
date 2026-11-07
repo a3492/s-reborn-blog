@@ -44,7 +44,20 @@
 		const layer = $('#layer');
 		layer.innerHTML = '';
 
-		if (Array.isArray(s.bullets)) {
+		if (s.originalImage) {
+			const picture = document.createElement('img');
+			picture.className = 'original-slide-image';
+			picture.src = resolveImg(s.originalImage);
+			picture.alt = s.title + ' · 원본 PPTX의 슬라이드 이미지';
+			picture.onerror = () => {
+				picture.style.display = 'none';
+				const fallback = document.createElement('div');
+				fallback.className = 'slide-image-error';
+				fallback.textContent = '원본 슬라이드 이미지 로드에 실패했습니다. 자료실에서 PPTX 원본을 확인하세요.';
+				layer.append(fallback);
+			};
+			layer.append(picture);
+		} else if (Array.isArray(s.bullets)) {
 			const slide = document.createElement('section');
 			slide.className = 'native-slide';
 			const eyebrow = document.createElement('div');
@@ -165,8 +178,8 @@
 				const b = document.createElement('button');
 				b.className = 'card';
 				const im = document.createElement('img');
-				if (s.image) {
-					im.src = resolveImg(s.image);
+				if (s.originalImage || s.image) {
+					im.src = resolveImg(s.originalImage || s.image);
 					im.loading = 'lazy';
 				} else {
 					im.style.display = 'none';
