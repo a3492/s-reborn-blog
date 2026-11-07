@@ -1,0 +1,51 @@
+name: Restore lecture slide images (pilot)
+on:
+  push:
+    paths:
+      - 'scripts/lecture-slide-image-manifest-pilot.json'
+      - '.github/workflows/restore-lecture-slide-images.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download and validate source slide image
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, pathlib, urllib.request
+          m=json.load(open('scripts/lecture-slide-image-manifest-pilot.json'))
+          for item in m['sources']:
+              path=pathlib.Path(item['path'])
+              path.parent.mkdir(parents=True,exist_ok=True)
+              request=urllib.request.Request(item['url'],headers={'User-Agent':'Mozilla/5.0'})
+              with urllib.request.urlopen(request,timeout=30) as resp:
+                  data=resp.read()
+              if len(data)<10000 or data[:4] not in (b'\\x89PNG',b'RIFF'):
+                  raise RuntimeError('Not an image: '+str(len(data)))
+              path.with_suffix('.png').write_bytes(data)
+              print(str(path),len(data))
+          PY
+          python3 -m pip install --quiet Pillow
+          python3 - <<'PY'
+          import json, pathlib
+          from PIL import Image
+          for item in json.load(open('scripts/lecture-slide-image-manifest-pilot.json'))['sources']:
+              path=pathlib.Path(item['path'])
+              with Image.open(path.with_suffix('.png')) as im:
+                  im.convert('RGB').save(path,'WEBP',quality=86,method=6)
+              path.with_suffix('.png').unlink()
+          PY
+      - name: Commit images
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/lectures/daemire-crm-2026/images/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Restore original CRM lecture slide image pilot'
+          git push
