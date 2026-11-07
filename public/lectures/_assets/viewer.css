@@ -197,3 +197,21 @@ body {
 .slide-image-error { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; padding:80px; background:#f5f8fb; color:#173a55; font-size:28px; }
 .lec-viewer .overview .card:not(.native-card) { color:#ecf7ff; }
 .lec-viewer .overview .card.native-card { color:#f7fbff !important; background:#182a3b !important; }
+
+
+/* Ensure overview is above the global site header. QA on 2026-11-08 caught clipped heading. */
+.lec-viewer .overview {
+  z-index: 2147483000 !important;
+  background: rgba(16,24,39,.985);
+  padding-top: 26px;
+}
+.lec-viewer .overview-top {
+  position: sticky;
+  top: -26px;
+  z-index: 2;
+  padding: 12px 0 18px;
+  background: #101827;
+}
+.lec-viewer .overview-top h2 { color: #f7fbff; margin: 0; }
+.lec-viewer .overview .card { background: #233044; color:#f7fbff; }
+.lec-viewer .overview .card strong { color:#f7fbff; }
