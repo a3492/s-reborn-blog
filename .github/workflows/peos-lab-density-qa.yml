@@ -1,0 +1,98 @@
+name: PEOS Lab density integration QA (no deploy)
+on:
+  push:
+    branches: [experiment/lab-density-after-peos-20261107]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 20a81756c3efa1ad057a490483571042e2addf6b
+          path: baseline
+      - uses: actions/checkout@v4
+        with:
+          path: candidate
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: candidate/package-lock.json
+      - name: Build original and candidate
+        run: |
+          set -eu
+          cd candidate
+          npm ci
+          npm run build
+          cd ../baseline
+          ln -s ../candidate/node_modules node_modules
+          npm run build
+      - name: Chromium
+        working-directory: candidate
+        run: |
+          npm install --no-save --package-lock=false playwright@1.58.2
+          npx playwright install --with-deps chromium
+      - name: Compare PEOS lab hub and preserve links
+        run: |
+          set -eu
+          mkdir -p /tmp/lab-reconcile
+          python3 -m http.server 4321 --bind 127.0.0.1 --directory baseline/dist >/tmp/lab-base.log 2>&1 &
+          B=$!
+          python3 -m http.server 4322 --bind 127.0.0.1 --directory candidate/dist >/tmp/lab-new.log 2>&1 &
+          C=$!
+          trap 'kill "$B" "$C" 2>/dev/null || true' EXIT
+          for i in $(seq 1 40); do
+            if curl -fsS http://127.0.0.1:4321/lab/ >/dev/null && curl -fsS http://127.0.0.1:4322/lab/ >/dev/null; then break; fi
+            sleep 1
+          done
+          cd candidate
+          node --input-type=module - <<'NODE'
+          import {chromium} from 'playwright';
+          import fs from 'node:fs';
+          const browser=await chromium.launch({headless:true});
+          const rows=[]; let failed=false;
+          for(const [width,height] of [[1440,900],[768,1024],[390,844],[320,720]]){
+            const versions=[];
+            for(const which of ['before','after']){
+              const page=await browser.newPage({viewport:{width,height}});
+              const errors=[];page.on('pageerror',e=>errors.push(e.message));
+              const response=await page.goto('http://127.0.0.1:'+(which==='before'?4321:4322)+'/lab/',{waitUntil:'networkidle'});
+              const result=await page.evaluate(()=>{
+                const root=document.querySelector('.lab-page');
+                const first=document.querySelector('.lab-hub-card');
+                return {
+                  text:root?.innerText??null,
+                  links:[...(root?.querySelectorAll('a')??[])].map(a=>[a.textContent?.trim(),a.getAttribute('href'),a.getAttribute('rel'),a.getAttribute('target')]),
+                  firstY:first?.getBoundingClientRect().top??null,
+                  viewport:document.documentElement.clientWidth,
+                  scroll:document.documentElement.scrollWidth,
+                  totalHeight:document.documentElement.scrollHeight,
+                  peos:!!document.querySelector('a[href="/lab/peos/"]')
+                };
+              });
+              await page.screenshot({path:'/tmp/lab-reconcile/'+width+'x'+height+'-'+which+'.png',fullPage:true});
+              versions.push({...result,http:response?.status(),errors});await page.close();
+            }
+            const [b,a]=versions;
+            const same=b.text===a.text&&JSON.stringify(b.links)===JSON.stringify(a.links);
+            const ok=same&&a.peos&&a.http===200&&b.http===200&&a.scroll<=Math.max(b.scroll,a.viewport)+1&&a.totalHeight<=b.totalHeight+2&&a.firstY!==null&&a.firstY<=b.firstY+2&&a.errors.length===0;
+            if(!ok){failed=true;console.error('FAILED',width,{same,b,a})}
+            rows.push({viewport:width+'x'+height,ok,same,peos:a.peos,firstBefore:b.firstY,firstAfter:a.firstY,heightBefore:b.totalHeight,heightAfter:a.totalHeight});
+          }
+          await browser.close();
+          fs.writeFileSync('/tmp/lab-reconcile/results.json',JSON.stringify(rows,null,2));
+          console.log(JSON.stringify(rows,null,2));
+          if(failed)process.exit(1);
+          NODE
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: peos-lab-density-before-after
+          path: /tmp/lab-reconcile/
+          if-no-files-found: warn
+          retention-days: 7
