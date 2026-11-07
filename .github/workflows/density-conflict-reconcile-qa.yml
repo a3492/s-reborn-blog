@@ -1,0 +1,110 @@
+name: Density integration QA - feature-preserving (no deployment)
+
+on:
+  push:
+    branches: [experiment/density-conflict-reconcile-20261107]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout stacked feature baseline
+        uses: actions/checkout@v4
+        with:
+          ref: fd210a2784d8c25b9d1fda161145ea209451fcf8
+          path: baseline
+      - name: Checkout integrated candidate
+        uses: actions/checkout@v4
+        with:
+          path: candidate
+      - name: Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: candidate/package-lock.json
+      - name: Build original and integrated versions
+        run: |
+          set -eu
+          cd candidate
+          npm ci
+          npm run build
+          cd ../baseline
+          ln -s ../candidate/node_modules node_modules
+          npm run build
+      - name: Chromium
+        working-directory: candidate
+        run: |
+          npm install --no-save --package-lock=false playwright@1.58.2
+          npx playwright install --with-deps chromium
+      - name: Compare existing lectures and new customer-linked reader
+        run: |
+          set -eu
+          mkdir -p /tmp/density-integration-qa
+          python3 -m http.server 4321 --bind 127.0.0.1 --directory baseline/dist >/tmp/density-integration-base.log 2>&1 &
+          B=$!
+          python3 -m http.server 4322 --bind 127.0.0.1 --directory candidate/dist >/tmp/density-integration-new.log 2>&1 &
+          C=$!
+          trap 'kill "$B" "$C" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 40); do
+            if curl -fsS http://127.0.0.1:4321/lectures/ >/dev/null && curl -fsS http://127.0.0.1:4322/lectures/ >/dev/null; then break; fi
+            sleep 1
+          done
+          cd candidate
+          node --input-type=module - <<'NODE'
+          import {chromium} from 'playwright';
+          import fs from 'node:fs';
+          const browser=await chromium.launch({headless:true});
+          const cases=[
+            {name:'lecture-list',path:'/lectures/',root:'.lectures-page',first:'.lecture-card'},
+            {name:'consult-linked-1',path:'/tools/consult-archive/view/B01-E001/',root:'.reader',first:'.reader-body'},
+            {name:'consult-linked-2',path:'/tools/consult-archive/view/B01-E012/',root:'.reader',first:'.reader-body'}
+          ];
+          let failed=false;const rows=[];
+          for(const c of cases)for(const [width,height] of [[1440,900],[768,1024],[390,844],[320,720]]){
+            const versions=[];
+            for(const v of ['before','after']){
+              const page=await browser.newPage({viewport:{width,height}});
+              const errors=[];page.on('pageerror',e=>errors.push(e.message));
+              const res=await page.goto('http://127.0.0.1:'+(v==='before'?4321:4322)+c.path,{waitUntil:'networkidle'});
+              const d=await page.evaluate(({root,first})=>{
+                const el=document.querySelector(root);const marker=document.querySelector(first);
+                const controls=[...document.querySelectorAll('main button,main a[download],main input')];
+                return {
+                  content:el?.innerText??null,
+                  anchors:[...(el?.querySelectorAll('a')??[])].map(a=>[a.textContent?.trim(),a.getAttribute('href'),a.getAttribute('download')]),
+                  controls:controls.map(a=>[a.tagName,a.getAttribute('type'),a.textContent?.trim()?.slice(0,100),a.getAttribute('download'),a.getBoundingClientRect().height]),
+                  width:document.documentElement.clientWidth,
+                  scrollWidth:document.documentElement.scrollWidth,
+                  docHeight:document.documentElement.scrollHeight,
+                  firstY:marker?.getBoundingClientRect().top??null
+                };
+              },c);
+              await page.screenshot({path:'/tmp/density-integration-qa/'+c.name+'-'+width+'x'+height+'-'+v+'.png',fullPage:true});
+              versions.push({...d,status:res?.status(),errors});
+              await page.close();
+            }
+            const [b,a]=versions;
+            const same=b.content===a.content&&JSON.stringify(b.anchors)===JSON.stringify(a.anchors)&&JSON.stringify(b.controls)===JSON.stringify(a.controls);
+            const ok=b.status===200&&a.status===200&&same&&a.scrollWidth<=Math.max(a.width,b.scrollWidth)+1&&a.docHeight<=b.docHeight+2&&a.firstY!==null&&b.firstY!==null&&a.firstY<=b.firstY+2&&a.errors.length===0;
+            if(!ok){failed=true;console.error('FAILED',c.name,width,{bStatus:b.status,aStatus:a.status,same,bY:b.firstY,aY:a.firstY,bHeight:b.docHeight,aHeight:a.docHeight,errors:a.errors})}
+            rows.push({case:c.name,viewport:width+'x'+height,ok,same,beforeY:b.firstY,afterY:a.firstY,beforeHeight:b.docHeight,afterHeight:a.docHeight,saved:b.docHeight-a.docHeight});
+          }
+          await browser.close();
+          fs.writeFileSync('/tmp/density-integration-qa/results.json',JSON.stringify(rows,null,2));
+          console.log(JSON.stringify(rows,null,2));
+          if(failed)process.exit(1);
+          NODE
+      - name: Save screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: density-integration-before-after
+          path: /tmp/density-integration-qa/
+          retention-days: 7
+          if-no-files-found: warn
