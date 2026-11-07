@@ -1,0 +1,123 @@
+name: Stacked tools density QA (no deploy)
+
+on:
+  push:
+    branches:
+      - experiment/tools-density-after-daemire-20261107
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - name: Checkout original Daemire PR code as baseline
+        uses: actions/checkout@v4
+        with:
+          ref: d7dcb108b9d3b9491acb401a5e238c7e6b3d1454
+          path: baseline
+      - name: Checkout density-only candidate
+        uses: actions/checkout@v4
+        with:
+          path: candidate
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: candidate/package-lock.json
+      - name: Compile both versions with the same dependencies
+        run: |
+          set -eu
+          cd candidate
+          npm ci
+          npm run build
+          cd ../baseline
+          ln -s ../candidate/node_modules node_modules
+          npm run build
+      - name: Install Chromium
+        working-directory: candidate
+        run: |
+          npm install --no-save --package-lock=false playwright@1.58.2
+          npx playwright install --with-deps chromium
+      - name: Compare 5 tool paths at 4 viewport sizes
+        run: |
+          set -eu
+          mkdir -p /tmp/tools-density-qa
+          python3 -m http.server 4321 --bind 127.0.0.1 --directory baseline/dist >/tmp/tools-baseline.log 2>&1 &
+          P1=$!
+          python3 -m http.server 4322 --bind 127.0.0.1 --directory candidate/dist >/tmp/tools-candidate.log 2>&1 &
+          P2=$!
+          trap 'kill "$P1" "$P2" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 35); do
+            if curl -fsS http://127.0.0.1:4321/tools/ >/dev/null && curl -fsS http://127.0.0.1:4322/tools/ >/dev/null; then break; fi
+            sleep 1
+          done
+          cd candidate
+          node --input-type=module - <<'NODE'
+          import {chromium} from 'playwright';
+          import fs from 'node:fs';
+          const browser=await chromium.launch({headless:true});
+          const paths=[
+            {id:'tools',route:'/tools/',root:'.tools-hub',first:'.tools-card'},
+            {id:'tool-detail',route:'/tools/hospital-data-pain-points/',root:'.archive',first:'.archive-panel, .archive-item'},
+            {id:'consult',route:'/tools/consult-archive/',root:'.consult',first:'.consult-panel'},
+            {id:'procedure',route:'/tools/procedure-archive/',root:'.consult',first:'.consult-panel'},
+            {id:'daemire',route:'/tools/lectures/2026-11-08-daemire/',root:'.lecture',first:'.path li, .lecture-panel'}
+          ];
+          const sizes=[[1440,900],[768,1024],[390,844],[320,720]];
+          const results=[];
+          let failed=false;
+          for(const item of paths) for(const [width,height] of sizes){
+            const both=[];
+            for(const version of ['before','after']){
+              const page=await browser.newPage({viewport:{width,height},deviceScaleFactor:1});
+              const exceptions=[];
+              page.on('pageerror',e=>exceptions.push(e.message));
+              const response=await page.goto('http://127.0.0.1:'+(version==='before'?4321:4322)+item.route,{waitUntil:'networkidle'});
+              const d=await page.evaluate(({root,first})=>{
+                const panel=document.querySelector(root);
+                const top=document.querySelector(first);
+                const style=panel?getComputedStyle(panel):null;
+                const commands=[...document.querySelectorAll('main button, main a[download], main input, main select')];
+                return {
+                  content:panel?.innerText??null,
+                  hrefs:[...(panel?.querySelectorAll('a')??[])].map(a=>[a.getAttribute('href'),a.getAttribute('download'),a.textContent?.trim()]),
+                  commands:commands.map(a=>[a.tagName,a.getAttribute('type'),a.getAttribute('download'),a.getAttribute('aria-label'),a.textContent?.trim()?.slice(0,80)]),
+                  rootTop:style?.paddingTop??null,
+                  rootBottom:style?.paddingBottom??null,
+                  viewport:document.documentElement.clientWidth,
+                  scrollWidth:document.documentElement.scrollWidth,
+                  docHeight:document.documentElement.scrollHeight,
+                  firstY:top?.getBoundingClientRect().top??null
+                };
+              },item);
+              await page.screenshot({path:'/tmp/tools-density-qa/'+item.id+'-'+width+'x'+height+'-'+version+'.png',fullPage:true});
+              both.push({...d,http:response?.status(),exceptions});
+              await page.close();
+            }
+            const [before,after]=both;
+            const identical=before.content===after.content&&JSON.stringify(before.hrefs)===JSON.stringify(after.hrefs)&&JSON.stringify(before.commands)===JSON.stringify(after.commands);
+            const noNewOverflow=after.scrollWidth<=Math.max(before.scrollWidth,after.viewport)+1;
+            const noHeightRegression=after.docHeight<=before.docHeight+2;
+            const firstNotLower=before.firstY!==null&&after.firstY!==null&&after.firstY<=before.firstY+2;
+            const ok=before.http===200&&after.http===200&&identical&&noNewOverflow&&noHeightRegression&&firstNotLower&&after.exceptions.length===0;
+            if(!ok){failed=true;console.error('CHECK_FAILED',item.id,width,{httpBefore:before.http,httpAfter:after.http,identical,noNewOverflow,noHeightRegression,firstNotLower,errors:after.exceptions,firstBefore:before.firstY,firstAfter:after.firstY})}
+            results.push({page:item.id,viewport:width+'x'+height,ok,identical,beforeY:before.firstY,afterY:after.firstY,heightBefore:before.docHeight,heightAfter:after.docHeight,saved:before.docHeight-after.docHeight,paddingTopBefore:before.rootTop,paddingTopAfter:after.rootTop,paddingBottomBefore:before.rootBottom,paddingBottomAfter:after.rootBottom,overflowBefore:before.scrollWidth-before.viewport,overflowAfter:after.scrollWidth-after.viewport});
+          }
+          fs.writeFileSync('/tmp/tools-density-qa/results.json',JSON.stringify(results,null,2));
+          console.log(JSON.stringify(results,null,2));
+          await browser.close();
+          if(failed)process.exit(1);
+          NODE
+      - name: Preserve screenshots and numbers
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tools-density-stacked-before-after
+          path: /tmp/tools-density-qa/
+          retention-days: 7
+          if-no-files-found: warn
