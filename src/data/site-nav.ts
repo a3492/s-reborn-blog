@@ -78,6 +78,7 @@ export const SITE_NAV: NavItem[] = [
 		label: '강연·자료',
 		labelEn: 'Talks & materials',
 		children: [
+			{ id: 'lectures-hermes-first', group: '지금 실습', groupEn: 'Start here', label: 'PC에서 AI와 대화 시작하기', labelEn: 'Start chatting with AI on PC', href: '/tutorials/hermes-agent/ep01/' },
 			{ id: 'lectures-crm-first', group: '지금 실습', groupEn: 'Start here', label: 'CRM 데이터 첫 분석 · 5단계', labelEn: 'CRM first analysis · 5 steps', href: '/tutorials/crm-first-analysis/' },
 			{ id: 'lectures-tutorials', group: '전체 실습', groupEn: 'All tutorials', label: '실습 튜토리얼 모음', labelEn: 'Tutorial hub', href: '/tutorials/' },
 			{ id: 'lectures-daemire', group: '강연 자료', groupEn: 'Lecture materials', label: '11/8 대미레 강연 원본 자료실', labelEn: 'Daemire lecture archive', href: '/tools/lectures/2026-11-08-daemire/' },
