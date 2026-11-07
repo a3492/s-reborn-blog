@@ -1,10 +1,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 const root=process.cwd(),page=fs.readFileSync(path.join(root,'public/tutorials/crm-scenarios/index.html'),'utf8');
-const blocks=[...page.matchAll(/<section id="(P\\d{2}-\\d{2})" class="scenario" data-group="(P\\d{2})">([\\s\\S]*?)(?=<section id="P\\d{2}-\\d{2}" class="scenario"|<div class="pain-heading"|<section class="card arch">)/g)];
-const ids=[...page.matchAll(/<section id="(P\\d{2}-\\d{2})" class="scenario"/g)].map(m=>m[1]);
-const links=[...page.matchAll(/href="(\\/downloads\\/[^"]+)"/g)].map(m=>m[1]);
-const nav=[...page.matchAll(/class="scenario-link" href="#(P\\d{2}-\\d{2})"/g)].map(m=>m[1]);
+const blocks=[...page.matchAll(/<section id="(P\d{2}-\d{2})" class="scenario" data-group="(P\d{2})">([\s\S]*?)(?=<section id="P\d{2}-\d{2}" class="scenario"|<div class="pain-heading"|<section class="card arch">)/g)];
+const ids=[...page.matchAll(/<section id="(P\d{2}-\d{2})" class="scenario"/g)].map(m=>m[1]);
+const links=[...page.matchAll(/href="(\/downloads\/[^"]+)"/g)].map(m=>m[1]);
+const nav=[...page.matchAll(/class="scenario-link" href="#(P\d{2}-\d{2})"/g)].map(m=>m[1]);
 const errors=[];
 if(new Set(ids).size!==ids.length)errors.push('Duplicate scenario ID');
 if(ids.length!==nav.length||ids.some(id=>!nav.includes(id)))errors.push('Navigation/section ID mismatch');
