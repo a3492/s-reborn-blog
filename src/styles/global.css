@@ -484,3 +484,13 @@ hr {
 		transition: none !important;
 	}
 }
+
+
+html[data-theme="dark"]{--accent:#d8b485;--accent-dark:#e6c79e;--gray-light:48,57,68;--gray-dark:221,229,238}
+html[data-theme="dark"] .blog-post-prose,html[data-theme="dark"] .blog-post-main{color:var(--text,#edf1f6)}
+html[data-theme="dark"] .blog-post-prose code,html[data-theme="dark"] code{background:#28313d;color:#f1e0c5}
+html[data-theme="dark"] .blog-post-prose pre code{background:transparent;color:inherit}
+html[data-theme="dark"] .blog-post-prose th{background:#303126;color:var(--text)}
+html[data-theme="dark"] .blog-post-prose tr:nth-child(even) td{background:rgba(216,180,133,.08)}
+html[data-theme="dark"] .blog-post-tag,html[data-theme="dark"] .blog-post-share-btn.copy{background:#26303b;color:var(--text);border-color:var(--rule)}
+html[data-theme="dark"] blockquote{background:var(--bg2,#202731)}
