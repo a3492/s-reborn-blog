@@ -213,40 +213,4 @@ const scenes = [
   .footwarn strong{color:var(--text)}.footwarn p{line-height:1.7}
   @media(max-width:760px){.lesson{padding:12px 14px 60px}.layout{grid-template-columns:minmax(0,1fr);gap:12px}.navsteps{position:static;display:flex;overflow-x:auto;gap:5px;border:0;padding-bottom:4px}.stepnav{width:auto;flex:0 0 auto;padding:8px 10px;border:1px solid var(--rule);border-radius:6px;white-space:nowrap;font-size:.8rem}.stepnav .done{margin-left:0}.scene h2{margin-top:15px}.resultbtn{flex-direction:column}.resultbtn button{width:100%}.intro{margin-bottom:22px}}
 </style>
-<script>
-  const steps = ['prepare','install','verify','model','response','personalize','wrap'];
-  const storageKey = 'sreborn-hermes-ep01-progress-v1';
-  let finished = new Set<string>();
-  let current = 'prepare';
-  try {
-    const data = JSON.parse(localStorage.getItem(storageKey) || '{}');
-    if (Array.isArray(data.done)) finished = new Set(data.done.filter((x:unknown)=>typeof x==='string' && steps.includes(x)));
-    if (typeof data.current==='string' && steps.includes(data.current)) current=data.current;
-  } catch {}
-  const label = document.getElementById('status-label');
-  const count = document.getElementById('progress-label');
-  const progress = document.getElementById('progress-track');
-  const fill = document.getElementById('progress-fill');
-  const save = () => { try { localStorage.setItem(storageKey,JSON.stringify({done:[...finished],current})); } catch {} };
-  const render = () => {
-    document.querySelectorAll<HTMLElement>('[data-scene]').forEach(el=>{el.hidden=el.dataset.scene!==current;});
-    document.querySelectorAll<HTMLElement>('[data-step-link]').forEach(el=>{el.classList.toggle('active',el.dataset.stepLink===current);el.classList.toggle('completed',finished.has(el.dataset.stepLink||''));el.setAttribute('aria-current',el.dataset.stepLink===current?'step':'false');});
-    const idx=steps.indexOf(current);
-    const title=document.querySelector<HTMLElement>(`[data-scene="${current}"] h2`)?.textContent||'';
-    if(label)label.textContent=`${String(idx+1).padStart(2,'0')} / 07 · ${title}`;
-    if(count)count.textContent=`완료 체크 ${finished.size} / ${steps.length}`;
-    progress?.setAttribute('aria-valuenow',String(finished.size));
-    if(fill)fill.style.width=`${finished.size/steps.length*100}%`;
-    save();
-  };
-  const go=(id:string) => {if(!steps.includes(id))return;current=id;render();document.querySelector('.steps')?.scrollIntoView({block:'start',behavior:'smooth'});};
-  document.querySelectorAll<HTMLElement>('[data-step-link],[data-jump]').forEach(el=>el.addEventListener('click',()=>go(el.dataset.stepLink||el.dataset.jump||'')));
-  document.querySelectorAll<HTMLButtonElement>('[data-next]').forEach(el=>el.addEventListener('click',()=>{const i=steps.indexOf(el.dataset.next||'');if(i>=0&&i<steps.length-1)go(steps[i+1]);}));
-  document.querySelectorAll<HTMLButtonElement>('[data-prev]').forEach(el=>el.addEventListener('click',()=>{const i=steps.indexOf(el.dataset.prev||'');if(i>0)go(steps[i-1]);}));
-  document.querySelectorAll<HTMLButtonElement>('[data-success]').forEach(el=>el.addEventListener('click',()=>{const id=el.dataset.success||'';finished.add(id);const i=steps.indexOf(id);go(steps[Math.min(i+1,steps.length-1)]);}));
-  document.querySelectorAll<HTMLButtonElement>('[data-error]').forEach(el=>el.addEventListener('click',()=>{const t=document.querySelector<HTMLElement>(`[data-trouble="${el.dataset.error}"]`);if(t){t.hidden=false;t.scrollIntoView({block:'nearest',behavior:'smooth'});}}));
-  document.querySelectorAll<HTMLButtonElement>('[data-back]').forEach(el=>el.addEventListener('click',()=>{const t=document.querySelector<HTMLElement>(`[data-trouble="${el.dataset.back}"]`);if(t)t.hidden=true;}));
-  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach(el=>el.addEventListener('click',async()=>{const value=el.dataset.copy||'';const original='복사하기';try{await navigator.clipboard.writeText(value);el.textContent='복사됨 ✓';setTimeout(()=>el.textContent=original,1800);}catch{const pre=el.closest('.command-block')?.querySelector('code');if(pre){const range=document.createRange();range.selectNodeContents(pre);const s=window.getSelection();s?.removeAllRanges();s?.addRange(range);}el.textContent='텍스트를 선택했어요';setTimeout(()=>el.textContent=original,2400);}}));
-  document.getElementById('reset-progress')?.addEventListener('click',()=>{if(confirm('이 브라우저에 저장한 EP01 진도를 초기화할까요?')){finished.clear();current='prepare';render();}});
-  render();
-</script>
+<script is:inline src="/tutorials/hermes-agent/ep01-interactions.js"></script>
