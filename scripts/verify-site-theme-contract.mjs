@@ -23,7 +23,7 @@ if(errors.length){console.error(errors.join('\n'));process.exit(1)}
 const src=Object.fromEntries(sources.map(p=>[p,read(p)]));
 for(const p of [main,hub,guide,first]){
   const s=src[p];
-  check(!/70\s*(개|가지|개의)/.test(s),'Stale 70-item count in user-facing page: '+p);
+  check(!/(?:^|[^0-9])70\s*(개|가지|개의)/.test(s),'Stale 70-item count in user-facing page: '+p);
   check(!/PP01\s*[~～-]\s*PP05|5가지\s*페인\s*포인트/.test(s),'Stale five-category copy in: '+p);
 }
 for(const p of [home,base,main,first]){
