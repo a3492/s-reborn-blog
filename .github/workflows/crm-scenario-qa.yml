@@ -1,16 +1,30 @@
-name: CRM scenario quality gate
+name: S-Reborn theme and CRM content quality gate
 on:
   push:
     paths:
-      - 'public/tutorials/crm-scenarios/**'
+      - 'public/tutorials/**'
       - 'public/downloads/crm-scenarios/**'
+      - 'public/assets/sreborn-theme-*'
+      - 'src/pages/**'
+      - 'src/styles/**'
+      - 'src/components/BaseHead.astro'
+      - 'src/components/SiteHeader.astro'
+      - 'scripts/verify-site-theme-contract.mjs'
       - 'scripts/validate-crm-scenarios.mjs'
+      - 'package.json'
       - '.github/workflows/crm-scenario-qa.yml'
   pull_request:
     paths:
-      - 'public/tutorials/crm-scenarios/**'
+      - 'public/tutorials/**'
       - 'public/downloads/crm-scenarios/**'
+      - 'public/assets/sreborn-theme-*'
+      - 'src/pages/**'
+      - 'src/styles/**'
+      - 'src/components/BaseHead.astro'
+      - 'src/components/SiteHeader.astro'
+      - 'scripts/verify-site-theme-contract.mjs'
       - 'scripts/validate-crm-scenarios.mjs'
+      - 'package.json'
       - '.github/workflows/crm-scenario-qa.yml'
   workflow_dispatch:
 permissions:
@@ -18,17 +32,30 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: npm
-      - run: node scripts/validate-crm-scenarios.mjs
-      - run: npm ci
-      - run: npm run build
-      - name: Check production assets
+      - name: Theme and content integrity
+        env:
+          GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          node scripts/verify-site-theme-contract.mjs
+          node scripts/validate-crm-scenarios.mjs
+      - name: Install and build
+        run: |
+          npm ci
+          npm run build
+      - name: Check published routes and synthetic files
         run: |
           test -s dist/tutorials/crm-scenarios/index.html
-          test "$(find dist/downloads/crm-scenarios -maxdepth 1 -name 'P??-??.txt' | wc -l)" -ge 30
+          test -s dist/tutorials/crm-scenarios/pain-points/index.html
+          test -s dist/tutorials/crm-first-analysis/index.html
+          test -s dist/assets/sreborn-theme-init.js
+          test -s dist/assets/sreborn-theme-tokens.css
+          test "$(find dist/downloads/crm-scenarios -maxdepth 1 -name 'PP??-??.txt' | wc -l)" -ge 12
