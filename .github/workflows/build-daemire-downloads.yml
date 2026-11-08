@@ -1,0 +1,53 @@
+name: Build website-hosted Daemire PowerPoints
+on:
+  push:
+    paths:
+      - '.github/workflows/build-daemire-downloads.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PowerPoint builder
+        run: npm install --no-save --ignore-scripts pptxgenjs
+      - name: Create downloadable PowerPoints from 65 original slide images
+        run: |
+          node <<'JS'
+          const pptxgen = require('pptxgenjs');
+          const fs = require('fs');
+          const path = require('path');
+          (async () => {
+            for (const [slug, count, filename] of [
+              ['daemire-crm-2026',52,'Daemire_2026_CRM_52slides.pptx'],
+              ['daemire-management-2026',13,'Daemire_2026_Management_13slides.pptx']
+            ]) {
+              const pptx = new pptxgen();
+              pptx.layout = 'LAYOUT_WIDE';
+              pptx.author = 'S-Reborn MD AI HUB';
+              pptx.subject = 'Daemire 2026 lecture: web presentation image edition';
+              pptx.title = filename;
+              for(let i=1;i<=count;i++){
+                const file = path.join('public/lectures',slug,'images','slide-'+String(i).padStart(3,'0')+'.webp');
+                if(!fs.existsSync(file))throw Error('Missing '+file);
+                const slide=pptx.addSlide();
+                slide.background={color:'FFFFFF'};
+                slide.addImage({path:file,x:0,y:0,w:13.333333,h:7.5});
+              }
+              const dest=path.join('public/lectures',slug,filename);
+              await pptx.writeFile({fileName:dest});
+              const bytes=fs.statSync(dest).size;
+              if(bytes<100000)throw Error('Suspicious file '+dest);
+              console.log(dest,count,bytes);
+            }
+          })().catch(e=>{console.error(e);process.exit(1)});
+          JS
+      - name: Publish downloads to site
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/lectures/daemire-crm-2026/*.pptx public/lectures/daemire-management-2026/*.pptx
+          git diff --cached --quiet || { git commit -m 'Host two Daemire PowerPoints on sreborn.net'; git push; }
