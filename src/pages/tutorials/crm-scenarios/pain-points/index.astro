@@ -271,7 +271,7 @@ const points = [
   <div class="pp-shell">
     <nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span>›</span><a href="/lecture-materials/kim-dowi/">김도위 원장 강연</a><span>›</span><a href="/tutorials/crm-scenarios/">CRM AI 실습 라이브러리</a><span>›</span><strong>페인 포인트 이해</strong></nav>
     <header class="pp-header"><p class="eyebrow">S—REBORN · CRM AI LEARNING</p><h1>실습 전에, 어떤 문제를 해결하는지부터 이해합니다.</h1><p>페인 포인트(Pain Point)는 고객·직원·병원 운영에서 반복적으로 나타나는 어려움이나 손실의 원인입니다. 단순히 불편한 현상을 나열하는 것이 아니라 <b>현상 → 원인 → 확인해야 할 사실 → 해결 가능한 행동</b>으로 설명합니다.</p><div class="top-actions"><a class="primary" href="/tutorials/crm-scenarios/">전체 실습 바로 시작하기 →</a><a class="secondary" href="#PP01">PP01부터 살펴보기 ↓</a></div></header>
-    <section class="guide"><h2>번호는 어떻게 읽나요?</h2><p><strong>PP02</strong>는 두 번째 페인 포인트 영역, <strong>PP02-04</strong>는 그 영역에 속한 네 번째 실습입니다. 번호는 학습 난이도나 우선순위를 뜻하지 않으며, 기존 A–H는 PP01–PP08, 추가 교육 영역은 PP09–PP16으로 정리했습니다. 이전 실습 코드와의 연결은 기존 자료를 보존하며 순차적으로 전환합니다.</p><p>실제 환자 자료를 외부 AI에 올리지 않고, 제공된 가상 자료로만 연습합니다. AI 답변은 원문과 비교해서 검증하고, 의료 판단은 의료진에게 인계합니다.</p></section>
+    <section class="guide"><h2>번호는 어떻게 읽나요?</h2><p><strong>PP02</strong>는 두 번째 페인 포인트 영역, <strong>PP02-04</strong>는 그 영역에 속한 네 번째 실습입니다. 번호는 학습 난이도나 우선순위를 뜻하지 않으며, 기존 A–H는 PP01–PP08, 추가 교육 영역은 PP09–PP16으로 정리했습니다. 추가 영역 PP09–PP16의 실습 링크에는 아직 이전 실습 코드(PP01–PP08)가 사용됩니다. 실습 내용은 보존되어 있으나 번호 변경은 진행 중이므로 링크의 이전 코드를 확인해 주세요.</p><p>실제 환자 자료를 외부 AI에 올리지 않고, 제공된 가상 자료로만 연습합니다. AI 답변은 원문과 비교해서 검증하고, 의료 판단은 의료진에게 인계합니다.</p></section>
     <nav class="point-nav" aria-label="페인 포인트 바로가기">{points.map(p => <a href={'#'+p.id}><strong>{p.id}</strong><span>{p.title}</span></a>)}</nav>
     {points.map(p => <article class="point" id={p.id}>
       <div class="point-title"><span class="code">{p.id}</span><h2>{p.title}</h2>{p.legacyCode && <span class="legacy-code">기존 {p.legacyCode}</span>}</div>
@@ -279,7 +279,7 @@ const points = [
       <div class="explain-grid"><section><h3>현장에서는 어떻게 나타날까요?</h3><p>{p.symptom}</p></section><section><h3>왜 문제가 될까요?</h3><p>{p.impact}</p></section><section><h3>어떤 원인을 확인해야 하나요?</h3><p>{p.cause}</p></section><section><h3>AI는 무엇을 도울까요?</h3><p>{p.ai}</p></section></div>
       <div class="human"><strong>사람이 최종적으로 확인해야 하는 일</strong><p>{p.human}</p></div>
       <h3 class="examples-title">대표 실습 주제</h3><ul>{p.examples.map(e=><li>{e}</li>)}</ul>
-      <div class="bottom-actions">{p.legacyCode ? <a class="primary" href="/tools/hospital-data-pain-points/">기존 {p.legacyCode} 강연 원문 보기 →</a> : <a class="primary" href={'/tutorials/crm-scenarios/#'+p.practice}>연결된 기존 실습 열기 →</a>}<a class="secondary" href="/tutorials/crm-scenarios/">전체 시나리오 검색하기</a></div>
+      <div class="bottom-actions">{p.legacyCode ? <a class="primary" href={"/tools/hospital-data-pain-points/#"+p.legacyCode}>기존 {p.legacyCode} 강연 원문 보기 →</a> : <a class="primary" href={'/tutorials/crm-scenarios/#'+p.practice}>기존 실습 {p.practice} 열기 (이전 번호) →</a>}<a class="secondary" href="/tutorials/crm-scenarios/">전체 시나리오 검색하기</a></div>
     </article>)}
     <footer class="pp-footer">학습 흐름: 문제 이해 → 가상 원문 확인 → AI 정리 → 근거 검증 → 실제 적용 전 담당자 승인</footer>
   </div>
