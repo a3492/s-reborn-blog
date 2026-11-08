@@ -440,3 +440,19 @@ html[data-theme="dark"] .selected .secondary{color:#edf1f6;border-color:#566476}
 html[data-theme="dark"] .node,html[data-theme="dark"] .mobile-nav.open{background:var(--surface);border-color:var(--border);color:var(--ink)}
 html[data-theme="dark"] .desktop-nav,html[data-theme="dark"] .hero-note,html[data-theme="dark"] .mini-caption,html[data-theme="dark"] .brand small{color:var(--muted)}
 html[data-theme="dark"] .contact{border-color:var(--border)}
+
+/* Homepage community invitation — compact, responsive and theme aware */
+.openchat-section{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:24px;align-items:center;padding:32px;margin:8px 0 32px;background:var(--site-surface,#f4f6f9);border:1px solid var(--line);border-radius:16px}
+.openchat-copy{min-width:0}
+.openchat-copy h2{font-size:clamp(25px,3vw,36px);letter-spacing:-.045em;line-height:1.3;margin:12px 0}
+.openchat-copy p{max-width:660px;font-size:16px;line-height:1.7;color:var(--sub);margin:0 0 18px;word-break:keep-all}
+.openchat-button{display:inline-flex;align-items:center;justify-content:center;gap:15px;background:var(--ink);color:var(--bg,#fff);font-weight:750;padding:12px 20px;border-radius:100px;text-decoration:none}
+.openchat-button:hover,.openchat-button:focus-visible{background:var(--blue);color:#fff}
+.openchat-copy small{display:block;margin-top:12px;color:var(--sub);font-size:13px;line-height:1.5}
+.openchat-qr{justify-self:center;display:flex;flex-direction:column;align-items:center;gap:9px;padding:14px;background:#fff;border:1px solid #d9dfe6;border-radius:12px;text-decoration:none;color:#39434e;font-size:13px;font-weight:700}
+.openchat-qr img{display:block;width:min(200px,100%);height:auto;aspect-ratio:1;object-fit:contain}
+html[data-theme="dark"] .openchat-section{background:#202731;border-color:#3b4653}
+html[data-theme="dark"] .openchat-copy p,html[data-theme="dark"] .openchat-copy small{color:#b5c0ce}
+html[data-theme="dark"] .openchat-button{background:#e7ecf4;color:#11151b}
+html[data-theme="dark"] .openchat-button:hover{background:#94acff}
+@media(max-width:640px){.openchat-section{grid-template-columns:minmax(0,1fr);gap:20px;padding:22px 18px;margin:0 0 22px}.openchat-qr{justify-self:start}.openchat-qr img{width:164px}.openchat-button{width:100%}}
