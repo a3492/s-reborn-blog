@@ -1,0 +1,29 @@
+/* Canonical S-Reborn light/dark surface tokens for the home, internal pages and standalone lessons. */
+:root{
+  --site-bg:#f8f8f5;
+  --site-surface:#edece6;
+  --site-surface-raised:#e8e4de;
+  --site-subtle:#f2f2ee;
+  --site-text:#171d22;
+  --site-text-secondary:#4c545c;
+  --site-text-tertiary:#667078;
+  --site-border:#dfe3e3;
+  --site-mint:#087e73;
+  --site-mint-text:#086e65;
+  --site-on-mint:#ffffff;
+  color-scheme:light;
+}
+html[data-theme="dark"]{
+  --site-bg:#11151b;
+  --site-surface:#252c36;
+  --site-surface-raised:#2b3440;
+  --site-subtle:#202731;
+  --site-text:#edf1f6;
+  --site-text-secondary:#c0c8d2;
+  --site-text-tertiary:#a0acba;
+  --site-border:#3b4653;
+  --site-mint:#0b8175;
+  --site-mint-text:#62d6c6;
+  --site-on-mint:#ffffff;
+  color-scheme:dark;
+}
