@@ -8,10 +8,12 @@
   "scripts": {
     "dev": "astro dev",
     "sync:site-brand": "node scripts/sync-site-brand.mjs",
-    "prebuild": "npm run sync:site-brand",
+    "prebuild": "npm run sync:site-brand && npm run qa:site-theme && npm run qa:crm",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "qa:site-theme": "node scripts/verify-site-theme-contract.mjs",
+    "qa:crm": "node scripts/validate-crm-scenarios.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.0",
