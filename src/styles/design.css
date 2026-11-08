@@ -10,14 +10,14 @@
 :root {
   --pink: #B8956A;
   --pink-lo: rgba(184, 149, 106, 0.12);
-  --bg: #FAF8F5;
-  --bg2: #F0EDE8;
-  --bg3: #E8E4DE;
-  --rule: rgba(28, 25, 23, 0.12);
+  --bg: var(--site-bg, #FAF8F5);
+  --bg2: var(--site-surface, #F0EDE8);
+  --bg3: var(--site-surface-raised, #E8E4DE);
+  --rule: var(--site-border, rgba(28, 25, 23, 0.12));
   --rule2: rgba(28, 25, 23, 0.08);
-  --text: #1C1917;
-  --t2: #4B4540;
-  --t3: #6B7280;
+  --text: var(--site-text, #1C1917);
+  --t2: var(--site-text-secondary, #4B4540);
+  --t3: var(--site-text-tertiary, #6B7280);
   --sw: 230px;
   --display: 'Paperlogy', 'Pretendard', sans-serif;
   --body: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
@@ -2703,7 +2703,7 @@ footer {
 
 
 
-html[data-theme="dark"]{--bg:#11151b;--bg2:#202731;--bg3:#2b3440;--rule:rgba(235,240,246,.19);--rule2:rgba(235,240,246,.11);--text:#edf1f6;--t2:#c0c8d2;--t3:#a0acba;--pink:#d8b485;--pink-lo:rgba(216,180,133,.16);color-scheme:dark}
+html[data-theme="dark"]{--bg:var(--site-bg,#11151b);--bg2:var(--site-surface,#202731);--bg3:var(--site-surface-raised,#2b3440);--rule:var(--site-border,rgba(235,240,246,.19));--rule2:rgba(235,240,246,.11);--text:var(--site-text,#edf1f6);--t2:var(--site-text-secondary,#c0c8d2);--t3:var(--site-text-tertiary,#a0acba);--pink:#d8b485;--pink-lo:rgba(216,180,133,.16);color-scheme:dark}
 html[data-theme="dark"] body{background:var(--bg);color:var(--text)}
 html[data-theme="dark"] input,html[data-theme="dark"] textarea,html[data-theme="dark"] select{background:var(--bg2);color:var(--text);border-color:var(--rule)}
 html[data-theme="dark"] .topbar,html[data-theme="dark"] .search-dropdown{background:#1b222b;color:var(--text)}
