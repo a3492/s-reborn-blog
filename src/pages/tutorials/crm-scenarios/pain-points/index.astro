@@ -279,7 +279,7 @@ const points = [
       <div class="explain-grid"><section><h3>현장에서는 어떻게 나타날까요?</h3><p>{p.symptom}</p></section><section><h3>왜 문제가 될까요?</h3><p>{p.impact}</p></section><section><h3>어떤 원인을 확인해야 하나요?</h3><p>{p.cause}</p></section><section><h3>AI는 무엇을 도울까요?</h3><p>{p.ai}</p></section></div>
       <div class="human"><strong>사람이 최종적으로 확인해야 하는 일</strong><p>{p.human}</p></div>
       <h3 class="examples-title">대표 실습 주제</h3><ul>{p.examples.map(e=><li>{e}</li>)}</ul>
-      <div class="bottom-actions">{p.legacyCode ? <a class="primary" href={"/tools/hospital-data-pain-points/#"+p.legacyCode}>기존 {p.legacyCode} 강연 원문 보기 →</a> : <a class="primary" href={'/tutorials/crm-scenarios/#'+p.practice}>기존 실습 {p.practice} 열기 (이전 번호) →</a>}<a class="secondary" href="/tutorials/crm-scenarios/">전체 시나리오 검색하기</a></div>
+      <div class="bottom-actions">{p.legacyCode ? <a class="primary" href="/tools/hospital-data-pain-points/">기존 {p.legacyCode} 강연 원문 보기 →</a> : <a class="primary" href={'/tutorials/crm-scenarios/#'+p.practice}>기존 실습 {p.practice} 열기 (이전 번호) →</a>}<a class="secondary" href="/tutorials/crm-scenarios/">전체 시나리오 검색하기</a></div>
     </article>)}
     <footer class="pp-footer">학습 흐름: 문제 이해 → 가상 원문 확인 → AI 정리 → 근거 검증 → 실제 적용 전 담당자 승인</footer>
   </div>
