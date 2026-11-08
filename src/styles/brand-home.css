@@ -2,12 +2,12 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
 
 :root {
-	--bg: #f8f8f5;
-	--ink: #171d22;
-	--sub: #667078;
-	--line: #dfe3e3;
+	--bg: var(--site-bg, #f8f8f5);
+	--ink: var(--site-text, #171d22);
+	--sub: var(--site-text-tertiary, #667078);
+	--line: var(--site-border, #dfe3e3);
 	--blue: #2457eb;
-	--cream: #edece6;
+	--cream: var(--site-surface, #edece6);
 	--pink: #e35c9a;
 }
 
@@ -422,7 +422,7 @@ h1 {
 }
 
 
-html[data-theme="dark"]{--bg:#11151b;--ink:#edf1f6;--sub:#aab4c0;--line:#343c47;--cream:#252c36;color-scheme:dark}
+html[data-theme="dark"]{--bg:var(--site-bg,#11151b);--ink:var(--site-text,#edf1f6);--sub:var(--site-text-tertiary,#aab4c0);--line:var(--site-border,#343c47);--cream:var(--site-surface,#252c36);color-scheme:dark}
 html[data-theme="dark"] body{background:var(--bg);color:var(--ink)}
 html[data-theme="dark"] .hero-desc,html[data-theme="dark"] .section-intro,html[data-theme="dark"] .card p,html[data-theme="dark"] .about p{color:#b5beca}
 html[data-theme="dark"] .card,html[data-theme="dark"] .article,html[data-theme="dark"] .selected-wrap,html[data-theme="dark"] .philosophy-card,html[data-theme="dark"] .cv-card{background:#202731;color:#edf1f6;border-color:#343c47}
