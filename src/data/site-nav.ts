@@ -41,6 +41,7 @@ export const SITE_NAV: NavItem[] = [
 			{ id: 'home-explore', label: '둘러보기', labelEn: 'Explore', href: '/#explore' },
 			{ id: 'home-research', label: '현재 연구', labelEn: 'Current research', href: '/#research' },
 			{ id: 'home-writing', label: '생각과 기록', labelEn: 'Selected writing', href: '/#writing' },
+			{ id: 'home-lab', label: 'Lab · 실험실', labelEn: 'Lab', href: '/lab/' },
 		],
 	},
 	{
