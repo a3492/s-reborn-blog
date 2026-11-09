@@ -4,14 +4,14 @@
 :root {
   --admin-accent: #B8956A;
   --admin-accent-strong: #8C6D45;
-  --admin-bg: #F7F4EE;
-  --admin-surface: #FFFDFC;
-  --admin-surface-2: #F1ECE4;
-  --admin-border: rgba(28, 25, 23, 0.12);
-  --admin-border-2: rgba(28, 25, 23, 0.08);
-  --admin-text: #1C1917;
-  --admin-text-2: #4B4540;
-  --admin-text-3: #6B7280;
+  --admin-bg: var(--site-bg,#F7F4EE);
+  --admin-surface: var(--site-surface,#FFFDFC);
+  --admin-surface-2: var(--site-surface-raised,#F1ECE4);
+  --admin-border: var(--site-border,rgba(28,25,23,.12));
+  --admin-border-2: var(--site-border,rgba(28,25,23,.08));
+  --admin-text: var(--site-text,#1C1917);
+  --admin-text-2: var(--site-text-secondary,#4B4540);
+  --admin-text-3: var(--site-text-tertiary,#6B7280);
   --admin-success: #277A4B;
   --admin-warn: #AE6E15;
   --admin-danger: #B84235;
@@ -1300,3 +1300,23 @@ body.sidebar-open .admin-sidebar-backdrop {
 .admin-publish-token .admin-inline-note {
   margin: 0;
 }
+
+/* Shared site theme: admin shell also respects the selected system/light/dark mode. */
+html[data-theme="dark"] body.admin-shell {
+ background:var(--admin-bg);color:var(--admin-text);
+}
+html[data-theme="dark"] :is(.admin-sidebar,.admin-aside-note,.admin-detail-card,.admin-topbar-cta) {
+ background:var(--admin-surface);border-color:var(--admin-border);color:var(--admin-text);
+}
+html[data-theme="dark"] :is(.admin-card,.admin-panel,.admin-table,.admin-input,.admin-textarea,.admin-select,.admin-select-sm,.admin-code-block) {
+ background:var(--admin-surface);color:var(--admin-text);border-color:var(--admin-border);
+}
+html[data-theme="dark"] :is(.admin-nav-link,.admin-help,.admin-inline-note,.admin-topbar-role,.admin-topbar-cta-label) {
+ color:var(--admin-text-2);
+}
+html[data-theme="dark"] :is(.admin-field input,.admin-field textarea,.admin-field select,body.admin-shell input,body.admin-shell textarea,body.admin-shell select) {
+ background:var(--admin-surface);color:var(--admin-text);border-color:var(--admin-border);
+}
+html[data-theme="dark"] :is(.admin-aside-note,.admin-detail-card,.admin-code-block) {box-shadow:none;}
+html[data-theme="dark"] .admin-badge-pending {background:#392c1b;color:#ffcb91;}
+html[data-theme="dark"] body.admin-shell :is(input,textarea,select,button,a):focus-visible {outline:3px solid var(--site-mint-text);outline-offset:2px;}
