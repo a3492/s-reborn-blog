@@ -1,0 +1,91 @@
+/* Legacy static pages: site-wide semantic color contract.
+   Scope strictly to opted-in legacy pages; preserve their content and click behavior. */
+html[data-theme] body[data-sreborn-theme-surface="legacy"] {
+  background: var(--site-bg);
+  color: var(--site-text);
+}
+html[data-theme] body[data-sreborn-theme-surface="legacy"] header,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] footer,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .filters,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .search-box,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .article-card,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .result-card,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .category-card,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .card,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .filter-btn,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .search-input {
+  background: var(--site-surface);
+  color: var(--site-text);
+  border-color: var(--site-border);
+}
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .category-icon,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .result-category,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .article-category {
+  background: var(--site-subtle);
+  color: var(--site-mint-text);
+}
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .article-title,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .category-title,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .result-title {
+  color: var(--site-text);
+}
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .article-description,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .result-description,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .page-description,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .category-description,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .filter-group label,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .result-meta,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .no-results,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] footer,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] header nav a {
+  color: var(--site-text-secondary);
+}
+html[data-theme] body[data-sreborn-theme-surface="legacy"] a:not(.filter-btn):not(.article-card):not(.result-card):not(.category-card) {
+  text-decoration-color: currentColor;
+}
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .page-title,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .section-title,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .logo,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] header > nav > a,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .category-link {
+  color: var(--site-mint-text);
+}
+html[data-theme] body[data-sreborn-theme-surface="legacy"] input,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] textarea,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] select {
+  background: var(--site-subtle);
+  color: var(--site-text);
+  border-color: var(--site-border);
+}
+html[data-theme] body[data-sreborn-theme-surface="legacy"] input::placeholder,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] textarea::placeholder {
+  color: var(--site-text-secondary); opacity: 1;
+}
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .filter-btn.active,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .hero .search-box a {
+  color: var(--site-on-mint);
+  background: var(--site-mint);
+  border-color: var(--site-mint);
+}
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .filter-btn:hover:not(.active) {
+  color: var(--site-mint-text);
+  background: var(--site-subtle);
+}
+html[data-theme] body[data-sreborn-theme-surface="legacy"] :is(button,input,a,summary,select,textarea):focus-visible {
+  outline: 3px solid var(--site-mint-text); outline-offset: 3px;
+}
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .hero,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .hero * {
+  /* Keep accent hero legible when the rest of the page changes theme. */
+  border-color: var(--site-border);
+}
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .hero .search-box,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .hero .search-box input {
+  background: var(--site-surface); color: var(--site-text);
+}
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .hero h1,
+html[data-theme] body[data-sreborn-theme-surface="legacy"] .hero p {color: #ffffff;}
+@media (max-width: 720px) {
+ html[data-theme] body[data-sreborn-theme-surface="legacy"] header nav {flex-wrap:wrap;gap:12px;}
+ html[data-theme] body[data-sreborn-theme-surface="legacy"] header nav ul {flex-wrap:wrap;justify-content:flex-start;gap:10px;}
+}
