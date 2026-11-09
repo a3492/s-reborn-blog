@@ -215,3 +215,49 @@ body {
 .lec-viewer .overview-top h2 { color: #f7fbff; margin: 0; }
 .lec-viewer .overview .card { background: #233044; color:#f7fbff; }
 .lec-viewer .overview .card strong { color:#f7fbff; }
+
+/* S-Reborn shared theme for the lecture PLAYER CHROME only.
+   Preserve the original stage/slide art, images, and presentation layout. */
+html[data-theme] body:has(.lec-viewer){background:var(--site-bg);color:var(--site-text);}
+html[data-theme] .lec-viewer .lec-header{
+  background:var(--site-surface);border-color:var(--site-border);color:var(--site-text);
+}
+html[data-theme] .lec-viewer :is(.lec-brand,.lec-brand span,.lec-home,.slide-info h1,.slide-info span,.controls span){
+  color:var(--site-text-secondary);
+}
+html[data-theme] .lec-viewer .lec-brand b,
+html[data-theme] .lec-viewer .slide-info h1{color:var(--site-text);}
+html[data-theme] .lec-viewer :is(.lec-home,.controls button,.overview-top button){
+  background:var(--site-surface-raised);color:var(--site-text);border-color:var(--site-border);
+}
+html[data-theme] .lec-viewer :is(.lec-home,.controls button,.overview-top button):hover{
+  background:var(--site-subtle);color:var(--site-text);
+}
+html[data-theme] .lec-viewer .overview,
+html[data-theme] .lec-viewer .overview-top{
+  background:var(--site-bg);color:var(--site-text);
+}
+html[data-theme] .lec-viewer .overview-top h2{color:var(--site-text);}
+html[data-theme] .lec-viewer .overview .card,
+html[data-theme] .lec-viewer .overview .card.native-card{
+  background:var(--site-surface)!important;
+  border-color:var(--site-border)!important;
+  color:var(--site-text)!important;
+}
+html[data-theme] .lec-viewer .overview .card strong,
+html[data-theme] .lec-viewer .overview .card.native-card strong{
+  color:var(--site-text)!important;
+}
+html[data-theme] .lec-viewer .overview .card small,
+html[data-theme] .lec-viewer .overview .card.native-card small{
+  color:var(--site-mint-text)!important;
+}
+html[data-theme] .lec-viewer .overview .card:hover,
+html[data-theme] .lec-viewer .overview .card:focus-visible{
+  background:var(--site-surface-raised)!important;
+  outline:2px solid var(--site-mint-text);
+}
+html[data-theme] .lec-viewer .progress{background:var(--site-surface-raised);}
+html[data-theme] .lec-viewer :is(.controls button,.overview .card,.lec-home):focus-visible{
+  outline:3px solid var(--site-mint-text);outline-offset:2px;
+}
