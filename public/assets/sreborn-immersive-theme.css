@@ -1,0 +1,56 @@
+/* S-Reborn immersive experiences retain distinctive interactions but inherit the global light/dark palette. */
+html[data-theme] body[data-sreborn-theme-surface="academy"],
+html[data-theme] body[data-sreborn-theme-surface="game"] {
+ background:var(--site-bg);color:var(--site-text);
+}
+html[data-theme] body[data-sreborn-theme-surface="game"] main,
+html[data-theme] body[data-sreborn-theme-surface="academy"] main {color:var(--site-text);}
+html[data-theme] body[data-sreborn-theme-surface="academy"] .panel,
+html[data-theme] body[data-sreborn-theme-surface="game"] .panel,
+html[data-theme] body[data-sreborn-theme-surface="game"] .tutorial {
+ background:var(--site-surface);border-color:var(--site-border);color:var(--site-text);
+}
+html[data-theme] body[data-sreborn-theme-surface="academy"] .tile,
+html[data-theme] body[data-sreborn-theme-surface="game"] :is(.tile,.kpi,.stage,.pilot,.report-card,.notice,.tag,.pill,.flash,.demo,.bar) {
+ background:var(--site-surface-raised);border-color:var(--site-border);color:var(--site-text);
+}
+html[data-theme] body[data-sreborn-theme-surface="game"] :is(.stage .machine,.setup select,.setup input,.progress) {
+ background:var(--site-subtle);border-color:var(--site-border);color:var(--site-text);
+}
+html[data-theme] body[data-sreborn-theme-surface="academy"] :is(.lead,.note,footer),
+html[data-theme] body[data-sreborn-theme-surface="game"] :is(.subtitle,.small,.stage-footer,.pilot .instructions,.note,.lower p,.report-card span,.notice,.tutorial p,.tiny,.footer,.kpi span,.machine .state) {
+ color:var(--site-text-secondary);
+}
+html[data-theme] body[data-sreborn-theme-surface="academy"] :is(a,.eyebrow,.tile strong,.arrow),
+html[data-theme] body[data-sreborn-theme-surface="game"] :is(a,.eyebrow,.goal,.best,.pilot .hint,.demo .arrow) {
+ color:var(--site-mint-text);
+}
+html[data-theme] body[data-sreborn-theme-surface="academy"] :is(.tag,.screen,.terminal,.terminal .bar),
+html[data-theme] body[data-sreborn-theme-surface="game"] :is(.screen,.terminal,.machine.active,.stage.hot,.stage .upgrade.done) {
+ /* Terminal displays and heat-map indicators remain semantic accent states. */
+ border-color:var(--site-border);
+}
+html[data-theme] body[data-sreborn-theme-surface="game"] :is(.pilot strong,.tag,.pill) {
+ color:var(--site-text);
+}
+html[data-theme] body[data-sreborn-theme-surface="game"] :is(select,input) {
+ background:var(--site-subtle);color:var(--site-text);border-color:var(--site-border);
+}
+html[data-theme] body[data-sreborn-theme-surface="game"] :is(.ghost,button.ghost) {
+ background:var(--site-surface-raised);color:var(--site-text);
+}
+html[data-theme] body[data-sreborn-theme-surface="academy"] button,
+html[data-theme] body[data-sreborn-theme-surface="game"] button:not(.ghost):not(.upgrade):not(:disabled) {
+ background:var(--site-mint);color:var(--site-on-mint);border-color:var(--site-mint);
+}
+html[data-theme] body[data-sreborn-theme-surface="academy"] :is(button,a):focus-visible,
+html[data-theme] body[data-sreborn-theme-surface="game"] :is(button,a,input,select):focus-visible {
+ outline:3px solid var(--site-mint-text);outline-offset:3px;
+}
+html[data-theme] body[data-sreborn-theme-surface="game"] .tutorial-overlay {
+ background:rgba(0,0,0,.72);
+}
+@media(max-width:390px) {
+ html[data-theme] body[data-sreborn-theme-surface="academy"] .top {flex-wrap:wrap;}
+ html[data-theme] body[data-sreborn-theme-surface="game"] .tutorial {padding:15px;}
+}
