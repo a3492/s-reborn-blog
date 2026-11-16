@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "id": "PEOS-LAB-001",
+  "title": "병원 데이터는 왜 의사결정으로 이어지지 않을까?",
+  "source": {
+    "type": "lab-static-pilot",
+    "path": "/lab/peos/",
+    "version": "0.1.0",
+    "content_state": "DRAFT"
+  },
+  "experience_modes": ["read", "present", "review"],
+  "publishing": {
+    "status": "NOT_PUBLISHED",
+    "target": null,
+    "allowed_targets": ["/blog/", "/lectures/"],
+    "automatic_promotion_enabled": false,
+    "requires_human_approval": true
+  },
+  "qa": {
+    "content_accuracy": "NOT_TESTED",
+    "build": "NOT_TESTED",
+    "desktop": "NOT_TESTED",
+    "mobile": "NOT_TESTED",
+    "navigation_regression": "NOT_TESTED",
+    "accessibility": "NOT_TESTED",
+    "privacy": "CONDITIONAL",
+    "rollback": "NOT_TESTED"
+  },
+  "promotion_gate": {
+    "required": [
+      "accurate_source_and_claim_review",
+      "successful_astro_build",
+      "desktop_mobile_review",
+      "read_present_review_mode_review",
+      "navigation_regression_pass",
+      "privacy_and_rights_review",
+      "documented_content_version",
+      "explicit_owner_approval"
+    ],
+    "approved_by": null,
+    "approved_at": null
+  },
+  "notes": "No automatic promotion or social publishing is implemented. All public examples are illustrative."
+}
