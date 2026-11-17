@@ -57,9 +57,10 @@ export const SITE_NAV: NavItem[] = [
 		label: '강연·자료',
 		labelEn: 'Talks & materials',
 		children: [
-			{ id: 'lectures-home', label: '강연 자료 홈', labelEn: 'Lecture materials', href: '/lecture-materials/' },
-			{ id: 'lectures-list', label: '강연 목록', labelEn: 'Lecture list', href: '/lectures/' },
-			{ id: 'lectures-practice', label: '실습 자료', labelEn: 'Practice materials', href: '/lecture-materials/archive/' },
+			{ id: 'lectures-home', label: '강연·자료 홈', labelEn: 'Lecture home', href: '/lecture-materials/' },
+			{ id: 'lectures-files', label: '강연 자료', labelEn: 'Lecture files', href: '/lecture-materials/archive/' },
+			{ id: 'lectures-practice', label: '따라하는 실습', labelEn: 'Guided practice', href: '/tutorials/' },
+			{ id: 'lectures-record', label: '발표·기록', labelEn: 'Talks and notes', href: '/lectures/' },
 		],
 	},
 	{

@@ -23,9 +23,10 @@ const ko = {
 	allPosts: '전체 글 보기',
 	orchestrationMore: '오케스트레이션 글 더 보기',
 	faqMoved: '자주 묻는 질문은 기초·입문에 있습니다.',
-	lectureHome: '강연 자료 홈',
-	lectureList: '강연 목록',
-	lecturePractice: '실습 자료',
+	lectureHome: '강연·자료 홈',
+	lectureFiles: '강연 자료',
+	lecturePractice: '따라하는 실습',
+	lectureRecord: '발표·기록',
 	categoryIndexLink: '글 목록에서 분류 보기',
 } as const;
 
