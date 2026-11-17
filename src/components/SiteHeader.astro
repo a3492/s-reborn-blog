@@ -96,8 +96,26 @@ function childHref(child: NavChild): string {
 						const label = isEn ? item.labelEn : item.label;
 						const panelId = `site-sub-${item.id}`;
 						const sectionCurrent = sectionIsCurrent(item.id, Astro.url);
+						const direct = item.children.length === 0 && Boolean(item.href);
 						return (
 							<li class:list={['site-nav-item', { 'is-current': sectionCurrent }]} data-nav-item>
+								{direct ? (
+									<a
+										class="site-nav-btn"
+										href={item.href}
+										aria-current={sectionCurrent ? 'page' : undefined}
+										target={item.external ? '_blank' : undefined}
+										rel={item.external ? 'noopener noreferrer' : undefined}
+									>
+										{label}
+										{item.external && (
+											<>
+												<span aria-hidden="true"> ↗</span>
+												<span class="sr-only">{isEn ? ' (opens in a new window)' : ' (새 창)'}</span>
+											</>
+										)}
+									</a>
+								) : (
 								<button
 									type="button"
 									class="site-nav-btn"
@@ -109,7 +127,8 @@ function childHref(child: NavChild): string {
 									{label}
 									<span class="site-nav-caret" aria-hidden="true"></span>
 								</button>
-								<ul class="site-nav-sub" id={panelId}>
+								)}
+								{!direct && <ul class="site-nav-sub" id={panelId}>
 									{item.children.map((child, index) => {
 										const href = childHref(child);
 										const current = linkIsCurrent(href, Astro.url);
@@ -140,7 +159,7 @@ function childHref(child: NavChild): string {
 											</>
 										);
 									})}
-								</ul>
+								</ul>}
 							</li>
 						);
 					})}
@@ -294,12 +313,12 @@ function childHref(child: NavChild): string {
 			});
 		});
 
-		const topButtons = () => [...nav.querySelectorAll('.site-nav-list > .site-nav-item > .site-nav-btn')].filter((node): node is HTMLButtonElement => node instanceof HTMLButtonElement);
+		const topItems = () => [...nav.querySelectorAll('.site-nav-list > .site-nav-item > .site-nav-btn')].filter((node): node is HTMLElement => node instanceof HTMLElement);
 
 		root.addEventListener('keydown', (event) => {
 			const target = event.target;
 			if (!(target instanceof HTMLElement)) return;
-			const top = topButtons();
+			const top = topItems();
 			const currentTop = target.closest('.site-nav-list > .site-nav-item')?.querySelector(':scope > .site-nav-btn');
 			const submenu = target.closest('.site-nav-sub');
 			const inMenu = Boolean(target.closest('.site-nav, .site-lang, [data-nav-toggle]'));
@@ -339,10 +358,10 @@ function childHref(child: NavChild): string {
 				return;
 			}
 
-			if (!(target instanceof HTMLButtonElement) || !target.hasAttribute('data-submenu-toggle')) return;
 			const index = top.indexOf(target);
+			if (index < 0) return;
 
-			if (event.key === 'ArrowDown') {
+			if (event.key === 'ArrowDown' && target instanceof HTMLButtonElement && target.hasAttribute('data-submenu-toggle')) {
 				event.preventDefault();
 				event.stopPropagation();
 				const item = target.closest('[data-nav-item]');

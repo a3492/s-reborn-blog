@@ -1,7 +1,8 @@
-import { MENU_GROUPS } from '../consts';
-
 /** Doctor AI Academy lives on its own Pages project. */
 export const ACADEMY_URL = 'https://s-reborn-doctor-ai-academy.pages.dev/';
+
+/** Official clinic homepage. Separate from this portal. */
+export const CLINIC_URL = 'https://www.s-reborn.com/';
 
 export const COMING_SOON_HREF = '/coming-soon/';
 
@@ -21,41 +22,26 @@ export type NavItem = {
 	id: string;
 	label: string;
 	labelEn: string;
+	href?: string;
+	external?: boolean;
 	children: NavChild[];
 };
-
-const researchGroups: NavChild[] = MENU_GROUPS.map((group) => ({
-	id: `research-${group.id}`,
-	label: group.label,
-	labelEn: group.labelEn,
-	href: `/blog/?group=${group.id}`,
-}));
 
 export const SITE_NAV: NavItem[] = [
 	{
 		id: 'home',
 		label: '홈',
 		labelEn: 'Home',
-		children: [
-			{ id: 'home-top', label: '첫 화면', labelEn: 'Top', href: '/' },
-			{ id: 'home-explore', label: '둘러보기', labelEn: 'Explore', href: '/#explore' },
-			{ id: 'home-research', label: '현재 연구', labelEn: 'Current research', href: '/#research' },
-			{ id: 'home-writing', label: '생각과 기록', labelEn: 'Selected writing', href: '/#writing' },
-		],
+		href: '/',
+		children: [],
 	},
 	{
 		id: 'clinic',
 		label: '클리닉',
 		labelEn: 'Clinic',
-		children: [
-			{
-				id: 'clinic-soon',
-				label: '준비중',
-				labelEn: '준비중',
-				href: `${COMING_SOON_HREF}?from=clinic`,
-				pending: true,
-			},
-		],
+		href: CLINIC_URL,
+		external: true,
+		children: [],
 	},
 	{
 		id: 'research',
@@ -63,14 +49,7 @@ export const SITE_NAV: NavItem[] = [
 		labelEn: 'Research & writing',
 		children: [
 			{ id: 'research-all', label: '전체 글', labelEn: 'All posts', href: '/blog/' },
-			...researchGroups,
-			{
-				id: 'research-academy',
-				label: 'Doctor AI Academy',
-				labelEn: 'Doctor AI Academy',
-				href: ACADEMY_URL,
-				external: true,
-			},
+			{ id: 'research-lab', label: 'S-REBORN LAB', labelEn: 'S-REBORN LAB', href: '/lab/' },
 		],
 	},
 	{
@@ -78,9 +57,9 @@ export const SITE_NAV: NavItem[] = [
 		label: '강연·자료',
 		labelEn: 'Talks & materials',
 		children: [
-			{ id: 'lectures-kang-sehee', label: '강세희 원장 강연', labelEn: 'Dr. Kang Sehee lectures', href: '/lecture-materials/kang-sehee/' },
-			{ id: 'lectures-kim-dowi', label: '김도위 원장 강연', labelEn: 'Dr. Kim Dowi lectures', href: '/lecture-materials/kim-dowi/' },
-			{ id: 'lectures-archive', label: '전체 강연 아카이브', labelEn: 'All lecture materials', href: '/lecture-materials/archive/' },
+			{ id: 'lectures-home', label: '강연 자료 홈', labelEn: 'Lecture materials', href: '/lecture-materials/' },
+			{ id: 'lectures-list', label: '강연 목록', labelEn: 'Lecture list', href: '/lectures/' },
+			{ id: 'lectures-practice', label: '실습 자료', labelEn: 'Practice materials', href: '/lecture-materials/archive/' },
 		],
 	},
 	{
@@ -91,6 +70,8 @@ export const SITE_NAV: NavItem[] = [
 			{ id: 'about-profile', label: '프로필', labelEn: 'Profile', href: '/about/' },
 			{ id: 'about-philosophy', label: '철학', labelEn: 'Philosophy', href: '/about/#philosophy' },
 			{ id: 'about-cv', label: '공개 약력', labelEn: 'Public CV', href: '/about/#cv' },
+			{ id: 'about-academy', label: 'Doctor AI Academy', labelEn: 'Doctor AI Academy', href: ACADEMY_URL, external: true },
+			{ id: 'about-clinic', label: '클리닉 사이트', labelEn: 'Clinic site', href: CLINIC_URL, external: true },
 		],
 	},
 ];

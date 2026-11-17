@@ -20,6 +20,13 @@ const ko = {
 	otherGroup: '기타',
 	crmGuide: '페인 포인트 이해하기',
 	countUnit: '개',
+	allPosts: '전체 글 보기',
+	orchestrationMore: '오케스트레이션 글 더 보기',
+	faqMoved: '자주 묻는 질문은 기초·입문에 있습니다.',
+	lectureHome: '강연 자료 홈',
+	lectureList: '강연 목록',
+	lecturePractice: '실습 자료',
+	categoryIndexLink: '글 목록에서 분류 보기',
 } as const;
 
 export type PortalCopy = { [K in keyof typeof ko]: string };

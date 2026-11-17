@@ -2236,6 +2236,13 @@ footer {
 
 .blog-nav-group.is-open .blog-nav-group-body { display: flex; }
 
+.blog-nav-note {
+	margin: 0.15rem 0.75rem 0.35rem 1.75rem;
+	font-size: 0.75rem;
+	line-height: 1.4;
+	color: var(--t3);
+}
+
 /* 리프 아이템 */
 .blog-nav-item {
   display: flex;

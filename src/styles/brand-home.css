@@ -527,6 +527,22 @@ html[data-theme="dark"] .openchat-button:hover{background:#94acff}
 	white-space: nowrap;
 	font-size: 15px;
 }
+.portal-inline-links {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 4px 18px;
+	margin: 12px 0 0;
+	font-size: 15px;
+}
+.portal-inline-links a {
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+	color: var(--blue);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
 .portal-search {
 	display: flex;
 	align-items: center;
