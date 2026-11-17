@@ -1,34 +1,72 @@
 ---
 /*
-  운영 브랜드 홈. 글 목록·아카데미·소개는 실제 주소다. 연구 세 줄과 Contact는 아직 예시.
+  운영 브랜드 홈. 글 목록·아카데미·소개는 실제 주소다.
+  포털 시범: 검색을 중앙에 두고, 카드 대신 읽어 내려가는 목록을 쓴다.
 */
 import { getCollection } from 'astro:content';
 import BrandIcons from '../components/preview/BrandIcons.astro';
+import BlogSearchScript from '../components/BlogSearchScript.astro';
+import FormattedDate from '../components/FormattedDate.astro';
 import SiteHeader from '../components/SiteHeader.astro';
+import { CATEGORIES, CONTACT_EMAIL, MENU_GROUPS } from '../consts';
+import { ACADEMY_URL } from '../data/site-nav';
+import { portalCopy } from '../i18n/ui';
+import { buildSearchIndex } from '../lib/search-index';
 import '../styles/brand-home.css';
 
-const ACADEMY_URL = 'https://s-reborn-doctor-ai-academy.pages.dev/';
+const copy = portalCopy('ko');
+const searchIndex = await buildSearchIndex();
 const BLOG_INDEX = '/blog/';
 const ABOUT_HREF = '/about/';
 
-const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const byId = new Map(allPosts.map((post) => [post.id, post]));
 
 const featuredIds = ['aerini/what-is-ai', 'orchestration/workflow-patterns', 'orchestration/what-is-orchestration'] as const;
 const featuredLabels = ['AI FUNDAMENTALS', 'WORKFLOW', 'RESEARCH NOTES'] as const;
 
-const featured = featuredIds.map((id, index) => {
+const featured = featuredIds.flatMap((id, index) => {
 	const post = byId.get(id);
 	if (!post) {
-		throw new Error(`미리보기 추천 글을 찾지 못했습니다: ${id}`);
+		console.warn(`[home] 추천 글을 찾지 못해 건너뜁니다: ${id}`);
+		return [];
 	}
-	return {
+	return [{
 		href: `/blog/${post.id}/`,
 		title: post.data.title,
 		description: post.data.description,
 		label: featuredLabels[index],
-	};
+	}];
 });
+
+const countsByCategory = allPosts.reduce<Record<string, number>>((acc, post) => {
+	const category = post.data.category;
+	if (category) acc[category] = (acc[category] ?? 0) + 1;
+	return acc;
+}, {});
+
+const categoryBlocks = MENU_GROUPS.map((group) => ({
+	id: group.id,
+	label: group.label,
+	cats: group.cats.flatMap((catId) => {
+		const cat = CATEGORIES.find((item) => item.id === catId);
+		const count = countsByCategory[catId] ?? 0;
+		if (!cat || count === 0) return [];
+		return [{ id: catId, label: cat.label, count }];
+	}),
+})).filter((group) => group.cats.length > 0);
+
+const knownCategoryIds = new Set<string>(MENU_GROUPS.flatMap((group) => [...group.cats]));
+const otherCategories = CATEGORIES.flatMap((cat) => {
+	if (knownCategoryIds.has(cat.id)) return [];
+	const count = countsByCategory[cat.id] ?? 0;
+	if (count === 0) return [];
+	return [{ id: cat.id, label: cat.label, count }];
+});
+
+const latest = allPosts.slice(0, 8);
+const categoryLabel = (id: string) => CATEGORIES.find((cat) => cat.id === id)?.label ?? id;
 ---
 
 <!doctype html>
@@ -43,26 +81,24 @@ const featured = featuredIds.map((id, index) => {
 		<BrandIcons />
 	</head>
 	<body>
-		<SiteHeader />
+		<SiteHeader showSearch compactSearch />
 		<div class="shell">
-			<main id="top">
+			<main class="portal-main" id="top">
 				<section class="hero">
-					<div>
-						<div class="eyebrow"><span class="dot"></span> KIM DOWI'S AI LAB & JOURNAL</div>
-						<h1>AI를 이해하고,<br /><span class="accent">실험하고,</span><br />현실에 적용합니다.</h1>
-						<p class="hero-desc">의사 김도위의 AI 연구, 생각, 실험 그리고 교육.<br />기술을 아는 것에서 멈추지 않고, 실제 변화를 만드는 과정을 기록합니다.</p>
-						<div class="hero-actions">
-							<a class="primary" href="#explore">공간 둘러보기 <span>↗</span></a>
-							<a class="secondary" href={ABOUT_HREF}>김도위 소개 ↗</a>
-							<a class="secondary" href="/academy/mini-lab/" style="border-color:var(--site-mint);background:var(--site-surface);color:var(--site-text);">AI 미니 아카데미 · 실습 시연 ↗</a>
-						</div>
-						<div class="hero-note">RESEARCH · IDEAS · PRACTICE · EDUCATION</div>
+					<div class="eyebrow"><span class="dot"></span> KIM DOWI'S AI LAB & JOURNAL</div>
+					<h1>AI를 이해하고, <span class="accent">실험하고,</span> 현실에 적용합니다.</h1>
+					<p class="hero-desc">의사 김도위의 AI 연구, 생각, 실험 그리고 교육. 기술을 아는 것에서 멈추지 않고, 실제 변화를 만드는 과정을 기록합니다.</p>
+					<form class="portal-search" data-search-wrap action={BLOG_INDEX} method="get" role="search">
+						<label class="sr-only" for="portal-query">{copy.searchLabel}</label>
+						<input id="portal-query" data-search-mirror name="q" type="search" placeholder={copy.searchPlaceholder} autocomplete="off" enterkeyhint="search" />
+						<button type="submit">{copy.searchSubmit}</button>
+					</form>
+					<div class="hero-actions">
+						<a class="primary" href="#explore">공간 둘러보기 <span>↗</span></a>
+						<a class="secondary" href={ABOUT_HREF}>김도위 소개 ↗</a>
+						<a class="secondary" href="/academy/mini-lab/" style="border-color:var(--site-mint);background:var(--site-surface);color:var(--site-text);">AI 미니 아카데미 · 실습 시연 ↗</a>
 					</div>
-					<div class="visual">
-						<img class="visual-media" src="/preview/hero-system.jpg" alt="노트와 기록이 놓인 책상. 연구, 기록, 교육이 한자리에서 이어지는 작업 풍경." width="1600" height="1200" />
-						<img class="visual-mark" src="/preview/brand-s.png" alt="" width="46" height="46" />
-						<div class="mini-caption">AN OPEN KNOWLEDGE SYSTEM / 001</div>
-					</div>
+					<div class="hero-note">RESEARCH · IDEAS · PRACTICE · EDUCATION</div>
 				</section>
 
 				<section class="section" id="explore">
@@ -73,37 +109,139 @@ const featured = featuredIds.map((id, index) => {
 						</div>
 						<p class="section-intro">하나의 질문에서 시작된 연구가 콘텐츠가 되고, 실제로 활용할 수 있는 배움으로 이어집니다.</p>
 					</div>
-					<div class="cards">
-						<a class="card feature" href="#research">
-							<div class="card-top"><span>01 — RESEARCH</span><span class="card-icon">⌁</span></div>
-							<div class="card-bottom">
-								<div>
-									<h3>AI 연구</h3>
-									<p>AI를 어떻게 더 잘 이해하고 활용할 수 있을지 실험하고 체계화합니다.</p>
-								</div>
-								<span class="circle-arrow">↗</span>
-							</div>
-						</a>
-						<a class="card" href={BLOG_INDEX}>
-							<div class="card-top"><span>02 — JOURNAL</span><span class="card-icon">≡</span></div>
-							<div class="card-bottom">
-								<div>
-									<h3>AI 콘텐츠</h3>
-									<p>낯선 개념부터 현장 적용까지, 축적한 지식을 읽기 쉽게 공유합니다.</p>
-								</div>
-								<span class="circle-arrow">↗</span>
-							</div>
-						</a>
-						<a class="card" href={ACADEMY_URL} target="_blank" rel="noopener noreferrer">
-							<div class="card-top"><span>03 — ACADEMY</span><span class="card-icon">↗</span></div>
-							<div class="card-bottom">
-								<div>
-									<h3>AI 아카데미</h3>
-									<p>단순한 기능 소개를 넘어, 스스로 활용할 수 있도록 배우고 실습합니다.</p>
-								</div>
-								<span class="circle-arrow">↗</span>
-							</div>
-						</a>
+					<ul class="portal-rows">
+						<li>
+							<a class="portal-row" href="#research">
+								<span>
+									<span class="portal-kicker">01 — RESEARCH</span>
+									<span class="portal-title">AI 연구</span>
+									<small class="portal-copy">AI를 어떻게 더 잘 이해하고 활용할 수 있을지 실험하고 체계화합니다.</small>
+								</span>
+								<span aria-hidden="true">↗</span>
+							</a>
+						</li>
+						<li>
+							<a class="portal-row" href={BLOG_INDEX}>
+								<span>
+									<span class="portal-kicker">02 — JOURNAL</span>
+									<span class="portal-title">AI 콘텐츠</span>
+									<small class="portal-copy">낯선 개념부터 현장 적용까지, 축적한 지식을 읽기 쉽게 공유합니다.</small>
+								</span>
+								<span aria-hidden="true">↗</span>
+							</a>
+						</li>
+						<li>
+							<a class="portal-row" href={ACADEMY_URL} target="_blank" rel="noopener noreferrer">
+								<span>
+									<span class="portal-kicker">03 — ACADEMY</span>
+									<span class="portal-title">AI 아카데미</span>
+									<small class="portal-copy">단순한 기능 소개를 넘어, 스스로 활용할 수 있도록 배우고 실습합니다.</small>
+								</span>
+								<span aria-hidden="true">↗</span>
+							</a>
+						</li>
+					</ul>
+				</section>
+
+				<section class="section" id="categories" aria-labelledby="category-title">
+					<div class="section-head">
+						<div>
+							<div class="overline">INDEX</div>
+							<h2 id="category-title">{copy.categoryTitle}</h2>
+						</div>
+						<p class="section-intro">{copy.categoryLead}</p>
+					</div>
+					{categoryBlocks.map((group) => (
+						<div class="portal-group">
+							<h3><a href={`${BLOG_INDEX}?group=${group.id}`}>{group.label}</a></h3>
+							<ul class="portal-rows">
+								{group.cats.map((cat) => (
+									<li>
+										<a class="portal-row" href={`${BLOG_INDEX}?category=${cat.id}`}>
+											<span class="portal-title">{cat.label}</span>
+											<span class="portal-count">{cat.count}{copy.countUnit}</span>
+										</a>
+									</li>
+								))}
+							</ul>
+						</div>
+					))}
+					{otherCategories.length > 0 && (
+						<div class="portal-group">
+							<h3>{copy.otherGroup}</h3>
+							<ul class="portal-rows">
+								{otherCategories.map((cat) => (
+									<li>
+										<a class="portal-row" href={`${BLOG_INDEX}?category=${cat.id}`}>
+											<span class="portal-title">{cat.label}</span>
+											<span class="portal-count">{cat.count}{copy.countUnit}</span>
+										</a>
+									</li>
+								))}
+							</ul>
+						</div>
+					)}
+				</section>
+
+				<section class="section" id="latest" aria-labelledby="latest-title">
+					<div class="section-head">
+						<div>
+							<div class="overline">RECENT</div>
+							<h2 id="latest-title">{copy.latestTitle}</h2>
+						</div>
+						<p class="section-intro">{copy.latestLead}</p>
+					</div>
+					<ul class="portal-rows">
+						{latest.map((post) => (
+							<li>
+								<a class="portal-row portal-row-post" href={`/blog/${post.id}/`}>
+									<span class="portal-title">{post.data.title}</span>
+									<span class="portal-date"><FormattedDate date={post.data.date} /></span>
+									<span class="portal-meta">
+										{post.data.category && <span>{categoryLabel(post.data.category)}</span>}
+										{post.data.description && <small>{post.data.description}</small>}
+									</span>
+								</a>
+							</li>
+						))}
+					</ul>
+					<p><a class="secondary" href={BLOG_INDEX}>관련 글 보기 ↗</a></p>
+				</section>
+
+				<section class="section" id="shortcuts" aria-labelledby="shortcut-title">
+					<div class="section-head">
+						<div>
+							<div class="overline">GO TO</div>
+							<h2 id="shortcut-title">{copy.shortcutTitle}</h2>
+						</div>
+						<p class="section-intro">{copy.shortcutLead}</p>
+					</div>
+					<div class="portal-group">
+						<h3>{copy.lectureGroup}</h3>
+						<ul class="portal-rows">
+							<li><a class="portal-row" href="/lectures/"><span class="portal-title">강연</span><span aria-hidden="true">↗</span></a></li>
+							<li><a class="portal-row" href="/lecture-materials/"><span class="portal-title">강연·자료</span><span aria-hidden="true">↗</span></a></li>
+							<li><a class="portal-row" href="/lecture-materials/kang-sehee/"><span class="portal-title">강세희 원장 강연</span><span aria-hidden="true">↗</span></a></li>
+							<li><a class="portal-row" href="/lecture-materials/kim-dowi/"><span class="portal-title">김도위 원장 강연</span><span aria-hidden="true">↗</span></a></li>
+							<li><a class="portal-row" href="/lecture-materials/archive/"><span class="portal-title">전체 강연 아카이브</span><span aria-hidden="true">↗</span></a></li>
+							<li><a class="portal-row" href="/tools/lectures/2026-11-08-daemire/"><span class="portal-title">2026-11-08 대미레 강연 자료</span><span aria-hidden="true">↗</span></a></li>
+						</ul>
+					</div>
+					<div class="portal-group">
+						<h3>{copy.academyGroup}</h3>
+						<ul class="portal-rows">
+							<li><a class="portal-row" href="/academy/mini-lab/"><span class="portal-title">AI 미니 아카데미 · 실습 시연</span><span aria-hidden="true">↗</span></a></li>
+							<li><a class="portal-row" href="/tutorials/codex-cli-windows/"><span class="portal-title">초보자 Codex CLI 설치 · 단계별 실습</span><span aria-hidden="true">↗</span></a></li>
+							<li><a class="portal-row" href="/academy/agent-orchestration-20261108/"><span class="portal-title">오늘의 미니 아카데미 · CLI / Agent / Orchestration</span><span aria-hidden="true">↗</span></a></li>
+							<li><a class="portal-row" href={ACADEMY_URL} target="_blank" rel="noopener noreferrer"><span class="portal-title">Doctor AI Academy 열기</span><span aria-hidden="true">↗</span></a></li>
+						</ul>
+					</div>
+					<div class="portal-group">
+						<h3>{copy.crmGroup}</h3>
+						<ul class="portal-rows">
+							<li><a class="portal-row" href="/tutorials/crm-scenarios/"><span class="portal-title">{copy.crmGroup}</span><span aria-hidden="true">↗</span></a></li>
+							<li><a class="portal-row" href="/tutorials/crm-scenarios/pain-points/"><span class="portal-title">{copy.crmGuide}</span><span aria-hidden="true">↗</span></a></li>
+						</ul>
 					</div>
 				</section>
 
@@ -169,7 +307,6 @@ const featured = featuredIds.map((id, index) => {
 					</div>
 				</section>
 
-
 				<section class="openchat-section" id="openchat" aria-labelledby="openchat-title">
 					<div class="openchat-copy">
 						<div class="overline">05 / COMMUNITY</div>
@@ -209,5 +346,11 @@ const featured = featuredIds.map((id, index) => {
 				<span>© S-REBORN</span>
 			</footer>
 		</div>
+		<BlogSearchScript
+			searchIndex={searchIndex}
+			supabaseUrl={import.meta.env.PUBLIC_SUPABASE_URL ?? ''}
+			supabaseKey={import.meta.env.PUBLIC_SUPABASE_ANON_KEY ?? ''}
+			contactEmail={CONTACT_EMAIL}
+		/>
 	</body>
 </html>
