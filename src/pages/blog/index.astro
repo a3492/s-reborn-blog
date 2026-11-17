@@ -100,14 +100,15 @@ const countsByCategory = posts.reduce<Record<string, number>>((acc, post) => {
 						data-tags={(post.data.tags ?? []).join(' ')}
 						data-difficulty={post.data.difficulty ?? ''}
 					>
-						{post.data.category && (
-							<span class="blog-card-cat">{categoryLabel(post.data.category)}</span>
-						)}
 						<h3 class="blog-card-title">{post.data.title}</h3>
+						<p class="blog-card-meta">
+							{post.data.category && <span class="blog-card-cat">{categoryLabel(post.data.category)}</span>}
+							{post.data.category && <span aria-hidden="true"> · </span>}
+							<span class="blog-card-date"><FormattedDate date={post.data.date} /></span>
+						</p>
 						{post.data.description && (
 							<p class="blog-card-desc">{post.data.description}</p>
 						)}
-						<span class="blog-card-date"><FormattedDate date={post.data.date} /></span>
 					</a>
 				))}
 			</div>

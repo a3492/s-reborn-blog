@@ -16,7 +16,6 @@ import '../styles/brand-home.css';
 const copy = portalCopy('ko');
 const searchIndex = await buildSearchIndex();
 const BLOG_INDEX = '/blog/';
-const ABOUT_HREF = '/about/';
 
 const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
 	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -45,15 +44,14 @@ const categoryLabel = (id: string) => CATEGORIES.find((cat) => cat.id === id)?.l
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>S—REBORN | Kim Dowi's AI Lab</title>
-		<meta name="description" content="김도위의 AI 연구, 콘텐츠, 아카데미를 연결하는 공간." />
+		<meta name="description" content="김도위의 AI 연구와 글을 잇는 공간." />
 		<BrandIcons />
 	</head>
 	<body>
 		<SiteHeader showSearch compactSearch />
 		<div class="shell">
 			<main class="portal-main" id="top">
-				<section class="hero">
-					<div class="eyebrow"><span class="dot"></span> KIM DOWI'S AI LAB & JOURNAL</div>
+				<section class="hero" id="explore">
 					<h1>AI를 이해하고, <span class="accent">실험하고,</span> 현실에 적용합니다.</h1>
 					<p class="hero-desc">의사 김도위의 AI 연구, 생각, 실험 그리고 교육. 기술을 아는 것에서 멈추지 않고, 실제 변화를 만드는 과정을 기록합니다.</p>
 					<form class="portal-search" data-search-wrap action={BLOG_INDEX} method="get" role="search">
@@ -61,43 +59,25 @@ const categoryLabel = (id: string) => CATEGORIES.find((cat) => cat.id === id)?.l
 						<input id="portal-query" data-search-mirror name="q" type="search" placeholder={copy.searchPlaceholder} autocomplete="off" enterkeyhint="search" />
 						<button type="submit">{copy.searchSubmit}</button>
 					</form>
-					<p class="portal-inline-links" id="explore">
-						<a href={ABOUT_HREF}>김도위 소개</a>
-						<a href="/academy/mini-lab/">AI 미니 아카데미 · 실습 시연</a>
-						<a href={BLOG_INDEX}>전체 글</a>
-					</p>
-					<div class="hero-note">RESEARCH · IDEAS · PRACTICE · EDUCATION</div>
-				</section>
-
-				<section class="section" id="categories">
-					<ul class="portal-rows">
-						<li>
-							<a class="portal-row" href={BLOG_INDEX}>
-								<span class="portal-title">{copy.categoryIndexLink}</span>
-								<span aria-hidden="true">↗</span>
-							</a>
-						</li>
-					</ul>
 				</section>
 
 				<section class="section" id="latest">
 					<div class="section-head">
 						<div>
-							<div class="overline">RECENT</div>
 							<h2 id="writing">{copy.latestTitle}</h2>
 						</div>
-						<p class="section-intro">{copy.latestLead}</p>
 					</div>
 					<ul class="portal-rows">
 						{reading.map((post) => (
 							<li>
 								<a class="portal-row portal-row-post" href={`/blog/${post.id}/`}>
 									<span class="portal-title">{post.data.title}</span>
-									<span class="portal-date"><FormattedDate date={post.data.date} /></span>
 									<span class="portal-meta">
 										{post.data.category && <span>{categoryLabel(post.data.category)}</span>}
-										{post.data.description && <small>{post.data.description}</small>}
+										{post.data.category && <span aria-hidden="true"> · </span>}
+										<FormattedDate date={post.data.date} />
 									</span>
+									{post.data.description && <small class="portal-summary">{post.data.description}</small>}
 								</a>
 							</li>
 						))}
@@ -110,47 +90,11 @@ const categoryLabel = (id: string) => CATEGORIES.find((cat) => cat.id === id)?.l
 					</ul>
 				</section>
 
-				<section class="section" id="shortcuts" aria-labelledby="shortcut-title">
-					<div class="section-head">
-						<div>
-							<div class="overline">GO TO</div>
-							<h2 id="shortcut-title">{copy.shortcutTitle}</h2>
-						</div>
-						<p class="section-intro">{copy.shortcutLead}</p>
-					</div>
-					<div class="portal-group">
-						<h3>{copy.lectureGroup}</h3>
-						<ul class="portal-rows">
-							<li><a class="portal-row" href="/lecture-materials/"><span class="portal-title">{copy.lectureHome}</span><span aria-hidden="true">↗</span></a></li>
-							<li><a class="portal-row" href="/lecture-materials/archive/"><span class="portal-title">{copy.lectureFiles}</span><span aria-hidden="true">↗</span></a></li>
-							<li><a class="portal-row" href="/tutorials/"><span class="portal-title">{copy.lecturePractice}</span><span aria-hidden="true">↗</span></a></li>
-							<li><a class="portal-row" href="/lectures/"><span class="portal-title">{copy.lectureRecord}</span><span aria-hidden="true">↗</span></a></li>
-						</ul>
-					</div>
-					<div class="portal-group" id="academy">
-						<h3>{copy.academyGroup}</h3>
-						<ul class="portal-rows">
-							<li><a class="portal-row" href="/academy/mini-lab/"><span class="portal-title">AI 미니 아카데미 · 실습 시연</span><span aria-hidden="true">↗</span></a></li>
-							<li><a class="portal-row" href="/tutorials/codex-cli-windows/"><span class="portal-title">초보자 Codex CLI 설치 · 단계별 실습</span><span aria-hidden="true">↗</span></a></li>
-							<li><a class="portal-row" href="/academy/agent-orchestration-20261108/"><span class="portal-title">오늘의 미니 아카데미 · CLI / Agent / Orchestration</span><span aria-hidden="true">↗</span></a></li>
-						</ul>
-					</div>
-					<div class="portal-group">
-						<h3>{copy.crmGroup}</h3>
-						<ul class="portal-rows">
-							<li><a class="portal-row" href="/tutorials/crm-scenarios/"><span class="portal-title">{copy.crmGroup}</span><span aria-hidden="true">↗</span></a></li>
-							<li><a class="portal-row" href="/tutorials/crm-scenarios/pain-points/"><span class="portal-title">{copy.crmGuide}</span><span aria-hidden="true">↗</span></a></li>
-						</ul>
-					</div>
-				</section>
-
 				<section class="section" id="research">
 					<div class="section-head">
 						<div>
-							<div class="overline">02 / CURRENT RESEARCH</div>
 							<h2>AI를 사용하는 방법 그 자체를 연구합니다.</h2>
 						</div>
-						<p class="section-intro">다중 AI 협업부터 사람과 AI의 상호작용까지. 지속적으로 발전하는 연구와 프로젝트의 기록입니다.</p>
 					</div>
 					<ul class="portal-rows">
 						<li>
@@ -180,12 +124,6 @@ const categoryLabel = (id: string) => CATEGORIES.find((cat) => cat.id === id)?.l
 								<span aria-hidden="true">↗</span>
 							</a>
 						</li>
-						<li>
-							<a class="portal-row" href="/blog/?category=orchestration">
-								<span class="portal-title">{copy.orchestrationMore}</span>
-								<span aria-hidden="true">↗</span>
-							</a>
-						</li>
 					</ul>
 				</section>
 
@@ -208,21 +146,12 @@ const categoryLabel = (id: string) => CATEGORIES.find((cat) => cat.id === id)?.l
 						<img src="/preview/profile-figure-v2.jpg" alt="김도위 프로필" width="1395" height="1832" />
 					</figure>
 					<div>
-						<div class="overline">06 / ABOUT</div>
 						<h2>김도위<br /><span class="role">가정의학과 전문의 · AI 교육자</span></h2>
 						<p class="about-kicker">에스리본의원 홍대점 대표원장. 진료실에서 얻은 질문을 연구와 글로 남기고, 의료인이 AI를 스스로 쓰도록 가르칩니다.</p>
 						<ul class="about-points">
 							<li>한양대학교 의과대학 졸업, 가정의학과 전문의</li>
 							<li>대한필러학회 AI 혁신 포럼 위원장 · 한국피부비만성형학회 AI 혁신 기획이사 · 한국AI리터러시협회 의료분과 전문위원</li>
-							<li>D&amp;PS 월간 연재와 Doctor AI Academy로 현장 교육을 이어 갑니다</li>
-						</ul>
-						<ul class="portal-rows">
-							<li>
-								<a class="portal-row" href={ABOUT_HREF}>
-									<span class="portal-title">철학과 약력 자세히 보기</span>
-									<span aria-hidden="true">↗</span>
-								</a>
-							</li>
+							<li>D&amp;PS 월간 연재로 현장 교육을 이어 갑니다</li>
 						</ul>
 					</div>
 				</section>
