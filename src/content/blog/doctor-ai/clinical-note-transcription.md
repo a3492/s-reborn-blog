@@ -1,6 +1,6 @@
 ---
 title: "말과 진단명을 초안으로 옮길 때"
-description: "의료 AI 첫 걸음 8화입니다. 음성 메모, 진단서 초안, 질병분류 코드 추천을 기록으로 남기기 전에 고치는 순서를 정리합니다."
+description: "음성 메모, 진단서 초안, 질병분류 코드 추천을 기록으로 남기기 전에 고치는 순서를 정리합니다."
 date: 2026-03-29
 category: doctor-ai
 tags: ["도구", "기록", "자동화", "코딩", "진단서"]
@@ -12,8 +12,6 @@ series_order: 8
 ---
 
 외래가 끝난 뒤, 녹음 버튼이 만들어 준 문단이 화면을 채웁니다. 말은 맞는데 순서가 환자 이야기가 아니라 프로그램이 좋아하는 병력지 순서입니다. 그 아래에는 진단명 옆에 코드가 하나 제안되어 있습니다. 저장만 누르면 끝날 것처럼 보입니다.
-
-이 글은 의료 AI 첫 걸음 8화입니다. 받아쓰기, 진단서 초안, 질병분류 코드 추천을 한 흐름으로 다룹니다. 셋 다 “말로 한 것을 서식에 옮기는 일”이고, 셋 다 서명 전에 의사가 고쳐야 합니다.
 
 ## 한 줄로 말하면
 
@@ -64,25 +62,17 @@ series_order: 8
 
 <!-- 원장 확인: 국내 청구에 쓰는 질병분류 체계의 공식 명칭과 개정 차수는 이 글에서 단정하지 않습니다. 코드는 기관의 심사 기준과 대조해야 합니다. -->
 
-내일 할 일은 하나입니다. 오늘 기록 초안 하나에서 메모에 없던 문장을 형광펜으로 표시해 보십시오. 그 문장이 진단서나 코드로 흘러가지 않게 지우는 것이 이 화의 실습입니다.
+<aside class="lecture-note">
+<p><strong>핵심 정리</strong></p>
+<ul>
+<li>받아쓰기, 진단서, 코드 추천은 모두 초안입니다. 서명은 의사가 합니다.</li>
+<li>녹음은 기관이 허용한 경로로만 하고, 식별 정보는 일반 도구에 넣지 않습니다.</li>
+<li>메모에 없는 사실은 "없음"으로 남기고 만들지 않습니다.</li>
+<li>진단서의 판단 문장은 의사가 직접 씁니다.</li>
+<li>코드의 병명이 내 진단과 같은지 코드집에서 확인합니다.</li>
+</ul>
+</aside>
 
-> **핵심 정리**
->
-> - 받아쓰기, 진단서, 코드 추천은 모두 초안입니다. 서명은 의사가 합니다.
-> - 녹음은 기관이 허용한 경로로만 하고, 식별 정보는 일반 도구에 넣지 않습니다.
-> - 메모에 없는 사실은 "없음"으로 남기고 만들지 않습니다.
-> - 진단서의 판단 문장은 의사가 직접 씁니다.
-> - 코드의 병명이 내 진단과 같은지 코드집에서 확인합니다.
+<p class="lecture-path"><a href="/blog/doctor-ai/medical-imaging-ai/">이전</a> · <a href="/blog/doctor-ai/discharge-plan-prompt/">다음</a></p>
 
-## 이 경로에서
-
-- 이전: [영상에서 표시된 곳은 진단인가요](/blog/doctor-ai/medical-imaging-ai/)
-- 다음: [환자에게 건네기 전에](/blog/doctor-ai/discharge-plan-prompt/)
-
-## 함께 보면 좋은 글
-
-- [프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드](/blog/prompt-engineering/prompt-engineering-for-doctors/)
-- [그럴듯한 틀린 답을 어떻게 거르나요](/blog/doctor-ai/ai-hallucination-medical/)
-- [많은 약을 한 번 더 볼 때](/blog/doctor-ai/drug-interaction-ai/)
-
-의료 AI 강의 목록: [/blog/?category=doctor-ai](/blog/?category=doctor-ai)
+<p class="lecture-path">관련 <a href="/blog/prompt-engineering/prompt-engineering-for-doctors/">프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드</a> · <a href="/blog/doctor-ai/ai-hallucination-medical/">그럴듯한 틀린 답을 어떻게 거르나요</a> · <a href="/blog/doctor-ai/drug-interaction-ai/">많은 약을 한 번 더 볼 때</a></p>

@@ -1,6 +1,6 @@
 ---
 title: "의사는 어디에 남나요: 의료 AI와 사람의 자리"
-description: "의료 AI 첫 걸음의 1화입니다. 초안과 표시를 만드는 프로그램과, 환자를 보고 판단하는 의사의 일을 나눕니다."
+description: "초안과 표시를 만드는 프로그램과, 환자를 보고 판단하는 의사의 일을 나눕니다."
 date: 2026-03-29
 category: doctor-ai
 tags: ["AI", "의료", "협력", "첫걸음"]
@@ -14,8 +14,6 @@ series_order: 1
 월요일 외래가 시작되기 전, 동료가 화면을 가리키며 묻습니다. “기록은 이제 프로그램이 써 주지 않나요? 그럼 우리는 무엇을 보면 되나요?”
 
 흔히 있을 법한 장면을 가정해 보면, 질문은 도구의 이름보다 역할에서 시작합니다. 바쁜 아침에 필요한 것은 긴 정의가 아니라, 어디까지 맡기고 어디서 의사가 다시 잡으면 되는지의 경계입니다.
-
-이 글은 의료 AI 첫 걸음 1화입니다. 프로그램을 진료실에 들이기 전에, 일과 책임을 어떻게 나누면 되는지를 정리합니다.
 
 ## 한 줄로 말하면
 
@@ -50,43 +48,36 @@ series_order: 1
 
 이 순서를 한 번만 정해 두면, 나중에 만나는 영상 도구나 기록 도구에도 같은 질문을 던질 수 있습니다. “이것은 표시인가, 결정인가.”
 
-## 이 경로를 이렇게 읽으면 됩니다
+<aside class="lecture-note">
+<p><strong>핵심 정리</strong></p>
+<ul>
+<li>프로그램은 초안, 목록, 표시를 만듭니다. 진찰과 결정은 의사가 합니다.</li>
+<li>식별 정보는 일반 대화형 도구에 넣지 않습니다.</li>
+<li>메모에 없는 사실은 초안에서 지웁니다.</li>
+<li>환자에게 나가는 문장은 의사가 고친 뒤의 문장만 씁니다.</li>
+<li>다음 글은 그 답이 무슨 자료에서 나왔는지를 묻습니다.</li>
+</ul>
+</aside>
 
-아래 13화는 의사를 위한 의료 AI 입문입니다. 앞부분은 개념이고, 뒷부분은 외래와 병동에서 바로 써 보는 장면입니다.
+<details class="lecture-toc">
+<summary>전체 차례</summary>
+<ol>
+<li><a href="/blog/doctor-ai/ai-vs-human-doctor/">의사는 어디에 남나요</a></li>
+<li><a href="/blog/doctor-ai/medical-ai-data-sources/">그 답은 무슨 자료에서 나왔나요</a></li>
+<li><a href="/blog/doctor-ai/ai-hallucination-medical/">그럴듯한 틀린 답을 어떻게 거르나요</a></li>
+<li><a href="/blog/doctor-ai/ai-reliability-metrics/">민감도와 설명, 성적표의 어디를 보나요</a></li>
+<li><a href="/blog/doctor-ai/ai-ethics-healthcare/">답이 한쪽으로 기울면 누구의 문제인가요</a></li>
+<li><a href="/blog/doctor-ai/medical-ai-regulation/">이 프로그램은 의료기기인가요</a></li>
+<li><a href="/blog/doctor-ai/medical-imaging-ai/">영상에서 표시된 곳은 진단인가요</a></li>
+<li><a href="/blog/doctor-ai/clinical-note-transcription/">말과 진단명을 초안으로 옮길 때</a></li>
+<li><a href="/blog/doctor-ai/discharge-plan-prompt/">환자에게 건네기 전에</a></li>
+<li><a href="/blog/doctor-ai/drug-interaction-ai/">많은 약을 한 번 더 볼 때</a></li>
+<li><a href="/blog/doctor-ai/acute-abdominal-pain-case/">급성 증상에서 감별 목록을 적는다면</a></li>
+<li><a href="/blog/doctor-ai/diabetes-management-ai/">진료가 한 번으로 끝나지 않을 때</a></li>
+<li><a href="/blog/doctor-ai/clinical-trial-matching-ai/">임상시험 목록은 누가 고르나요</a></li>
+</ol>
+</details>
 
-1. [의사는 어디에 남나요](/blog/doctor-ai/ai-vs-human-doctor/) (이 글)
-2. [그 답은 무슨 자료에서 나왔나요](/blog/doctor-ai/medical-ai-data-sources/)
-3. [그럴듯한 틀린 답을 어떻게 거르나요](/blog/doctor-ai/ai-hallucination-medical/)
-4. [민감도와 설명, 성적표의 어디를 보나요](/blog/doctor-ai/ai-reliability-metrics/)
-5. [답이 한쪽으로 기울면 누구의 문제인가요](/blog/doctor-ai/ai-ethics-healthcare/)
-6. [이 프로그램은 의료기기인가요](/blog/doctor-ai/medical-ai-regulation/)
-7. [영상에서 표시된 곳은 진단인가요](/blog/doctor-ai/medical-imaging-ai/)
-8. [말과 진단명을 초안으로 옮길 때](/blog/doctor-ai/clinical-note-transcription/)
-9. [환자에게 건네기 전에](/blog/doctor-ai/discharge-plan-prompt/)
-10. [많은 약을 한 번 더 볼 때](/blog/doctor-ai/drug-interaction-ai/)
-11. [급성 증상에서 감별 목록을 적는다면](/blog/doctor-ai/acute-abdominal-pain-case/)
-12. [진료가 한 번으로 끝나지 않을 때](/blog/doctor-ai/diabetes-management-ai/)
-13. [임상시험 목록은 누가 고르나요](/blog/doctor-ai/clinical-trial-matching-ai/)
+<p class="lecture-path">이전 없음 · <a href="/blog/doctor-ai/medical-ai-data-sources/">다음</a></p>
 
-내일 할 일은 하나입니다. 오늘 쓴 기록 하나를 골라, “프로그램에 맡겨도 되는 문장”과 “내가 직접 써야 하는 문장”으로 나눠 보십시오. 그 경계가 이 경로의 나머지 글을 읽는 자가 됩니다.
-
-> **핵심 정리**
->
-> - 프로그램은 초안, 목록, 표시를 만듭니다. 진찰과 결정은 의사가 합니다.
-> - 식별 정보는 일반 대화형 도구에 넣지 않습니다.
-> - 메모에 없는 사실은 초안에서 지웁니다.
-> - 환자에게 나가는 문장은 의사가 고친 뒤의 문장만 씁니다.
-> - 다음 글은 그 답이 무슨 자료에서 나왔는지를 묻습니다.
-
-## 이 경로에서
-
-- 이전: 없음. 이 글이 첫 화입니다.
-- 다음: [그 답은 무슨 자료에서 나왔나요](/blog/doctor-ai/medical-ai-data-sources/)
-
-## 함께 보면 좋은 글
-
-- [AI가 환자 진료를 완전히 대체할 수 있을까?](/blog/faq/will-ai-replace-doctors/)
-- [그럴듯한 틀린 답을 어떻게 거르나요](/blog/doctor-ai/ai-hallucination-medical/)
-- [프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드](/blog/prompt-engineering/prompt-engineering-for-doctors/)
-
-의료 AI 강의 목록: [/blog/?category=doctor-ai](/blog/?category=doctor-ai)
+<p class="lecture-path">관련 <a href="/blog/faq/will-ai-replace-doctors/">AI가 환자 진료를 완전히 대체할 수 있을까?</a> · <a href="/blog/doctor-ai/ai-hallucination-medical/">그럴듯한 틀린 답을 어떻게 거르나요</a> · <a href="/blog/prompt-engineering/prompt-engineering-for-doctors/">프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드</a></p>

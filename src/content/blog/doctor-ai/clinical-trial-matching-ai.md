@@ -1,6 +1,6 @@
 ---
 title: "임상시험 목록은 누가 고르나요"
-description: "의료 AI 첫 걸음 13화입니다. 환자에게 맞을 수 있는 임상시험을 찾을 때, 목록 작성과 등록 공고 확인과 동의 절차를 나눕니다."
+description: "환자에게 맞을 수 있는 임상시험을 찾을 때, 목록 작성과 등록 공고 확인과 동의 절차를 나눕니다."
 date: 2026-03-29
 category: doctor-ai
 tags: ["도구", "임상시험", "연구"]
@@ -12,8 +12,6 @@ series_order: 13
 ---
 
 진료 끝에 환자가 묻습니다. “새로 나온 연구를 해 볼 수 있나요? 인터넷에 제 병명과 맞는 시험이 있다고 하던데요.” 화면에는 도시 이름과 모집 문구가 있습니다. 그 문구가 오늘도 유효한지는 아직 모릅니다.
-
-이 글은 의료 AI 첫 걸음 13화이자 이 경로의 마지막 글입니다. 진료 중 만난 질문을 연구 목록과 연결할 때, 프로그램이 할 일과 연구팀이 할 일을 나눕니다.
 
 ## 한 줄로 말하면
 
@@ -56,25 +54,17 @@ series_order: 13
 
 이 경로를 마치며 처음 화로 돌아가면 문장이 하나 남습니다. 프로그램은 목록과 초안을 만들고, 환자와 다음 단계를 정하는 사람은 의사입니다. 임상시험은 그 원칙이 가장 또렷한 자리입니다.
 
-내일 할 일은 하나입니다. 환자가 가져온 시험 문구가 있다면 등록 원문을 열어 모집 상태만 확인해 보십시오. 원문이 없으면 그 문구는 아직 정보가 아닙니다.
+<aside class="lecture-note">
+<p><strong>핵심 정리</strong></p>
+<ul>
+<li>프로그램은 검색어와 공고에서 볼 항목을 만듭니다. 적합 판정은 하지 않습니다.</li>
+<li>열리지 않는 공고는 없는 공고로 봅니다.</li>
+<li>표준 치료와 시험의 순서는 의사가 먼저 판단합니다.</li>
+<li>참여하지 않아도 진료는 계속된다고 말합니다.</li>
+<li>효과, 비용, 동의서의 의미는 연구 절차 안에서 설명합니다.</li>
+</ul>
+</aside>
 
-> **핵심 정리**
->
-> - 프로그램은 검색어와 공고에서 볼 항목을 만듭니다. 적합 판정은 하지 않습니다.
-> - 열리지 않는 공고는 없는 공고로 봅니다.
-> - 표준 치료와 시험의 순서는 의사가 먼저 판단합니다.
-> - 참여하지 않아도 진료는 계속된다고 말합니다.
-> - 효과, 비용, 동의서의 의미는 연구 절차 안에서 설명합니다.
+<p class="lecture-path"><a href="/blog/doctor-ai/diabetes-management-ai/">이전</a> · <a href="/blog/doctor-ai/ai-vs-human-doctor/">처음</a></p>
 
-## 이 경로에서
-
-- 이전: [진료가 한 번으로 끝나지 않을 때](/blog/doctor-ai/diabetes-management-ai/)
-- 다음: 없음. 이 글이 마지막 화입니다. 처음부터 다시 보려면 [의사는 어디에 남나요](/blog/doctor-ai/ai-vs-human-doctor/)로 돌아가면 됩니다.
-
-## 함께 보면 좋은 글
-
-- [이 프로그램은 의료기기인가요, 버전이 바뀌면요](/blog/doctor-ai/medical-ai-regulation/)
-- [그 답은 무슨 자료에서 나왔나요](/blog/doctor-ai/medical-ai-data-sources/)
-- [의료 AI 동의서: 어떻게 만들어야 하나?](/blog/regulations/medical-ai-consent-form-template/)
-
-의료 AI 강의 목록: [/blog/?category=doctor-ai](/blog/?category=doctor-ai)
+<p class="lecture-path">관련 <a href="/blog/doctor-ai/medical-ai-regulation/">이 프로그램은 의료기기인가요, 버전이 바뀌면요</a> · <a href="/blog/doctor-ai/medical-ai-data-sources/">그 답은 무슨 자료에서 나왔나요</a> · <a href="/blog/regulations/medical-ai-consent-form-template/">의료 AI 동의서: 어떻게 만들어야 하나?</a></p>

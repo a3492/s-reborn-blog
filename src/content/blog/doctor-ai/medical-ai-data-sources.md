@@ -1,6 +1,6 @@
 ---
 title: "그 답은 무슨 자료에서 나왔나요"
-description: "의료 AI 첫 걸음 2화입니다. 학습 자료와 오늘 넣은 기록이 어디서 오고, 환자 식별 정보를 어떻게 빼는지 정리합니다."
+description: "학습 자료와 오늘 넣은 기록이 어디서 오고, 환자 식별 정보를 어떻게 빼는지 정리합니다."
 date: 2026-03-29
 category: doctor-ai
 tags: ["AI", "데이터", "보안"]
@@ -14,8 +14,6 @@ series_order: 2
 초안이 그럴듯할수록 질문이 하나 남습니다. “이건 우리 병원 기록을 보고 한 말인가, 아니면 다른 데서 배운 말투인가?”
 
 흔히 있을 법한 장면을 가정해 보면, 전공의가 논문 제목까지 붙인 요약을 가져옵니다. 제목을 검색하면 그 논문이 없습니다. 문제는 문장이 아니라, 그 문장이 디딘 자료가 어디에 있는가입니다.
-
-이 글은 의료 AI 첫 걸음 2화입니다. 앞 글에서 나눈 역할 위에, 자료의 출처와 보호를 올립니다.
 
 ## 한 줄로 말하면
 
@@ -56,25 +54,17 @@ series_order: 2
 
 이 습관은 다음 글의 검증 목록으로 이어집니다. 자료가 없는 유창한 문장을 걸러 내는 일이 환각 이야기입니다.
 
-내일 할 일은 하나입니다. 직원이 쓰는 대화형 도구가 개인 계정인지, 기관 계약인지 한 줄로 확인해 보십시오. 모르겠으면 환자 내용을 넣지 않는 쪽이 맞습니다.
+<aside class="lecture-note">
+<p><strong>핵심 정리</strong></p>
+<ul>
+<li>답은 학습 자료와 오늘 넣은 자료에서 나옵니다. 둘을 구분합니다.</li>
+<li>일반 대화형 도구에는 식별 정보를 넣지 않습니다.</li>
+<li>기관 허용 도구인지는 계약으로 확인합니다.</li>
+<li>문헌이 필요하면 열리는 페이지를 직접 읽습니다.</li>
+<li>입력에 없던 사실은 출력에서 지웁니다.</li>
+</ul>
+</aside>
 
-> **핵심 정리**
->
-> - 답은 학습 자료와 오늘 넣은 자료에서 나옵니다. 둘을 구분합니다.
-> - 일반 대화형 도구에는 식별 정보를 넣지 않습니다.
-> - 기관 허용 도구인지는 계약으로 확인합니다.
-> - 문헌이 필요하면 열리는 페이지를 직접 읽습니다.
-> - 입력에 없던 사실은 출력에서 지웁니다.
+<p class="lecture-path"><a href="/blog/doctor-ai/ai-vs-human-doctor/">이전</a> · <a href="/blog/doctor-ai/ai-hallucination-medical/">다음</a></p>
 
-## 이 경로에서
-
-- 이전: [의사는 어디에 남나요](/blog/doctor-ai/ai-vs-human-doctor/)
-- 다음: [그럴듯한 틀린 답을 어떻게 거르나요](/blog/doctor-ai/ai-hallucination-medical/)
-
-## 함께 보면 좋은 글
-
-- [개인정보보호법과 의료 AI: 환자 데이터 활용의 법적 경계](/blog/regulations/gdpr-patient-data-medical-ai/)
-- [답이 한쪽으로 기울면 누구의 문제인가요](/blog/doctor-ai/ai-ethics-healthcare/)
-- [의료 AI 동의서: 어떻게 만들어야 하나?](/blog/regulations/medical-ai-consent-form-template/)
-
-의료 AI 강의 목록: [/blog/?category=doctor-ai](/blog/?category=doctor-ai)
+<p class="lecture-path">관련 <a href="/blog/regulations/gdpr-patient-data-medical-ai/">개인정보보호법과 의료 AI: 환자 데이터 활용의 법적 경계</a> · <a href="/blog/doctor-ai/ai-ethics-healthcare/">답이 한쪽으로 기울면 누구의 문제인가요</a> · <a href="/blog/regulations/medical-ai-consent-form-template/">의료 AI 동의서: 어떻게 만들어야 하나?</a></p>

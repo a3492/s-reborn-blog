@@ -1,6 +1,6 @@
 ---
 title: "답이 한쪽으로 기울면 누구의 문제인가요"
-description: "의료 AI 첫 걸음 5화입니다. 학습 자료와 오늘 환자가 다를 때 생기는 기울어짐, 그리고 의사가 맡아야 할 윤리적 질문을 정리합니다."
+description: "학습 자료와 오늘 환자가 다를 때 생기는 기울어짐, 그리고 의사가 맡아야 할 윤리적 질문을 정리합니다."
 date: 2026-03-29
 category: doctor-ai
 tags: ["AI", "윤리", "편향성", "공정성", "의료"]
@@ -12,8 +12,6 @@ series_order: 5
 ---
 
 같은 호소인데, 프로그램이 어떤 환자에서는 검사를 권하고 어떤 환자에서는 지켜보자고 합니다. 차트를 보면 차이는 증상보다 기록의 양에 가깝습니다. 글을 많이 남긴 환자의 이야기가 더 “전형적”으로 보입니다.
-
-이 글은 의료 AI 첫 걸음 5화입니다. 답이 한쪽으로 기우는 일과, 그 앞에서 의료진이 묻게 되는 윤리 질문을 함께 다룹니다.
 
 ## 한 줄로 말하면
 
@@ -48,25 +46,17 @@ series_order: 5
 
 발견한 차이를 환자 탓으로 적지 않습니다. “자료가 얇다”고 적고, 진찰과 추가 질문으로 채웁니다. 프로그램을 끄라는 결론만이 능사는 아닙니다. 어디서 기울는지 아는 의사가 결과를 더 안전하게 씁니다.
 
-내일 할 일은 하나입니다. 도입을 검토 중인 도구가 있다면, 설명서에서 “하위 집단” 또는 “제외 기준”이라는 제목을 찾아 보십시오. 없으면 성능 숫자는 아직 우리 환자 이야기가 아닙니다.
+<aside class="lecture-note">
+<p><strong>핵심 정리</strong></p>
+<ul>
+<li>학습된 사람과 오늘 환자가 다르면 답이 기울 수 있습니다.</li>
+<li>비용이나 방문 횟수는 건강 상태 그 자체가 아닙니다.</li>
+<li>누구에게 더 틀리는지, 환자가 알 수 있는지, 거절할 수 있는지, 누가 고치는지를 묻습니다.</li>
+<li>기록의 양 때문에 생긴 확신은 병의 차이가 아닙니다.</li>
+<li>집단별 성능이 없으면 도입 근거로 읽지 않습니다.</li>
+</ul>
+</aside>
 
-> **핵심 정리**
->
-> - 학습된 사람과 오늘 환자가 다르면 답이 기울 수 있습니다.
-> - 비용이나 방문 횟수는 건강 상태 그 자체가 아닙니다.
-> - 누구에게 더 틀리는지, 환자가 알 수 있는지, 거절할 수 있는지, 누가 고치는지를 묻습니다.
-> - 기록의 양 때문에 생긴 확신은 병의 차이가 아닙니다.
-> - 집단별 성능이 없으면 도입 근거로 읽지 않습니다.
+<p class="lecture-path"><a href="/blog/doctor-ai/ai-reliability-metrics/">이전</a> · <a href="/blog/doctor-ai/medical-ai-regulation/">다음</a></p>
 
-## 이 경로에서
-
-- 이전: [민감도와 설명, 성적표의 어디를 보나요](/blog/doctor-ai/ai-reliability-metrics/)
-- 다음: [이 프로그램은 의료기기인가요](/blog/doctor-ai/medical-ai-regulation/)
-
-## 함께 보면 좋은 글
-
-- [한국 의료법과 AI 진단: 법적 책임의 경계](/blog/regulations/korean-medical-law-ai/)
-- [AI가 환자 진료를 완전히 대체할 수 있을까?](/blog/faq/will-ai-replace-doctors/)
-- [그 답은 무슨 자료에서 나왔나요](/blog/doctor-ai/medical-ai-data-sources/)
-
-의료 AI 강의 목록: [/blog/?category=doctor-ai](/blog/?category=doctor-ai)
+<p class="lecture-path">관련 <a href="/blog/regulations/korean-medical-law-ai/">한국 의료법과 AI 진단: 법적 책임의 경계</a> · <a href="/blog/faq/will-ai-replace-doctors/">AI가 환자 진료를 완전히 대체할 수 있을까?</a> · <a href="/blog/doctor-ai/medical-ai-data-sources/">그 답은 무슨 자료에서 나왔나요</a></p>

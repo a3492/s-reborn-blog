@@ -1,6 +1,6 @@
 ---
 title: "환자에게 건네기 전에: 퇴원, 검진, 주사 지시"
-description: "의료 AI 첫 걸음 9화입니다. 퇴원 계획, 검진 설명, 주사 지시처럼 환자가 들고 가는 글의 초안을 고치는 순서를 정리합니다."
+description: "퇴원 계획, 검진 설명, 주사 지시처럼 환자가 들고 가는 글의 초안을 고치는 순서를 정리합니다."
 date: 2026-03-29
 category: doctor-ai
 tags: ["프롬프트", "퇴원", "환자교육", "검진", "주사"]
@@ -12,8 +12,6 @@ series_order: 9
 ---
 
 퇴원 당일 오후, 보호자가 출력물을 들고 다시 들어옵니다. “여기에 이 주사는 집에서 맞아도 된다고 되어 있는데요.” 초안을 만든 사람은 그 문장을 지시로 쓰지 않았습니다. 다만 문장으로 나가면 지시가 됩니다.
-
-이 글은 의료 AI 첫 걸음 9화입니다. 퇴원 계획, 건강검진 설명, 주사 지시문처럼 환자의 손에 들어가는 글을 다룹니다. 차트 안의 기록은 8화에서 다뤘습니다.
 
 ## 한 줄로 말하면
 
@@ -66,25 +64,17 @@ series_order: 9
 
 <!-- 원장 확인: 용량, 경로, 희석은 처방 의사가 확인합니다. 이 글의 예시는 절차이며 특정 약의 용법을 제시하지 않습니다. -->
 
-내일 할 일은 하나입니다. 환자에게 나간 안내문 하나를 차트와 나란히 두고, 차트에 없는 지시가 한 줄이라도 있는지 표시해 보십시오.
+<aside class="lecture-note">
+<p><strong>핵심 정리</strong></p>
+<ul>
+<li>환자가 들고 가는 글은 차트 밖에서도 지시처럼 읽힙니다.</li>
+<li>재료는 차트에 있는 사실만 쓰고, 없는 지시는 만들지 않습니다.</li>
+<li>위험 증상은 더 부드럽게 고치지 않습니다.</li>
+<li>검진 별표는 추가 진료의 신호일 수 있으며, 그 자체로 확정 진단이 아닙니다.</li>
+<li>주사 지시의 용량과 경로가 처방과 다르면 초안을 버립니다.</li>
+</ul>
+</aside>
 
-> **핵심 정리**
->
-> - 환자가 들고 가는 글은 차트 밖에서도 지시처럼 읽힙니다.
-> - 재료는 차트에 있는 사실만 쓰고, 없는 지시는 만들지 않습니다.
-> - 위험 증상은 더 부드럽게 고치지 않습니다.
-> - 검진 별표는 추가 진료의 신호일 수 있으며, 그 자체로 확정 진단이 아닙니다.
-> - 주사 지시의 용량과 경로가 처방과 다르면 초안을 버립니다.
+<p class="lecture-path"><a href="/blog/doctor-ai/clinical-note-transcription/">이전</a> · <a href="/blog/doctor-ai/drug-interaction-ai/">다음</a></p>
 
-## 이 경로에서
-
-- 이전: [말과 진단명을 초안으로 옮길 때](/blog/doctor-ai/clinical-note-transcription/)
-- 다음: [많은 약을 한 번 더 볼 때](/blog/doctor-ai/drug-interaction-ai/)
-
-## 함께 보면 좋은 글
-
-- [프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드](/blog/prompt-engineering/prompt-engineering-for-doctors/)
-- [그럴듯한 틀린 답을 어떻게 거르나요](/blog/doctor-ai/ai-hallucination-medical/)
-- [의료 AI 동의서: 어떻게 만들어야 하나?](/blog/regulations/medical-ai-consent-form-template/)
-
-의료 AI 강의 목록: [/blog/?category=doctor-ai](/blog/?category=doctor-ai)
+<p class="lecture-path">관련 <a href="/blog/prompt-engineering/prompt-engineering-for-doctors/">프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드</a> · <a href="/blog/doctor-ai/ai-hallucination-medical/">그럴듯한 틀린 답을 어떻게 거르나요</a> · <a href="/blog/regulations/medical-ai-consent-form-template/">의료 AI 동의서: 어떻게 만들어야 하나?</a></p>

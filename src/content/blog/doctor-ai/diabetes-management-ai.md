@@ -1,6 +1,6 @@
 ---
 title: "진료가 한 번으로 끝나지 않을 때"
-description: "의료 AI 첫 걸음 12화입니다. 만성질환 추적과 여러 과가 함께 보는 환자에서, 시간순 요약 초안을 쓰는 방법을 정리합니다."
+description: "만성질환 추적과 여러 과가 함께 보는 환자에서, 시간순 요약 초안을 쓰는 방법을 정리합니다."
 date: 2026-03-29
 category: doctor-ai
 tags: ["케이스", "만성질환", "관리", "협력"]
@@ -12,8 +12,6 @@ series_order: 12
 ---
 
 당뇨병으로 오래 보는 환자가 수첩을 펼칩니다. 지난달 공란이 많고, 여행 주에만 숫자가 빼곡합니다. 다음 칸에는 정형외과 의뢰서가 꽂혀 있습니다. 한 번의 문진으로 수첩과 의뢰서를 다 설명하기에는 시간이 짧습니다.
-
-이 글은 의료 AI 첫 걸음 12화입니다. 길게 보는 병과, 여러 과가 나누어 보는 환자를 한 이야기로 잇습니다. 둘 다 “오늘 없던 정보를 시간순으로 모아 다음 사람에게 넘기는 일”입니다.
 
 ## 한 줄로 말하면
 
@@ -58,25 +56,17 @@ series_order: 12
 
 환자에게는 오늘 바꾼 것 한 가지와, 다음에 가져올 것 한 가지만 말로 확인합니다. 수첩을 매일 완벽히 적으라는 지시보다, 저혈당이 있었을 때의 시간과 먹은 음식을 적자는 식의 좁은 부탁이 다음 진료에 더 쓸모가 있습니다. 이 부탁도 의사가 확정합니다. 프로그램이 만든 생활 수칙 열 개는 환자에게 주지 않습니다.
 
-내일 할 일은 하나입니다. 오래 보는 환자 한 명의 최근 세 번 방문이 서로 다른 목표를 말하고 있는지 차트에서 확인해 보십시오. 말이 다르면, 다음 방문의 첫 문장을 그 차이를 고치는 데 쓰면 됩니다.
+<aside class="lecture-note">
+<p><strong>핵심 정리</strong></p>
+<ul>
+<li>만성 진료에서 프로그램은 측정값을 시간순으로 모읍니다. 목표는 만들지 않습니다.</li>
+<li>공란은 실패가 아니라 물어볼 구간입니다.</li>
+<li>약 변경 제안은 초안에서 지우고 의사가 결정합니다.</li>
+<li>협진 초안은 부탁 한 가지와 아직 모르는 것을 포함합니다.</li>
+<li>식별 정보가 필요한 의뢰는 기관 시스템에서 완성합니다.</li>
+</ul>
+</aside>
 
-> **핵심 정리**
->
-> - 만성 진료에서 프로그램은 측정값을 시간순으로 모읍니다. 목표는 만들지 않습니다.
-> - 공란은 실패가 아니라 물어볼 구간입니다.
-> - 약 변경 제안은 초안에서 지우고 의사가 결정합니다.
-> - 협진 초안은 부탁 한 가지와 아직 모르는 것을 포함합니다.
-> - 식별 정보가 필요한 의뢰는 기관 시스템에서 완성합니다.
+<p class="lecture-path"><a href="/blog/doctor-ai/acute-abdominal-pain-case/">이전</a> · <a href="/blog/doctor-ai/clinical-trial-matching-ai/">다음</a></p>
 
-## 이 경로에서
-
-- 이전: [급성 증상에서 감별 목록을 적는다면](/blog/doctor-ai/acute-abdominal-pain-case/)
-- 다음: [임상시험 목록은 누가 고르나요](/blog/doctor-ai/clinical-trial-matching-ai/)
-
-## 함께 보면 좋은 글
-
-- [많은 약을 한 번 더 볼 때](/blog/doctor-ai/drug-interaction-ai/)
-- [말과 진단명을 초안으로 옮길 때](/blog/doctor-ai/clinical-note-transcription/)
-- [그 답은 무슨 자료에서 나왔나요](/blog/doctor-ai/medical-ai-data-sources/)
-
-의료 AI 강의 목록: [/blog/?category=doctor-ai](/blog/?category=doctor-ai)
+<p class="lecture-path">관련 <a href="/blog/doctor-ai/drug-interaction-ai/">많은 약을 한 번 더 볼 때</a> · <a href="/blog/doctor-ai/clinical-note-transcription/">말과 진단명을 초안으로 옮길 때</a> · <a href="/blog/doctor-ai/medical-ai-data-sources/">그 답은 무슨 자료에서 나왔나요</a></p>

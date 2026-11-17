@@ -1,6 +1,6 @@
 ---
 title: "그럴듯한 틀린 답을 어떻게 거르나요"
-description: "의료 AI 첫 걸음 3화입니다. 환각이 왜 생기는지, 그리고 진료 전에 답을 대조하는 실무 순서를 적습니다."
+description: "환각이 왜 생기는지, 그리고 진료 전에 답을 대조하는 실무 순서를 적습니다."
 date: 2026-03-29
 category: doctor-ai
 tags: ["AI", "신뢰성", "검증", "환각"]
@@ -12,8 +12,6 @@ series_order: 3
 ---
 
 저널클럽 전날, 요약 메일 하단에 논문이 네 편 적혀 있습니다. 저자, 연도, 학술지 이름이 갖춰져 있습니다. 검색해 보면 두 편은 열리고, 두 편은 없습니다. 문장만 보면 어느 쪽이 비었는지 티가 나지 않습니다.
-
-이 글은 의료 AI 첫 걸음 3화입니다. 없는 사실을 있는 것처럼 말하는 현상과, 그 문장을 진료 전에 거르는 순서를 한자리에 모았습니다. 예전에는 이유와 검증이 두 초안으로 나뉘어 있었습니다.
 
 ## 한 줄로 말하면
 
@@ -51,25 +49,17 @@ series_order: 3
 
 (이해를 돕기 위한 가상 사례) 발열 메모에 “최고 체온”만 있었는데 초안에 백혈구 수치가 적혀 있다면, 그 숫자는 기록에 남길 수 없습니다. 검사 결과지를 열어 비어 있음을 확인하고 문장을 지웁니다.
 
-내일 할 일은 하나입니다. 최근 받은 요약에서 논문 제목 두 개만 검색해 보십시오. 열리지 않는 인용이 있다면, 그 요약의 다른 숫자도 함께 의심하면 됩니다.
+<aside class="lecture-note">
+<p><strong>핵심 정리</strong></p>
+<ul>
+<li>환각은 근거 없는 문장이 사실의 말투로 나오는 일입니다.</li>
+<li>유창함은 정확함을 뜻하지 않습니다.</li>
+<li>주장은 출처 페이지를 열어 대조합니다. 인용도 지어질 수 있습니다.</li>
+<li>입력에 없던 수치와 용량은 지웁니다.</li>
+<li>최종 문장은 의사가 자기 말로 다시 씁니다.</li>
+</ul>
+</aside>
 
-> **핵심 정리**
->
-> - 환각은 근거 없는 문장이 사실의 말투로 나오는 일입니다.
-> - 유창함은 정확함을 뜻하지 않습니다.
-> - 주장은 출처 페이지를 열어 대조합니다. 인용도 지어질 수 있습니다.
-> - 입력에 없던 수치와 용량은 지웁니다.
-> - 최종 문장은 의사가 자기 말로 다시 씁니다.
+<p class="lecture-path"><a href="/blog/doctor-ai/medical-ai-data-sources/">이전</a> · <a href="/blog/doctor-ai/ai-reliability-metrics/">다음</a></p>
 
-## 이 경로에서
-
-- 이전: [그 답은 무슨 자료에서 나왔나요](/blog/doctor-ai/medical-ai-data-sources/)
-- 다음: [민감도와 설명, 성적표의 어디를 보나요](/blog/doctor-ai/ai-reliability-metrics/)
-
-## 함께 보면 좋은 글
-
-- [AI 환각(Hallucination)이 뭐예요?](/blog/aerini/what-is-hallucination/)
-- [많은 약을 한 번 더 볼 때](/blog/doctor-ai/drug-interaction-ai/)
-- [프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드](/blog/prompt-engineering/prompt-engineering-for-doctors/)
-
-의료 AI 강의 목록: [/blog/?category=doctor-ai](/blog/?category=doctor-ai)
+<p class="lecture-path">관련 <a href="/blog/aerini/what-is-hallucination/">AI 환각(Hallucination)이 뭐예요?</a> · <a href="/blog/doctor-ai/drug-interaction-ai/">많은 약을 한 번 더 볼 때</a> · <a href="/blog/prompt-engineering/prompt-engineering-for-doctors/">프롬프트 엔지니어링 기초 — 의사를 위한 실전 가이드</a></p>

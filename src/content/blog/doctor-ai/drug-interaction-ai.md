@@ -1,6 +1,6 @@
 ---
 title: "많은 약을 한 번 더 볼 때"
-description: "의료 AI 첫 걸음 10화입니다. 다제약물을 목록으로 만들고, 상호작용 검토 초안을 정보원과 대조하는 순서를 정리합니다."
+description: "다제약물을 목록으로 만들고, 상호작용 검토 초안을 정보원과 대조하는 순서를 정리합니다."
 date: 2026-03-29
 category: doctor-ai
 tags: ["도구", "약물", "안전", "노년"]
@@ -12,8 +12,6 @@ series_order: 10
 ---
 
 흔히 있을 법한 장면을 가정해 보면, 여든의 환자가 봉투를 꺼냅니다. 내과, 정형외과, 수면제, 이웃이 나눠 준 진통제가 한 테이블에 놓입니다. “이거 같이 먹어도 되나요?”라는 질문이 진료의 본론입니다.
-
-이 글은 의료 AI 첫 걸음 10화입니다. 약물 목록을 만들고, 상호작용과 중복을 검토하고, 그 결과를 처방 전에 대조하는 순서를 다룹니다. 특정 약 조합의 위험도는 단정하지 않습니다.
 
 ## 한 줄로 말하면
 
@@ -53,25 +51,17 @@ series_order: 10
 
 기록에는 세 줄이면 됩니다. 무엇을 확인했는지, 어떤 정보원을 열었는지, 무엇을 유지하거나 변경했는지. “AI가 위험하다고 했다”는 문장만 남기지 않습니다.
 
-내일 할 일은 하나입니다. 복용약이 다섯 개를 넘는 환자 한 명의 차트를 열고, 위 여섯 칸 가운데 비어 있는 칸이 무엇인지 표시해 보십시오. 그 칸을 채우기 전에 상호작용 경고를 믿지 않으면 됩니다.
+<aside class="lecture-note">
+<p><strong>핵심 정리</strong></p>
+<ul>
+<li>먼저 실제로 먹는 약의 표를 만듭니다. 경고문부터 만들지 않습니다.</li>
+<li>프로그램은 찾아볼 질문을 제안할 수 있습니다. 등급과 중단을 단정하지 않게 시킵니다.</li>
+<li>답은 기관의 약물 정보나 약사 조회와 대조합니다.</li>
+<li>약이 많다는 사실만으로 개수를 줄이라고 하지 않습니다. 시작 이유를 봅니다.</li>
+<li>변경은 처방 화면에 반영하고, 옛 안내문이 나가지 않게 합니다.</li>
+</ul>
+</aside>
 
-> **핵심 정리**
->
-> - 먼저 실제로 먹는 약의 표를 만듭니다. 경고문부터 만들지 않습니다.
-> - 프로그램은 찾아볼 질문을 제안할 수 있습니다. 등급과 중단을 단정하지 않게 시킵니다.
-> - 답은 기관의 약물 정보나 약사 조회와 대조합니다.
-> - 약이 많다는 사실만으로 개수를 줄이라고 하지 않습니다. 시작 이유를 봅니다.
-> - 변경은 처방 화면에 반영하고, 옛 안내문이 나가지 않게 합니다.
+<p class="lecture-path"><a href="/blog/doctor-ai/discharge-plan-prompt/">이전</a> · <a href="/blog/doctor-ai/acute-abdominal-pain-case/">다음</a></p>
 
-## 이 경로에서
-
-- 이전: [환자에게 건네기 전에](/blog/doctor-ai/discharge-plan-prompt/)
-- 다음: [급성 증상에서 감별 목록을 적는다면](/blog/doctor-ai/acute-abdominal-pain-case/)
-
-## 함께 보면 좋은 글
-
-- [그럴듯한 틀린 답을 어떻게 거르나요](/blog/doctor-ai/ai-hallucination-medical/)
-- [진료가 한 번으로 끝나지 않을 때](/blog/doctor-ai/diabetes-management-ai/)
-- [답이 한쪽으로 기울면 누구의 문제인가요](/blog/doctor-ai/ai-ethics-healthcare/)
-
-의료 AI 강의 목록: [/blog/?category=doctor-ai](/blog/?category=doctor-ai)
+<p class="lecture-path">관련 <a href="/blog/doctor-ai/ai-hallucination-medical/">그럴듯한 틀린 답을 어떻게 거르나요</a> · <a href="/blog/doctor-ai/diabetes-management-ai/">진료가 한 번으로 끝나지 않을 때</a> · <a href="/blog/doctor-ai/ai-ethics-healthcare/">답이 한쪽으로 기울면 누구의 문제인가요</a></p>

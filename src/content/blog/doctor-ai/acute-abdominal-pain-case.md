@@ -1,6 +1,6 @@
 ---
 title: "급성 증상에서 감별 목록을 적는다면"
-description: "의료 AI 첫 걸음 11화입니다. 급성 복통과 발열을 예로, 감별 목록을 넓히고 의사가 순서를 정하는 방법을 정리합니다."
+description: "급성 복통과 발열을 예로, 감별 목록을 넓히고 의사가 순서를 정하는 방법을 정리합니다."
 date: 2026-03-29
 category: doctor-ai
 tags: ["케이스", "응급", "진단", "감염"]
@@ -12,8 +12,6 @@ series_order: 11
 ---
 
 새벽에 배가 아프다는 전화가 옵니다. 위치는 배꼽 주위였다가 오른쪽으로 옮겨 갔다고 합니다. 식은땀이 있는지는 전화로는 모르겠습니다. 책을 펼치기 전에, 빈 메모에 가능성의 이름을 적고 싶어집니다.
-
-이 글은 의료 AI 첫 걸음 11화입니다. 급성 복통과 발열이라는 두 장면을 빌려, 감별 목록을 프로그램과 같이 적되 순서는 의사가 정하는 방법을 보여 줍니다. 두 장면 모두 가상입니다. 진료 지침을 대신하지 않습니다.
 
 <!-- 원장 확인: 아래 장면은 이해를 위한 가상 사례입니다. 감별의 우선순위는 진찰과 검사로 정합니다. 이 글의 목록은 진료 지침이 아닙니다. -->
 
@@ -55,25 +53,17 @@ series_order: 11
 
 전화 상담이라면 더 보수적입니다. 목록을 읽어 주고 안심시키지 않습니다. 위험 신호가 있는지 묻고, 직접 보아야 하면 보라고 말합니다. 프로그램은 전화 너머의 환자를 보지 못합니다.
 
-내일 할 일은 하나입니다. 최근 본 급성 증상 하나를 떠올리고, 당시 묻지 못한 질문 두 개를 적어 보십시오. 그 질문이 감별 목록보다 먼저입니다. 실제 환자 정보는 도구에 넣지 않습니다.
+<aside class="lecture-note">
+<p><strong>핵심 정리</strong></p>
+<ul>
+<li>프로그램은 가능성과 추가 질문을 펼칩니다. 우선순위는 진찰로 정합니다.</li>
+<li>가장 유력한 진단 하나를 단정하지 못하게 요청합니다.</li>
+<li>검사 수치와 균 이름을 채운 문장은 결과지 없이 쓰지 않습니다.</li>
+<li>위험 신호는 목록의 맨 아래에 두지 않습니다.</li>
+<li>실제 기록에는 내가 고려하고 배제한 이유만 남깁니다.</li>
+</ul>
+</aside>
 
-> **핵심 정리**
->
-> - 프로그램은 가능성과 추가 질문을 펼칩니다. 우선순위는 진찰로 정합니다.
-> - 가장 유력한 진단 하나를 단정하지 못하게 요청합니다.
-> - 검사 수치와 균 이름을 채운 문장은 결과지 없이 쓰지 않습니다.
-> - 위험 신호는 목록의 맨 아래에 두지 않습니다.
-> - 실제 기록에는 내가 고려하고 배제한 이유만 남깁니다.
+<p class="lecture-path"><a href="/blog/doctor-ai/drug-interaction-ai/">이전</a> · <a href="/blog/doctor-ai/diabetes-management-ai/">다음</a></p>
 
-## 이 경로에서
-
-- 이전: [많은 약을 한 번 더 볼 때](/blog/doctor-ai/drug-interaction-ai/)
-- 다음: [진료가 한 번으로 끝나지 않을 때](/blog/doctor-ai/diabetes-management-ai/)
-
-## 함께 보면 좋은 글
-
-- [영상에서 표시된 곳은 진단인가요](/blog/doctor-ai/medical-imaging-ai/)
-- [그럴듯한 틀린 답을 어떻게 거르나요](/blog/doctor-ai/ai-hallucination-medical/)
-- [민감도와 설명, 성적표의 어디를 보나요](/blog/doctor-ai/ai-reliability-metrics/)
-
-의료 AI 강의 목록: [/blog/?category=doctor-ai](/blog/?category=doctor-ai)
+<p class="lecture-path">관련 <a href="/blog/doctor-ai/medical-imaging-ai/">영상에서 표시된 곳은 진단인가요</a> · <a href="/blog/doctor-ai/ai-hallucination-medical/">그럴듯한 틀린 답을 어떻게 거르나요</a> · <a href="/blog/doctor-ai/ai-reliability-metrics/">민감도와 설명, 성적표의 어디를 보나요</a></p>

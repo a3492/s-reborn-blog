@@ -1,6 +1,6 @@
 ---
 title: "민감도와 설명, 성적표의 어디를 보나요"
-description: "의료 AI 첫 걸음 4화입니다. 민감도, 특이도, 정확도의 뜻과, 설명이 붙어 있어도 따로 확인해야 하는 이유를 적습니다."
+description: "민감도, 특이도, 정확도의 뜻과, 설명이 붙어 있어도 따로 확인해야 하는 이유를 적습니다."
 date: 2026-03-29
 category: doctor-ai
 tags: ["AI", "통계", "평가", "해석"]
@@ -12,8 +12,6 @@ series_order: 4
 ---
 
 업체 설명서에 점수가 하나 적혀 있습니다. 동료는 “정확도가 높다”고 읽고, 다른 동료는 “놓치는 환자가 적다”고 읽습니다. 두 문장은 같은 뜻이 아닙니다.
-
-이 글은 의료 AI 첫 걸음 4화입니다. 성적표의 단어와, 그 프로그램이 왜 그렇게 표시했는지를 묻는 일을 이어서 다룹니다. 숫자와 설명은 예전 초안 두 편에 나뉘어 있었습니다.
 
 ## 한 줄로 말하면
 
@@ -57,25 +55,17 @@ series_order: 4
 - 설명은 원본의 어디를 가리키는가. 그 위치를 내가 직접 볼 수 있는가.
 - 핵심 정보를 빼면 답이 바뀌는가. 바뀌지 않는다면, 그 정보는 표시와 무관할 수 있습니다.
 
-내일 할 일은 하나입니다. 소개 자료에서 “정확도”라고 된 문장을 찾아, 민감도인지 특이도인지 양성 예측도인지 빈칸으로 다시 적어 보십시오. 빈칸이 많으면 그 자료는 아직 도입 근거가 아닙니다.
+<aside class="lecture-note">
+<p><strong>핵심 정리</strong></p>
+<ul>
+<li>민감도는 놓침, 특이도는 과잉 경보, 정확도는 전체 맞춤 비율입니다.</li>
+<li>병이 드물면 정확도만으로 양성 결과를 해석하지 않습니다.</li>
+<li>누구를 어떻게 평가했는지를 점수보다 먼저 읽습니다.</li>
+<li>색칠과 중요 항목 목록은 추가 출력이며, 정답의 증거가 아닙니다.</li>
+<li>설명 옆의 원본을 의사가 직접 봅니다.</li>
+</ul>
+</aside>
 
-> **핵심 정리**
->
-> - 민감도는 놓침, 특이도는 과잉 경보, 정확도는 전체 맞춤 비율입니다.
-> - 병이 드물면 정확도만으로 양성 결과를 해석하지 않습니다.
-> - 누구를 어떻게 평가했는지를 점수보다 먼저 읽습니다.
-> - 색칠과 중요 항목 목록은 추가 출력이며, 정답의 증거가 아닙니다.
-> - 설명 옆의 원본을 의사가 직접 봅니다.
+<p class="lecture-path"><a href="/blog/doctor-ai/ai-hallucination-medical/">이전</a> · <a href="/blog/doctor-ai/ai-ethics-healthcare/">다음</a></p>
 
-## 이 경로에서
-
-- 이전: [그럴듯한 틀린 답을 어떻게 거르나요](/blog/doctor-ai/ai-hallucination-medical/)
-- 다음: [답이 한쪽으로 기울면 누구의 문제인가요](/blog/doctor-ai/ai-ethics-healthcare/)
-
-## 함께 보면 좋은 글
-
-- [의료 사고와 AI: 책임은 누가 질까?](/blog/regulations/medical-malpractice-ai-liability/)
-- [영상에서 표시된 곳은 진단인가요](/blog/doctor-ai/medical-imaging-ai/)
-- [이 프로그램은 의료기기인가요, 버전이 바뀌면요](/blog/doctor-ai/medical-ai-regulation/)
-
-의료 AI 강의 목록: [/blog/?category=doctor-ai](/blog/?category=doctor-ai)
+<p class="lecture-path">관련 <a href="/blog/regulations/medical-malpractice-ai-liability/">의료 사고와 AI: 책임은 누가 질까?</a> · <a href="/blog/doctor-ai/medical-imaging-ai/">영상에서 표시된 곳은 진단인가요</a> · <a href="/blog/doctor-ai/medical-ai-regulation/">이 프로그램은 의료기기인가요, 버전이 바뀌면요</a></p>

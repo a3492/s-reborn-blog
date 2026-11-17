@@ -1,6 +1,6 @@
 ---
 title: "이 프로그램은 의료기기인가요, 버전이 바뀌면요"
-description: "의료 AI 첫 걸음 6화입니다. 의료기기로 볼 질문과, 새 버전이 나왔을 때 진료 전에 확인할 항목을 정리합니다."
+description: "의료기기로 볼 질문과, 새 버전이 나왔을 때 진료 전에 확인할 항목을 정리합니다."
 date: 2026-03-29
 category: doctor-ai
 tags: ["AI", "규제", "법률", "업데이트"]
@@ -12,8 +12,6 @@ series_order: 6
 ---
 
 정보팀이 메일을 돌립니다. “기록 보조 프로그램이 다음 주 새 버전으로 바뀝니다. 더 정확해졌다고 합니다.” 외래는 그대로 열리고, 화면의 버튼만 하룻밤 사이에 달라져 있습니다.
-
-이 글은 의료 AI 첫 걸음 6화입니다. 어떤 프로그램을 의료기기처럼 다뤄야 하는지, 버전이 바뀌면 무엇을 다시 봐야 하는지를 한 흐름으로 적습니다.
 
 ## 한 줄로 말하면
 
@@ -57,25 +55,17 @@ series_order: 6
 
 규제 글은 별도 분류에 더 있습니다. 허가 절차의 세부 단계가 필요하면 그쪽으로 넘어가십시오. 이 화의 목적은 세부 법전을 외우는 일이 아니라, 설치 버튼 앞에서 멈출 질문을 갖는 일입니다.
 
-내일 할 일은 하나입니다. 지금 쓰는 프로그램 하나의 정보 창을 열어 버전 번호를 적고, 그 번호의 사용 목적 문장이 어디에 있는지 찾아 보십시오. 없으면 업데이트에 동의하기 전입니다.
+<aside class="lecture-note">
+<p><strong>핵심 정리</strong></p>
+<ul>
+<li>진단과 치료에 영향을 주는 목적과, 글 정리는 다른 규제 질문입니다.</li>
+<li>판단은 사용 목적 문구와 오늘 설치된 버전으로 합니다.</li>
+<li>새 버전은 같은 도구가 아닐 수 있습니다. 변경 노트와 되돌릴 방법을 확인합니다.</li>
+<li>비교는 식별 정보를 뺀 사례로 합니다.</li>
+<li>설명서 밖의 질환에 진단 도구를 확장하지 않습니다.</li>
+</ul>
+</aside>
 
-> **핵심 정리**
->
-> - 진단과 치료에 영향을 주는 목적과, 글 정리는 다른 규제 질문입니다.
-> - 판단은 사용 목적 문구와 오늘 설치된 버전으로 합니다.
-> - 새 버전은 같은 도구가 아닐 수 있습니다. 변경 노트와 되돌릴 방법을 확인합니다.
-> - 비교는 식별 정보를 뺀 사례로 합니다.
-> - 설명서 밖의 질환에 진단 도구를 확장하지 않습니다.
+<p class="lecture-path"><a href="/blog/doctor-ai/ai-ethics-healthcare/">이전</a> · <a href="/blog/doctor-ai/medical-imaging-ai/">다음</a></p>
 
-## 이 경로에서
-
-- 이전: [답이 한쪽으로 기울면 누구의 문제인가요](/blog/doctor-ai/ai-ethics-healthcare/)
-- 다음: [영상에서 표시된 곳은 진단인가요](/blog/doctor-ai/medical-imaging-ai/)
-
-## 함께 보면 좋은 글
-
-- [의료기기 허가 프로세스: AI는 어디에 걸리나?](/blog/regulations/medical-device-approval-ai/)
-- [병원 AI 도입 시 준비해야 할 법적 체크리스트](/blog/regulations/hospital-ai-adoption-legal-checklist/)
-- [해외 규제 동향: FDA, EU AI Act, MDSAP](/blog/regulations/international-medical-ai-regulation/)
-
-의료 AI 강의 목록: [/blog/?category=doctor-ai](/blog/?category=doctor-ai)
+<p class="lecture-path">관련 <a href="/blog/regulations/medical-device-approval-ai/">의료기기 허가 프로세스: AI는 어디에 걸리나?</a> · <a href="/blog/regulations/hospital-ai-adoption-legal-checklist/">병원 AI 도입 시 준비해야 할 법적 체크리스트</a> · <a href="/blog/regulations/international-medical-ai-regulation/">해외 규제 동향: FDA, EU AI Act, MDSAP</a></p>

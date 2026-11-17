@@ -1,6 +1,6 @@
 ---
 title: "영상에서 표시된 곳은 진단인가요"
-description: "의료 AI 첫 걸음 7화입니다. X선, CT, MRI에서 보조 소프트웨어가 표시하는 것의 의미와, 의사가 다시 보는 순서를 정리합니다."
+description: "X선, CT, MRI에서 보조 소프트웨어가 표시하는 것의 의미와, 의사가 다시 보는 순서를 정리합니다."
 date: 2026-03-29
 category: doctor-ai
 tags: ["도구", "영상의학", "진단"]
@@ -12,8 +12,6 @@ series_order: 7
 ---
 
 당직 중 흉부 영상 옆에 동그라미가 하나 떠 있습니다. 동그라미 안은 평소라면 지나칠 수도 있는 옅은 음영입니다. 당직의는 잠시 멈춥니다. “이걸 폐렴이라고 불러도 되나?”
-
-이 글은 의료 AI 첫 걸음 7화입니다. 영상 보조 소프트웨어가 무엇을 보여주고, 의사가 어떤 순서로 다시 보면 되는지를 다룹니다. 특정 제품의 성능은 적지 않습니다.
 
 ## 한 줄로 말하면
 
@@ -51,25 +49,17 @@ series_order: 7
 
 공포를 키우는 표현이나, 도구가 의사보다 낫다는 식의 비교는 쓰지 않습니다. 비교 문장은 성능 평가의 조건이 맞을 때만 논문 안에서 의미가 있습니다. 진료실 설명으로 가져오지 않습니다.
 
-내일 할 일은 하나입니다. 우리 기관 영상 뷰어에 자동 표시가 켜져 있는지 확인하고, 켜져 있다면 사용 목적 한 줄을 당직 노트에 적어 보십시오. 없으면 표시를 진단으로 읽지 않으면 됩니다.
+<aside class="lecture-note">
+<p><strong>핵심 정리</strong></p>
+<ul>
+<li>표시는 다시 보라는 신호이며 진단명이 아닙니다.</li>
+<li>표시 밖과 표시가 없는 영상도 봅니다.</li>
+<li>사용 목적 밖의 장기나 질환에 확장하지 않습니다.</li>
+<li>기록에는 도구의 표시와 의사의 판단을 나눠 적습니다.</li>
+<li>환자에게는 확정 전에 병명을 단정하지 않습니다.</li>
+</ul>
+</aside>
 
-> **핵심 정리**
->
-> - 표시는 다시 보라는 신호이며 진단명이 아닙니다.
-> - 표시 밖과 표시가 없는 영상도 봅니다.
-> - 사용 목적 밖의 장기나 질환에 확장하지 않습니다.
-> - 기록에는 도구의 표시와 의사의 판단을 나눠 적습니다.
-> - 환자에게는 확정 전에 병명을 단정하지 않습니다.
+<p class="lecture-path"><a href="/blog/doctor-ai/medical-ai-regulation/">이전</a> · <a href="/blog/doctor-ai/clinical-note-transcription/">다음</a></p>
 
-## 이 경로에서
-
-- 이전: [이 프로그램은 의료기기인가요, 버전이 바뀌면요](/blog/doctor-ai/medical-ai-regulation/)
-- 다음: [말과 진단명을 초안으로 옮길 때](/blog/doctor-ai/clinical-note-transcription/)
-
-## 함께 보면 좋은 글
-
-- [민감도와 설명, 성적표의 어디를 보나요](/blog/doctor-ai/ai-reliability-metrics/)
-- [의료기기 허가 프로세스: AI는 어디에 걸리나?](/blog/regulations/medical-device-approval-ai/)
-- [급성 증상에서 감별 목록을 적는다면](/blog/doctor-ai/acute-abdominal-pain-case/)
-
-의료 AI 강의 목록: [/blog/?category=doctor-ai](/blog/?category=doctor-ai)
+<p class="lecture-path">관련 <a href="/blog/doctor-ai/ai-reliability-metrics/">민감도와 설명, 성적표의 어디를 보나요</a> · <a href="/blog/regulations/medical-device-approval-ai/">의료기기 허가 프로세스: AI는 어디에 걸리나?</a> · <a href="/blog/doctor-ai/acute-abdominal-pain-case/">급성 증상에서 감별 목록을 적는다면</a></p>
