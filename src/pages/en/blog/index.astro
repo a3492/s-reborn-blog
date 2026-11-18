@@ -7,6 +7,7 @@ import { getPublicSiteSettings } from '../../../lib/site-settings';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
 	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const academyCount = (await getCollection('academy')).length;
 const siteSettings = await getPublicSiteSettings();
 
 const categoryLabel = (id: string) => {
@@ -62,6 +63,14 @@ const countsByCategory = posts.reduce<Record<string, number>>((acc, post) => {
 							{group.cats.map((catId) => {
 								const cat = CATEGORIES.find((c) => c.id === catId);
 								if (!cat) return null;
+								if (catId === 'doctor-ai') {
+									return (
+										<a class="blog-nav-item" href="/academy/" data-cat={catId} data-label={cat.labelEn}>
+											<span class="blog-nav-item-label">{cat.labelEn}</span>
+											<span class="blog-nav-item-count">{academyCount}</span>
+										</a>
+									);
+								}
 								const count = countsByCategory[catId] ?? 0;
 								return (
 									<button
@@ -119,7 +128,11 @@ const countsByCategory = posts.reduce<Record<string, number>>((acc, post) => {
 document.addEventListener('DOMContentLoaded', () => {
 	const cards = document.querySelectorAll<HTMLElement>('.blog-card');
 	const navAll = document.getElementById('nav-all')!;
-	const navItems = document.querySelectorAll<HTMLButtonElement>('.blog-nav-item');
+	const navItems = document.querySelectorAll<HTMLButtonElement>('button.blog-nav-item');
+	if (new URLSearchParams(window.location.search).get('category') === 'doctor-ai') {
+		window.location.replace('/academy/');
+		return;
+	}
 	const groupHeaders = document.querySelectorAll<HTMLButtonElement>('.blog-nav-group-hd');
 	const contentTitle = document.getElementById('blog-content-title')!;
 	const contentCount = document.getElementById('blog-content-count')!;

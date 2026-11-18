@@ -20,6 +20,7 @@ const slug = Astro.url.pathname.replace(/^\/(?:en\/)?blog\//, '').replace(/\/$/,
 
 // 카테고리별 글 수 (네비용)
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const academyCount = (await getCollection('academy')).length;
 const countsByCategory = allPosts.reduce<Record<string, number>>((acc, post) => {
 	const c = post.data.category;
 	if (c) acc[c] = (acc[c] ?? 0) + 1;
@@ -76,10 +77,12 @@ const countsByCategory = allPosts.reduce<Record<string, number>>((acc, post) => 
 									{group.cats.map((catId) => {
 										const cat = CATEGORIES.find((c) => c.id === catId);
 										if (!cat) return null;
-										const count = countsByCategory[catId] ?? 0;
+										const count = catId === 'doctor-ai' ? academyCount : (countsByCategory[catId] ?? 0);
 										const isActive = catId === category;
 										const catLabel = isEn ? cat.labelEn : cat.label;
-										const catHref = isEn ? `/en/blog/?category=${catId}` : `/blog/?category=${catId}`;
+										const catHref = catId === 'doctor-ai'
+											? '/academy/'
+											: isEn ? `/en/blog/?category=${catId}` : `/blog/?category=${catId}`;
 										return (
 											<a
 												class={`blog-nav-item${isActive ? ' blog-nav-item--active' : ''}`}

@@ -69,4 +69,17 @@ const toolArchives = defineCollection({
 	}),
 });
 
-export const collections = { blog, toolArchives };
+/** 의료 AI 강의. /academy/ 커리큘럼. 블로그 초안과 별도 사이트 글을 합친 뒤의 읽기 순서. */
+const academy = defineCollection({
+	loader: glob({ base: './src/content/academy', pattern: '**/*.md' }),
+	schema: z.object({
+		title: z.string(),
+		description: z.string(),
+		track: z.enum(['intro', 'clinic', 'practice', 'advanced']),
+		order: z.number().int(),
+		hypothetical: z.boolean().optional().default(false),
+		sources: z.array(z.string()).default([]),
+	}),
+});
+
+export const collections = { blog, toolArchives, academy };
