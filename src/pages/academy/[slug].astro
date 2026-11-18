@@ -1,0 +1,82 @@
+---
+import { type CollectionEntry, getCollection, render } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import { academyTrack } from '../../data/academy-tracks';
+import '../../styles/brand-home.css';
+import '../../styles/academy-curriculum.css';
+
+export async function getStaticPaths() {
+	const lessons = (await getCollection('academy')).sort((a, b) => a.data.order - b.data.order);
+	return lessons.map((lesson, index) => {
+		const inTrack = lessons.filter((item) => item.data.track === lesson.data.track);
+		return {
+			params: { slug: lesson.id },
+			props: {
+				lesson,
+				index,
+				total: lessons.length,
+				trackIndex: inTrack.findIndex((item) => item.id === lesson.id),
+				trackTotal: inTrack.length,
+				prev: index > 0 ? lessons[index - 1] : null,
+				next: index < lessons.length - 1 ? lessons[index + 1] : null,
+			},
+		};
+	});
+}
+
+interface Props {
+	lesson: CollectionEntry<'academy'>;
+	index: number;
+	total: number;
+	trackIndex: number;
+	trackTotal: number;
+	prev: CollectionEntry<'academy'> | null;
+	next: CollectionEntry<'academy'> | null;
+}
+
+const { lesson, index, total, trackIndex, trackTotal, prev, next } = Astro.props;
+const track = academyTrack(lesson.data.track);
+const { Content } = await render(lesson);
+const position = `${track?.label ?? lesson.data.track} ${trackIndex + 1} / ${trackTotal} · 전체 ${index + 1} / ${total}`;
+---
+
+<html lang="ko">
+	<head>
+		<BaseHead title={`${lesson.data.title} | 의료 AI 강의`} description={lesson.data.description} />
+	</head>
+	<body>
+		<SiteHeader />
+		<div class="shell">
+			<main class="academy-page">
+				<p class="academy-kicker">
+					<a href="/academy/">의료 AI 강의</a>
+					<span aria-hidden="true"> · </span>
+					<span>{position}</span>
+				</p>
+				<h1>{lesson.data.title}</h1>
+				<p class="academy-lead">{lesson.data.description}</p>
+				{lesson.data.hypothetical && (
+					<p class="academy-hypothetical">이 글의 장면은 이해를 위한 가상 사례이며, 실제 환자가 아닙니다.</p>
+				)}
+				<article class="academy-prose">
+					<Content />
+				</article>
+				<nav class="academy-pager" aria-label="앞뒤 강의">
+					{prev ? (
+						<a href={`/academy/${prev.id}/`}>이전<br />{prev.data.title}</a>
+					) : (
+						<span></span>
+					)}
+					<a href="/academy/">목록</a>
+					{next ? (
+						<a class="next" href={`/academy/${next.id}/`}>다음<br />{next.data.title}</a>
+					) : (
+						<span></span>
+					)}
+				</nav>
+			</main>
+			<footer class="academy-footer">S—REBORN</footer>
+		</div>
+	</body>
+</html>

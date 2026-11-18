@@ -1,0 +1,63 @@
+---
+/*
+  의료 AI 강의 차례. 카드 없이, 트랙별 텍스트 목록.
+  이름 "Doctor AI Academy"는 이 페이지 도입에서만 한 번 적는다.
+*/
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import { ACADEMY_TRACKS } from '../../data/academy-tracks';
+import '../../styles/brand-home.css';
+import '../../styles/academy-curriculum.css';
+
+const lessons = (await getCollection('academy')).sort((a, b) => a.data.order - b.data.order);
+const tracks = ACADEMY_TRACKS.map((track) => ({
+	...track,
+	lessons: lessons.filter((lesson) => lesson.data.track === track.id),
+}));
+---
+
+<html lang="ko">
+	<head>
+		<BaseHead
+			title="의료 AI 강의"
+			description="진료실 옆에서 읽는 의료 AI 강의 차례. 입문, 진료 활용, 실습, 심화."
+		/>
+	</head>
+	<body>
+		<SiteHeader />
+		<div class="shell">
+			<main class="academy-page">
+				<p class="academy-kicker">강의</p>
+				<h1>의료 AI 강의</h1>
+				<p class="academy-lead">
+					진료가 시작되기 전과 끝난 뒤에, 무엇을 프로그램에 맡기고 어디서 의사가 다시 잡는지 순서대로 읽습니다.
+					따로 열려 있던 Doctor AI Academy의 글과, 초안을 묶은 「의료 AI 첫 걸음」을 이 차례로 합쳤습니다.
+				</p>
+				<p class="academy-note">
+					교육용입니다. 한 환자의 진단이나 처방을 대신하지 않습니다. 가상으로 표시한 장면은 실제 기록이 아닙니다.
+					{lessons.length}강.
+				</p>
+
+				{tracks.map((track) => (
+					<section class="academy-track" id={`track-${track.id}`} aria-labelledby={`track-${track.id}-title`}>
+						<h2 id={`track-${track.id}-title`}>{track.label}</h2>
+						<p>{track.blurb}</p>
+						<ol class="academy-rows">
+							{track.lessons.map((lesson) => (
+								<li>
+									<a href={`/academy/${lesson.id}/`}>
+										<span class="num">{String(lesson.data.order).padStart(2, '0')}</span>
+										<span class="title">{lesson.data.title}</span>
+										<span class="desc">{lesson.data.description}</span>
+									</a>
+								</li>
+							))}
+						</ol>
+					</section>
+				))}
+			</main>
+			<footer class="academy-footer">S—REBORN</footer>
+		</div>
+	</body>
+</html>

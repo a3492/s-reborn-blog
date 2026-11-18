@@ -1,8 +1,13 @@
 // @ts-check
 
+import { readFileSync } from 'node:fs';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
+
+const academyBlogRedirects = JSON.parse(
+	readFileSync(new URL('./src/data/academy-blog-redirects.json', import.meta.url), 'utf8'),
+);
 
 // Canonical public origin. The Pages project hostname
 // https://s-reborn-blog.pages.dev stays as the default *.pages.dev URL.
@@ -10,6 +15,7 @@ import { defineConfig } from 'astro/config';
 // See docs/custom-domain-sreborn-net.md.
 export default defineConfig({
 	site: 'https://sreborn.net',
+	redirects: academyBlogRedirects,
 	integrations: [
 		mdx(),
 		sitemap({

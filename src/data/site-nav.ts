@@ -1,4 +1,4 @@
-/** Doctor AI Academy lives on its own Pages project. */
+/** 예전 아카데미 사이트. 메뉴는 /academy/ 를 쓰고, 이 주소는 기존 외부 리다이렉트용으로 남긴다. */
 export const ACADEMY_URL = 'https://s-reborn-doctor-ai-academy.pages.dev/';
 
 /** Official clinic homepage. Separate from this portal. */
@@ -71,7 +71,7 @@ export const SITE_NAV: NavItem[] = [
 			{ id: 'about-profile', label: '프로필', labelEn: 'Profile', href: '/about/' },
 			{ id: 'about-philosophy', label: '철학', labelEn: 'Philosophy', href: '/about/#philosophy' },
 			{ id: 'about-cv', label: '공개 약력', labelEn: 'Public CV', href: '/about/#cv' },
-			{ id: 'about-academy', label: 'Doctor AI Academy', labelEn: 'Doctor AI Academy', href: ACADEMY_URL, external: true },
+			{ id: 'about-academy', label: '의료 AI 강의', labelEn: '의료 AI 강의', href: '/academy/' },
 			{ id: 'about-clinic', label: '클리닉 사이트', labelEn: 'Clinic site', href: CLINIC_URL, external: true },
 		],
 	},
@@ -129,6 +129,6 @@ export function sectionIsCurrent(id: string, url: URL): boolean {
 	if (id === 'clinic') return false;
 	if (id === 'research') return path === '/blog/' || path.startsWith('/blog/');
 	if (id === 'lectures') return path === '/lecture-materials/' || path.startsWith('/lecture-materials/') || path === '/lectures/' || path.startsWith('/lectures/') || path === '/tools/' || path.startsWith('/tools/') || path === '/tutorials/' || path.startsWith('/tutorials/');
-	if (id === 'about') return path === '/about/' || path.startsWith('/about/');
+	if (id === 'about') return path === '/about/' || path.startsWith('/about/') || path === '/academy/' || path.startsWith('/academy/');
 	return false;
 }
