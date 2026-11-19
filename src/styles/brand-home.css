@@ -245,6 +245,17 @@ h1 {
 	transition: transform 0.2s, border-color 0.2s;
 }
 .card:hover { transform: translateY(-5px); border-color: #a5b8ed; }
+.card:focus-visible,
+.article:focus-visible,
+.research-item:focus-visible,
+.primary:focus-visible,
+.secondary:focus-visible,
+.openchat-button:focus-visible,
+.openchat-qr:focus-visible,
+.back-link:focus-visible {
+	outline: 2px solid var(--blue);
+	outline-offset: 3px;
+}
 .card.feature { background: #e8edff; border-color: #e8edff; }
 .card-top { display: flex; justify-content: space-between; align-items: center; color: #606d7d; font-size: 12px; font-weight: 750; letter-spacing: 0.1em; }
 .card-icon { width: 43px; height: 43px; display: grid; place-items: center; border-radius: 50%; border: 1px solid #cbd5e5; font-size: 20px; }
@@ -455,4 +466,8 @@ html[data-theme="dark"] .openchat-section{background:#202731;border-color:#3b465
 html[data-theme="dark"] .openchat-copy p,html[data-theme="dark"] .openchat-copy small{color:#b5c0ce}
 html[data-theme="dark"] .openchat-button{background:#e7ecf4;color:#11151b}
 html[data-theme="dark"] .openchat-button:hover{background:#94acff}
+@media (max-width: 820px) {
+	.openchat-section { grid-template-columns: 1fr; justify-items: start; }
+	.openchat-qr { justify-self: start; }
+}
 @media(max-width:640px){.openchat-section{grid-template-columns:minmax(0,1fr);gap:20px;padding:22px 18px;margin:0 0 22px}.openchat-qr{justify-self:start}.openchat-qr img{width:164px}.openchat-button{width:100%}}
