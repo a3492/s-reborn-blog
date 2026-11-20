@@ -1,9 +1,10 @@
 ---
 import { SITE_TITLE } from '../consts';
+import { buildCrumbs } from '../data/breadcrumbs';
+import SiteBreadcrumb from './SiteBreadcrumb.astro';
 import {
 	SITE_NAV,
 	COMING_SOON_HREF,
-	linkIsCurrent,
 	localizeHref,
 	sectionIsCurrent,
 	toEnglishPath,
@@ -30,6 +31,7 @@ const enPath = toEnglishPath(isEn ? toKoreanPath(path) : path);
 const enReady = Boolean(enPath);
 const enHref = enPath ? `${enPath}${search}` : COMING_SOON_HREF;
 const mobileSearchLabel = portalCopy(isEn ? 'en' : 'ko').mobileSearch || portalCopy('ko').mobileSearch;
+const crumbs = buildCrumbs(path, Astro.url.hash, isEn);
 
 function childLabel(child: NavChild): string {
 	if (child.pending) return '준비중';
@@ -131,7 +133,7 @@ function childHref(child: NavChild): string {
 								{!direct && <ul class="site-nav-sub" id={panelId}>
 									{item.children.map((child, index) => {
 										const href = childHref(child);
-										const current = linkIsCurrent(href, Astro.url);
+										const current = crumbs?.currentId === child.id;
 										const previous = item.children[index - 1];
 										const group = isEn ? child.groupEn : child.group;
 										const previousGroup = isEn ? previous?.groupEn : previous?.group;
@@ -143,6 +145,7 @@ function childHref(child: NavChild): string {
 												<li>
 													<a
 														href={href}
+														data-nav-child={child.id}
 														aria-current={current ? 'page' : undefined}
 														target={child.external ? '_blank' : undefined}
 														rel={child.external ? 'noopener noreferrer' : undefined}
@@ -189,6 +192,7 @@ function childHref(child: NavChild): string {
 			</button>
 		</div>
 	</header>
+	{crumbs && <SiteBreadcrumb model={crumbs} isEn={isEn} />}
 
 	<button type="button" class="site-nav-backdrop" data-nav-backdrop hidden aria-label={isEn ? 'Close menu' : '메뉴 닫기'}></button>
 
@@ -419,13 +423,9 @@ function childHref(child: NavChild): string {
 	}
 
 	.site-header-root {
-		position: relative;
-	}
-
-	.site-header {
 		--sh-bg: #f8f8f5;
-        --sh-panel: #ffffff;
-        --sh-hover: #e7edfa;
+		--sh-panel: #ffffff;
+		--sh-hover: #e7edfa;
 		--sh-text: #171d22;
 		--sh-muted: #4c545c;
 		--sh-line: #dfe3e3;
@@ -433,6 +433,10 @@ function childHref(child: NavChild): string {
 		position: sticky;
 		top: 0;
 		z-index: 120;
+	}
+
+	.site-header {
+		position: relative;
 		display: flex;
 		align-items: center;
 		gap: 0.75rem;
@@ -869,7 +873,7 @@ function childHref(child: NavChild): string {
 	}
 
     /* Single source of truth for navigation and accessible contrast. */
-    :global(html[data-theme="dark"]) .site-header {
+    :global(html[data-theme="dark"]) .site-header-root {
         --sh-bg: #191e25;
         --sh-panel: #222b36;
         --sh-text: #f4f6fa;
