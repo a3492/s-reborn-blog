@@ -58,9 +58,9 @@ export const SITE_NAV: NavItem[] = [
 		labelEn: 'Talks & materials',
 		children: [
 			{ id: 'lectures-home', label: '강연·자료 홈', labelEn: 'Lecture home', href: '/lecture-materials/' },
-			{ id: 'lectures-files', label: '강연 자료', labelEn: 'Lecture files', href: '/lecture-materials/archive/' },
-			{ id: 'lectures-practice', label: '따라하는 실습', labelEn: 'Guided practice', href: '/tutorials/' },
-			{ id: 'lectures-record', label: '발표·기록', labelEn: 'Talks and notes', href: '/lectures/' },
+			{ id: 'lectures-files', label: '자료', labelEn: 'Materials', href: '/lecture-materials/#materials' },
+			{ id: 'lectures-practice', label: '실습', labelEn: 'Hands-on practice', href: '/lecture-materials/#practice' },
+			{ id: 'lectures-record', label: '발표·기록', labelEn: 'Talks and notes', href: '/lecture-materials/#talks' },
 		],
 	},
 	{
@@ -120,6 +120,7 @@ export function linkIsCurrent(href: string, url: URL): boolean {
 	if (normalizePath(target.pathname) !== normalizePath(url.pathname)) return false;
 	if (target.search) return target.search === url.search;
 	if (target.hash) return url.hash === target.hash;
+	if (url.hash) return false;
 	return url.search === '';
 }
 
