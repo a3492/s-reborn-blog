@@ -806,9 +806,36 @@ function childHref(child: NavChild): string {
 	}
 
 	@media (max-width: 480px) {
-		.site-header {
-			padding-inline: 0.65rem;
+		.site-header,
+		.site-header-root[data-compact-search] .site-header {
+			padding-inline: 0.55rem;
 			gap: 0.35rem;
+		}
+
+		.site-brand {
+			flex-shrink: 1;
+			min-width: 0;
+		}
+
+		.site-brand-mark {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			font-size: 1.05rem;
+		}
+
+		.site-header-tools {
+			gap: 0.3rem;
+			flex-shrink: 0;
+		}
+
+		.site-theme-picker select {
+			max-width: 4.5rem;
+			padding-inline: 2px;
+		}
+
+		.site-nav-toggle {
+			flex-shrink: 0;
 		}
 
 		.site-nav-btn,
@@ -818,11 +845,6 @@ function childHref(child: NavChild): string {
 
 		.site-brand small {
 			display: none;
-		}
-
-		.site-brand-mark {
-			font-size: 1.05rem;
-			white-space: nowrap;
 		}
 
 		.site-lang-link {
