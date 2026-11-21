@@ -332,6 +332,83 @@ async function checkTopics(page, base, mobile, name, preference, scheme) {
 	}
 }
 
+async function checkArticleSidebars(page, base, preference, scheme) {
+	const labSlugs = [
+		'aerini/what-is-ai', 'prompt-engineering/zero-shot-vs-few-shot', 'orchestration/react-pattern',
+		'aerini/ai-discharge-summary', 'medical-data-science/survival-analysis-basics',
+		'ai-tools-general/gamma-ai-presentation', 'regulations/korean-medical-law-ai',
+	];
+	const samples = [
+		...labSlugs.map((slug, i) => [`/blog/${slug}/`, `/blog/topics/${topicSlots[i][0]}/`]),
+		['/blog/doctor-ai/ai-hallucination-medical/', courseList, 'trust', 9],
+		['/blog/doctor-ai/drug-interaction-ai/', courseList, 'tools', 4],
+		['/blog/doctor-ai/diagnostic-report-prompt/', courseList, 'prompts', 4],
+		['/blog/doctor-ai/acute-abdominal-pain-case/', courseList, 'cases', 4],
+		['/blog/mini-academy-hermes-participant-lab-2026/', lectureHome + '#practice'],
+		['/blog/mini-academy-hermes-agent-lecture-2026/', lectureHome + '#talks'],
+		['/en/blog/aerini/what-is-ai/', '/blog/topics/basics/'],
+		['/en/blog/doctor-ai/ai-hallucination-medical/', courseList, 'trust', 9],
+	];
+	for (const width of [320, 1280]) {
+		await page.setViewportSize({ width, height: 900 });
+		for (const [route, currentHref, part, siblings] of samples) {
+			await openPage(page, base + route);
+			const name = `${preference}/${scheme} @${width}px ${route}`;
+			await checkTheme(page, preference, scheme, name);
+			const sidebar = page.locator('[data-taxonomy-sidebar]');
+			const body = sidebar.locator('.blog-nav-body');
+			if (width === 320) {
+				const toggle = sidebar.locator('[data-sidebar-toggle]');
+				check(await body.isHidden() && await toggle.getAttribute('aria-expanded') === 'false', `${name}: sidebar should start collapsed`);
+				await toggle.press('Enter');
+				check(await body.isVisible() && await toggle.getAttribute('aria-expanded') === 'true', `${name}: sidebar keyboard toggle did not open`);
+			} else {
+				check(await body.isVisible() && await sidebar.locator('[data-sidebar-toggle]').isHidden(), `${name}: desktop sidebar not visible`);
+			}
+
+			const items = await body.locator(':scope > a').evaluateAll((nodes) => nodes.map((node) => ({
+				href: node.getAttribute('href'),
+				label: node.querySelector('[data-sidebar-label]')?.textContent.trim(),
+				count: node.querySelector('.blog-nav-count')?.textContent.trim(),
+				active: node.getAttribute('aria-current'),
+			})));
+			const active = items.filter((item) => item.active);
+			const crumbs = await page.locator('nav .site-bc-link').evaluateAll((nodes) =>
+				nodes.map((node) => ({ label: node.textContent.trim(), href: node.getAttribute('href') })));
+			const crumb = crumbs.at(-2);
+			check(active.length === 1 && active[0].active === 'location' && active[0].href === currentHref &&
+				active[0].href === crumb?.href && active[0].label === crumb?.label,
+				`${name}: sidebar and breadcrumb differ`);
+			const expected = currentHref.startsWith('/blog/topics/')
+				? [[route.startsWith('/en/') ? '/en/blog/' : '/blog/', '394'], ...topicSlots.map(([id, , count]) => [`/blog/topics/${id}/`, String(count)])]
+				: [[lectureHome, null], ...lectureSlots.map(({ href }) => [href, null])];
+			check(JSON.stringify(items.map(({ href, count }) => [href, count ?? null])) === JSON.stringify(expected),
+				`${name}: sidebar order, links or counts are wrong`);
+
+			if (part) {
+				const lessons = await sidebar.locator('.sidebar-course li a').evaluateAll((nodes) => nodes.map((node) => node.getAttribute('href')));
+				check(lessons.length === siblings && new Set(lessons).size === siblings && !lessons.includes(route) &&
+					await sidebar.locator('.sidebar-course h2 a').getAttribute('href') === `${courseList}#${part}`,
+					`${name}: same-part course links are wrong`);
+			}
+			if (width === 320) {
+				const fits = await sidebar.evaluate((element) => {
+					const box = element.getBoundingClientRect();
+					return document.documentElement.scrollWidth <= innerWidth && box.left >= 0 && box.right <= innerWidth &&
+						element.scrollWidth <= element.clientWidth + 1;
+				});
+				check(fits, `${name}: horizontal overflow with open sidebar`);
+				if (shots && route === '/blog/doctor-ai/ai-hallucination-medical/') {
+					await page.screenshot({ path: path.join(shots, `article-sidebar-${preference}-${scheme}.png`) });
+				}
+				await sidebar.locator('[data-sidebar-toggle]').press('Space');
+				check(await body.isHidden(), `${name}: sidebar keyboard toggle did not close`);
+			}
+		}
+	}
+	return samples.length * 2;
+}
+
 async function checkDetailCrumbs(page, base) {
 	const checks = [
 		['/blog/orchestration/react-pattern/', 'AI LAB', '/blog/', '에이전트·개발', '/blog/topics/building/', 'research', 'topic-building'],
@@ -555,6 +632,7 @@ async function run() {
 	let resources;
 	let themeChanges = false;
 	let courses = 0;
+	let sidebarCases = 0;
 	let legacy;
 	let tagSurfaces = 0;
 	try {
@@ -601,6 +679,7 @@ async function run() {
 				tagSurfaces = await checkTagPresentation(page, base);
 			}
 			await checkCompactSearch(page, base);
+			sidebarCases += await checkArticleSidebars(page, base, preference, scheme);
 			if (preference === 'system' && scheme === 'light') {
 				await checkThemeChanges(page, context, base);
 				themeChanges = true;
@@ -620,6 +699,7 @@ async function run() {
 		themeChanges,
 		courses,
 		compactSearchCases: themeCases.length * 3,
+		sidebarCases,
 		...resources,
 		...legacy,
 		tagSurfaces,

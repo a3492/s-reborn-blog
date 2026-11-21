@@ -1,10 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
 import FormattedDate from './FormattedDate.astro';
-import TopicSidebar from './TopicSidebar.astro';
+import BlogSidebar from './BlogSidebar.astro';
+import { buildCrumbs } from '../data/breadcrumbs';
 import { searchableTags } from '../data/tag-aliases';
 import { CATEGORIES, MENU_GROUPS } from '../consts';
-import { FORMAT, LEGACY_CATEGORY_ROUTES, LEVELS, TOPICS, academyLabel, cellOf, formatOf, levelOf, topicOf } from '../data/taxonomy';
+import { FORMAT, LEGACY_CATEGORY_ROUTES, LEVELS, TOPICS, academyLabel, cellOf, countTopics, formatOf, levelOf, topicOf } from '../data/taxonomy';
 
 interface Props {
 	topic?: typeof TOPICS[number];
@@ -16,7 +17,8 @@ const entries = (await getCollection('blog', ({ data }) => !data.draft))
 		post, cell: cellOf(post), topic: topicOf(post), format: formatOf(post), level: levelOf(post),
 	}));
 const lab = entries.filter(({ topic }) => topic);
-const counts = Object.fromEntries(TOPICS.map(({ id }) => [id, lab.filter((entry) => entry.topic === id).length]));
+const counts = countTopics(entries.map(({ post }) => post));
+const navigation = buildCrumbs(Astro.url.pathname, Astro.url.hash, false);
 const listed = topic ? lab.filter((entry) => entry.topic === topic.id) : entries;
 const featured = topic ? (topic.featured as readonly string[]).flatMap((id) => {
 	const entry = listed.find(({ post }) => post.id === id);
@@ -35,7 +37,7 @@ const legacy = topic ? null : {
 ---
 
 <div class="blog-layout" data-taxonomy-list>
-	<TopicSidebar counts={counts} current={topic?.id} />
+	{navigation && <BlogSidebar model={navigation} counts={counts} />}
 	<section class="blog-content" aria-labelledby="blog-content-title">
 		<div class="blog-content-hd">
 			<h1 class="blog-content-title" id="blog-content-title">{topic?.label ?? 'AI LAB'}</h1>
