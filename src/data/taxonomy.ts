@@ -31,19 +31,19 @@ export const CATEGORY_TO_TOPIC: Partial<Record<string, Topic>> = {
 };
 
 export const ACADEMY_COURSE = [
-	{ id: 'trust', label: '신뢰·안전', ids: [
+	{ id: 'trust', label: '신뢰·안전', labelEn: 'Trust and safety', ids: [
 		'ai-vs-human-doctor', 'ai-hallucination-medical', 'ai-hallucination-prevention', 'ai-bias-healthcare',
 		'ai-explainability', 'ai-reliability-metrics', 'medical-ai-data-sources', 'ai-model-updates-risk',
 		'ai-ethics-healthcare', 'medical-ai-regulation',
 	] },
-	{ id: 'tools', label: '도구', ids: [
+	{ id: 'tools', label: '도구', labelEn: 'Tools', ids: [
 		'clinical-note-transcription', 'drug-interaction-ai', 'medical-imaging-ai', 'icd-coding-ai', 'clinical-trial-matching-ai',
 	] },
-	{ id: 'prompts', label: '프롬프트', ids: [
+	{ id: 'prompts', label: '프롬프트', labelEn: 'Prompting', ids: [
 		'diagnostic-report-prompt', 'discharge-plan-prompt', 'prescription-review-prompt',
 		'injection-instructions-prompt', 'health-screening-prompt',
 	] },
-	{ id: 'cases', label: '케이스', ids: [
+	{ id: 'cases', label: '케이스', labelEn: 'Case studies', ids: [
 		'acute-abdominal-pain-case', 'diabetes-management-ai', 'fever-differential-diagnosis',
 		'polypharmacy-review-ai', 'multidisciplinary-ai',
 	] },
@@ -122,4 +122,13 @@ export function levelOf(post: TaxonomyPost): Level | undefined {
 	return approved
 		? (Object.keys(LEVELS) as Level[]).find((level) => LEVELS[level] === approved)
 		: post.data.difficulty;
+}
+
+export function countTopics(posts: readonly TaxonomyPost[]): Record<Topic, number> {
+	const counts = Object.fromEntries(TOPICS.map(({ id }) => [id, 0])) as Record<Topic, number>;
+	for (const post of posts) {
+		const topic = topicOf(post);
+		if (topic) counts[topic]++;
+	}
+	return counts;
 }

@@ -1,0 +1,88 @@
+---
+import type { CrumbModel } from '../data/breadcrumbs';
+import type { Topic } from '../data/taxonomy';
+
+interface Props {
+	model: CrumbModel;
+	counts?: Partial<Record<Topic, number>>;
+	article?: boolean;
+	coursePart?: {
+		label: string;
+		href: string;
+		lessons: { href: string; label: string }[];
+	};
+	isEn?: boolean;
+}
+const { model, counts, article = false, coursePart, isEn = false } = Astro.props;
+const pillar = model.items[1];
+const total = counts && Object.values(counts).reduce((sum, count) => sum + count, 0);
+const isLab = model.sectionId === 'research';
+const rootLabel = isLab ? (isEn ? 'All articles' : '전체 글') : pillar.label;
+const currentLabel = model.siblings.find(({ id }) => id === model.currentId)?.label ?? rootLabel;
+const currentValue = article ? 'location' : 'page';
+---
+<nav class="blog-nav" aria-label={pillar.label} data-taxonomy-sidebar>
+	<button class="blog-nav-mobile-toggle" type="button" aria-expanded="false" aria-controls="taxonomy-sidebar-body" data-sidebar-toggle>
+		<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12"/></svg>
+		<span>{pillar.label} · {currentLabel}</span>
+		<svg class="blog-nav-mobile-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
+	</button>
+	<div class="blog-nav-body" id="taxonomy-sidebar-body">
+		<a class:list={['blog-nav-all', { 'blog-nav-all--active': model.currentId === pillar.id }]}
+			href={pillar.href} aria-current={model.currentId === pillar.id ? currentValue : undefined}>
+			<span>{rootLabel}</span>
+			{total !== undefined && <span class="blog-nav-count">{total}</span>}
+		</a>
+		{model.siblings.map(({ id, href, label }) => {
+			const active = model.currentId === id;
+			const count = counts?.[id.slice('topic-'.length) as Topic];
+			return (
+				<a class:list={['blog-nav-all', { 'blog-nav-all--active': active }]}
+					href={href} aria-current={active ? currentValue : undefined}>
+					<span data-sidebar-label>{label}</span>
+					{count !== undefined && <span class="blog-nav-count">{count}</span>}
+				</a>
+			);
+		})}
+		{coursePart && (
+			<section class="sidebar-course" aria-labelledby="sidebar-course-title">
+				<h2 id="sidebar-course-title"><a href={coursePart.href}>{coursePart.label}</a></h2>
+				<ul>{coursePart.lessons.map(({ href, label }) => <li><a href={href}>{label}</a></li>)}</ul>
+			</section>
+		)}
+	</div>
+</nav>
+<script>
+	const toggle = document.querySelector('[data-sidebar-toggle]');
+	const body = document.getElementById('taxonomy-sidebar-body');
+	toggle?.addEventListener('click', () => {
+		const open = body?.classList.toggle('is-open') ?? false;
+		toggle.setAttribute('aria-expanded', String(open));
+	});
+</script>
+<style>
+	.blog-nav { min-width: 0; }
+	.blog-nav-all { gap: .5rem; overflow-wrap: anywhere; }
+	.blog-nav-all--active {
+		background: var(--site-subtle);
+		color: var(--site-mint-text);
+		box-shadow: inset 3px 0 currentColor;
+	}
+	.blog-nav a:focus-visible, .blog-nav button:focus-visible {
+		outline: 2px solid var(--site-mint-text);
+		outline-offset: -2px;
+	}
+	.sidebar-course {
+		margin-block-start: .5rem;
+		padding: .75rem .85rem;
+		border-block-start: 1px solid var(--site-border);
+		overflow-wrap: anywhere;
+	}
+	.sidebar-course h2 { margin: 0; font-size: 1rem; }
+	.sidebar-course ul { margin: .5rem 0 0; padding-inline-start: 1.15rem; }
+	.sidebar-course li + li { margin-block-start: .4rem; }
+	.sidebar-course a { color: var(--site-text-secondary); text-underline-offset: .18em; }
+	@media (min-width: 821px) {
+		.blog-nav { top: 7rem; max-height: calc(100dvh - 8rem); }
+	}
+</style>
