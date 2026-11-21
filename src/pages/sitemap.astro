@@ -2,19 +2,17 @@
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import { SITE_TITLE } from '../consts';
-import { ACADEMY_CELLS, TOPICS, academyLabel, cellOf, topicHref } from '../data/taxonomy';
-import { COURSE_LIST_HREF } from '../data/site-nav';
+import { ACADEMY_CELLS, TOPICS, cellOf, taxonomyLinkForCell } from '../data/taxonomy';
 
 const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-const grouped = [
-  ...TOPICS.map(({ id, label }) => ({ id, label, href: topicHref(id) })),
-  ...ACADEMY_CELLS.map((id) => ({
-    id, label: `AI ACADEMY · ${academyLabel(id)}`,
-    href: id === 'ACADEMY:course' ? COURSE_LIST_HREF : `/lecture-materials/#${id.split(':')[1]}`,
-  })),
-].map((group) => ({ ...group, posts: allPosts.filter((post) => cellOf(post) === group.id) }));
+const grouped = [...TOPICS.map(({ id }) => id), ...ACADEMY_CELLS].flatMap((id) => {
+  const link = taxonomyLinkForCell(id);
+  if (!link) return [];
+  const label = id.startsWith('ACADEMY:') ? `AI ACADEMY · ${link.label}` : link.label;
+  return [{ ...link, label, posts: allPosts.filter((post) => cellOf(post) === id) }];
+});
 const total = allPosts.length;
 const catCount = grouped.length;
 ---
@@ -42,9 +40,6 @@ const catCount = grouped.length;
                 <a href={`/blog/${post.id}/`} class="sm-link">
                   {post.data.title}
                 </a>
-                {post.data.subcategory && (
-                  <span class="sm-sub-tag">{post.data.subcategory}</span>
-                )}
               </li>
             ))}
           </ul>
@@ -148,12 +143,5 @@ const catCount = grouped.length;
   color: var(--accent);
   text-decoration: underline;
 }
-.sm-sub-tag {
-  font-size: 0.68rem;
-  color: #aaa;
-  background: #f0ece6;
-  border-radius: 4px;
-  padding: 0.05em 0.4em;
-  white-space: nowrap;
-}
+
 </style>

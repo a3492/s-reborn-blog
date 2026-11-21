@@ -5,7 +5,7 @@ import BlogSidebar from './BlogSidebar.astro';
 import { buildCrumbs } from '../data/breadcrumbs';
 import { searchableTags } from '../data/tag-aliases';
 import { CATEGORIES, MENU_GROUPS } from '../consts';
-import { FORMAT, LEGACY_CATEGORY_ROUTES, LEVELS, TOPICS, academyLabel, cellOf, countTopics, formatOf, levelOf, topicOf } from '../data/taxonomy';
+import { FORMAT, LEGACY_CATEGORY_ROUTES, LEVELS, TOPICS, cellOf, countTopics, formatOf, levelOf, taxonomyLinkForCell, topicOf } from '../data/taxonomy';
 
 interface Props {
 	topic?: typeof TOPICS[number];
@@ -29,7 +29,7 @@ const starters = topic ? [] : starterIds.flatMap((id) => {
 	const entry = lab.find((item) => item.post.id === id && item.level === 'beginner');
 	return entry ? [entry.post] : [];
 });
-const labelFor = (cell: string | undefined) => TOPICS.find(({ id }) => id === cell)?.label ?? academyLabel(cell);
+const labelFor = (cell: string | undefined) => taxonomyLinkForCell(cell)?.label;
 const legacy = topic ? null : {
 	categories: Object.fromEntries(CATEGORIES.map(({ id, label }) => [id, { label, ...LEGACY_CATEGORY_ROUTES[id] }])),
 	groups: Object.fromEntries(MENU_GROUPS.map(({ id, label, cats }) => [id, { label, cats }])),

@@ -19,7 +19,19 @@ export const LEVELS = { beginner: '입문', intermediate: '중급', advanced: '�
 type Level = keyof typeof LEVELS;
 export const COURSE_LIST_HREF = '/lecture-materials/courses/';
 export const ACADEMY_CELLS = ['ACADEMY:course', 'ACADEMY:practice', 'ACADEMY:talks'] as const;
-type AcademyCell = typeof ACADEMY_CELLS[number];
+export const ACADEMY_SECTIONS = [
+	{ cell: 'ACADEMY:course', id: 'lectures-course', label: '강의', labelEn: 'Courses', href: COURSE_LIST_HREF },
+	{ cell: 'ACADEMY:practice', id: 'lectures-practice', label: '실습', labelEn: 'Hands-on practice', href: '/lecture-materials/#practice' },
+	{ cell: 'ACADEMY:files', id: 'lectures-files', label: '자료', labelEn: 'Materials', href: '/lecture-materials/#materials' },
+	{ cell: 'ACADEMY:talks', id: 'lectures-record', label: '발표·기록', labelEn: 'Talks and notes', href: '/lecture-materials/#talks' },
+] as const;
+
+export function taxonomyLinkForCell(cell: string | undefined, isEn = false) {
+	const topic = TOPICS.find(({ id }) => id === cell);
+	if (topic) return { label: isEn ? topic.labelEn : topic.label, href: topicHref(topic.id) };
+	const academy = ACADEMY_SECTIONS.find((section) => section.cell === cell);
+	if (academy) return { label: isEn ? academy.labelEn : academy.label, href: academy.href };
+}
 
 export const CATEGORY_TO_TOPIC: Partial<Record<string, Topic>> = {
 	aerini: 'basics', ai: 'basics', 'ai-terminology': 'basics', 'ai-history': 'basics',
@@ -103,12 +115,6 @@ export function topicOf(post: TaxonomyPost): Topic | undefined {
 	const cell = cellOf(post);
 	return isTopic(cell) ? cell : undefined;
 }
-
-export const academyLabel = (cell: string | undefined) => ({
-	'ACADEMY:course': '강의',
-	'ACADEMY:practice': '실습',
-	'ACADEMY:talks': '발표·기록',
-} as const)[cell as AcademyCell];
 
 export function formatOf(post: TaxonomyPost): string {
 	const inferred = ({ 'ai-terminology': '용어·어원', 'ai-history': '역사', faq: 'FAQ',

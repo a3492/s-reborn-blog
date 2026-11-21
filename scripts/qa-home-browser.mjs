@@ -121,15 +121,19 @@ async function checkHome(page, width, name) {
 	const posts = await page.locator('#latest .portal-row-post').evaluateAll((rows) => rows.map((row) => {
 		const [title, meta] = row.children;
 		const [category, separator, date] = meta?.children ?? [];
-		return row.matches('a[href^="/blog/"]') &&
+		return row.matches('li') &&
 			row.children.length === 2 && [...row.childNodes].every((node) => node.nodeType !== 3 || !node.textContent.trim()) &&
-			title?.matches('.portal-title') && Boolean(title.textContent.trim()) &&
+			title?.matches('a.portal-post-title[href^="/blog/"]') && Boolean(title.textContent.trim()) &&
+			getComputedStyle(title).fontSize === '16px' &&
 			meta?.matches('.portal-meta') && meta.children.length === 3 &&
-			Boolean(category?.textContent.trim()) && separator?.getAttribute('aria-hidden') === 'true' &&
+			category?.matches('a.portal-category[href^="/blog/topics/"], a.portal-category[href^="/lecture-materials/"]') &&
+			Boolean(category.textContent.trim()) && separator?.getAttribute('aria-hidden') === 'true' &&
 			date?.matches('time[datetime]') && Boolean(date.textContent.trim());
 	}));
 	check(posts.length > 0 && posts.every(Boolean), `${name}: home rows must contain a linked title, category and date only`);
 	check(await fontSize(page.locator('body')) === '16px', `${name}: home body must be 16px`);
+	check(await page.locator('#latest').evaluate((section) => section.scrollWidth <= section.clientWidth + 1),
+		`${name}: home latest section overflows`);
 
 	const chat = await page.locator('#openchat').evaluate((section) => {
 		const button = section.querySelector('.openchat-button');
@@ -144,6 +148,67 @@ async function checkHome(page, width, name) {
 	check(chat.linked, `${name}: open-chat button and QR must point to the same room`);
 	check(chat.stacked === (width <= 820), `${name}: unexpected open-chat QR position`);
 	return posts.length;
+}
+
+async function checkHomeLabels(page, base) {
+	await openPage(page, base + '/');
+	const rows = await page.locator('#latest .portal-row-post').evaluateAll((nodes) => nodes.map((row) => ({
+		article: row.querySelector('.portal-post-title').getAttribute('href'),
+		category: row.querySelector('.portal-category').getAttribute('href'),
+		label: row.querySelector('.portal-category').textContent.trim(),
+	})));
+	check(rows.length === 8, 'Expected eight home articles');
+	const categories = new Set();
+	for (const { article, category, label } of rows) {
+		await openPage(page, base + article);
+		const badge = await page.locator('.blog-post-category').innerText();
+		const sidebar = page.locator('[data-taxonomy-sidebar] a[aria-current="location"]');
+		check(label === badge.trim() && category === await sidebar.getAttribute('href'),
+			`Home category differs from article: ${article}`);
+		categories.add(category);
+	}
+	for (const category of categories) {
+		const response = await page.request.get(base + category.split('#')[0]);
+		check(response.ok(), `Home category target unavailable: ${category}`);
+		await response.dispose();
+	}
+	await openPage(page, base + '/');
+	await page.locator('#latest .portal-row-post .portal-category').first().click();
+	await page.waitForURL(base + rows[0].category);
+
+	const course = '/blog/doctor-ai/ai-hallucination-medical/';
+	const englishCourse = '/en' + course;
+	await openPage(page, base + '/en/blog/');
+	check(await page.locator('[data-taxonomy-sidebar] [data-sidebar-label]').count() === 7 &&
+		await page.locator('.blog-card:visible').count() === 394, 'English AI LAB listing uses the wrong taxonomy');
+	await openPage(page, base + '/en/blog/?category=doctor-ai');
+	const courseCard = page.locator(`a.blog-card[href="${englishCourse}"]`);
+	await courseCard.waitFor();
+	check((await courseCard.locator('.blog-card-cat').innerText()) === 'Courses', 'English course label is stale');
+
+	await openPage(page, base + '/');
+	await page.locator('#portal-query').fill('AI 환각(Hallucination)이란');
+	const searchLabel = page.locator(`#search-results a[href="${course}"] .sr-cat`);
+	await searchLabel.waitFor();
+	check((await searchLabel.innerText()) === '강의', 'Modern search course label is stale');
+
+	await openPage(page, base + '/search.html');
+	await page.locator('#searchInput').fill('AI 환각');
+	const legacyLabel = page.locator('a.result-card[href$="/ai-hallucination-medical.html"] .result-category');
+	await legacyLabel.waitFor();
+	check((await legacyLabel.innerText()) === '강의', 'Legacy search course label is stale');
+
+	const response = await page.request.get(base + '/rss.xml');
+	const items = await page.evaluate((xml) => {
+		const document = new DOMParser().parseFromString(xml, 'application/xml');
+		return Object.fromEntries([...document.querySelectorAll('item')].map((item) => [
+			new URL(item.querySelector('link').textContent).pathname, item.querySelector('category')?.textContent,
+		]));
+	}, await response.text());
+	await response.dispose();
+	check(Object.keys(items).length === 421 && items[course] === '강의' &&
+		rows.every(({ article, label }) => items[article] === label), 'RSS categories differ from article taxonomy');
+	return rows.length;
 }
 
 async function checkDrawer(page, name, screenshot) {
@@ -633,6 +698,7 @@ async function run() {
 	let themeChanges = false;
 	let courses = 0;
 	let sidebarCases = 0;
+	let homeLabelChecks = 0;
 	let legacy;
 	let tagSurfaces = 0;
 	try {
@@ -674,6 +740,7 @@ async function run() {
 			if (!resources) {
 				resources = await checkResources(page, base);
 				await checkDetailCrumbs(page, base);
+				homeLabelChecks = await checkHomeLabels(page, base);
 				courses = await checkCourseResources(page, base);
 				legacy = await checkLegacyCategories(page, base);
 				tagSurfaces = await checkTagPresentation(page, base);
@@ -700,6 +767,7 @@ async function run() {
 		courses,
 		compactSearchCases: themeCases.length * 3,
 		sidebarCases,
+		homeLabelChecks,
 		...resources,
 		...legacy,
 		tagSurfaces,

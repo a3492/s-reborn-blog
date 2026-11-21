@@ -8,7 +8,8 @@ import BrandIcons from '../components/preview/BrandIcons.astro';
 import BlogSearchScript from '../components/BlogSearchScript.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import SiteHeader from '../components/SiteHeader.astro';
-import { CATEGORIES, CONTACT_EMAIL } from '../consts';
+import { CONTACT_EMAIL } from '../consts';
+import { cellOf, taxonomyLinkForCell } from '../data/taxonomy';
 import { portalCopy } from '../i18n/ui';
 import { buildSearchIndex } from '../lib/search-index';
 import '../styles/brand-home.css';
@@ -33,7 +34,6 @@ const featuredPosts = featuredIds.flatMap((id) => {
 });
 const featuredIdSet = new Set(featuredPosts.map((post) => post.id));
 const reading = [...featuredPosts, ...allPosts.filter((post) => !featuredIdSet.has(post.id))].slice(0, 8);
-const categoryLabel = (id: string) => CATEGORIES.find((cat) => cat.id === id)?.label ?? id;
 ---
 
 <!doctype html>
@@ -68,18 +68,19 @@ const categoryLabel = (id: string) => CATEGORIES.find((cat) => cat.id === id)?.l
 						</div>
 					</div>
 					<ul class="portal-rows">
-						{reading.map((post) => (
-							<li>
-								<a class="portal-row portal-row-post" href={`/blog/${post.id}/`}>
-									<span class="portal-title">{post.data.title}</span>
-									<span class="portal-meta">
-										{post.data.category && <span>{categoryLabel(post.data.category)}</span>}
-										{post.data.category && <span aria-hidden="true"> · </span>}
+						{reading.map((post) => {
+							const category = taxonomyLinkForCell(cellOf(post));
+							return (
+								<li class="portal-row portal-row-post">
+									<a class="portal-title portal-post-title" href={`/blog/${post.id}/`}>{post.data.title}</a>
+									<div class="portal-meta">
+										{category && <a class="portal-category" href={category.href}>{category.label}</a>}
+										{category && <span aria-hidden="true"> · </span>}
 										<FormattedDate date={post.data.date} />
-									</span>
-								</a>
-							</li>
-						))}
+									</div>
+								</li>
+							);
+						})}
 						<li>
 							<a class="portal-row" href={BLOG_INDEX}>
 								<span class="portal-title">{copy.allPosts}</span>

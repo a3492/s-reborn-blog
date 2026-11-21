@@ -1,6 +1,6 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { publicTags, searchableTags } from '../data/tag-aliases';
-import { TOPICS, LEVELS, academyLabel, cellOf, formatOf, levelOf } from '../data/taxonomy';
+import { LEVELS, cellOf, formatOf, levelOf, taxonomyLinkForCell } from '../data/taxonomy';
 
 /**
  * 블로그 글만 담는 검색 인덱스.
@@ -22,27 +22,27 @@ export type SearchIndexEntry = {
 	_tags: string[];
 };
 
-export function toSearchIndexEntry(post: CollectionEntry<'blog'>): SearchIndexEntry {
+export function toSearchIndexEntry(post: CollectionEntry<'blog'>, isEn = false): SearchIndexEntry {
 	const cell = cellOf(post);
 	const level = levelOf(post);
 	return {
 		id: post.id,
-		title: post.data.title,
-		description: post.data.description ?? '',
-		category: TOPICS.find(({ id }) => id === cell)?.label ?? academyLabel(cell) ?? '',
+		title: isEn ? (post.data.title_en ?? post.data.title) : post.data.title,
+		description: isEn ? (post.data.description_en ?? post.data.description) : post.data.description,
+		category: taxonomyLinkForCell(cell, isEn)?.label ?? '',
 		legacyCategory: post.data.category ?? '',
 		tags: searchableTags(post.data.tags),
 		difficulty: level ? LEVELS[level] : '',
 		type: formatOf(post),
 		subcategory: post.data.subcategory ?? '',
-		url: `/blog/${post.id}/`,
+		url: `${isEn ? '/en' : ''}/blog/${post.id}/`,
 		_difficulty: level ?? '',
 		_tags: publicTags(post.data.tags),
 	};
 }
 
-export async function buildSearchIndex(): Promise<SearchIndexEntry[]> {
+export async function buildSearchIndex(isEn = false): Promise<SearchIndexEntry[]> {
 	const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
 		.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-	return allPosts.map(toSearchIndexEntry);
+	return allPosts.map((post) => toSearchIndexEntry(post, isEn));
 }

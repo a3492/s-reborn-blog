@@ -1,4 +1,4 @@
-import { COURSE_LIST_HREF, TOPICS, topicHref } from './taxonomy';
+import { ACADEMY_SECTIONS, COURSE_LIST_HREF, TOPICS, topicHref } from './taxonomy';
 
 /** Doctor AI Academy lives on its own Pages project. */
 export const ACADEMY_URL = 'https://s-reborn-doctor-ai-academy.pages.dev/';
@@ -61,12 +61,7 @@ export const SITE_NAV: NavItem[] = [
 		label: 'AI ACADEMY',
 		labelEn: 'AI ACADEMY',
 		href: '/lecture-materials/',
-		children: [
-			{ id: 'lectures-course', label: '강의', labelEn: 'Courses', href: COURSE_LIST_HREF },
-			{ id: 'lectures-practice', label: '실습', labelEn: 'Hands-on practice', href: '/lecture-materials/#practice' },
-			{ id: 'lectures-files', label: '자료', labelEn: 'Materials', href: '/lecture-materials/#materials' },
-			{ id: 'lectures-record', label: '발표·기록', labelEn: 'Talks and notes', href: '/lecture-materials/#talks' },
-		],
+		children: ACADEMY_SECTIONS.map(({ id, label, labelEn, href }) => ({ id, label, labelEn, href })),
 	},
 	{
 		id: 'about',
