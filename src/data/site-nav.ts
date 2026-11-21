@@ -1,8 +1,12 @@
+import { TOPICS, topicHref } from './taxonomy';
+
 /** Doctor AI Academy lives on its own Pages project. */
 export const ACADEMY_URL = 'https://s-reborn-doctor-ai-academy.pages.dev/';
 
 /** Official clinic homepage. Separate from this portal. */
 export const CLINIC_URL = 'https://www.s-reborn.com/';
+
+export const COURSE_LIST_HREF = '/blog/?category=doctor-ai';
 
 export const COMING_SOON_HREF = '/coming-soon/';
 
@@ -45,21 +49,22 @@ export const SITE_NAV: NavItem[] = [
 	},
 	{
 		id: 'research',
-		label: 'AI 연구·글',
-		labelEn: 'Research & writing',
-		children: [
-			{ id: 'research-all', label: '전체 글', labelEn: 'All posts', href: '/blog/' },
-			{ id: 'research-lab', label: 'S-REBORN LAB', labelEn: 'S-REBORN LAB', href: '/lab/' },
-		],
+		label: 'AI LAB',
+		labelEn: 'AI LAB',
+		href: '/blog/',
+		children: TOPICS.map(({ id, label, labelEn }) => ({
+			id: `topic-${id}`, label, labelEn, href: topicHref(id),
+		})),
 	},
 	{
 		id: 'lectures',
-		label: '강연·자료',
-		labelEn: 'Talks & materials',
+		label: 'AI ACADEMY',
+		labelEn: 'AI ACADEMY',
+		href: '/lecture-materials/',
 		children: [
-			{ id: 'lectures-home', label: '강연·자료 홈', labelEn: 'Lecture home', href: '/lecture-materials/' },
-			{ id: 'lectures-files', label: '자료', labelEn: 'Materials', href: '/lecture-materials/#materials' },
+			{ id: 'lectures-course', label: '강의', labelEn: 'Courses', href: COURSE_LIST_HREF },
 			{ id: 'lectures-practice', label: '실습', labelEn: 'Hands-on practice', href: '/lecture-materials/#practice' },
+			{ id: 'lectures-files', label: '자료', labelEn: 'Materials', href: '/lecture-materials/#materials' },
 			{ id: 'lectures-record', label: '발표·기록', labelEn: 'Talks and notes', href: '/lecture-materials/#talks' },
 		],
 	},
@@ -71,8 +76,8 @@ export const SITE_NAV: NavItem[] = [
 			{ id: 'about-profile', label: '프로필', labelEn: 'Profile', href: '/about/' },
 			{ id: 'about-philosophy', label: '철학', labelEn: 'Philosophy', href: '/about/#philosophy' },
 			{ id: 'about-cv', label: '공개 약력', labelEn: 'Public CV', href: '/about/#cv' },
+			{ id: 'about-lab', label: 'S-REBORN LAB', labelEn: 'S-REBORN LAB', href: '/lab/' },
 			{ id: 'about-academy', label: 'Doctor AI Academy', labelEn: 'Doctor AI Academy', href: ACADEMY_URL, external: true },
-			{ id: 'about-clinic', label: '클리닉 사이트', labelEn: 'Clinic site', href: CLINIC_URL, external: true },
 		],
 	},
 ];
@@ -100,6 +105,7 @@ export function toKoreanPath(pathname: string): string {
 export function toEnglishPath(pathname: string): string | null {
 	const bare = pathname.length > 1 && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
 	if (bare !== '/blog' && !bare.startsWith('/blog/')) return null;
+	if (bare === '/blog/topics' || bare.startsWith('/blog/topics/')) return null;
 	const suffix = pathname.slice('/blog'.length);
 	const rest = suffix === '' ? '/' : suffix.startsWith('/') ? suffix : `/${suffix}`;
 	const withSlash = rest.endsWith('/') ? rest : `${rest}/`;
@@ -122,14 +128,4 @@ export function linkIsCurrent(href: string, url: URL): boolean {
 	if (target.hash) return url.hash === target.hash;
 	if (url.hash) return false;
 	return url.search === '';
-}
-
-export function sectionIsCurrent(id: string, url: URL): boolean {
-	const path = normalizePath(toKoreanPath(url.pathname));
-	if (id === 'home') return path === '/';
-	if (id === 'clinic') return false;
-	if (id === 'research') return path === '/blog/' || path.startsWith('/blog/');
-	if (id === 'lectures') return path === '/lecture-materials/' || path.startsWith('/lecture-materials/') || path === '/lectures/' || path.startsWith('/lectures/') || path === '/tools/' || path.startsWith('/tools/') || path === '/tutorials/' || path.startsWith('/tutorials/');
-	if (id === 'about') return path === '/about/' || path.startsWith('/about/');
-	return false;
 }

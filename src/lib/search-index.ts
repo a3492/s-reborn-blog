@@ -1,4 +1,5 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { TOPICS, LEVELS, academyLabel, cellOf, formatOf, levelOf } from '../data/taxonomy';
 
 /**
  * 블로그 글만 담는 검색 인덱스.
@@ -10,27 +11,32 @@ export type SearchIndexEntry = {
 	title: string;
 	description: string;
 	category: string;
+	legacyCategory: string;
 	tags: string;
 	difficulty: string;
 	type: string;
 	subcategory: string;
+	legacyCategory: string;
 	url: string;
 	_difficulty: string;
 	_tags: string[];
 };
 
 export function toSearchIndexEntry(post: CollectionEntry<'blog'>): SearchIndexEntry {
+	const cell = cellOf(post);
+	const level = levelOf(post);
 	return {
 		id: post.id,
 		title: post.data.title,
 		description: post.data.description ?? '',
-		category: post.data.category ?? '',
+		category: TOPICS.find(({ id }) => id === cell)?.label ?? academyLabel(cell) ?? '',
+		legacyCategory: post.data.category ?? '',
 		tags: (post.data.tags ?? []).join(' '),
-		difficulty: post.data.difficulty ?? '',
-		type: post.data.type ?? '',
+		difficulty: level ? LEVELS[level] : '',
+		type: formatOf(post),
 		subcategory: post.data.subcategory ?? '',
 		url: `/blog/${post.id}/`,
-		_difficulty: post.data.difficulty ?? '',
+		_difficulty: level ?? '',
 		_tags: post.data.tags ?? [],
 	};
 }

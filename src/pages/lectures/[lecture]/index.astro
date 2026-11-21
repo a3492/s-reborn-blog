@@ -49,7 +49,7 @@ const pageTitle = `${data.title} | ${data.subtitle ?? SITE_BRAND.blogDisplayName
 		<link rel="stylesheet" href="/lectures/_assets/viewer.css?v=20261108-overviewqa" />
 	</head>
 	<body>
-		<SiteHeader />
+		<SiteHeader pageTitle={data.title} />
 		<div class="lec-viewer" data-slides={slidesHref}>
 		<header class="lec-header">
 			<div class="lec-brand"><b>{data.brandLabel ?? 'LECTURE'}</b><span>{data.subtitle}</span></div>

@@ -10,9 +10,9 @@ import Topbar from '../components/Topbar.astro';
 import PostStats from '../components/PostStats.astro';
 import { CATEGORIES, MENU_GROUPS } from '../consts';
 
-type Props = CollectionEntry<'blog'>['data'] & { slug?: string; lang?: 'ko' | 'en'; title_en?: string; description_en?: string };
+type Props = CollectionEntry<'blog'>['data'] & { postId?: string; lang?: 'ko' | 'en'; title_en?: string; description_en?: string };
 
-const { title, title_en, description, description_en, date, thumbnail, category, tags, lang = 'ko' } = Astro.props;
+const { title, title_en, description, description_en, date, thumbnail, category, tags, postId, lang = 'ko' } = Astro.props;
 const isEn = lang === 'en';
 const displayTitle = isEn && title_en ? title_en : title;
 const displayDescription = isEn && description_en ? description_en : description;
@@ -34,7 +34,7 @@ const countsByCategory = allPosts.reduce<Record<string, number>>((acc, post) => 
 
 	<body class="blog-post-shell">
 		<div class="site-wrap">
-		<Topbar lang={lang} />
+		<Topbar lang={lang} pageTitle={displayTitle} post={{ id: postId ?? slug, data: Astro.props }} />
 		<div class="site-main">
 		<div class="blog-layout">
 

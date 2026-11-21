@@ -36,7 +36,7 @@ const searchIndex = await buildSearchIndex();
 	</head>
 	<body>
 		<div class="site-wrap">
-			<Topbar siteTitle={resolvedSiteTitle} lang={lang} />
+			<Topbar siteTitle={resolvedSiteTitle} lang={lang} pageTitle={title} />
 			<main class="site-main">
 				<slot />
 			</main>

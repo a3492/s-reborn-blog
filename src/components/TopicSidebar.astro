@@ -1,0 +1,35 @@
+---
+import { TOPICS, topicHref, type Topic } from '../data/taxonomy';
+
+interface Props {
+	current?: Topic;
+	counts: Partial<Record<Topic, number>>;
+}
+const { current, counts } = Astro.props;
+---
+<nav class="blog-nav" aria-label="AI LAB 주제">
+	<button class="blog-nav-mobile-toggle" type="button" aria-expanded="false" aria-controls="topic-nav-body" data-topic-toggle>
+		<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12"/></svg>
+		<span>주제</span>
+		<svg class="blog-nav-mobile-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
+	</button>
+	<div class="blog-nav-body" id="topic-nav-body">
+		<a class:list={['blog-nav-all', { 'blog-nav-all--active': !current }]} href="/blog/" aria-current={!current ? 'page' : undefined}>
+			전체 글 <span class="blog-nav-count">{Object.values(counts).reduce((total, count) => total + count, 0)}</span>
+		</a>
+		{TOPICS.map(({ id, label }) => (
+			<a class:list={['blog-nav-all', { 'blog-nav-all--active': current === id }]}
+				href={topicHref(id)} aria-current={current === id ? 'page' : undefined}>
+				{label} <span class="blog-nav-count">{counts[id] ?? 0}</span>
+			</a>
+		))}
+	</div>
+</nav>
+<script>
+	const toggle = document.querySelector('[data-topic-toggle]');
+	const body = document.getElementById('topic-nav-body');
+	toggle?.addEventListener('click', () => {
+		const open = body?.classList.toggle('is-open') ?? false;
+		toggle.setAttribute('aria-expanded', String(open));
+	});
+</script>
