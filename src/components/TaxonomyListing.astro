@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import FormattedDate from './FormattedDate.astro';
 import TopicSidebar from './TopicSidebar.astro';
 import { CATEGORIES, MENU_GROUPS } from '../consts';
-import { FORMAT, LEVELS, TOPICS, academyLabel, cellOf, formatOf, levelOf, topicOf } from '../data/taxonomy';
+import { FORMAT, LEGACY_CATEGORY_ROUTES, LEVELS, TOPICS, academyLabel, cellOf, formatOf, levelOf, topicOf } from '../data/taxonomy';
 
 interface Props {
 	topic?: typeof TOPICS[number];
@@ -23,7 +23,7 @@ const featured = topic ? (topic.featured as readonly string[]).flatMap((id) => {
 }) : [];
 const labelFor = (cell: string | undefined) => TOPICS.find(({ id }) => id === cell)?.label ?? academyLabel(cell);
 const legacy = topic ? null : {
-	categories: Object.fromEntries(CATEGORIES.map(({ id, label }) => [id, label])),
+	categories: Object.fromEntries(CATEGORIES.map(({ id, label }) => [id, { label, ...LEGACY_CATEGORY_ROUTES[id] }])),
 	groups: Object.fromEntries(MENU_GROUPS.map(({ id, label, cats }) => [id, { label, cats }])),
 };
 ---
@@ -47,6 +47,12 @@ const legacy = topic ? null : {
 				<h2>대표 글</h2>
 				{featured.map(({ id, data }) => <a href={`/blog/${id}/`}>{data.title}</a>)}
 			</section>
+		)}
+		{legacy && (
+			<aside class="start-here" data-legacy-note hidden aria-labelledby="legacy-title">
+				<h2 id="legacy-title">이 분류는 새 주제로 나뉘었어요</h2>
+				<ul data-legacy-links></ul>
+			</aside>
 		)}
 		<slot />
 		<div id="blog-filters" class="blog-filters" hidden>
@@ -97,6 +103,7 @@ const legacy = topic ? null : {
 	.listing-description { color: var(--site-text-secondary); }
 	.start-here { margin-block: 0.75rem 1rem; padding: 0.85rem; background: var(--site-subtle); border-radius: 8px; }
 	.start-here h2 { font-size: 1rem; margin: 0 0 0.25rem; }
+	.start-here ul { margin: .35rem 0 0; padding-inline-start: 1.25rem; }
 	.start-here a { color: var(--site-mint-text); }
 	.blog-filters { margin-bottom: 1rem; scroll-margin-top: 140px; }
 	.blog-filters fieldset { min-width: 0; border: 0; margin: 0 0 0.65rem; padding: 0; }

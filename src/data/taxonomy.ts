@@ -17,6 +17,7 @@ export const FORMAT = ['개념', '용어·어원', '역사', 'FAQ', '따라하�
 export type PostFormat = typeof FORMAT[number];
 export const LEVELS = { beginner: '입문', intermediate: '중급', advanced: '심화' } as const;
 type Level = keyof typeof LEVELS;
+export const COURSE_LIST_HREF = '/lecture-materials/courses/';
 export const ACADEMY_CELLS = ['ACADEMY:course', 'ACADEMY:practice', 'ACADEMY:talks'] as const;
 type AcademyCell = typeof ACADEMY_CELLS[number];
 
@@ -59,6 +60,23 @@ export const MAPPING_ROWS: MappingRow[] = lines.map((line, index) => {
 	const [, path, old, cell, format, level] = fields;
 	return { path, old, cell, format, level };
 });
+
+const cellsByCategory = new Map<string, Set<string>>();
+for (const { old, cell } of MAPPING_ROWS) {
+	const cells = cellsByCategory.get(old) ?? new Set();
+	cells.add(cell);
+	cellsByCategory.set(old, cells);
+}
+
+export const LEGACY_CATEGORY_ROUTES = Object.fromEntries(
+	[...cellsByCategory].map(([category, cells]) => {
+		const links = TOPICS.filter(({ id }) => cells.has(id)).map(({ id, label }) => ({ href: topicHref(id), label }));
+		if (cells.has('ACADEMY:course')) links.push({ href: COURSE_LIST_HREF, label: '의료 AI 강의' });
+		if (cells.has('ACADEMY:practice')) links.push({ href: '/lecture-materials/#practice', label: 'AI ACADEMY 실습' });
+		if (cells.has('ACADEMY:talks')) links.push({ href: '/lecture-materials/#talks', label: 'AI ACADEMY 발표·기록' });
+		return [category, { links, redirect: cells.size === 1 ? links[0]?.href : undefined }];
+	}),
+);
 
 export const postIdFromPath = (path: string) => path.replace(/\.(md|mdx)$/, '');
 const mapping = new Map(MAPPING_ROWS.map((row) => [postIdFromPath(row.path), row]));

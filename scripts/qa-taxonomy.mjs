@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { load } from 'js-yaml';
 import {
-	ACADEMY_CELLS, ACADEMY_COURSE, FORMAT, LEVELS, MAPPING_ROWS, TOPICS,
+	ACADEMY_CELLS, ACADEMY_COURSE, FORMAT, LEGACY_CATEGORY_ROUTES, LEVELS, MAPPING_ROWS, TOPICS,
 	cellOf, formatOf, levelOf, postIdFromPath,
 } from '../src/data/taxonomy.ts';
 
@@ -73,9 +73,30 @@ const actualCourse = [...entries.values()].filter((post) => cellOf(post) === ACA
 if (new Set(courseIds).size !== courseIds.length || courseIds.length !== actualCourse.length ||
 	actualCourse.some(({ id }) => !courseIds.includes(id))) errors.push('Doctor AI course inventory differs from the syllabus');
 
+const redirectRows = readFileSync('public/_redirects', 'utf8').split(/\r?\n/)
+	.map((line) => line.trim().split(/\s+/)).filter(([from]) => from.startsWith('/blog/category/'));
+const wildcard = redirectRows.findIndex(([from]) => from === '/blog/category/:cat');
+let exactRedirects = 0;
+const directCategories = Object.entries(LEGACY_CATEGORY_ROUTES).filter(([, route]) => route.redirect);
+if (directCategories.length !== 14 || wildcard < 0) errors.push('Expected 14 direct categories and the legacy wildcard');
+for (const [category, route] of Object.entries(LEGACY_CATEGORY_ROUTES)) {
+	for (const suffix of ['', '/']) {
+		const from = `/blog/category/${category}${suffix}`;
+		const matching = redirectRows.map((row, index) => ({ row, index })).filter(({ row }) => row[0] === from);
+		if (!route.redirect) {
+			if (matching.length) errors.push(`Split category must keep its legacy listing: ${category}`);
+			continue;
+		}
+		if (matching.length === 1 && matching[0].index < wildcard && matching[0].row[1] === route.redirect &&
+			matching[0].row[2] === '301') exactRedirects++;
+		else errors.push(`Missing or incorrect 301: ${from}`);
+	}
+}
+
 console.log(JSON.stringify({
 	articles: entries.size, approvedMappings: mapping.size, counts,
 	folders: Object.fromEntries(Object.entries(actualFolders).sort(([left], [right]) => left.localeCompare(right))),
+	legacyCategories: Object.keys(LEGACY_CATEGORY_ROUTES).length, exactRedirects,
 	courseParts: Object.fromEntries(ACADEMY_COURSE.map(({ label, ids }) => [label, ids.length])),
 	errors,
 }, null, 2));

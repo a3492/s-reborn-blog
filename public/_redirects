@@ -262,5 +262,34 @@
 # 동적 규칙. 정확한 경로 다음에만 둔다.
 /doctor-ai-academy/*  https://s-reborn-doctor-ai-academy.pages.dev/:splat  301
 /doctor-ai/*  https://s-reborn-doctor-ai-academy.pages.dev/:splat  301
+# 분류 체계 v2. 직접 대응하는 14개 분류의 슬래시 유무를 모두 처리한다.
+/blog/category/ai-history  /blog/topics/basics/  301
+/blog/category/ai-history/  /blog/topics/basics/  301
+/blog/category/ai-news  /blog/topics/society/  301
+/blog/category/ai-news/  /blog/topics/society/  301
+/blog/category/ai-terminology  /blog/topics/basics/  301
+/blog/category/ai-terminology/  /blog/topics/basics/  301
+/blog/category/ai-tools-general  /blog/topics/tools/  301
+/blog/category/ai-tools-general/  /blog/topics/tools/  301
+/blog/category/ai-tools-medical  /blog/topics/tools/  301
+/blog/category/ai-tools-medical/  /blog/topics/tools/  301
+/blog/category/clinical-research  /blog/topics/research/  301
+/blog/category/clinical-research/  /blog/topics/research/  301
+/blog/category/context-engineering  /blog/topics/prompting/  301
+/blog/category/context-engineering/  /blog/topics/prompting/  301
+/blog/category/doctor-ai  /lecture-materials/courses/  301
+/blog/category/doctor-ai/  /lecture-materials/courses/  301
+/blog/category/doctor-dev  /blog/topics/building/  301
+/blog/category/doctor-dev/  /blog/topics/building/  301
+/blog/category/harness-engineering  /blog/topics/building/  301
+/blog/category/harness-engineering/  /blog/topics/building/  301
+/blog/category/medical-data-science  /blog/topics/research/  301
+/blog/category/medical-data-science/  /blog/topics/research/  301
+/blog/category/orchestration  /blog/topics/building/  301
+/blog/category/orchestration/  /blog/topics/building/  301
+/blog/category/prompt-engineering  /blog/topics/prompting/  301
+/blog/category/prompt-engineering/  /blog/topics/prompting/  301
+/blog/category/regulations  /blog/topics/society/  301
+/blog/category/regulations/  /blog/topics/society/  301
 /blog/category/:cat  /blog/?category=:cat  301
 /blog/category/:cat/  /blog/?category=:cat  301

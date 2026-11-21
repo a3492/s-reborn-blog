@@ -7,10 +7,14 @@ export function initTaxonomyListing(root: HTMLElement) {
 	const intro = root.querySelector<HTMLElement>('[data-taxonomy-intro]');
 	const grid = root.querySelector('[data-taxonomy-grid]')!;
 	const legacy: {
-		categories: Record<string, string>;
+		categories: Record<string, { label: string; redirect?: string; links?: { href: string; label: string }[] }>;
 		groups: Record<string, { label: string; cats: string[] }>;
 	} | null = JSON.parse(root.querySelector('[data-legacy-blog]')?.textContent ?? 'null');
 	const pageTitle = title.textContent;
+	const note = root.querySelector<HTMLElement>('[data-legacy-note]');
+	const legacyLinks = note?.querySelector('[data-legacy-links]');
+	const canonical = legacy && document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+	const canonicalBase = canonical ? canonical.href : '';
 	const facets = [...filters.querySelectorAll<HTMLElement>('[data-facet]')];
 
 	const CONCEPT_MAP: Record<string, string[]> = {
@@ -104,9 +108,39 @@ export function initTaxonomyListing(root: HTMLElement) {
 		const category = params.get('category') ?? '';
 		const groupId = params.get('group') ?? '';
 		const group = legacy && Object.hasOwn(legacy.groups, groupId) ? legacy.groups[groupId] : undefined;
-		const categoryLabel = legacy && Object.hasOwn(legacy.categories, category) ? legacy.categories[category] : undefined;
-		const courseList = !query && !group && category === 'doctor-ai' && Boolean(categoryLabel);
-		filters.hidden = courseList;
+		const legacyCategory = legacy && Object.hasOwn(legacy.categories, category) ? legacy.categories[category] : undefined;
+		const categoryLabel = legacyCategory?.label;
+		const legacyCategoryOnly = !query && !group && legacyCategory;
+		if (legacyCategoryOnly && legacyCategory.redirect) {
+			const destination = new URL(legacyCategory.redirect, location.origin);
+			if (destination.pathname.startsWith('/blog/topics/')) {
+				for (const key of ['format', 'level']) {
+					const value = params.get(key);
+					if (value) destination.searchParams.set(key, value);
+				}
+			}
+			location.replace(destination);
+			return;
+		}
+		const splitLinks = legacyCategoryOnly && legacyCategory.links && legacyCategory.links.length > 1
+			? legacyCategory.links : [];
+		if (note && legacyLinks) {
+			note.hidden = splitLinks.length === 0;
+			legacyLinks.replaceChildren(...splitLinks.map(({ href, label }) => {
+				const item = document.createElement('li');
+				const link = document.createElement('a');
+				link.href = href;
+				link.textContent = label;
+				item.append(link);
+				return item;
+			}));
+		}
+		if (canonical) {
+			const url = new URL(canonicalBase);
+			if (splitLinks.length) url.searchParams.set('category', category);
+			canonical.href = url.href;
+		}
+		filters.hidden = false;
 		const selected = Object.fromEntries(facets.map((facet) => {
 			const name = facet.dataset.facet!;
 			const value = params.get(name) ?? '';
@@ -125,8 +159,8 @@ export function initTaxonomyListing(root: HTMLElement) {
 			const inScope = query || (group ? group.cats.includes(cat ?? '') : categoryLabel ? cat === category : topic);
 			const score = query ? scoreCard(card, terms, intent) : 1;
 			card.hidden = !inScope || score === 0 ||
-				Boolean(!courseList && selected.format && format !== selected.format) ||
-				Boolean(!courseList && selected.level && difficulty !== selected.level);
+				Boolean(selected.format && format !== selected.format) ||
+				Boolean(selected.level && difficulty !== selected.level);
 			if (!card.hidden) {
 				visible++;
 				if (query) ranked.push({ card, score });

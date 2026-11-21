@@ -1,4 +1,4 @@
-import { TOPICS, topicHref } from './taxonomy';
+import { COURSE_LIST_HREF, TOPICS, topicHref } from './taxonomy';
 
 /** Doctor AI Academy lives on its own Pages project. */
 export const ACADEMY_URL = 'https://s-reborn-doctor-ai-academy.pages.dev/';
@@ -6,7 +6,7 @@ export const ACADEMY_URL = 'https://s-reborn-doctor-ai-academy.pages.dev/';
 /** Official clinic homepage. Separate from this portal. */
 export const CLINIC_URL = 'https://www.s-reborn.com/';
 
-export const COURSE_LIST_HREF = '/lecture-materials/courses/';
+export { COURSE_LIST_HREF };
 
 export const COMING_SOON_HREF = '/coming-soon/';
 
