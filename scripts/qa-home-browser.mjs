@@ -266,6 +266,7 @@ async function checkTopics(page, base, mobile, name, preference, scheme) {
 	await nav.getByRole('link', { name: 'AI LAB', exact: true }).click();
 	await page.waitForURL(new URL('/blog/', base).href);
 	await checkCrumbs(page, [['홈', '/'], ['AI LAB', '/blog/']], name);
+	check(await page.locator('#blog-content-title').innerText() === 'AI LAB', `${name}: wrong LAB heading`);
 	check(await page.locator('[data-taxonomy-post]:visible').count() === 394, `${name}: wrong AI LAB count`);
 	await page.getByRole('link', { name: '입문 글 보기' }).click();
 	await page.waitForURL(new URL('/blog/?level=beginner#blog-filters', base).href);
@@ -295,6 +296,7 @@ async function checkTopics(page, base, mobile, name, preference, scheme) {
 		check(await options.count() === 9 && await levels.count() === 4, `${name}: wrong facet options`);
 		await page.locator(`[data-facet="format"] [data-value="${format}"]`).click();
 		await page.locator('[data-facet="level"] [data-value="beginner"]').click();
+		check(await page.locator('#blog-content-title').innerText() === label, `${name}: missing topic heading after filtering ${id}`);
 		const matches = await page.locator('[data-taxonomy-post]:visible').count();
 		const expected = await page.locator(`[data-taxonomy-post][data-format="${format}"][data-difficulty="beginner"]`).count();
 		check(matches === expected &&

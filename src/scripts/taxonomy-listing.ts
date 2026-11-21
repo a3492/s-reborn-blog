@@ -104,7 +104,7 @@ export function initTaxonomyListing(root: HTMLElement) {
 		const category = params.get('category') ?? '';
 		const groupId = params.get('group') ?? '';
 		const group = legacy && Object.hasOwn(legacy.groups, groupId) ? legacy.groups[groupId] : undefined;
-		const categoryLabel = legacy && Object.hasOwn(legacy.categories, category) ? legacy.categories[category] : '';
+		const categoryLabel = legacy && Object.hasOwn(legacy.categories, category) ? legacy.categories[category] : undefined;
 		const courseList = !query && !group && category === 'doctor-ai' && Boolean(categoryLabel);
 		filters.hidden = courseList;
 		const selected = Object.fromEntries(facets.map((facet) => {
