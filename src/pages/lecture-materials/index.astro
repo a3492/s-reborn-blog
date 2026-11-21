@@ -1,4 +1,6 @@
 ---
+import { COURSE_LIST_HREF } from '../../data/site-nav';
+import { ACADEMY_COURSE } from '../../data/taxonomy';
 import Layout from '../../layouts/Layout.astro';
 ---
 <Layout title="강연·자료" description="자료를 받거나, 실습을 따라 하거나, 발표를 다시 보는 입구입니다. 행사와 연자는 발표·기록 안의 항목입니다.">
@@ -10,13 +12,9 @@ import Layout from '../../layouts/Layout.astro';
     <p class="lead">강연·자료는 하려는 일로만 나뉩니다. 자료를 받거나, 직접 따라 하거나, 발표를 다시 봅니다. 학회·연자·주제는 같은 줄의 메뉴가 아니고, 해당 일 안의 항목입니다. 기존 주소는 그대로입니다.</p>
   </header>
 
-  <section class="section" id="materials" aria-labelledby="materials-title">
-    <div class="section-head"><h2 id="materials-title">자료</h2><p>슬라이드, 원본 파일, 행사 아카이브를 받습니다.</p></div>
-    <div class="archive-row"><div><strong>강연 파일 아카이브</strong><p>슬라이드와 원본이 모인 자료실</p></div><a href="/lecture-materials/archive/">열기 →</a></div>
-    <div class="archive-row"><div><strong>11/8 대미레 원본 파일</strong><p>현장 원본 13종과 참고 파일</p></div><a href="/lecture-materials/2026-11-08/archive/">받기 →</a></div>
-    <div class="archive-row"><div><strong>11/8 상세 워크북</strong><p>강연 1·2의 심화 설명과 미션 원문</p></div><a href="/tools/lectures/2026-11-08-daemire/">열기 →</a></div>
-    <div class="archive-row"><div><strong>Hermes 원본 가이드</strong><p>설치와 텔레그램 연결 Markdown</p></div><a href="/lecture-materials/kang-sehee/">받기 →</a></div>
-    <div class="archive-row"><div><strong>데이터·시술 자료</strong><p>상담·시술 기록 등 참고 자료실</p></div><a href="/tools/">열기 →</a></div>
+  <section class="section" id="courses" aria-labelledby="courses-title">
+    <div class="section-head"><h2 id="courses-title">강의</h2><p>의료 AI의 원리부터 진료 사례까지 순서대로 읽습니다.</p></div>
+    <div class="archive-row"><div><strong>의료 AI 강의</strong><p>{ACADEMY_COURSE.length}부 · {ACADEMY_COURSE.reduce((total, part) => total + part.ids.length, 0)}편</p></div><a href={COURSE_LIST_HREF}>강의 목록 열기 →</a></div>
   </section>
 
   <section class="section" id="practice" aria-labelledby="practice-title">
@@ -28,6 +26,15 @@ import Layout from '../../layouts/Layout.astro';
     <div class="archive-row"><div><strong>Codex CLI</strong><p>Windows에서 설치부터 첫 작업까지</p></div><a href="/tutorials/codex-cli-windows/">시작 →</a></div>
     <div class="archive-row"><div><strong>11/8 현장 따라하기</strong><p>대미레 강연을 순서대로 따라가는 경로</p></div><a href="/lecture-materials/2026-11-08/">따라하기 →</a></div>
     <div class="archive-row"><div><strong>실습 모음</strong><p>Hermes와 CRM 첫 분석이 모여 있는 목록</p></div><a href="/tutorials/">목록 →</a></div>
+  </section>
+
+  <section class="section" id="materials" aria-labelledby="materials-title">
+    <div class="section-head"><h2 id="materials-title">자료</h2><p>슬라이드, 원본 파일, 행사 아카이브를 받습니다.</p></div>
+    <div class="archive-row"><div><strong>강연 파일 아카이브</strong><p>슬라이드와 원본이 모인 자료실</p></div><a href="/lecture-materials/archive/">열기 →</a></div>
+    <div class="archive-row"><div><strong>11/8 대미레 원본 파일</strong><p>현장 원본 13종과 참고 파일</p></div><a href="/lecture-materials/2026-11-08/archive/">받기 →</a></div>
+    <div class="archive-row"><div><strong>11/8 상세 워크북</strong><p>강연 1·2의 심화 설명과 미션 원문</p></div><a href="/tools/lectures/2026-11-08-daemire/">열기 →</a></div>
+    <div class="archive-row"><div><strong>Hermes 원본 가이드</strong><p>설치와 텔레그램 연결 Markdown</p></div><a href="/lecture-materials/kang-sehee/">받기 →</a></div>
+    <div class="archive-row"><div><strong>데이터·시술 자료</strong><p>상담·시술 기록 등 참고 자료실</p></div><a href="/tools/">열기 →</a></div>
   </section>
 
   <section class="section" id="talks" aria-labelledby="talks-title">

@@ -13,9 +13,17 @@ const approvedCounts = {
 	'ACADEMY:course': 25, 'ACADEMY:practice': 1, 'ACADEMY:talks': 1,
 };
 const counts = Object.fromEntries(Object.keys(approvedCounts).map((id) => [id, 0]));
+const folderOf = (filename) => path.posix.dirname(filename);
+const addToFolder = (counts, filename) => {
+	const folder = folderOf(filename);
+	counts[folder] = (counts[folder] ?? 0) + 1;
+};
+const mappedFolders = Object.create(null);
+const actualFolders = Object.create(null);
 const mapping = new Map();
 for (const row of MAPPING_ROWS) {
 	const id = postIdFromPath(row.path);
+	addToFolder(mappedFolders, row.path);
 	if (mapping.has(id)) errors.push(`Duplicate mapping: ${id}`);
 	mapping.set(id, row);
 	if (!Object.hasOwn(counts, row.cell)) errors.push(`Unknown cell: ${id} → ${row.cell}`);
@@ -32,6 +40,7 @@ for (const file of readdirSync(root, { recursive: true, withFileTypes: true })) 
 	const filename = path.join(file.parentPath, file.name);
 	const relative = path.relative(root, filename).split(path.sep).join('/');
 	const id = postIdFromPath(relative);
+	addToFolder(actualFolders, relative);
 	const source = readFileSync(filename, 'utf8');
 	const data = load(source.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/)?.[1] ?? '') ?? {};
 	if (entries.has(id)) errors.push(`Duplicate article ID: ${id}`);
@@ -47,6 +56,11 @@ for (const file of readdirSync(root, { recursive: true, withFileTypes: true })) 
 	if (!approved && !data.topic) errors.push(`New article requires an explicit topic: ${id}`);
 }
 
+for (const folder of new Set([...Object.keys(mappedFolders), ...Object.keys(actualFolders)])) {
+	const expected = mappedFolders[folder] ?? 0;
+	const actual = actualFolders[folder] ?? 0;
+	if (actual !== expected) errors.push(`Folder count mismatch: ${folder} (files ${actual}, mapping ${expected})`);
+}
 for (const id of mapping.keys()) if (!entries.has(id)) errors.push(`Mapped article missing: ${id}`);
 for (const topic of TOPICS) {
 	for (const id of topic.featured) {
@@ -61,6 +75,7 @@ if (new Set(courseIds).size !== courseIds.length || courseIds.length !== actualC
 
 console.log(JSON.stringify({
 	articles: entries.size, approvedMappings: mapping.size, counts,
+	folders: Object.fromEntries(Object.entries(actualFolders).sort(([left], [right]) => left.localeCompare(right))),
 	courseParts: Object.fromEntries(ACADEMY_COURSE.map(({ label, ids }) => [label, ids.length])),
 	errors,
 }, null, 2));

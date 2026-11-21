@@ -337,7 +337,13 @@ const { searchIndex, supabaseUrl, supabaseKey, contactEmail } = Astro.props;
   });
 
   document.addEventListener('keydown', (e) => {
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); input.focus(); input.select(); }
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      const toggle = document.querySelector('[data-search-toggle]');
+      if (toggle && !input.getClientRects().length && toggle.getClientRects().length) toggle.click();
+      input.focus();
+      input.select();
+    }
     if (e.key === 'Escape') { hideDropdown(); input.blur(); }
   });
 

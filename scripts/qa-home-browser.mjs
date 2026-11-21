@@ -22,7 +22,7 @@ const themeCases = [
 	['system', 'dark'],
 ];
 const lectureHome = '/lecture-materials/';
-const courseList = '/blog/?category=doctor-ai';
+const courseList = '/lecture-materials/courses/';
 const lectureSlots = [
 	{ id: 'lectures-course', label: '강의', href: courseList },
 	{ id: 'lectures-practice', label: '실습', href: lectureHome + '#practice' },
@@ -234,10 +234,7 @@ async function checkLectureNavigation(page, base, mobile, name, screenshot) {
 		await submenu.waitFor({ state: 'hidden' });
 		if (mobile) check(await toggle.getAttribute('aria-expanded') === 'false', `${name}: drawer remained open after ${slot.label}`);
 		await checkLectureState(page, slot, name);
-		if (slot.href === courseList) {
-			await page.locator('[data-taxonomy-count]').filter({ hasText: '25편' }).waitFor();
-			check(await page.locator('[data-taxonomy-post]:visible').count() === 25, `${name}: wrong course list count`);
-		}
+
 	}
 
 	const practice = lectureSlots[1];
@@ -351,6 +348,52 @@ async function checkDetailCrumbs(page, base) {
 	await page.locator('#blog-content-title').filter({ hasText: '검색 결과' }).waitFor();
 	check(await page.locator('[data-taxonomy-post]:visible').count() > 0, 'Blog search returned no results');
 }
+async function checkCompactSearch(page, base) {
+	for (const width of [320, 390, 480]) {
+		await page.setViewportSize({ width, height: 780 });
+		await openPage(page, base + courseList);
+		const toggle = page.locator('[data-search-toggle]');
+		const input = page.locator('#search-input');
+		const box = await toggle.boundingBox();
+		check(box?.width === 44 && box?.height === 44 && await input.isHidden(), `Compact search at ${width}px`);
+		await page.locator('.site-brand').focus();
+		await page.keyboard.press('Tab');
+		check(await toggle.evaluate((node) => node === document.activeElement && getComputedStyle(node).outlineStyle !== 'none'),
+			`Search toggle focus at ${width}px`);
+		await page.keyboard.press('Enter');
+		check(await input.evaluate((node) => node === document.activeElement && node.getBoundingClientRect().width > 200) &&
+			await toggle.getAttribute('aria-expanded') === 'true', `Search open and focus at ${width}px`);
+		await input.press('Escape');
+		check(await input.isHidden() && await toggle.evaluate((node) => node === document.activeElement),
+			`Search Escape returns focus at ${width}px`);
+		await page.keyboard.press('Control+k');
+		check(await input.evaluate((node) => node === document.activeElement), `Search shortcut at ${width}px`);
+	}
+	await page.setViewportSize({ width: 768, height: 900 });
+	await openPage(page, base + courseList);
+	check(await page.locator('[data-search-toggle]').isHidden() && await page.locator('#search-input').isVisible(),
+		'Non-home search should remain inline at 768px');
+}
+
+async function checkCourseResources(page, base) {
+	await openPage(page, base + courseList);
+	const parts = await page.locator('[data-course-part]').evaluateAll((sections) =>
+		sections.map((section) => [...section.querySelectorAll('ol a')].map((link) => link.getAttribute('href'))));
+	check(JSON.stringify(parts.map((part) => part.length)) === '[10,5,5,5]', 'Wrong counts for four course parts');
+	const links = new Set(parts.flat());
+	check(links.size === 25, 'Expected 25 distinct lesson links');
+	for (const href of links) {
+		const response = await page.request.get(new URL(href, base).href, { maxRedirects: 0 });
+		check(response.status() === 200 && href.startsWith('/blog/doctor-ai/'), `Lesson URL failed: ${href}`);
+		await response.dispose();
+	}
+	await openPage(page, base + '/blog/topics/clinic/');
+	const related = await page.getByRole('complementary', { name: '관련 강의' }).getByRole('link').evaluateAll((nodes) =>
+		nodes.map((node) => node.getAttribute('href')));
+	check(JSON.stringify(related) === JSON.stringify([courseList + '#prompts', courseList + '#cases']), 'Clinic links to course parts');
+	return links.size;
+}
+
 async function checkResources(page, base) {
 	await openPage(page, base + lectureHome);
 	const lectureRoutes = await page.locator('main .archive-row > a[href^="/"]').evaluateAll((links) =>
@@ -413,6 +456,7 @@ async function run() {
 	const results = [];
 	let resources;
 	let themeChanges = false;
+	let courses = 0;
 	try {
 		browser = await chromium.launch({
 			executablePath: chromePath(),
@@ -452,7 +496,9 @@ async function run() {
 			if (!resources) {
 				resources = await checkResources(page, base);
 				await checkDetailCrumbs(page, base);
+				courses = await checkCourseResources(page, base);
 			}
+			await checkCompactSearch(page, base);
 			if (preference === 'system' && scheme === 'light') {
 				await checkThemeChanges(page, context, base);
 				themeChanges = true;
@@ -470,6 +516,8 @@ async function run() {
 		lectureClicks: results.reduce((total, result) => total + result.lectureLinks, 0),
 		topicClicks: results.length * topicSlots.length,
 		themeChanges,
+		courses,
+		compactSearchCases: themeCases.length * 3,
 		...resources,
 		failures,
 	}, null, 2));

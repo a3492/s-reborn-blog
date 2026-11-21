@@ -1,4 +1,4 @@
-import { SITE_NAV, localizeHref, normalizePath, toKoreanPath, type NavChild, type NavItem } from './site-nav';
+import { COURSE_LIST_HREF, SITE_NAV, localizeHref, normalizePath, toKoreanPath, type NavChild, type NavItem } from './site-nav';
 import { cellOf, isTopic, type TaxonomyPost } from './taxonomy';
 
 const ORIGIN = 'https://sreborn.net';
@@ -20,8 +20,8 @@ const HASH_PAGES: Record<string, { defaultId: string; sections: CrumbSection[] }
 	'/lecture-materials/': {
 		defaultId: 'lectures-home',
 		sections: [
-			{ id: 'materials', childId: 'lectures-files' },
 			{ id: 'practice', childId: 'lectures-practice' },
+			{ id: 'materials', childId: 'lectures-files' },
 			{ id: 'talks', childId: 'lectures-record' },
 		],
 	},
@@ -72,13 +72,13 @@ export function absoluteCrumbHref(href: string): string {
 
 export function buildCrumbs(
 	pathname: string, hash: string, isEn: boolean,
-	pageTitle?: string, post?: TaxonomyPost, courseList = false,
+	pageTitle?: string, post?: TaxonomyPost,
 ): CrumbModel | null {
 	const path = normalizePath(toKoreanPath(pathname));
 	const watched = HASH_PAGES[path];
 	const topic = /^\/blog\/topics\/([^/]+)\/$/.exec(path)?.[1];
 	const cell = post ? cellOf(post) : topic;
-	const academy = courseList ? 'lectures-course' : ACADEMY_CHILD[cell ?? ''];
+	const academy = path === COURSE_LIST_HREF ? 'lectures-course' : ACADEMY_CHILD[cell ?? ''];
 	const lecture = LECTURE_PREFIXES.find(([prefix]) => path.startsWith(prefix));
 	let sectionId: string;
 	let childId: string | undefined;

@@ -6,7 +6,7 @@ export const ACADEMY_URL = 'https://s-reborn-doctor-ai-academy.pages.dev/';
 /** Official clinic homepage. Separate from this portal. */
 export const CLINIC_URL = 'https://www.s-reborn.com/';
 
-export const COURSE_LIST_HREF = '/blog/?category=doctor-ai';
+export const COURSE_LIST_HREF = '/lecture-materials/courses/';
 
 export const COMING_SOON_HREF = '/coming-soon/';
 

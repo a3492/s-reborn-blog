@@ -30,19 +30,19 @@ export const CATEGORY_TO_TOPIC: Partial<Record<string, Topic>> = {
 };
 
 export const ACADEMY_COURSE = [
-	{ label: '신뢰·안전', ids: [
+	{ id: 'trust', label: '신뢰·안전', ids: [
 		'ai-vs-human-doctor', 'ai-hallucination-medical', 'ai-hallucination-prevention', 'ai-bias-healthcare',
 		'ai-explainability', 'ai-reliability-metrics', 'medical-ai-data-sources', 'ai-model-updates-risk',
 		'ai-ethics-healthcare', 'medical-ai-regulation',
 	] },
-	{ label: '도구', ids: [
+	{ id: 'tools', label: '도구', ids: [
 		'clinical-note-transcription', 'drug-interaction-ai', 'medical-imaging-ai', 'icd-coding-ai', 'clinical-trial-matching-ai',
 	] },
-	{ label: '프롬프트', ids: [
+	{ id: 'prompts', label: '프롬프트', ids: [
 		'diagnostic-report-prompt', 'discharge-plan-prompt', 'prescription-review-prompt',
 		'injection-instructions-prompt', 'health-screening-prompt',
 	] },
-	{ label: '케이스', ids: [
+	{ id: 'cases', label: '케이스', ids: [
 		'acute-abdominal-pain-case', 'diabetes-management-ai', 'fever-differential-diagnosis',
 		'polypharmacy-review-ai', 'multidisciplinary-ai',
 	] },

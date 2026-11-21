@@ -1,7 +1,8 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 import TaxonomyListing from '../../../components/TaxonomyListing.astro';
-import { TOPICS } from '../../../data/taxonomy';
+import { COURSE_LIST_HREF } from '../../../data/site-nav';
+import { ACADEMY_COURSE, TOPICS } from '../../../data/taxonomy';
 
 export function getStaticPaths() {
 	return TOPICS.map((topic) => ({ params: { topic: topic.id }, props: { topic } }));
@@ -21,5 +22,27 @@ const schema = {
 
 <Layout title={`${topic.label} | AI LAB`} description={topic.description}>
 	<script type="application/ld+json" is:inline set:html={JSON.stringify(schema)}></script>
-	<TaxonomyListing topic={topic} />
+	<TaxonomyListing topic={topic}>
+		{topic.id === 'clinic' && (
+			<aside class="related" aria-labelledby="related-courses">
+				<h2 id="related-courses">관련 강의</h2>
+				<ul>{ACADEMY_COURSE.slice(2).map((part, index) => (
+					<li><a href={`${COURSE_LIST_HREF}#${part.id}`}>의료 AI 강의 {index + 3}부 {part.label}</a></li>
+				))}</ul>
+			</aside>
+		)}
+		{topic.id === 'building' && (
+			<aside class="related"><h2>관련 실습</h2><ul><li><a href="/tutorials/hermes-agent/">Hermes Agent</a></li><li><a href="/tutorials/codex-cli-windows/">Codex CLI</a></li></ul></aside>
+		)}
+		{topic.id === 'research' && (
+			<aside class="related"><h2>관련 실습</h2><ul><li><a href="/tutorials/crm-first-analysis/">CRM 첫 분석</a></li></ul></aside>
+		)}
+	</TaxonomyListing>
 </Layout>
+
+<style>
+	.related { padding: .85rem; margin-block: .75rem 1rem; background: var(--site-subtle); border-radius: .5rem; }
+	.related h2 { font-size: 1rem; margin: 0; }
+	.related ul { padding-inline-start: 1.25rem; margin: .35rem 0 0; }
+	.related a { color: var(--site-mint-text); text-underline-offset: .2em; }
+</style>
