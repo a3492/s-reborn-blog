@@ -1,0 +1,448 @@
+---
+import { absoluteCrumbHref, type CrumbModel } from '../data/breadcrumbs';
+
+interface Props {
+	model: CrumbModel;
+	isEn?: boolean;
+}
+
+const { model, isEn = false } = Astro.props;
+const switcherLabel = isEn ? 'Sibling sections' : '같은 단계 항목';
+const jsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'BreadcrumbList',
+	itemListElement: model.items.map((item, index) => ({
+		'@type': 'ListItem',
+		position: index + 1,
+		name: item.label,
+		item: absoluteCrumbHref(item.href),
+	})),
+};
+const config = {
+	watch: model.watch,
+	defaultId: model.defaultId,
+	currentId: model.currentId,
+	sections: model.sections,
+	children: model.siblings,
+	items: model.items,
+	origin: 'https://sreborn.net',
+	switcherLabel,
+};
+---
+
+<nav class="site-bc" aria-label={isEn ? 'Breadcrumb' : '경로'} data-bc-root>
+	<ol class="site-bc-list">
+		{model.items.map((item, index) => {
+			const last = index === model.items.length - 1;
+			return (
+				<li class:list={['site-bc-item', { 'is-tail': last }]}>
+					{index > 0 && <span class="site-bc-sep" aria-hidden="true">›</span>}
+					<a
+						class="site-bc-link"
+						href={item.href}
+						data-bc-current={last ? '' : undefined}
+						data-child-id={last ? item.id : undefined}
+						aria-current={last ? 'page' : undefined}
+						target={item.external ? '_blank' : undefined}
+						rel={item.external ? 'noopener noreferrer' : undefined}
+					>
+						{item.label}
+					</a>
+					{last && model.siblings.length > 1 && (
+						<>
+							<button
+								type="button"
+								class="site-bc-switch"
+								aria-haspopup="menu"
+								aria-expanded="false"
+								aria-controls="site-bc-menu"
+								aria-label={`${item.label}, ${switcherLabel}`}
+							>
+								<span aria-hidden="true">▾</span>
+							</button>
+							<ul id="site-bc-menu" class="site-bc-menu" role="menu" hidden>
+								{model.siblings.map((sibling) => (
+									<li role="none">
+										<a
+											role="menuitem"
+											href={sibling.href}
+											data-bc-child={sibling.id}
+											aria-current={sibling.id === model.currentId ? 'page' : undefined}
+											target={sibling.external ? '_blank' : undefined}
+											rel={sibling.external ? 'noopener noreferrer' : undefined}
+										>
+											{sibling.label}
+											{sibling.external && <span aria-hidden="true"> ↗</span>}
+										</a>
+									</li>
+								))}
+							</ul>
+						</>
+					)}
+				</li>
+			);
+		})}
+	</ol>
+</nav>
+<script type="application/ld+json" id="site-bc-ld" is:inline set:html={JSON.stringify(jsonLd)}></script>
+<script type="application/json" id="site-bc-config" is:inline set:html={JSON.stringify(config)}></script>
+<script is:inline>
+(function () {
+	var configNode = document.getElementById('site-bc-config');
+	var root = document.querySelector('[data-bc-root]');
+	if (!configNode || !root) return;
+	var config = JSON.parse(configNode.textContent || '{}');
+	var currentLink = root.querySelector('[data-bc-current]');
+	var button = root.querySelector('.site-bc-switch');
+	var menu = document.getElementById('site-bc-menu');
+	var allowScrollSpy = false;
+
+	function absolute(href) {
+		return new URL(href, config.origin).href;
+	}
+
+	function childById(id) {
+		return (config.children || []).find(function (child) { return child.id === id; });
+	}
+
+	function setMenuOpen(open) {
+		if (!button || !menu) return;
+		button.setAttribute('aria-expanded', open ? 'true' : 'false');
+		if (open) menu.removeAttribute('hidden');
+		else menu.setAttribute('hidden', '');
+	}
+
+	function updateJsonLd(child) {
+		var node = document.getElementById('site-bc-ld');
+		if (!node || !config.items || !config.items.length) return;
+		var items = config.items.slice();
+		items[items.length - 1] = { id: child.id, label: child.label, href: child.href };
+		config.items = items;
+		node.textContent = JSON.stringify({
+			'@context': 'https://schema.org',
+			'@type': 'BreadcrumbList',
+			itemListElement: items.map(function (item, index) {
+				return { '@type': 'ListItem', position: index + 1, name: item.label, item: absolute(item.href) };
+			})
+		});
+	}
+
+	function apply(id, fromScroll) {
+		var child = childById(id);
+		if (!child || !currentLink) return;
+		var changed = currentLink.getAttribute('data-child-id') !== id;
+		currentLink.textContent = child.label;
+		currentLink.setAttribute('href', child.href);
+		currentLink.setAttribute('data-child-id', id);
+		if (button) button.setAttribute('aria-label', child.label + ', ' + (config.switcherLabel || '같은 단계 항목'));
+		if (menu) {
+			menu.querySelectorAll('[data-bc-child]').forEach(function (link) {
+				if (link.getAttribute('data-bc-child') === id) link.setAttribute('aria-current', 'page');
+				else link.removeAttribute('aria-current');
+			});
+		}
+		document.querySelectorAll('[data-nav-child]').forEach(function (link) {
+			if (link.getAttribute('data-nav-child') === id) link.setAttribute('aria-current', 'page');
+			else link.removeAttribute('aria-current');
+		});
+		if (changed) updateJsonLd(child);
+		if (fromScroll && config.watch && changed) {
+			var nextHash = '';
+			try { nextHash = new URL(child.href, window.location.origin).hash; } catch (error) { nextHash = ''; }
+			if ((window.location.hash || '') !== nextHash) {
+				history.replaceState(null, '', window.location.pathname + window.location.search + nextHash);
+			}
+		}
+	}
+
+	function applyFromHash() {
+		var match = (config.sections || []).find(function (section) { return '#' + section.id === window.location.hash; });
+		apply(match ? match.childId : config.defaultId, false);
+	}
+
+	function activeFromScroll() {
+		var bar = document.querySelector('[data-site-header]');
+		var bottom = bar ? bar.getBoundingClientRect().bottom : 96;
+		var edge = Math.max(bottom + 16, 130);
+		var atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4;
+		var chosen = config.defaultId;
+		(config.sections || []).forEach(function (section) {
+			var el = document.getElementById(section.id);
+			if (!el) return;
+			var rect = el.getBoundingClientRect();
+			if (rect.top <= edge || (atBottom && rect.top < window.innerHeight && rect.bottom > edge)) chosen = section.childId;
+		});
+		return chosen;
+	}
+
+	if (config.watch) applyFromHash();
+
+	window.addEventListener('hashchange', function () {
+		if (!config.watch) return;
+		allowScrollSpy = false;
+		applyFromHash();
+		window.setTimeout(function () {
+			allowScrollSpy = true;
+			apply(activeFromScroll(), true);
+		}, 700);
+	});
+
+	function enableSpy() {
+		if (!config.watch) return;
+		allowScrollSpy = true;
+		apply(activeFromScroll(), true);
+	}
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', function () {
+			window.setTimeout(enableSpy, window.location.hash ? 700 : 0);
+		});
+	} else {
+		window.setTimeout(enableSpy, window.location.hash ? 700 : 0);
+	}
+
+	if (config.watch) {
+		var startObserver = function () {
+			var nodes = (config.sections || []).map(function (section) { return document.getElementById(section.id); }).filter(Boolean);
+			var sync = function () {
+				if (!allowScrollSpy) return;
+				apply(activeFromScroll(), true);
+			};
+			if ('IntersectionObserver' in window && nodes.length) {
+				var observer = new IntersectionObserver(sync, { root: null, rootMargin: '-96px 0px -40% 0px', threshold: [0, 0.01, 0.1, 0.25, 0.5, 0.75, 1] });
+				nodes.forEach(function (node) { observer.observe(node); });
+			}
+			var scheduled = false;
+			window.addEventListener('scroll', function () {
+				if (scheduled) return;
+				scheduled = true;
+				requestAnimationFrame(function () {
+					scheduled = false;
+					sync();
+				});
+			}, { passive: true });
+		};
+		if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', startObserver);
+		else startObserver();
+	}
+
+	if (button && menu) {
+		var tail = button.closest('.site-bc-item');
+		button.addEventListener('click', function () {
+			var open = button.getAttribute('aria-expanded') === 'true';
+			setMenuOpen(!open);
+			if (!open) {
+				var first = menu.querySelector('[role="menuitem"]');
+				if (first) first.focus();
+			}
+		});
+		button.addEventListener('keydown', function (event) {
+			if (event.key === 'ArrowDown' || event.key === 'Enter' || event.key === ' ') {
+				event.preventDefault();
+				setMenuOpen(true);
+				var first = menu.querySelector('[role="menuitem"]');
+				if (first) first.focus();
+			}
+		});
+		menu.addEventListener('keydown', function (event) {
+			var items = Array.prototype.slice.call(menu.querySelectorAll('[role="menuitem"]'));
+			var index = items.indexOf(document.activeElement);
+			if (event.key === 'ArrowDown') {
+				event.preventDefault();
+				items[(index + 1) % items.length].focus();
+			} else if (event.key === 'ArrowUp') {
+				event.preventDefault();
+				items[(index - 1 + items.length) % items.length].focus();
+			} else if (event.key === 'Home') {
+				event.preventDefault();
+				items[0].focus();
+			} else if (event.key === 'End') {
+				event.preventDefault();
+				items[items.length - 1].focus();
+			} else if (event.key === 'Escape') {
+				event.preventDefault();
+				setMenuOpen(false);
+				button.focus();
+			}
+		});
+		menu.addEventListener('click', function () { setMenuOpen(false); });
+		document.addEventListener('click', function (event) {
+			if (tail && !tail.contains(event.target)) setMenuOpen(false);
+		});
+		if (tail) {
+			tail.addEventListener('focusout', function (event) {
+				if (!tail.contains(event.relatedTarget)) setMenuOpen(false);
+			});
+		}
+	}
+})();
+</script>
+
+<style>
+	.site-bc {
+		--sh-bg: #f8f8f5;
+		--sh-panel: #ffffff;
+		--sh-hover: #e7edfa;
+		--sh-text: #171d22;
+		--sh-muted: #4c545c;
+		--sh-line: #dfe3e3;
+		--sh-accent: #2457eb;
+		background: var(--sh-bg);
+		border-bottom: 1px solid var(--sh-line);
+		color: var(--sh-text);
+		min-height: 28px;
+		padding: 0 1.25rem;
+	}
+
+	:global(html[data-theme="dark"]) .site-bc {
+		--sh-bg: #191e25;
+		--sh-panel: #222b36;
+		--sh-text: #f4f6fa;
+		--sh-muted: #d1d9e3;
+		--sh-line: #596575;
+		--sh-accent: #a9c2ff;
+		--sh-hover: #34445b;
+	}
+
+	.site-bc-list {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		font-size: 12px;
+		line-height: 1.35;
+	}
+
+	.site-bc-item {
+		display: inline-flex;
+		align-items: center;
+		max-width: 100%;
+		min-width: 0;
+	}
+
+	.site-bc-item.is-tail {
+		position: relative;
+	}
+
+	.site-bc-sep {
+		color: var(--sh-muted);
+		padding: 0 0.2rem;
+	}
+
+	.site-bc-link,
+	.site-bc-switch,
+	.site-bc-menu a {
+		color: var(--sh-text);
+		text-decoration: none;
+		border-radius: 8px;
+	}
+
+	.site-bc-link {
+		display: inline-flex;
+		align-items: center;
+		min-height: 28px;
+		padding: 0 0.2rem;
+	}
+
+	.site-bc-link[aria-current="page"] {
+		color: var(--sh-accent);
+		font-weight: 750;
+	}
+
+	.site-bc-link:hover,
+	.site-bc-link:focus-visible,
+	.site-bc-switch:hover,
+	.site-bc-switch:focus-visible,
+	.site-bc-menu a:hover,
+	.site-bc-menu a:focus-visible {
+		background: var(--sh-hover);
+		text-decoration: underline;
+		text-underline-offset: 3px;
+		outline: 2px solid var(--sh-accent);
+		outline-offset: 2px;
+	}
+
+	.site-bc-switch {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 28px;
+		height: 28px;
+		margin-left: 0.1rem;
+		padding: 0;
+		border: 1px solid transparent;
+		background: transparent;
+		font: inherit;
+		line-height: 1;
+		cursor: pointer;
+	}
+
+	.site-bc-switch[aria-expanded="true"] {
+		background: var(--sh-hover);
+		border-color: var(--sh-line);
+	}
+
+	.site-bc-menu {
+		position: absolute;
+		z-index: 6;
+		top: calc(100% + 4px);
+		left: 0;
+		right: auto;
+		min-width: 12rem;
+		max-width: min(18rem, calc(100vw - 1rem));
+		margin: 0;
+		padding: 0.35rem;
+		list-style: none;
+		background: var(--sh-panel);
+		border: 1px solid var(--sh-line);
+		border-radius: 12px;
+		box-shadow: 0 16px 40px rgba(23, 29, 34, 0.16);
+	}
+
+	.site-bc-menu[hidden] {
+		display: none;
+	}
+
+	.site-bc-menu a {
+		display: flex;
+		align-items: center;
+		min-height: 36px;
+		padding: 0.2rem 0.7rem;
+		font-size: 0.95rem;
+	}
+
+	.site-bc-menu a[aria-current="page"] {
+		color: var(--sh-accent);
+		font-weight: 750;
+	}
+
+	:global(#philosophy),
+	:global(#cv) {
+		scroll-margin-top: 120px;
+	}
+
+	@media (max-width: 480px) {
+		.site-bc {
+			min-height: 44px;
+			padding-inline: 0.45rem;
+		}
+
+		.site-bc-link,
+		.site-bc-switch,
+		.site-bc-menu a {
+			min-height: 44px;
+		}
+
+		.site-bc-switch {
+			width: 44px;
+			height: 44px;
+		}
+
+		.site-bc-link {
+			padding-inline: 0.35rem;
+		}
+	}
+</style>

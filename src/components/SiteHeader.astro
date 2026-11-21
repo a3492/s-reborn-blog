@@ -1,9 +1,10 @@
 ---
 import { SITE_TITLE } from '../consts';
+import { buildCrumbs } from '../data/breadcrumbs';
+import SiteBreadcrumb from './SiteBreadcrumb.astro';
 import {
 	SITE_NAV,
 	COMING_SOON_HREF,
-	linkIsCurrent,
 	localizeHref,
 	sectionIsCurrent,
 	toEnglishPath,
@@ -30,6 +31,7 @@ const enPath = toEnglishPath(isEn ? toKoreanPath(path) : path);
 const enReady = Boolean(enPath);
 const enHref = enPath ? `${enPath}${search}` : COMING_SOON_HREF;
 const mobileSearchLabel = portalCopy(isEn ? 'en' : 'ko').mobileSearch || portalCopy('ko').mobileSearch;
+const crumbs = buildCrumbs(path, Astro.url.hash, isEn);
 
 function childLabel(child: NavChild): string {
 	if (child.pending) return '준비중';
@@ -131,7 +133,7 @@ function childHref(child: NavChild): string {
 								{!direct && <ul class="site-nav-sub" id={panelId}>
 									{item.children.map((child, index) => {
 										const href = childHref(child);
-										const current = linkIsCurrent(href, Astro.url);
+										const current = crumbs?.currentId === child.id;
 										const previous = item.children[index - 1];
 										const group = isEn ? child.groupEn : child.group;
 										const previousGroup = isEn ? previous?.groupEn : previous?.group;
@@ -143,6 +145,7 @@ function childHref(child: NavChild): string {
 												<li>
 													<a
 														href={href}
+														data-nav-child={child.id}
 														aria-current={current ? 'page' : undefined}
 														target={child.external ? '_blank' : undefined}
 														rel={child.external ? 'noopener noreferrer' : undefined}
@@ -189,6 +192,7 @@ function childHref(child: NavChild): string {
 			</button>
 		</div>
 	</header>
+	{crumbs && <SiteBreadcrumb model={crumbs} isEn={isEn} />}
 
 	<button type="button" class="site-nav-backdrop" data-nav-backdrop hidden aria-label={isEn ? 'Close menu' : '메뉴 닫기'}></button>
 
@@ -243,6 +247,10 @@ function childHref(child: NavChild): string {
 
 		const isEn = document.documentElement.lang === 'en';
 		const desktopQuery = window.matchMedia('(min-width: 1201px)');
+		const updateDrawerHeight = () => {
+			header.style.setProperty('--mobile-header-height', `${header.getBoundingClientRect().height}px`);
+		};
+		const headerResize = new ResizeObserver(updateDrawerHeight);
 		const searchToggle = root.querySelector('[data-search-toggle]');
 		if (searchToggle instanceof HTMLButtonElement) {
 			searchToggle.addEventListener('click', () => {
@@ -267,6 +275,12 @@ function childHref(child: NavChild): string {
 		};
 
 		const setMobile = (open: boolean) => {
+			if (open) {
+				updateDrawerHeight();
+				headerResize.observe(header);
+			} else {
+				headerResize.disconnect();
+			}
 			header.classList.toggle('is-open', open);
 			setExpanded(toggle, open);
 			document.documentElement.classList.toggle('site-nav-lock', open);
@@ -419,13 +433,9 @@ function childHref(child: NavChild): string {
 	}
 
 	.site-header-root {
-		position: relative;
-	}
-
-	.site-header {
 		--sh-bg: #f8f8f5;
-        --sh-panel: #ffffff;
-        --sh-hover: #e7edfa;
+		--sh-panel: #ffffff;
+		--sh-hover: #e7edfa;
 		--sh-text: #171d22;
 		--sh-muted: #4c545c;
 		--sh-line: #dfe3e3;
@@ -433,6 +443,10 @@ function childHref(child: NavChild): string {
 		position: sticky;
 		top: 0;
 		z-index: 120;
+	}
+
+	.site-header {
+		position: relative;
 		display: flex;
 		align-items: center;
 		gap: 0.75rem;
@@ -758,16 +772,20 @@ function childHref(child: NavChild): string {
 		.site-nav-toggle {
 			display: inline-flex;
 		}
-        .site-header { backdrop-filter: none; }
+		.site-header { backdrop-filter: none; }
+
+		.site-header.is-open {
+			z-index: 120;
+		}
 
 		.site-nav {
+			box-sizing: border-box;
 			display: none;
-			position: fixed;
-			z-index: 2;
-			top: 0;
+			position: absolute;
+			top: 100%;
 			right: 0;
-			width: min(20rem, 78vw);
-			height: 100dvh;
+			width: min(20rem, 100%);
+			height: calc(100dvh - var(--mobile-header-height, 56px));
 			overflow: auto;
 			overscroll-behavior: contain;
 			padding: 1rem 1rem 2rem;
@@ -854,8 +872,13 @@ function childHref(child: NavChild): string {
 
 	@media (max-width: 360px) {
 		.site-header {
+			flex-wrap: wrap;
 			padding-inline: 0.35rem;
 			gap: 0.2rem;
+		}
+
+		.site-brand {
+			flex-shrink: 0;
 		}
 
 		.site-brand-mark {
@@ -869,7 +892,7 @@ function childHref(child: NavChild): string {
 	}
 
     /* Single source of truth for navigation and accessible contrast. */
-    :global(html[data-theme="dark"]) .site-header {
+    :global(html[data-theme="dark"]) .site-header-root {
         --sh-bg: #191e25;
         --sh-panel: #222b36;
         --sh-text: #f4f6fa;
@@ -924,7 +947,7 @@ function childHref(child: NavChild): string {
     .site-nav-toggle span[aria-hidden="true"] { opacity: 1; }
     @media (max-width: 1200px) {
         .site-nav-close { display: inline-flex; margin: 0 0 0.75rem auto; }
-        .site-nav { background: var(--sh-panel); color: var(--sh-text); z-index: 5; }
+        .site-nav { background: var(--sh-panel); color: var(--sh-text); z-index: 130; }
         .site-nav-sub { background: transparent; }
         .site-nav-btn, .site-nav-sub a { color: var(--sh-text); }
         .site-nav-group { color: var(--sh-muted); }
