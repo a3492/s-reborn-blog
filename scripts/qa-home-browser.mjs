@@ -131,6 +131,10 @@ async function checkHome(page, width, name) {
 			date?.matches('time[datetime]') && Boolean(date.textContent.trim());
 	}));
 	check(posts.length > 0 && posts.every(Boolean), `${name}: home rows must contain a linked title, category and date only`);
+	const dates = await page.locator('#latest .portal-row-post time').evaluateAll((nodes) =>
+		nodes.map((node) => Date.parse(node.getAttribute('datetime'))));
+	check(dates.every((date, index) => Number.isFinite(date) && (!index || dates[index - 1] >= date)),
+		`${name}: home posts are not ordered by latest date`);
 	check(await fontSize(page.locator('body')) === '16px', `${name}: home body must be 16px`);
 	check(await page.locator('#latest').evaluate((section) => section.scrollWidth <= section.clientWidth + 1),
 		`${name}: home latest section overflows`);
@@ -156,15 +160,25 @@ async function checkHomeLabels(page, base) {
 		article: row.querySelector('.portal-post-title').getAttribute('href'),
 		category: row.querySelector('.portal-category').getAttribute('href'),
 		label: row.querySelector('.portal-category').textContent.trim(),
+		shownDate: row.querySelector('time').getAttribute('datetime'),
+		shownDateText: row.querySelector('time').textContent.trim(),
 	})));
 	check(rows.length === 8, 'Expected eight home articles');
 	const categories = new Set();
-	for (const { article, category, label } of rows) {
+	for (const { article, category, label, shownDate, shownDateText } of rows) {
 		await openPage(page, base + article);
 		const badge = await page.locator('.blog-post-category').innerText();
 		const sidebar = page.locator('[data-taxonomy-sidebar] a[aria-current="location"]');
 		check(label === badge.trim() && category === await sidebar.getAttribute('href'),
 			`Home category differs from article: ${article}`);
+		const schema = JSON.parse(await page.locator('#article-json-ld').textContent());
+		const articleDates = await page.locator('.blog-post-meta time').evaluateAll((nodes) =>
+			nodes.map((node) => node.getAttribute('datetime')));
+		const expectedDates = schema.dateModified ? [schema.datePublished, schema.dateModified] : [schema.datePublished];
+		check(JSON.stringify(articleDates) === JSON.stringify(expectedDates) &&
+			shownDate === (schema.dateModified ?? schema.datePublished) &&
+			shownDateText.startsWith('업데이트 ') === Boolean(schema.dateModified),
+			`Home or article date differs from metadata: ${article}`);
 		categories.add(category);
 	}
 	for (const category of categories) {

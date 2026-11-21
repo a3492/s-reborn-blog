@@ -17,10 +17,19 @@ import { ACADEMY_COURSE, COURSE_LIST_HREF, countTopics } from '../data/taxonomy'
 
 type Props = CollectionEntry<'blog'>['data'] & { postId?: string; lang?: 'ko' | 'en'; title_en?: string; description_en?: string };
 
-const { title, title_en, description, description_en, date, thumbnail, tags, postId, lang = 'ko' } = Astro.props;
+const { title, title_en, description, description_en, date, updatedDate, thumbnail, tags, postId, lang = 'ko' } = Astro.props;
 const isEn = lang === 'en';
 const displayTitle = isEn && title_en ? title_en : title;
 const displayDescription = isEn && description_en ? description_en : description;
+const articleSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'BlogPosting',
+	headline: displayTitle,
+	description: displayDescription,
+	url: new URL(Astro.url.pathname, Astro.site).href,
+	datePublished: date.toISOString(),
+	dateModified: updatedDate?.toISOString(),
+};
 const slug = Astro.url.pathname.replace(/^\/(?:en\/)?blog\//, '').replace(/\/$/, '');
 
 const post = { id: postId ?? slug, data: Astro.props };
@@ -51,6 +60,8 @@ const coursePart = part && {
 <html lang={lang}>
 	<head>
 		<BaseHead title={displayTitle} description={displayDescription} image={thumbnail} />
+		{updatedDate && <meta property="article:modified_time" content={updatedDate.toISOString()} />}
+		<script type="application/ld+json" is:inline id="article-json-ld" set:html={JSON.stringify(articleSchema).replaceAll('<', '\\u003c')}></script>
 	</head>
 
 	<body class="blog-post-shell">
@@ -74,6 +85,7 @@ const coursePart = part && {
 							<div class="blog-post-meta meta">
 								{activeSection && <span class="blog-post-category category-badge">{activeSection.label}</span>}
 								<FormattedDate date={date} />
+								{updatedDate && <FormattedDate date={updatedDate} updated lang={lang} />}
 							</div>
 							<h1>{displayTitle}</h1>
 							<PostStats slug={slug} />
@@ -108,6 +120,7 @@ const coursePart = part && {
 
 <style>
 	.blog-post-main { min-width: 0; }
+	.blog-post-meta { flex-wrap: wrap; }
 	.blog-post-related { margin-block-start: 1.5rem; padding: 1rem; border-radius: .5rem; background: var(--site-subtle); }
 	.blog-post-related h2 { font-size: 1rem; margin: 0; }
 	.blog-post-related ul { margin-block-end: 0; }
