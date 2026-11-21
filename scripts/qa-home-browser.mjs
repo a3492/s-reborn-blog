@@ -279,10 +279,15 @@ async function checkTopics(page, base, mobile, name, preference, scheme) {
 	await checkCrumbs(page, [['홈', '/'], ['AI LAB', '/blog/']], name);
 	check(await page.locator('#blog-content-title').innerText() === 'AI LAB', `${name}: wrong LAB heading`);
 	check(await page.locator('[data-taxonomy-post]:visible').count() === 394, `${name}: wrong AI LAB count`);
+	const starter = page.locator('[data-taxonomy-intro]');
+	check((await starter.innerText()).includes('애린이 코너') && await starter.locator('ul a').count() === 3,
+		`${name}: missing beginner reading group`);
 	await page.getByRole('link', { name: '입문 글 보기' }).click();
 	await page.waitForURL(new URL('/blog/?level=beginner#blog-filters', base).href);
 	await page.locator('[data-facet="level"] [data-value="beginner"][aria-pressed="true"]').waitFor();
 	check(await page.locator('[data-taxonomy-post]:visible').count() === 215, `${name}: wrong beginner count`);
+	const labLevelCounts = await page.locator('[data-level-count]').allTextContents();
+	check(labLevelCounts.join(',') === '394,215,64,15', `${name}: wrong LAB level counts`);
 
 	for (const [id, label, total] of topicSlots) {
 		const href = `/blog/topics/${id}/`;
@@ -310,6 +315,8 @@ async function checkTopics(page, base, mobile, name, preference, scheme) {
 		check(await page.locator('#blog-content-title').innerText() === label, `${name}: missing topic heading after filtering ${id}`);
 		const matches = await page.locator('[data-taxonomy-post]:visible').count();
 		const expected = await page.locator(`[data-taxonomy-post][data-format="${format}"][data-difficulty="beginner"]`).count();
+		check(await page.locator('[data-facet="level"] [data-value="beginner"] [data-level-count]').innerText() === String(expected),
+			`${name}: incorrect facet count ${id}`);
 		check(matches === expected &&
 			(await page.locator('[data-taxonomy-count]').innerText()) === `${expected}편`, `${name}: facet intersection ${id}`);
 		const viewportFits = await page.locator('#blog-filters').evaluate((element) =>
@@ -362,6 +369,30 @@ async function checkDetailCrumbs(page, base) {
 	await page.locator('#blog-content-title').filter({ hasText: '검색 결과' }).waitFor();
 	check(await page.locator('[data-taxonomy-post]:visible').count() > 0, 'Blog search returned no results');
 }
+async function checkTagPresentation(page, base) {
+	const jobPattern = /\b(?:cu|cl)\d{10}(?:\d{2})?\b/i;
+	for (const route of [articlePath, '/en' + articlePath]) {
+		await openPage(page, base + route);
+		const tags = await page.locator('.blog-post-tags .tag').allTextContents();
+		check(tags.length > 0 && !tags.some((tag) => jobPattern.test(tag) || tag === '#의료AI' || tag === '#ai'),
+			`Incomplete tag normalization on ${route}`);
+		const keys = tags.map((tag) => tag.replace(/\s+/g, '').toLowerCase());
+		check(new Set(keys).size === keys.length, `Repeated tags on ${route}`);
+		const related = await page.locator('.blog-post-related a').evaluateAll((links) => links.map((link) => link.getAttribute('href')));
+		check(related.length === 3 && !related.includes(route) && new Set(related).size === 3, `Bad related articles on ${route}`);
+	}
+	for (const route of ['/', '/blog/', '/en/blog/']) {
+		const response = await page.request.get(base + route);
+		const html = await response.text();
+		check(!jobPattern.test(html), `Internal workflow tag exposed through ${route}`);
+		await response.dispose();
+	}
+	await openPage(page, base + '/blog/');
+	await page.locator('[data-unassigned-level]').waitFor();
+	check((await page.locator('[data-unassigned-level]').innerText()).includes('100편'), 'Incorrect LAB unassigned count');
+	return 5;
+}
+
 async function checkLegacyCategories(page, base) {
 	const csv = await readFile(path.join(root, 'docs/plans/taxonomy-v2-mapping.csv'), 'utf8');
 	const grouped = new Map();
@@ -525,6 +556,7 @@ async function run() {
 	let themeChanges = false;
 	let courses = 0;
 	let legacy;
+	let tagSurfaces = 0;
 	try {
 		browser = await chromium.launch({
 			executablePath: chromePath(),
@@ -566,6 +598,7 @@ async function run() {
 				await checkDetailCrumbs(page, base);
 				courses = await checkCourseResources(page, base);
 				legacy = await checkLegacyCategories(page, base);
+				tagSurfaces = await checkTagPresentation(page, base);
 			}
 			await checkCompactSearch(page, base);
 			if (preference === 'system' && scheme === 'light') {
@@ -589,6 +622,7 @@ async function run() {
 		compactSearchCases: themeCases.length * 3,
 		...resources,
 		...legacy,
+		tagSurfaces,
 		failures,
 	}, null, 2));
 	if (failures.length) process.exitCode = 1;

@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { load } from 'js-yaml';
+import { isInternalTag, publicTags, searchableTags, TAG_ALIASES } from '../src/data/tag-aliases.ts';
 import {
 	ACADEMY_CELLS, ACADEMY_COURSE, FORMAT, LEGACY_CATEGORY_ROUTES, LEVELS, MAPPING_ROWS, TOPICS,
 	cellOf, formatOf, levelOf, postIdFromPath,
@@ -93,9 +94,41 @@ for (const [category, route] of Object.entries(LEGACY_CATEGORY_ROUTES)) {
 	}
 }
 
+const tagKey = (tag) => tag.replace(/\s+/g, '').toLowerCase();
+const rawTags = new Set();
+const visibleTags = new Set();
+const internalTags = new Set();
+const labLevels = { beginner: 0, intermediate: 0, advanced: 0, unassigned: 0 };
+let articlesWithInternalTags = 0;
+for (const post of entries.values()) {
+	const original = post.data.tags ?? [];
+	const published = publicTags(original);
+	const internal = original.filter(isInternalTag);
+	original.forEach((tag) => rawTags.add(tag));
+	published.forEach((tag) => visibleTags.add(tag));
+	internal.forEach((tag) => internalTags.add(tag));
+	if (internal.length) articlesWithInternalTags++;
+	if (published.length !== new Set(published.map(tagKey)).size ||
+		published.some(isInternalTag) || searchableTags(original).split(/\s+/).some(isInternalTag)) {
+		errors.push(`Tag display or search leak: ${post.id}`);
+	}
+	if (!ACADEMY_CELLS.includes(cellOf(post))) labLevels[levelOf(post) ?? 'unassigned']++;
+}
+for (const [alias, canonical] of TAG_ALIASES) {
+	if (!rawTags.has(alias) || !rawTags.has(canonical) || tagKey(alias) !== tagKey(canonical) ||
+		publicTags([alias, canonical]).join() !== canonical) {
+		errors.push(`Invalid tag alias: ${alias}`);
+	}
+}
+const duplicatePublicTags = visibleTags.size - new Set([...visibleTags].map(tagKey)).size;
+if (duplicatePublicTags) errors.push(`${duplicatePublicTags} unmerged public tag spellings`);
+
 console.log(JSON.stringify({
 	articles: entries.size, approvedMappings: mapping.size, counts,
 	folders: Object.fromEntries(Object.entries(actualFolders).sort(([left], [right]) => left.localeCompare(right))),
+	labLevels,
+	tags: { raw: rawTags.size, public: visibleTags.size, aliases: TAG_ALIASES.size, internal: internalTags.size,
+		articlesWithInternalTags, duplicatePublicTags },
 	legacyCategories: Object.keys(LEGACY_CATEGORY_ROUTES).length, exactRedirects,
 	courseParts: Object.fromEntries(ACADEMY_COURSE.map(({ label, ids }) => [label, ids.length])),
 	errors,

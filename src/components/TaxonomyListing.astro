@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import FormattedDate from './FormattedDate.astro';
 import TopicSidebar from './TopicSidebar.astro';
+import { searchableTags } from '../data/tag-aliases';
 import { CATEGORIES, MENU_GROUPS } from '../consts';
 import { FORMAT, LEGACY_CATEGORY_ROUTES, LEVELS, TOPICS, academyLabel, cellOf, formatOf, levelOf, topicOf } from '../data/taxonomy';
 
@@ -21,6 +22,11 @@ const featured = topic ? (topic.featured as readonly string[]).flatMap((id) => {
 	const entry = listed.find(({ post }) => post.id === id);
 	return entry ? [entry.post] : [];
 }) : [];
+const starterIds = ['aerini/what-is-ai', 'aerini/what-is-llm', 'aerini/how-to-start-chatgpt'];
+const starters = topic ? [] : starterIds.flatMap((id) => {
+	const entry = lab.find((item) => item.post.id === id && item.level === 'beginner');
+	return entry ? [entry.post] : [];
+});
 const labelFor = (cell: string | undefined) => TOPICS.find(({ id }) => id === cell)?.label ?? academyLabel(cell);
 const legacy = topic ? null : {
 	categories: Object.fromEntries(CATEGORIES.map(({ id, label }) => [id, { label, ...LEGACY_CATEGORY_ROUTES[id] }])),
@@ -39,7 +45,9 @@ const legacy = topic ? null : {
 		{!topic && (
 			<section class="start-here" data-taxonomy-intro>
 				<h2>처음이라면</h2>
-				<a href="/blog/?level=beginner#blog-filters">입문 글 보기</a>
+				<p>애린이 코너에서 AI의 기본 개념과 첫 사용법부터 읽어 보세요.</p>
+				<ul>{starters.map(({ id, data }) => <li><a href={`/blog/${id}/`}>{data.title}</a></li>)}</ul>
+				<a class="beginner-link" href="/blog/?level=beginner#blog-filters" data-beginner-link>입문 글 보기 <span>· {lab.filter(({ level }) => level === 'beginner').length}편</span></a>
 			</section>
 		)}
 		{featured.length > 0 && (
@@ -64,11 +72,12 @@ const legacy = topic ? null : {
 					<legend>{label}</legend>
 					<div class="facet-buttons">
 						{[['', '전체'], ...options].map(([value, text]) => (
-							<button type="button" data-value={value} aria-pressed={value === '' ? 'true' : 'false'}>{text}</button>
+							<button type="button" data-value={value} aria-pressed={value === '' ? 'true' : 'false'}>{text}{name === 'level' && <span class="level-count" data-level-count aria-hidden="true"></span>}</button>
 						))}
 					</div>
 				</fieldset>
 			))}
+			<p class="level-note" data-unassigned-level hidden></p>
 		</div>
 		<p data-taxonomy-empty hidden>선택한 조건에 맞는 글이 없습니다.</p>
 		<div class="blog-card-grid" data-taxonomy-grid>
@@ -76,7 +85,7 @@ const legacy = topic ? null : {
 				<a href={`/blog/${post.id}/`} class="blog-card" data-taxonomy-post
 					hidden={!articleTopic} data-topic={articleTopic ?? ''}
 					data-cat={post.data.category ?? ''} data-title={post.data.title}
-					data-desc={post.data.description} data-tags={post.data.tags.join(' ')}
+					data-desc={post.data.description} data-tags={searchableTags(post.data.tags)}
 					data-difficulty={level ?? ''} data-format={format} data-label={labelFor(cell)}>
 					<h2 class="blog-card-title">{post.data.title}</h2>
 					<p class="blog-card-meta">
@@ -103,6 +112,8 @@ const legacy = topic ? null : {
 	.listing-description { color: var(--site-text-secondary); }
 	.start-here { margin-block: 0.75rem 1rem; padding: 0.85rem; background: var(--site-subtle); border-radius: 8px; }
 	.start-here h2 { font-size: 1rem; margin: 0 0 0.25rem; }
+	.start-here p { margin: .3rem 0; }
+	.beginner-link { display: inline-block; margin-top: .5rem; }
 	.start-here ul { margin: .35rem 0 0; padding-inline-start: 1.25rem; }
 	.start-here a { color: var(--site-mint-text); }
 	.blog-filters { margin-bottom: 1rem; scroll-margin-top: 140px; }
@@ -112,6 +123,9 @@ const legacy = topic ? null : {
 	.facet-buttons button { background: var(--site-surface); color: var(--site-text); border: 1px solid var(--site-border); border-radius: 100px; font: inherit; padding: 0.25rem 0.7rem; min-height: 36px; cursor: pointer; }
 	.facet-buttons button[aria-pressed='true'] { background: var(--site-subtle); color: var(--site-mint-text); border-color: currentColor; font-weight: 700; }
 	.facet-buttons button:focus-visible { outline: 2px solid var(--site-mint-text); outline-offset: 2px; }
+	.level-count, .level-note { color: var(--site-text-secondary); font-size: .85rem; }
+	.level-count { margin-inline-start: .35em; }
+	.level-note { margin: .25rem 0 0; }
 	.blog-card-meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.3rem; }
 	.facet-badge { border-radius: 0.35rem; padding: 0 0.3rem; background: var(--site-subtle); color: var(--site-text-secondary); }
 	[hidden] { display: none; }

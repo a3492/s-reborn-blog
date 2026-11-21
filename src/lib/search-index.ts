@@ -1,4 +1,5 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { publicTags, searchableTags } from '../data/tag-aliases';
 import { TOPICS, LEVELS, academyLabel, cellOf, formatOf, levelOf } from '../data/taxonomy';
 
 /**
@@ -16,7 +17,6 @@ export type SearchIndexEntry = {
 	difficulty: string;
 	type: string;
 	subcategory: string;
-	legacyCategory: string;
 	url: string;
 	_difficulty: string;
 	_tags: string[];
@@ -31,13 +31,13 @@ export function toSearchIndexEntry(post: CollectionEntry<'blog'>): SearchIndexEn
 		description: post.data.description ?? '',
 		category: TOPICS.find(({ id }) => id === cell)?.label ?? academyLabel(cell) ?? '',
 		legacyCategory: post.data.category ?? '',
-		tags: (post.data.tags ?? []).join(' '),
+		tags: searchableTags(post.data.tags),
 		difficulty: level ? LEVELS[level] : '',
 		type: formatOf(post),
 		subcategory: post.data.subcategory ?? '',
 		url: `/blog/${post.id}/`,
 		_difficulty: level ?? '',
-		_tags: post.data.tags ?? [],
+		_tags: publicTags(post.data.tags),
 	};
 }
 
