@@ -767,10 +767,11 @@ function childHref(child: NavChild): string {
 		.site-nav {
 			display: none;
 			position: fixed;
-			z-index: 2;
+			z-index: 130;
 			top: 0;
 			right: 0;
-			width: min(20rem, 78vw);
+			/* Leave the brand mark fully visible. 78vw at 320px covered its right edge. */
+			width: min(20rem, calc(100vw - 7.5rem));
 			height: 100dvh;
 			overflow: auto;
 			overscroll-behavior: contain;
@@ -928,7 +929,7 @@ function childHref(child: NavChild): string {
     .site-nav-toggle span[aria-hidden="true"] { opacity: 1; }
     @media (max-width: 1200px) {
         .site-nav-close { display: inline-flex; margin: 0 0 0.75rem auto; }
-        .site-nav { background: var(--sh-panel); color: var(--sh-text); z-index: 5; }
+        .site-nav { background: var(--sh-panel); color: var(--sh-text); z-index: 130; }
         .site-nav-sub { background: transparent; }
         .site-nav-btn, .site-nav-sub a { color: var(--sh-text); }
         .site-nav-group { color: var(--sh-muted); }
