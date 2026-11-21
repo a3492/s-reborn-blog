@@ -1,14 +1,12 @@
 ---
-import { COURSE_LIST_HREF } from '../data/site-nav';
 import { absoluteCrumbHref, type CrumbModel } from '../data/breadcrumbs';
 
 interface Props {
 	model: CrumbModel;
-	courseListModel?: CrumbModel | null;
 	isEn?: boolean;
 }
 
-const { model, courseListModel, isEn = false } = Astro.props;
+const { model, isEn = false } = Astro.props;
 const switcherLabel = isEn ? 'Sibling sections' : '같은 단계 항목';
 const showDefault = !model.hideDefault || model.currentId !== model.defaultId;
 const jsonLd = {
@@ -21,12 +19,9 @@ const jsonLd = {
 		item: absoluteCrumbHref(item.href),
 	})),
 };
-const courseListItem = courseListModel?.items.at(-1);
 const config = {
 	watch: model.watch,
 	hideDefault: model.hideDefault,
-	courseListModel,
-	courseListQuery: new URL(COURSE_LIST_HREF, 'https://sreborn.net').search,
 	defaultId: model.defaultId,
 	currentId: model.currentId,
 	sections: model.sections,
@@ -93,12 +88,6 @@ const config = {
 				</li>
 			);
 		})}
-		{courseListItem && (
-			<li class="site-bc-item" data-bc-course-link hidden>
-				<span class="site-bc-sep" aria-hidden="true">›</span>
-				<a class="site-bc-link" href={courseListItem.href}>{courseListItem.label}</a>
-			</li>
-		)}
 	</ol>
 </nav>
 <script type="application/ld+json" id="site-bc-ld" is:inline set:html={JSON.stringify(jsonLd).replaceAll('<', '\\u003c')}></script>
@@ -153,31 +142,6 @@ const config = {
 			if (link.getAttribute('data-nav-child') === id) link.setAttribute('aria-current', 'page');
 			else link.removeAttribute('aria-current');
 		});
-	}
-
-	var courseList = config.courseListModel;
-	if (courseList && new URLSearchParams(location.search).get('category') ===
-		new URLSearchParams(config.courseListQuery).get('category') && !new URLSearchParams(location.search).has('q')) {
-		var pillar = courseList.items[1];
-		pillarLink.textContent = pillar.label;
-		pillarLink.href = pillar.href;
-		pillarLink.removeAttribute('aria-current');
-		pillarLink.removeAttribute('data-bc-current');
-		var courseRow = root.querySelector('[data-bc-course-link]');
-		var courseLink = courseRow.querySelector('a');
-		courseRow.hidden = false;
-		courseLink.setAttribute('aria-current', 'page');
-		courseLink.setAttribute('data-bc-current', '');
-		document.querySelectorAll('[data-nav-pillar]').forEach(function (item) {
-			var active = item.getAttribute('data-nav-pillar') === courseList.sectionId;
-			item.classList.toggle('is-current', active);
-			var target = item.querySelector(':scope > a');
-			if (active) target?.setAttribute('aria-current', 'location');
-			else target?.removeAttribute('aria-current');
-		});
-		updateCurrentNav(courseList.currentId);
-		updateJsonLd(courseList.items);
-		return;
 	}
 
 	function apply(id, fromScroll) {

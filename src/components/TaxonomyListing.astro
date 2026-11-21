@@ -48,6 +48,7 @@ const legacy = topic ? null : {
 				{featured.map(({ id, data }) => <a href={`/blog/${id}/`}>{data.title}</a>)}
 			</section>
 		)}
+		<slot />
 		<div id="blog-filters" class="blog-filters" hidden>
 			{[
 				{ name: 'format', label: '형식', options: FORMAT.map((value) => [value, value]) },
