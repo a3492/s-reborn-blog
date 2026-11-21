@@ -1,25 +1,32 @@
 ---
+import { COURSE_LIST_HREF } from '../data/site-nav';
 import { absoluteCrumbHref, type CrumbModel } from '../data/breadcrumbs';
 
 interface Props {
 	model: CrumbModel;
+	courseListModel?: CrumbModel | null;
 	isEn?: boolean;
 }
 
-const { model, isEn = false } = Astro.props;
+const { model, courseListModel, isEn = false } = Astro.props;
 const switcherLabel = isEn ? 'Sibling sections' : '같은 단계 항목';
+const showDefault = !model.hideDefault || model.currentId !== model.defaultId;
 const jsonLd = {
 	'@context': 'https://schema.org',
 	'@type': 'BreadcrumbList',
-	itemListElement: model.items.map((item, index) => ({
+	itemListElement: model.items.filter((item) => showDefault || item.id !== model.defaultId).map((item, index) => ({
 		'@type': 'ListItem',
 		position: index + 1,
 		name: item.label,
 		item: absoluteCrumbHref(item.href),
 	})),
 };
+const courseListItem = courseListModel?.items.at(-1);
 const config = {
 	watch: model.watch,
+	hideDefault: model.hideDefault,
+	courseListModel,
+	courseListQuery: new URL(COURSE_LIST_HREF, 'https://sreborn.net').search,
 	defaultId: model.defaultId,
 	currentId: model.currentId,
 	sections: model.sections,
@@ -34,21 +41,25 @@ const config = {
 	<ol class="site-bc-list">
 		{model.items.map((item, index) => {
 			const last = index === model.items.length - 1;
+			const isCurrent = showDefault ? last : index === model.items.length - 2;
+			const hasSwitcher = model.siblings.length > 1 &&
+				(item.id === model.currentId || (!showDefault && last)) && (model.items.length > 2 || model.watch);
 			return (
-				<li class:list={['site-bc-item', { 'is-tail': last }]}>
+				<li class:list={['site-bc-item', { 'is-tail': last || hasSwitcher }]} data-bc-tail={last ? '' : undefined} hidden={last && !showDefault}>
 					{index > 0 && <span class="site-bc-sep" aria-hidden="true">›</span>}
 					<a
 						class="site-bc-link"
 						href={item.href}
-						data-bc-current={last ? '' : undefined}
+						data-bc-current={isCurrent ? '' : undefined}
+						data-bc-tail-link={last ? '' : undefined}
 						data-child-id={last ? item.id : undefined}
-						aria-current={last ? 'page' : undefined}
+						aria-current={isCurrent ? 'page' : undefined}
 						target={item.external ? '_blank' : undefined}
 						rel={item.external ? 'noopener noreferrer' : undefined}
 					>
 						{item.label}
 					</a>
-					{last && model.siblings.length > 1 && (
+					{hasSwitcher && (
 						<>
 							<button
 								type="button"
@@ -82,17 +93,25 @@ const config = {
 				</li>
 			);
 		})}
+		{courseListItem && (
+			<li class="site-bc-item" data-bc-course-link hidden>
+				<span class="site-bc-sep" aria-hidden="true">›</span>
+				<a class="site-bc-link" href={courseListItem.href}>{courseListItem.label}</a>
+			</li>
+		)}
 	</ol>
 </nav>
-<script type="application/ld+json" id="site-bc-ld" is:inline set:html={JSON.stringify(jsonLd)}></script>
-<script type="application/json" id="site-bc-config" is:inline set:html={JSON.stringify(config)}></script>
+<script type="application/ld+json" id="site-bc-ld" is:inline set:html={JSON.stringify(jsonLd).replaceAll('<', '\\u003c')}></script>
+<script type="application/json" id="site-bc-config" is:inline set:html={JSON.stringify(config).replaceAll('<', '\\u003c')}></script>
 <script is:inline>
 (function () {
 	var configNode = document.getElementById('site-bc-config');
 	var root = document.querySelector('[data-bc-root]');
 	if (!configNode || !root) return;
 	var config = JSON.parse(configNode.textContent || '{}');
-	var currentLink = root.querySelector('[data-bc-current]');
+	var tailItem = root.querySelector('[data-bc-tail]');
+	var currentLink = root.querySelector('[data-bc-tail-link]');
+	var pillarLink = root.querySelectorAll('.site-bc-link')[1];
 	var button = root.querySelector('.site-bc-switch');
 	var menu = document.getElementById('site-bc-menu');
 	var allowScrollSpy = false;
@@ -108,16 +127,18 @@ const config = {
 	function setMenuOpen(open) {
 		if (!button || !menu) return;
 		button.setAttribute('aria-expanded', open ? 'true' : 'false');
-		if (open) menu.removeAttribute('hidden');
+		if (open) {
+			menu.removeAttribute('hidden');
+			menu.style.left = '0px';
+			var overflow = menu.getBoundingClientRect().right - document.documentElement.clientWidth + 8;
+			if (overflow > 0) menu.style.left = -overflow + 'px';
+		}
 		else menu.setAttribute('hidden', '');
 	}
 
-	function updateJsonLd(child) {
+	function updateJsonLd(items) {
 		var node = document.getElementById('site-bc-ld');
-		if (!node || !config.items || !config.items.length) return;
-		var items = config.items.slice();
-		items[items.length - 1] = { id: child.id, label: child.label, href: child.href };
-		config.items = items;
+		if (!node) return;
 		node.textContent = JSON.stringify({
 			'@context': 'https://schema.org',
 			'@type': 'BreadcrumbList',
@@ -127,10 +148,53 @@ const config = {
 		});
 	}
 
+	function updateCurrentNav(id) {
+		document.querySelectorAll('[data-nav-child]').forEach(function (link) {
+			if (link.getAttribute('data-nav-child') === id) link.setAttribute('aria-current', 'page');
+			else link.removeAttribute('aria-current');
+		});
+	}
+
+	var courseList = config.courseListModel;
+	if (courseList && new URLSearchParams(location.search).get('category') ===
+		new URLSearchParams(config.courseListQuery).get('category') && !new URLSearchParams(location.search).has('q')) {
+		var pillar = courseList.items[1];
+		pillarLink.textContent = pillar.label;
+		pillarLink.href = pillar.href;
+		pillarLink.removeAttribute('aria-current');
+		pillarLink.removeAttribute('data-bc-current');
+		var courseRow = root.querySelector('[data-bc-course-link]');
+		var courseLink = courseRow.querySelector('a');
+		courseRow.hidden = false;
+		courseLink.setAttribute('aria-current', 'page');
+		courseLink.setAttribute('data-bc-current', '');
+		document.querySelectorAll('[data-nav-pillar]').forEach(function (item) {
+			var active = item.getAttribute('data-nav-pillar') === courseList.sectionId;
+			item.classList.toggle('is-current', active);
+			var target = item.querySelector(':scope > a');
+			if (active) target?.setAttribute('aria-current', 'location');
+			else target?.removeAttribute('aria-current');
+		});
+		updateCurrentNav(courseList.currentId);
+		updateJsonLd(courseList.items);
+		return;
+	}
+
 	function apply(id, fromScroll) {
-		var child = childById(id);
+		var isDefault = config.hideDefault && id === config.defaultId;
+		var child = isDefault ? { id: id, label: pillarLink.textContent.trim(), href: pillarLink.getAttribute('href') } : childById(id);
 		if (!child || !currentLink) return;
 		var changed = currentLink.getAttribute('data-child-id') !== id;
+		if (config.hideDefault) {
+			tailItem.hidden = isDefault;
+			[ currentLink, pillarLink ].forEach(function (link) {
+				var active = isDefault ? link === pillarLink : link === currentLink;
+				link.toggleAttribute('data-bc-current', active);
+				if (active) link.setAttribute('aria-current', 'page');
+				else link.removeAttribute('aria-current');
+			});
+			pillarLink.setAttribute('data-child-id', isDefault ? id : config.items[1].id);
+		}
 		currentLink.textContent = child.label;
 		currentLink.setAttribute('href', child.href);
 		currentLink.setAttribute('data-child-id', id);
@@ -141,11 +205,8 @@ const config = {
 				else link.removeAttribute('aria-current');
 			});
 		}
-		document.querySelectorAll('[data-nav-child]').forEach(function (link) {
-			if (link.getAttribute('data-nav-child') === id) link.setAttribute('aria-current', 'page');
-			else link.removeAttribute('aria-current');
-		});
-		if (changed) updateJsonLd(child);
+		updateCurrentNav(id);
+		if (changed) updateJsonLd(isDefault ? config.items.slice(0, -1) : [...config.items.slice(0, -1), child]);
 		if (fromScroll && config.watch && changed) {
 			var nextHash = '';
 			try { nextHash = new URL(child.href, window.location.origin).hash; } catch (error) { nextHash = ''; }
@@ -233,7 +294,7 @@ const config = {
 			setMenuOpen(!open);
 			if (!open) {
 				var first = menu.querySelector('[role="menuitem"]');
-				if (first) first.focus();
+				if (first) first.focus({ preventScroll: true });
 			}
 		});
 		button.addEventListener('keydown', function (event) {
@@ -241,7 +302,7 @@ const config = {
 				event.preventDefault();
 				setMenuOpen(true);
 				var first = menu.querySelector('[role="menuitem"]');
-				if (first) first.focus();
+				if (first) first.focus({ preventScroll: true });
 			}
 		});
 		menu.addEventListener('keydown', function (event) {
@@ -323,6 +384,8 @@ const config = {
 		min-width: 0;
 	}
 
+	.site-bc-item[hidden] { display: none; }
+
 	.site-bc-item.is-tail {
 		position: relative;
 	}
@@ -330,6 +393,8 @@ const config = {
 	.site-bc-sep {
 		color: var(--sh-muted);
 		padding: 0 0.2rem;
+		min-width: 0;
+		overflow-wrap: anywhere;
 	}
 
 	.site-bc-link,
@@ -391,8 +456,7 @@ const config = {
 		top: calc(100% + 4px);
 		left: 0;
 		right: auto;
-		min-width: 12rem;
-		max-width: min(18rem, calc(100vw - 1rem));
+		width: min(18rem, calc(100vw - 1rem));
 		margin: 0;
 		padding: 0.35rem;
 		list-style: none;

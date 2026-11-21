@@ -1,6 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
+import { FORMAT, TOPIC_IDS } from './data/taxonomy';
 
 const blog = defineCollection({
 	loader: glob({ base: './src/content/blog', pattern: '**/*.{md,mdx}' }),
@@ -11,6 +12,8 @@ const blog = defineCollection({
 		description_en: z.string().optional(),
 		date: z.coerce.date(),
 		category: z.string().optional(),
+		topic: z.enum(TOPIC_IDS).optional(),
+		format: z.enum(FORMAT).optional(),
 		subcategory: z.string().optional(),
 		tags: z.array(z.string()).optional().default([]),
 		thumbnail: z.string().optional(),

@@ -1,0 +1,25 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import TaxonomyListing from '../../../components/TaxonomyListing.astro';
+import { TOPICS } from '../../../data/taxonomy';
+
+export function getStaticPaths() {
+	return TOPICS.map((topic) => ({ params: { topic: topic.id }, props: { topic } }));
+}
+interface Props {
+	topic: typeof TOPICS[number];
+}
+const { topic } = Astro.props;
+const schema = {
+	'@context': 'https://schema.org',
+	'@type': 'CollectionPage',
+	name: topic.label,
+	description: topic.description,
+	url: new URL(Astro.url.pathname, Astro.site).href,
+};
+---
+
+<Layout title={`${topic.label} | AI LAB`} description={topic.description}>
+	<script type="application/ld+json" is:inline set:html={JSON.stringify(schema)}></script>
+	<TaxonomyListing topic={topic} />
+</Layout>

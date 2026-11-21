@@ -156,7 +156,7 @@ const { searchIndex, supabaseUrl, supabaseKey, contactEmail } = Astro.props;
     if (fuse) return fuse.search(term);
     const tl = term.toLowerCase();
     return searchIndex
-      .filter(p => [p.title, p.description, p.category, p.tags, p.difficulty, p.type]
+      .filter(p => [p.title, p.description, p.category, p.legacyCategory, p.tags, p.difficulty, p._difficulty, p.type]
         .some(f => f?.toLowerCase().includes(tl)))
       .map(item => ({ item, score: 0.4 }));
   };
@@ -257,6 +257,7 @@ const { searchIndex, supabaseUrl, supabaseKey, contactEmail } = Astro.props;
       { name: 'description', weight: 0.6 },
       { name: 'difficulty',  weight: 0.4 },
       { name: 'category',    weight: 0.4 },
+      { name: 'legacyCategory', weight: 0.3 },
       { name: 'subcategory', weight: 0.3 },
       { name: 'type',        weight: 0.2 },
     ],
@@ -275,7 +276,7 @@ const { searchIndex, supabaseUrl, supabaseKey, contactEmail } = Astro.props;
         search: (q) => {
           const ql = q.toLowerCase();
           return searchIndex
-            .filter(p => [p.title, p.description, p.category, p.tags, p.difficulty]
+            .filter(p => [p.title, p.description, p.category, p.legacyCategory, p.tags, p.difficulty, p._difficulty, p.type]
               .some(f => f?.toLowerCase().includes(ql)))
             .map(item => ({ item, score: 0.3 }));
         },

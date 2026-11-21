@@ -1,20 +1,20 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
-import { CATEGORIES, SITE_TITLE } from '../consts';
+import { SITE_TITLE } from '../consts';
+import { ACADEMY_CELLS, TOPICS, academyLabel, cellOf, topicHref } from '../data/taxonomy';
+import { COURSE_LIST_HREF } from '../data/site-nav';
 
 const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-const categoryLabel = (id: string) => CATEGORIES.find((c) => c.id === id)?.label ?? id;
-const categoryIcon  = (id: string) => CATEGORIES.find((c) => c.id === id)?.icon  ?? '📄';
-
-// 카테고리별로 묶기 (CATEGORIES 순서 유지)
-const grouped = CATEGORIES.map(cat => ({
-  ...cat,
-  posts: allPosts.filter(p => p.data.category === cat.id),
-})).filter(g => g.posts.length > 0);
-
+const grouped = [
+  ...TOPICS.map(({ id, label }) => ({ id, label, href: topicHref(id) })),
+  ...ACADEMY_CELLS.map((id) => ({
+    id, label: `AI ACADEMY · ${academyLabel(id)}`,
+    href: id === 'ACADEMY:course' ? COURSE_LIST_HREF : `/lecture-materials/#${id.split(':')[1]}`,
+  })),
+].map((group) => ({ ...group, posts: allPosts.filter((post) => cellOf(post) === group.id) }));
 const total = allPosts.length;
 const catCount = grouped.length;
 ---
@@ -33,8 +33,7 @@ const catCount = grouped.length;
       {grouped.map(cat => (
         <section class="sm-cat">
           <div class="sm-cat-head">
-            <span class="sm-icon">{cat.icon}</span>
-            <h2 class="sm-cat-name">{cat.label}</h2>
+            <h2 class="sm-cat-name"><a href={cat.href}>{cat.label}</a></h2>
             <span class="sm-badge">{cat.posts.length}</span>
           </div>
           <ul class="sm-list">
@@ -87,7 +86,7 @@ const catCount = grouped.length;
 
 .sm-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
   gap: 1.75rem;
 }
 

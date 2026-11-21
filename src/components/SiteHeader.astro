@@ -1,12 +1,12 @@
 ---
 import { SITE_TITLE } from '../consts';
 import { buildCrumbs } from '../data/breadcrumbs';
+import type { TaxonomyPost } from '../data/taxonomy';
 import SiteBreadcrumb from './SiteBreadcrumb.astro';
 import {
 	SITE_NAV,
 	COMING_SOON_HREF,
 	localizeHref,
-	sectionIsCurrent,
 	toEnglishPath,
 	toKoreanPath,
 	type NavChild,
@@ -17,11 +17,13 @@ interface Props {
 	siteTitle?: string;
 	lang?: 'ko' | 'en';
 	showSearch?: boolean;
+	pageTitle?: string;
+	post?: TaxonomyPost;
 	/** 좁은 화면에서 검색창 대신 버튼을 보여 준다. 메뉴 항목은 바꾸지 않는다. */
 	compactSearch?: boolean;
 }
 
-const { siteTitle = SITE_TITLE, lang, showSearch = false, compactSearch = false } = Astro.props;
+const { siteTitle = SITE_TITLE, lang, showSearch = false, compactSearch = false, pageTitle, post } = Astro.props;
 const brandNote = siteTitle.replace(/^S-?reborn\s+/i, '').trim() || 'MD AI HUB';
 const path = Astro.url.pathname;
 const isEn = lang ? lang === 'en' : path === '/en' || path.startsWith('/en/');
@@ -31,7 +33,9 @@ const enPath = toEnglishPath(isEn ? toKoreanPath(path) : path);
 const enReady = Boolean(enPath);
 const enHref = enPath ? `${enPath}${search}` : COMING_SOON_HREF;
 const mobileSearchLabel = portalCopy(isEn ? 'en' : 'ko').mobileSearch || portalCopy('ko').mobileSearch;
-const crumbs = buildCrumbs(path, Astro.url.hash, isEn);
+const crumbs = buildCrumbs(path, Astro.url.hash, isEn, pageTitle, post);
+const courseListCrumbs = path === '/blog/' || path === '/en/blog/'
+	? buildCrumbs(path, '', isEn, undefined, undefined, true) : null;
 
 function childLabel(child: NavChild): string {
 	if (child.pending) return '준비중';
@@ -97,15 +101,16 @@ function childHref(child: NavChild): string {
 					{SITE_NAV.map((item) => {
 						const label = isEn ? item.labelEn : item.label;
 						const panelId = `site-sub-${item.id}`;
-						const sectionCurrent = sectionIsCurrent(item.id, Astro.url);
-						const direct = item.children.length === 0 && Boolean(item.href);
+						const sectionCurrent = item.id === 'home' ? path === '/' : crumbs?.sectionId === item.id;
+						const hasChildren = item.children.length > 0;
+						const split = hasChildren && Boolean(item.href);
 						return (
-							<li class:list={['site-nav-item', { 'is-current': sectionCurrent }]} data-nav-item>
-								{direct ? (
+							<li class:list={['site-nav-item', { 'is-current': sectionCurrent, 'site-nav-split': split }]} data-nav-item data-nav-pillar={item.id}>
+								{item.href && (
 									<a
 										class="site-nav-btn"
-										href={item.href}
-										aria-current={sectionCurrent ? 'page' : undefined}
+										href={localizeHref(item.href, isEn)}
+										aria-current={sectionCurrent ? (hasChildren ? 'location' : 'page') : undefined}
 										target={item.external ? '_blank' : undefined}
 										rel={item.external ? 'noopener noreferrer' : undefined}
 									>
@@ -117,20 +122,20 @@ function childHref(child: NavChild): string {
 											</>
 										)}
 									</a>
-								) : (
-								<button
+								)}
+								{hasChildren && <button
 									type="button"
-									class="site-nav-btn"
+									class:list={['site-nav-btn', { 'site-nav-disclosure': split }]}
 									data-submenu-toggle
+									aria-label={split ? (isEn ? `${label} submenu` : `${label} 하위메뉴`) : undefined}
 									aria-expanded="false"
 									aria-controls={panelId}
 									aria-haspopup="true"
 								>
-									{label}
+									{!split && label}
 									<span class="site-nav-caret" aria-hidden="true"></span>
-								</button>
-								)}
-								{!direct && <ul class="site-nav-sub" id={panelId}>
+								</button>}
+								{hasChildren && <ul class="site-nav-sub" id={panelId}>
 									{item.children.map((child, index) => {
 										const href = childHref(child);
 										const current = crumbs?.currentId === child.id;
@@ -192,7 +197,7 @@ function childHref(child: NavChild): string {
 			</button>
 		</div>
 	</header>
-	{crumbs && <SiteBreadcrumb model={crumbs} isEn={isEn} />}
+	{crumbs && <SiteBreadcrumb model={crumbs} courseListModel={courseListCrumbs} isEn={isEn} />}
 
 	<button type="button" class="site-nav-backdrop" data-nav-backdrop hidden aria-label={isEn ? 'Close menu' : '메뉴 닫기'}></button>
 
@@ -333,7 +338,7 @@ function childHref(child: NavChild): string {
 			const target = event.target;
 			if (!(target instanceof HTMLElement)) return;
 			const top = topItems();
-			const currentTop = target.closest('.site-nav-list > .site-nav-item')?.querySelector(':scope > .site-nav-btn');
+			const currentTop = target.closest('.site-nav-list > .site-nav-item')?.querySelector(':scope > [data-submenu-toggle]');
 			const submenu = target.closest('.site-nav-sub');
 			const inMenu = Boolean(target.closest('.site-nav, .site-lang, [data-nav-toggle]'));
 			if (inMenu && ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) {
@@ -501,6 +506,21 @@ function childHref(child: NavChild): string {
 	.site-header :global(.tb-search-wrap) {
 		flex: 1;
 		min-width: 0;
+	}
+
+	.site-nav-split {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		align-items: center;
+	}
+	.site-nav-split > .site-nav-sub { grid-column: 1 / -1; }
+	.site-nav-split > .site-nav-disclosure {
+		justify-content: center;
+		width: 44px;
+		padding-inline: 0;
+	}
+	@media (min-width: 1201px) {
+		.site-nav-split > .site-nav-disclosure { width: 32px; }
 	}
 
 	.site-nav-list {

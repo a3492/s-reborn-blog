@@ -1,0 +1,110 @@
+---
+import { getCollection } from 'astro:content';
+import FormattedDate from './FormattedDate.astro';
+import TopicSidebar from './TopicSidebar.astro';
+import { CATEGORIES, MENU_GROUPS } from '../consts';
+import { FORMAT, LEVELS, TOPICS, academyLabel, cellOf, formatOf, levelOf, topicOf } from '../data/taxonomy';
+
+interface Props {
+	topic?: typeof TOPICS[number];
+}
+const { topic } = Astro.props;
+const entries = (await getCollection('blog', ({ data }) => !data.draft))
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+	.map((post) => ({
+		post, cell: cellOf(post), topic: topicOf(post), format: formatOf(post), level: levelOf(post),
+	}));
+const lab = entries.filter(({ topic }) => topic);
+const counts = Object.fromEntries(TOPICS.map(({ id }) => [id, lab.filter((entry) => entry.topic === id).length]));
+const listed = topic ? lab.filter((entry) => entry.topic === topic.id) : entries;
+const featured = topic ? (topic.featured as readonly string[]).flatMap((id) => {
+	const entry = listed.find(({ post }) => post.id === id);
+	return entry ? [entry.post] : [];
+}) : [];
+const labelFor = (cell: string | undefined) => TOPICS.find(({ id }) => id === cell)?.label ?? academyLabel(cell);
+const legacy = topic ? null : {
+	categories: Object.fromEntries(CATEGORIES.map(({ id, label }) => [id, label])),
+	groups: Object.fromEntries(MENU_GROUPS.map(({ id, label, cats }) => [id, { label, cats }])),
+};
+---
+
+<div class="blog-layout" data-taxonomy-list>
+	<TopicSidebar counts={counts} current={topic?.id} />
+	<section class="blog-content" aria-labelledby="blog-content-title">
+		<div class="blog-content-hd">
+			<h1 class="blog-content-title" id="blog-content-title">{topic?.label ?? 'AI LAB'}</h1>
+			<span class="blog-content-count" data-taxonomy-count aria-live="polite">{topic ? listed.length : lab.length}편</span>
+		</div>
+		{topic && <p class="listing-description">{topic.description}</p>}
+		{!topic && (
+			<section class="start-here" data-taxonomy-intro>
+				<h2>처음이라면</h2>
+				<a href="/blog/?level=beginner#blog-filters">입문 글 보기</a>
+			</section>
+		)}
+		{featured.length > 0 && (
+			<section class="start-here" data-taxonomy-intro>
+				<h2>대표 글</h2>
+				{featured.map(({ id, data }) => <a href={`/blog/${id}/`}>{data.title}</a>)}
+			</section>
+		)}
+		<div id="blog-filters" class="blog-filters" hidden>
+			{[
+				{ name: 'format', label: '형식', options: FORMAT.map((value) => [value, value]) },
+				{ name: 'level', label: '수준', options: Object.entries(LEVELS) },
+			].map(({ name, label, options }) => (
+				<fieldset data-facet={name}>
+					<legend>{label}</legend>
+					<div class="facet-buttons">
+						{[['', '전체'], ...options].map(([value, text]) => (
+							<button type="button" data-value={value} aria-pressed={value === '' ? 'true' : 'false'}>{text}</button>
+						))}
+					</div>
+				</fieldset>
+			))}
+		</div>
+		<p data-taxonomy-empty hidden>선택한 조건에 맞는 글이 없습니다.</p>
+		<div class="blog-card-grid" data-taxonomy-grid>
+			{listed.map(({ post, cell, topic: articleTopic, format, level }) => (
+				<a href={`/blog/${post.id}/`} class="blog-card" data-taxonomy-post
+					hidden={!articleTopic} data-topic={articleTopic ?? ''}
+					data-cat={post.data.category ?? ''} data-title={post.data.title}
+					data-desc={post.data.description} data-tags={post.data.tags.join(' ')}
+					data-difficulty={level ?? ''} data-format={format} data-label={labelFor(cell)}>
+					<h2 class="blog-card-title">{post.data.title}</h2>
+					<p class="blog-card-meta">
+						<span class="blog-card-cat">{labelFor(cell)}</span>
+						<span class="facet-badge">{format}</span>
+						{level && <span class="facet-badge">{LEVELS[level]}</span>}
+						<span class="blog-card-date"><FormattedDate date={post.data.date} /></span>
+					</p>
+					{post.data.description && <p class="blog-card-desc">{post.data.description}</p>}
+				</a>
+			))}
+		</div>
+	</section>
+	{legacy && <script type="application/json" data-legacy-blog is:inline set:html={JSON.stringify(legacy)}></script>}
+</div>
+
+<script>
+	import { initTaxonomyListing } from '../scripts/taxonomy-listing';
+	document.querySelectorAll<HTMLElement>('[data-taxonomy-list]').forEach(initTaxonomyListing);
+</script>
+
+<style>
+	.blog-content { min-width: 0; }
+	.listing-description { color: var(--site-text-secondary); }
+	.start-here { margin-block: 0.75rem 1rem; padding: 0.85rem; background: var(--site-subtle); border-radius: 8px; }
+	.start-here h2 { font-size: 1rem; margin: 0 0 0.25rem; }
+	.start-here a { color: var(--site-mint-text); }
+	.blog-filters { margin-bottom: 1rem; scroll-margin-top: 140px; }
+	.blog-filters fieldset { min-width: 0; border: 0; margin: 0 0 0.65rem; padding: 0; }
+	.blog-filters legend { font-weight: 700; margin-bottom: 0.25rem; }
+	.facet-buttons { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+	.facet-buttons button { background: var(--site-surface); color: var(--site-text); border: 1px solid var(--site-border); border-radius: 100px; font: inherit; padding: 0.25rem 0.7rem; min-height: 36px; cursor: pointer; }
+	.facet-buttons button[aria-pressed='true'] { background: var(--site-subtle); color: var(--site-mint-text); border-color: currentColor; font-weight: 700; }
+	.facet-buttons button:focus-visible { outline: 2px solid var(--site-mint-text); outline-offset: 2px; }
+	.blog-card-meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.3rem; }
+	.facet-badge { border-radius: 0.35rem; padding: 0 0.3rem; background: var(--site-subtle); color: var(--site-text-secondary); }
+	[hidden] { display: none; }
+</style>

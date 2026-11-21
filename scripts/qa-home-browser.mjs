@@ -22,11 +22,17 @@ const themeCases = [
 	['system', 'dark'],
 ];
 const lectureHome = '/lecture-materials/';
+const courseList = '/blog/?category=doctor-ai';
 const lectureSlots = [
-	{ id: 'lectures-home', label: '강연·자료 홈', hash: '' },
-	{ id: 'lectures-files', label: '자료', hash: '#materials' },
-	{ id: 'lectures-practice', label: '실습', hash: '#practice' },
-	{ id: 'lectures-record', label: '발표·기록', hash: '#talks' },
+	{ id: 'lectures-course', label: '강의', href: courseList },
+	{ id: 'lectures-practice', label: '실습', href: lectureHome + '#practice' },
+	{ id: 'lectures-files', label: '자료', href: lectureHome + '#materials' },
+	{ id: 'lectures-record', label: '발표·기록', href: lectureHome + '#talks' },
+];
+const topicSlots = [
+	['basics', 'AI 이해', 82], ['prompting', '프롬프트·컨텍스트', 42],
+	['building', '에이전트·개발', 71], ['clinic', '진료·업무', 41], ['research', '연구·학술', 34],
+	['tools', '도구·리뷰', 73], ['society', 'AI와 사회', 51],
 ];
 const articlePath = '/blog/aerini/what-is-ai/';
 
@@ -167,72 +173,182 @@ async function checkDrawer(page, name, screenshot) {
 	check(await toggle.getAttribute('aria-expanded') === 'false', `${name}: Escape did not close drawer`);
 }
 
-async function checkLectureState(page, slot, name) {
-	const crumbs = page.getByRole('navigation', { name: '경로' });
-	const current = crumbs.locator('[data-bc-current]');
-	await current.and(page.locator(`[data-child-id="${slot.id}"]`)).waitFor();
-	check(await current.innerText() === slot.label &&
-		await current.getAttribute('href') === lectureHome + slot.hash &&
-		await current.getAttribute('aria-current') === 'page', `${name}: incorrect current breadcrumb for ${slot.label}`);
-	check(await page.locator(`#site-sub-lectures [data-nav-child="${slot.id}"]`).getAttribute('aria-current') === 'page' &&
-		await page.locator('#site-sub-lectures [aria-current="page"]').count() === 1,
-		`${name}: incorrect active lecture menu item for ${slot.label}`);
+async function checkCrumbs(page, expected, name) {
+	const nav = page.getByRole('navigation', { name: '경로' });
+	const links = await nav.locator(':scope > ol > li:not([hidden]) > a, :scope > a').evaluateAll((nodes) =>
+		nodes.map((node) => [node.textContent.trim(), node.getAttribute('href'), node.getAttribute('aria-current')]));
+	check(JSON.stringify(links) === JSON.stringify(expected.map(([label, href], index) =>
+		[label, href, index === expected.length - 1 ? 'page' : null])), `${name}: unexpected breadcrumb ${JSON.stringify(links)}`);
 	const schema = JSON.parse(await page.locator('#site-bc-ld').textContent());
-	check(schema['@type'] === 'BreadcrumbList' && schema.itemListElement.at(-1)?.name === slot.label,
-		`${name}: incorrect breadcrumb structured data for ${slot.label}`);
+	check(schema['@type'] === 'BreadcrumbList' &&
+		JSON.stringify(schema.itemListElement.map((item) => [item.name, item.item])) ===
+		JSON.stringify(expected.map(([label, href]) => [label, new URL(href, 'https://sreborn.net').href])),
+		`${name}: incorrect breadcrumb structured data`);
+}
+
+async function ensureDrawer(page, mobile) {
+	const toggle = page.locator('[data-nav-toggle]');
+	if (mobile && await toggle.getAttribute('aria-expanded') === 'false') await toggle.click();
+}
+
+async function checkActiveNav(page, section, child, name) {
+	check(await page.locator(`[data-nav-pillar="${section}"].is-current`).count() === 1,
+		`${name}: wrong active pillar`);
+	if (child) check(await page.locator(`#site-sub-${section} [data-nav-child="${child}"][aria-current="page"]`).count() === 1 &&
+		await page.locator(`#site-sub-${section} [aria-current="page"]`).count() === 1,
+		`${name}: wrong active submenu item`);
+}
+
+async function checkLectureState(page, slot, name) {
+	await page.locator(`[data-bc-current][href="${slot.href}"]`).waitFor();
+	await checkCrumbs(page, [['홈', '/'], ['AI ACADEMY', lectureHome], [slot.label, slot.href]], name);
+	await checkActiveNav(page, 'lectures', slot.id, name);
 }
 
 async function checkLectureNavigation(page, base, mobile, name, screenshot) {
-	const button = page.locator('[aria-controls="site-sub-lectures"]');
+	const button = page.getByRole('button', { name: 'AI ACADEMY 하위메뉴' });
 	const submenu = page.locator('#site-sub-lectures');
 	const toggle = page.locator('[data-nav-toggle]');
 	const crumbs = page.getByRole('navigation', { name: '경로' });
+	await ensureDrawer(page, mobile);
+	await page.locator('#site-nav').getByRole('link', { name: 'AI ACADEMY', exact: true }).click();
+	await page.waitForURL(new URL(lectureHome, base).href);
+	await checkCrumbs(page, [['홈', '/'], ['AI ACADEMY', lectureHome]], name);
 
 	for (const slot of lectureSlots) {
-		if (mobile) await toggle.click();
+		await ensureDrawer(page, mobile);
 		await button.click();
 		await submenu.waitFor();
 		if (screenshot && slot === lectureSlots[0]) await page.screenshot({ path: screenshot });
 		const links = await submenu.getByRole('link').evaluateAll((items) =>
 			items.map((link) => [link.textContent.trim(), link.getAttribute('href')]));
-		check(JSON.stringify(links) === JSON.stringify(lectureSlots.map(({ label, hash }) => [label, lectureHome + hash])),
-			`${name}: unexpected lecture menu links`);
+		check(JSON.stringify(links) === JSON.stringify(lectureSlots.map(({ label, href }) => [label, href])),
+			`${name}: unexpected Academy menu links`);
 		await button.press('Escape');
 		await submenu.waitFor({ state: 'hidden' });
-		check(await button.getAttribute('aria-expanded') === 'false', `${name}: Escape did not close lecture submenu`);
+		check(await button.getAttribute('aria-expanded') === 'false', `${name}: Escape did not close Academy submenu`);
 
 		await button.click();
 		await submenu.getByRole('link', { name: slot.label, exact: true }).click();
-		await page.waitForURL((url) => url.pathname === lectureHome && url.hash === slot.hash);
+		await page.waitForURL(new URL(slot.href, base).href);
 		await submenu.waitFor({ state: 'hidden' });
 		if (mobile) check(await toggle.getAttribute('aria-expanded') === 'false', `${name}: drawer remained open after ${slot.label}`);
 		await checkLectureState(page, slot, name);
+		if (slot.href === courseList) {
+			await page.locator('[data-taxonomy-count]').filter({ hasText: '25편' }).waitFor();
+			check(await page.locator('[data-taxonomy-post]:visible').count() === 25, `${name}: wrong course list count`);
+		}
 	}
 
-	const practice = lectureSlots[2];
-	const switcher = crumbs.locator('.site-bc-switch');
-	await switcher.click();
+	const practice = lectureSlots[1];
+	await crumbs.locator('.site-bc-switch').click();
 	const siblingMenu = crumbs.getByRole('menu');
 	await siblingMenu.waitFor();
 	const menuBox = await siblingMenu.boundingBox();
 	check(menuBox.x >= 0 && menuBox.x + menuBox.width <= page.viewportSize().width + 1,
 		`${name}: breadcrumb switcher extends past the viewport`);
 	await siblingMenu.getByRole('menuitem', { name: practice.label, exact: true }).click();
-	await page.waitForURL((url) => url.pathname === lectureHome && url.hash === practice.hash);
+	await page.waitForURL(new URL(practice.href, base).href);
 	await checkLectureState(page, practice, name);
 
-	const lectureCrumb = crumbs.getByRole('link', { name: '강연·자료', exact: true });
-	check(await lectureCrumb.getAttribute('href') === lectureHome, `${name}: wrong lecture breadcrumb link`);
-	await lectureCrumb.click();
-	await page.waitForURL((url) => url.pathname === lectureHome && !url.hash);
-	await checkLectureState(page, lectureSlots[0], name);
-
-	const homeCrumb = crumbs.getByRole('link', { name: '홈', exact: true });
-	check(await homeCrumb.getAttribute('href') === '/', `${name}: wrong home breadcrumb link`);
-	await homeCrumb.click();
+	await crumbs.getByRole('link', { name: 'AI ACADEMY', exact: true }).click();
+	await page.waitForURL(new URL(lectureHome, base).href);
+	await checkCrumbs(page, [['홈', '/'], ['AI ACADEMY', lectureHome]], name);
+	await crumbs.getByRole('link', { name: '홈', exact: true }).click();
 	await page.waitForURL(new URL('/', base).href);
 }
 
+async function checkTopics(page, base, mobile, name, preference, scheme) {
+	const nav = page.locator('#site-nav');
+	const button = nav.getByRole('button', { name: 'AI LAB 하위메뉴' });
+	const menu = page.locator('#site-sub-research');
+	await ensureDrawer(page, mobile);
+	await nav.getByRole('link', { name: 'AI LAB', exact: true }).click();
+	await page.waitForURL(new URL('/blog/', base).href);
+	await checkCrumbs(page, [['홈', '/'], ['AI LAB', '/blog/']], name);
+	check(await page.locator('[data-taxonomy-post]:visible').count() === 394, `${name}: wrong AI LAB count`);
+	await page.getByRole('link', { name: '입문 글 보기' }).click();
+	await page.waitForURL(new URL('/blog/?level=beginner#blog-filters', base).href);
+	await page.locator('[data-facet="level"] [data-value="beginner"][aria-pressed="true"]').waitFor();
+	check(await page.locator('[data-taxonomy-post]:visible').count() === 215, `${name}: wrong beginner count`);
+
+	for (const [id, label, total] of topicSlots) {
+		const href = `/blog/topics/${id}/`;
+		await ensureDrawer(page, mobile);
+		await button.click();
+		await menu.waitFor();
+		const links = await menu.getByRole('link').evaluateAll((nodes) =>
+			nodes.map((link) => [link.textContent.trim(), link.getAttribute('href')]));
+		check(JSON.stringify(links) === JSON.stringify(topicSlots.map(([slug, name]) => [name, `/blog/topics/${slug}/`])),
+			`${name}: unexpected LAB topic menu links`);
+		await menu.getByRole('link', { name: label, exact: true }).click();
+		await page.waitForURL(new URL(href, base).href);
+		await checkTheme(page, preference, scheme, `${name} ${id}`);
+		await checkCrumbs(page, [['홈', '/'], ['AI LAB', '/blog/'], [label, href]], name);
+		await checkActiveNav(page, 'research', `topic-${id}`, name);
+		const cards = page.locator('[data-taxonomy-post]');
+		check(await cards.count() === total && await page.locator('[data-taxonomy-post]:visible').count() === total,
+			`${name}: wrong article count for ${id}`);
+		const format = await cards.first().getAttribute('data-format');
+		const options = page.locator('[data-facet="format"] button');
+		const levels = page.locator('[data-facet="level"] button');
+		check(await options.count() === 9 && await levels.count() === 4, `${name}: wrong facet options`);
+		await page.locator(`[data-facet="format"] [data-value="${format}"]`).click();
+		await page.locator('[data-facet="level"] [data-value="beginner"]').click();
+		const matches = await page.locator('[data-taxonomy-post]:visible').count();
+		const expected = await page.locator(`[data-taxonomy-post][data-format="${format}"][data-difficulty="beginner"]`).count();
+		check(matches === expected &&
+			(await page.locator('[data-taxonomy-count]').innerText()) === `${expected}편`, `${name}: facet intersection ${id}`);
+		const viewportFits = await page.locator('#blog-filters').evaluate((element) =>
+			element.scrollWidth <= element.clientWidth + 1 && document.documentElement.scrollWidth <= innerWidth + 1);
+		check(viewportFits, `${name}: topic page or filters overflow ${id}`);
+		if (shots && id === 'basics' && [320, 1280].includes(page.viewportSize().width)) {
+			await page.screenshot({ path: path.join(shots, `topic-${page.viewportSize().width}-${preference}-${scheme}.png`) });
+		}
+		const schema = await page.locator('script[type="application/ld+json"]').evaluateAll((nodes) =>
+			nodes.map((node) => JSON.parse(node.textContent)));
+		check(schema.some((item) => item['@type'] === 'CollectionPage' && item.name === label &&
+			item.url === new URL(href, 'https://sreborn.net').href), `${name}: missing CollectionPage schema ${id}`);
+	}
+}
+
+async function checkDetailCrumbs(page, base) {
+	const checks = [
+		['/blog/orchestration/react-pattern/', 'AI LAB', '/blog/', '에이전트·개발', '/blog/topics/building/', 'research', 'topic-building'],
+		['/blog/aerini/ai-discharge-summary/', 'AI LAB', '/blog/', '진료·업무', '/blog/topics/clinic/', 'research', 'topic-clinic'],
+		['/blog/doctor-ai/ai-hallucination-medical/', 'AI ACADEMY', lectureHome, '강의', courseList, 'lectures', 'lectures-course'],
+		['/blog/mini-academy-hermes-participant-lab-2026/', 'AI ACADEMY', lectureHome, '실습', lectureHome + '#practice', 'lectures', 'lectures-practice'],
+		['/blog/mini-academy-hermes-agent-lecture-2026/', 'AI ACADEMY', lectureHome, '발표·기록', lectureHome + '#talks', 'lectures', 'lectures-record'],
+	];
+	for (const [route, pillar, pillarHref, child, childHref, sectionId, childId] of checks) {
+		await openPage(page, base + route);
+		const title = await page.locator('h1').first().innerText();
+		await checkCrumbs(page, [['홈', '/'], [pillar, pillarHref], [child, childHref], [title, route]], route);
+		await checkActiveNav(page, sectionId, childId, route);
+		const crumbs = page.getByRole('navigation', { name: '경로' });
+		await crumbs.getByRole('link', { name: child, exact: true }).click();
+		await page.waitForURL(new URL(childHref, base).href);
+	}
+	await openPage(page, base + '/');
+	await page.locator('#site-nav').getByRole('button', { name: '소개', exact: true }).click();
+	await page.locator('#site-sub-about').getByRole('link', { name: 'S-REBORN LAB', exact: true }).click();
+	await page.waitForURL(new URL('/lab/', base).href);
+	await checkCrumbs(page, [['홈', '/'], ['소개', '/about/'], ['S-REBORN LAB', '/lab/']], 'S-REBORN LAB');
+	await checkActiveNav(page, 'about', 'about-lab', 'S-REBORN LAB');
+	await openPage(page, base + '/lectures/daemire-crm-2026/');
+	const lectureLabel = await page.locator('[data-bc-current]').innerText();
+	check(lectureLabel !== '발표·기록', 'Web lecture breadcrumb is missing its title');
+	await checkCrumbs(page, [['홈', '/'], ['AI ACADEMY', lectureHome], ['발표·기록', lectureHome + '#talks'],
+		[lectureLabel, '/lectures/daemire-crm-2026/']], 'Web lecture breadcrumb');
+	await openPage(page, base + '/tutorials/crm-scenarios/');
+	await checkCrumbs(page, [['홈', '/'], ['AI ACADEMY', lectureHome], ['실습', lectureHome + '#practice'],
+		['CRM AI 실습 라이브러리', '/tutorials/crm-scenarios/']], 'CRM breadcrumb');
+	await openPage(page, base + '/blog/?category=aerini');
+	await page.locator('[data-taxonomy-count]').filter({ hasText: '120편' }).waitFor();
+	await openPage(page, base + '/blog/?q=Codex');
+	await page.locator('#blog-content-title').filter({ hasText: '검색 결과' }).waitFor();
+	check(await page.locator('[data-taxonomy-post]:visible').count() > 0, 'Blog search returned no results');
+}
 async function checkResources(page, base) {
 	await openPage(page, base + lectureHome);
 	const lectureRoutes = await page.locator('main .archive-row > a[href^="/"]').evaluateAll((links) =>
@@ -320,6 +436,7 @@ async function run() {
 
 				await checkLectureNavigation(page, base, mobile, name, mobile ? null : screenshot);
 				await checkTheme(page, preference, scheme, name);
+				await checkTopics(page, base, mobile, name, preference, scheme);
 
 				if (mobile) {
 					await openPage(page, base + articlePath);
@@ -330,7 +447,10 @@ async function run() {
 				}
 				results.push({ name, posts, lectureLinks: lectureSlots.length });
 			}
-			if (!resources) resources = await checkResources(page, base);
+			if (!resources) {
+				resources = await checkResources(page, base);
+				await checkDetailCrumbs(page, base);
+			}
 			if (preference === 'system' && scheme === 'light') {
 				await checkThemeChanges(page, context, base);
 				themeChanges = true;
@@ -346,6 +466,7 @@ async function run() {
 		matrix: results.length,
 		homeRows: results[0]?.posts,
 		lectureClicks: results.reduce((total, result) => total + result.lectureLinks, 0),
+		topicClicks: results.length * topicSlots.length,
 		themeChanges,
 		...resources,
 		failures,
