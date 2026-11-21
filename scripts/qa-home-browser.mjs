@@ -57,11 +57,25 @@ function contentType(file) {
 	return 'application/octet-stream';
 }
 
-function startStatic(directory) {
+function startStatic(directory, categoryRedirects) {
+	const exactCategoryRedirects = new Map(categoryRedirects.filter(([route]) => !route.includes(':cat'))
+		.map(([route, target, code]) => [route, { target, code: Number(code) }]));
+	const wildcardCategoryRedirects = new Map(categoryRedirects.filter(([route]) => route.includes(':cat'))
+		.map(([route, target, code]) => [route, { target, code: Number(code) }]));
 	return new Promise((resolve) => {
 		const server = createServer(async (req, res) => {
 			try {
 				const url = new URL(req.url || '/', 'http://127.0.0.1');
+				const categoryMatch = /^\/blog\/category\/([^/]+)(\/?)$/.exec(url.pathname);
+				if (categoryMatch) {
+					const [, category, slash] = categoryMatch;
+					const rule = exactCategoryRedirects.get(url.pathname) ?? wildcardCategoryRedirects.get(`/blog/category/:cat${slash}`);
+					if (rule) {
+						res.writeHead(rule.code, { location: rule.target.replace(':cat', category) });
+						res.end();
+						return;
+					}
+				}
 				let file = decodeURIComponent(url.pathname);
 				if (file.endsWith('/')) file += 'index.html';
 				const full = path.join(directory, file);
@@ -348,6 +362,57 @@ async function checkDetailCrumbs(page, base) {
 	await page.locator('#blog-content-title').filter({ hasText: '검색 결과' }).waitFor();
 	check(await page.locator('[data-taxonomy-post]:visible').count() > 0, 'Blog search returned no results');
 }
+async function checkLegacyCategories(page, base) {
+	const csv = await readFile(path.join(root, 'docs/plans/taxonomy-v2-mapping.csv'), 'utf8');
+	const grouped = new Map();
+	for (const line of csv.trim().split(/\r?\n/).slice(1)) {
+		const [, category, cell] = line.split(',');
+		const data = grouped.get(category) ?? { cells: new Set(), count: 0 };
+		data.cells.add(cell);
+		data.count++;
+		grouped.set(category, data);
+	}
+	const hrefFor = (cell) => ({
+		'ACADEMY:course': courseList,
+		'ACADEMY:practice': lectureHome + '#practice',
+		'ACADEMY:talks': lectureHome + '#talks',
+	})[cell] ?? `/blog/topics/${cell}/`;
+	let migrated = 0;
+	for (const [category, { cells, count }] of grouped) {
+		const legacy = `/blog/?category=${category}`;
+		const target = cells.size === 1 ? hrefFor([...cells][0]) : legacy;
+		for (const suffix of ['', '/']) {
+			const response = await page.request.get(base + `/blog/category/${category}${suffix}`, { maxRedirects: 0 });
+			const location = response.headers().location;
+			check(response.status() === 301 && location && new URL(location, base).href === new URL(target, base).href,
+				`Legacy 301 failed for ${category}${suffix}`);
+			await response.dispose();
+		}
+		await openPage(page, base + legacy);
+		await page.waitForURL(new URL(target, base).href);
+		if (cells.size === 1) {
+			check(await page.locator('link[rel="canonical"]').getAttribute('href') === new URL(target, 'https://sreborn.net').href,
+				`Target canonical failed for ${category}`);
+			migrated++;
+			continue;
+		}
+		const note = page.locator('[data-legacy-note]');
+		await note.waitFor();
+		const links = await note.getByRole('link').evaluateAll((nodes) => nodes.map((node) => node.getAttribute('href')).sort());
+		check(JSON.stringify(links) === JSON.stringify([...cells].map(hrefFor).sort()), `Split guidance failed for ${category}`);
+		check(await page.locator('[data-taxonomy-post]:visible').count() === count, `Split listing failed for ${category}`);
+		check(await page.locator('link[rel="canonical"]').getAttribute('href') === new URL(legacy, 'https://sreborn.net').href,
+			`Split category canonical failed for ${category}`);
+	}
+	for (const group of ['basics', 'engineering', 'medical', 'trends', 'tools']) {
+		await openPage(page, base + `/blog/?group=${group}`);
+		await page.locator('[data-taxonomy-list] #blog-filters').waitFor();
+		check(await page.locator('[data-taxonomy-post]:visible').count() > 0 &&
+			await page.locator('#blog-content-title').innerText() !== 'AI LAB', `Legacy group failed: ${group}`);
+	}
+	return { legacyCategories: grouped.size, directCategories: migrated, legacyPathChecks: grouped.size * 2, legacyGroups: 5 };
+}
+
 async function checkCompactSearch(page, base) {
 	for (const width of [320, 390, 480]) {
 		await page.setViewportSize({ width, height: 780 });
@@ -450,13 +515,16 @@ async function run() {
 		throw new Error('dist/index.html is missing. Run npm run build first.');
 	}
 	if (shots) await mkdir(shots, { recursive: true });
-	const local = process.env.QA_BASE_URL ? null : await startStatic(dist);
+	const categoryRedirects = process.env.QA_BASE_URL ? [] : (await readFile(path.join(dist, '_redirects'), 'utf8'))
+		.split(/\r?\n/).map((line) => line.trim().split(/\s+/)).filter(([route]) => route.startsWith('/blog/category/'));
+	const local = process.env.QA_BASE_URL ? null : await startStatic(dist, categoryRedirects);
 	const base = (process.env.QA_BASE_URL || local.base).replace(/\/$/, '');
 	let browser;
 	const results = [];
 	let resources;
 	let themeChanges = false;
 	let courses = 0;
+	let legacy;
 	try {
 		browser = await chromium.launch({
 			executablePath: chromePath(),
@@ -497,6 +565,7 @@ async function run() {
 				resources = await checkResources(page, base);
 				await checkDetailCrumbs(page, base);
 				courses = await checkCourseResources(page, base);
+				legacy = await checkLegacyCategories(page, base);
 			}
 			await checkCompactSearch(page, base);
 			if (preference === 'system' && scheme === 'light') {
@@ -519,6 +588,7 @@ async function run() {
 		courses,
 		compactSearchCases: themeCases.length * 3,
 		...resources,
+		...legacy,
 		failures,
 	}, null, 2));
 	if (failures.length) process.exitCode = 1;
