@@ -20,7 +20,7 @@ const siteSettings = await getPublicSiteSettings();
 const resolvedSiteTitle = siteSettings.siteTitle || SITE_TITLE;
 const resolvedDescription = description || siteSettings.siteDescription || SITE_DESCRIPTION;
 
-const searchIndex = await buildSearchIndex();
+const searchIndex = await buildSearchIndex(lang === 'en');
 ---
 
 <!doctype html>

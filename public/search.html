@@ -160,12 +160,8 @@
       <a href="/s-reborn-blog/">S-reborn MD AI HUB</a>
       <ul>
         <li><a href="/s-reborn-blog/">홈</a></li>
-        <li><a href="/s-reborn-blog/category/doctor-ai.html">의료 AI 강의</a></li>
-        <li><a href="/s-reborn-blog/category/ai-news.html">뉴스</a></li>
-        <li><a href="/s-reborn-blog/category/ai-tools.html">도구</a></li>
-        <li><a href="/s-reborn-blog/category/faq.html">FAQ</a></li>
-        <li><a href="/s-reborn-blog/category/tips.html">팁</a></li>
-        <li><a href="/s-reborn-blog/category/regulations.html">규제</a></li>
+        <li><a href="/blog/">AI LAB</a></li>
+        <li><a href="/lecture-materials/">AI ACADEMY</a></li>
       </ul>
     </nav>
   </header>
@@ -1834,13 +1830,18 @@
     "type": "legal"
   }
 ];
-    const fuse = new Fuse(allArticles, {
+    const fuse = window.Fuse ? new window.Fuse(allArticles, {
       keys: ['title', 'description', 'tags'],
       threshold: 0.3
-    });
+    }) : null;
 
     const searchInput = document.getElementById('searchInput');
     const resultsContainer = document.getElementById('resultsContainer');
+    let taxonomy = {};
+    fetch('/assets/legacy-search-taxonomy.json')
+      .then(response => response.ok ? response.json() : {})
+      .then(labels => { taxonomy = labels; updateResults(); })
+      .catch(() => { /* Article results remain usable without category labels. */ });
 
     function renderResults(results) {
       if (results.length === 0) {
@@ -1857,7 +1858,7 @@
         const article = result.item;
         return `
           <a href="/s-reborn-blog/article/${article.slug}.html" class="result-card">
-            <div class="result-category">${article.category}</div>
+            ${taxonomy[article.slug] ? `<div class="result-category">${taxonomy[article.slug]}</div>` : ''}
             <h3 class="result-title">${article.title}</h3>
             <p class="result-description">${article.description}</p>
             <div class="result-meta">
@@ -1868,15 +1869,20 @@
       }).join('');
     }
 
-    searchInput.addEventListener('input', (e) => {
-      const query = e.target.value.trim();
+    function updateResults() {
+      const query = searchInput.value.trim();
       if (query.length < 1) {
         resultsContainer.innerHTML = '';
         return;
       }
-      const results = fuse.search(query);
+      const results = fuse ? fuse.search(query) : allArticles
+        .filter(article => [article.title, article.description, ...article.tags]
+          .some(text => text.toLowerCase().includes(query.toLowerCase())))
+        .map(item => ({ item }));
       renderResults(results);
-    });
+    }
+
+    searchInput.addEventListener('input', updateResults);
   </script>
 </body>
 </html>

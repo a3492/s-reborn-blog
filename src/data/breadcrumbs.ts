@@ -1,5 +1,5 @@
 import { COURSE_LIST_HREF, SITE_NAV, localizeHref, normalizePath, toKoreanPath, type NavChild, type NavItem } from './site-nav';
-import { cellOf, isTopic, type TaxonomyPost } from './taxonomy';
+import { ACADEMY_SECTIONS, cellOf, isTopic, type TaxonomyPost } from './taxonomy';
 
 const ORIGIN = 'https://sreborn.net';
 
@@ -44,12 +44,6 @@ const LECTURE_PREFIXES = [
 	['/tools/', 'lectures-files'],
 ] as const;
 
-const ACADEMY_CHILD: Record<string, string> = {
-	'ACADEMY:course': 'lectures-course',
-	'ACADEMY:practice': 'lectures-practice',
-	'ACADEMY:talks': 'lectures-record',
-};
-
 function navItem(id: string): NavItem {
 	const item = SITE_NAV.find((entry) => entry.id === id);
 	if (!item) throw new Error(`Missing nav item ${id}`);
@@ -78,7 +72,7 @@ export function buildCrumbs(
 	const watched = HASH_PAGES[path];
 	const topic = /^\/blog\/topics\/([^/]+)\/$/.exec(path)?.[1];
 	const cell = post ? cellOf(post) : topic;
-	const academy = path === COURSE_LIST_HREF ? 'lectures-course' : ACADEMY_CHILD[cell ?? ''];
+	const academy = path === COURSE_LIST_HREF ? 'lectures-course' : ACADEMY_SECTIONS.find((section) => section.cell === cell)?.id;
 	const lecture = LECTURE_PREFIXES.find(([prefix]) => path.startsWith(prefix));
 	let sectionId: string;
 	let childId: string | undefined;

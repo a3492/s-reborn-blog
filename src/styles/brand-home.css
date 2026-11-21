@@ -516,6 +516,10 @@ html[data-theme="dark"] .openchat-button:hover{background:#94acff}
 .portal-row > span:first-child { min-width: 0; }
 .portal-kicker { display: block; font-size: 12px; font-weight: 750; letter-spacing: 0.06em; color: var(--sub); }
 .portal-count, .portal-date { flex-shrink: 0; font-size: 13px; color: var(--sub); white-space: nowrap; }
+.portal-post-title { color: inherit; text-decoration: none; }
+.portal-category { color: var(--site-mint-text); text-underline-offset: .18em; }
+.portal-post-title:hover { text-decoration: underline; }
+.portal-post-title:focus-visible, .portal-category:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
 .portal-row-post .portal-title { display: block; font-size: 16px; line-height: 1.35; }
 .portal-row-post .portal-meta { display: block; margin-top: 2px; font-size: 13px; line-height: 1.3; color: var(--sub); }
 .portal-meta {
