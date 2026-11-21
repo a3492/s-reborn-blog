@@ -8,6 +8,8 @@ import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Topbar from '../components/Topbar.astro';
 import PostStats from '../components/PostStats.astro';
+import { publicTags } from '../data/tag-aliases';
+import { relatedPosts } from '../lib/related-posts';
 import { CATEGORIES, MENU_GROUPS } from '../consts';
 
 type Props = CollectionEntry<'blog'>['data'] & { postId?: string; lang?: 'ko' | 'en'; title_en?: string; description_en?: string };
@@ -20,6 +22,8 @@ const slug = Astro.url.pathname.replace(/^\/(?:en\/)?blog\//, '').replace(/\/$/,
 
 // 카테고리별 글 수 (네비용)
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const displayTags = publicTags(tags);
+const related = relatedPosts(allPosts, postId ?? slug);
 const countsByCategory = allPosts.reduce<Record<string, number>>((acc, post) => {
 	const c = post.data.category;
 	if (c) acc[c] = (acc[c] ?? 0) + 1;
@@ -121,10 +125,19 @@ const countsByCategory = allPosts.reduce<Record<string, number>>((acc, post) => 
 						</div>
 						<slot />
 
-						{tags && tags.length > 0 && (
+						{displayTags.length > 0 && (
 							<div class="blog-post-tags blog-post-tags--after-body tags" aria-label="태그">
-								{tags.map((tag) => <span class="blog-post-tag tag">#{tag}</span>)}
+								{displayTags.map((tag) => <span class="blog-post-tag tag">#{tag}</span>)}
 							</div>
+						)}
+
+						{related.length > 0 && (
+							<aside class="blog-post-related" aria-labelledby="related-posts-title">
+								<h2 id="related-posts-title">{isEn ? 'Related articles' : '연관 글'}</h2>
+								<ul>{related.map((post) => (
+									<li><a href={`${isEn ? '/en' : ''}/blog/${post.id}/`}>{isEn ? (post.data.title_en ?? post.data.title) : post.data.title}</a></li>
+								))}</ul>
+							</aside>
 						)}
 
 					</div>
@@ -157,3 +170,9 @@ const countsByCategory = allPosts.reduce<Record<string, number>>((acc, post) => 
 		</div><!-- /.site-wrap -->
 	</body>
 </html>
+
+<style>
+	.blog-post-related { margin-block-start: 1.5rem; padding: 1rem; border-radius: .5rem; background: var(--site-subtle); }
+	.blog-post-related h2 { font-size: 1rem; margin: 0; }
+	.blog-post-related ul { margin-block-end: 0; }
+</style>

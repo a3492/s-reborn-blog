@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { searchableTags } from '../../../data/tag-aliases';
 import Layout from '../../../layouts/Layout.astro';
 import FormattedDate from '../../../components/FormattedDate.astro';
 import { CATEGORIES, MENU_GROUPS, SITE_DESCRIPTION } from '../../../consts';
@@ -95,7 +96,7 @@ const countsByCategory = posts.reduce<Record<string, number>>((acc, post) => {
 						data-cat={post.data.category ?? ''}
 						data-title={post.data.title_en ?? post.data.title}
 						data-desc={post.data.description_en ?? post.data.description ?? ''}
-						data-tags={(post.data.tags ?? []).join(' ')}
+						data-tags={searchableTags(post.data.tags)}
 						data-difficulty={post.data.difficulty ?? ''}
 					>
 						<h3 class="blog-card-title">{post.data.title_en ?? post.data.title}</h3>

@@ -16,6 +16,8 @@ export function initTaxonomyListing(root: HTMLElement) {
 	const canonical = legacy && document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
 	const canonicalBase = canonical ? canonical.href : '';
 	const facets = [...filters.querySelectorAll<HTMLElement>('[data-facet]')];
+	const levelButtons = filters.querySelectorAll<HTMLButtonElement>('[data-facet="level"] [data-value]');
+	const levelNote = filters.querySelector<HTMLElement>('[data-unassigned-level]');
 
 	const CONCEPT_MAP: Record<string, string[]> = {
 		'입문':     ['beginner','초보','기초','처음','시작','도구소개','쉬운','faq','설치'],
@@ -153,18 +155,33 @@ export function initTaxonomyListing(root: HTMLElement) {
 		const terms = query ? expandQuery(query) : [];
 		const intent = query ? detectIntent(query) : null;
 		let visible = 0;
+		let formatMatches = 0;
+		const levelCounts = new Map<string, number>();
 		const ranked: { card: HTMLElement; score: number }[] = [];
 		for (const card of cards) {
 			const { cat, topic, format, difficulty } = card.dataset;
 			const inScope = query || (group ? group.cats.includes(cat ?? '') : categoryLabel ? cat === category : topic);
 			const score = query ? scoreCard(card, terms, intent) : 1;
-			card.hidden = !inScope || score === 0 ||
-				Boolean(selected.format && format !== selected.format) ||
-				Boolean(selected.level && difficulty !== selected.level);
+			const matchesFormat = Boolean(inScope) && score > 0 && (!selected.format || format === selected.format);
+			if (matchesFormat) {
+				const level = difficulty ?? '';
+				formatMatches++;
+				levelCounts.set(level, (levelCounts.get(level) ?? 0) + 1);
+			}
+			card.hidden = !matchesFormat || Boolean(selected.level && difficulty !== selected.level);
 			if (!card.hidden) {
 				visible++;
 				if (query) ranked.push({ card, score });
 			}
+		}
+		for (const button of levelButtons) {
+			const value = button.dataset.value ?? '';
+			button.querySelector('[data-level-count]')!.textContent = String(value ? levelCounts.get(value) ?? 0 : formatMatches);
+		}
+		if (levelNote) {
+			const unassigned = levelCounts.get('') ?? 0;
+			levelNote.hidden = Boolean(selected.level) || unassigned === 0;
+			levelNote.textContent = `전체에 수준 미지정 글 ${unassigned}편이 포함됩니다.`;
 		}
 		ranked.sort((a, b) => b.score - a.score).forEach(({ card }) => grid.append(card));
 		title.textContent = query ? `"${query}" 검색 결과` : group?.label ?? categoryLabel ?? pageTitle;
