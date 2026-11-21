@@ -18,22 +18,13 @@ const copy = portalCopy('ko');
 const searchIndex = await buildSearchIndex();
 const BLOG_INDEX = '/blog/';
 
-const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
-	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-const byId = new Map(allPosts.map((post) => [post.id, post]));
-
-const featuredIds = ['aerini/what-is-ai', 'orchestration/workflow-patterns', 'orchestration/what-is-orchestration'] as const;
-
-const featuredPosts = featuredIds.flatMap((id) => {
-	const post = byId.get(id);
-	if (!post) {
-		console.warn(`[home] 추천 글을 찾지 못해 건너뜁니다: ${id}`);
-		return [];
-	}
-	return [post];
-});
-const featuredIdSet = new Set(featuredPosts.map((post) => post.id));
-const reading = [...featuredPosts, ...allPosts.filter((post) => !featuredIdSet.has(post.id))].slice(0, 8);
+const reading = (await getCollection('blog', ({ data }) => !data.draft))
+	.map((post) => ({
+		post,
+		latestDate: post.data.updatedDate && post.data.updatedDate >= post.data.date ? post.data.updatedDate : post.data.date,
+	}))
+	.sort((a, b) => +b.latestDate - +a.latestDate || +b.post.data.date - +a.post.data.date || a.post.id.localeCompare(b.post.id))
+	.slice(0, 8);
 ---
 
 <!doctype html>
@@ -68,7 +59,7 @@ const reading = [...featuredPosts, ...allPosts.filter((post) => !featuredIdSet.h
 						</div>
 					</div>
 					<ul class="portal-rows">
-						{reading.map((post) => {
+						{reading.map(({ post, latestDate }) => {
 							const category = taxonomyLinkForCell(cellOf(post));
 							return (
 								<li class="portal-row portal-row-post">
@@ -76,7 +67,7 @@ const reading = [...featuredPosts, ...allPosts.filter((post) => !featuredIdSet.h
 									<div class="portal-meta">
 										{category && <a class="portal-category" href={category.href}>{category.label}</a>}
 										{category && <span aria-hidden="true"> · </span>}
-										<FormattedDate date={post.data.date} />
+										<FormattedDate date={latestDate} updated={latestDate === post.data.updatedDate} />
 									</div>
 								</li>
 							);

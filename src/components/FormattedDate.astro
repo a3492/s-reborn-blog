@@ -1,17 +1,15 @@
 ---
 interface Props {
 	date: Date;
+	updated?: boolean;
+	lang?: 'ko' | 'en';
 }
 
-const { date } = Astro.props;
+const { date, updated = false, lang = 'ko' } = Astro.props;
+const datetime = date.toISOString();
+const label = updated
+	? `${lang === 'en' ? 'Updated' : '업데이트'} ${datetime.slice(0, 10).replaceAll('-', '.')}`
+	: date.toLocaleDateString('en-us', { year: 'numeric', month: 'short', day: 'numeric' });
 ---
 
-<time datetime={date.toISOString()}>
-	{
-		date.toLocaleDateString('en-us', {
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric',
-		})
-	}
-</time>
+<time datetime={datetime}>{label}</time>

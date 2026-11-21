@@ -11,6 +11,8 @@ const blog = defineCollection({
 		description: z.string(),
 		description_en: z.string().optional(),
 		date: z.coerce.date(),
+		// Set only when the published content has actually been revised.
+		updatedDate: z.union([z.iso.date(), z.date()]).pipe(z.coerce.date()).optional(),
 		category: z.string().optional(),
 		topic: z.enum(TOPIC_IDS).optional(),
 		format: z.enum(FORMAT).optional(),
@@ -25,6 +27,9 @@ const blog = defineCollection({
 		series_order: z.number().optional(),
 		/** 정적 HTML에서 옮긴 초안. 본문 보강 전임을 표시한다. */
 		needsExpansion: z.boolean().optional().default(false),
+	}).refine(({ date, updatedDate }) => !updatedDate || updatedDate >= date, {
+		path: ['updatedDate'],
+		message: 'updatedDate cannot be before the publication date',
 	}),
 });
 
