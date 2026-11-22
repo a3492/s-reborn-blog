@@ -23,6 +23,19 @@ key_takeaways:
 
 **한 줄 요약.** Perplexity를 출처 후보를 찾는 데 쓰고, 인용 문장은 대상·조건·원문 위치를 확인한 뒤 적는다.
 
+<figure class="editorial-figure" data-editorial-figure id="perplexity-citation-figure">
+<svg viewBox="0 0 420 176" role="img" aria-label="가상 슬라이드는 대상 가에 적용되는 등급을 인용했다. 각주가 가리킨 원문 행에는 대상 나가 적혀 있어 슬라이드의 문장을 뒷받침하지 않는다.">
+<text class="editorial-note" x="12" y="31">슬라이드에서 인용한 대상</text>
+<text x="301" y="31">대상 가</text>
+<path class="editorial-rule" d="M12 47h396 M329 50v37 M12 110h396"/>
+<text class="editorial-note" x="12" y="100">실제 원문 행의 대상</text>
+<text class="editorial-accent" x="301" y="100">대상 나</text>
+<path class="editorial-accent" fill="none" d="M301 122h63"/>
+<text x="12" y="153">판정: 적용 대상 불일치</text>
+</svg>
+<figcaption>가상 인용 검토 장면. 원문 링크를 열어도 적용 대상이 다른 행이라면 그 문장을 인용할 수 없다.</figcaption>
+</figure>
+
 ## 검색창에는 답보다 문서 목록을 요청한다
 
 [Perplexity 공식 소개](https://www.perplexity.ai/hub)는 웹에서 찾은 자료를 답변과 함께 인용하는 방식을 소개한다. 해인은 요약을 바로 받는 대신 **공식 발행처와 원문 후보**를 찾아 달라고 요청했다.

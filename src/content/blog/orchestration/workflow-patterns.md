@@ -24,6 +24,20 @@ key_takeaways:
 
 **한 줄 요약.** 단계 사이의 의존성, 갈라지는 조건, 사람이 인계받을 지점을 먼저 정하면 다섯 패턴 중 필요한 것을 고를 수 있다.
 
+<figure class="editorial-figure" data-editorial-figure id="workflow-status-figure">
+<svg viewBox="0 0 420 185" role="img" aria-label="가상 시연에서 전달 메모가 누락됐다. 수정 전에는 준비 완료가 떴고, 수정 후에는 미수신이 표시되며 자동 공유가 멈췄다.">
+<text x="12" y="28">같은 입력 · 전달 메모 누락</text>
+<path class="editorial-rule" d="M12 42h396 M12 107h396 M127 60v32 M127 124v32 M284 60v32 M284 124v32"/>
+<text class="editorial-note" x="12" y="81">수정 전</text>
+<text x="145" y="81">누락을 놓침</text>
+<text x="302" y="81">준비 완료</text>
+<text class="editorial-note" x="12" y="145">수정 후</text>
+<text class="editorial-accent" x="145" y="145">미수신 표시</text>
+<text class="editorial-accent" x="302" y="145">공유 중지</text>
+</svg>
+<figcaption>시연에 같은 누락을 다시 넣어 봤다. 두 번째에는 미수신이 드러났고 자동 공유가 멈췄다.</figcaption>
+</figure>
+
 ## 흐름을 결정하는 다섯 질문
 
 | 확인할 질문 | 패턴 | RoundPrep의 연습용 예 |

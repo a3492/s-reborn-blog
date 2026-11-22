@@ -732,8 +732,6 @@ async function checkUpgradedArticles(page, base) {
 		["/blog/ai-tools-general/capcut-ai-captions-effects/", "2026-11-22"],
 		["/blog/ai-tools-general/higgsfield-ai-creative-suite/", null],
 	];
-	const figurePaths = new Set([articlePath, '/blog/orchestration/what-is-orchestration/',
-		'/blog/ai-tools-general/midjourney-image-prompt-workflow/', '/blog/ai-tools-general/runway-gen-video-overview/']);
 	const checkedLinks = new Set();
 	const viewport = page.viewportSize();
 	await page.setViewportSize({ width: 320, height: 780 });
@@ -746,33 +744,31 @@ async function checkUpgradedArticles(page, base) {
 			const article = JSON.parse(await page.locator('#article-json-ld').textContent());
 			check((article.dateModified?.slice(0, 10) ?? null) === updatedDate, `Wrong upgrade date: ${href}`);
 			const figure = prose.locator('[data-editorial-figure]');
-			const hasFigure = figurePaths.has(href);
-			check(await figure.count() === Number(hasFigure), `Unexpected figure count: ${href}`);
-			if (hasFigure) {
-				const themePicker = page.locator('[data-theme-select]');
-				const originalTheme = await themePicker.inputValue();
-				const measurements = [];
-				for (const theme of ['light', 'dark']) {
-					await themePicker.selectOption(theme);
-					measurements.push(await figure.evaluate((element) => {
-						const style = getComputedStyle(element);
-						const svg = element.querySelector('svg');
-						const box = svg?.getBBox();
-						return {
-							ink: style.color,
-							background: style.backgroundColor,
-							fits: element.scrollWidth <= element.clientWidth + 1 &&
-								element.getBoundingClientRect().right <= innerWidth &&
-								(!svg || (box.x >= 0 && box.x + box.width <= svg.viewBox.baseVal.width)),
-							labeled: Boolean(element.querySelector('figcaption')?.textContent.trim()) &&
-								(!svg || Boolean(svg.getAttribute('aria-label'))),
-						};
-					}));
-				}
-				check(measurements[0].ink !== measurements[1].ink && measurements.every(({ background, fits, labeled }) =>
-					background === 'rgba(0, 0, 0, 0)' && fits && labeled), `Figure theme, layout or caption: ${href} ${JSON.stringify(measurements)}`);
-				await themePicker.selectOption(originalTheme);
+			check(await figure.count() === 1, `Unexpected figure count: ${href}`);
+			const themePicker = page.locator('[data-theme-select]');
+			const originalTheme = await themePicker.inputValue();
+			const measurements = [];
+			for (const theme of ['light', 'dark']) {
+				await themePicker.selectOption(theme);
+				measurements.push(await figure.evaluate((element) => {
+					const style = getComputedStyle(element);
+					const svg = element.querySelector('svg');
+					const box = svg?.getBBox();
+					return {
+						ink: style.color,
+						background: style.backgroundColor,
+						fits: element.scrollWidth <= element.clientWidth + 1 &&
+							element.getBoundingClientRect().right <= innerWidth &&
+							(!svg || (box.x >= 0 && box.x + box.width <= svg.viewBox.baseVal.width &&
+							box.y >= 0 && box.y + box.height <= svg.viewBox.baseVal.height)),
+						labeled: Boolean(element.querySelector('figcaption')?.textContent.trim()) &&
+							(!svg || Boolean(svg.getAttribute('aria-label'))),
+					};
+				}));
 			}
+			check(measurements[0].ink !== measurements[1].ink && measurements.every(({ background, fits, labeled }) =>
+				background === 'rgba(0, 0, 0, 0)' && fits && labeled), `Figure theme, layout or caption: ${href} ${JSON.stringify(measurements)}`);
+			await themePicker.selectOption(originalTheme);
 			if (href === articlePath) check(article.timeRequired === 'PT2M', 'AI introduction reading time should be two minutes');
 			const links = await prose.locator(':scope > ul a[href^="/blog/"]').evaluateAll((nodes) => nodes.map((node) => node.getAttribute('href')));
 			check(links.length >= 2 && links.length <= 4 && links.some((link) => link.startsWith('/blog/topics/')),

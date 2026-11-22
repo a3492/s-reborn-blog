@@ -23,6 +23,17 @@ key_takeaways:
 
 **한 줄 요약.** NotebookLM은 출처를 오가기 쉽게 해 준다. 제출할 값은 표의 제목, 행, 열, 각주를 원문에서 확인한 뒤 옮긴다.
 
+<figure class="editorial-figure" data-editorial-figure id="notebooklm-cohort-figure">
+<svg viewBox="0 0 420 184" role="img" aria-label="가상 논문의 전체 등록 집단 안에 최종 분석에 포함된 30명이 있다. 답변의 30명은 분석 인원이며 전체 등록 인원은 가상 사례에 제시되지 않았다.">
+<path class="editorial-ink" d="M12 162V20h396v142z"/>
+<text x="29" y="51">등록한 참가자 전체</text>
+<path class="editorial-accent" fill="none" d="M29 145V75h227v70z"/>
+<text class="editorial-accent" x="44" y="105">최종 분석 30명</text>
+<text class="editorial-note" x="44" y="129">인용이 가리킨 집단</text>
+</svg>
+<figcaption>가상 논문의 집단 관계. 30명은 등록 참가자 중 분석에 포함된 인원이다. 윤곽의 크기는 인원수와 무관하다.</figcaption>
+</figure>
+
 ## 범위를 지정하고, 모르면 빈칸으로 둔다
 
 서연은 공개 논문 세 편을 올리고 비교할 항목을 먼저 정했다. 아래 요청의 대괄호는 실제 문서명과 표 제목으로 바꾸면 된다.

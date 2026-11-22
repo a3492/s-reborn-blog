@@ -38,6 +38,18 @@ key_takeaways:
 2. 카피는 편집 단계에서 동일하게 넣고, 검토자는 ‘제품을 알아볼 수 있는가’처럼 미리 정한 질문에 답한다. 팀이 고른 시안은 집행 전 후보이며, 실제 광고 성과를 보여 주는 데이터는 아니다.
 3. 건강 관련 소재를 다룰 때는 생성 단계에서 효능이나 결과를 주장하는 문구를 넣지 않는다. 최종 문구와 이미지는 집행 전에 조직의 승인 절차로 넘긴다.
 
+<figure class="editorial-figure" data-editorial-figure id="higgsfield-frame-figure">
+<svg viewBox="0 0 420 183" role="img" aria-label="텀블러에 접근하는 가상 시안의 세 프레임. 시작과 끝의 제품 라벨은 곧지만 중간 프레임에서 휘어져 있다.">
+<path class="editorial-rule" d="M12 115V13h120v102z M150 115V13h120v102z M288 115V13h120v102z"/>
+<path class="editorial-ink" d="M56 87V39h32v48z M56 48h32 M60 65h24 M191 91V34h38v57z M191 44h38 M325 97V28h46v69z M325 40h46 M330 68h36"/>
+<path class="editorial-accent" fill="none" d="M195 66q8-12 15 0t15 0"/>
+<text x="12" y="147">첫 프레임</text>
+<text class="editorial-accent" x="150" y="147">중간 왜곡</text>
+<text x="288" y="147">끝 프레임</text>
+</svg>
+<figcaption>가상 텀블러 시안. 시작과 끝의 라벨은 멀쩡해 보여도 중간에 휘어질 수 있다. 검토할 때 움직이는 구간에서 멈춰 확인한다.</figcaption>
+</figure>
+
 경의 팀은 B에서 제품 라벨이 휘어지는 것을 발견해 제외했다. 움직임이 근사하다는 의견은 남겼지만, 다음 시안도 같은 제품으로 보이는지가 팀의 첫 비교 기준이 됐다.
 
 ## 이어 읽기

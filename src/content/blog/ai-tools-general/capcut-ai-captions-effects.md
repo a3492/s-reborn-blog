@@ -41,6 +41,19 @@ key_takeaways:
 2. 수정한 줄을 원음과 함께 재생해 첫 음절과 끝이 맞는지 본다. 숫자, 부정 표현, 화자가 바뀌는 구간은 특히 다시 듣는다.
 3. 최종 영상 또는 미리보기 전체를 재생한다. 화면 아래 버튼이나 제목과 자막이 겹치지 않는지, 휴대전화에서 줄바꿈이 읽히는지 확인한다.
 
+<figure class="editorial-figure" data-editorial-figure id="capcut-timing-figure">
+<svg viewBox="0 0 420 194" role="img" aria-label="자막 한 줄의 시점을 나타낸 예시 타임라인. 초안 자막은 원음보다 먼저 뜨고, 수정 자막은 원음이 시작되는 지점에 맞춰 뜬다.">
+<text class="editorial-note" x="12" y="39">원음</text>
+<text class="editorial-note" x="12" y="84">초안 자막</text>
+<text class="editorial-note" x="12" y="129">수정 자막</text>
+<path class="editorial-rule" d="M126 34h282 M126 79h282 M126 124h282 M231 20v125" stroke-dasharray="4 4"/>
+<path class="editorial-ink" d="M231 34h139 M156 79h139" stroke-width="6"/>
+<rect class="editorial-accent" x="231" y="121" width="139" height="6" fill="currentColor"/>
+<text x="192" y="173">발화 시작</text>
+</svg>
+<figcaption>이 타임라인은 한 줄을 대조하는 예시다. 표기를 고친 뒤, 재생하면서 자막의 시작을 원음의 첫 음절에 맞춘다.</figcaption>
+</figure>
+
 빈은 끝에서 같은 브랜드 표기가 다시 다르게 나온 줄 하나를 발견했다. 타임코드와 함께 치환표에 넣어 두자 다음 편에서 같은 말을 다시 검색할 수 있었다.
 
 ## 이어 읽기
