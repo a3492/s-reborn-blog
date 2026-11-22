@@ -35,6 +35,11 @@ const topicSlots = [
 	['tools', '도구·리뷰', 73], ['society', 'AI와 사회', 51],
 ];
 const articlePath = '/blog/aerini/what-is-ai/';
+const starterPosts = [
+	[articlePath, 'AI가 뭐예요?', '/blog/topics/basics/', 'AI 이해'],
+	['/blog/orchestration/workflow-patterns/', 'AI 워크플로우 패턴 5가지', '/blog/topics/building/', '에이전트·개발'],
+	['/blog/orchestration/what-is-orchestration/', '오케스트레이션이란 무엇인가', '/blog/topics/building/', '에이전트·개발'],
+];
 
 const failures = [];
 function check(condition, message) {
@@ -138,6 +143,25 @@ async function checkHome(page, width, name) {
 	check(await fontSize(page.locator('body')) === '16px', `${name}: home body must be 16px`);
 	check(await page.locator('#latest').evaluate((section) => section.scrollWidth <= section.clientWidth + 1),
 		`${name}: home latest section overflows`);
+	const starter = page.locator('#home-starter');
+	check(await starter.getByRole('heading', { name: '처음이라면' }).isVisible(), `${name}: home starter heading is missing`);
+	const starterRows = await starter.locator('.portal-row-post').evaluateAll((rows) => rows.map((row) => {
+		const [title, meta] = row.children;
+		const [category] = meta?.children ?? [];
+		return row.matches('li') && row.children.length === 2 && meta?.children.length === 1 &&
+			title?.matches('a.portal-post-title') && category?.matches('a.portal-category') &&
+			getComputedStyle(title).fontSize === '16px' && !row.querySelector('p, time') && [
+				title.getAttribute('href'), title.textContent.trim(), category.getAttribute('href'), category.textContent.trim(),
+			];
+	}));
+	check(starterRows.length === starterPosts.length && starterRows.every((row, index) => {
+		const [href, title, topic, label] = starterPosts[index];
+		return row && row[0] === href && row[1].startsWith(title) && row[2] === topic && row[3] === label;
+	}), `${name}: home starter must show the three linked titles and categories only`);
+	check(await starter.evaluate((section) => section.previousElementSibling?.id === 'latest' &&
+		section.scrollWidth <= section.clientWidth + 1 &&
+		document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1),
+		`${name}: home starter must follow the latest section without horizontal overflow`);
 
 	const chat = await page.locator('#openchat').evaluate((section) => {
 		const button = section.querySelector('.openchat-button');
@@ -151,7 +175,21 @@ async function checkHome(page, width, name) {
 	});
 	check(chat.linked, `${name}: open-chat button and QR must point to the same room`);
 	check(chat.stacked === (width <= 820), `${name}: unexpected open-chat QR position`);
-	return posts.length;
+	return { posts: posts.length, starters: starterRows.length };
+}
+
+async function checkStarterLinks(page, base) {
+	await openPage(page, base + '/');
+	for (const [article] of starterPosts) {
+		await page.locator(`#home-starter a.portal-post-title[href="${article}"]`).click();
+		await page.waitForURL(base + article);
+		check(await page.locator('.blog-post-main h1').isVisible(), `Home starter article unavailable: ${article}`);
+		await openPage(page, base + '/');
+	}
+	await page.locator('#home-starter').getByRole('link', { name: '처음이라면 더 보기' }).click();
+	await page.waitForURL(base + '/blog/#start-here');
+	check(await page.locator('#start-here').getByRole('heading', { name: '처음이라면' }).isVisible(),
+		'Home starter more link must open the AI LAB starter collection');
 }
 
 async function checkHomeLabels(page, base) {
@@ -735,7 +773,7 @@ async function run() {
 				await page.locator('[data-theme-select]').selectOption(preference);
 				await page.reload({ waitUntil: 'domcontentloaded' });
 				await checkTheme(page, preference, scheme, name);
-				const posts = await checkHome(page, width, name);
+				const { posts, starters } = await checkHome(page, width, name);
 				if (mobile) await checkDrawer(page, name, screenshot);
 
 				await checkLectureNavigation(page, base, mobile, name, mobile ? null : screenshot);
@@ -749,12 +787,13 @@ async function run() {
 						`${name}: article body and paragraph must be 16px`);
 					if (width === 320) await checkDrawer(page, `${name} article`);
 				}
-				results.push({ name, posts, lectureLinks: lectureSlots.length });
+				results.push({ name, posts, starters, lectureLinks: lectureSlots.length });
 			}
 			if (!resources) {
 				resources = await checkResources(page, base);
 				await checkDetailCrumbs(page, base);
 				homeLabelChecks = await checkHomeLabels(page, base);
+				await checkStarterLinks(page, base);
 				courses = await checkCourseResources(page, base);
 				legacy = await checkLegacyCategories(page, base);
 				tagSurfaces = await checkTagPresentation(page, base);
@@ -775,6 +814,7 @@ async function run() {
 		ok: failures.length === 0,
 		matrix: results.length,
 		homeRows: results[0]?.posts,
+		starterRows: results[0]?.starters,
 		lectureClicks: results.reduce((total, result) => total + result.lectureLinks, 0),
 		topicClicks: results.length * topicSlots.length,
 		themeChanges,

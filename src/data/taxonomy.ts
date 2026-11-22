@@ -16,6 +16,11 @@ export const topicHref = (id: Topic) => `/blog/topics/${id}/`;
 export const FORMAT = ['개념', '용어·어원', '역사', 'FAQ', '따라하기', '리뷰·사용기', '뉴스', '가이드'] as const;
 export type PostFormat = typeof FORMAT[number];
 export const LEVELS = { beginner: '입문', intermediate: '중급', advanced: '심화' } as const;
+export const HOME_STARTER_IDS = [
+	'aerini/what-is-ai',
+	'orchestration/workflow-patterns',
+	'orchestration/what-is-orchestration',
+] as const;
 type Level = keyof typeof LEVELS;
 export const COURSE_LIST_HREF = '/lecture-materials/courses/';
 export const ACADEMY_CELLS = ['ACADEMY:course', 'ACADEMY:practice', 'ACADEMY:talks'] as const;

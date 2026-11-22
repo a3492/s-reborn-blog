@@ -15,6 +15,11 @@ try {
 	for (const file of files) await copyFile(path.join(root, file), path.join(fixtureRoot, file));
 	await symlink(path.join(root, 'node_modules'), path.join(fixtureRoot, 'node_modules'), 'junction');
 
+	// A starter revised in the fixture must also appear in the independently ranked latest list.
+	const starterFile = path.join(fixtureRoot, 'src/content/blog/aerini/what-is-ai.md');
+	const starterSource = await readFile(starterFile, 'utf8');
+	await writeFile(starterFile, starterSource.replace(/^---\r?\n/, '---\nupdatedDate: "2099-04-01"\n'));
+
 	const samples = [
 		{ id: 'qa-date-revised', date: '2020-01-01', updatedDate: '2099-04-03' },
 		{ id: 'qa-date-published', date: '2099-04-02' },
@@ -38,11 +43,15 @@ try {
 		'index.html', 'blog/qa-date-revised/index.html', 'blog/qa-date-published/index.html',
 		'sitemap-0.xml', 'rss.xml', 'en/blog/qa-date-revised/index.html',
 	].map(built));
-	const rows = [...home.matchAll(/<li class="portal-row portal-row-post">([\s\S]*?)<\/li>/g)].map((match) => match[1]);
+	const section = (id) => home.match(new RegExp(`<section[^>]*id="${id}"[^>]*>([\\s\\S]*?)</section>`))[1];
+	const rows = [...section('latest').matchAll(/<li class="portal-row portal-row-post">([\s\S]*?)<\/li>/g)].map((match) => match[1]);
 	assert.match(rows[0], /href="\/blog\/qa-date-revised\/"/);
 	assert.match(rows[0], /업데이트 2099\.04\.03/);
 	assert.match(rows[1], /href="\/blog\/qa-date-published\/"/);
 	assert.doesNotMatch(rows[1], /업데이트/);
+	assert.match(rows[2], /href="\/blog\/aerini\/what-is-ai\/"/);
+	assert.match(rows[2], /업데이트 2099\.04\.01/);
+	assert.match(section('home-starter'), /href="\/blog\/aerini\/what-is-ai\/"/);
 	assert.ok(rows.every((row) => !row.includes('qa-date-draft')));
 
 	const schema = (html) => JSON.parse(html.match(/<script[^>]*id="article-json-ld"[^>]*>(.*?)<\/script>/)[1]);
@@ -59,7 +68,7 @@ try {
 	assert.doesNotMatch(publishedUrl, /<lastmod>/);
 	const rssItem = [...rss.matchAll(/<item>([\s\S]*?)<\/item>/g)].find((match) => match[1].includes('/blog/qa-date-revised/'))[1];
 	assert.equal(new Date(rssItem.match(/<pubDate>(.*?)<\/pubDate>/)[1]).toISOString(), '2020-01-01T00:00:00.000Z');
-	console.log('Updated-date fixtures passed: home order and labels, KO/EN article dates, JSON-LD, sitemap, and RSS.');
+	console.log('Updated-date fixtures passed: home order and labels, starter overlap, KO/EN article dates, JSON-LD, sitemap, and RSS.');
 } finally {
 	await rm(fixtureRoot, { recursive: true, force: true });
 }
