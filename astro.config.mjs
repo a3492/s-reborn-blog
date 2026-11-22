@@ -28,6 +28,7 @@ export default defineConfig({
 				// Read only the explicit revision date emitted in the built article.
 				const file = new URL(`.${path.replace(/\/$/, '')}/index.html`, builtSite);
 				const html = await readFile(file, 'utf8');
+				if (html.includes('<meta name="robots" content="noindex"')) return undefined;
 				const modifiedTime = html.match(/<meta property="article:modified_time" content="([^"]+)"/)?.[1];
 				return modifiedTime ? { ...item, lastmod: modifiedTime } : item;
 			},

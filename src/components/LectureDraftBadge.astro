@@ -1,0 +1,19 @@
+---
+const { isEn = false } = Astro.props;
+---
+
+<span class="lecture-draft-badge" data-lecture-draft-badge>{isEn ? 'In progress' : '작성 중'}</span>
+
+<style>
+	.lecture-draft-badge {
+		display: inline-block;
+		margin-inline-start: .25em;
+		padding-inline: .45em;
+		border: 1px solid var(--site-border);
+		border-radius: .3rem;
+		background: var(--site-subtle);
+		color: var(--site-text-secondary);
+		font-size: .8rem;
+		white-space: nowrap;
+	}
+</style>

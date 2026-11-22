@@ -6,6 +6,7 @@ import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
+import LectureDraftBadge from '../components/LectureDraftBadge.astro';
 import Topbar from '../components/Topbar.astro';
 import PostStats from '../components/PostStats.astro';
 import { publicTags } from '../data/tag-aliases';
@@ -18,6 +19,7 @@ import { ACADEMY_COURSE, COURSE_LIST_HREF, countTopics } from '../data/taxonomy'
 type Props = CollectionEntry<'blog'>['data'] & { postId?: string; lang?: 'ko' | 'en'; title_en?: string; description_en?: string };
 
 const { title, title_en, description, description_en, date, updatedDate, thumbnail, tags, postId, lang = 'ko' } = Astro.props;
+const lectureInProgress = Astro.props.category === 'doctor-ai' && Astro.props.needsExpansion;
 const isEn = lang === 'en';
 const displayTitle = isEn && title_en ? title_en : title;
 const displayDescription = isEn && description_en ? description_en : description;
@@ -59,7 +61,7 @@ const coursePart = part && {
 
 <html lang={lang}>
 	<head>
-		<BaseHead title={displayTitle} description={displayDescription} image={thumbnail} />
+		<BaseHead title={displayTitle} description={displayDescription} image={thumbnail} noindex={lectureInProgress} />
 		{updatedDate && <meta property="article:modified_time" content={updatedDate.toISOString()} />}
 		<script type="application/ld+json" is:inline id="article-json-ld" set:html={JSON.stringify(articleSchema).replaceAll('<', '\\u003c')}></script>
 	</head>
@@ -84,6 +86,7 @@ const coursePart = part && {
 						<div class="blog-post-title title">
 							<div class="blog-post-meta meta">
 								{activeSection && <span class="blog-post-category category-badge">{activeSection.label}</span>}
+								{lectureInProgress && <LectureDraftBadge isEn={isEn} />}
 								<FormattedDate date={date} />
 								{updatedDate && <FormattedDate date={updatedDate} updated lang={lang} />}
 							</div>
