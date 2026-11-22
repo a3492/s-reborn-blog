@@ -39,6 +39,4 @@ AI 환각(Hallucination)이란? 의료 AI가 거짓 정보를 만드는 이유�
 
 ### 참고 자료
 
-- [의료법 관련 가이드](https://example.com)
-
-- [관련 논문 및 연구](https://example.com)
+참고문헌 정리 중

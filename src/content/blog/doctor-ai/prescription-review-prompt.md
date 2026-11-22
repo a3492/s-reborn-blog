@@ -39,6 +39,4 @@ AI로 작성하는 처방전 검토(Prescription Review) 프롬프트은(는) �
 
 ### 참고 자료
 
-- [의료법 관련 가이드](https://example.com)
-
-- [관련 논문 및 연구](https://example.com)
+참고문헌 정리 중

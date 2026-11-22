@@ -684,11 +684,24 @@ async function checkCourseResources(page, base) {
 	check(JSON.stringify(parts.map((part) => part.length)) === '[10,5,5,5]', 'Wrong counts for four course parts');
 	const links = new Set(parts.flat());
 	check(links.size === 25, 'Expected 25 distinct lesson links');
+	check(await page.locator('[data-course-part] li [data-lecture-draft-badge]').count() === links.size,
+		'Expected a writing-in-progress badge on each listed lesson');
+	const sitemap = await page.request.get(base + '/sitemap-0.xml');
+	const sitemapXml = await sitemap.text();
+	check(sitemap.ok(), 'Sitemap unavailable for draft lesson check');
+	await sitemap.dispose();
 	for (const href of links) {
 		const response = await page.request.get(new URL(href, base).href, { maxRedirects: 0 });
 		check(response.status() === 200 && href.startsWith('/blog/doctor-ai/'), `Lesson URL failed: ${href}`);
+		const html = await response.text();
+		check(html.includes('data-lecture-draft-badge') && html.includes('<meta name="robots" content="noindex"') &&
+			html.includes('참고문헌 정리 중') && !html.includes('https://example.com') && !sitemapXml.includes(`${href}</loc>`),
+			`Lesson draft badge, indexing or reference status is wrong: ${href}`);
 		await response.dispose();
 	}
+	await openPage(page, base + articlePath);
+	check(await page.locator('[data-lecture-draft-badge], meta[name="robots"][content*="noindex"]').count() === 0,
+		'An AI LAB article received draft lesson metadata');
 	await openPage(page, base + '/blog/topics/clinic/');
 	const related = await page.getByRole('complementary', { name: '관련 강의' }).getByRole('link').evaluateAll((nodes) =>
 		nodes.map((node) => node.getAttribute('href')));
