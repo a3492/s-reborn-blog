@@ -186,10 +186,22 @@ async function checkStarterLinks(page, base) {
 		check(await page.locator('.blog-post-main h1').isVisible(), `Home starter article unavailable: ${article}`);
 		await openPage(page, base + '/');
 	}
+}
+
+async function checkStarterAnchor(page, base, name) {
 	await page.locator('#home-starter').getByRole('link', { name: '처음이라면 더 보기' }).click();
 	await page.waitForURL(base + '/blog/#start-here');
-	check(await page.locator('#start-here').getByRole('heading', { name: '처음이라면' }).isVisible(),
-		'Home starter more link must open the AI LAB starter collection');
+	const heading = page.locator('#start-here').getByRole('heading', { name: '처음이라면' });
+	await heading.waitFor();
+	const boxes = await heading.evaluate(async (title) => {
+		await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+		const header = document.querySelector('[data-site-header]').getBoundingClientRect();
+		const intro = title.nextElementSibling?.getBoundingClientRect();
+		return { headerEnd: header.bottom, titleTop: title.getBoundingClientRect().top,
+			introEnd: intro?.bottom, viewportEnd: innerHeight };
+	});
+	check(boxes.titleTop >= boxes.headerEnd && boxes.introEnd <= boxes.viewportEnd,
+		`${name}: starter heading or introduction is obscured after following the anchor: ${JSON.stringify(boxes)}`);
 }
 
 async function checkHomeLabels(page, base) {
@@ -775,6 +787,7 @@ async function run() {
 				await checkTheme(page, preference, scheme, name);
 				const { posts, starters } = await checkHome(page, width, name);
 				if (mobile) await checkDrawer(page, name, screenshot);
+				await checkStarterAnchor(page, base, name);
 
 				await checkLectureNavigation(page, base, mobile, name, mobile ? null : screenshot);
 				await checkTheme(page, preference, scheme, name);
@@ -815,6 +828,7 @@ async function run() {
 		matrix: results.length,
 		homeRows: results[0]?.posts,
 		starterRows: results[0]?.starters,
+		starterAnchorCases: results.length,
 		lectureClicks: results.reduce((total, result) => total + result.lectureLinks, 0),
 		topicClicks: results.length * topicSlots.length,
 		themeChanges,
