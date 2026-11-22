@@ -40,7 +40,7 @@ RoundPrep 팀의 첫 목표는 합성 자료로 **회진 전달 브리핑의 초
 <text x="12" y="126">자료가 있으면</text>
 <text class="editorial-note" x="12" y="154">초안을 쓰고 원문 대조</text>
 <text class="editorial-accent" x="225" y="126">자료가 빠졌으면</text>
-<text class="editorial-note" x="225" y="154">공유 보류 · 담당자 인계</text>
+<text class="editorial-note" x="225" y="154">공유 보류 · 인계</text>
 </svg>
 <figcaption>자료 상태에 따라 다음 단계가 갈린다. ‘미수신’에는 다른 처리 경로가 필요하다.</figcaption>
 </figure>
