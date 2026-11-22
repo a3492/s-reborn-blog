@@ -743,6 +743,7 @@ async function checkUpgradedArticles(page, base) {
 			check(intro === '아래 사례는 설명을 위한 가상의 상황입니다.', `Missing fiction disclosure: ${href}`);
 			const article = JSON.parse(await page.locator('#article-json-ld').textContent());
 			check((article.dateModified?.slice(0, 10) ?? null) === updatedDate, `Wrong upgrade date: ${href}`);
+			check(await prose.locator(':scope > h2').count() >= 5, `Missing expanded explanation or example: ${href}`);
 			const figure = prose.locator('[data-editorial-figure]');
 			check(await figure.count() === 1, `Unexpected figure count: ${href}`);
 			const themePicker = page.locator('[data-theme-select]');
@@ -762,14 +763,14 @@ async function checkUpgradedArticles(page, base) {
 							(!svg || (box.x >= 0 && box.x + box.width <= svg.viewBox.baseVal.width &&
 							box.y >= 0 && box.y + box.height <= svg.viewBox.baseVal.height)),
 						labeled: Boolean(element.querySelector('figcaption')?.textContent.trim()) &&
-							(!svg || Boolean(svg.getAttribute('aria-label'))),
+							Boolean((svg ?? element.querySelector('[role="img"]'))?.getAttribute('aria-label')?.trim()),
 					};
 				}));
 			}
 			check(measurements[0].ink !== measurements[1].ink && measurements.every(({ background, fits, labeled }) =>
 				background === 'rgba(0, 0, 0, 0)' && fits && labeled), `Figure theme, layout or caption: ${href} ${JSON.stringify(measurements)}`);
 			await themePicker.selectOption(originalTheme);
-			if (href === articlePath) check(article.timeRequired === 'PT2M', 'AI introduction reading time should be two minutes');
+			if (href === articlePath) check(article.timeRequired === 'PT3M', 'Expanded AI introduction reading time should be three minutes');
 			const links = await prose.locator(':scope > ul a[href^="/blog/"]').evaluateAll((nodes) => nodes.map((node) => node.getAttribute('href')));
 			check(links.length >= 2 && links.length <= 4 && links.some((link) => link.startsWith('/blog/topics/')),
 				`Wrong article reading links: ${href}`);
