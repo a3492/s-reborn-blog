@@ -252,10 +252,14 @@ function childHref(child: NavChild): string {
 
 		const isEn = document.documentElement.lang === 'en';
 		const desktopQuery = window.matchMedia('(min-width: 1201px)');
-		const updateDrawerHeight = () => {
+		const updateHeaderHeights = () => {
 			header.style.setProperty('--mobile-header-height', `${header.getBoundingClientRect().height}px`);
+			document.documentElement.style.setProperty('--site-header-height', `${root.getBoundingClientRect().height}px`);
 		};
-		const headerResize = new ResizeObserver(updateDrawerHeight);
+		const headerResize = new ResizeObserver(updateHeaderHeights);
+		updateHeaderHeights();
+		headerResize.observe(root, { box: 'border-box' });
+		headerResize.observe(header, { box: 'border-box' });
 		const searchToggle = root.querySelector('[data-search-toggle]');
 		const searchField = root.querySelector('#search-input');
 		const setSearchOpen = (open: boolean) => {
@@ -285,12 +289,6 @@ function childHref(child: NavChild): string {
 		};
 
 		const setMobile = (open: boolean) => {
-			if (open) {
-				updateDrawerHeight();
-				headerResize.observe(header);
-			} else {
-				headerResize.disconnect();
-			}
 			if (open) setSearchOpen(false);
 			header.classList.toggle('is-open', open);
 			setExpanded(toggle, open);
@@ -438,6 +436,11 @@ function childHref(child: NavChild): string {
 </script>
 
 <style>
+	/* Reserve space before the first header measurement. Explicit page offsets can override this default. */
+	:global(:where(body:has([data-site-header]) main [id])) {
+		scroll-margin-top: calc(var(--site-header-height, 9rem) + 0.5rem);
+	}
+
 	.sr-only {
 		position: absolute;
 		width: 1px;

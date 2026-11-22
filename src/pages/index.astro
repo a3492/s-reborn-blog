@@ -9,7 +9,7 @@ import BlogSearchScript from '../components/BlogSearchScript.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import { CONTACT_EMAIL } from '../consts';
-import { cellOf, taxonomyLinkForCell } from '../data/taxonomy';
+import { HOME_STARTER_IDS, cellOf, taxonomyLinkForCell } from '../data/taxonomy';
 import { portalCopy } from '../i18n/ui';
 import { buildSearchIndex } from '../lib/search-index';
 import '../styles/brand-home.css';
@@ -18,7 +18,13 @@ const copy = portalCopy('ko');
 const searchIndex = await buildSearchIndex();
 const BLOG_INDEX = '/blog/';
 
-const reading = (await getCollection('blog', ({ data }) => !data.draft))
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+const postsById = new Map(posts.map((post) => [post.id, post]));
+const starters = HOME_STARTER_IDS.flatMap((id) => {
+	const post = postsById.get(id);
+	return post ? [post] : [];
+});
+const reading = posts
 	.map((post) => ({
 		post,
 		latestDate: post.data.updatedDate && post.data.updatedDate >= post.data.date ? post.data.updatedDate : post.data.date,
@@ -75,6 +81,29 @@ const reading = (await getCollection('blog', ({ data }) => !data.draft))
 						<li>
 							<a class="portal-row" href={BLOG_INDEX}>
 								<span class="portal-title">{copy.allPosts}</span>
+								<span aria-hidden="true">↗</span>
+							</a>
+						</li>
+					</ul>
+				</section>
+
+				<section class="section" id="home-starter" aria-labelledby="home-starter-title">
+					<div class="section-head">
+						<h2 id="home-starter-title">처음이라면</h2>
+					</div>
+					<ul class="portal-rows">
+						{starters.map((post) => {
+							const category = taxonomyLinkForCell(cellOf(post));
+							return (
+								<li class="portal-row portal-row-post">
+									<a class="portal-title portal-post-title" href={`/blog/${post.id}/`}>{post.data.title}</a>
+									{category && <div class="portal-meta"><a class="portal-category" href={category.href}>{category.label}</a></div>}
+								</li>
+							);
+						})}
+						<li>
+							<a class="portal-row" href="/blog/#start-here" aria-label="처음이라면 더 보기">
+								<span class="portal-title">더 보기</span>
 								<span aria-hidden="true">↗</span>
 							</a>
 						</li>
