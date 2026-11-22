@@ -59,6 +59,7 @@ function contentType(file) {
 	if (file.endsWith('.json')) return 'application/json';
 	if (file.endsWith('.webp')) return 'image/webp';
 	if (file.endsWith('.png')) return 'image/png';
+	if (file.endsWith('.webp')) return 'image/webp';
 	return 'application/octet-stream';
 }
 
@@ -709,6 +710,52 @@ async function checkCourseResources(page, base) {
 	return links.size;
 }
 
+async function checkUpgradedArticles(page, base) {
+	const articles = [
+		["/blog/aerini/what-is-ai/", "2026-11-22"],
+		["/blog/orchestration/workflow-patterns/", "2026-11-22"],
+		["/blog/orchestration/what-is-orchestration/", "2026-11-22"],
+		["/blog/ai-tools-general/notebooklm-source-grounded-notes/", "2026-11-22"],
+		["/blog/ai-tools-general/midjourney-image-prompt-workflow/", "2026-11-22"],
+		["/blog/ai-tools-general/runway-gen-video-overview/", "2026-11-22"],
+		["/blog/ai-tools-general/perplexity-ai-search-research/", "2026-11-22"],
+		["/blog/ai-tools-general/capcut-ai-captions-effects/", "2026-11-22"],
+		["/blog/ai-tools-general/higgsfield-ai-creative-suite/", null],
+	];
+	const checkedLinks = new Set();
+	const viewport = page.viewportSize();
+	await page.setViewportSize({ width: 320, height: 780 });
+	try {
+		for (const [href, updatedDate] of articles) {
+			await openPage(page, base + href);
+			const prose = page.locator('.blog-post-prose');
+			const intro = await prose.locator(':scope > p').first().innerText();
+			check(intro === '아래 사례는 설명을 위한 가상의 상황입니다.', `Missing fiction disclosure: ${href}`);
+			const article = JSON.parse(await page.locator('#article-json-ld').textContent());
+			check((article.dateModified?.slice(0, 10) ?? null) === updatedDate, `Wrong upgrade date: ${href}`);
+			const figure = prose.locator('img[src^="/images/upgrade-batch1/"]');
+			check(await figure.count() === 1 && await figure.evaluate(async (image) => {
+				await image.decode();
+				return Boolean(image.alt) && image.naturalWidth > 0 && image.getBoundingClientRect().width <= innerWidth;
+			}), `Article figure unavailable or overflows: ${href}`);
+			const links = await prose.locator(':scope > ul a[href^="/blog/"]').evaluateAll((nodes) => nodes.map((node) => node.getAttribute('href')));
+			check(links.length >= 2 && links.length <= 4 && links.some((link) => link.startsWith('/blog/topics/')),
+				`Wrong article reading links: ${href}`);
+			check((await prose.innerText()).search(/편집 초안|스테이크|87%|ORCHESTRATION_ROUNDPREP_BIBLE/) === -1,
+				`Editorial placeholder or unsupported sample result: ${href}`);
+			links.forEach((link) => checkedLinks.add(link));
+		}
+	} finally {
+		await page.setViewportSize(viewport);
+	}
+	for (const href of checkedLinks) {
+		const response = await page.request.get(base + href, { maxRedirects: 0 });
+		check(response.ok(), `Upgraded article link unavailable: ${href}`);
+		await response.dispose();
+	}
+	return articles.length;
+}
+
 async function checkResources(page, base) {
 	await openPage(page, base + lectureHome);
 	const lectureRoutes = await page.locator('main .archive-row > a[href^="/"]').evaluateAll((links) =>
@@ -778,6 +825,7 @@ async function run() {
 	let homeLabelChecks = 0;
 	let legacy;
 	let tagSurfaces = 0;
+	let upgradedArticles = 0;
 	try {
 		browser = await chromium.launch({
 			executablePath: chromePath(),
@@ -821,6 +869,7 @@ async function run() {
 				homeLabelChecks = await checkHomeLabels(page, base);
 				await checkStarterLinks(page, base);
 				courses = await checkCourseResources(page, base);
+				upgradedArticles = await checkUpgradedArticles(page, base);
 				legacy = await checkLegacyCategories(page, base);
 				tagSurfaces = await checkTagPresentation(page, base);
 			}
@@ -846,6 +895,7 @@ async function run() {
 		topicClicks: results.length * topicSlots.length,
 		themeChanges,
 		courses,
+		upgradedArticles,
 		compactSearchCases: themeCases.length * 3,
 		sidebarCases,
 		homeLabelChecks,
