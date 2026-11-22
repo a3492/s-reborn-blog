@@ -18,6 +18,8 @@ const blog = defineCollection({
 		format: z.enum(FORMAT).optional(),
 		subcategory: z.string().optional(),
 		tags: z.array(z.string()).optional().default([]),
+		// Editorial provenance. Public tags and search indexes use only tags.
+		originIds: z.array(z.string()).optional(),
 		thumbnail: z.string().optional(),
 		draft: z.boolean().optional().default(false),
 		read_time: z.number().optional(),

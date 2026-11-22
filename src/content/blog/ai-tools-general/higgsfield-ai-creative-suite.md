@@ -5,7 +5,8 @@ category: "ai-tools-general"
 subcategory: "도구소개"
 thumbnail: ""
 draft: false
-tags: ["cu", "Higgsfield", "숏폼", "광고", "영상"]
+tags: ["Higgsfield", "숏폼", "광고", "영상"]
+originIds: ["cu"]
 description: "Higgsfield 영상 시안에서 제품과 브랜드 조건을 고정하고, 카메라 움직임만 달리해 첫 장면을 비교하는 절차입니다."
 read_time: 5
 difficulty: "beginner"
@@ -20,8 +21,6 @@ key_takeaways:
 경의 팀이 텀블러 광고 첫 장면을 모아 보니 제품은 같아도 배경도, 색도, 카메라 움직임도 컷마다 달랐다. 동료가 “어느 쪽이 좋아요?”라고 묻자 경은 답할 수 없었다. 누가 좋아했는지보다 **어떤 차이를 비교하는지**가 먼저였다.
 
 **한 줄 요약.** 제품 이미지와 브랜드 조건을 고정해 두고, 카메라 움직임 하나만 달리해 검토할 시안을 만든다.
-
-![Higgsfield 시안 비교 도해. 제품과 배경을 고정하고 정면 유지와 천천히 다가가기를 대비](/images/upgrade-batch1/higgsfield.webp)
 
 ## 먼저 고정할 항목을 쓴다
 

@@ -25,8 +25,8 @@ export const TAG_ALIASES = new Map([
 	['FunctionCalling', 'Function Calling'],
 ]);
 
-/** The CU/CL workflow uses YYMMDDHHmm and YYYYMMDDHHmm identifiers. */
-export const isInternalTag = (tag: string) => /^(?:cu|cl)\d{10}(?:\d{2})?$/i.test(tag.trim());
+/** Keep workflow provenance out of public tags, including the old bare CU marker. */
+export const isInternalTag = (tag: string) => /^#?(?:cu(?:\d+)?|cl\d{10}(?:\d{2})?)$/i.test(tag.trim());
 
 export function publicTags(tags: readonly string[] = []): string[] {
 	const visible = tags.map((tag) => tag.trim()).filter((tag) => tag && !isInternalTag(tag));

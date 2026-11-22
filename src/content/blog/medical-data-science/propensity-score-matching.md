@@ -3,11 +3,11 @@ title: "성향점수 매칭 — 관찰 연구에서 인과관계를 추론하는
 date: 2026-03-31
 category: medical-data-science
 tags:
-  - "cu2604021805"
   - "의료데이터"
   - "통계"
   - "분석"
   - "propensity-score-matching"
+originIds: ["cu2604021805"]
 
 description: "RCT를 할 수 없을 때 성향점수 매칭이 교란변수를 통제한다 — 단, 측정된 교란만 통제된다는 한계를 절대 잊지 말 것."
 thumbnail: ""

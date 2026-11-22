@@ -6,7 +6,8 @@ category: "ai-tools-general"
 subcategory: "도구소개"
 thumbnail: ""
 draft: false
-tags: ["cu", "NotebookLM", "Google", "연구", "RAG"]
+tags: ["NotebookLM", "Google", "연구", "RAG"]
+originIds: ["cu"]
 description: "NotebookLM에서 논문 PDF의 범위를 지정하고, 비교표의 숫자·단위·인용 위치를 원문과 대조하는 순서입니다."
 read_time: 5
 difficulty: "beginner"
@@ -28,9 +29,7 @@ key_takeaways:
 
 > [논문 A·B·C]의 [표 제목]에서 연구 설계, 등록 인원, 최종 분석 인원을 각각 찾아 표로 정리해 줘. 각 셀에 문서명·쪽·표 제목을 붙여 줘. 표나 각주에 정보가 없으면 ‘확인 필요’로 표시해 줘.
 
-![NotebookLM 화면 예시. 소스 세 편 선택, 질문 범위 지정, 인용 클릭, PDF 원문 대조](/images/upgrade-batch1/notebooklm.webp)
-
-화면은 기능의 위치와 쓰임을 설명하기 위해 재구성한 예시입니다. [Google 공식 안내](https://support.google.com/gemininotebook/answer/16179559)는 채팅에서 답변에 달린 인용을 열어 출처를 확인하는 방법을 설명합니다.
+[Google 공식 안내](https://support.google.com/gemininotebook/answer/16179559)는 채팅에서 답변에 달린 인용을 열어 출처를 확인하는 방법을 설명합니다.
 
 ## 인용을 열고 세 가지를 대조한다
 

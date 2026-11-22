@@ -5,7 +5,7 @@ updatedDate: 2026-11-22
 category: aerini
 difficulty: beginner
 tags: [ai, beginner-friendly, concept, 기초]
-reading-time: 4
+read_time: 2
 description: "인공지능의 뜻을 예약 안내문 예시로 배우고, 분류·예측·생성의 차이와 답을 확인하는 방법을 익힙니다."
 draft: false
 ---
@@ -20,7 +20,13 @@ draft: false
 
 많은 AI 모델은 예시 데이터에서 반복되는 패턴을 학습합니다. 학습이 끝난 모델에 새 입력을 넣으면, 그 모델은 맡은 일에 맞는 출력을 냅니다. 한 도구에 여러 기능이 들어 있을 수 있으니 제품 이름보다 **하려는 일**에 주목하세요.
 
-![입력에 따라 AI가 분류, 예측, 생성 결과를 내고 사람이 확인하는 흐름](/images/upgrade-batch1/ai-basics.webp)
+<figure class="editorial-figure" data-editorial-figure>
+<div class="editorial-comparison">
+<span>원문</span><div>토요일은 전화 예약<em>만</em> 받습니다.</div>
+<span>초안</span><div>토요일에도 <em>온라인 예약</em>이 가능합니다.</div>
+</div>
+<figcaption>말투를 다듬는 과정에서 예약 방법이 바뀌었다. 원문에서 ‘전화만’이라는 조건을 확인한다.</figcaption>
+</figure>
 
 | 맡길 일 | 입력과 출력 | 사람이 볼 것 |
 | --- | --- | --- |

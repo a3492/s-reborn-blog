@@ -6,7 +6,8 @@ category: "ai-tools-general"
 subcategory: "도구소개"
 thumbnail: ""
 draft: false
-tags: ["cu", "Perplexity", "검색", "연구", "출처"]
+tags: ["Perplexity", "검색", "연구", "출처"]
+originIds: ["cu"]
 description: "Perplexity가 찾은 출처를 열어 문맥·개정판·표 번호를 대조하고, 논문 초안에 쓸 인용을 가려냅니다."
 read_time: 5
 difficulty: "beginner"
@@ -28,9 +29,7 @@ key_takeaways:
 
 > [주제]에 관한 원문 후보를 찾아 줘. 문서명, 발행기관, 발행 또는 개정 연도, 원문 주소를 분리해 표로 보여 줘. 원문을 확인하지 못한 자료는 그 상태를 표시하고, 서로 다른 판본의 문장을 섞지 말아 줘.
 
-![Perplexity 화면 예시. AI 요약의 각주를 열어 원문 표의 행과 판본을 대조하는 과정](/images/upgrade-batch1/perplexity.webp)
-
-화면은 가상 자료를 사용한 검증 절차 예시입니다. 위 사례의 등급은 실제 의학 권고를 인용한 것이 아닙니다.
+위 사례에서 등장하는 등급은 가상 설정이다.
 
 ## 인용을 승인하기 전 세 칸을 채운다
 

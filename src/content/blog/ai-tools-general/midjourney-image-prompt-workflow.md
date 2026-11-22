@@ -6,7 +6,8 @@ category: "ai-tools-general"
 subcategory: "도구소개"
 thumbnail: ""
 draft: false
-tags: ["cu", "Midjourney", "이미지", "프롬프트", "디자인"]
+tags: ["Midjourney", "이미지", "프롬프트", "디자인"]
+originIds: ["cu"]
 description: "Midjourney의 스타일 레퍼런스로 썸네일 시리즈의 색과 질감을 맞추고, 장면만 바꿔 비교하는 실습입니다."
 read_time: 5
 difficulty: "beginner"
@@ -26,9 +27,15 @@ key_takeaways:
 
 나래가 고른 기준은 남색 배경, 부드러운 측광, 왼쪽 제목 여백이었다. [Midjourney 스타일 레퍼런스 공식 안내](https://docs.midjourney.com/hc/en-us/articles/32180011136653-Style-Reference)에 따르면 스타일 참조는 색감이나 질감 같은 시각적 인상을 가이드한다. 대상이나 배치도 그대로 유지하려면 프롬프트와 화면 비율에서 따로 지정하고 결과를 확인한다.
 
-![스타일 참조 예시. 남색 배경과 밝은 사선 조명은 유지하고 책상 위 제품만 바꾼 세 화면](/images/upgrade-batch1/midjourney.webp)
-
-예시는 스타일의 일관성을 설명하는 도해입니다. 생성 결과나 제품 화면을 캡처한 것이 아닙니다.
+<figure class="editorial-figure" data-editorial-figure>
+<svg viewBox="0 0 420 158" role="img" aria-label="조명과 카메라 썸네일의 오른쪽에 각각 다른 물체가 있고, 왼쪽 제목 여백과 빛 방향은 같다.">
+<path class="editorial-rule" d="M8 115V13h190v102z M222 115V13h190v102z M88 13v102 M302 13v102" stroke-dasharray="3 4"/>
+<path class="editorial-accent" fill="none" d="m163 23 23 21m-23-7 23 21m191-35 23 21m-23-7 23 21"/>
+<path class="editorial-ink" d="M117 68h48l-9-22h-30z M141 68v28m-19 0h38 M334 70h48v26h-48z m7 0v-7h13v7 m-6 12a8 8 0 1 0 16 0a8 8 0 1 0-16 0"/>
+<text x="8" y="146">탁상 조명</text><text x="222" y="146">카메라</text>
+</svg>
+<figcaption>대상이 달라도 제목 여백과 빛 방향은 같다. 썸네일을 나란히 놓으면 고정한 조건이 유지됐는지 보인다.</figcaption>
+</figure>
 
 ## 같은 설정으로 다른 대상을 한 번씩 돌린다
 

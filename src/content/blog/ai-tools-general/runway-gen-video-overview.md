@@ -6,7 +6,8 @@ category: "ai-tools-general"
 subcategory: "도구소개"
 thumbnail: ""
 draft: false
-tags: ["cu", "Runway", "영상생성", "Gen-3", "편집"]
+tags: ["Runway", "영상생성", "Gen-3", "편집"]
+originIds: ["cu"]
 description: "Runway에서 스토리보드 이미지를 첫 프레임으로 삼고, 카메라와 빗방울 움직임을 따로 비교하는 실습입니다."
 read_time: 5
 difficulty: "beginner"
@@ -22,7 +23,15 @@ key_takeaways:
 
 **한 줄 요약.** 이미지 투 비디오에서는 첫 프레임으로 구도를 잡고, 프롬프트로 무엇이 어떻게 움직일지 정한다.
 
-![첫 프레임 선택, 움직임 지시, 두 시안 비교, 편집으로 이어지는 Runway 실습 흐름](/images/upgrade-batch1/runway.webp)
+<figure class="editorial-figure" data-editorial-figure>
+<svg viewBox="0 0 420 164" role="img" aria-label="같은 거리의 첫 프레임과 전진 뒤 프레임을 비교한다. 소실점은 그대로 있고 오른쪽 가로등이 더 크게 잡힌다.">
+<path class="editorial-rule" d="M8 116V16h190v100z M222 116V16h190v100z M8 111l93-56 97 56 M222 111l93-56 97 56"/>
+<path class="editorial-ink" d="M157 97V51h-15 M377 112V37h-26"/>
+<path class="editorial-accent" d="M97 55h8m-4-4v8 M311 55h8m-4-4v8"/>
+<text x="8" y="147">첫 프레임</text><text x="222" y="147">카메라 전진 뒤</text>
+</svg>
+<figcaption>같은 소실점을 향해 이동하면 가까운 가로등이 커진다. 시안에서 가로등의 위치가 갑자기 바뀌는지 확인할 수 있다.</figcaption>
+</figure>
 
 ## 첫 프레임과 움직임을 따로 적는다
 
