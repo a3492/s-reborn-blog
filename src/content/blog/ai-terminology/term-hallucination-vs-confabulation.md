@@ -3,10 +3,10 @@ title: "환각 vs 작화증 — AI 오류를 의학 용어로 정확하게 부�
 date: 2026-03-31
 category: ai-terminology
 tags:
-  - "cu2604021805"
   - "AI용어"
   - "용어사전"
   - "term-hallucination-vs-confabulation"
+originIds: ["cu2604021805"]
 
 description: "AI가 사실을 지어내는 현상은 정신의학의 \"환각\"이 아닌 \"작화증\"에 훨씬 더 가깝다 — 두 단어를 구분하면 AI 오류의 본질이 보인다."
 thumbnail: ""

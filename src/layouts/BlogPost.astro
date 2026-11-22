@@ -31,6 +31,7 @@ const articleSchema = {
 	url: new URL(Astro.url.pathname, Astro.site).href,
 	datePublished: date.toISOString(),
 	dateModified: updatedDate?.toISOString(),
+	timeRequired: Astro.props.read_time ? `PT${Astro.props.read_time}M` : undefined,
 };
 const slug = Astro.url.pathname.replace(/^\/(?:en\/)?blog\//, '').replace(/\/$/, '');
 
@@ -127,4 +128,47 @@ const coursePart = part && {
 	.blog-post-related { margin-block-start: 1.5rem; padding: 1rem; border-radius: .5rem; background: var(--site-subtle); }
 	.blog-post-related h2 { font-size: 1rem; margin: 0; }
 	.blog-post-related ul { margin-block-end: 0; }
+
+	:global(.blog-post-prose .editorial-figure) {
+		--figure-accent: var(--site-mint-text);
+		margin: 1.5rem 0;
+		padding: .65rem 0;
+		border-block: 1px solid var(--site-border);
+		color: var(--site-text);
+		background: transparent;
+	}
+	:global(.editorial-figure svg) {
+		display: block;
+		width: 100%;
+		max-width: 32rem;
+		height: auto;
+		font: inherit;
+		font-size: 20px;
+		fill: currentColor;
+	}
+	:global(.editorial-figure .editorial-rule),
+	:global(.editorial-figure .editorial-ink) {
+		stroke: currentColor;
+		fill: none;
+	}
+	:global(.editorial-figure .editorial-rule) { opacity: .38; }
+	:global(.editorial-figure .editorial-note),
+	:global(.editorial-figure figcaption) { color: var(--site-text-secondary); }
+	:global(.editorial-figure figcaption) {
+		margin: .55rem 0 0;
+		text-align: start;
+		font-size: .875rem;
+	}
+	:global(.editorial-figure .editorial-accent) { color: var(--figure-accent); }
+	:global(.editorial-figure text.editorial-note),
+	:global(.editorial-figure text.editorial-accent) { fill: currentColor; }
+	:global(.editorial-figure path.editorial-accent) { stroke: currentColor; stroke-width: 1.5; }
+	:global(.editorial-comparison) {
+		display: grid;
+		grid-template-columns: max-content minmax(0, 1fr);
+		gap: .35rem .8rem;
+	}
+	:global(.editorial-comparison span) { color: var(--site-text-secondary); font-weight: 700; }
+	:global(.editorial-comparison em) { color: var(--figure-accent); font-style: normal; font-weight: 700; }
+
 </style>

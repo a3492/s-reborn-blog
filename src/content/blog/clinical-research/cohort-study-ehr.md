@@ -3,11 +3,11 @@ title: "EMR 기반 코호트 연구 — 대규모 데이터로 빠르게 연구�
 date: 2026-03-31
 category: clinical-research
 tags:
-  - "cu2604021805"
   - "임상연구"
   - "논문"
   - "EBM"
   - "cohort-study-ehr"
+originIds: ["cu2604021805"]
 
 description: "HIRA 청구 데이터와 NHIS 표본코호트는 수십만 명 규모의 코호트 연구를 IRB 하나로 시작할 수 있는 한국의 강점이다."
 thumbnail: ""

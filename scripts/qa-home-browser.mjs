@@ -576,7 +576,8 @@ async function checkDetailCrumbs(page, base) {
 	check(await page.locator('[data-taxonomy-post]:visible').count() > 0, 'Blog search returned no results');
 }
 async function checkTagPresentation(page, base) {
-	const jobPattern = /\b(?:cu|cl)\d{10}(?:\d{2})?\b/i;
+	const jobPattern = /\b(?:cu|cl)\d{10}(?:\d{2})?\b|#cu\b|\boriginIds\b/i;
+	const bareCue = /["'>\s]cu(?=["'<\s])/i;
 	for (const route of [articlePath, '/en' + articlePath]) {
 		await openPage(page, base + route);
 		const tags = await page.locator('.blog-post-tags .tag').allTextContents();
@@ -587,16 +588,26 @@ async function checkTagPresentation(page, base) {
 		const related = await page.locator('.blog-post-related a').evaluateAll((links) => links.map((link) => link.getAttribute('href')));
 		check(related.length === 3 && !related.includes(route) && new Set(related).size === 3, `Bad related articles on ${route}`);
 	}
-	for (const route of ['/', '/blog/', '/en/blog/']) {
+	for (const route of ['/', '/blog/', '/en/blog/', '/search.html', '/rss.xml']) {
 		const response = await page.request.get(base + route);
 		const html = await response.text();
-		check(!jobPattern.test(html), `Internal workflow tag exposed through ${route}`);
+		check(!jobPattern.test(html) && !bareCue.test(html), `Internal workflow tag exposed through ${route}`);
 		await response.dispose();
+	}
+	const samplePaths = ['/blog/ai-tools-general/notebooklm-source-grounded-notes/', '/blog/orchestration/crewai-intro/'];
+	for (const path of samplePaths) {
+		for (const locale of ['', '/en']) {
+			await openPage(page, base + locale + path);
+			check(!jobPattern.test(await page.locator('.blog-post-prose').innerText()),
+				`Internal workflow tag exposed on article ${locale + path}`);
+			check(!(await page.locator('.blog-post-tags .tag').allTextContents()).some((tag) => /^#cu(?:\d+)?$/i.test(tag)),
+				`CU is visible in tags on ${locale + path}`);
+		}
 	}
 	await openPage(page, base + '/blog/');
 	await page.locator('[data-unassigned-level]').waitFor();
 	check((await page.locator('[data-unassigned-level]').innerText()).includes('100편'), 'Incorrect LAB unassigned count');
-	return 5;
+	return 11;
 }
 
 async function checkLegacyCategories(page, base) {
@@ -709,6 +720,75 @@ async function checkCourseResources(page, base) {
 	return links.size;
 }
 
+async function checkUpgradedArticles(page, base) {
+	const articles = [
+		["/blog/aerini/what-is-ai/", "2026-11-22"],
+		["/blog/orchestration/workflow-patterns/", "2026-11-22"],
+		["/blog/orchestration/what-is-orchestration/", "2026-11-22"],
+		["/blog/ai-tools-general/notebooklm-source-grounded-notes/", "2026-11-22"],
+		["/blog/ai-tools-general/midjourney-image-prompt-workflow/", "2026-11-22"],
+		["/blog/ai-tools-general/runway-gen-video-overview/", "2026-11-22"],
+		["/blog/ai-tools-general/perplexity-ai-search-research/", "2026-11-22"],
+		["/blog/ai-tools-general/capcut-ai-captions-effects/", "2026-11-22"],
+		["/blog/ai-tools-general/higgsfield-ai-creative-suite/", null],
+	];
+	const checkedLinks = new Set();
+	const viewport = page.viewportSize();
+	await page.setViewportSize({ width: 320, height: 780 });
+	try {
+		for (const [href, updatedDate] of articles) {
+			await openPage(page, base + href);
+			const prose = page.locator('.blog-post-prose');
+			const intro = await prose.locator(':scope > p').first().innerText();
+			check(intro === '아래 사례는 설명을 위한 가상의 상황입니다.', `Missing fiction disclosure: ${href}`);
+			const article = JSON.parse(await page.locator('#article-json-ld').textContent());
+			check((article.dateModified?.slice(0, 10) ?? null) === updatedDate, `Wrong upgrade date: ${href}`);
+			check(await prose.locator(':scope > h2').count() >= 5, `Missing expanded explanation or example: ${href}`);
+			const figure = prose.locator('[data-editorial-figure]');
+			check(await figure.count() === 1, `Unexpected figure count: ${href}`);
+			const themePicker = page.locator('[data-theme-select]');
+			const originalTheme = await themePicker.inputValue();
+			const measurements = [];
+			for (const theme of ['light', 'dark']) {
+				await themePicker.selectOption(theme);
+				measurements.push(await figure.evaluate((element) => {
+					const style = getComputedStyle(element);
+					const svg = element.querySelector('svg');
+					const box = svg?.getBBox();
+					return {
+						ink: style.color,
+						background: style.backgroundColor,
+						fits: element.scrollWidth <= element.clientWidth + 1 &&
+							element.getBoundingClientRect().right <= innerWidth &&
+							(!svg || (box.x >= 0 && box.x + box.width <= svg.viewBox.baseVal.width &&
+							box.y >= 0 && box.y + box.height <= svg.viewBox.baseVal.height)),
+						labeled: Boolean(element.querySelector('figcaption')?.textContent.trim()) &&
+							Boolean((svg ?? element.querySelector('[role="img"]'))?.getAttribute('aria-label')?.trim()),
+					};
+				}));
+			}
+			check(measurements[0].ink !== measurements[1].ink && measurements.every(({ background, fits, labeled }) =>
+				background === 'rgba(0, 0, 0, 0)' && fits && labeled), `Figure theme, layout or caption: ${href} ${JSON.stringify(measurements)}`);
+			await themePicker.selectOption(originalTheme);
+			if (href === articlePath) check(article.timeRequired === 'PT3M', 'Expanded AI introduction reading time should be three minutes');
+			const links = await prose.locator(':scope > ul a[href^="/blog/"]').evaluateAll((nodes) => nodes.map((node) => node.getAttribute('href')));
+			check(links.length >= 2 && links.length <= 4 && links.some((link) => link.startsWith('/blog/topics/')),
+				`Wrong article reading links: ${href}`);
+			check((await prose.innerText()).search(/편집 초안|스테이크|87%|ORCHESTRATION_ROUNDPREP_BIBLE/) === -1,
+				`Editorial placeholder or unsupported sample result: ${href}`);
+			links.forEach((link) => checkedLinks.add(link));
+		}
+	} finally {
+		await page.setViewportSize(viewport);
+	}
+	for (const href of checkedLinks) {
+		const response = await page.request.get(base + href, { maxRedirects: 0 });
+		check(response.ok(), `Upgraded article link unavailable: ${href}`);
+		await response.dispose();
+	}
+	return articles.length;
+}
+
 async function checkResources(page, base) {
 	await openPage(page, base + lectureHome);
 	const lectureRoutes = await page.locator('main .archive-row > a[href^="/"]').evaluateAll((links) =>
@@ -778,6 +858,7 @@ async function run() {
 	let homeLabelChecks = 0;
 	let legacy;
 	let tagSurfaces = 0;
+	let upgradedArticles = 0;
 	try {
 		browser = await chromium.launch({
 			executablePath: chromePath(),
@@ -821,6 +902,7 @@ async function run() {
 				homeLabelChecks = await checkHomeLabels(page, base);
 				await checkStarterLinks(page, base);
 				courses = await checkCourseResources(page, base);
+				upgradedArticles = await checkUpgradedArticles(page, base);
 				legacy = await checkLegacyCategories(page, base);
 				tagSurfaces = await checkTagPresentation(page, base);
 			}
@@ -846,6 +928,7 @@ async function run() {
 		topicClicks: results.length * topicSlots.length,
 		themeChanges,
 		courses,
+		upgradedArticles,
 		compactSearchCases: themeCases.length * 3,
 		sidebarCases,
 		homeLabelChecks,

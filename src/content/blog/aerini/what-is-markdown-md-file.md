@@ -12,7 +12,7 @@ tags:
   - PPT
   - 발표
   - 옵시디언
-  - CU202604052030
+originIds: ["CU202604052030"]
 reading-time: 11
 description: "MD 기초부터 PPT·발표 AI와 엮는 워크플로, 병원·연구 현장 같은 실제 활용 사례, 오늘의 과제까지 — 마크다운을 ‘써먹는’ 관점으로 정리했습니다."
 draft: false
