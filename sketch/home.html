@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>S-reborn — 첫 화면 스케치</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --ink: #1c1917;
+      --muted: #5c564f;
+      --line: rgba(28, 25, 23, 0.14);
+      --paper: #f3efe8;
+      --door: #efe8dc;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      min-height: 100vh;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Pretendard, "Apple SD Gothic Neo", sans-serif;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 48px 28px 72px;
+    }
+    .mark {
+      margin: 0;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+    h1 {
+      margin: 72px 0 0;
+      max-width: 12em;
+      font-size: clamp(40px, 6vw, 68px);
+      font-weight: 650;
+      line-height: 1.18;
+      letter-spacing: -0.03em;
+    }
+    .lead {
+      margin: 28px 0 0;
+      max-width: 28em;
+      color: var(--muted);
+      font-size: 18px;
+    }
+    .doors {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 56px;
+    }
+    .door {
+      display: block;
+      min-height: 148px;
+      padding: 22px 20px;
+      background: var(--door);
+      color: inherit;
+      text-decoration: none;
+    }
+    .door small {
+      display: block;
+      margin-bottom: 28px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .door strong {
+      display: block;
+      font-size: 22px;
+      font-weight: 640;
+      letter-spacing: -0.02em;
+    }
+    .fresh {
+      margin-top: 72px;
+      border-top: 1px solid var(--line);
+    }
+    .fresh h2 {
+      margin: 22px 0 8px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 24px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+      color: inherit;
+      text-decoration: none;
+    }
+    .row b { font-weight: 620; }
+    .row span { color: var(--muted); }
+    .note {
+      margin-top: 36px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    @media (max-width: 720px) {
+      h1 { margin-top: 40px; }
+      .doors { grid-template-columns: 1fr; }
+      .door { min-height: 0; }
+      .door small { margin-bottom: 8px; }
+      .row { grid-template-columns: 1fr; gap: 4px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="mark">S-REBORN</p>
+    <h1>진료실에서 AI를 쓰는 의사를 위한 곳</h1>
+    <p class="lead">입문과 현장 글, 그리고 오늘 고른 도구. 서가 전체가 아니라, 지금 볼 것만 둡니다.</p>
+
+    <nav class="doors" aria-label="들어가는 곳">
+      <a class="door" href="#sketch">
+        <small>01</small>
+        <strong>AI 입문(애린이)</strong>
+      </a>
+      <a class="door" href="#sketch">
+        <small>02</small>
+        <strong>글 모음</strong>
+      </a>
+      <a class="door" href="#sketch">
+        <small>03</small>
+        <strong>Doctor AI 아카데미</strong>
+      </a>
+    </nav>
+
+    <section class="fresh" id="sketch">
+      <h2>오늘 들어온 곳</h2>
+      <a class="row" href="#sketch">
+        <b>근거를 묻는 자리</b>
+        <span>진료 중에 논문 근거를 물어볼 때 여는 곳. 예시.</span>
+      </a>
+      <a class="row" href="#sketch">
+        <b>의료기기인지 보는 글</b>
+        <span>어떤 AI가 기기로 허가를 받는지. 예시.</span>
+      </a>
+      <a class="row" href="#sketch">
+        <b>토큰이 뭐예요</b>
+        <span>애린이 입문에서 오늘 다듬은 한 편. 예시.</span>
+      </a>
+    </section>
+
+    <p class="note">스케치입니다. 눌러도 다른 페이지로 가지 않습니다. 세 줄은 가짜 예시입니다.</p>
+  </main>
+</body>
+</html>
