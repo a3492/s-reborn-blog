@@ -3,6 +3,7 @@ import '../styles/design.css';
 import BaseHead from '../components/BaseHead.astro';
 import Topbar from '../components/Topbar.astro';
 import Footer from '../components/Footer.astro';
+import PageShare from '../components/PageShare.astro';
 import { SITE_TITLE, SITE_DESCRIPTION, CONTACT_EMAIL } from '../consts';
 import { getCollection } from 'astro:content';
 import { getPublicSiteSettings } from '../lib/site-settings';
@@ -56,6 +57,7 @@ const searchIndex = allPosts.map(post => ({
 				<slot />
 			</main>
 			<Footer siteTitle={resolvedSiteTitle} socialLinks={siteSettings.socialLinks} />
+			<PageShare />
 		</div>
 
 		<script define:vars={{ searchIndex, supabaseUrl: import.meta.env.PUBLIC_SUPABASE_URL ?? '', supabaseKey: import.meta.env.PUBLIC_SUPABASE_ANON_KEY ?? '', contactEmail: CONTACT_EMAIL }}>
