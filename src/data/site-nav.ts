@@ -80,6 +80,7 @@ export const SITE_NAV: NavItem[] = [
 		children: [
 			{ id: 'lectures-kang-sehee', label: '강세희 원장 강연', labelEn: 'Dr. Kang Sehee lectures', href: '/lecture-materials/kang-sehee/' },
 			{ id: 'lectures-kim-dowi', label: '김도위 원장 강연', labelEn: 'Dr. Kim Dowi lectures', href: '/lecture-materials/kim-dowi/' },
+			{ id: 'lectures-presentation', label: 'S-Reborn Presentation · 한피비 AI 강연', labelEn: 'S-Reborn Presentation · Hanpibi AI', href: '/presentation/hanpibi-ai-topics/' },
 			{ id: 'lectures-archive', label: '전체 강연 아카이브', labelEn: 'All lecture materials', href: '/lecture-materials/archive/' },
 		],
 	},
@@ -146,7 +147,7 @@ export function sectionIsCurrent(id: string, url: URL): boolean {
 	if (id === 'home') return path === '/';
 	if (id === 'clinic') return false;
 	if (id === 'research') return path === '/blog/' || path.startsWith('/blog/');
-	if (id === 'lectures') return path === '/lecture-materials/' || path.startsWith('/lecture-materials/') || path === '/lectures/' || path.startsWith('/lectures/') || path === '/tools/' || path.startsWith('/tools/') || path === '/tutorials/' || path.startsWith('/tutorials/');
+	if (id === 'lectures') return path.startsWith('/presentation/') || path === '/lecture-materials/' || path.startsWith('/lecture-materials/') || path === '/lectures/' || path.startsWith('/lectures/') || path === '/tools/' || path.startsWith('/tools/') || path === '/tutorials/' || path.startsWith('/tutorials/');
 	if (id === 'about') return path === '/about/' || path.startsWith('/about/');
 	return false;
 }
