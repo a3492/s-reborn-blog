@@ -1,0 +1,46 @@
+<div class="site-share" data-site-share>
+  <button type="button" class="site-share-button" data-share-button aria-label="현재 페이지 공유하기" title="현재 페이지 공유하기">
+    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.7 6.6-4.4m-6.6 7 6.6 4.4"/></svg>
+    <span>공유</span>
+  </button>
+  <span class="site-share-status" data-share-status role="status" aria-live="polite"></span>
+</div>
+<script>
+  document.querySelectorAll('[data-site-share]').forEach((root) => {
+    const button = root.querySelector('[data-share-button]');
+    const status = root.querySelector('[data-share-status]');
+    if (!(button instanceof HTMLButtonElement) || !(status instanceof HTMLElement)) return;
+    button.addEventListener('click', async () => {
+      const url = window.location.href;
+      const title = document.title;
+      if (navigator.share) {
+        try { await navigator.share({ title, url }); status.textContent = ''; return; }
+        catch (error) { if (error instanceof DOMException && error.name === 'AbortError') return; }
+      }
+      try {
+        await navigator.clipboard.writeText(url);
+        status.textContent = '링크 복사됨';
+      } catch {
+        const input = document.createElement('textarea');
+        input.value = url;
+        input.setAttribute('readonly', '');
+        input.style.position = 'fixed';
+        input.style.opacity = '0';
+        document.body.appendChild(input);
+        input.select();
+        const copied = document.execCommand('copy');
+        input.remove();
+        status.textContent = copied ? '링크 복사됨' : '주소창에서 링크를 복사해 주세요';
+      }
+    });
+  });
+</script>
+<style>
+  .site-share { position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(20px, env(safe-area-inset-bottom)); z-index: 90; display:flex; flex-direction:column; align-items:flex-end; gap:.4rem; }
+  .site-share-button { display:inline-flex;align-items:center;gap:.5rem;min-height:44px;padding:.7rem 1rem;border:1px solid var(--site-border);border-radius:999px;background:var(--site-surface-raised);color:var(--site-text);box-shadow:0 4px 18px rgba(0,0,0,.12);font:inherit;font-weight:700;cursor:pointer; }
+  .site-share-button:hover { background:var(--site-subtle); }
+  .site-share-button:focus-visible { outline:3px solid var(--site-mint);outline-offset:3px; }
+  .site-share-status { background:var(--site-surface-raised);color:var(--site-text);border-radius:.4rem;font-size:.8rem;padding:0 .4rem; }
+  .site-share-status:empty { display:none; }
+  @media(max-width:600px) { .site-share {bottom:max(14px,env(safe-area-inset-bottom));right:max(12px,env(safe-area-inset-right));}.site-share-button{padding:.65rem .85rem;} }
+</style>
