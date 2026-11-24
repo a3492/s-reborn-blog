@@ -81,6 +81,7 @@ export const SITE_NAV: NavItem[] = [
 			{ id: 'lectures-kang-sehee', label: '강세희 원장 강연', labelEn: 'Dr. Kang Sehee lectures', href: '/lecture-materials/kang-sehee/' },
 			{ id: 'lectures-kim-dowi', label: '김도위 원장 강연', labelEn: 'Dr. Kim Dowi lectures', href: '/lecture-materials/kim-dowi/' },
 			{ id: 'lectures-presentation', label: 'S-Reborn Presentation · 한피비 AI 강연', labelEn: 'S-Reborn Presentation · Hanpibi AI', href: '/presentation/hanpibi-ai-topics/' },
+			{ id: 'lectures-crener-strategy', label: 'S-Reborn Presentation · 크레너 AI 교육 전략', labelEn: 'S-Reborn Presentation · Crener AI strategy', href: '/presentation/crener-ai-strategy/' },
 			{ id: 'lectures-archive', label: '전체 강연 아카이브', labelEn: 'All lecture materials', href: '/lecture-materials/archive/' },
 		],
 	},
