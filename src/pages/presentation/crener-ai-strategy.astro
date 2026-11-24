@@ -1,0 +1,36 @@
+---
+import Layout from '../../layouts/Layout.astro';
+const sections = [["다채널 유통","크레너 단독 영상 통로를 지양하고 유튜브를 중심으로 쇼츠·릴스·SNS·웹사이트를 연결한다.","유튜브는 신규 유입과 검색, 쇼츠·릴스는 관심 유도, 크레너는 체계적 심화 교육, 웹사이트는 자료 검색, 오픈톡방은 소통, 뉴스레터는 재방문 안내에 활용한다. 무료 공개 콘텐츠와 유료 심화 과정의 경계를 정한다."],["생산자 편의","언제든 영상·음성·화면 녹화·문서를 저장소에 올리면 가공과 배포는 시스템이 담당한다.","모바일과 PC에서 간편 업로드를 지원한다. 원본 보존, 자동 분류, 자막, 요약, 편집, 제목, 썸네일, 예약 게시까지 연결한다. 생산자에게 편집 작업을 요구하지 않는다."],["콘텐츠 재활용","한 번 만든 원본을 정규 영상, 짧은 영상, 교육 문서, 실습 및 FAQ로 재가공한다.","30분 강의는 예를 들어 정규 영상 1편, 주제별 영상 3~5편, 쇼츠 5~10편과 텍스트·실습 자료로 변환할 수 있다. 정보 밀도에 따라 조절하며 사실과 맥락, 개인정보, 저작권을 검수한다."],["지속적인 교육 노출","영상 설명란·고정 댓글·오픈톡방·웹사이트를 연결해 학습과 재방문을 유도한다.","쇼츠에서 정규 영상으로, 정규 영상에서 관련 실습과 커뮤니티로 연결한다. 교육생의 직업·수준·목적별 학습 경로와 선택 가능한 알림 빈도를 제공한다."],["상시 질문·답변","AI 활용 중 어려움이 생기면 언제든 질문하고 해결할 수 있는 지원 체계를 만든다.","교육 자료 기반 AI 답변과 출처를 제공하고, 미해결 질문은 운영진과 전문 교육자에게 전달한다. 검증된 답변은 FAQ와 후속 영상으로 축적한다. 답변 범위와 대응 시간을 명시한다."],["지식 자산 및 운영","원본과 파생 자료를 중앙 관리하고 저작권·개인정보·최신성·운영 책임을 명확히 한다.","원본과 편집본의 소유권, 재가공 및 계약 종료 후 권한을 합의한다. 콘텐츠 제작일·검증 상태·도구 버전을 관리하고 오래된 자료는 수정 또는 대체한다. 교육생 정보는 동의와 최소 수집 원칙으로 관리한다. 교육생의 사례 공유 및 상호 학습을 지원한다."],["성과와 실행 계획","조회수보다 실제 활용률, 질문 해결률, 재방문율과 생산 비용을 측정한다.","1~2주: 저장소·채널·권한·담당자 확정. 3~4주: 원본 10개로 재가공 시범 운영. 2개월 차: 웹사이트·질문 관리·수준별 과정. 3개월 차: 자동화·맞춤 추천·성과 측정. 일정은 예산과 인력에 따라 조정한다."],["회의 의사결정","채널 역할, 콘텐츠 권리, 저장소, 담당자, 예산, 시범 운영 범위와 평가 일정을 결정한다.","다채널 전환, 무료·유료 범위, 저작권과 재배포, 저장소 및 개발 담당, 게시 검수, 웹사이트·오픈톡방 운영, 질의응답 지원 범위, 개인정보 기준, 초기·유지 비용, 시범 운영 및 평가 일정을 확정한다."]];
+---
+<Layout title="크레너 AI 교육 운영 전략" description="크레너 AI 교육 및 청중·구독자 관리 회의 안건" noindex={true}>
+  <article class="strategy">
+    <nav aria-label="현재 위치"><a href="/">홈</a> / 강연·자료 / 회의 안건</nav>
+    <p class="eyebrow">S-Reborn Presentation · 2026.11.24 · 제안안</p>
+    <h1>크레너 AI 교육 운영 전략</h1>
+    <p class="lead">일회성 강의에서 지속형 AI 교육·활용 지원 생태계로 전환한다. 생산자는 쉽게 지식을 제공하고, 콘텐츠는 여러 채널에서 반복 활용되며, 교육생은 학습과 실습, 질문과 답변을 통해 지속적으로 성장하도록 한다.</p>
+    <p class="hint">각 안건을 누르면 세부 내용이 펼쳐집니다.</p>
+    {sections.map(([title, summary, detail], index) => (
+      <details id={`agenda-${index + 1}`}>
+        <summary><span class="number">{String(index + 1).padStart(2, '0')}</span><span><strong>{title}</strong><span class="brief">{summary}</span></span><span class="chevron" aria-hidden="true">+</span></summary>
+        <div class="detail"><p>{detail}</p></div>
+      </details>
+    ))}
+    <p class="closing">강의 판매보다 사용자가 AI를 실제로 잘 활용하도록 지속적으로 돕는 것을 최우선 목표로 한다.</p>
+  </article>
+</Layout>
+<style>
+.strategy{max-width:880px;margin:auto;padding:clamp(16px,4vw,48px);color:var(--site-text);background:var(--site-bg);overflow-wrap:anywhere}
+nav,.eyebrow,.hint{color:var(--site-text-secondary);font-size:.9rem}
+nav a{color:var(--site-mint-text)}
+h1{font-size:clamp(1.7rem,4vw,2.7rem);line-height:1.25;margin:.5rem 0 1rem}
+.lead,.closing{line-height:1.8;padding:1rem;border:1px solid var(--site-border);border-radius:12px;background:var(--site-surface-raised);color:var(--site-text)}
+details{margin:.65rem 0;border:1px solid var(--site-border);border-radius:12px;background:var(--site-surface);color:var(--site-text)}
+summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:.75rem;padding:1rem;align-items:start;min-height:44px}
+summary::-webkit-details-marker{display:none}
+summary:focus-visible,nav a:focus-visible{outline:2px solid var(--site-mint-text);outline-offset:3px}
+.number{font-weight:700;color:var(--site-mint-text)}
+.brief{display:block;font-size:.95rem;line-height:1.6;color:var(--site-text-secondary);margin-top:.3rem}
+.chevron{font-size:1.25rem;line-height:1.2}
+details[open] .chevron{transform:rotate(45deg)}
+.detail{padding:0 1rem 1rem;line-height:1.8;border-top:1px solid var(--site-border);color:var(--site-text)}
+</style>
