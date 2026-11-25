@@ -12,7 +12,7 @@ import { CATEGORIES, MENU_GROUPS } from '../consts';
 
 type Props = CollectionEntry<'blog'>['data'] & { slug?: string; lang?: 'ko' | 'en'; title_en?: string; description_en?: string };
 
-const { title, title_en, description, description_en, date, thumbnail, category, tags, lang = 'ko' } = Astro.props;
+const { title, title_en, description, description_en, date, thumbnail, category, tags, series, series_order, lang = 'ko' } = Astro.props;
 const isEn = lang === 'en';
 const displayTitle = isEn && title_en ? title_en : title;
 const displayDescription = isEn && description_en ? description_en : description;
@@ -25,6 +25,11 @@ const countsByCategory = allPosts.reduce<Record<string, number>>((acc, post) => 
 	if (c) acc[c] = (acc[c] ?? 0) + 1;
 	return acc;
 }, {});
+const lectureTotal =
+	category === 'doctor-ai' && series
+		? allPosts.filter((post) => post.data.category === 'doctor-ai' && post.data.series === series).length
+		: 0;
+const showLectureLabel = category === 'doctor-ai' && Boolean(series) && typeof series_order === 'number' && lectureTotal > 0;
 ---
 
 <html lang={lang}>
@@ -108,7 +113,11 @@ const countsByCategory = allPosts.reduce<Record<string, number>>((acc, post) => 
 					<div class="blog-post-prose prose">
 						<div class="blog-post-title title">
 							<div class="blog-post-meta meta">
-								{category && (
+								{showLectureLabel ? (
+									<a class="blog-post-series" href={isEn ? '/en/blog/?category=doctor-ai' : '/blog/?category=doctor-ai'}>
+										{series} {series_order}/{lectureTotal}
+									</a>
+								) : category && (
 									<span class="blog-post-category category-badge">
 										{(() => { const c = CATEGORIES.find(x => x.id === category); return isEn ? (c?.labelEn ?? category) : (c?.label ?? category); })()}
 									</span>
@@ -157,3 +166,43 @@ const countsByCategory = allPosts.reduce<Record<string, number>>((acc, post) => 
 		</div><!-- /.site-wrap -->
 	</body>
 </html>
+
+<style>
+	.blog-post-series {
+		font-size: 0.75rem;
+		font-weight: 500;
+		color: var(--t3);
+		text-decoration: none;
+		background: none;
+		border: none;
+		box-shadow: none;
+		padding: 0;
+	}
+	:global(.blog-post-prose .lecture-note) {
+		margin: 1em 0;
+		padding: 0 0 0 0.7rem;
+		border: none;
+		border-left: 2px solid var(--accent);
+		border-radius: 0;
+		background: none;
+		box-shadow: none;
+	}
+	:global(.blog-post-prose .lecture-note p) {
+		margin: 0 0 0.2em;
+	}
+	:global(.blog-post-prose .lecture-note ul) {
+		margin: 0;
+	}
+	:global(.blog-post-prose details.lecture-toc) {
+		margin: 0.6em 0 1em;
+		background: none;
+		border: none;
+		box-shadow: none;
+	}
+	:global(.blog-post-prose details.lecture-toc summary) {
+		cursor: pointer;
+	}
+	:global(.blog-post-prose p.lecture-path) {
+		margin: 0.35em 0;
+	}
+</style>
