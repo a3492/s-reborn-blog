@@ -152,6 +152,7 @@ function childHref(child: NavChild): string {
 														aria-current={current ? 'page' : undefined}
 														target={child.external ? '_blank' : undefined}
 														rel={child.external ? 'noopener noreferrer' : undefined}
+														aria-describedby={child.description ? `${panelId}-${child.id}-description` : undefined}
 													>
 														{childLabel(child)}
 														{child.external && (
@@ -161,6 +162,7 @@ function childHref(child: NavChild): string {
 															</>
 														)}
 													</a>
+													{child.description && <p class="site-nav-description" id={`${panelId}-${child.id}-description`}>{isEn ? child.descriptionEn ?? child.description : child.description}</p>}
 												</li>
 											</>
 										);
@@ -552,6 +554,14 @@ function childHref(child: NavChild): string {
 		position: relative;
 	}
 
+	.site-nav-description {
+		max-width: 17rem;
+		margin: 0 0.65rem 0.65rem;
+		color: var(--sh-muted);
+		font-size: 0.8125rem;
+		line-height: 1.45;
+	}
+
 	.site-nav-btn,
 	.site-nav-sub a,
 	.site-lang-link {
@@ -800,8 +810,7 @@ function childHref(child: NavChild): string {
 			min-width: 16rem;
 			background: var(--sh-panel);
 			border: 1px solid var(--sh-line);
-			border-radius: 12px;
-			box-shadow: 0 16px 40px rgba(23, 29, 34, 0.12);
+			border-radius: 6px;
 		}
 
 		.site-nav-item:nth-last-child(-n + 2) > .site-nav-sub {
@@ -836,7 +845,7 @@ function childHref(child: NavChild): string {
 			overscroll-behavior: contain;
 			padding: 1rem 1rem 2rem;
 			background: var(--sh-panel);
-			box-shadow: -16px 0 40px rgba(23, 29, 34, 0.16);
+			border-inline-start: 1px solid var(--sh-line);
 		}
 
 		.site-header.is-open .site-nav {

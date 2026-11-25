@@ -357,6 +357,9 @@ async function checkLectureNavigation(page, base, mobile, name, screenshot) {
 	await page.locator('#site-nav').getByRole('link', { name: 'AI ACADEMY', exact: true }).click();
 	await page.waitForURL(new URL(lectureHome, base).href);
 	await checkCrumbs(page, [['홈', '/'], ['AI ACADEMY', lectureHome]], name);
+	check(await page.getByRole('heading', { name: 'AI ACADEMY', exact: true }).isVisible()
+		&& await page.getByText('여러 분야에서 쓰는 AI를 기초부터 배우고 직접 실습합니다.', { exact: true }).isVisible(),
+		`${name}: general AI Academy description missing`);
 
 	for (const slot of lectureSlots) {
 		await ensureDrawer(page, mobile);
@@ -396,6 +399,28 @@ async function checkLectureNavigation(page, base, mobile, name, screenshot) {
 	await checkCrumbs(page, [['홈', '/'], ['AI ACADEMY', lectureHome]], name);
 	await crumbs.getByRole('link', { name: '홈', exact: true }).click();
 	await page.waitForURL(new URL('/', base).href);
+}
+
+async function checkClinicNavigation(page, base, mobile, name, preference, scheme) {
+	await ensureDrawer(page, mobile);
+	const links = await page.locator('#site-nav .site-nav-list > li > a, #site-nav .site-nav-list > li > button:not([aria-label])')
+		.evaluateAll((items) => items.map((item) => ({
+			label: item.firstChild?.textContent.trim(),
+			href: item.getAttribute('href'),
+			target: item.getAttribute('target'),
+			inViewport: item.getBoundingClientRect().right <= innerWidth,
+		})));
+	check(JSON.stringify(links.map(({ label }) => label)) === JSON.stringify(['홈', '클리닉', '의원 홈페이지', 'AI LAB', 'AI ACADEMY', '소개'])
+		&& links.every(({ inViewport }) => inViewport)
+		&& links[1]?.href === '/clinic/' && links[2]?.href === 'https://www.s-reborn.com/' && links[2]?.target === '_blank',
+		`${name}: six menu items or official clinic link incorrect: ${JSON.stringify(links)}`);
+	await page.locator('#site-nav').getByRole('link', { name: '클리닉', exact: true }).click();
+	await page.waitForURL(new URL('/clinic/', base).href);
+	await checkCrumbs(page, [['홈', '/'], ['클리닉', '/clinic/']], name);
+	check(await page.getByRole('heading', { name: '클리닉', exact: true }).isVisible()
+		&& await page.locator('.clinic-hub dt').count() === 4
+		&& await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${name}: clinic hub content or viewport`);
+	await checkTheme(page, preference, scheme, name);
 }
 
 async function checkTopics(page, base, mobile, name, preference, scheme) {
@@ -557,6 +582,10 @@ async function checkDetailCrumbs(page, base) {
 	}
 	await openPage(page, base + '/');
 	await page.locator('#site-nav').getByRole('button', { name: '소개', exact: true }).click();
+	check(await page.locator('#site-sub-about').getByRole('link', { name: /Doctor AI Academy/ })
+		.getAttribute('aria-describedby') !== null
+		&& await page.locator('#site-sub-about').getByText('의료인을 위한 AI 병원 경영·연구·학술 교육입니다.').isVisible(),
+		'Doctor AI Academy description missing');
 	await page.locator('#site-sub-about').getByRole('link', { name: 'S-REBORN LAB', exact: true }).click();
 	await page.waitForURL(new URL('/lab/', base).href);
 	await checkCrumbs(page, [['홈', '/'], ['소개', '/about/'], ['S-REBORN LAB', '/lab/']], 'S-REBORN LAB');
@@ -706,7 +735,8 @@ async function checkCourseResources(page, base) {
 		check(response.status() === 200 && href.startsWith('/blog/doctor-ai/'), `Lesson URL failed: ${href}`);
 		const html = await response.text();
 		check(html.includes('data-lecture-draft-badge') && html.includes('<meta name="robots" content="noindex"') &&
-			html.includes('참고문헌 정리 중') && !html.includes('https://example.com') && !sitemapXml.includes(`${href}</loc>`),
+			html.includes('data-lecture-review-notice') && html.includes('참고문헌 정리 중')
+			&& !html.includes('주의사항 1') && !html.includes('https://example.com') && !sitemapXml.includes(`${href}</loc>`),
 			`Lesson draft badge, indexing or reference status is wrong: ${href}`);
 		await response.dispose();
 	}
@@ -883,6 +913,7 @@ async function run() {
 				if (mobile) await checkDrawer(page, name, screenshot);
 				await checkStarterAnchor(page, base, name);
 
+				await checkClinicNavigation(page, base, mobile, name, preference, scheme);
 				await checkLectureNavigation(page, base, mobile, name, mobile ? null : screenshot);
 				await checkTheme(page, preference, scheme, name);
 				await checkTopics(page, base, mobile, name, preference, scheme);
@@ -924,6 +955,7 @@ async function run() {
 		homeRows: results[0]?.posts,
 		starterRows: results[0]?.starters,
 		starterAnchorCases: results.length,
+		clinicNavigationCases: results.length,
 		lectureClicks: results.reduce((total, result) => total + result.lectureLinks, 0),
 		topicClicks: results.length * topicSlots.length,
 		themeChanges,
