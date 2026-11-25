@@ -77,7 +77,9 @@ export function buildCrumbs(
 	let sectionId: string;
 	let childId: string | undefined;
 
-	if (path === '/lab/' || path.startsWith('/lab/') || path.startsWith('/about/')) {
+	if (path.startsWith('/clinic/')) {
+		sectionId = 'clinic';
+	} else if (path === '/lab/' || path.startsWith('/lab/') || path.startsWith('/about/')) {
 		sectionId = 'about';
 		childId = path.startsWith('/lab/') ? 'about-lab' : 'about-profile';
 	} else if (academy || lecture) {

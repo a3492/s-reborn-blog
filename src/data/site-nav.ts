@@ -5,6 +5,8 @@ export const ACADEMY_URL = 'https://s-reborn-doctor-ai-academy.pages.dev/';
 
 /** Official clinic homepage. Separate from this portal. */
 export const CLINIC_URL = 'https://www.s-reborn.com/';
+export const AI_ACADEMY_DESCRIPTION = '여러 분야에서 쓰는 AI를 기초부터 배우고 직접 실습합니다.';
+export const DOCTOR_AI_ACADEMY_DESCRIPTION = '의료인을 위한 AI 병원 경영·연구·학술 교육입니다.';
 
 export { COURSE_LIST_HREF };
 
@@ -16,6 +18,8 @@ export type NavChild = {
 	labelEn: string;
 	href: string;
 	external?: boolean;
+	description?: string;
+	descriptionEn?: string;
 	/** No public page yet. Label renders as 준비중 and href is the shared placeholder. */
 	pending?: boolean;
 	group?: string;
@@ -43,6 +47,13 @@ export const SITE_NAV: NavItem[] = [
 		id: 'clinic',
 		label: '클리닉',
 		labelEn: 'Clinic',
+		href: '/clinic/',
+		children: [],
+	},
+	{
+		id: 'clinic-website',
+		label: '의원 홈페이지',
+		labelEn: 'Clinic website',
 		href: CLINIC_URL,
 		external: true,
 		children: [],
@@ -72,13 +83,16 @@ export const SITE_NAV: NavItem[] = [
 			{ id: 'about-philosophy', label: '철학', labelEn: 'Philosophy', href: '/about/#philosophy' },
 			{ id: 'about-cv', label: '공개 약력', labelEn: 'Public CV', href: '/about/#cv' },
 			{ id: 'about-lab', label: 'S-REBORN LAB', labelEn: 'S-REBORN LAB', href: '/lab/' },
-			{ id: 'about-academy', label: 'Doctor AI Academy', labelEn: 'Doctor AI Academy', href: ACADEMY_URL, external: true },
+			{
+				id: 'about-academy', label: 'Doctor AI Academy', labelEn: 'Doctor AI Academy', href: ACADEMY_URL, external: true,
+				description: DOCTOR_AI_ACADEMY_DESCRIPTION, descriptionEn: 'AI education in practice management and research for healthcare professionals.',
+			},
 		],
 	},
 ];
 
-if (SITE_NAV.length > 5) {
-	throw new Error(`Top menu is limited to 5 items (got ${SITE_NAV.length})`);
+if (SITE_NAV.filter(({ external }) => !external).length > 5) {
+	throw new Error('Top menu is limited to 5 internal items');
 }
 
 export function normalizePath(pathname: string): string {

@@ -1,29 +1,29 @@
 ---
-import { COURSE_LIST_HREF } from '../../data/site-nav';
+import { ACADEMY_URL, AI_ACADEMY_DESCRIPTION, COURSE_LIST_HREF, DOCTOR_AI_ACADEMY_DESCRIPTION } from '../../data/site-nav';
 import { ACADEMY_COURSE } from '../../data/taxonomy';
 import Layout from '../../layouts/Layout.astro';
 ---
-<Layout title="강연·자료" description="자료를 받거나, 실습을 따라 하거나, 발표를 다시 보는 입구입니다. 행사와 연자는 발표·기록 안의 항목입니다.">
+<Layout title="AI ACADEMY" description={AI_ACADEMY_DESCRIPTION}>
 <link rel="stylesheet" href="/lecture-materials/hubs.css" />
-<main class="speaker-hub">
+<div class="speaker-hub">
   <header>
-    <div class="kicker">S—REBORN · LECTURES & MATERIALS</div>
-    <h1>무엇을 하시겠어요?</h1>
-    <p class="lead">강연·자료는 하려는 일로만 나뉩니다. 자료를 받거나, 직접 따라 하거나, 발표를 다시 봅니다. 학회·연자·주제는 같은 줄의 메뉴가 아니고, 해당 일 안의 항목입니다. 기존 주소는 그대로입니다.</p>
+    <h1>AI ACADEMY</h1>
+    <p class="lead">{AI_ACADEMY_DESCRIPTION}</p>
   </header>
 
   <section class="section" id="courses" aria-labelledby="courses-title">
-    <div class="section-head"><h2 id="courses-title">강의</h2><p>의료 AI의 원리부터 진료 사례까지 순서대로 읽습니다.</p></div>
+    <div class="section-head"><h2 id="courses-title">강의</h2><p>처음 배우는 분은 AI 기본 개념과 첫 사용법부터 읽어 보세요.</p></div>
+    <div class="archive-row"><div><strong>AI 입문</strong><p>직종에 관계없이 시작할 수 있는 첫 읽기</p></div><a href="/blog/#start-here">입문 글 보기 →</a></div>
     <div class="archive-row"><div><strong>의료 AI 강의</strong><p>{ACADEMY_COURSE.length}부 · {ACADEMY_COURSE.reduce((total, part) => total + part.ids.length, 0)}편</p></div><a href={COURSE_LIST_HREF}>강의 목록 열기 →</a></div>
   </section>
 
   <section class="section" id="practice" aria-labelledby="practice-title">
     <div class="section-head"><h2 id="practice-title">실습</h2><p>직접 따라 합니다. 페인포인트는 여기의 문제 유형이지, 별도의 분류 축이 아닙니다.</p></div>
-    <div class="archive-row"><div><strong>CRM AI 실습 라이브러리</strong><p>PP01–PP08. 가상 자료로 분석합니다. 개수는 자료에서 셉니다.</p></div><a href="/tutorials/crm-scenarios/">실습 열기 →</a></div>
-    <div class="archive-row"><div><strong>문제 유형</strong><p>페인포인트. 실습 안에서 PP01–PP08을 고릅니다.</p></div><a href="/tutorials/crm-scenarios/pain-points/">유형 보기 →</a></div>
-    <div class="archive-row"><div><strong>CRM 첫 분석</strong><p>가상 방문기록 5단계</p></div><a href="/tutorials/crm-first-analysis/">시작 →</a></div>
     <div class="archive-row"><div><strong>Hermes Agent</strong><p>설치, 첫 대화, 텔레그램 연결</p></div><a href="/tutorials/hermes-agent/">시작 →</a></div>
     <div class="archive-row"><div><strong>Codex CLI</strong><p>Windows에서 설치부터 첫 작업까지</p></div><a href="/tutorials/codex-cli-windows/">시작 →</a></div>
+    <div class="archive-row"><div><strong>CRM AI 실습 라이브러리</strong><p>PP01–PP08. 가상 자료로 분석합니다.</p></div><a href="/tutorials/crm-scenarios/">실습 열기 →</a></div>
+    <div class="archive-row"><div><strong>문제 유형</strong><p>페인포인트. 실습 안에서 PP01–PP08을 고릅니다.</p></div><a href="/tutorials/crm-scenarios/pain-points/">유형 보기 →</a></div>
+    <div class="archive-row"><div><strong>CRM 첫 분석</strong><p>가상 방문기록 5단계</p></div><a href="/tutorials/crm-first-analysis/">시작 →</a></div>
     <div class="archive-row"><div><strong>11/8 현장 따라하기</strong><p>대미레 강연을 순서대로 따라가는 경로</p></div><a href="/lecture-materials/2026-11-08/">따라하기 →</a></div>
     <div class="archive-row"><div><strong>실습 모음</strong><p>Hermes와 CRM 첫 분석이 모여 있는 목록</p></div><a href="/tutorials/">목록 →</a></div>
   </section>
@@ -38,7 +38,7 @@ import Layout from '../../layouts/Layout.astro';
   </section>
 
   <section class="section" id="talks" aria-labelledby="talks-title">
-    <div class="section-head"><h2 id="talks-title">발표·기록</h2><p>발표를 다시 봅니다. 강세희, 김도위, 11/8 대미레, KOAT는 이 목록의 항목입니다.</p></div>
+    <div class="section-head"><h2 id="talks-title">발표·기록</h2><p>행사별로 발표와 현장 기록을 찾아봅니다.</p></div>
     <div class="archive-row"><div><strong>강세희</strong><p>Hermes Agent 설치부터 텔레그램 연결까지</p></div><a href="/lecture-materials/kang-sehee/">기록 보기 →</a></div>
     <div class="archive-row"><div><strong>김도위</strong><p>11/8 현장 자료와 CRM 실습 안내</p></div><a href="/lecture-materials/kim-dowi/">기록 보기 →</a></div>
     <div class="archive-row"><div><strong>11/8 대미레</strong><p>2026-11-08 현장 기록과 따라하기</p></div><a href="/lecture-materials/2026-11-08/">기록 보기 →</a></div>
@@ -47,5 +47,9 @@ import Layout from '../../layouts/Layout.astro';
     <div class="archive-row"><div><strong>KOAT</strong><p>2026 AI 오픈 강의 웹 강연</p></div><a href="/lectures/koat-ai-2026/">발표 보기 →</a></div>
     <div class="archive-row"><div><strong>웹 강연 전체</strong><p>브라우저에서 넘기는 발표 목록</p></div><a href="/lectures/">목록 →</a></div>
   </section>
-</main>
+  <section class="section" aria-labelledby="doctor-academy-title">
+    <div class="section-head"><h2 id="doctor-academy-title">Doctor AI Academy</h2><p>{DOCTOR_AI_ACADEMY_DESCRIPTION}</p></div>
+    <a href={ACADEMY_URL} target="_blank" rel="noopener noreferrer">Doctor AI Academy ↗</a>
+  </section>
+</div>
 </Layout>
