@@ -3,11 +3,11 @@ title: "RAG + 에이전트 — 의료 가이드라인 기반 AI 어시스턴트"
 date: 2026-03-31
 category: ai-agents
 tags:
-  - "cu2604021805"
   - "에이전트"
   - "의료AI"
   - "LLM"
   - "rag-agent-medical"
+originIds: ["cu2604021805"]
 
 description: "순수 에이전트는 학습 시점 이후 업데이트된 가이드라인을 알지 못한다. RAG-Agent는 벡터 DB에 최신 의료 문서를 저장하고 에이전트가 쿼리하는 구조로, 근거 기반 답변을 가능하게 한다."
 thumbnail: ""

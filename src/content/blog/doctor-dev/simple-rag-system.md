@@ -3,11 +3,11 @@ title: "RAG 시스템 만들기 — 내 병원 프로토콜을 AI에 연결하�
 date: 2026-03-31
 category: doctor-dev
 tags:
-  - "cu2604021805"
   - "의사개발자"
   - "Python"
   - "자동화"
   - "simple-rag-system"
+originIds: ["cu2604021805"]
 
 description: "RAG는 AI에게 우리 병원 교과서를 쥐여주는 기술이다 — Claude는 우리 병원 항생제 가이드라인을 모르지만, RAG를 쓰면 알게 된다."
 thumbnail: ""

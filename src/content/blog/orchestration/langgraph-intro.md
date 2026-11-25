@@ -2,7 +2,8 @@
 title: "LangGraph — AI 흐름이 꼬이지 않으려면 그래프가 필요하다"
 date: 2026-04-01
 category: orchestration
-tags: ["cu2604021138", "LangGraph", "그래프", "상태머신", "오케스트레이션"]
+tags: ["LangGraph", "그래프", "상태머신", "오케스트레이션"]
+originIds: ["cu2604021138"]
 description: "RoundPrep 제13화. 체크리스트와 코드 사이의 간격을 메우는 도구 이야기."
 read_time: 13
 difficulty: "intermediate"
@@ -14,7 +15,7 @@ thumbnail: ""
 key_takeaways:
   - "LangChain 팀이 에이전트 무한 루프 문제를 해결하려다 만든 것이 LangGraph다. 왜 그래프가 AI 흐름 설계에 적합한지, 의사의 언어로 설명한다."
   - "이 글은 설계 관점 정리이며, 프로덕션 도입 전 보안·비용·감사 요구를 별도 검토한다."
-  - "태그 cu2604021138: Cursor 초안 — 프레임워크·API·병원 정책은 공식 문서를 본다."
+  - "프레임워크·API·병원 정책은 공식 문서를 본다."
 ---
 > RoundPrep 제13화. 플로우 차트는 그려졌는데 코드에는 if 지옥만 쌓인다. 분기·재시도·체크포인트를 한 언어로 쓰고 싶다는 이유로 그래프를 본다.
 
@@ -143,7 +144,7 @@ LangGraph가 힘을 발휘하는 경우:
 그래프 안에서 에이전트가 서로 말로 협상하게 두려면 — [AutoGen 입문](/blog/orchestration/autogen-intro/)
 
 
-편집 초안(cu2604021138). 프레임워크·API·임상 규정은 발행일 이후 바뀔 수 있으니 공식 문서와 병원 정책을 기준으로 확인한다.
+프레임워크·API·임상 규정은 발행일 이후 바뀔 수 있으니 공식 문서와 병원 정책을 기준으로 확인한다.
 
 ---
 

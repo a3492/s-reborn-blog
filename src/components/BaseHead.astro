@@ -18,7 +18,7 @@ const { title, description, image, siteTitle = SITE_TITLE, ogType: ogTypeProp, n
 
 const pathNorm = Astro.url.pathname.replace(/\/$/, '') || '/';
 const afterBlog = pathNorm.startsWith('/blog/') ? pathNorm.slice(6) : '';
-const inferredOgType = afterBlog.includes('/') ? 'article' : 'website';
+const inferredOgType = !afterBlog.startsWith('topics/') && afterBlog.includes('/') ? 'article' : 'website';
 const ogType = ogTypeProp ?? inferredOgType;
 
 // hreflang alternate URLs. English exists only for /blog/.

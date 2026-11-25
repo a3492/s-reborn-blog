@@ -3,10 +3,10 @@ title: "RLHF — AI를 '착하게' 만든 기술과 그 한계"
 date: 2026-03-31
 category: ai-history
 tags:
-  - "cu2604021805"
   - "AI역사"
   - "의료AI"
   - "rlhf-instruct-tuning"
+originIds: ["cu2604021805"]
 
 description: "RLHF(인간 피드백 강화학습)는 GPT-3의 통제 불가능성 문제를 해결하고 ChatGPT를 탄생시킨 기술이지만, \"실제로 착한 AI\"와 \"착한 척하는 AI\"의 차이는 아직 미해결 문제다."
 thumbnail: ""

@@ -1,205 +1,75 @@
 ---
 import { getCollection } from 'astro:content';
-import Layout from '../../../layouts/Layout.astro';
+import BlogSidebar from '../../../components/BlogSidebar.astro';
 import FormattedDate from '../../../components/FormattedDate.astro';
 import { CATEGORIES, MENU_GROUPS, SITE_DESCRIPTION } from '../../../consts';
+import { buildCrumbs } from '../../../data/breadcrumbs';
+import { cellOf, countTopics, taxonomyLinkForCell, topicOf } from '../../../data/taxonomy';
+import Layout from '../../../layouts/Layout.astro';
 import { getPublicSiteSettings } from '../../../lib/site-settings';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
 	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const siteSettings = await getPublicSiteSettings();
-
-const categoryLabel = (id: string) => {
-	const cat = CATEGORIES.find((c) => c.id === id);
-	return cat?.labelEn ?? id;
+const counts = countTopics(posts);
+const navigation = buildCrumbs(Astro.url.pathname, Astro.url.hash, true);
+const total = Object.values(counts).reduce((sum, count) => sum + count, 0);
+const legacy = {
+	categories: Object.fromEntries(CATEGORIES.map(({ id, labelEn }) => [id, labelEn])),
+	groups: Object.fromEntries(MENU_GROUPS.map(({ id, labelEn, cats }) => [id, { label: labelEn, cats }])),
 };
-const menuGroupsJson = JSON.stringify(
-	MENU_GROUPS.map((group) => ({ id: group.id, label: group.labelEn, cats: [...group.cats] })),
-);
-
-const countsByCategory = posts.reduce<Record<string, number>>((acc, post) => {
-	const c = post.data.category;
-	if (c) acc[c] = (acc[c] ?? 0) + 1;
-	return acc;
-}, {});
 ---
 
-<Layout title="Blog" description={siteSettings.siteDescription || SITE_DESCRIPTION} lang="en">
+<Layout title="AI LAB" description={siteSettings.siteDescription || SITE_DESCRIPTION} lang="en">
 	<div class="blog-layout">
-
-		<!-- ── Left Navigation ── -->
-		<nav class="blog-nav" id="blog-nav" aria-label="Category navigation">
-
-			<!-- Mobile toggle -->
-			<button class="blog-nav-mobile-toggle" id="blog-nav-toggle" aria-expanded="false">
-				<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-					<path d="M2 4h12M2 8h12M2 12h12"/>
-				</svg>
-				<span>Categories</span>
-				<svg class="blog-nav-mobile-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
-			</button>
-
-			<div class="blog-nav-body" id="blog-nav-body">
-				<!-- All posts -->
-				<button class="blog-nav-all blog-nav-all--active" id="nav-all" data-cat="" data-label="All Posts">
-					<span class="blog-nav-all-label">⊞ All Posts</span>
-					<span class="blog-nav-count">{posts.length}</span>
-				</button>
-
-				<div class="blog-nav-divider"></div>
-
-				<!-- Groups -->
-				{MENU_GROUPS.map((group) => (
-					<div class="blog-nav-group" data-group={group.id}>
-						<button class="blog-nav-group-hd" data-toggle={group.id}>
-							<span class="blog-nav-group-icon">{group.icon}</span>
-							<span class="blog-nav-group-label">{group.labelEn}</span>
-							<svg class="blog-nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-								<path d="M3 1.5l4 3.5-4 3.5"/>
-							</svg>
-						</button>
-						<div class="blog-nav-group-body">
-							{group.cats.map((catId) => {
-								const cat = CATEGORIES.find((c) => c.id === catId);
-								if (!cat) return null;
-								const count = countsByCategory[catId] ?? 0;
-								return (
-									<button
-										class="blog-nav-item"
-										data-cat={catId}
-										data-label={cat.labelEn}
-									>
-										<span class="blog-nav-item-label">{cat.labelEn}</span>
-										<span class="blog-nav-item-count">{count}</span>
-									</button>
-								);
-							})}
-						</div>
-					</div>
-				))}
-			</div>
-		</nav>
-
-		<!-- ── Content area ── -->
-		<main class="blog-content">
+		{navigation && <BlogSidebar model={navigation} counts={counts} isEn />}
+		<section class="blog-content" aria-labelledby="blog-content-title">
 			<div class="blog-content-hd">
-				<h1 class="blog-content-title" id="blog-content-title">All Posts</h1>
-				<span class="blog-content-count" id="blog-content-count">{posts.length}</span>
+				<h1 class="blog-content-title" id="blog-content-title">AI LAB</h1>
+				<span class="blog-content-count" id="blog-content-count">{total}</span>
 			</div>
-
-			<div class="blog-card-grid" id="blog-card-grid">
-				{posts.map((post) => (
-					<a
-						href={`/en/blog/${post.id}/`}
-						class="blog-card"
-						data-cat={post.data.category ?? ''}
-						data-title={post.data.title_en ?? post.data.title}
-						data-desc={post.data.description_en ?? post.data.description ?? ''}
-						data-tags={(post.data.tags ?? []).join(' ')}
-						data-difficulty={post.data.difficulty ?? ''}
-					>
-						{post.data.category && (
-							<span class="blog-card-cat">{categoryLabel(post.data.category)}</span>
-						)}
-						<h3 class="blog-card-title">{post.data.title_en ?? post.data.title}</h3>
-						{post.data.description && (
-							<p class="blog-card-desc">{post.data.description_en ?? post.data.description}</p>
-						)}
-						<span class="blog-card-date"><FormattedDate date={post.data.date} /></span>
-					</a>
-				))}
+			<div class="blog-card-grid">
+				{posts.map((post) => {
+					const label = taxonomyLinkForCell(cellOf(post), true)?.label;
+					const description = post.data.description_en ?? post.data.description;
+					return (
+						<a href={`/en/blog/${post.id}/`} class="blog-card" data-category={post.data.category ?? ''} hidden={!topicOf(post)}>
+							<h2 class="blog-card-title">{post.data.title_en ?? post.data.title}</h2>
+							<p class="blog-card-meta">
+								{label && <span class="blog-card-cat">{label}</span>}
+								{label && <span aria-hidden="true"> · </span>}
+								<span class="blog-card-date"><FormattedDate date={post.data.date} /></span>
+							</p>
+							{description && <p class="blog-card-desc">{description}</p>}
+						</a>
+					);
+				})}
 			</div>
-		</main>
+		</section>
 	</div>
+	<script type="application/json" id="legacy-blog-filters" is:inline set:html={JSON.stringify(legacy)}></script>
 </Layout>
 
-<script type="application/json" id="menu-groups" set:html={menuGroupsJson}></script>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-	const cards = document.querySelectorAll<HTMLElement>('.blog-card');
-	const navAll = document.getElementById('nav-all')!;
-	const navItems = document.querySelectorAll<HTMLButtonElement>('.blog-nav-item');
-	const groupHeaders = document.querySelectorAll<HTMLButtonElement>('.blog-nav-group-hd');
-	const contentTitle = document.getElementById('blog-content-title')!;
-	const contentCount = document.getElementById('blog-content-count')!;
-	const mobileToggle = document.getElementById('blog-nav-toggle')!;
-	const navBody = document.getElementById('blog-nav-body')!;
-
-	mobileToggle.addEventListener('click', () => {
-		const open = navBody.classList.toggle('is-open');
-		mobileToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-	});
-
-	groupHeaders.forEach((hd) => {
-		hd.addEventListener('click', () => {
-			const group = hd.closest('.blog-nav-group')!;
-			group.classList.toggle('is-open');
+	const params = new URLSearchParams(location.search);
+	const groupId = params.get('group');
+	const categoryId = params.get('category');
+	const legacy = JSON.parse(document.querySelector('#legacy-blog-filters')?.textContent ?? '{}');
+	const group = groupId && Object.hasOwn(legacy.groups, groupId) ? legacy.groups[groupId] : undefined;
+	const category = categoryId && Object.hasOwn(legacy.categories, categoryId) ? legacy.categories[categoryId] : undefined;
+	if (group || category) {
+		const categories = new Set<string>(group ? group.cats : [categoryId ?? '']);
+		let count = 0;
+		document.querySelectorAll<HTMLElement>('.blog-card').forEach((card) => {
+			card.hidden = !categories.has(card.dataset.category ?? '');
+			if (!card.hidden) count++;
 		});
-	});
-
-	const menuGroups: { id: string; label: string; cats: string[] }[] = JSON.parse(
-		document.getElementById('menu-groups')?.textContent || '[]',
-	);
-
-	function filterByCat(catId: string, label: string) {
-		let visible = 0;
-		cards.forEach((card) => {
-			const match = !catId || card.dataset.cat === catId;
-			card.style.display = match ? '' : 'none';
-			if (match) visible++;
-		});
-		contentTitle.textContent = label;
-		contentCount.textContent = `${visible}`;
+		document.querySelector('#blog-content-title')!.textContent = group?.label ?? category;
+		document.querySelector('#blog-content-count')!.textContent = String(count);
 	}
-
-	function setActive(target: HTMLButtonElement | null, isAll: boolean) {
-		navAll.classList.toggle('blog-nav-all--active', isAll);
-		navItems.forEach((i) => i.classList.remove('blog-nav-item--active'));
-		if (!isAll && target) target.classList.add('blog-nav-item--active');
-	}
-
-	navAll.addEventListener('click', () => {
-		filterByCat('', 'All Posts');
-		setActive(null, true);
-	});
-
-	navItems.forEach((item) => {
-		item.addEventListener('click', () => {
-			const cat = item.dataset.cat ?? '';
-			const label = item.dataset.label ?? cat;
-			filterByCat(cat, label);
-			setActive(item, false);
-			item.closest('.blog-nav-group')?.classList.add('is-open');
-			navBody.classList.remove('is-open');
-			mobileToggle.setAttribute('aria-expanded', 'false');
-		});
-	});
-
-	function filterByGroup(group: { id: string; label: string; cats: string[] }) {
-		const cats = new Set(group.cats);
-		let visible = 0;
-		cards.forEach((card) => {
-			const match = cats.has(card.dataset.cat ?? '');
-			card.style.display = match ? '' : 'none';
-			if (match) visible++;
-		});
-		contentTitle.textContent = group.label;
-		contentCount.textContent = `${visible}`;
-		document.querySelectorAll('.blog-nav-group').forEach((node) => {
-			node.classList.toggle('is-open', node.getAttribute('data-group') === group.id);
-		});
-		setActive(null, false);
-	}
-
-	const params = new URLSearchParams(window.location.search);
-	const initCat = params.get('category') ?? '';
-	const initGroup = params.get('group') ?? '';
-	if (initGroup) {
-		const group = menuGroups.find((entry) => entry.id === initGroup);
-		if (group) filterByGroup(group);
-	} else if (initCat) {
-		const target = [...navItems].find((i) => i.dataset.cat === initCat);
-		if (target) target.click();
-	}
-});
 </script>
+
+<style>
+	.blog-content { min-width: 0; }
+	.blog-card[hidden] { display: none; }
+</style>

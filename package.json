@@ -13,7 +13,9 @@
     "preview": "astro preview",
     "astro": "astro",
     "qa:site-theme": "node scripts/verify-site-theme-contract.mjs",
-    "qa:crm": "node scripts/validate-crm-scenarios.mjs"
+    "qa:crm": "node scripts/validate-crm-scenarios.mjs",
+    "qa:home-browser": "node scripts/qa-home-browser.mjs",
+    "qa:taxonomy": "node --experimental-strip-types scripts/qa-taxonomy.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.0",
@@ -23,5 +25,9 @@
     "astro": "^6.0.4",
     "fuse.js": "^7.1.0",
     "sharp": "^0.34.3"
+  },
+  "devDependencies": {
+    "js-yaml": "^4.3.2",
+    "playwright": "^1.65.1"
   }
 }

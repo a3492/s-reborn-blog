@@ -16,7 +16,8 @@ html,body{background:var(--crm-bg);color:var(--crm-ink)}
 header{background:var(--crm-bg);color:var(--crm-ink);border-bottom:1px solid var(--crm-rule)}
 header a,.back{color:var(--crm-accent-text)}
 .card,.scenario,.pain-group,.scenario-nav a,.pain-filter{background:var(--crm-card);border-color:var(--crm-rule);color:var(--crm-ink)}
-.scenario-nav a strong,.sectionlabel,.pain-heading h2,.pp-info-link{color:var(--crm-accent-text)}
+.scenario-nav a strong,.sectionlabel,.pain-heading h2,.crm-breadcrumb{margin-bottom:12px;font-size:.9rem;line-height:1.7}.crm-breadcrumb [aria-current]{font-weight:700}
+.pp-info-link{color:var(--crm-accent-text)}
 .muted,.filename,.quick,footer{color:var(--crm-muted)}
 .preview,.prompt,.introgrid>div,.notice,details,.result{background:var(--crm-soft);border-color:var(--crm-rule);color:var(--crm-ink)}
 .danger{background:var(--crm-card);border-left-color:#ba6c5c;color:var(--crm-ink)}
@@ -33,7 +34,14 @@ a,.status{color:var(--crm-accent-text)}
 .scenario-nav a:hover,.pain-filter:hover,.scenario-nav a:focus-visible,.btn:focus-visible{outline:2px solid var(--crm-accent-text);outline-offset:2px}
 </style></head>
 <body>
-<header><nav aria-label="상위 메뉴" style="margin-bottom:12px;font-size:.9rem"><a href="/lecture-materials/kim-dowi/" style="color:#9de7db;text-decoration:underline;text-underline-offset:3px">← 김도위 원장 강연 자료로 돌아가기</a></nav>
+<header>
+<nav aria-label="경로" class="crm-breadcrumb">
+  <a href="/">홈</a> › <a href="/lecture-materials/">AI ACADEMY</a> ›
+  <a href="/lecture-materials/#practice">실습</a> ›
+  <a href="/tutorials/crm-scenarios/" aria-current="page">CRM AI 실습 라이브러리</a>
+</nav>
+<script id="site-bc-ld" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://sreborn.net/"},{"@type":"ListItem","position":2,"name":"AI ACADEMY","item":"https://sreborn.net/lecture-materials/"},{"@type":"ListItem","position":3,"name":"실습","item":"https://sreborn.net/lecture-materials/#practice"},{"@type":"ListItem","position":4,"name":"CRM AI 실습 라이브러리","item":"https://sreborn.net/tutorials/crm-scenarios/"}]}</script>
+<nav aria-label="상위 메뉴" style="margin-bottom:12px;font-size:.9rem"><a href="/lecture-materials/kim-dowi/" style="color:#9de7db;text-decoration:underline;text-underline-offset:3px">← 김도위 원장 강연 자료로 돌아가기</a></nav>
 <a class="back" href="/tools/lectures/2026-11-08-daemire/">← 대미레 강연 자료실</a>
 <p class="eyebrow">김도위 원장 · 대미레 2026.11.08 · 강연 1 CRM AI</p>
 <h1>CRM AI 실습 라이브러리</h1>

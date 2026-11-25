@@ -3,11 +3,11 @@ title: "의무기록 텍스트 분석 — NLP로 비구조화 데이터 다루�
 date: 2026-03-31
 category: medical-data-science
 tags:
-  - "cu2604021805"
   - "의료데이터"
   - "통계"
   - "분석"
   - "nlp-for-medical-records"
+originIds: ["cu2604021805"]
 
 description: "의무기록의 80%는 텍스트다. 이 데이터를 쓰지 않으면 EMR 데이터의 절반만 활용하는 것이다."
 thumbnail: ""

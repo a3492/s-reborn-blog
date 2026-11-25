@@ -10,7 +10,7 @@ tags:
   - 노트
   - 지식관리
   - beginner-friendly
-  - CU202604052200
+originIds: ["CU202604052200"]
 reading-time: 12
 description: "옵시디언과 마크다운의 관계, 장점만이 아니라 단점·한계, 동기화 선택, 플러그인·의료 맥락 주의, 첫 주에 해볼 미니 과제까지 정리했습니다."
 draft: false

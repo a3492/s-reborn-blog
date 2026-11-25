@@ -20,7 +20,7 @@ export const CATEGORIES = [
 	{ id: 'rag-finetuning', label: 'RAG·파인튜닝', labelEn: 'RAG & Fine-tuning', icon: '🔩' },
 	{ id: 'orchestration', label: '오케스트레이션', labelEn: 'Orchestration', icon: '🎼' },
 	// 의료
-	{ id: 'doctor-ai', label: 'Doctor AI Academy', labelEn: 'Doctor AI Academy', icon: '🩺' },
+	{ id: 'doctor-ai', label: '의료 AI 강의', labelEn: '의료 AI 강의', icon: '🩺' },
 	{ id: 'medical-data-science', label: '데이터 과학', labelEn: 'Data Science', icon: '📊' },
 	{ id: 'clinical-research', label: '임상 연구', labelEn: 'Clinical Research', icon: '🔬' },
 	{ id: 'doctor-dev', label: '의사-개발자', labelEn: 'Doctor-Developer', icon: '🖥️' },
@@ -47,7 +47,7 @@ export const MENU_GROUPS = [
 		label: '기초·입문',
 		labelEn: 'Fundamentals',
 		icon: '📚',
-		cats: ['ai', 'aerini', 'ai-terminology'],
+		cats: ['ai', 'aerini', 'ai-terminology', 'faq'],
 	},
 	{
 		id: 'engineering',
@@ -68,7 +68,7 @@ export const MENU_GROUPS = [
 		label: '동향·기록',
 		labelEn: 'Trends & Records',
 		icon: '📰',
-		cats: ['ai-history', 'ai-news', 'faq'],
+		cats: ['ai-history', 'ai-news'],
 	},
 	{
 		id: 'tools',

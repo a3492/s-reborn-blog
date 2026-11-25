@@ -1,7 +1,14 @@
-import { MENU_GROUPS } from '../consts';
+import { ACADEMY_SECTIONS, COURSE_LIST_HREF, TOPICS, topicHref } from './taxonomy';
 
 /** Doctor AI Academy lives on its own Pages project. */
 export const ACADEMY_URL = 'https://s-reborn-doctor-ai-academy.pages.dev/';
+
+/** Official clinic homepage. Separate from this portal. */
+export const CLINIC_URL = 'https://www.s-reborn.com/';
+export const AI_ACADEMY_DESCRIPTION = '여러 분야에서 쓰는 AI를 기초부터 배우고 직접 실습합니다.';
+export const DOCTOR_AI_ACADEMY_DESCRIPTION = '의료인을 위한 AI 병원 경영·연구·학술 교육입니다.';
+
+export { COURSE_LIST_HREF };
 
 export const COMING_SOON_HREF = '/coming-soon/';
 
@@ -11,6 +18,8 @@ export type NavChild = {
 	labelEn: string;
 	href: string;
 	external?: boolean;
+	description?: string;
+	descriptionEn?: string;
 	/** No public page yet. Label renders as 준비중 and href is the shared placeholder. */
 	pending?: boolean;
 	group?: string;
@@ -21,69 +30,70 @@ export type NavItem = {
 	id: string;
 	label: string;
 	labelEn: string;
+	href?: string;
+	external?: boolean;
 	children: NavChild[];
+	shortcuts?: NavChild[];
 };
 
-const researchGroups: NavChild[] = MENU_GROUPS.map((group) => ({
-	id: `research-${group.id}`,
-	label: group.label,
-	labelEn: group.labelEn,
-	href: `/blog/?group=${group.id}`,
-}));
+export const PRESENTATION_LINKS: NavChild[] = [
+	{
+		id: 'lectures-presentation',
+		label: 'S-Reborn Presentation · 한피비 AI 강연',
+		labelEn: 'S-Reborn Presentation · Hanpibi AI',
+		href: '/presentation/hanpibi-ai-topics/',
+		group: '발표 바로가기',
+		groupEn: 'Presentation shortcuts',
+	},
+	{
+		id: 'lectures-crener-strategy',
+		label: 'S-Reborn Presentation · 크레너 AI 교육 전략',
+		labelEn: 'S-Reborn Presentation · Crener AI strategy',
+		href: '/presentation/crener-ai-strategy/',
+		group: '발표 바로가기',
+		groupEn: 'Presentation shortcuts',
+	},
+];
 
 export const SITE_NAV: NavItem[] = [
 	{
 		id: 'home',
 		label: '홈',
 		labelEn: 'Home',
-		children: [
-			{ id: 'home-top', label: '첫 화면', labelEn: 'Top', href: '/' },
-			{ id: 'home-explore', label: '둘러보기', labelEn: 'Explore', href: '/#explore' },
-			{ id: 'home-research', label: '현재 연구', labelEn: 'Current research', href: '/#research' },
-			{ id: 'home-writing', label: '생각과 기록', labelEn: 'Selected writing', href: '/#writing' },
-		],
+		href: '/',
+		children: [],
 	},
 	{
 		id: 'clinic',
 		label: '클리닉',
 		labelEn: 'Clinic',
-		children: [
-			{
-				id: 'clinic-soon',
-				label: '준비중',
-				labelEn: '준비중',
-				href: `${COMING_SOON_HREF}?from=clinic`,
-				pending: true,
-			},
-		],
+		href: '/clinic/',
+		children: [],
+	},
+	{
+		id: 'clinic-website',
+		label: '의원 홈페이지',
+		labelEn: 'Clinic website',
+		href: CLINIC_URL,
+		external: true,
+		children: [],
 	},
 	{
 		id: 'research',
-		label: 'AI 연구·글',
-		labelEn: 'Research & writing',
-		children: [
-			{ id: 'research-all', label: '전체 글', labelEn: 'All posts', href: '/blog/' },
-			...researchGroups,
-			{
-				id: 'research-academy',
-				label: 'Doctor AI Academy',
-				labelEn: 'Doctor AI Academy',
-				href: ACADEMY_URL,
-				external: true,
-			},
-		],
+		label: 'AI LAB',
+		labelEn: 'AI LAB',
+		href: '/blog/',
+		children: TOPICS.map(({ id, label, labelEn }) => ({
+			id: `topic-${id}`, label, labelEn, href: topicHref(id),
+		})),
 	},
 	{
 		id: 'lectures',
-		label: '강연·자료',
-		labelEn: 'Talks & materials',
-		children: [
-			{ id: 'lectures-kang-sehee', label: '강세희 원장 강연', labelEn: 'Dr. Kang Sehee lectures', href: '/lecture-materials/kang-sehee/' },
-			{ id: 'lectures-kim-dowi', label: '김도위 원장 강연', labelEn: 'Dr. Kim Dowi lectures', href: '/lecture-materials/kim-dowi/' },
-			{ id: 'lectures-presentation', label: 'S-Reborn Presentation · 한피비 AI 강연', labelEn: 'S-Reborn Presentation · Hanpibi AI', href: '/presentation/hanpibi-ai-topics/' },
-			{ id: 'lectures-crener-strategy', label: 'S-Reborn Presentation · 크레너 AI 교육 전략', labelEn: 'S-Reborn Presentation · Crener AI strategy', href: '/presentation/crener-ai-strategy/' },
-			{ id: 'lectures-archive', label: '전체 강연 아카이브', labelEn: 'All lecture materials', href: '/lecture-materials/archive/' },
-		],
+		label: 'AI ACADEMY',
+		labelEn: 'AI ACADEMY',
+		href: '/lecture-materials/',
+		children: ACADEMY_SECTIONS.map(({ id, label, labelEn, href }) => ({ id, label, labelEn, href })),
+		shortcuts: PRESENTATION_LINKS,
 	},
 	{
 		id: 'about',
@@ -93,12 +103,17 @@ export const SITE_NAV: NavItem[] = [
 			{ id: 'about-profile', label: '프로필', labelEn: 'Profile', href: '/about/' },
 			{ id: 'about-philosophy', label: '철학', labelEn: 'Philosophy', href: '/about/#philosophy' },
 			{ id: 'about-cv', label: '공개 약력', labelEn: 'Public CV', href: '/about/#cv' },
+			{ id: 'about-lab', label: 'S-REBORN LAB', labelEn: 'S-REBORN LAB', href: '/lab/' },
+			{
+				id: 'about-academy', label: 'Doctor AI Academy', labelEn: 'Doctor AI Academy', href: ACADEMY_URL, external: true,
+				description: DOCTOR_AI_ACADEMY_DESCRIPTION, descriptionEn: 'AI education in practice management and research for healthcare professionals.',
+			},
 		],
 	},
 ];
 
-if (SITE_NAV.length > 5) {
-	throw new Error(`Top menu is limited to 5 items (got ${SITE_NAV.length})`);
+if (SITE_NAV.filter(({ external }) => !external).length > 5) {
+	throw new Error('Top menu is limited to 5 internal items');
 }
 
 export function normalizePath(pathname: string): string {
@@ -120,6 +135,7 @@ export function toKoreanPath(pathname: string): string {
 export function toEnglishPath(pathname: string): string | null {
 	const bare = pathname.length > 1 && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
 	if (bare !== '/blog' && !bare.startsWith('/blog/')) return null;
+	if (bare === '/blog/topics' || bare.startsWith('/blog/topics/')) return null;
 	const suffix = pathname.slice('/blog'.length);
 	const rest = suffix === '' ? '/' : suffix.startsWith('/') ? suffix : `/${suffix}`;
 	const withSlash = rest.endsWith('/') ? rest : `${rest}/`;
@@ -140,15 +156,6 @@ export function linkIsCurrent(href: string, url: URL): boolean {
 	if (normalizePath(target.pathname) !== normalizePath(url.pathname)) return false;
 	if (target.search) return target.search === url.search;
 	if (target.hash) return url.hash === target.hash;
+	if (url.hash) return false;
 	return url.search === '';
-}
-
-export function sectionIsCurrent(id: string, url: URL): boolean {
-	const path = normalizePath(toKoreanPath(url.pathname));
-	if (id === 'home') return path === '/';
-	if (id === 'clinic') return false;
-	if (id === 'research') return path === '/blog/' || path.startsWith('/blog/');
-	if (id === 'lectures') return path.startsWith('/presentation/') || path === '/lecture-materials/' || path.startsWith('/lecture-materials/') || path === '/lectures/' || path.startsWith('/lectures/') || path === '/tools/' || path.startsWith('/tools/') || path === '/tutorials/' || path.startsWith('/tutorials/');
-	if (id === 'about') return path === '/about/' || path.startsWith('/about/');
-	return false;
 }
