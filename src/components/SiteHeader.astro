@@ -1,23 +1,29 @@
 ---
 import { SITE_TITLE } from '../consts';
+import { buildCrumbs } from '../data/breadcrumbs';
+import type { TaxonomyPost } from '../data/taxonomy';
+import SiteBreadcrumb from './SiteBreadcrumb.astro';
 import {
 	SITE_NAV,
 	COMING_SOON_HREF,
-	linkIsCurrent,
 	localizeHref,
-	sectionIsCurrent,
 	toEnglishPath,
 	toKoreanPath,
 	type NavChild,
 } from '../data/site-nav';
+import { portalCopy } from '../i18n/ui';
 
 interface Props {
 	siteTitle?: string;
 	lang?: 'ko' | 'en';
 	showSearch?: boolean;
+	pageTitle?: string;
+	post?: TaxonomyPost;
+	/** 좁은 화면에서 검색창 대신 버튼을 보여 준다. 메뉴 항목은 바꾸지 않는다. */
+	compactSearch?: boolean;
 }
 
-const { siteTitle = SITE_TITLE, lang, showSearch = false } = Astro.props;
+const { siteTitle = SITE_TITLE, lang, showSearch = false, compactSearch = false, pageTitle, post } = Astro.props;
 const brandNote = siteTitle.replace(/^S-?reborn\s+/i, '').trim() || 'MD AI HUB';
 const path = Astro.url.pathname;
 const isEn = lang ? lang === 'en' : path === '/en' || path.startsWith('/en/');
@@ -26,6 +32,8 @@ const koHref = `${toKoreanPath(path)}${search}`;
 const enPath = toEnglishPath(isEn ? toKoreanPath(path) : path);
 const enReady = Boolean(enPath);
 const enHref = enPath ? `${enPath}${search}` : COMING_SOON_HREF;
+const mobileSearchLabel = portalCopy(isEn ? 'en' : 'ko').mobileSearch || portalCopy('ko').mobileSearch;
+const crumbs = buildCrumbs(path, Astro.url.hash, isEn, pageTitle, post);
 
 function childLabel(child: NavChild): string {
 	if (child.pending) return '준비중';
@@ -37,7 +45,7 @@ function childHref(child: NavChild): string {
 }
 ---
 
-<div class="site-header-root" data-site-header>
+<div class="site-header-root" data-site-header data-compact-search={compactSearch ? 'true' : undefined}>
 	<header class="site-header">
 		<a class="site-brand" href="/">
 			<span class="site-brand-mark">S—REBORN</span>
@@ -45,7 +53,7 @@ function childHref(child: NavChild): string {
 		</a>
 
 		{showSearch && (
-			<div class="tb-search-wrap" data-search-wrap>
+			<div class="tb-search-wrap" id="header-search-panel" data-search-wrap>
 				<svg class="tb-search-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
 					<circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.5"></circle>
 					<path d="M13.5 13.5L17 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
@@ -65,7 +73,23 @@ function childHref(child: NavChild): string {
 			</div>
 		)}
 
-		<div class="site-header-tools"><label class="site-theme-picker"><span class="sr-only">화면 테마</span><select data-theme-select aria-label="화면 테마"><option value="system">시스템</option><option value="light">화이트</option><option value="dark">다크</option></select></label>
+		<div class="site-header-tools">
+			{showSearch && (
+				<button
+					type="button"
+					class="site-search-toggle"
+					data-search-toggle
+					aria-label={mobileSearchLabel}
+					aria-expanded="false"
+					aria-controls="header-search-panel"
+				>
+					<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+						<circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.5"></circle>
+						<path d="M13.5 13.5L17 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+					</svg>
+				</button>
+			)}
+			<label class="site-theme-picker"><span class="sr-only">화면 테마</span><select data-theme-select aria-label="화면 테마"><option value="system">시스템</option><option value="light">화이트</option><option value="dark">다크</option></select></label>
 			<nav class="site-nav" id="site-nav" aria-label={isEn ? 'Primary' : '주요 메뉴'}>
                 <button type="button" class="site-nav-close" data-nav-close aria-label={isEn ? 'Close menu' : '메뉴 닫기'}>
                   <span aria-hidden="true">×</span>
@@ -75,25 +99,46 @@ function childHref(child: NavChild): string {
 					{SITE_NAV.map((item) => {
 						const label = isEn ? item.labelEn : item.label;
 						const panelId = `site-sub-${item.id}`;
-						const sectionCurrent = sectionIsCurrent(item.id, Astro.url);
+						const sectionCurrent = item.id === 'home' ? path === '/' : crumbs?.sectionId === item.id;
+						const links = [...item.children, ...(item.shortcuts ?? [])];
+						const hasChildren = links.length > 0;
+						const split = hasChildren && Boolean(item.href);
 						return (
-							<li class:list={['site-nav-item', { 'is-current': sectionCurrent }]} data-nav-item>
-								<button
+							<li class:list={['site-nav-item', { 'is-current': sectionCurrent, 'site-nav-split': split }]} data-nav-item data-nav-pillar={item.id}>
+								{item.href && (
+									<a
+										class="site-nav-btn"
+										href={localizeHref(item.href, isEn)}
+										aria-current={sectionCurrent ? (hasChildren ? 'location' : 'page') : undefined}
+										target={item.external ? '_blank' : undefined}
+										rel={item.external ? 'noopener noreferrer' : undefined}
+									>
+										{label}
+										{item.external && (
+											<>
+												<span aria-hidden="true"> ↗</span>
+												<span class="sr-only">{isEn ? ' (opens in a new window)' : ' (새 창)'}</span>
+											</>
+										)}
+									</a>
+								)}
+								{hasChildren && <button
 									type="button"
-									class="site-nav-btn"
+									class:list={['site-nav-btn', { 'site-nav-disclosure': split }]}
 									data-submenu-toggle
+									aria-label={split ? (isEn ? `${label} submenu` : `${label} 하위메뉴`) : undefined}
 									aria-expanded="false"
 									aria-controls={panelId}
 									aria-haspopup="true"
 								>
-									{label}
+									{!split && label}
 									<span class="site-nav-caret" aria-hidden="true"></span>
-								</button>
-								<ul class="site-nav-sub" id={panelId}>
-									{item.children.map((child, index) => {
+								</button>}
+								{hasChildren && <ul class="site-nav-sub" id={panelId}>
+									{links.map((child, index) => {
 										const href = childHref(child);
-										const current = linkIsCurrent(href, Astro.url);
-										const previous = item.children[index - 1];
+										const current = crumbs?.currentId === child.id;
+										const previous = links[index - 1];
 										const group = isEn ? child.groupEn : child.group;
 										const previousGroup = isEn ? previous?.groupEn : previous?.group;
 										return (
@@ -104,9 +149,11 @@ function childHref(child: NavChild): string {
 												<li>
 													<a
 														href={href}
+														data-nav-child={child.id}
 														aria-current={current ? 'page' : undefined}
 														target={child.external ? '_blank' : undefined}
 														rel={child.external ? 'noopener noreferrer' : undefined}
+														aria-describedby={child.description ? `${panelId}-${child.id}-description` : undefined}
 													>
 														{childLabel(child)}
 														{child.external && (
@@ -116,11 +163,12 @@ function childHref(child: NavChild): string {
 															</>
 														)}
 													</a>
+													{child.description && <p class="site-nav-description" id={`${panelId}-${child.id}-description`}>{isEn ? child.descriptionEn ?? child.description : child.description}</p>}
 												</li>
 											</>
 										);
 									})}
-								</ul>
+								</ul>}
 							</li>
 						);
 					})}
@@ -150,6 +198,7 @@ function childHref(child: NavChild): string {
 			</button>
 		</div>
 	</header>
+	{crumbs && <SiteBreadcrumb model={crumbs} isEn={isEn} />}
 
 	<button type="button" class="site-nav-backdrop" data-nav-backdrop hidden aria-label={isEn ? 'Close menu' : '메뉴 닫기'}></button>
 
@@ -193,6 +242,8 @@ function childHref(child: NavChild): string {
 <script>
 	const OPEN_LABEL = { open: '메뉴 열기', close: '메뉴 닫기', openEn: 'Open menu', closeEn: 'Close menu' };
 
+	const compactSearchQuery = (root: HTMLElement) => root.hasAttribute('data-compact-search') ? '(max-width: 820px)' : '(max-width: 480px)';
+
 	function initHeader(root: HTMLElement) {
 		const header = root.querySelector('.site-header');
 		const nav = root.querySelector('#site-nav');
@@ -204,6 +255,28 @@ function childHref(child: NavChild): string {
 
 		const isEn = document.documentElement.lang === 'en';
 		const desktopQuery = window.matchMedia('(min-width: 1201px)');
+		const updateHeaderHeights = () => {
+			header.style.setProperty('--mobile-header-height', `${header.getBoundingClientRect().height}px`);
+			document.documentElement.style.setProperty('--site-header-height', `${root.getBoundingClientRect().height}px`);
+		};
+		const headerResize = new ResizeObserver(updateHeaderHeights);
+		updateHeaderHeights();
+		headerResize.observe(root, { box: 'border-box' });
+		headerResize.observe(header, { box: 'border-box' });
+		const searchToggle = root.querySelector('[data-search-toggle]');
+		const searchField = root.querySelector('#search-input');
+		const setSearchOpen = (open: boolean) => {
+			root.classList.toggle('is-search-open', open);
+			searchToggle?.setAttribute('aria-expanded', String(open));
+		};
+		if (searchToggle instanceof HTMLButtonElement && searchField instanceof HTMLInputElement) {
+			searchToggle.addEventListener('click', () => {
+				const open = !root.classList.contains('is-search-open');
+				setSearchOpen(open);
+				if (open) searchField.focus();
+			});
+			window.matchMedia(compactSearchQuery(root)).addEventListener('change', () => setSearchOpen(false));
+		}
 
 		const setExpanded = (button: HTMLButtonElement, open: boolean) => {
 			button.setAttribute('aria-expanded', open ? 'true' : 'false');
@@ -219,6 +292,7 @@ function childHref(child: NavChild): string {
 		};
 
 		const setMobile = (open: boolean) => {
+			if (open) setSearchOpen(false);
 			header.classList.toggle('is-open', open);
 			setExpanded(toggle, open);
 			document.documentElement.classList.toggle('site-nav-lock', open);
@@ -265,13 +339,13 @@ function childHref(child: NavChild): string {
 			});
 		});
 
-		const topButtons = () => [...nav.querySelectorAll('.site-nav-list > .site-nav-item > .site-nav-btn')].filter((node): node is HTMLButtonElement => node instanceof HTMLButtonElement);
+		const topItems = () => [...nav.querySelectorAll('.site-nav-list > .site-nav-item > .site-nav-btn')].filter((node): node is HTMLElement => node instanceof HTMLElement);
 
 		root.addEventListener('keydown', (event) => {
 			const target = event.target;
 			if (!(target instanceof HTMLElement)) return;
-			const top = topButtons();
-			const currentTop = target.closest('.site-nav-list > .site-nav-item')?.querySelector(':scope > .site-nav-btn');
+			const top = topItems();
+			const currentTop = target.closest('.site-nav-list > .site-nav-item')?.querySelector(':scope > [data-submenu-toggle]');
 			const submenu = target.closest('.site-nav-sub');
 			const inMenu = Boolean(target.closest('.site-nav, .site-lang, [data-nav-toggle]'));
 			if (inMenu && ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) {
@@ -279,6 +353,13 @@ function childHref(child: NavChild): string {
 			}
 
 			if (event.key === 'Escape') {
+				if (searchToggle instanceof HTMLButtonElement && root.classList.contains('is-search-open') &&
+					(target === searchField || target === searchToggle)) {
+					event.preventDefault();
+					setSearchOpen(false);
+					searchToggle.focus();
+					return;
+				}
 				const openItem = target.closest('[data-nav-item].is-open');
 				if (openItem instanceof HTMLElement) {
 					event.preventDefault();
@@ -310,10 +391,10 @@ function childHref(child: NavChild): string {
 				return;
 			}
 
-			if (!(target instanceof HTMLButtonElement) || !target.hasAttribute('data-submenu-toggle')) return;
 			const index = top.indexOf(target);
+			if (index < 0) return;
 
-			if (event.key === 'ArrowDown') {
+			if (event.key === 'ArrowDown' && target instanceof HTMLButtonElement && target.hasAttribute('data-submenu-toggle')) {
 				event.preventDefault();
 				event.stopPropagation();
 				const item = target.closest('[data-nav-item]');
@@ -358,6 +439,11 @@ function childHref(child: NavChild): string {
 </script>
 
 <style>
+	/* Reserve space before the first header measurement. Explicit page offsets can override this default. */
+	:global(:where(body:has([data-site-header]) main [id])) {
+		scroll-margin-top: calc(var(--site-header-height, 9rem) + 0.5rem);
+	}
+
 	.sr-only {
 		position: absolute;
 		width: 1px;
@@ -371,13 +457,9 @@ function childHref(child: NavChild): string {
 	}
 
 	.site-header-root {
-		position: relative;
-	}
-
-	.site-header {
 		--sh-bg: #f8f8f5;
-        --sh-panel: #ffffff;
-        --sh-hover: #e7edfa;
+		--sh-panel: #ffffff;
+		--sh-hover: #e7edfa;
 		--sh-text: #171d22;
 		--sh-muted: #4c545c;
 		--sh-line: #dfe3e3;
@@ -385,11 +467,15 @@ function childHref(child: NavChild): string {
 		position: sticky;
 		top: 0;
 		z-index: 120;
+	}
+
+	.site-header {
+		position: relative;
 		display: flex;
 		align-items: center;
 		gap: 0.75rem;
-		min-height: 64px;
-		padding: 0.4rem 1.25rem;
+		min-height: 56px;
+		padding: 0.25rem 1.25rem;
 		background: var(--sh-bg);
 		border-bottom: 1px solid var(--sh-line);
 		backdrop-filter: blur(14px);
@@ -441,6 +527,21 @@ function childHref(child: NavChild): string {
 		min-width: 0;
 	}
 
+	.site-nav-split {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		align-items: center;
+	}
+	.site-nav-split > .site-nav-sub { grid-column: 1 / -1; }
+	.site-nav-split > .site-nav-disclosure {
+		justify-content: center;
+		width: 44px;
+		padding-inline: 0;
+	}
+	@media (min-width: 1201px) {
+		.site-nav-split > .site-nav-disclosure { width: 32px; }
+	}
+
 	.site-nav-list {
 		display: flex;
 		align-items: center;
@@ -452,6 +553,14 @@ function childHref(child: NavChild): string {
 
 	.site-nav-item {
 		position: relative;
+	}
+
+	.site-nav-description {
+		max-width: 17rem;
+		margin: 0 0.65rem 0.65rem;
+		color: var(--sh-muted);
+		font-size: 0.8125rem;
+		line-height: 1.45;
 	}
 
 	.site-nav-btn,
@@ -484,10 +593,87 @@ function childHref(child: NavChild): string {
 	.site-nav-btn:focus-visible,
 	.site-nav-sub a:focus-visible,
 	.site-lang-link:focus-visible,
-	.site-nav-toggle:focus-visible {
+	.site-nav-toggle:focus-visible,
+	.site-search-toggle:focus-visible {
 		color: var(--sh-text);
 		outline: 2px solid var(--sh-accent);
 		outline-offset: 2px;
+	}
+
+	.site-search-toggle {
+		display: none;
+		align-items: center;
+		justify-content: center;
+		width: 44px;
+		height: 44px;
+		padding: 0;
+		border: 1px solid var(--sh-line);
+		border-radius: 10px;
+		background: var(--sh-panel);
+		color: var(--sh-text);
+		cursor: pointer;
+		flex-shrink: 0;
+	}
+
+	.site-search-toggle svg {
+		width: 18px;
+		height: 18px;
+	}
+
+	.site-header-root[data-compact-search] .site-header:has(.tb-search-wrap) .site-header-tools {
+		margin-left: auto;
+	}
+
+	@media (max-width: 820px) {
+		.site-header-root[data-compact-search] .site-search-toggle {
+			display: inline-flex;
+		}
+
+		.site-header-root[data-compact-search] .site-header {
+			flex-wrap: wrap;
+			row-gap: 0.15rem;
+		}
+
+		.site-header-root[data-compact-search] .tb-search-wrap {
+			display: none;
+		}
+
+	}
+
+	@media (max-width: 480px) {
+		.site-search-toggle { display: inline-flex; }
+		.site-header { flex-wrap: wrap; row-gap: 0.15rem; }
+		.site-header:has(.tb-search-wrap) .site-header-tools { margin-left: auto; }
+		.site-header .tb-search-wrap { display: none; }
+	}
+
+	@media (max-width: 820px) {
+		.site-header-root.is-search-open .tb-search-wrap {
+			display: flex;
+			position: absolute;
+			top: calc(100% + 1px);
+			left: 0;
+			right: 0;
+			max-width: none;
+			margin: 0;
+			padding: 0.5rem 0.85rem 0.65rem;
+			background: var(--sh-bg);
+			border-bottom: 1px solid var(--sh-line);
+			z-index: 30;
+		}
+	}
+
+	@media (max-width: 390px) {
+		.site-header-root[data-compact-search] .site-header {
+			gap: 0.3rem;
+			padding-inline: 0.45rem;
+		}
+
+		.site-header-root[data-compact-search] .site-theme-picker select {
+			max-width: 4.5rem;
+			font-size: 11px;
+			padding-inline: 2px;
+		}
 	}
 
 	.site-nav-item.is-current > .site-nav-btn,
@@ -625,8 +811,7 @@ function childHref(child: NavChild): string {
 			min-width: 16rem;
 			background: var(--sh-panel);
 			border: 1px solid var(--sh-line);
-			border-radius: 12px;
-			box-shadow: 0 16px 40px rgba(23, 29, 34, 0.12);
+			border-radius: 6px;
 		}
 
 		.site-nav-item:nth-last-child(-n + 2) > .site-nav-sub {
@@ -643,21 +828,25 @@ function childHref(child: NavChild): string {
 		.site-nav-toggle {
 			display: inline-flex;
 		}
-        .site-header { backdrop-filter: none; }
+		.site-header { backdrop-filter: none; }
+
+		.site-header.is-open {
+			z-index: 120;
+		}
 
 		.site-nav {
+			box-sizing: border-box;
 			display: none;
-			position: fixed;
-			z-index: 2;
-			top: 0;
+			position: absolute;
+			top: 100%;
 			right: 0;
-			width: min(20rem, 78vw);
-			height: 100dvh;
+			width: min(20rem, 100%);
+			height: calc(100dvh - var(--mobile-header-height, 56px));
 			overflow: auto;
 			overscroll-behavior: contain;
 			padding: 1rem 1rem 2rem;
 			background: var(--sh-panel);
-			box-shadow: -16px 0 40px rgba(23, 29, 34, 0.16);
+			border-inline-start: 1px solid var(--sh-line);
 		}
 
 		.site-header.is-open .site-nav {
@@ -691,9 +880,36 @@ function childHref(child: NavChild): string {
 	}
 
 	@media (max-width: 480px) {
-		.site-header {
-			padding-inline: 0.85rem;
-			gap: 0.45rem;
+		.site-header,
+		.site-header-root[data-compact-search] .site-header {
+			padding-inline: 0.55rem;
+			gap: 0.35rem;
+		}
+
+		.site-brand {
+			flex-shrink: 1;
+			min-width: 0;
+		}
+
+		.site-brand-mark {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			font-size: 1.05rem;
+		}
+
+		.site-header-tools {
+			gap: 0.3rem;
+			flex-shrink: 0;
+		}
+
+		.site-theme-picker select {
+			max-width: 4.5rem;
+			padding-inline: 2px;
+		}
+
+		.site-nav-toggle {
+			flex-shrink: 0;
 		}
 
 		.site-nav-btn,
@@ -705,13 +921,24 @@ function childHref(child: NavChild): string {
 			display: none;
 		}
 
-		.site-brand-mark {
-			font-size: 1.05rem;
-			white-space: nowrap;
-		}
-
 		.site-lang-link {
 			padding-inline: 0.55rem;
+		}
+	}
+
+	@media (max-width: 360px) {
+		.site-header {
+			flex-wrap: wrap;
+			padding-inline: 0.35rem;
+			gap: 0.2rem;
+		}
+
+		.site-brand {
+			flex-shrink: 0;
+		}
+
+		.site-brand-mark {
+			font-size: 0.95rem;
 		}
 	}
 
@@ -721,7 +948,7 @@ function childHref(child: NavChild): string {
 	}
 
     /* Single source of truth for navigation and accessible contrast. */
-    :global(html[data-theme="dark"]) .site-header {
+    :global(html[data-theme="dark"]) .site-header-root {
         --sh-bg: #191e25;
         --sh-panel: #222b36;
         --sh-text: #f4f6fa;
@@ -776,7 +1003,7 @@ function childHref(child: NavChild): string {
     .site-nav-toggle span[aria-hidden="true"] { opacity: 1; }
     @media (max-width: 1200px) {
         .site-nav-close { display: inline-flex; margin: 0 0 0.75rem auto; }
-        .site-nav { background: var(--sh-panel); color: var(--sh-text); z-index: 5; }
+        .site-nav { background: var(--sh-panel); color: var(--sh-text); z-index: 130; }
         .site-nav-sub { background: transparent; }
         .site-nav-btn, .site-nav-sub a { color: var(--sh-text); }
         .site-nav-group { color: var(--sh-muted); }

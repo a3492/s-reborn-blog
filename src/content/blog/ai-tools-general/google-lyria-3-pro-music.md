@@ -5,7 +5,8 @@ category: "ai-tools-general"
 subcategory: "도구소개"
 thumbnail: ""
 draft: false
-tags: ["cu", "Lyria", "Google", "Gemini", "음악생성", "DeepMind"]
+tags: ["Lyria", "Google", "Gemini", "음악생성", "DeepMind"]
+originIds: ["cu"]
 description: "Google DeepMind가 2026년 3월 공개한 Lyria 3 Pro의 3분 길이·구조 프롬프팅 전략, Gemini·Vids·API 등 제품별 진입 경로, Suno와의 차이를 크리에이터 시선에서 풀었다."
 read_time: 14
 difficulty: "beginner"
@@ -13,7 +14,7 @@ type: "guide"
 key_takeaways:
   - "Lyria 3 Pro는 인트로·벌스·코러스·브릿지 같은 구조를 프롬프트에 실을 수 있다. '분위기만'보다 '이 구간에서 킥이 들어온다'가 더 구체적인 결과를 만든다."
   - "Gemini 앱·Google Vids·ProducerAI·Vertex AI·AI Studio·Gemini API 중 어디서 쓸지를 먼저 정하고, 그날의 플랜·약관·국가별 제공 여부를 확인한다."
-  - "태그 cu: Cursor 초안 — 약관·정책·국가별 제공은 공식 문서와 대조해 보강할 것."
+  - "약관·정책·국가별 제공은 공식 문서와 대조해 보강할 것."
 ---
 
 어떤 날은 음악이 필요한 게 아니라 시간이 필요하다. 90초짜리 브랜드 필름에 깔릴 트랙을 고르는데, 스톡은 분위기가 맞아도 길이가 어정쩡하고, 잘린 부분에서 루프 이음새가 들린다. 그 틈을 채우려고 두 시간을 쓰다 보면, 음악을 고른 게 아니라 편집 시간을 낭비한 것이다.
@@ -77,4 +78,4 @@ Lyria 3 Pro를 한 줄로 요약하면 이렇다. 음악을 짧게 샘플링하�
 
 첫 결과에 연애하지 말고, 길이·구조·악기 밀도를 한 칸씩만 바꿔서 세 번 굴린 뒤, 네 번째에서 "이건 내 영상이다"라고 말하게 만들기.
 
-편집 초안(cu). 약관·요금·국가별 제공·라이선스는 올린 날짜에 맞춰 공식 문서로 직접 확인.
+약관·요금·국가별 제공·라이선스는 올린 날짜에 맞춰 공식 문서로 직접 확인.

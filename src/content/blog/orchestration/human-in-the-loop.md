@@ -2,7 +2,8 @@
 title: "Human-in-the-Loop — Air Canada 챗봇 소송이 의료 AI에 주는 교훈"
 date: 2026-04-01
 category: orchestration
-tags: ["cu2604021138", "Human-in-the-loop", "사람확인", "의료AI", "안전설계"]
+tags: ["Human-in-the-loop", "사람확인", "의료AI", "안전설계"]
+originIds: ["cu2604021138"]
 description: "RoundPrep 제10화. 챗봇 소송이 의료 팀 회의에서 어떻게 번역되는지."
 read_time: 13
 difficulty: "intermediate"
@@ -14,7 +15,7 @@ thumbnail: ""
 key_takeaways:
   - "2024년 법원은 AI 챗봇이 잘못된 환불 정책을 안내했고 그 책임은 회사에 있다고 판결했다. AI가 혼자 결정하게 두면 안 되는 이유, 그리고 사람의 개입을 설계하는 방법."
   - "이 글은 설계 관점 정리이며, 프로덕션 도입 전 보안·비용·감사 요구를 별도 검토한다."
-  - "태그 cu2604021138: Cursor 초안 — 프레임워크·API·병원 정책은 공식 문서를 본다."
+  - "프레임워크·API·병원 정책은 공식 문서를 본다."
 ---
 > RoundPrep 제10화. Air Canada 판결 이야기는 뉴스고, 회의실에서는 더 단순한 질문이었다. “교수님 화면에 올리기 직전, 어디까지를 사람 손으로 고정할까?”
 
@@ -163,7 +164,7 @@ Human-in-the-Loop는 기술 설계만의 문제가 아니다. 의사가 실제�
 사람이 개입하는 지점에서 근거 문서를 더 긁어와야 한다 — [에이전틱 RAG](/blog/orchestration/agentic-rag/)
 
 
-편집 초안(cu2604021138). 프레임워크·API·임상 규정은 발행일 이후 바뀔 수 있으니 공식 문서와 병원 정책을 기준으로 확인한다.
+프레임워크·API·임상 규정은 발행일 이후 바뀔 수 있으니 공식 문서와 병원 정책을 기준으로 확인한다.
 
 ---
 

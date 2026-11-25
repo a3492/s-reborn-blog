@@ -6,96 +6,74 @@ import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
+import LectureDraftBadge from '../components/LectureDraftBadge.astro';
 import Topbar from '../components/Topbar.astro';
 import PostStats from '../components/PostStats.astro';
-import { CATEGORIES, MENU_GROUPS } from '../consts';
+import { publicTags } from '../data/tag-aliases';
+import { relatedPosts } from '../lib/related-posts';
+import BlogSidebar from '../components/BlogSidebar.astro';
+import { buildCrumbs } from '../data/breadcrumbs';
+import { localizeHref } from '../data/site-nav';
+import { ACADEMY_COURSE, COURSE_LIST_HREF, countTopics } from '../data/taxonomy';
 
-type Props = CollectionEntry<'blog'>['data'] & { slug?: string; lang?: 'ko' | 'en'; title_en?: string; description_en?: string };
+type Props = CollectionEntry<'blog'>['data'] & { postId?: string; lang?: 'ko' | 'en'; title_en?: string; description_en?: string };
 
-const { title, title_en, description, description_en, date, thumbnail, category, tags, lang = 'ko' } = Astro.props;
+const { title, title_en, description, description_en, date, updatedDate, thumbnail, tags, postId, lang = 'ko' } = Astro.props;
+const lectureInProgress = Astro.props.category === 'doctor-ai' && Astro.props.needsExpansion;
 const isEn = lang === 'en';
 const displayTitle = isEn && title_en ? title_en : title;
 const displayDescription = isEn && description_en ? description_en : description;
+const articleSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'BlogPosting',
+	headline: displayTitle,
+	description: displayDescription,
+	url: new URL(Astro.url.pathname, Astro.site).href,
+	datePublished: date.toISOString(),
+	dateModified: updatedDate?.toISOString(),
+	timeRequired: Astro.props.read_time ? `PT${Astro.props.read_time}M` : undefined,
+};
 const slug = Astro.url.pathname.replace(/^\/(?:en\/)?blog\//, '').replace(/\/$/, '');
 
-// 카테고리별 글 수 (네비용)
+const post = { id: postId ?? slug, data: Astro.props };
+const navigation = buildCrumbs(Astro.url.pathname, Astro.url.hash, isEn, displayTitle, post);
+const activeSection = navigation?.siblings.find(({ id }) => id === navigation.currentId);
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
-const countsByCategory = allPosts.reduce<Record<string, number>>((acc, post) => {
-	const c = post.data.category;
-	if (c) acc[c] = (acc[c] ?? 0) + 1;
-	return acc;
-}, {});
+const counts = navigation?.sectionId === 'research' ? countTopics(allPosts) : undefined;
+const displayTags = publicTags(tags);
+const related = relatedPosts(allPosts, post.id);
+const courseIndex = navigation?.currentId === 'lectures-course'
+	? ACADEMY_COURSE.findIndex(({ ids }) => ids.some((id) => post.id === `doctor-ai/${id}`))
+	: -1;
+const part = ACADEMY_COURSE[courseIndex];
+const coursePart = part && {
+	label: isEn ? `Part ${courseIndex + 1} · ${part.labelEn}` : `${courseIndex + 1}부 · ${part.label}`,
+	href: `${COURSE_LIST_HREF}#${part.id}`,
+	lessons: part.ids.flatMap((id) => {
+		const lessonId = `doctor-ai/${id}`;
+		const lesson = allPosts.find((entry) => entry.id === lessonId);
+		return lesson && lessonId !== post.id ? [{
+			href: localizeHref(`/blog/${lessonId}/`, isEn),
+			label: isEn ? (lesson.data.title_en ?? lesson.data.title) : lesson.data.title,
+		}] : [];
+	}),
+};
 ---
 
 <html lang={lang}>
 	<head>
-		<BaseHead title={displayTitle} description={displayDescription} image={thumbnail} />
+		<BaseHead title={displayTitle} description={displayDescription} image={thumbnail} noindex={lectureInProgress} />
+		{updatedDate && <meta property="article:modified_time" content={updatedDate.toISOString()} />}
+		<script type="application/ld+json" is:inline id="article-json-ld" set:html={JSON.stringify(articleSchema).replaceAll('<', '\\u003c')}></script>
 	</head>
 
 	<body class="blog-post-shell">
 		<div class="site-wrap">
-		<Topbar lang={lang} />
+		<Topbar lang={lang} pageTitle={displayTitle} post={post} />
 		<div class="site-main">
 		<div class="blog-layout">
 
-			<!-- ── 좌측 네비게이션 ── -->
-			<nav class="blog-nav" id="blog-nav" aria-label="카테고리 내비게이션">
-
-				<!-- 모바일 토글 -->
-				<button class="blog-nav-mobile-toggle" id="blog-nav-toggle" aria-expanded="false">
-					<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-						<path d="M2 4h12M2 8h12M2 12h12"/>
-					</svg>
-					<span>{isEn ? 'Categories' : '카테고리'}</span>
-					<svg class="blog-nav-mobile-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 1.5l4 3.5-4 3.5"/></svg>
-				</button>
-
-				<div class="blog-nav-body" id="blog-nav-body">
-					<!-- 전체 -->
-					<a class="blog-nav-all" href={isEn ? '/en/blog/' : '/blog/'} data-navlink>
-						<span class="blog-nav-all-label">{isEn ? '⊞ All Posts' : '⊞ 전체 글'}</span>
-						<span class="blog-nav-count">{allPosts.length}</span>
-					</a>
-
-					<div class="blog-nav-divider"></div>
-
-					<!-- 그룹 -->
-					{MENU_GROUPS.map((group) => {
-						const isActiveGroup = group.cats.includes(category as any);
-						const groupLabel = isEn ? group.labelEn : group.label;
-						return (
-							<div class={`blog-nav-group${isActiveGroup ? ' is-open' : ''}`} data-group={group.id}>
-								<button class="blog-nav-group-hd" data-toggle={group.id}>
-									<span class="blog-nav-group-icon">{group.icon}</span>
-									<span class="blog-nav-group-label">{groupLabel}</span>
-									<svg class="blog-nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-										<path d="M3 1.5l4 3.5-4 3.5"/>
-									</svg>
-								</button>
-								<div class="blog-nav-group-body">
-									{group.cats.map((catId) => {
-										const cat = CATEGORIES.find((c) => c.id === catId);
-										if (!cat) return null;
-										const count = countsByCategory[catId] ?? 0;
-										const isActive = catId === category;
-										const catLabel = isEn ? cat.labelEn : cat.label;
-										const catHref = isEn ? `/en/blog/?category=${catId}` : `/blog/?category=${catId}`;
-										return (
-											<a
-												class={`blog-nav-item${isActive ? ' blog-nav-item--active' : ''}`}
-												href={catHref}
-											>
-												<span class="blog-nav-item-label">{catLabel}</span>
-												<span class="blog-nav-item-count">{count}</span>
-											</a>
-										);
-									})}
-								</div>
-							</div>
-						);
-					})}
-				</div>
-			</nav>
+			{navigation && <BlogSidebar model={navigation} counts={counts} coursePart={coursePart} article isEn={isEn} />}
 
 			<!-- ── 글 본문 ── -->
 			<main class="blog-content blog-post-main">
@@ -108,52 +86,93 @@ const countsByCategory = allPosts.reduce<Record<string, number>>((acc, post) => 
 					<div class="blog-post-prose prose">
 						<div class="blog-post-title title">
 							<div class="blog-post-meta meta">
-								{category && (
-									<span class="blog-post-category category-badge">
-										{(() => { const c = CATEGORIES.find(x => x.id === category); return isEn ? (c?.labelEn ?? category) : (c?.label ?? category); })()}
-									</span>
-								)}
+								{activeSection && <span class="blog-post-category category-badge">{activeSection.label}</span>}
+								{lectureInProgress && <LectureDraftBadge isEn={isEn} />}
 								<FormattedDate date={date} />
+								{updatedDate && <FormattedDate date={updatedDate} updated lang={lang} />}
 							</div>
 							<h1>{displayTitle}</h1>
 							<PostStats slug={slug} />
 							<hr />
 						</div>
-						<slot />
+						{lectureInProgress ? (
+							<p data-lecture-review-notice>{isEn
+								? 'This lesson will be available after medical review. References are being prepared.'
+								: '의학 내용은 원장님 검수 후 공개합니다. 참고문헌 정리 중입니다.'}</p>
+						) : <slot />}
 
-						{tags && tags.length > 0 && (
+						{displayTags.length > 0 && (
 							<div class="blog-post-tags blog-post-tags--after-body tags" aria-label="태그">
-								{tags.map((tag) => <span class="blog-post-tag tag">#{tag}</span>)}
+								{displayTags.map((tag) => <span class="blog-post-tag tag">#{tag}</span>)}
 							</div>
+						)}
+
+						{related.length > 0 && (
+							<aside class="blog-post-related" aria-labelledby="related-posts-title">
+								<h2 id="related-posts-title">{isEn ? 'Related articles' : '연관 글'}</h2>
+								<ul>{related.map((post) => (
+									<li><a href={`${isEn ? '/en' : ''}/blog/${post.id}/`}>{isEn ? (post.data.title_en ?? post.data.title) : post.data.title}</a></li>
+								))}</ul>
+							</aside>
 						)}
 
 					</div>
 				</article>
 			</main>
-		</div>
-
 		</div><!-- /.blog-layout -->
 		</div><!-- /.site-main -->
-		<Footer />
-
-		<script is:inline>
-			// 그룹 펼치기/접기
-			document.querySelectorAll('.blog-nav-group-hd').forEach(function(hd) {
-				hd.addEventListener('click', function() {
-					hd.closest('.blog-nav-group').classList.toggle('is-open');
-				});
-			});
-
-			// 모바일 토글
-			var mobileToggle = document.getElementById('blog-nav-toggle');
-			var navBody = document.getElementById('blog-nav-body');
-			if (mobileToggle && navBody) {
-				mobileToggle.addEventListener('click', function() {
-					var open = navBody.classList.toggle('is-open');
-					mobileToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-				});
-			}
-		</script>
 		</div><!-- /.site-wrap -->
+		<Footer />
 	</body>
 </html>
+
+<style>
+	.blog-post-main { min-width: 0; }
+	.blog-post-meta { flex-wrap: wrap; }
+	.blog-post-related { margin-block-start: 1.5rem; padding: 1rem; border-radius: .5rem; background: var(--site-subtle); }
+	.blog-post-related h2 { font-size: 1rem; margin: 0; }
+	.blog-post-related ul { margin-block-end: 0; }
+
+	:global(.blog-post-prose .editorial-figure) {
+		--figure-accent: var(--site-mint-text);
+		margin: 1.5rem 0;
+		padding: .65rem 0;
+		border-block: 1px solid var(--site-border);
+		color: var(--site-text);
+		background: transparent;
+	}
+	:global(.editorial-figure svg) {
+		display: block;
+		width: 100%;
+		max-width: 32rem;
+		height: auto;
+		font: inherit;
+		font-size: 20px;
+		fill: currentColor;
+	}
+	:global(.editorial-figure .editorial-rule),
+	:global(.editorial-figure .editorial-ink) {
+		stroke: currentColor;
+		fill: none;
+	}
+	:global(.editorial-figure .editorial-rule) { opacity: .38; }
+	:global(.editorial-figure .editorial-note),
+	:global(.editorial-figure figcaption) { color: var(--site-text-secondary); }
+	:global(.editorial-figure figcaption) {
+		margin: .55rem 0 0;
+		text-align: start;
+		font-size: .875rem;
+	}
+	:global(.editorial-figure .editorial-accent) { color: var(--figure-accent); }
+	:global(.editorial-figure text.editorial-note),
+	:global(.editorial-figure text.editorial-accent) { fill: currentColor; }
+	:global(.editorial-figure path.editorial-accent) { stroke: currentColor; stroke-width: 1.5; }
+	:global(.editorial-comparison) {
+		display: grid;
+		grid-template-columns: max-content minmax(0, 1fr);
+		gap: .35rem .8rem;
+	}
+	:global(.editorial-comparison span) { color: var(--site-text-secondary); font-weight: 700; }
+	:global(.editorial-comparison em) { color: var(--figure-accent); font-style: normal; font-weight: 700; }
+
+</style>

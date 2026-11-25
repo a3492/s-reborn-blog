@@ -3,10 +3,10 @@ title: "스케일링 법칙 — 모델을 크게 만들수록 왜 똑똑해지�
 date: 2026-03-31
 category: ai-history
 tags:
-  - "cu2604021805"
   - "AI역사"
   - "의료AI"
   - "llm-scaling-law"
+originIds: ["cu2604021805"]
 
 description: "2020년 Kaplan et al.이 발견한 스케일링 법칙은 \"더 크게 만들면 더 좋아진다\"는 예측 가능한 공식을 제시했고, 이것이 GPT-3에서 GPT-4까지 파라미터 경쟁을 정당화했다."
 thumbnail: ""

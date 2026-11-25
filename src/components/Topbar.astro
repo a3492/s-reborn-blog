@@ -1,12 +1,15 @@
 ---
+import type { TaxonomyPost } from '../data/taxonomy';
 import SiteHeader from './SiteHeader.astro';
 
 interface Props {
 	siteTitle?: string;
 	lang?: 'ko' | 'en';
+	pageTitle?: string;
+	post?: TaxonomyPost;
 }
 
-const { siteTitle, lang } = Astro.props;
+const { siteTitle, lang, pageTitle, post } = Astro.props;
 ---
 
-<SiteHeader siteTitle={siteTitle} lang={lang} showSearch />
+<SiteHeader siteTitle={siteTitle} lang={lang} pageTitle={pageTitle} post={post} showSearch />

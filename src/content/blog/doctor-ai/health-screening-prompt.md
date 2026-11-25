@@ -39,6 +39,4 @@ AI로 설명하는 건강검진 결과(Health Screening Results) 프롬프트은
 
 ### 참고 자료
 
-- [의료법 관련 가이드](https://example.com)
-
-- [관련 논문 및 연구](https://example.com)
+참고문헌 정리 중

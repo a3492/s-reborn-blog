@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../../layouts/Layout.astro';
+import LectureDraftBadge from '../../../components/LectureDraftBadge.astro';
+import { ACADEMY_COURSE } from '../../../data/taxonomy';
+
+const articles = new Map((await getCollection('blog', ({ data }) => !data.draft && data.category === 'doctor-ai'))
+	.map((post) => [post.id, post.data]));
+const parts = ACADEMY_COURSE.map((part) => ({
+	...part,
+	lessons: part.ids.map((slug) => {
+		const id = `doctor-ai/${slug}`;
+		const data = articles.get(id);
+		if (!data) throw new Error(`Course article missing: ${id}`);
+		return { ...data, href: `/blog/${id}/` };
+	}),
+}));
+const total = parts.reduce((sum, part) => sum + part.lessons.length, 0);
+---
+<Layout title="의료 AI 강의" description="의료 AI의 신뢰와 안전, 도구, 프롬프트, 진료 사례를 네 부분으로 배웁니다.">
+	<link rel="stylesheet" href="/lecture-materials/hubs.css" />
+	<div class="speaker-hub">
+		<header>
+			<h1>의료 AI 강의</h1>
+			<p class="lead">{parts.length}부 · {total}편</p>
+		</header>
+		<nav class="course-parts" aria-label="강의 목차">
+			{parts.map((part, index) => <a href={`#${part.id}`}>{index + 1}부 {part.label}</a>)}
+		</nav>
+		{parts.map((part, index) => (
+			<section class="section" id={part.id} aria-labelledby={`${part.id}-title`} data-course-part>
+				<div class="section-head"><h2 id={`${part.id}-title`}>{index + 1}부 {part.label}</h2><p>{part.lessons.length}편</p></div>
+				<ol class="course-lessons">
+					{part.lessons.map(({ title, href, needsExpansion }) => <li><a href={href}>{title}</a>{needsExpansion && <> <LectureDraftBadge /></>}</li>)}
+				</ol>
+			</section>
+		))}
+	</div>
+</Layout>
+<style>
+	.course-parts { display: flex; flex-wrap: wrap; gap: .5rem; }
+	.course-parts a, .course-lessons a { color: var(--site-mint-text); text-underline-offset: .2em; }
+	.course-parts a { display: inline-flex; align-items: center; min-height: 44px; padding-inline: .65rem; background: var(--site-surface); border: 1px solid var(--site-border); border-radius: .5rem; }
+	.course-lessons { padding-inline-start: 1.6rem; margin-block: 0; }
+	.course-lessons li + li { margin-top: .65rem; }
+	.course-lessons a:focus-visible, .course-parts a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+	[data-course-part] { scroll-margin-top: 10rem; }
+</style>
