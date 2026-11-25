@@ -227,7 +227,7 @@ h1 {
 .n3 { left: 12%; bottom: 16%; }
 .mini-caption { position: absolute; bottom: 19px; right: 20px; font-size: 9px; letter-spacing: 0.14em; color: #8c969e; }
 
-.section { padding: 76px 0; }
+.section { padding: 56px 0; }
 .section-head { display: flex; justify-content: space-between; align-items: end; margin-bottom: 28px; gap: 25px; }
 .overline { font: 700 12px 'DM Sans', sans-serif; letter-spacing: 0.17em; color: #65727e; }
 .section h2 { font-size: clamp(30px, 3.2vw, 42px); letter-spacing: -0.04em; margin: 10px 0 0; }
@@ -235,10 +235,10 @@ h1 {
 
 .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
 .card {
-	min-height: 260px;
+	min-height: 156px;
 	border: 1px solid var(--line);
 	background: #fff;
-	padding: 26px;
+	padding: 18px 20px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -248,8 +248,8 @@ h1 {
 .card.feature { background: #e8edff; border-color: #e8edff; }
 .card-top { display: flex; justify-content: space-between; align-items: center; color: #606d7d; font-size: 12px; font-weight: 750; letter-spacing: 0.1em; }
 .card-icon { width: 43px; height: 43px; display: grid; place-items: center; border-radius: 50%; border: 1px solid #cbd5e5; font-size: 20px; }
-.card h3 { font-size: 28px; letter-spacing: -0.06em; margin: 0 0 12px; }
-.card p { color: #636f79; font-size: 16px; line-height: 1.75; margin: 0; }
+.card h3 { font-size: 23px; letter-spacing: -0.05em; margin: 0 0 6px; }
+.card p { color: var(--site-text-secondary); font-size: 14px; line-height: 1.55; margin: 0; }
 .card-bottom { display: flex; justify-content: space-between; align-items: center; }
 .circle-arrow { width: 34px; height: 34px; border-radius: 50%; border: 1px solid #ccd4db; display: grid; place-items: center; }
 .card:hover .circle-arrow { background: var(--ink); color: #fff; }
@@ -390,8 +390,8 @@ h1 {
 	.visual { aspect-ratio: 4 / 3; max-height: none; }
 	.hero-note { margin-top: 30px; }
 	.cards { grid-template-columns: 1fr; }
-	.card { min-height: 215px; }
-	.section { padding: 54px 0; }
+	.card { min-height: 132px; }
+	.section { padding: 40px 0; }
 	.section-head { display: block; }
 	.section-intro { margin-top: 18px; }
 	.selected { padding-bottom: 58px; }
