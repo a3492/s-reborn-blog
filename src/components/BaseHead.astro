@@ -1,6 +1,6 @@
 ---
 import { SITE_TITLE } from '../consts';
-import { toEnglishPath, toKoreanPath } from '../data/site-nav';
+
 
 interface Props {
 	title: string;
@@ -12,7 +12,11 @@ interface Props {
 	noindex?: boolean;
 }
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const translatedTechnology = path === '/technology' || path === '/en/technology';
+const isEnglish = path.startsWith('/en/');
+const untranslatedEnglish = isEnglish && !translatedTechnology;
+const canonicalURL = new URL(untranslatedEnglish ? Astro.url.pathname.slice(3) : Astro.url.pathname, Astro.site);
 
 const { title, description, image, siteTitle = SITE_TITLE, ogType: ogTypeProp, noindex = false } = Astro.props;
 
@@ -20,13 +24,6 @@ const pathNorm = Astro.url.pathname.replace(/\/$/, '') || '/';
 const afterBlog = pathNorm.startsWith('/blog/') ? pathNorm.slice(6) : '';
 const inferredOgType = !afterBlog.startsWith('topics/') && afterBlog.includes('/') ? 'article' : 'website';
 const ogType = ogTypeProp ?? inferredOgType;
-
-// hreflang alternate URLs. English exists only for /blog/.
-const isEnPath = pathNorm === '/en' || pathNorm.startsWith('/en/');
-const koPath = isEnPath ? toKoreanPath(Astro.url.pathname) : Astro.url.pathname;
-const enPath = isEnPath ? Astro.url.pathname : toEnglishPath(Astro.url.pathname);
-const koCanonical = new URL(koPath, Astro.site);
-const enCanonical = enPath ? new URL(enPath, Astro.site) : null;
 
 const ogImage = image
 	? (image.startsWith('http') ? image : new URL(image, Astro.url).href)
@@ -52,7 +49,7 @@ const ogImage = image
 />
 <meta name="generator" content={Astro.generator} />
 <meta name="theme-color" content="#d690a1" />
-{noindex ? (
+{(noindex || untranslatedEnglish) ? (
 	<meta name="robots" content="noindex" />
 ) : pathNorm === '/admin' || pathNorm.startsWith('/admin/') ? (
 	<meta name="robots" content="noindex, nofollow" />
@@ -65,10 +62,12 @@ const ogImage = image
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
 
-<!-- hreflang alternates -->
-<link rel="alternate" hreflang="ko" href={koCanonical} />
-{enCanonical ? <link rel="alternate" hreflang="en" href={enCanonical} /> : null}
-<link rel="alternate" hreflang="x-default" href={koCanonical} />
+<!-- Only fully translated registry page pairs receive hreflang. -->
+{translatedTechnology && <>
+  <link rel="alternate" hreflang="ko" href={new URL('/technology/', Astro.site)} />
+  <link rel="alternate" hreflang="en" href={new URL('/en/technology/', Astro.site)} />
+  <link rel="alternate" hreflang="x-default" href={new URL('/technology/', Astro.site)} />
+</>}
 
 <!-- Primary Meta Tags -->
 <title>{title}</title>
@@ -77,11 +76,11 @@ const ogImage = image
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={ogType} />
-<meta property="og:url" content={Astro.url} />
+<meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={ogImage} />
-<meta property="og:locale" content="ko_KR" />
+<meta property="og:locale" content={translatedTechnology && isEnglish ? "en_US" : "ko_KR"} />
 <meta property="og:site_name" content={siteTitle} />
 
 <!-- Twitter -->

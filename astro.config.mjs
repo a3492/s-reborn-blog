@@ -41,7 +41,7 @@ export default defineConfig({
 				}
 				if (path === '/admin' || path.startsWith('/admin/')) return false;
 				if (path === '/docs' || path.startsWith('/docs/')) return false;
-				if (path === '/en' || path.startsWith('/en/')) return false;
+				if ((path === '/en' || path.startsWith('/en/')) && !/^\/en\/technology\/?$/.test(path)) return false;
 				if (path === '/404' || path === '/404.html') return false;
 				if (path === '/preview' || path.startsWith('/preview/')) return false;
 				if (path === '/coming-soon' || path.startsWith('/coming-soon/')) return false;

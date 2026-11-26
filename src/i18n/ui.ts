@@ -38,7 +38,7 @@ function blankCopy(): PortalCopy {
 
 export const ui = {
 	ko,
-	en: blankCopy(),
+	en: {searchLabel:'Search posts',searchPlaceholder:'Search by intent — beginner, cost, legal responsibility…',searchSubmit:'Search',mobileSearch:'Open search',categoryTitle:'Posts by category',categoryLead:'Select a category to view its posts.',latestTitle:'Latest posts',latestLead:'Recently published posts.',shortcutTitle:'Quick links',shortcutLead:'Go to lectures, academy and practice library.',lectureGroup:'Lectures',academyGroup:'Academy',crmGroup:'CRM AI practice library',otherGroup:'Other',crmGuide:'Understand pain points',countUnit:'items',allPosts:'View all posts',orchestrationMore:'More orchestration articles',faqMoved:'Frequently asked questions are in the beginner section.',lectureHome:'Lectures and resources',lectureFiles:'Resources',lecturePractice:'Practice',lectureRecord:'Presentations and records',categoryIndexLink:'Browse categories in the article list'},
 	zh: blankCopy(),
 };
 

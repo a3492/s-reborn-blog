@@ -1,0 +1,26 @@
+name: English technology and hreflang QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/pages/en/**'
+      - 'src/data/technology-en.json'
+      - 'src/components/BaseHead.astro'
+      - 'scripts/qa-english-technology.mjs'
+      - '.github/workflows/english-technology-qa.yml'
+permissions:
+  contents: read
+jobs:
+  english-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run qa:site-theme
+      - run: npm run qa:crm
+      - run: npm run build
+      - run: node scripts/qa-english-technology.mjs

@@ -29,14 +29,14 @@ const path = Astro.url.pathname;
 const isEn = lang ? lang === 'en' : path === '/en' || path.startsWith('/en/');
 const search = Astro.url.search;
 const koHref = `${toKoreanPath(path)}${search}`;
-const enPath = toEnglishPath(isEn ? toKoreanPath(path) : path);
+const enPath = toKoreanPath(path).replace(/\/$/, '') === '/technology' ? '/en/technology/' : null;
 const enReady = Boolean(enPath);
 const enHref = enPath ? `${enPath}${search}` : COMING_SOON_HREF;
 const mobileSearchLabel = portalCopy(isEn ? 'en' : 'ko').mobileSearch || portalCopy('ko').mobileSearch;
 const crumbs = buildCrumbs(path, Astro.url.hash, isEn, pageTitle, post);
 
 function childLabel(child: NavChild): string {
-	if (child.pending) return '준비중';
+	if (child.pending) return isEn ? 'Coming soon' : '준비중';
 	return isEn ? child.labelEn : child.label;
 }
 
@@ -89,7 +89,7 @@ function childHref(child: NavChild): string {
 					</svg>
 				</button>
 			)}
-			<label class="site-theme-picker"><span class="sr-only">화면 테마</span><select data-theme-select aria-label="화면 테마"><option value="system">시스템</option><option value="light">화이트</option><option value="dark">다크</option></select></label>
+			<label class="site-theme-picker"><span class="sr-only">{isEn ? "Theme" : "화면 테마"}</span><select data-theme-select aria-label={isEn ? "Theme" : "화면 테마"}><option value="system">{isEn ? "System" : "시스템"}</option><option value="light">{isEn ? "Light" : "화이트"}</option><option value="dark">{isEn ? "Dark" : "다크"}</option></select></label>
 			<nav class="site-nav" id="site-nav" aria-label={isEn ? 'Primary' : '주요 메뉴'}>
                 <button type="button" class="site-nav-close" data-nav-close aria-label={isEn ? 'Close menu' : '메뉴 닫기'}>
                   <span aria-hidden="true">×</span>
@@ -176,11 +176,11 @@ function childHref(child: NavChild): string {
 			</nav>
 
 			<div class="site-lang" role="group" aria-label={isEn ? 'Language' : '언어'}>
-				<a class:list={['site-lang-link', { 'is-current': !isEn }]} href={koHref} hreflang="ko" aria-current={!isEn ? 'true' : undefined}>KO</a>
+				<a class:list={['site-lang-link', { 'is-current': !isEn }]} href={koHref} aria-current={!isEn ? 'true' : undefined}>KO</a>
 				{enReady ? (
-					<a class:list={['site-lang-link', { 'is-current': isEn }]} href={enHref} hreflang="en" aria-current={isEn ? 'true' : undefined}>EN</a>
+					<a class:list={['site-lang-link', { 'is-current': isEn }]} href={enHref} aria-current={isEn ? 'true' : undefined}>EN</a>
 				) : (
-					<a class="site-lang-link is-pending" href={COMING_SOON_HREF} hreflang="ko" title={isEn ? 'English page is not ready' : '영어 페이지는 아직 없습니다'}>준비중</a>
+					<a class="site-lang-link" href="/en/technology/" title={isEn ? "English encyclopedia, not a translation of this page" : "이 페이지의 번역이 아닌 영어 기술 백과"}>EN LAB</a>
 				)}
 			</div>
 
