@@ -61,7 +61,7 @@ const coursePart = part && {
 };
 ---
 
-<html lang={lang}>
+<html lang={isEn ? "ko" : lang}>
 	<head>
 		<BaseHead title={displayTitle} description={displayDescription} image={thumbnail} noindex={lectureInProgress} />
 		{updatedDate && <meta property="article:modified_time" content={updatedDate.toISOString()} />}
@@ -93,6 +93,7 @@ const coursePart = part && {
 								{updatedDate && <FormattedDate date={updatedDate} updated lang={lang} />}
 							</div>
 							<h1>{displayTitle}</h1>
+							{isEn && <p lang="en" data-untranslated-notice>English translation not available. This article contains the Korean original. <a href={`/blog/${postId ?? slug}/`}>Read Korean original</a>.</p>}
 							<PostStats slug={slug} />
 							<hr />
 						</div>

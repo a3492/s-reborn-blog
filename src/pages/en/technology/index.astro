@@ -1,0 +1,66 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import registry from '../../../data/technology-registry.json';
+import translations from '../../../data/technology-en.json';
+const byId=new Map(translations.entries.map(e=>[e.id,e.definition]));
+const entries=registry.entries;
+const roots=entries.filter(e=>!('parent' in e));
+const definition=(id:string)=>byId.get(id) ?? '';
+---
+<Layout title="AI Technology Encyclopedia" description="Explore AI concepts and definitions across design methods, components, codebase, runtimes and architecture." lang="en">
+<div class="knowledge-portal" data-knowledge-portal data-registry-version={registry.version} data-english-encyclopedia>
+<header class="kp-heading"><p class="kp-kicker">S-REBORN / AI LAB</p><h1>AI Technology Encyclopedia</h1><p>Explore AI concepts, components and implementation patterns.</p><p class="kp-note">{entries.length} concepts · English translations of the registry definitions. Korean articles and guides remain available in the original language.</p></header>
+<nav class="kp-jump" aria-label="Encyclopedia sections"><a href="#concepts">Browse concepts</a><a href="#news">News</a><a href="#research">Research &amp; experiments</a><a href="#practice">Practical use</a><a href="#columns">Columns</a><a href="/technology/" lang="ko">한국어</a></nav>
+<section id="concepts"><h2>Browse concepts</h2><div class="kp-controls"><label for="kp-search">Search name, definition or ID</label><input type="search" id="kp-search" placeholder="e.g. Skill, Hook, Context, ENG-009" /><label for="kp-group">Category</label><select id="kp-group"><option value="">All</option>{translations.groups.map(g=><option value={g.id}>{g.label}</option>)}</select><button id="kp-reset" type="button">Reset</button></div><p class="kp-note" id="kp-count" aria-live="polite">{entries.length} concepts</p>
+{translations.groups.map(group=><section class="kp-group" data-kp-group={group.id} aria-label={group.label}><h3>{group.label} <small>{entries.filter(e=>e.id.startsWith(group.id+'-')).length}</small></h3><p class="kp-note">{group.description}</p><ul class="kp-list">{roots.filter(e=>e.id.startsWith(group.id+'-')).flatMap(root=>[root,...entries.filter(e=>'parent' in e && e.parent===root.id)]).map(e=><li id={e.id} data-kp-entry data-group={group.id} data-search={`${e.id} ${e.name} ${definition(e.id)} ${group.label}`.toLowerCase()} class:list={['kp-entry',{'kp-detail':'parent' in e}]}><div><h4><a href={`#${e.id}`}>{e.name}</a></h4><span class="kp-id">{e.id}</span></div><p>{definition(e.id)}</p>{'parent' in e && <p class="kp-note">Parent concept: <a href={`#${e.parent}`}>{entries.find(x=>x.id===e.parent)?.name ?? e.parent}</a></p>}<p><a href={`/technology/#${e.id}`}>Korean source and related resources (KO)</a></p></li>)}</ul></section>)}
+<p id="kp-empty" hidden>No matching concepts. Try another name or ID.</p></section>
+<section id="news"><h2>AI News</h2><p><a href="/technology/#news">News archive (Korean)</a></p></section>
+<section id="research"><h2>Research &amp; experiments</h2><p><a href="/technology/#research">Research resources (Korean)</a></p></section>
+<section id="practice"><h2>Practical use</h2><p><a href="/technology/#practice">Practice resources (Korean)</a></p></section>
+<section id="columns"><h2>AI Columns</h2><p><a href="/technology/#columns">Columns (Korean)</a></p></section>
+</div></Layout>
+<script>
+  const root=document.querySelector<HTMLElement>('[data-knowledge-portal]');
+  if(root){
+    const search=root.querySelector<HTMLInputElement>('#kp-search')!;
+    const group=root.querySelector<HTMLSelectElement>('#kp-group')!;
+    const rows=[...root.querySelectorAll<HTMLElement>('[data-kp-entry]')];
+    const sections=[...root.querySelectorAll<HTMLElement>('[data-kp-group]')];
+    const count=root.querySelector<HTMLElement>('#kp-count')!;
+    const empty=root.querySelector<HTMLElement>('#kp-empty')!;
+    const apply=()=>{
+      const tokens=search.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+      for(const row of rows) row.hidden=Boolean((group.value && row.dataset.group!==group.value)||tokens.some(t=>!row.dataset.search?.includes(t)));
+      for(const section of sections) section.hidden=!rows.some(r=>r.dataset.group===section.dataset.kpGroup&&!r.hidden);
+      const n=rows.filter(r=>!r.hidden).length;
+      count.textContent=n+' concepts';empty.hidden=n>0;
+    };
+    search.addEventListener('input',apply);group.addEventListener('change',apply);
+    root.querySelector('#kp-reset')?.addEventListener('click',()=>{search.value='';group.value='';apply();search.focus();});
+    root.addEventListener('click',event=>{
+      const a=(event.target as Element).closest('a[href^="#"]');
+      if(a && rows.some(r=>r.id===a.getAttribute('href')?.slice(1))){search.value='';group.value='';apply();}
+    });
+    apply();
+  }
+</script>
+<style>
+  .knowledge-portal{max-width:960px;margin:0 auto;padding:24px 16px 48px;color:var(--site-text);background:var(--site-bg);line-height:1.65;min-width:0;}
+  .kp-heading{border-bottom:1px solid var(--site-border);padding-bottom:12px;}
+  h1{font-size:clamp(1.8rem,4vw,2.6rem);line-height:1.2;margin:6px 0 12px;letter-spacing:-.035em;}
+  h2{font-size:1.35rem;margin:22px 0 8px;}h3{font-size:1.12rem;margin:20px 0 4px;}h4{font-size:1rem;line-height:1.4;margin:0;overflow-wrap:anywhere;}
+  p{margin:4px 0 8px;overflow-wrap:anywhere;}.kp-kicker,.kp-note,.kp-id,small{color:var(--site-text-secondary);font-size:.875rem;}
+  a{color:var(--site-mint-text);text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;}
+  a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--site-mint-text);outline-offset:3px;}
+  .kp-jump{display:flex;flex-wrap:wrap;gap:8px 18px;padding:12px 0;border-bottom:1px solid var(--site-border);}
+  .kp-controls{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:6px 12px;align-items:center;padding:12px;background:var(--site-surface);border:1px solid var(--site-border);}
+  .kp-controls label{font-size:.875rem;grid-row:1;}.kp-controls label[for="kp-group"]{grid-column:2;}
+  input,select,button{font:inherit;color:var(--site-text);background:var(--site-bg);border:1px solid var(--site-border);border-radius:4px;padding:7px 9px;min-width:0;max-width:100%;min-height:42px;}
+  input::placeholder{color:var(--site-text-secondary);opacity:1;}button{cursor:pointer;grid-row:2;grid-column:3;}
+  .kp-list,.kp-links{padding:0;list-style:none;margin:0;}.kp-entry{border-top:1px solid var(--site-border);padding:10px 0;scroll-margin-top:calc(var(--site-header-height,80px) + 12px);}
+  .kp-entry>div{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+  .kp-detail{padding-left:16px;}.kp-links li{padding:3px 0;}.kp-id{white-space:nowrap;}
+  section[id]{scroll-margin-top:calc(var(--site-header-height,80px) + 12px);}
+  [hidden]{display:none!important;}
+  @media(max-width:520px){.knowledge-portal{padding:16px 10px 32px;}.kp-controls{grid-template-columns:minmax(0,1fr);}.kp-controls label,.kp-controls label[for="kp-group"],button{grid-row:auto;grid-column:1;}.kp-detail{padding-left:10px;}}
+</style>

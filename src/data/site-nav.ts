@@ -139,6 +139,7 @@ export function toKoreanPath(pathname: string): string {
  */
 export function toEnglishPath(pathname: string): string | null {
 	const bare = pathname.length > 1 && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+	if (bare === '/technology') return '/en/technology/';
 	if (bare !== '/blog' && !bare.startsWith('/blog/')) return null;
 	if (bare === '/blog/topics' || bare.startsWith('/blog/topics/')) return null;
 	const suffix = pathname.slice('/blog'.length);

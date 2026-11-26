@@ -1,7 +1,10 @@
+---
+const en=Astro.url.pathname.startsWith('/en/');
+---
 <div class="site-share" data-site-share>
-  <button type="button" class="site-share-button" data-share-button aria-label="현재 페이지 공유하기" title="현재 페이지 공유하기">
+  <button type="button" class="site-share-button" data-share-button aria-label={en ? "Share this page" : "현재 페이지 공유하기"} title={en ? "Share this page" : "현재 페이지 공유하기"}>
     <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.7 6.6-4.4m-6.6 7 6.6 4.4"/></svg>
-    <span>공유</span>
+    <span>{en ? "Share" : "공유"}</span>
   </button>
   <span class="site-share-status" data-share-status role="status" aria-live="polite"></span>
 </div>
@@ -19,7 +22,7 @@
       }
       try {
         await navigator.clipboard.writeText(url);
-        status.textContent = '링크 복사됨';
+        status.textContent = location.pathname.startsWith('/en/') ? 'Link copied' : '링크 복사됨';
       } catch {
         const input = document.createElement('textarea');
         input.value = url;
@@ -30,7 +33,7 @@
         input.select();
         const copied = document.execCommand('copy');
         input.remove();
-        status.textContent = copied ? '링크 복사됨' : '주소창에서 링크를 복사해 주세요';
+        status.textContent = location.pathname.startsWith('/en/') ? (copied ? 'Link copied' : 'Copy the link from the address bar') : (copied ? '링크 복사됨' : '주소창에서 링크를 복사해 주세요');
       }
     });
   });

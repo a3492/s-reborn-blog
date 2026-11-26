@@ -1,0 +1,1184 @@
+{
+  "version": "0.8",
+  "groups": [
+    {
+      "id": "ENG",
+      "label": "Design methods",
+      "description": "How to design AI systems"
+    },
+    {
+      "id": "CMP",
+      "label": "System components",
+      "description": "Which capabilities to combine"
+    },
+    {
+      "id": "REP",
+      "label": "Codebase and project",
+      "description": "Where to define and manage them"
+    },
+    {
+      "id": "RUN",
+      "label": "Tools and runtimes",
+      "description": "Where to execute them"
+    },
+    {
+      "id": "PAT",
+      "label": "Architecture and design patterns",
+      "description": "How to combine and operate them"
+    }
+  ],
+  "entries": [
+    {
+      "id": "ENG-001",
+      "definition": "Design of instructions, examples and outputs"
+    },
+    {
+      "id": "ENG-002",
+      "definition": "Selection and maintenance of context"
+    },
+    {
+      "id": "ENG-003",
+      "definition": "Design of memory storage, retrieval and updates"
+    },
+    {
+      "id": "ENG-004",
+      "definition": "Design of retrieval-augmented generation"
+    },
+    {
+      "id": "ENG-005",
+      "definition": "Representation and structuring of knowledge"
+    },
+    {
+      "id": "ENG-006",
+      "definition": "Design of relationship graphs"
+    },
+    {
+      "id": "ENG-007",
+      "definition": "Optimization of search, ranking and queries"
+    },
+    {
+      "id": "ENG-008",
+      "definition": "Data collection, transformation and quality"
+    },
+    {
+      "id": "ENG-009",
+      "definition": "Design of external execution, constraints and feedback"
+    },
+    {
+      "id": "ENG-010",
+      "definition": "Design of tool-using agents"
+    },
+    {
+      "id": "ENG-011",
+      "definition": "Design of work processes"
+    },
+    {
+      "id": "ENG-012",
+      "definition": "Coordination of tasks, models and tools"
+    },
+    {
+      "id": "ENG-013",
+      "definition": "Design of iteration and stopping conditions"
+    },
+    {
+      "id": "ENG-014",
+      "definition": "Design of tool interfaces and error handling"
+    },
+    {
+      "id": "ENG-015",
+      "definition": "Division of work and communication among agents"
+    },
+    {
+      "id": "ENG-016",
+      "definition": "Automation of repetitive tasks"
+    },
+    {
+      "id": "ENG-017",
+      "definition": "Design of evaluation criteria, data and scoring"
+    },
+    {
+      "id": "ENG-018",
+      "definition": "Constraints on execution and outputs"
+    },
+    {
+      "id": "ENG-019",
+      "definition": "Design of correction signals and their application"
+    },
+    {
+      "id": "ENG-020",
+      "definition": "Failure handling, recovery and consistency"
+    },
+    {
+      "id": "ENG-021",
+      "definition": "Optimization of latency and throughput"
+    },
+    {
+      "id": "ENG-022",
+      "definition": "Optimization of usage and cost"
+    },
+    {
+      "id": "ENG-023",
+      "definition": "Control of attacks and risks"
+    },
+    {
+      "id": "ENG-024",
+      "definition": "Design of observation and diagnosis"
+    },
+    {
+      "id": "ENG-025",
+      "definition": "Interaction between humans and AI"
+    },
+    {
+      "id": "ENG-026",
+      "definition": "Design of cognitive tasks and tools"
+    },
+    {
+      "id": "ENG-027",
+      "definition": "Design of human intervention and review"
+    },
+    {
+      "id": "ENG-028",
+      "definition": "AI-enabled organizational transformation"
+    },
+    {
+      "id": "ENG-029",
+      "definition": "Model training, selection and deployment"
+    },
+    {
+      "id": "ENG-030",
+      "definition": "Optimization of inference execution"
+    },
+    {
+      "id": "ENG-031",
+      "definition": "Design of multimodal inputs and outputs"
+    },
+    {
+      "id": "ENG-032",
+      "definition": "Reduction of personal-data processing risks"
+    },
+    {
+      "id": "CMP-001",
+      "definition": "Baseline instructions"
+    },
+    {
+      "id": "CMP-002",
+      "definition": "Application-level instructions"
+    },
+    {
+      "id": "CMP-003",
+      "definition": "User task request"
+    },
+    {
+      "id": "CMP-004",
+      "definition": "Persistently applied instructions"
+    },
+    {
+      "id": "CMP-005",
+      "definition": "Personalized instructions"
+    },
+    {
+      "id": "CMP-006",
+      "definition": "Reusable input template"
+    },
+    {
+      "id": "CMP-007",
+      "definition": "Specified output structure"
+    },
+    {
+      "id": "CMP-008",
+      "definition": "Constraints on data structure"
+    },
+    {
+      "id": "CMP-009",
+      "definition": "Reusable package of procedures and resources"
+    },
+    {
+      "id": "CMP-010",
+      "definition": "External execution capability"
+    },
+    {
+      "id": "CMP-011",
+      "definition": "Structured tool invocation"
+    },
+    {
+      "id": "CMP-012",
+      "definition": "Installable extension"
+    },
+    {
+      "id": "CMP-013",
+      "definition": "Protocol connecting external tools and data"
+    },
+    {
+      "id": "CMP-014",
+      "definition": "Reference information supplied by a server"
+    },
+    {
+      "id": "CMP-015",
+      "definition": "Prompt supplied by a server"
+    },
+    {
+      "id": "CMP-016",
+      "definition": "Communication protocol for independent agents"
+    },
+    {
+      "id": "CMP-017",
+      "definition": "Handler responding to an event"
+    },
+    {
+      "id": "CMP-018",
+      "definition": "Condition that starts a task"
+    },
+    {
+      "id": "CMP-019",
+      "definition": "Time-based execution"
+    },
+    {
+      "id": "CMP-020",
+      "definition": "Invocation by command input"
+    },
+    {
+      "id": "CMP-021",
+      "definition": "HTTP event delivery"
+    },
+    {
+      "id": "CMP-022",
+      "definition": "Event delivery intermediary"
+    },
+    {
+      "id": "CMP-023",
+      "definition": "Programmatic interface"
+    },
+    {
+      "id": "CMP-024",
+      "definition": "Connection to a specific service"
+    },
+    {
+      "id": "CMP-025",
+      "definition": "Delegated subordinate agent"
+    },
+    {
+      "id": "CMP-026",
+      "definition": "Group of cooperating agents"
+    },
+    {
+      "id": "CMP-027",
+      "definition": "Task supervisor and coordinator"
+    },
+    {
+      "id": "CMP-028",
+      "definition": "Selector of task routes"
+    },
+    {
+      "id": "CMP-029",
+      "definition": "Transfer of responsibility or state"
+    },
+    {
+      "id": "CMP-030",
+      "definition": "Unit of interactive execution"
+    },
+    {
+      "id": "CMP-031",
+      "definition": "Recoverable saved state"
+    },
+    {
+      "id": "CMP-032",
+      "definition": "Task progress state"
+    },
+    {
+      "id": "CMP-033",
+      "definition": "Model input capacity"
+    },
+    {
+      "id": "CMP-034",
+      "definition": "Retention of session information"
+    },
+    {
+      "id": "CMP-035",
+      "definition": "Retention across sessions"
+    },
+    {
+      "id": "CMP-036",
+      "definition": "Compression of context"
+    },
+    {
+      "id": "CMP-037",
+      "definition": "Vector representation"
+    },
+    {
+      "id": "CMP-038",
+      "definition": "Vector storage and retrieval"
+    },
+    {
+      "id": "CMP-039",
+      "definition": "Reordering of retrieval candidates"
+    },
+    {
+      "id": "CMP-040",
+      "definition": "Graph of entities and relationships"
+    },
+    {
+      "id": "CMP-041",
+      "definition": "Allowed scope of actions"
+    },
+    {
+      "id": "CMP-042",
+      "definition": "Isolated execution"
+    },
+    {
+      "id": "CMP-043",
+      "definition": "Restriction before approval"
+    },
+    {
+      "id": "CMP-044",
+      "definition": "Identity verification"
+    },
+    {
+      "id": "CMP-045",
+      "definition": "Determination of action permissions"
+    },
+    {
+      "id": "CMP-046",
+      "definition": "Protected credential"
+    },
+    {
+      "id": "CMP-047",
+      "definition": "Policy evaluation and enforcement"
+    },
+    {
+      "id": "CMP-048",
+      "definition": "Control of inputs, actions and outputs"
+    },
+    {
+      "id": "CMP-049",
+      "definition": "Execution and measurement of evaluations"
+    },
+    {
+      "id": "CMP-050",
+      "definition": "Reproducible test material"
+    },
+    {
+      "id": "CMP-051",
+      "definition": "Reference answers or judgment material"
+    },
+    {
+      "id": "CMP-052",
+      "definition": "Step-by-step execution record"
+    },
+    {
+      "id": "CMP-053",
+      "definition": "Event record"
+    },
+    {
+      "id": "CMP-054",
+      "definition": "Quantitative observation"
+    },
+    {
+      "id": "CMP-055",
+      "definition": "Unit of work within a trace"
+    },
+    {
+      "id": "CMP-056",
+      "definition": "Record for accountability"
+    },
+    {
+      "id": "CMP-057",
+      "definition": "Repeat attempt after failure"
+    },
+    {
+      "id": "CMP-058",
+      "definition": "Alternative route"
+    },
+    {
+      "id": "CMP-059",
+      "definition": "Reversal of changes"
+    },
+    {
+      "id": "CMP-060",
+      "definition": "Execution time limit"
+    },
+    {
+      "id": "CMP-061",
+      "definition": "Prevention of duplicate effects on repeated execution"
+    },
+    {
+      "id": "CMP-062",
+      "definition": "Blocking calls to a failing dependency"
+    },
+    {
+      "id": "CMP-063",
+      "definition": "Isolation of messages that failed processing"
+    },
+    {
+      "id": "CMP-064",
+      "definition": "Limit on invocation frequency"
+    },
+    {
+      "id": "REP-001",
+      "definition": "Claude Code instructions"
+    },
+    {
+      "id": "REP-002",
+      "definition": "Instructions for supported agents"
+    },
+    {
+      "id": "REP-003",
+      "definition": "Gemini CLI instructions"
+    },
+    {
+      "id": "REP-004",
+      "definition": "Cursor rules"
+    },
+    {
+      "id": "REP-005",
+      "definition": "Project overview"
+    },
+    {
+      "id": "REP-006",
+      "definition": "Architecture decision record"
+    },
+    {
+      "id": "REP-007",
+      "definition": "Example goals document"
+    },
+    {
+      "id": "REP-008",
+      "definition": "Example implementation plan document"
+    },
+    {
+      "id": "REP-009",
+      "definition": "Skill metadata and procedures"
+    },
+    {
+      "id": "REP-010",
+      "definition": "Metadata at the beginning of a document"
+    },
+    {
+      "id": "REP-011",
+      "definition": "Example reference-material directory"
+    },
+    {
+      "id": "REP-012",
+      "definition": "Example executable-code directory"
+    },
+    {
+      "id": "REP-013",
+      "definition": "Example template and asset directory"
+    },
+    {
+      "id": "REP-014",
+      "definition": "Agent configuration document"
+    },
+    {
+      "id": "REP-015",
+      "definition": "Command definition document"
+    },
+    {
+      "id": "REP-016",
+      "definition": "Extension configuration declaration"
+    },
+    {
+      "id": "REP-017",
+      "definition": "Example tool-specific JSON settings"
+    },
+    {
+      "id": "REP-018",
+      "definition": "Example tool-specific TOML settings"
+    },
+    {
+      "id": "REP-019",
+      "definition": "Server connection settings"
+    },
+    {
+      "id": "REP-020",
+      "definition": "Event-handler settings"
+    },
+    {
+      "id": "REP-021",
+      "definition": "Environment variable examples"
+    },
+    {
+      "id": "REP-022",
+      "definition": "Rules excluding files from tracking"
+    },
+    {
+      "id": "REP-023",
+      "definition": "Container image definition"
+    },
+    {
+      "id": "REP-024",
+      "definition": "Pinned dependency versions"
+    },
+    {
+      "id": "REP-025",
+      "definition": "Data structure definition"
+    },
+    {
+      "id": "REP-026",
+      "definition": "Database change history"
+    },
+    {
+      "id": "REP-027",
+      "definition": "Collection of tests"
+    },
+    {
+      "id": "REP-028",
+      "definition": "Test input material"
+    },
+    {
+      "id": "REP-029",
+      "definition": "Evaluation data file"
+    },
+    {
+      "id": "REP-030",
+      "definition": "Interface contract verification"
+    },
+    {
+      "id": "REP-031",
+      "definition": "Automated verification workflow"
+    },
+    {
+      "id": "REP-032",
+      "definition": "Build output"
+    },
+    {
+      "id": "REP-033",
+      "definition": "Version-controlled repository"
+    },
+    {
+      "id": "REP-034",
+      "definition": "Independent line of changes"
+    },
+    {
+      "id": "REP-035",
+      "definition": "Separate working directory"
+    },
+    {
+      "id": "REP-036",
+      "definition": "Record of a change"
+    },
+    {
+      "id": "REP-037",
+      "definition": "Request to review changes"
+    },
+    {
+      "id": "REP-038",
+      "definition": "Record of changes"
+    },
+    {
+      "id": "REP-039",
+      "definition": "Released version"
+    },
+    {
+      "id": "REP-040",
+      "definition": "Environment-specific deployment settings"
+    },
+    {
+      "id": "RUN-001",
+      "definition": "Model invocation interface"
+    },
+    {
+      "id": "RUN-002",
+      "definition": "Conversational work environment"
+    },
+    {
+      "id": "RUN-003",
+      "definition": "Coding agent environment"
+    },
+    {
+      "id": "RUN-004",
+      "definition": "Terminal coding agent"
+    },
+    {
+      "id": "RUN-005",
+      "definition": "Terminal AI environment"
+    },
+    {
+      "id": "RUN-006",
+      "definition": "AI code editing environment"
+    },
+    {
+      "id": "RUN-007",
+      "definition": "Agent development SDK"
+    },
+    {
+      "id": "RUN-008",
+      "definition": "Agent development SDK"
+    },
+    {
+      "id": "RUN-009",
+      "definition": "Integrated development environment"
+    },
+    {
+      "id": "RUN-010",
+      "definition": "Command execution interface"
+    },
+    {
+      "id": "RUN-011",
+      "definition": "Command interpreter"
+    },
+    {
+      "id": "RUN-012",
+      "definition": "Terminal multiplexer"
+    },
+    {
+      "id": "RUN-013",
+      "definition": "Terminal workspace manager"
+    },
+    {
+      "id": "RUN-014",
+      "definition": "Code collaboration environment"
+    },
+    {
+      "id": "RUN-015",
+      "definition": "Platform for models, datasets and apps"
+    },
+    {
+      "id": "RUN-016",
+      "definition": "State-based agent workflow framework"
+    },
+    {
+      "id": "RUN-017",
+      "definition": "Local execution environment"
+    },
+    {
+      "id": "RUN-018",
+      "definition": "Remote execution environment"
+    },
+    {
+      "id": "RUN-019",
+      "definition": "Container execution environment"
+    },
+    {
+      "id": "RUN-020",
+      "definition": "Managed function execution environment"
+    },
+    {
+      "id": "RUN-021",
+      "definition": "Structured data store"
+    },
+    {
+      "id": "RUN-022",
+      "definition": "File object storage"
+    },
+    {
+      "id": "RUN-023",
+      "definition": "Document and knowledge management"
+    },
+    {
+      "id": "RUN-024",
+      "definition": "Local Markdown knowledge management"
+    },
+    {
+      "id": "PAT-001",
+      "definition": "Chaining prompts across steps"
+    },
+    {
+      "id": "PAT-002",
+      "definition": "Sequential execution"
+    },
+    {
+      "id": "PAT-003",
+      "definition": "Parallel distribution and result collection"
+    },
+    {
+      "id": "PAT-004",
+      "definition": "Conditional branching"
+    },
+    {
+      "id": "PAT-005",
+      "definition": "Model selection flow"
+    },
+    {
+      "id": "PAT-006",
+      "definition": "Acyclic dependency graph"
+    },
+    {
+      "id": "PAT-007",
+      "definition": "Execution based on states and transitions"
+    },
+    {
+      "id": "PAT-008",
+      "definition": "Event-driven execution"
+    },
+    {
+      "id": "PAT-009",
+      "definition": "Separation of planning and execution"
+    },
+    {
+      "id": "PAT-010",
+      "definition": "Division of work between supervisor and workers"
+    },
+    {
+      "id": "PAT-011",
+      "definition": "Dynamic task decomposition and coordination"
+    },
+    {
+      "id": "PAT-012",
+      "definition": "Improvement following evaluation"
+    },
+    {
+      "id": "PAT-013",
+      "definition": "Iteration of reasoning, action and observation"
+    },
+    {
+      "id": "PAT-014",
+      "definition": "Review and re-execution of results"
+    },
+    {
+      "id": "PAT-015",
+      "definition": "Collaboration centered on shared task state"
+    },
+    {
+      "id": "PAT-016",
+      "definition": "Approval-based progression"
+    },
+    {
+      "id": "PAT-017",
+      "definition": "Basic retrieval and generation"
+    },
+    {
+      "id": "PAT-018",
+      "definition": "Combined retrieval such as keyword and vector search"
+    },
+    {
+      "id": "PAT-019",
+      "definition": "Graph-based retrieval augmentation"
+    },
+    {
+      "id": "PAT-020",
+      "definition": "Search through question decomposition"
+    },
+    {
+      "id": "PAT-021",
+      "definition": "Agent-directed retrieval"
+    },
+    {
+      "id": "PAT-022",
+      "definition": "Progressive delivery of needed knowledge"
+    },
+    {
+      "id": "PAT-023",
+      "definition": "Hierarchical memory"
+    },
+    {
+      "id": "PAT-024",
+      "definition": "Separation of information by task"
+    },
+    {
+      "id": "PAT-025",
+      "definition": "Resumption from saved state after interruption"
+    },
+    {
+      "id": "PAT-026",
+      "definition": "Queue-based workers"
+    },
+    {
+      "id": "PAT-027",
+      "definition": "Compensating actions in distributed workflows"
+    },
+    {
+      "id": "PAT-028",
+      "definition": "Isolation to limit failure propagation"
+    },
+    {
+      "id": "PAT-029",
+      "definition": "Deployment to a subset first"
+    },
+    {
+      "id": "PAT-030",
+      "definition": "Comparative evaluation without production impact"
+    },
+    {
+      "id": "PAT-031",
+      "definition": "Application of least privilege"
+    },
+    {
+      "id": "PAT-032",
+      "definition": "Escalation to a human when risk or uncertainty arises"
+    },
+    {
+      "id": "ENG-001-T01",
+      "definition": "Instructions without examples"
+    },
+    {
+      "id": "ENG-001-T02",
+      "definition": "Provision of a few examples"
+    },
+    {
+      "id": "ENG-001-T03",
+      "definition": "Specification of role and perspective"
+    },
+    {
+      "id": "ENG-001-T04",
+      "definition": "Explicit conditions and limitations"
+    },
+    {
+      "id": "ENG-001-T05",
+      "definition": "Separation of input and instructions"
+    },
+    {
+      "id": "ENG-001-T06",
+      "definition": "Agreement on output format and required fields"
+    },
+    {
+      "id": "ENG-001-T07",
+      "definition": "Example of an incorrect result"
+    },
+    {
+      "id": "ENG-001-T08",
+      "definition": "Decomposition of complex requests"
+    },
+    {
+      "id": "ENG-001-T09",
+      "definition": "Management of prompt revisions"
+    },
+    {
+      "id": "ENG-001-T10",
+      "definition": "Comparison after removing prompt elements"
+    },
+    {
+      "id": "ENG-001-T11",
+      "definition": "Comparison of two prompts under equal conditions"
+    },
+    {
+      "id": "ENG-001-T12",
+      "definition": "Selection of representative examples"
+    },
+    {
+      "id": "ENG-001-T13",
+      "definition": "Inference technique aggregating final answers from multiple samples"
+    },
+    {
+      "id": "ENG-001-T14",
+      "definition": "Prompt improvement using evaluation"
+    },
+    {
+      "id": "ENG-001-T15",
+      "definition": "Explicit judgment criteria"
+    },
+    {
+      "id": "ENG-001-T16",
+      "definition": "Specification of permitted evidence"
+    },
+    {
+      "id": "ENG-002-T01",
+      "definition": "Allocation of input token budget"
+    },
+    {
+      "id": "ENG-002-T02",
+      "definition": "Removal of irrelevant information"
+    },
+    {
+      "id": "ENG-002-T03",
+      "definition": "Summarization of essential information"
+    },
+    {
+      "id": "ENG-002-T04",
+      "definition": "Design of information ordering"
+    },
+    {
+      "id": "ENG-002-T05",
+      "definition": "Recording sources and trust boundaries"
+    },
+    {
+      "id": "ENG-002-T06",
+      "definition": "Updating outdated material"
+    },
+    {
+      "id": "ENG-002-T07",
+      "definition": "Loading context when needed"
+    },
+    {
+      "id": "ENG-002-T08",
+      "definition": "Handling input limit overflow"
+    },
+    {
+      "id": "ENG-004-T01",
+      "definition": "Document segmentation"
+    },
+    {
+      "id": "ENG-004-T02",
+      "definition": "Lexical retrieval ranking using term frequency and document length"
+    },
+    {
+      "id": "ENG-004-T03",
+      "definition": "Retrieval using sparse representations"
+    },
+    {
+      "id": "ENG-004-T04",
+      "definition": "Retrieval using dense vectors"
+    },
+    {
+      "id": "ENG-004-T05",
+      "definition": "Retrieval based on metadata conditions"
+    },
+    {
+      "id": "ENG-004-T06",
+      "definition": "Transformation of search queries"
+    },
+    {
+      "id": "ENG-004-T07",
+      "definition": "Connecting answers to original sources"
+    },
+    {
+      "id": "ENG-004-T08",
+      "definition": "Evaluation of retrieval recall, precision and other measures"
+    },
+    {
+      "id": "ENG-029-T01",
+      "definition": "Conversion of input into tokens"
+    },
+    {
+      "id": "ENG-029-T02",
+      "definition": "Additional training of an existing model"
+    },
+    {
+      "id": "ENG-029-T03",
+      "definition": "Low-rank adaptation"
+    },
+    {
+      "id": "ENG-029-T04",
+      "definition": "Adaptation focused on a subset of parameters"
+    },
+    {
+      "id": "ENG-029-T05",
+      "definition": "Transfer of knowledge from a teacher model"
+    },
+    {
+      "id": "ENG-029-T06",
+      "definition": "Supervised additional training"
+    },
+    {
+      "id": "ENG-029-T07",
+      "definition": "Optimization using preference data"
+    },
+    {
+      "id": "ENG-029-T08",
+      "definition": "Selection of a model for requirements"
+    },
+    {
+      "id": "ENG-030-T01",
+      "definition": "Reduction of numerical precision"
+    },
+    {
+      "id": "ENG-030-T02",
+      "definition": "Reuse of attention keys and values"
+    },
+    {
+      "id": "ENG-030-T03",
+      "definition": "Reuse of repeated input processing"
+    },
+    {
+      "id": "ENG-030-T04",
+      "definition": "Grouping multiple requests for processing"
+    },
+    {
+      "id": "ENG-030-T05",
+      "definition": "Sequential delivery of output"
+    },
+    {
+      "id": "ENG-030-T06",
+      "definition": "Acceleration using candidate generation and verification"
+    },
+    {
+      "id": "ENG-030-T07",
+      "definition": "Latency until the first token"
+    },
+    {
+      "id": "ENG-030-T08",
+      "definition": "Output processing rate"
+    },
+    {
+      "id": "ENG-023-T01",
+      "definition": "Instruction manipulation through external input"
+    },
+    {
+      "id": "ENG-023-T02",
+      "definition": "Instruction manipulation through retrieved or tool-supplied material"
+    },
+    {
+      "id": "ENG-023-T03",
+      "definition": "Corruption of stored memory"
+    },
+    {
+      "id": "ENG-023-T04",
+      "definition": "Inappropriate use of legitimate tools"
+    },
+    {
+      "id": "ENG-023-T05",
+      "definition": "Risks in dependent components"
+    },
+    {
+      "id": "ENG-023-T06",
+      "definition": "Excessive execution authority"
+    },
+    {
+      "id": "ENG-023-T07",
+      "definition": "Unauthorized data transfer"
+    },
+    {
+      "id": "ENG-023-T08",
+      "definition": "Use of unvalidated output"
+    },
+    {
+      "id": "ENG-023-T09",
+      "definition": "Restriction of outbound transmission routes"
+    },
+    {
+      "id": "ENG-023-T10",
+      "definition": "List of permitted tools"
+    },
+    {
+      "id": "ENG-023-T11",
+      "definition": "Validation of input structure"
+    },
+    {
+      "id": "ENG-023-T12",
+      "definition": "Validation of output structure and policy"
+    },
+    {
+      "id": "ENG-023-T13",
+      "definition": "Periodic replacement of credentials"
+    },
+    {
+      "id": "ENG-023-T14",
+      "definition": "Isolation of data by tenant"
+    },
+    {
+      "id": "ENG-023-T15",
+      "definition": "Analysis of threats and attack paths"
+    },
+    {
+      "id": "ENG-023-T16",
+      "definition": "Controlled adversarial simulation and evaluation"
+    },
+    {
+      "id": "ENG-017-T01",
+      "definition": "Checking for regressions after changes"
+    },
+    {
+      "id": "ENG-017-T02",
+      "definition": "Evaluation by humans"
+    },
+    {
+      "id": "ENG-017-T03",
+      "definition": "Evaluation using a model"
+    },
+    {
+      "id": "ENG-017-T04",
+      "definition": "Relative comparison of two results"
+    },
+    {
+      "id": "ENG-017-T05",
+      "definition": "Calibration of evaluation scores"
+    },
+    {
+      "id": "ENG-017-T06",
+      "definition": "Proportion of successful tasks"
+    },
+    {
+      "id": "ENG-017-T07",
+      "definition": "Faithfulness to evidence"
+    },
+    {
+      "id": "ENG-017-T08",
+      "definition": "Agreement among evaluators"
+    },
+    {
+      "id": "CMP-017-T01",
+      "definition": "Validation before execution"
+    },
+    {
+      "id": "CMP-017-T02",
+      "definition": "Processing of results after execution"
+    },
+    {
+      "id": "CMP-017-T03",
+      "definition": "Handling at session start"
+    },
+    {
+      "id": "CMP-017-T04",
+      "definition": "Handling at session end"
+    },
+    {
+      "id": "CMP-017-T05",
+      "definition": "Success or failure signal from handler"
+    },
+    {
+      "id": "CMP-017-T06",
+      "definition": "Limit on hook execution time"
+    },
+    {
+      "id": "CMP-017-T07",
+      "definition": "Data delivered with an event"
+    },
+    {
+      "id": "CMP-017-T08",
+      "definition": "Audit records of hook execution"
+    },
+    {
+      "id": "CMP-013-T01",
+      "definition": "Application managing connections"
+    },
+    {
+      "id": "CMP-013-T02",
+      "definition": "Component responsible for server connections"
+    },
+    {
+      "id": "CMP-013-T03",
+      "definition": "Provider of capabilities"
+    },
+    {
+      "id": "CMP-013-T04",
+      "definition": "Callable capability supplied by a server"
+    },
+    {
+      "id": "CMP-013-T05",
+      "definition": "Standard input/output transport"
+    },
+    {
+      "id": "CMP-013-T06",
+      "definition": "HTTP-based transport"
+    },
+    {
+      "id": "CMP-013-T07",
+      "definition": "Negotiation of supported capabilities"
+    },
+    {
+      "id": "CMP-013-T08",
+      "definition": "Token-based delegated authorization framework"
+    },
+    {
+      "id": "ENG-015-T01",
+      "definition": "Delegation of task responsibility"
+    },
+    {
+      "id": "ENG-015-T02",
+      "definition": "Messages between agents"
+    },
+    {
+      "id": "ENG-015-T03",
+      "definition": "Shared task state"
+    },
+    {
+      "id": "ENG-015-T04",
+      "definition": "Collection and integration of results"
+    },
+    {
+      "id": "ENG-015-T05",
+      "definition": "Resolution of conflicting results"
+    },
+    {
+      "id": "ENG-015-T06",
+      "definition": "Stopping criteria"
+    },
+    {
+      "id": "ENG-015-T07",
+      "definition": "Management of conflicts in concurrent execution"
+    },
+    {
+      "id": "ENG-015-T08",
+      "definition": "Limit on execution resources"
+    }
+  ]
+}
