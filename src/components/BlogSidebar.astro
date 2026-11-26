@@ -18,7 +18,9 @@ const pillar = model.items[1];
 const total = counts && Object.values(counts).reduce((sum, count) => sum + count, 0);
 const isLab = model.sectionId === 'research';
 const rootLabel = isLab ? (isEn ? 'All articles' : '전체 글') : pillar.label;
-const currentLabel = model.siblings.find(({ id }) => id === model.currentId)?.label ?? rootLabel;
+// The article sidebar is a taxonomy view, not the header's purpose navigation.
+const sidebarLinks = isLab ? model.siblings.filter(({ id }) => id.startsWith('topic-')) : model.siblings;
+const currentLabel = sidebarLinks.find(({ id }) => id === model.currentId)?.label ?? rootLabel;
 const currentValue = article ? 'location' : 'page';
 ---
 <nav class="blog-nav" aria-label={pillar.label} data-taxonomy-sidebar>
@@ -33,7 +35,7 @@ const currentValue = article ? 'location' : 'page';
 			<span>{rootLabel}</span>
 			{total !== undefined && <span class="blog-nav-count">{total}</span>}
 		</a>
-		{model.siblings.map(({ id, href, label }) => {
+		{sidebarLinks.map(({ id, href, label }) => {
 			const active = model.currentId === id;
 			const count = counts?.[id.slice('topic-'.length) as Topic];
 			return (
