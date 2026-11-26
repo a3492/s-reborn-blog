@@ -1,0 +1,21 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout title="Zero-shot과 Few-shot — 설명하는 것과 보여주는 것" description="예시 없이 지시하는 방식과 시범 사례를 추가하는 방식의 차이.">
+<article class="kp-article">
+  <p><a href="/technology/">AI 기술 백과</a> / 입문</p>
+  <h1>Zero-shot과 Few-shot — 설명하는 것과 보여주는 것</h1>
+  <p>회의록을 요청했는데 시간순 기록이 나왔습니다. 원하는 것은 결정·담당·기한이었습니다. 이번에는 잘 정리된 예시를 함께 줍니다. 지시만 주는 방식과 예시까지 보여주는 방식의 차이입니다.</p><h2>무엇이 다른가</h2><p>Zero-shot은 시범 사례 없이 지시와 입력을 제공하는 방식입니다. Few-shot은 원하는 입력과 출력 예시를 소수 추가합니다. 예시를 제공한다고 모델의 가중치가 바뀌지는 않습니다. 예시가 많다고 항상 좋은 결과가 나오는 것도 아닙니다.</p><h2>회의록으로 비교하기</h2><p><small>합성 입력과 사람이 작성한 기대 결과이며 모델 실측 결과가 아닙니다.</small></p><pre>공통 지시: 결정 / 담당 / 기한으로 정리하고
+입력에 없는 값은 미정으로 표시하라.
+
+실제 입력: 교육 자료를 수정한다. 담당과 기한 미정.</pre><p>Zero-shot은 위 지시만 사용합니다. Few-shot은 아래 예시를 추가합니다.</p><pre>입력: 안내문 수정, 운영팀 담당, 금요일까지.
+출력: 안내문 수정 / 운영팀 / 금요일
+
+입력: 교육 일정 변경, 교육팀 담당, 기한 미정.
+출력: 교육 일정 변경 / 교육팀 / 미정</pre><p>두 방식의 기대 결과: 교육 자료 수정 / 미정 / 미정.</p><h2>다른 활용 상황</h2><ol><li>고객 문의를 정해진 분류로 정리: 조직의 분류 기준과 비교합니다.</li><li>공지문 문체 통일: 입력에 없는 사유나 일정을 추가하지 않습니다.</li><li>데이터 추출: 수량과 단가를 지정한 필드로 표현하고 스키마를 확인합니다.</li><li>학습 피드백: 채점표에 따라 맞는 부분과 빠진 조건을 구분합니다.</li><li>업무 우선순위: 예시의 기준을 따르되 긴급도 정보가 없으면 추측하지 않습니다.</li></ol><h2>검증하기</h2><p>같은 모델과 설정에서 동일 입력을 각각 독립 실행하고 사실 충실성, 누락, 형식을 비교합니다. 결과가 다르면 예시를 바꾸고 다시 시험합니다. 비교 실험은 아직 수행하지 않았습니다.</p><h2>관련 기술</h2><p><a href="/technology/#ENG-001-T01">Zero-shot</a> · <a href="/technology/#ENG-001-T02">Few-shot</a> · <a href="/technology/#CMP-007">Structured Output</a></p><h2>참고 자료</h2><p><a href="https://arxiv.org/abs/2005.14165">Brown et al. (2020), Language Models are Few-Shot Learners</a></p>
+</article>
+</Layout>
+<style>
+.kp-article{max-width:780px;margin:auto;padding:24px 16px 48px;color:var(--site-text);background:var(--site-bg);line-height:1.8;}
+h1{font-size:clamp(1.6rem,4vw,2.25rem);line-height:1.3;margin:10px 0 20px;}h2{font-size:1.3rem;margin:24px 0 8px;}p{margin:8px 0 12px;overflow-wrap:anywhere;}a{color:var(--site-mint-text);text-decoration:underline;overflow-wrap:anywhere;}pre{padding:12px;background:var(--site-surface);border:1px solid var(--site-border);white-space:pre-wrap;overflow-wrap:anywhere;font-size:.88rem;}li{margin:5px 0;}small{color:var(--site-text-secondary);}
+</style>

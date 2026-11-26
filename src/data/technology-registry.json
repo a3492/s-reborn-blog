@@ -1,0 +1,1761 @@
+{
+  "version": "0.8",
+  "status": "editorial",
+  "groups": [
+    {
+      "id": "ENG",
+      "label": "설계 방법론",
+      "description": "AI를 어떻게 설계할까"
+    },
+    {
+      "id": "CMP",
+      "label": "시스템 구성 요소",
+      "description": "어떤 기능을 조합할까"
+    },
+    {
+      "id": "REP",
+      "label": "코드베이스·프로젝트",
+      "description": "어디에 정의하고 관리할까"
+    },
+    {
+      "id": "RUN",
+      "label": "도구·실행 환경",
+      "description": "어떤 환경에서 실행할까"
+    },
+    {
+      "id": "PAT",
+      "label": "아키텍처·설계 패턴",
+      "description": "어떻게 결합하고 운영할까"
+    }
+  ],
+  "entries": [
+    {
+      "id": "ENG-001",
+      "group": "지시·정보",
+      "name": "Prompt Engineering",
+      "definition": "지시·예시·출력 설계"
+    },
+    {
+      "id": "ENG-002",
+      "group": "지시·정보",
+      "name": "Context Engineering",
+      "definition": "컨텍스트 선별·유지"
+    },
+    {
+      "id": "ENG-003",
+      "group": "지시·정보",
+      "name": "Memory Engineering",
+      "definition": "기억 저장·인출·갱신 설계"
+    },
+    {
+      "id": "ENG-004",
+      "group": "지시·정보",
+      "name": "RAG Engineering",
+      "definition": "검색 증강 생성 설계"
+    },
+    {
+      "id": "ENG-005",
+      "group": "지시·정보",
+      "name": "Knowledge Engineering",
+      "definition": "지식 표현·구조화"
+    },
+    {
+      "id": "ENG-006",
+      "group": "지시·정보",
+      "name": "Graph Engineering",
+      "definition": "관계 그래프 설계"
+    },
+    {
+      "id": "ENG-007",
+      "group": "지시·정보",
+      "name": "Retrieval Engineering",
+      "definition": "검색·순위·질의 최적화"
+    },
+    {
+      "id": "ENG-008",
+      "group": "지시·정보",
+      "name": "Data Engineering",
+      "definition": "데이터 수집·변환·품질"
+    },
+    {
+      "id": "ENG-009",
+      "group": "실행·협업",
+      "name": "Harness Engineering",
+      "definition": "모델 외부 실행·제약·피드백 설계"
+    },
+    {
+      "id": "ENG-010",
+      "group": "실행·협업",
+      "name": "Agent Engineering",
+      "definition": "도구 사용 에이전트 설계"
+    },
+    {
+      "id": "ENG-011",
+      "group": "실행·협업",
+      "name": "Workflow Engineering",
+      "definition": "업무 흐름 설계"
+    },
+    {
+      "id": "ENG-012",
+      "group": "실행·협업",
+      "name": "Orchestration",
+      "definition": "작업·모델·도구 조율"
+    },
+    {
+      "id": "ENG-013",
+      "group": "실행·협업",
+      "name": "Loop Engineering",
+      "definition": "반복 수행·종료 조건 설계"
+    },
+    {
+      "id": "ENG-014",
+      "group": "실행·협업",
+      "name": "Tool Engineering",
+      "definition": "도구 인터페이스·오류 설계"
+    },
+    {
+      "id": "ENG-015",
+      "group": "실행·협업",
+      "name": "Multi-agent Engineering",
+      "definition": "복수 에이전트의 분업·통신"
+    },
+    {
+      "id": "ENG-016",
+      "group": "실행·협업",
+      "name": "Automation Engineering",
+      "definition": "반복 업무 자동화"
+    },
+    {
+      "id": "ENG-017",
+      "group": "검증·운영",
+      "name": "Evaluation Engineering",
+      "definition": "평가 기준·데이터·채점 설계"
+    },
+    {
+      "id": "ENG-018",
+      "group": "검증·운영",
+      "name": "Guardrail Engineering",
+      "definition": "실행·결과 제약 설계"
+    },
+    {
+      "id": "ENG-019",
+      "group": "검증·운영",
+      "name": "Feedback Engineering",
+      "definition": "수정 신호와 반영 구조"
+    },
+    {
+      "id": "ENG-020",
+      "group": "검증·운영",
+      "name": "Reliability Engineering",
+      "definition": "장애·복구·일관성"
+    },
+    {
+      "id": "ENG-021",
+      "group": "검증·운영",
+      "name": "Performance Engineering",
+      "definition": "지연·처리량 최적화"
+    },
+    {
+      "id": "ENG-022",
+      "group": "검증·운영",
+      "name": "Cost Engineering",
+      "definition": "사용량·비용 최적화"
+    },
+    {
+      "id": "ENG-023",
+      "group": "검증·운영",
+      "name": "Security Engineering",
+      "definition": "공격·위험 통제"
+    },
+    {
+      "id": "ENG-024",
+      "group": "검증·운영",
+      "name": "Observability Engineering",
+      "definition": "관측 및 진단 설계"
+    },
+    {
+      "id": "ENG-025",
+      "group": "인간·모델",
+      "name": "Human-AI Interaction",
+      "definition": "인간과 AI의 상호작용"
+    },
+    {
+      "id": "ENG-026",
+      "group": "인간·모델",
+      "name": "Cognitive Engineering",
+      "definition": "인지 작업과 도구 설계"
+    },
+    {
+      "id": "ENG-027",
+      "group": "인간·모델",
+      "name": "Human-in-the-loop",
+      "definition": "인간 개입·검토 설계"
+    },
+    {
+      "id": "ENG-028",
+      "group": "인간·모델",
+      "name": "AX",
+      "definition": "조직의 AI 기반 전환"
+    },
+    {
+      "id": "ENG-029",
+      "group": "인간·모델",
+      "name": "Model Engineering",
+      "definition": "모델 학습·선택·배포 설계"
+    },
+    {
+      "id": "ENG-030",
+      "group": "인간·모델",
+      "name": "Inference Engineering",
+      "definition": "추론 실행 최적화"
+    },
+    {
+      "id": "ENG-031",
+      "group": "인간·모델",
+      "name": "Multimodal Engineering",
+      "definition": "복수 양식의 입력·출력 설계"
+    },
+    {
+      "id": "ENG-032",
+      "group": "인간·모델",
+      "name": "Privacy Engineering",
+      "definition": "개인정보 처리 위험 감소"
+    },
+    {
+      "id": "CMP-001",
+      "group": "지시·출력",
+      "name": "System Prompt",
+      "definition": "기본 지침"
+    },
+    {
+      "id": "CMP-002",
+      "group": "지시·출력",
+      "name": "Developer Instructions",
+      "definition": "애플리케이션 지침"
+    },
+    {
+      "id": "CMP-003",
+      "group": "지시·출력",
+      "name": "User Prompt",
+      "definition": "사용자 작업 요청"
+    },
+    {
+      "id": "CMP-004",
+      "group": "지시·출력",
+      "name": "Rules",
+      "definition": "지속 적용 지침"
+    },
+    {
+      "id": "CMP-005",
+      "group": "지시·출력",
+      "name": "Custom Instructions",
+      "definition": "맞춤 지침"
+    },
+    {
+      "id": "CMP-006",
+      "group": "지시·출력",
+      "name": "Prompt Template",
+      "definition": "재사용 입력 양식"
+    },
+    {
+      "id": "CMP-007",
+      "group": "지시·출력",
+      "name": "Structured Output",
+      "definition": "정해진 출력 구조"
+    },
+    {
+      "id": "CMP-008",
+      "group": "지시·출력",
+      "name": "JSON Schema",
+      "definition": "데이터 구조 제약"
+    },
+    {
+      "id": "CMP-009",
+      "group": "능력·연결",
+      "name": "Skill",
+      "definition": "재사용 절차·자료 묶음"
+    },
+    {
+      "id": "CMP-010",
+      "group": "능력·연결",
+      "name": "Tool",
+      "definition": "외부 실행 기능"
+    },
+    {
+      "id": "CMP-011",
+      "group": "능력·연결",
+      "name": "Function Calling",
+      "definition": "구조화된 도구 호출"
+    },
+    {
+      "id": "CMP-012",
+      "group": "능력·연결",
+      "name": "Plugin",
+      "definition": "설치 가능한 확장"
+    },
+    {
+      "id": "CMP-013",
+      "group": "능력·연결",
+      "name": "MCP",
+      "definition": "외부 도구·데이터 연결 프로토콜"
+    },
+    {
+      "id": "CMP-014",
+      "group": "능력·연결",
+      "name": "MCP Resource",
+      "definition": "서버 제공 참조 정보"
+    },
+    {
+      "id": "CMP-015",
+      "group": "능력·연결",
+      "name": "MCP Prompt",
+      "definition": "서버 제공 프롬프트"
+    },
+    {
+      "id": "CMP-016",
+      "group": "능력·연결",
+      "name": "A2A",
+      "definition": "독립 에이전트 통신 프로토콜"
+    },
+    {
+      "id": "CMP-017",
+      "group": "이벤트·연동",
+      "name": "Hook",
+      "definition": "이벤트에 대응하는 처리기"
+    },
+    {
+      "id": "CMP-018",
+      "group": "이벤트·연동",
+      "name": "Trigger",
+      "definition": "작업 시작 조건"
+    },
+    {
+      "id": "CMP-019",
+      "group": "이벤트·연동",
+      "name": "Scheduler",
+      "definition": "시간 기준 실행"
+    },
+    {
+      "id": "CMP-020",
+      "group": "이벤트·연동",
+      "name": "Slash Command",
+      "definition": "명령 입력으로 기능 호출"
+    },
+    {
+      "id": "CMP-021",
+      "group": "이벤트·연동",
+      "name": "Webhook",
+      "definition": "HTTP 이벤트 전달"
+    },
+    {
+      "id": "CMP-022",
+      "group": "이벤트·연동",
+      "name": "Event Bus",
+      "definition": "이벤트 전달 매개"
+    },
+    {
+      "id": "CMP-023",
+      "group": "이벤트·연동",
+      "name": "API",
+      "definition": "프로그램 인터페이스"
+    },
+    {
+      "id": "CMP-024",
+      "group": "이벤트·연동",
+      "name": "Connector",
+      "definition": "특정 서비스 연결"
+    },
+    {
+      "id": "CMP-025",
+      "group": "에이전트·상태",
+      "name": "Subagent",
+      "definition": "위임된 하위 에이전트"
+    },
+    {
+      "id": "CMP-026",
+      "group": "에이전트·상태",
+      "name": "Agent Team",
+      "definition": "협업 에이전트 집합"
+    },
+    {
+      "id": "CMP-027",
+      "group": "에이전트·상태",
+      "name": "Supervisor",
+      "definition": "작업 감독·조율자"
+    },
+    {
+      "id": "CMP-028",
+      "group": "에이전트·상태",
+      "name": "Router",
+      "definition": "작업 경로 선택자"
+    },
+    {
+      "id": "CMP-029",
+      "group": "에이전트·상태",
+      "name": "Handoff",
+      "definition": "책임이나 상태 전달"
+    },
+    {
+      "id": "CMP-030",
+      "group": "에이전트·상태",
+      "name": "Session",
+      "definition": "상호작용 실행 단위"
+    },
+    {
+      "id": "CMP-031",
+      "group": "에이전트·상태",
+      "name": "Checkpoint",
+      "definition": "복구 가능한 상태 저장점"
+    },
+    {
+      "id": "CMP-032",
+      "group": "에이전트·상태",
+      "name": "Task State",
+      "definition": "작업 진행 상태"
+    },
+    {
+      "id": "CMP-033",
+      "group": "기억·검색",
+      "name": "Context Window",
+      "definition": "모델 입력 가능 범위"
+    },
+    {
+      "id": "CMP-034",
+      "group": "기억·검색",
+      "name": "Session Memory",
+      "definition": "세션 정보 유지"
+    },
+    {
+      "id": "CMP-035",
+      "group": "기억·검색",
+      "name": "Persistent Memory",
+      "definition": "세션 간 정보 보존"
+    },
+    {
+      "id": "CMP-036",
+      "group": "기억·검색",
+      "name": "Compaction",
+      "definition": "컨텍스트 압축"
+    },
+    {
+      "id": "CMP-037",
+      "group": "기억·검색",
+      "name": "Embedding",
+      "definition": "벡터 표현"
+    },
+    {
+      "id": "CMP-038",
+      "group": "기억·검색",
+      "name": "Vector Store",
+      "definition": "벡터 저장·검색"
+    },
+    {
+      "id": "CMP-039",
+      "group": "기억·검색",
+      "name": "Reranker",
+      "definition": "후보 검색 결과 재정렬"
+    },
+    {
+      "id": "CMP-040",
+      "group": "기억·검색",
+      "name": "Knowledge Graph",
+      "definition": "개체·관계 그래프"
+    },
+    {
+      "id": "CMP-041",
+      "group": "권한·보안",
+      "name": "Permission",
+      "definition": "허용된 작업 범위"
+    },
+    {
+      "id": "CMP-042",
+      "group": "권한·보안",
+      "name": "Sandbox",
+      "definition": "격리 실행"
+    },
+    {
+      "id": "CMP-043",
+      "group": "권한·보안",
+      "name": "Approval Gate",
+      "definition": "승인 전 실행 제한"
+    },
+    {
+      "id": "CMP-044",
+      "group": "권한·보안",
+      "name": "Authentication",
+      "definition": "신원 확인"
+    },
+    {
+      "id": "CMP-045",
+      "group": "권한·보안",
+      "name": "Authorization",
+      "definition": "작업 권한 판정"
+    },
+    {
+      "id": "CMP-046",
+      "group": "권한·보안",
+      "name": "Secret",
+      "definition": "보호할 자격 증명"
+    },
+    {
+      "id": "CMP-047",
+      "group": "권한·보안",
+      "name": "Policy Engine",
+      "definition": "정책 판단·집행"
+    },
+    {
+      "id": "CMP-048",
+      "group": "권한·보안",
+      "name": "Guardrail",
+      "definition": "입력·행동·출력 통제"
+    },
+    {
+      "id": "CMP-049",
+      "group": "평가·관측",
+      "name": "Eval",
+      "definition": "평가 실행 및 측정"
+    },
+    {
+      "id": "CMP-050",
+      "group": "평가·관측",
+      "name": "Test Fixture",
+      "definition": "재현 가능한 테스트 자료"
+    },
+    {
+      "id": "CMP-051",
+      "group": "평가·관측",
+      "name": "Golden Dataset",
+      "definition": "기준 정답·판정 자료"
+    },
+    {
+      "id": "CMP-052",
+      "group": "평가·관측",
+      "name": "Trace",
+      "definition": "단계별 실행 기록"
+    },
+    {
+      "id": "CMP-053",
+      "group": "평가·관측",
+      "name": "Log",
+      "definition": "이벤트 기록"
+    },
+    {
+      "id": "CMP-054",
+      "group": "평가·관측",
+      "name": "Metric",
+      "definition": "정량 관측값"
+    },
+    {
+      "id": "CMP-055",
+      "group": "평가·관측",
+      "name": "Span",
+      "definition": "추적 내 작업 구간"
+    },
+    {
+      "id": "CMP-056",
+      "group": "평가·관측",
+      "name": "Audit Trail",
+      "definition": "책임 추적 기록"
+    },
+    {
+      "id": "CMP-057",
+      "group": "신뢰성·복구",
+      "name": "Retry",
+      "definition": "실패 후 재시도"
+    },
+    {
+      "id": "CMP-058",
+      "group": "신뢰성·복구",
+      "name": "Fallback",
+      "definition": "대체 경로"
+    },
+    {
+      "id": "CMP-059",
+      "group": "신뢰성·복구",
+      "name": "Rollback",
+      "definition": "변경 되돌리기"
+    },
+    {
+      "id": "CMP-060",
+      "group": "신뢰성·복구",
+      "name": "Timeout",
+      "definition": "실행 시간 제한"
+    },
+    {
+      "id": "CMP-061",
+      "group": "신뢰성·복구",
+      "name": "Idempotency",
+      "definition": "재실행 시 중복 효과 방지"
+    },
+    {
+      "id": "CMP-062",
+      "group": "신뢰성·복구",
+      "name": "Circuit Breaker",
+      "definition": "장애 경로 호출 차단"
+    },
+    {
+      "id": "CMP-063",
+      "group": "신뢰성·복구",
+      "name": "Dead-letter Queue",
+      "definition": "처리 실패 메시지 격리"
+    },
+    {
+      "id": "CMP-064",
+      "group": "신뢰성·복구",
+      "name": "Rate Limit",
+      "definition": "호출 빈도 제한"
+    },
+    {
+      "id": "REP-001",
+      "group": "지침 파일",
+      "name": "CLAUDE.md",
+      "definition": "Claude Code 지침"
+    },
+    {
+      "id": "REP-002",
+      "group": "지침 파일",
+      "name": "AGENTS.md",
+      "definition": "지원 에이전트 지침"
+    },
+    {
+      "id": "REP-003",
+      "group": "지침 파일",
+      "name": "GEMINI.md",
+      "definition": "Gemini CLI 지침"
+    },
+    {
+      "id": "REP-004",
+      "group": "지침 파일",
+      "name": ".cursor/rules/",
+      "definition": "Cursor 규칙"
+    },
+    {
+      "id": "REP-005",
+      "group": "지침 파일",
+      "name": "README.md",
+      "definition": "프로젝트 개요"
+    },
+    {
+      "id": "REP-006",
+      "group": "지침 파일",
+      "name": "ADR",
+      "definition": "아키텍처 결정 기록"
+    },
+    {
+      "id": "REP-007",
+      "group": "지침 파일",
+      "name": "GOALS.md",
+      "definition": "목표 문서 예시"
+    },
+    {
+      "id": "REP-008",
+      "group": "지침 파일",
+      "name": "PLANS.md",
+      "definition": "실행 계획 문서 예시"
+    },
+    {
+      "id": "REP-009",
+      "group": "스킬·에이전트",
+      "name": "SKILL.md",
+      "definition": "스킬 메타데이터·절차"
+    },
+    {
+      "id": "REP-010",
+      "group": "스킬·에이전트",
+      "name": "YAML Frontmatter",
+      "definition": "문서 선두 메타데이터"
+    },
+    {
+      "id": "REP-011",
+      "group": "스킬·에이전트",
+      "name": "references/",
+      "definition": "참고 자료 디렉터리 예"
+    },
+    {
+      "id": "REP-012",
+      "group": "스킬·에이전트",
+      "name": "scripts/",
+      "definition": "실행 코드 디렉터리 예"
+    },
+    {
+      "id": "REP-013",
+      "group": "스킬·에이전트",
+      "name": "assets/",
+      "definition": "템플릿·자원 디렉터리 예"
+    },
+    {
+      "id": "REP-014",
+      "group": "스킬·에이전트",
+      "name": "Agent Definition",
+      "definition": "에이전트 설정 문서"
+    },
+    {
+      "id": "REP-015",
+      "group": "스킬·에이전트",
+      "name": "Command Definition",
+      "definition": "명령 정의 문서"
+    },
+    {
+      "id": "REP-016",
+      "group": "스킬·에이전트",
+      "name": "Plugin Manifest",
+      "definition": "확장 구성 선언"
+    },
+    {
+      "id": "REP-017",
+      "group": "설정·환경",
+      "name": "settings.json",
+      "definition": "도구별 JSON 설정 예"
+    },
+    {
+      "id": "REP-018",
+      "group": "설정·환경",
+      "name": "config.toml",
+      "definition": "도구별 TOML 설정 예"
+    },
+    {
+      "id": "REP-019",
+      "group": "설정·환경",
+      "name": "MCP Server Config",
+      "definition": "서버 연결 설정"
+    },
+    {
+      "id": "REP-020",
+      "group": "설정·환경",
+      "name": "Hook Config",
+      "definition": "이벤트 처리 설정"
+    },
+    {
+      "id": "REP-021",
+      "group": "설정·환경",
+      "name": ".env.example",
+      "definition": "환경 변수 예시"
+    },
+    {
+      "id": "REP-022",
+      "group": "설정·환경",
+      "name": ".gitignore",
+      "definition": "추적 제외 규칙"
+    },
+    {
+      "id": "REP-023",
+      "group": "설정·환경",
+      "name": "Dockerfile",
+      "definition": "컨테이너 이미지 정의"
+    },
+    {
+      "id": "REP-024",
+      "group": "설정·환경",
+      "name": "Lockfile",
+      "definition": "의존성 버전 고정"
+    },
+    {
+      "id": "REP-025",
+      "group": "데이터·검증",
+      "name": "Schema",
+      "definition": "데이터 구조 정의"
+    },
+    {
+      "id": "REP-026",
+      "group": "데이터·검증",
+      "name": "Migration",
+      "definition": "데이터베이스 변경 이력"
+    },
+    {
+      "id": "REP-027",
+      "group": "데이터·검증",
+      "name": "Test Suite",
+      "definition": "테스트 묶음"
+    },
+    {
+      "id": "REP-028",
+      "group": "데이터·검증",
+      "name": "Fixture File",
+      "definition": "테스트 입력 자료"
+    },
+    {
+      "id": "REP-029",
+      "group": "데이터·검증",
+      "name": "Eval Dataset File",
+      "definition": "평가 데이터 파일"
+    },
+    {
+      "id": "REP-030",
+      "group": "데이터·검증",
+      "name": "Contract Test",
+      "definition": "인터페이스 계약 검사"
+    },
+    {
+      "id": "REP-031",
+      "group": "데이터·검증",
+      "name": "CI Workflow",
+      "definition": "자동 검증 흐름"
+    },
+    {
+      "id": "REP-032",
+      "group": "데이터·검증",
+      "name": "Build Artifact",
+      "definition": "빌드 결과물"
+    },
+    {
+      "id": "REP-033",
+      "group": "버전·배포",
+      "name": "Git Repository",
+      "definition": "버전 관리 저장소"
+    },
+    {
+      "id": "REP-034",
+      "group": "버전·배포",
+      "name": "Branch",
+      "definition": "독립 변경 흐름"
+    },
+    {
+      "id": "REP-035",
+      "group": "버전·배포",
+      "name": "Worktree",
+      "definition": "별도 작업 디렉터리"
+    },
+    {
+      "id": "REP-036",
+      "group": "버전·배포",
+      "name": "Commit",
+      "definition": "변경 기록"
+    },
+    {
+      "id": "REP-037",
+      "group": "버전·배포",
+      "name": "Pull Request",
+      "definition": "변경 검토 요청"
+    },
+    {
+      "id": "REP-038",
+      "group": "버전·배포",
+      "name": "Changelog",
+      "definition": "변경 사항 기록"
+    },
+    {
+      "id": "REP-039",
+      "group": "버전·배포",
+      "name": "Release",
+      "definition": "배포 버전"
+    },
+    {
+      "id": "REP-040",
+      "group": "버전·배포",
+      "name": "Deployment Config",
+      "definition": "환경별 배포 설정"
+    },
+    {
+      "id": "RUN-001",
+      "group": "모델·에이전트",
+      "name": "LLM API",
+      "definition": "모델 호출 인터페이스"
+    },
+    {
+      "id": "RUN-002",
+      "group": "모델·에이전트",
+      "name": "ChatGPT",
+      "definition": "대화·작업 환경"
+    },
+    {
+      "id": "RUN-003",
+      "group": "모델·에이전트",
+      "name": "Claude Code",
+      "definition": "코딩 에이전트 환경"
+    },
+    {
+      "id": "RUN-004",
+      "group": "모델·에이전트",
+      "name": "Codex CLI",
+      "definition": "터미널 코딩 에이전트"
+    },
+    {
+      "id": "RUN-005",
+      "group": "모델·에이전트",
+      "name": "Gemini CLI",
+      "definition": "터미널 AI 환경"
+    },
+    {
+      "id": "RUN-006",
+      "group": "모델·에이전트",
+      "name": "Cursor",
+      "definition": "AI 코드 편집 환경"
+    },
+    {
+      "id": "RUN-007",
+      "group": "모델·에이전트",
+      "name": "Claude Agent SDK",
+      "definition": "에이전트 개발 SDK"
+    },
+    {
+      "id": "RUN-008",
+      "group": "모델·에이전트",
+      "name": "OpenAI Agents SDK",
+      "definition": "에이전트 개발 SDK"
+    },
+    {
+      "id": "RUN-009",
+      "group": "개발·관리",
+      "name": "IDE",
+      "definition": "통합 개발 환경"
+    },
+    {
+      "id": "RUN-010",
+      "group": "개발·관리",
+      "name": "Terminal",
+      "definition": "명령 실행 인터페이스"
+    },
+    {
+      "id": "RUN-011",
+      "group": "개발·관리",
+      "name": "Shell",
+      "definition": "명령 해석기"
+    },
+    {
+      "id": "RUN-012",
+      "group": "개발·관리",
+      "name": "tmux",
+      "definition": "터미널 멀티플렉서"
+    },
+    {
+      "id": "RUN-013",
+      "group": "개발·관리",
+      "name": "cmux",
+      "definition": "터미널 작업 관리 도구"
+    },
+    {
+      "id": "RUN-014",
+      "group": "개발·관리",
+      "name": "GitHub",
+      "definition": "코드 협업 환경"
+    },
+    {
+      "id": "RUN-015",
+      "group": "개발·관리",
+      "name": "Hugging Face",
+      "definition": "모델·데이터셋·앱 플랫폼"
+    },
+    {
+      "id": "RUN-016",
+      "group": "개발·관리",
+      "name": "LangGraph",
+      "definition": "상태 기반 에이전트 흐름 프레임워크"
+    },
+    {
+      "id": "RUN-017",
+      "group": "저장·배포",
+      "name": "Local Runtime",
+      "definition": "로컬 실행 환경"
+    },
+    {
+      "id": "RUN-018",
+      "group": "저장·배포",
+      "name": "Cloud Runtime",
+      "definition": "원격 실행 환경"
+    },
+    {
+      "id": "RUN-019",
+      "group": "저장·배포",
+      "name": "Container Runtime",
+      "definition": "컨테이너 실행 환경"
+    },
+    {
+      "id": "RUN-020",
+      "group": "저장·배포",
+      "name": "Serverless",
+      "definition": "관리형 함수 실행 환경"
+    },
+    {
+      "id": "RUN-021",
+      "group": "저장·배포",
+      "name": "Database",
+      "definition": "구조화 데이터 저장소"
+    },
+    {
+      "id": "RUN-022",
+      "group": "저장·배포",
+      "name": "Object Storage",
+      "definition": "파일 객체 저장"
+    },
+    {
+      "id": "RUN-023",
+      "group": "저장·배포",
+      "name": "Notion",
+      "definition": "문서·지식 관리"
+    },
+    {
+      "id": "RUN-024",
+      "group": "저장·배포",
+      "name": "Obsidian",
+      "definition": "로컬 마크다운 지식 관리"
+    },
+    {
+      "id": "PAT-001",
+      "group": "실행 흐름",
+      "name": "Prompt Chaining",
+      "definition": "단계별 프롬프트 연결"
+    },
+    {
+      "id": "PAT-002",
+      "group": "실행 흐름",
+      "name": "Sequential Workflow",
+      "definition": "순차 실행"
+    },
+    {
+      "id": "PAT-003",
+      "group": "실행 흐름",
+      "name": "Parallel Fan-out/Fan-in",
+      "definition": "병렬 분배·결과 합류"
+    },
+    {
+      "id": "PAT-004",
+      "group": "실행 흐름",
+      "name": "Conditional Branch",
+      "definition": "조건 분기"
+    },
+    {
+      "id": "PAT-005",
+      "group": "실행 흐름",
+      "name": "Model Routing",
+      "definition": "모델 선택 흐름"
+    },
+    {
+      "id": "PAT-006",
+      "group": "실행 흐름",
+      "name": "DAG",
+      "definition": "비순환 의존 그래프"
+    },
+    {
+      "id": "PAT-007",
+      "group": "실행 흐름",
+      "name": "State Machine",
+      "definition": "상태·전이 기반 실행"
+    },
+    {
+      "id": "PAT-008",
+      "group": "실행 흐름",
+      "name": "Event-driven Architecture",
+      "definition": "이벤트 기반 실행"
+    },
+    {
+      "id": "PAT-009",
+      "group": "에이전트 협업",
+      "name": "Planner-Executor",
+      "definition": "계획·실행 분리"
+    },
+    {
+      "id": "PAT-010",
+      "group": "에이전트 협업",
+      "name": "Supervisor-Worker",
+      "definition": "감독자·작업자 분업"
+    },
+    {
+      "id": "PAT-011",
+      "group": "에이전트 협업",
+      "name": "Orchestrator-Workers",
+      "definition": "동적 작업 분해·조율"
+    },
+    {
+      "id": "PAT-012",
+      "group": "에이전트 협업",
+      "name": "Evaluator-Optimizer",
+      "definition": "평가 후 개선"
+    },
+    {
+      "id": "PAT-013",
+      "group": "에이전트 협업",
+      "name": "ReAct",
+      "definition": "추론·행동·관찰 반복"
+    },
+    {
+      "id": "PAT-014",
+      "group": "에이전트 협업",
+      "name": "Reflection Loop",
+      "definition": "결과 검토·재수행"
+    },
+    {
+      "id": "PAT-015",
+      "group": "에이전트 협업",
+      "name": "Blackboard",
+      "definition": "공유 작업 상태 중심 협업"
+    },
+    {
+      "id": "PAT-016",
+      "group": "에이전트 협업",
+      "name": "Human Approval Pattern",
+      "definition": "승인 기반 진행"
+    },
+    {
+      "id": "PAT-017",
+      "group": "지식·컨텍스트",
+      "name": "Naive RAG",
+      "definition": "기본 검색·생성"
+    },
+    {
+      "id": "PAT-018",
+      "group": "지식·컨텍스트",
+      "name": "Hybrid Retrieval",
+      "definition": "키워드·벡터 등 결합 검색"
+    },
+    {
+      "id": "PAT-019",
+      "group": "지식·컨텍스트",
+      "name": "GraphRAG",
+      "definition": "그래프 활용 검색 증강"
+    },
+    {
+      "id": "PAT-020",
+      "group": "지식·컨텍스트",
+      "name": "Query Decomposition",
+      "definition": "질문 분해 검색"
+    },
+    {
+      "id": "PAT-021",
+      "group": "지식·컨텍스트",
+      "name": "Agentic Retrieval",
+      "definition": "에이전트 주도 검색"
+    },
+    {
+      "id": "PAT-022",
+      "group": "지식·컨텍스트",
+      "name": "Progressive Disclosure",
+      "definition": "필요한 지식 단계적 제공"
+    },
+    {
+      "id": "PAT-023",
+      "group": "지식·컨텍스트",
+      "name": "Hierarchical Memory",
+      "definition": "계층형 기억"
+    },
+    {
+      "id": "PAT-024",
+      "group": "지식·컨텍스트",
+      "name": "Context Isolation",
+      "definition": "작업별 정보 분리"
+    },
+    {
+      "id": "PAT-025",
+      "group": "신뢰성·운영",
+      "name": "Durable Execution",
+      "definition": "중단 후 상태 기반 재개"
+    },
+    {
+      "id": "PAT-026",
+      "group": "신뢰성·운영",
+      "name": "Queue-based Workers",
+      "definition": "대기열 기반 작업자"
+    },
+    {
+      "id": "PAT-027",
+      "group": "신뢰성·운영",
+      "name": "Saga",
+      "definition": "분산 작업 보상 처리"
+    },
+    {
+      "id": "PAT-028",
+      "group": "신뢰성·운영",
+      "name": "Bulkhead",
+      "definition": "장애 전파 격리"
+    },
+    {
+      "id": "PAT-029",
+      "group": "신뢰성·운영",
+      "name": "Canary Deployment",
+      "definition": "일부 대상 먼저 배포"
+    },
+    {
+      "id": "PAT-030",
+      "group": "신뢰성·운영",
+      "name": "Shadow Evaluation",
+      "definition": "운영 영향 없는 비교 평가"
+    },
+    {
+      "id": "PAT-031",
+      "group": "신뢰성·운영",
+      "name": "Least Privilege",
+      "definition": "최소 권한 적용"
+    },
+    {
+      "id": "PAT-032",
+      "group": "신뢰성·운영",
+      "name": "Human Escalation",
+      "definition": "위험·불확실 상황 인간 전환"
+    },
+    {
+      "id": "ENG-001-T01",
+      "parent": "ENG-001",
+      "name": "Zero-shot",
+      "definition": "예시 없이 지시"
+    },
+    {
+      "id": "ENG-001-T02",
+      "parent": "ENG-001",
+      "name": "Few-shot",
+      "definition": "소수 예시 제공"
+    },
+    {
+      "id": "ENG-001-T03",
+      "parent": "ENG-001",
+      "name": "Role Prompting",
+      "definition": "역할과 관점 지정"
+    },
+    {
+      "id": "ENG-001-T04",
+      "parent": "ENG-001",
+      "name": "Constraint Prompting",
+      "definition": "조건과 제한 명시"
+    },
+    {
+      "id": "ENG-001-T05",
+      "parent": "ENG-001",
+      "name": "Delimiters",
+      "definition": "입력과 지시 구분"
+    },
+    {
+      "id": "ENG-001-T06",
+      "parent": "ENG-001",
+      "name": "Output Contract",
+      "definition": "출력 형식·필수 항목 합의"
+    },
+    {
+      "id": "ENG-001-T07",
+      "parent": "ENG-001",
+      "name": "Counterexample",
+      "definition": "잘못된 결과 예시 제공"
+    },
+    {
+      "id": "ENG-001-T08",
+      "parent": "ENG-001",
+      "name": "Prompt Decomposition",
+      "definition": "복합 요청 분할"
+    },
+    {
+      "id": "ENG-001-T09",
+      "parent": "ENG-001",
+      "name": "Prompt Versioning",
+      "definition": "문구 변경 이력 관리"
+    },
+    {
+      "id": "ENG-001-T10",
+      "parent": "ENG-001",
+      "name": "Prompt Ablation",
+      "definition": "요소 제거 후 효과 비교"
+    },
+    {
+      "id": "ENG-001-T11",
+      "parent": "ENG-001",
+      "name": "Prompt A/B Test",
+      "definition": "동일 조건에서 두 문구 비교"
+    },
+    {
+      "id": "ENG-001-T12",
+      "parent": "ENG-001",
+      "name": "Example Selection",
+      "definition": "대표 예시 선별"
+    },
+    {
+      "id": "ENG-001-T13",
+      "parent": "ENG-001",
+      "name": "Self-consistency",
+      "definition": "여러 샘플의 최종 답을 집계하는 추론 기법"
+    },
+    {
+      "id": "ENG-001-T14",
+      "parent": "ENG-001",
+      "name": "Prompt Optimization",
+      "definition": "평가를 이용한 문구 개선"
+    },
+    {
+      "id": "ENG-001-T15",
+      "parent": "ENG-001",
+      "name": "Rubric Prompting",
+      "definition": "판정 기준 명시"
+    },
+    {
+      "id": "ENG-001-T16",
+      "parent": "ENG-001",
+      "name": "Grounding Instruction",
+      "definition": "제공 근거 범위 명시"
+    },
+    {
+      "id": "ENG-002-T01",
+      "parent": "ENG-002",
+      "name": "Context Budgeting",
+      "definition": "입력 토큰 예산 할당"
+    },
+    {
+      "id": "ENG-002-T02",
+      "parent": "ENG-002",
+      "name": "Context Pruning",
+      "definition": "관련 없는 정보 제거"
+    },
+    {
+      "id": "ENG-002-T03",
+      "parent": "ENG-002",
+      "name": "Context Summarization",
+      "definition": "핵심 정보 요약"
+    },
+    {
+      "id": "ENG-002-T04",
+      "parent": "ENG-002",
+      "name": "Context Ordering",
+      "definition": "정보 배치 순서 설계"
+    },
+    {
+      "id": "ENG-002-T05",
+      "parent": "ENG-002",
+      "name": "Context Provenance",
+      "definition": "출처와 신뢰 경계 기록"
+    },
+    {
+      "id": "ENG-002-T06",
+      "parent": "ENG-002",
+      "name": "Context Refresh",
+      "definition": "오래된 자료 갱신"
+    },
+    {
+      "id": "ENG-002-T07",
+      "parent": "ENG-002",
+      "name": "Just-in-time Context",
+      "definition": "필요 시 맥락 불러오기"
+    },
+    {
+      "id": "ENG-002-T08",
+      "parent": "ENG-002",
+      "name": "Context Window Overflow",
+      "definition": "입력 한도 초과 처리"
+    },
+    {
+      "id": "ENG-004-T01",
+      "parent": "ENG-004",
+      "name": "Chunking",
+      "definition": "문서 분할"
+    },
+    {
+      "id": "ENG-004-T02",
+      "parent": "ENG-004",
+      "name": "BM25",
+      "definition": "단어 빈도와 문서 길이 등을 고려하는 어휘 기반 검색 순위 기법"
+    },
+    {
+      "id": "ENG-004-T03",
+      "parent": "ENG-004",
+      "name": "Sparse Retrieval",
+      "definition": "희소 표현 검색"
+    },
+    {
+      "id": "ENG-004-T04",
+      "parent": "ENG-004",
+      "name": "Dense Retrieval",
+      "definition": "밀집 벡터 검색"
+    },
+    {
+      "id": "ENG-004-T05",
+      "parent": "ENG-004",
+      "name": "Metadata Filtering",
+      "definition": "메타데이터 조건 검색"
+    },
+    {
+      "id": "ENG-004-T06",
+      "parent": "ENG-004",
+      "name": "Query Rewriting",
+      "definition": "검색 질의 변환"
+    },
+    {
+      "id": "ENG-004-T07",
+      "parent": "ENG-004",
+      "name": "Citation Grounding",
+      "definition": "답과 원자료 연결"
+    },
+    {
+      "id": "ENG-004-T08",
+      "parent": "ENG-004",
+      "name": "Retrieval Evaluation",
+      "definition": "검색 재현율·정밀도 등 평가"
+    },
+    {
+      "id": "ENG-029-T01",
+      "parent": "ENG-029",
+      "name": "Tokenization",
+      "definition": "입력을 토큰 단위로 변환"
+    },
+    {
+      "id": "ENG-029-T02",
+      "parent": "ENG-029",
+      "name": "Fine-tuning",
+      "definition": "기존 모델 추가 학습"
+    },
+    {
+      "id": "ENG-029-T03",
+      "parent": "ENG-029",
+      "name": "LoRA",
+      "definition": "저랭크 적응"
+    },
+    {
+      "id": "ENG-029-T04",
+      "parent": "ENG-029",
+      "name": "PEFT",
+      "definition": "일부 파라미터 중심 적응"
+    },
+    {
+      "id": "ENG-029-T05",
+      "parent": "ENG-029",
+      "name": "Distillation",
+      "definition": "교사 모델 지식 이전"
+    },
+    {
+      "id": "ENG-029-T06",
+      "parent": "ENG-029",
+      "name": "SFT",
+      "definition": "지도 데이터 추가 학습"
+    },
+    {
+      "id": "ENG-029-T07",
+      "parent": "ENG-029",
+      "name": "Preference Optimization",
+      "definition": "선호 데이터 기반 최적화"
+    },
+    {
+      "id": "ENG-029-T08",
+      "parent": "ENG-029",
+      "name": "Model Selection",
+      "definition": "요구 조건에 맞는 모델 선택"
+    },
+    {
+      "id": "ENG-030-T01",
+      "parent": "ENG-030",
+      "name": "Quantization",
+      "definition": "수치 정밀도 축소"
+    },
+    {
+      "id": "ENG-030-T02",
+      "parent": "ENG-030",
+      "name": "KV Cache",
+      "definition": "attention 키·값 재사용"
+    },
+    {
+      "id": "ENG-030-T03",
+      "parent": "ENG-030",
+      "name": "Prompt Caching",
+      "definition": "반복 입력 처리 재사용"
+    },
+    {
+      "id": "ENG-030-T04",
+      "parent": "ENG-030",
+      "name": "Batching",
+      "definition": "복수 요청 묶어 처리"
+    },
+    {
+      "id": "ENG-030-T05",
+      "parent": "ENG-030",
+      "name": "Streaming",
+      "definition": "출력을 순차 전달"
+    },
+    {
+      "id": "ENG-030-T06",
+      "parent": "ENG-030",
+      "name": "Speculative Decoding",
+      "definition": "후보 생성·검증 방식 가속"
+    },
+    {
+      "id": "ENG-030-T07",
+      "parent": "ENG-030",
+      "name": "Time to First Token",
+      "definition": "첫 토큰까지 지연"
+    },
+    {
+      "id": "ENG-030-T08",
+      "parent": "ENG-030",
+      "name": "Tokens per Second",
+      "definition": "출력 처리 속도"
+    },
+    {
+      "id": "ENG-023-T01",
+      "parent": "ENG-023",
+      "name": "Prompt Injection",
+      "definition": "외부 입력을 통한 지시 변조"
+    },
+    {
+      "id": "ENG-023-T02",
+      "parent": "ENG-023",
+      "name": "Indirect Prompt Injection",
+      "definition": "검색·도구 자료를 통한 지시 변조"
+    },
+    {
+      "id": "ENG-023-T03",
+      "parent": "ENG-023",
+      "name": "Memory Poisoning",
+      "definition": "저장 기억 오염"
+    },
+    {
+      "id": "ENG-023-T04",
+      "parent": "ENG-023",
+      "name": "Tool Misuse",
+      "definition": "정당한 도구의 부적절한 사용"
+    },
+    {
+      "id": "ENG-023-T05",
+      "parent": "ENG-023",
+      "name": "Supply Chain Risk",
+      "definition": "의존 구성 요소 위험"
+    },
+    {
+      "id": "ENG-023-T06",
+      "parent": "ENG-023",
+      "name": "Excessive Agency",
+      "definition": "과도한 실행 권한"
+    },
+    {
+      "id": "ENG-023-T07",
+      "parent": "ENG-023",
+      "name": "Data Exfiltration",
+      "definition": "허용되지 않은 데이터 반출"
+    },
+    {
+      "id": "ENG-023-T08",
+      "parent": "ENG-023",
+      "name": "Insecure Output Handling",
+      "definition": "출력 미검증 사용"
+    },
+    {
+      "id": "ENG-023-T09",
+      "parent": "ENG-023",
+      "name": "Egress Control",
+      "definition": "외부 전송 경로 제한"
+    },
+    {
+      "id": "ENG-023-T10",
+      "parent": "ENG-023",
+      "name": "Tool Allowlist",
+      "definition": "허용 도구 목록"
+    },
+    {
+      "id": "ENG-023-T11",
+      "parent": "ENG-023",
+      "name": "Input Validation",
+      "definition": "입력 구조 검사"
+    },
+    {
+      "id": "ENG-023-T12",
+      "parent": "ENG-023",
+      "name": "Output Validation",
+      "definition": "출력 구조·정책 검사"
+    },
+    {
+      "id": "ENG-023-T13",
+      "parent": "ENG-023",
+      "name": "Secret Rotation",
+      "definition": "자격 증명 주기 교체"
+    },
+    {
+      "id": "ENG-023-T14",
+      "parent": "ENG-023",
+      "name": "Tenant Isolation",
+      "definition": "사용자별 데이터 격리"
+    },
+    {
+      "id": "ENG-023-T15",
+      "parent": "ENG-023",
+      "name": "Threat Modeling",
+      "definition": "위협과 공격 경로 분석"
+    },
+    {
+      "id": "ENG-023-T16",
+      "parent": "ENG-023",
+      "name": "Red Teaming",
+      "definition": "통제된 공격 모의 평가"
+    },
+    {
+      "id": "ENG-017-T01",
+      "parent": "ENG-017",
+      "name": "Regression Eval",
+      "definition": "변경 후 퇴행 검사"
+    },
+    {
+      "id": "ENG-017-T02",
+      "parent": "ENG-017",
+      "name": "Human Evaluation",
+      "definition": "사람의 평가"
+    },
+    {
+      "id": "ENG-017-T03",
+      "parent": "ENG-017",
+      "name": "LLM-as-a-Judge",
+      "definition": "모델을 이용한 평가"
+    },
+    {
+      "id": "ENG-017-T04",
+      "parent": "ENG-017",
+      "name": "Pairwise Evaluation",
+      "definition": "두 결과 상대 비교"
+    },
+    {
+      "id": "ENG-017-T05",
+      "parent": "ENG-017",
+      "name": "Calibration",
+      "definition": "평가 점수 보정"
+    },
+    {
+      "id": "ENG-017-T06",
+      "parent": "ENG-017",
+      "name": "Task Success Rate",
+      "definition": "작업 성공 비율"
+    },
+    {
+      "id": "ENG-017-T07",
+      "parent": "ENG-017",
+      "name": "Groundedness",
+      "definition": "근거에 대한 충실성"
+    },
+    {
+      "id": "ENG-017-T08",
+      "parent": "ENG-017",
+      "name": "Inter-rater Agreement",
+      "definition": "평가자 일치도"
+    },
+    {
+      "id": "CMP-017-T01",
+      "parent": "CMP-017",
+      "name": "Pre-execution Hook",
+      "definition": "실행 전 검증 처리"
+    },
+    {
+      "id": "CMP-017-T02",
+      "parent": "CMP-017",
+      "name": "Post-execution Hook",
+      "definition": "실행 후 결과 처리"
+    },
+    {
+      "id": "CMP-017-T03",
+      "parent": "CMP-017",
+      "name": "Session-start Hook",
+      "definition": "세션 시작 처리"
+    },
+    {
+      "id": "CMP-017-T04",
+      "parent": "CMP-017",
+      "name": "Session-end Hook",
+      "definition": "세션 종료 처리"
+    },
+    {
+      "id": "CMP-017-T05",
+      "parent": "CMP-017",
+      "name": "Hook Exit Status",
+      "definition": "처리 성공·실패 신호"
+    },
+    {
+      "id": "CMP-017-T06",
+      "parent": "CMP-017",
+      "name": "Hook Timeout",
+      "definition": "훅 실행 시간 제한"
+    },
+    {
+      "id": "CMP-017-T07",
+      "parent": "CMP-017",
+      "name": "Event Payload",
+      "definition": "이벤트 전달 데이터"
+    },
+    {
+      "id": "CMP-017-T08",
+      "parent": "CMP-017",
+      "name": "Hook Audit Logging",
+      "definition": "훅 실행 감사 기록"
+    },
+    {
+      "id": "CMP-013-T01",
+      "parent": "CMP-013",
+      "name": "MCP Host",
+      "definition": "연결을 관리하는 애플리케이션"
+    },
+    {
+      "id": "CMP-013-T02",
+      "parent": "CMP-013",
+      "name": "MCP Client",
+      "definition": "서버 연결 담당"
+    },
+    {
+      "id": "CMP-013-T03",
+      "parent": "CMP-013",
+      "name": "MCP Server",
+      "definition": "기능 제공자"
+    },
+    {
+      "id": "CMP-013-T04",
+      "parent": "CMP-013",
+      "name": "MCP Tool",
+      "definition": "서버 제공 호출 기능"
+    },
+    {
+      "id": "CMP-013-T05",
+      "parent": "CMP-013",
+      "name": "Stdio Transport",
+      "definition": "표준 입출력 전송"
+    },
+    {
+      "id": "CMP-013-T06",
+      "parent": "CMP-013",
+      "name": "Streamable HTTP",
+      "definition": "HTTP 기반 전송"
+    },
+    {
+      "id": "CMP-013-T07",
+      "parent": "CMP-013",
+      "name": "Capability Negotiation",
+      "definition": "지원 기능 협의"
+    },
+    {
+      "id": "CMP-013-T08",
+      "parent": "CMP-013",
+      "name": "OAuth Authorization",
+      "definition": "토큰 기반 위임 인가 프레임워크"
+    },
+    {
+      "id": "ENG-015-T01",
+      "parent": "ENG-015",
+      "name": "Task Delegation",
+      "definition": "작업 책임 위임"
+    },
+    {
+      "id": "ENG-015-T02",
+      "parent": "ENG-015",
+      "name": "Agent Message",
+      "definition": "에이전트 간 메시지"
+    },
+    {
+      "id": "ENG-015-T03",
+      "parent": "ENG-015",
+      "name": "Shared State",
+      "definition": "공유 작업 상태"
+    },
+    {
+      "id": "ENG-015-T04",
+      "parent": "ENG-015",
+      "name": "Result Aggregation",
+      "definition": "결과 수집·통합"
+    },
+    {
+      "id": "ENG-015-T05",
+      "parent": "ENG-015",
+      "name": "Conflict Resolution",
+      "definition": "상충 결과 조정"
+    },
+    {
+      "id": "ENG-015-T06",
+      "parent": "ENG-015",
+      "name": "Termination Condition",
+      "definition": "종료 기준 설정"
+    },
+    {
+      "id": "ENG-015-T07",
+      "parent": "ENG-015",
+      "name": "Concurrency Control",
+      "definition": "동시 실행 충돌 관리"
+    },
+    {
+      "id": "ENG-015-T08",
+      "parent": "ENG-015",
+      "name": "Agent Budget",
+      "definition": "실행 자원 한도"
+    }
+  ]
+}

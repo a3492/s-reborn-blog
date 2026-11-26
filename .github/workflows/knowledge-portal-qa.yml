@@ -1,0 +1,51 @@
+name: Knowledge portal release QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/pages/technology/**'
+      - 'src/data/technology-*.json'
+      - 'src/data/site-nav.ts'
+      - 'src/data/breadcrumbs.ts'
+      - 'scripts/qa-knowledge-portal.mjs'
+      - 'scripts/qa-home-browser.mjs'
+      - '.github/workflows/knowledge-portal-qa.yml'
+permissions:
+  contents: read
+jobs:
+  release-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Taxonomy and registry
+        run: |
+          npm run qa:taxonomy
+          node scripts/qa-knowledge-portal.mjs
+      - name: Theme and CRM
+        run: |
+          npm run qa:site-theme
+          npm run qa:crm
+      - name: Build
+        run: npm run build
+      - name: Browser install
+        run: npx playwright install --with-deps chromium
+      - name: Browser QA and regression
+        run: npm run qa:home-browser
+      - name: Preview browser smoke
+        env:
+          PREVIEW_URL: https://chatgpt-knowledge-portal-v08.s-reborn-blog.pages.dev
+        run: |
+          for i in $(seq 1 60); do
+            if curl -fsS "$PREVIEW_URL/technology/" | grep -q 'data-registry-version="0.8"'; then break; fi
+            sleep 10
+          done
+          curl -fsS "$PREVIEW_URL/technology/" | grep -q 'data-registry-version="0.8"'
+          QA_BASE_URL="$PREVIEW_URL" npm run qa:home-browser

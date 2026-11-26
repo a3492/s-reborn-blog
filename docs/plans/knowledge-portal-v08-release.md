@@ -1,0 +1,3 @@
+# Knowledge portal v0.8–0.9 release candidate
+Base SHA: 7f357cf13df5e5f721235274f2b9ddf879bb290a. Rollback production deployment: 113aa2fc-048d-4290-abaa-b8404ca0a52c.
+Add-only technical index 192 core + 96 detail, 5 groups, dynamic search, guide pages, existing news and research/application views. Existing 421 content files/URL mapping untouched. 23 exact slug rules are candidate reading links, not final medical validation. Both v0.7 full drafts with medical passages remain Notion-only; website guide versions are nonclinical. No DB/DNS/env/Cloudflare settings changes. No force push. No merge unless build, taxonomy, theme, CRM, local browser and actual preview browser pass. Production smoke and exact deployment ID after merge. No publication or QA claim before logs.
