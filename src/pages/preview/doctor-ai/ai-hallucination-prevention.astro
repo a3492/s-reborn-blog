@@ -1,0 +1,45 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+const title = 'AI 환각에서 안전하게 벗어나기: 5가지 검증 방법';
+---
+
+<Layout title={title} noindex>
+	<article class="editorial">
+		<a href="/blog/doctor-ai/ai-hallucination-prevention/">기존 강의 페이지</a>
+		<h1>{title}</h1>
+		<p class="review">편집 미리보기 · 강연 공지를 사용한 연습 예시</p>
+		<p>아래 사례는 설명을 위한 가상의 상황입니다.</p>
+		<p>점심시간이 끝나기 직전, 강연 운영팀 단체방에 “안내문 올릴게요”라는 메시지가 올라옵니다. AI가 다듬은 공지는 매끈했습니다. 그런데 팀원이 공개 버튼을 누르기 전 ‘사전 등록 120명’을 보고 손을 멈춥니다. 원문에는 ‘전체 좌석 120석’이라고 적혀 있었습니다.</p>
+		<h2>핵심 질문 · 문장은 자연스러운데 왜 틀릴까요?</h2>
+		<p>AI 환각은 근거가 없거나 사실과 다른 내용을 AI가 그럴듯하게 만들어 내는 현상입니다. 문장이 쉽게 읽히는지와 그 내용이 사실인지는 별개입니다. 위 공지에서 120이라는 숫자는 원문과 같습니다. 달라진 것은 그 숫자가 가리키는 대상입니다. 숫자만 훑었다면 놓쳤을 오류입니다.</p>
+		<h2>사례 · 발행 버튼을 누르기 전, 다섯 가지 확인</h2>
+		<p>원문에 적힌 조건은 간단합니다. 토요일 행사, 사전 등록은 이메일만 가능, 전체 좌석 120석. 초안은 ‘토요일 행사, 웹 신청 가능, 사전 등록 120명’이라고 썼습니다. 운영팀은 문장 전체에 맞다·틀리다 표시를 하는 대신, 아래 순서로 한 줄씩 맞춰 봅니다.</p>
+		<ol>
+			<li><h3>주장을 나눕니다</h3><p>요일, 신청 경로, 숫자가 가리키는 대상을 별개로 적습니다. 한 항목이 맞아도 옆 항목이 따라 맞는 것은 아닙니다.</p></li>
+			<li><h3>원문에서 해당 줄을 찾습니다</h3><p>토요일은 일치합니다. ‘웹 신청’은 원문의 ‘이메일 신청만’과 다르므로 지웁니다.</p></li>
+			<li><h3>새로 붙은 출처는 직접 엽니다</h3><p>초안에 ‘공식 웹 신청 안내’ 링크가 붙었다면 링크의 이름만 믿지 않습니다. 실제 행사 공지인지, 그 안에 신청 방법이 적혀 있는지 봅니다.</p></li>
+			<li><h3>숫자의 이름표를 확인합니다</h3><p>120 옆에 ‘좌석 수’라고 적습니다. 신청한 인원은 원문에 없으므로 숫자를 채우지 않습니다.</p></li>
+			<li><h3>사람이 발행 여부를 정합니다</h3><p>확인한 세 항목만 공지에 남깁니다. 신청 인원은 ‘확인 필요’로 업무 메모에 남기고, 공개 문장에는 넣지 않습니다.</p></li>
+		</ol>
+		<h2>정리 · 문장마다 원문 한 줄</h2>
+		<p>팀원이 올린 공지는 초안보다 한 줄 짧아졌습니다. 이메일로 신청받고, 좌석은 120석입니다. 다음에 AI 초안을 받으면 문장보다 먼저 ‘이 말의 원문은 어디에 있지?’라고 물어보세요. 답을 찾을 수 없으면 확인할 사람에게 넘기거나 그 문장을 빼면 됩니다.</p>
+	</article>
+</Layout>
+
+<style>
+	.editorial {
+		box-sizing: border-box;
+		max-width: 46rem;
+		margin-inline: auto;
+		padding: clamp(1rem, 4vw, 2.5rem);
+		color: var(--site-text);
+		line-height: 1.75;
+		overflow-wrap: break-word;
+	}
+	h1 { margin-block: 0.5rem 1.25rem; line-height: 1.3; }
+	h2 { margin-block: 1.75rem 0.4rem; font-size: 1.35rem; }
+	h3 { margin-block: 0.85rem 0.15rem; font-size: 1.05rem; }
+	p { margin-block: 0.4rem 1rem; }
+	.review { border-block: 1px solid var(--site-border); padding-block: 0.4rem; color: var(--site-text-secondary); }
+	a { color: var(--site-mint-text); text-decoration: underline; }
+</style>
