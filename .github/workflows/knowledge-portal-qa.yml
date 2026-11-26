@@ -41,7 +41,7 @@ jobs:
         run: npm run qa:home-browser
       - name: Preview browser smoke
         env:
-          PREVIEW_URL: https://chatgpt-knowledge-portal-v08-20261126.s-reborn-blog.pages.dev
+          PREVIEW_URL: https://chatgpt-knowledge-portal-v08.s-reborn-blog.pages.dev
         run: |
           for i in $(seq 1 60); do
             if curl -fsS "$PREVIEW_URL/technology/" | grep -q 'data-registry-version="0.8"'; then break; fi
