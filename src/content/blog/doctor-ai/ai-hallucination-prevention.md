@@ -1,5 +1,5 @@
 ---
-title: "AI 환각에서 안전하게 벗어나기: 5가지 검증 방법"
+title: "AI 환각 검증 5가지"
 description: "AI의 거짓 정보 문제를 의료에서 실제로 대응하는 방법"
 date: 2026-03-29
 category: doctor-ai
