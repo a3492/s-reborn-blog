@@ -3,6 +3,7 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - 'src/pages/clinic/**'
       - 'src/content/blog/doctor-ai/ai-hallucination-prevention.md'
       - 'src/pages/technology/**'
       - 'src/pages/lecture-materials/index.astro'
@@ -15,6 +16,7 @@ on:
   push:
     branches: [main]
     paths:
+      - 'src/pages/clinic/**'
       - 'src/content/blog/doctor-ai/ai-hallucination-prevention.md'
       - 'src/pages/technology/**'
       - 'src/pages/lecture-materials/index.astro'
@@ -74,6 +76,10 @@ jobs:
           curl -fsS --max-time 20 "$BASE_URL/technology/publications/" -o /tmp/publications.html
           grep -q 'data-publication-version="1.0"' /tmp/publications.html
           QA_BASE_URL="$BASE_URL" npm run qa:home-browser
+          curl -fsS "$BASE_URL/clinic/first-visit-questions/" -o /tmp/editorial.html
+          grep -Fq '아래 사례는 설명을 위한 가상의 상황입니다.' /tmp/editorial.html
+          ! grep -Eq '검수 대기|<meta name="robots" content="noindex' /tmp/editorial.html
+          test "$(curl -s -o /dev/null -w '%{http_code}' "$BASE_URL/preview/clinic/first-visit-questions/")" = 404
           curl -fsS "$BASE_URL/blog/doctor-ai/ai-hallucination-prevention/" -o /tmp/editorial.html
           grep -Fq '전체 좌석 120석' /tmp/editorial.html
           ! grep -Eq '검수 대기|<meta name="robots" content="noindex' /tmp/editorial.html
