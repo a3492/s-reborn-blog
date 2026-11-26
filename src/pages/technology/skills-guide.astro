@@ -1,0 +1,33 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout title="AI Skills — 매번 같은 설명을 하지 않아도 되는 방법" description="반복 작업 절차를 재사용하는 Agent Skills의 구성과 한계.">
+<article class="kp-article">
+  <p><a href="/technology/">AI 기술 백과</a> / 입문</p>
+  <h1>AI Skills — 매번 같은 설명을 하지 않아도 되는 방법</h1>
+  <p>회의가 끝날 때마다 AI에게 결정 사항, 담당자, 기한을 정리하라고 설명한다면, 매번 같은 지시를 쓰는 대신 절차를 하나의 문서로 관리할 수 있습니다.</p>
+<h2>왜 필요한가</h2><p>스킬은 반복되는 업무 지침과 참고 자료를 묶어 재사용하는 단위입니다. 지원하는 환경에서는 작업에 맞는 스킬을 선택하거나 직접 지정할 수 있습니다.</p>
+<h2>어떤 구조인가</h2><p>공개 Agent Skills 규격은 SKILL.md를 필수로 하고 scripts, references, assets는 선택 사항으로 둡니다. 제품별 로딩 방식이나 접근 권한은 다릅니다.</p>
+<pre>meeting-summary/
+  SKILL.md
+  references/
+  scripts/
+  assets/</pre>
+<h2>실제 상황을 가정한 여섯 가지 사례</h2><p><small>아래는 설명용 가상 사례와 기대 결과입니다. 실행 결과가 아닙니다.</small></p>
+<ol><li>여행 준비: 일정과 조건을 받아 필수품을 정리하고 확인하지 않은 예약은 미정으로 표시합니다.</li><li>회의록: 결정·담당·기한을 구분하고 원문과 대조합니다.</li><li>팀 인수인계: 완료와 미완료 업무를 분리하고 담당 미정은 그대로 둡니다.</li><li>개발 검수: 변경 파일을 확인하고 승인된 테스트 로그로 성공 여부를 확인합니다.</li><li>학습 자료: 목표와 수준을 바탕으로 문제를 만들고 해설을 검토합니다.</li><li>콘텐츠 재구성: 승인된 원고를 짧은 글로 바꾸고 원문에 없는 성과를 추가하지 않습니다.</li></ol>
+<h2>간단한 실습</h2><p>아래 파일은 규격을 설명하는 예시입니다. 설치·실행 시험은 하지 않았습니다.</p><pre>---
+name: meeting-summary
+description: 회의 메모에서 결정, 담당자, 기한을 추출한다.
+---
+1. 결정과 담당, 기한을 분리한다.
+2. 정보가 없으면 미정으로 표시한다.
+3. 원문에 없는 사실이 없는지 검토한다.
+4. 승인 없이 외부 발송하지 않는다.</pre>
+<p>합성 입력: 교육 자료를 수정한다. 교육팀 담당. 기한 미정.<br/>기대 결과: 교육 자료 수정 / 교육팀 / 미정.</p>
+<h2>다른 구성 요소와의 차이</h2><p>프롬프트는 현재 작업 지시, 프로젝트 지침은 프로젝트 전반의 규칙, 스킬은 특정 업무 절차입니다. 도구는 실제 기능, 훅은 이벤트 대응 처리입니다. 스킬이 있다고 권한이 생기거나 절차 준수가 보장되지는 않습니다. 출처가 불분명한 스크립트는 실행 전에 검토합니다.</p><h2>관련 기술</h2><p><a href="/technology/#CMP-009">Skill</a> · <a href="/technology/#REP-009">SKILL.md</a> · <a href="/technology/#ENG-009">Harness</a> · <a href="/technology/#CMP-017">Hook</a></p><h2>참고 자료</h2><p><a href="https://agentskills.io/specification">Agent Skills Specification</a> · <a href="https://code.claude.com/docs/en/skills">Claude Code 공식 문서</a></p>
+</article>
+</Layout>
+<style>
+.kp-article{max-width:780px;margin:auto;padding:24px 16px 48px;color:var(--site-text);background:var(--site-bg);line-height:1.8;}
+h1{font-size:clamp(1.6rem,4vw,2.25rem);line-height:1.3;margin:10px 0 20px;}h2{font-size:1.3rem;margin:24px 0 8px;}p{margin:8px 0 12px;overflow-wrap:anywhere;}a{color:var(--site-mint-text);text-decoration:underline;overflow-wrap:anywhere;}pre{padding:12px;background:var(--site-surface);border:1px solid var(--site-border);white-space:pre-wrap;overflow-wrap:anywhere;font-size:.88rem;}li{margin:5px 0;}small{color:var(--site-text-secondary);}
+</style>

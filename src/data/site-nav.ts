@@ -83,9 +83,14 @@ export const SITE_NAV: NavItem[] = [
 		label: 'AI LAB',
 		labelEn: 'AI LAB',
 		href: '/blog/',
-		children: TOPICS.map(({ id, label, labelEn }) => ({
-			id: `topic-${id}`, label, labelEn, href: topicHref(id),
-		})),
+		children: [
+			{ id: 'technology', label: 'AI 기술 백과', labelEn: 'AI Technology Encyclopedia', href: '/technology/', group: '목적별 탐색', groupEn: 'Browse by purpose' },
+			{ id: 'news', label: 'AI 뉴스', labelEn: 'AI News', href: '/technology/#news', group: '목적별 탐색', groupEn: 'Browse by purpose' },
+			{ id: 'research-practice', label: '연구·실험', labelEn: 'Research & experiments', href: '/technology/#research', group: '목적별 탐색', groupEn: 'Browse by purpose' },
+			{ id: 'application', label: '실전 활용', labelEn: 'Practical use', href: '/technology/#practice', group: '목적별 탐색', groupEn: 'Browse by purpose' },
+			{ id: 'columns', label: 'AI 칼럼', labelEn: 'AI Columns', href: '/technology/#columns', group: '목적별 탐색', groupEn: 'Browse by purpose' },
+			...TOPICS.map(({ id, label, labelEn }) => ({ id: `topic-${id}`, label, labelEn, href: topicHref(id), group: '주제별 탐색', groupEn: 'Browse by topic' })),
+		],
 	},
 	{
 		id: 'lectures',

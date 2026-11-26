@@ -1,0 +1,72 @@
+{
+  "zero-shot-vs-few-shot": [
+    "ENG-001-T01",
+    "ENG-001-T02"
+  ],
+  "what-is-harness-engineering": [
+    "ENG-009"
+  ],
+  "why-harness-name": [
+    "ENG-009"
+  ],
+  "what-is-orchestration": [
+    "ENG-012"
+  ],
+  "human-in-the-loop": [
+    "ENG-027"
+  ],
+  "workflow-patterns": [
+    "ENG-011"
+  ],
+  "embedding-explained": [
+    "CMP-037"
+  ],
+  "agentic-rag": [
+    "PAT-021"
+  ],
+  "agent-memory-types": [
+    "ENG-003"
+  ],
+  "multi-agent-system": [
+    "ENG-015"
+  ],
+  "agent-evaluation-medical": [
+    "ENG-017"
+  ],
+  "tool-use-function-calling": [
+    "CMP-011"
+  ],
+  "prompt-injection-defense": [
+    "ENG-023-T01"
+  ],
+  "eval-design": [
+    "ENG-017"
+  ],
+  "guardrails-safety-layer": [
+    "CMP-048"
+  ],
+  "canary-deployment-ai": [
+    "PAT-029"
+  ],
+  "cost-prediction-ai": [
+    "ENG-022"
+  ],
+  "prompt-versioning": [
+    "ENG-001-T09"
+  ],
+  "response-schema-design": [
+    "CMP-008"
+  ],
+  "system-prompt-design": [
+    "CMP-001"
+  ],
+  "claude-agent-sdk-intro": [
+    "RUN-007"
+  ],
+  "langgraph-intro": [
+    "RUN-016"
+  ],
+  "context-window-management": [
+    "CMP-033"
+  ]
+}

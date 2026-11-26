@@ -1,0 +1,111 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { cellOf, formatOf, topicHref } from '../../data/taxonomy';
+import registry from '../../data/technology-registry.json';
+import exactRules from '../../data/technology-links.json';
+const posts = (await getCollection('blog', ({data}) => !data.draft)).sort((a,b)=>+b.data.date-+a.data.date);
+const mapped = new Map<string, typeof posts>();
+for (const post of posts) {
+  const slug = post.id.split('/').pop() ?? '';
+  const keys = (exactRules as Record<string,string[]>)[slug] ?? [];
+  for (const key of keys) mapped.set(key, [...(mapped.get(key) ?? []), post]);
+}
+const entries = registry.entries;
+const roots = entries.filter(entry=>!('parent' in entry));
+const guides = [
+  {id:'CMP-009',name:'AI Skills — 매번 같은 설명을 하지 않아도 되는 방법',href:'/technology/skills-guide/'},
+  {id:'ENG-001',name:'Zero-shot과 Few-shot — 설명하는 것과 보여주는 것',href:'/technology/prompt-examples/'},
+];
+const news = posts.filter(post=>formatOf(post)==='뉴스');
+const researchUse = posts.filter(post=>cellOf(post)==='research');
+const practice = posts.filter(post=>cellOf(post)==='clinic');
+const groupOf = (id:string)=>registry.groups.find(group=>id.startsWith(group.id+'-'))?.label ?? '';
+---
+<Layout title="AI 기술 백과" description="AI 설계 방법론과 구성 요소, 코드베이스, 실행 환경, 아키텍처를 연결한 기술 탐색 원장입니다.">
+  <div class="knowledge-portal" data-knowledge-portal data-registry-version={registry.version}>
+    <header class="kp-heading">
+      <p class="kp-kicker">S-REBORN / AI LAB</p>
+      <h1>AI 기술 백과</h1>
+      <p>기술이 등장한 이유부터 작동 원리, 실제 사례와 검증 방법까지. 개념과 글을 함께 탐색합니다.</p>
+      <p class="kp-note">편집 분류 원장 · {entries.length}개 개념 · 공식 명세와 업계 용어를 포함한 탐색용 색인입니다. 개별 정의는 계속 검증·개정합니다.</p>
+    </header>
+    <nav class="kp-jump" aria-label="지식 백과 바로가기">
+      <a href="#guides">대표 학습 글</a><a href="#concepts">기술 검색</a><a href="#news">뉴스</a><a href="#research">연구·실험</a><a href="#practice">실전 활용</a><a href="#columns">칼럼</a><a href="/lecture-materials/">AI ACADEMY</a>
+    </nav>
+    <section id="guides"><h2>대표 학습 글</h2><ul class="kp-links">{guides.map(g=><li><a href={g.href}>{g.name}</a></li>)}</ul></section>
+    <section id="concepts">
+      <h2>기술별 탐색</h2>
+      <div class="kp-controls">
+        <label for="kp-search">기술명·정의·ID 검색</label>
+        <input type="search" id="kp-search" placeholder="예: Skill, Hook, 프롬프트, ENG-009" />
+        <label for="kp-group">분류</label>
+        <select id="kp-group"><option value="">전체</option>{registry.groups.map(g=><option value={g.id}>{g.label}</option>)}</select>
+        <button id="kp-reset" type="button">초기화</button>
+      </div>
+      <p class="kp-note" id="kp-count" aria-live="polite">{entries.length}개 기술</p>
+      {registry.groups.map(group=><section class="kp-group" data-kp-group={group.id} aria-label={group.label}>
+        <h3>{group.label} <small>{entries.filter(e=>e.id.startsWith(group.id+'-')).length}개</small></h3>
+        <p class="kp-note">{group.description}</p>
+        <ul class="kp-list">{roots.filter(e=>e.id.startsWith(group.id+'-')).flatMap(root=>[root,...entries.filter(e=>'parent' in e && e.parent===root.id)]).map(e=>
+          <li id={e.id} data-kp-entry data-group={group.id} data-search={`${e.id} ${e.name} ${e.definition} ${groupOf(e.id)}`.toLowerCase()} class:list={['kp-entry',{'kp-detail':'parent' in e}]}>
+            <div><h4><a href={`#${e.id}`}>{e.name}</a></h4><span class="kp-id">{e.id}</span></div>
+            <p>{e.definition}</p>
+            {'parent' in e && <p class="kp-note">상위 개념: <a href={`#${e.parent}`}>{entries.find(x=>x.id===e.parent)?.name ?? e.parent}</a></p>}
+            {guides.filter(g=>g.id===e.id).map(g=><p><a href={g.href}>대표 학습 글</a></p>)}
+            {mapped.has(e.id) && <ul class="kp-links">{mapped.get(e.id)?.map(post=><li><a href={`/blog/${post.id}/`}>{post.data.title}</a></li>)}</ul>}
+          </li>)}</ul>
+      </section>)}
+      <p id="kp-empty" hidden>검색 결과가 없습니다. 다른 이름이나 ID로 검색해 보세요.</p>
+    </section>
+    <section id="news"><h2>AI 뉴스</h2><p class="kp-note">기존 게시물 중 뉴스 형식으로 분류된 글 · {news.length}편. 게시 날짜 기준이며 최신 상태는 각 원자료에서 확인하세요.</p><ul class="kp-links">{news.map(post=><li><a href={`/blog/${post.id}/`}>{post.data.title}</a></li>)}</ul></section>
+    <section id="research"><h2>연구·실험</h2><p>연구 방법과 학술 활용 자료를 탐색합니다. 기존 연구 활용 글을 원저 연구 성과로 표시하지 않습니다. 신규 실험은 근거·결과 검수 후 별도로 공개합니다.</p><a href={topicHref('research')}>연구·학술 활용 전체 ({researchUse.length}편)</a><ul class="kp-links">{researchUse.slice(0,6).map(post=><li><a href={`/blog/${post.id}/`}>{post.data.title}</a></li>)}</ul></section>
+    <section id="practice"><h2>실전 활용</h2><p>기존 교육·실습 자료와 관련 글로 이동합니다.</p><ul class="kp-links"><li><a href="/lecture-materials/#practice">AI ACADEMY 실습</a></li><li><a href="/tutorials/crm-scenarios/">CRM AI 실습 라이브러리</a></li><li><a href={topicHref('clinic')}>진료·업무 관련 기존 글 ({practice.length}편)</a></li><li><a href="/tools/">경영 도구 아카이브</a></li></ul></section>
+    <section id="columns"><h2>AI 칼럼</h2><p>연구·기술과 사회를 함께 읽는 공간입니다. 기존 AI와 사회 글을 탐색하고, 칼럼 유형은 편집 검수 후 별도 구분합니다.</p><a href={topicHref('society')}>AI와 사회 기존 글</a></section>
+  </div>
+</Layout>
+<script>
+  const root=document.querySelector<HTMLElement>('[data-knowledge-portal]');
+  if(root){
+    const search=root.querySelector<HTMLInputElement>('#kp-search')!;
+    const group=root.querySelector<HTMLSelectElement>('#kp-group')!;
+    const rows=[...root.querySelectorAll<HTMLElement>('[data-kp-entry]')];
+    const sections=[...root.querySelectorAll<HTMLElement>('[data-kp-group]')];
+    const count=root.querySelector<HTMLElement>('#kp-count')!;
+    const empty=root.querySelector<HTMLElement>('#kp-empty')!;
+    const apply=()=>{
+      const tokens=search.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+      for(const row of rows) row.hidden=Boolean((group.value && row.dataset.group!==group.value)||tokens.some(t=>!row.dataset.search?.includes(t)));
+      for(const section of sections) section.hidden=!rows.some(r=>r.dataset.group===section.dataset.kpGroup&&!r.hidden);
+      const n=rows.filter(r=>!r.hidden).length;
+      count.textContent=n+'개 기술';empty.hidden=n>0;
+    };
+    search.addEventListener('input',apply);group.addEventListener('change',apply);
+    root.querySelector('#kp-reset')?.addEventListener('click',()=>{search.value='';group.value='';apply();search.focus();});
+    root.addEventListener('click',event=>{
+      const a=(event.target as Element).closest('a[href^="#"]');
+      if(a && rows.some(r=>r.id===a.getAttribute('href')?.slice(1))){search.value='';group.value='';apply();}
+    });
+    apply();
+  }
+</script>
+<style>
+  .knowledge-portal{max-width:960px;margin:0 auto;padding:24px 16px 48px;color:var(--site-text);background:var(--site-bg);line-height:1.65;min-width:0;}
+  .kp-heading{border-bottom:1px solid var(--site-border);padding-bottom:12px;}
+  h1{font-size:clamp(1.8rem,4vw,2.6rem);line-height:1.2;margin:6px 0 12px;letter-spacing:-.035em;}
+  h2{font-size:1.35rem;margin:22px 0 8px;}h3{font-size:1.12rem;margin:20px 0 4px;}h4{font-size:1rem;line-height:1.4;margin:0;overflow-wrap:anywhere;}
+  p{margin:4px 0 8px;overflow-wrap:anywhere;}.kp-kicker,.kp-note,.kp-id,small{color:var(--site-text-secondary);font-size:.875rem;}
+  a{color:var(--site-mint-text);text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;}
+  a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--site-mint-text);outline-offset:3px;}
+  .kp-jump{display:flex;flex-wrap:wrap;gap:8px 18px;padding:12px 0;border-bottom:1px solid var(--site-border);}
+  .kp-controls{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:6px 12px;align-items:center;padding:12px;background:var(--site-surface);border:1px solid var(--site-border);}
+  .kp-controls label{font-size:.875rem;grid-row:1;}.kp-controls label[for="kp-group"]{grid-column:2;}
+  input,select,button{font:inherit;color:var(--site-text);background:var(--site-bg);border:1px solid var(--site-border);border-radius:4px;padding:7px 9px;min-width:0;max-width:100%;min-height:42px;}
+  input::placeholder{color:var(--site-text-secondary);opacity:1;}button{cursor:pointer;grid-row:2;grid-column:3;}
+  .kp-list,.kp-links{padding:0;list-style:none;margin:0;}.kp-entry{border-top:1px solid var(--site-border);padding:10px 0;scroll-margin-top:calc(var(--site-header-height,80px) + 12px);}
+  .kp-entry>div{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+  .kp-detail{padding-left:16px;}.kp-links li{padding:3px 0;}.kp-id{white-space:nowrap;}
+  section[id]{scroll-margin-top:calc(var(--site-header-height,80px) + 12px);}
+  [hidden]{display:none!important;}
+  @media(max-width:520px){.knowledge-portal{padding:16px 10px 32px;}.kp-controls{grid-template-columns:minmax(0,1fr);}.kp-controls label,.kp-controls label[for="kp-group"],button{grid-row:auto;grid-column:1;}.kp-detail{padding-left:10px;}}
+</style>
