@@ -908,6 +908,33 @@ async function checkKnowledgePortal(page, base, name, preference, scheme, mobile
   check(await page.getByRole('heading',{level:1}).isVisible(),name+': prompt guide');
 }
 
+async function checkPublications(page,base,name,preference,scheme){
+ await openPage(page,base+'/technology/');
+ await page.getByRole('link',{name:'뉴스·연구·교육 발행 원장',exact:true}).click();
+ await page.waitForURL(base+'/technology/publications/');
+ await checkTheme(page,preference,scheme,name+' publications');
+ const pub=page.locator('[data-publication-archive]');
+ check(await pub.getAttribute('data-publication-version')==='1.0',name+': publication version');
+ check(await pub.locator('[data-publication-record]').count()===5,name+': public records');
+ check(await pub.locator('[data-kind="news"]').count()===2,name+': news');
+ check(await pub.locator('[data-kind="education"]').count()===2,name+': education');
+ check(await pub.locator('[data-protocol-status]').innerText()==='실험 계획 · 미실행 · 결과 미발행',name+': protocol');
+ check(await pub.evaluate(el=>el.scrollWidth<=el.clientWidth+1 && document.documentElement.scrollWidth<=innerWidth+1),name+': overflow');
+ const links=await pub.locator('a[href^="#"]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('href')));
+ for(const href of links)check(await page.locator(href).count()===1,name+': anchor '+href);
+ const response=await page.request.get(base+'/technology/publications.json');
+ check(response.ok(),name+': feed');
+ const payload=await response.json();
+ check(payload.version==='1.0'&&payload.records.length===5&&payload.records.every(r=>r.status==='published'&&r.review.medical===false&&r.review.privacy==='safe'),name+': feed gate');
+ check(!/(?:notion\.(?:so|site|com)|docs\.google\.com|drive\.google\.com)/i.test(JSON.stringify(payload)),name+': private locator feed');
+ await response.dispose();
+ await pub.locator('#PUB-E001').getByRole('link',{name:'가이드 및 실습 열기'}).click();
+ await page.waitForURL(base+'/technology/skills-guide/');
+ await openPage(page,base+'/lecture-materials/');
+ await page.getByRole('link',{name:'기술 백과 연계 교육·실습',exact:true}).click();
+ await page.waitForURL(base+'/technology/publications/#education');
+}
+
 async function checkThemeChanges(page, context, base) {
 	await openPage(page, base + '/');
 	const other = await context.newPage();
@@ -975,6 +1002,7 @@ async function run() {
 				await checkTheme(page, preference, scheme, name);
 				await checkTopics(page, base, mobile, name, preference, scheme);
 				await checkKnowledgePortal(page, base, name, preference, scheme, mobile);
+				await checkPublications(page,base,name,preference,scheme);
 
 				if (mobile) {
 					await openPage(page, base + articlePath);
@@ -1011,6 +1039,7 @@ async function run() {
 	console.log(JSON.stringify({
 		ok: failures.length === 0,
 		matrix: results.length,
+		publicationCases: results.length,
 		homeRows: results[0]?.posts,
 		starterRows: results[0]?.starters,
 		starterAnchorCases: results.length,

@@ -1,0 +1,218 @@
+{
+  "version": "1.0",
+  "records": [
+    {
+      "id": "PUB-N001",
+      "kind": "news",
+      "title": "Agent Skills가 등장한 배경",
+      "summary": "2025년 10월 16일 Anthropic은 Agent Skills의 구성과 개발 배경을 공개했다.",
+      "details": [
+        "업무별 절차 지식을 지침·스크립트·참고 자료로 묶어 재사용하는 방식이다.",
+        "당시 발표의 기록이다. 제품별 현재 지원 범위는 따로 확인해야 한다."
+      ],
+      "technologyIds": [
+        "CMP-009",
+        "REP-009",
+        "ENG-009"
+      ],
+      "relatedIds": [
+        "PUB-N002",
+        "PUB-E001"
+      ],
+      "sources": [
+        {
+          "title": "Equipping agents for the real world with Agent Skills",
+          "url": "https://www.anthropic.com/research/equipping-agents-for-the-real-world-with-agent-skills",
+          "publishedAt": "2025-10-16",
+          "checkedAt": "2026-11-26",
+          "claim": "Agent Skills의 배경과 구성"
+        }
+      ],
+      "version": "1.0",
+      "language": "ko",
+      "publishedAt": "2026-11-26",
+      "review": {
+        "status": "approved",
+        "basis": "비의료 발행 위임 범위에서 원자료 대조 및 편집 검수",
+        "medical": false,
+        "privacy": "safe",
+        "verification": "source-checked"
+      },
+      "access": "public",
+      "status": "published",
+      "eventDate": "2025-10-16",
+      "eventStatus": "announcement"
+    },
+    {
+      "id": "PUB-N002",
+      "kind": "news",
+      "title": "Agent Skills 표준의 재단 기부 발표",
+      "summary": "2026년 10월 22일 Anthropic은 Agent Skills 표준을 Agentic AI Foundation에 기부한다고 발표했다.",
+      "details": [
+        "기부 대상은 표준의 이름·로고·GitHub 조직·도메인이다.",
+        "표준의 거버넌스 변경은 개별 제품의 실제 호환성이나 성능 보장과 다르다."
+      ],
+      "technologyIds": [
+        "CMP-009",
+        "REP-009"
+      ],
+      "relatedIds": [
+        "PUB-N001",
+        "PUB-E001"
+      ],
+      "sources": [
+        {
+          "title": "Donating Agent Skills to the Agentic AI Foundation",
+          "url": "https://www.anthropic.com/news/donating-agent-skills-to-the-agentic-ai-foundation",
+          "publishedAt": "2026-10-22",
+          "checkedAt": "2026-11-26",
+          "claim": "표준 기부 발표 및 대상"
+        }
+      ],
+      "version": "1.0",
+      "language": "ko",
+      "publishedAt": "2026-11-26",
+      "review": {
+        "status": "approved",
+        "basis": "비의료 발행 위임 범위에서 원자료 대조 및 편집 검수",
+        "medical": false,
+        "privacy": "safe",
+        "verification": "source-checked"
+      },
+      "access": "public",
+      "status": "published",
+      "eventDate": "2026-10-22",
+      "eventStatus": "announcement"
+    },
+    {
+      "id": "PUB-R001",
+      "kind": "research-protocol",
+      "title": "예시가 회의록 추출에 미치는 영향: 비교 실험 설계",
+      "summary": "동일한 합성 회의록으로 Zero-shot과 Few-shot을 비교하는 연구 계획이다.",
+      "details": [
+        "가설: 대표 예시가 지정 출력 형식의 준수에 영향을 줄 수 있다.",
+        "동일 모델·버전·설정에서 합성 입력 5개를 각 조건별로 3회씩 독립 실행한다. A는 지시만, B는 같은 지시에 두 예시를 추가한다. 총 30개 응답을 계획한다.",
+        "사실 충실성 4점, 필수 항목 4점, 형식 2점으로 평가한다. 실행 순서를 무작위화하고 입력·출력·모델·설정·토큰·채점 근거를 기록한다.",
+        "아직 실험하지 않았다. 효과 크기 및 우열을 주장하지 않는다."
+      ],
+      "technologyIds": [
+        "ENG-001-T01",
+        "ENG-001-T02",
+        "ENG-017"
+      ],
+      "relatedIds": [
+        "PUB-E002"
+      ],
+      "sources": [
+        {
+          "title": "Language Models are Few-Shot Learners",
+          "url": "https://arxiv.org/abs/2005.14165",
+          "publishedAt": "2020-05-28",
+          "checkedAt": "2026-11-26",
+          "claim": "문맥 내 학습의 연구 배경"
+        }
+      ],
+      "version": "1.0",
+      "language": "ko",
+      "publishedAt": "2026-11-26",
+      "review": {
+        "status": "approved",
+        "basis": "비의료 발행 위임 범위에서 원자료 대조 및 편집 검수",
+        "medical": false,
+        "privacy": "safe",
+        "verification": "source-checked"
+      },
+      "access": "public",
+      "status": "published",
+      "researchStatus": "protocol-only",
+      "plannedResponses": 30
+    },
+    {
+      "id": "PUB-E001",
+      "kind": "education",
+      "title": "반복 업무를 Skills로 정리하기",
+      "summary": "업무 규칙을 재사용 가능한 절차로 정리하는 방법을 배운다.",
+      "details": [
+        "읽기: Skills 가이드에서 스킬·도구·Hook의 차이를 확인한다.",
+        "실습: 합성 회의 메모의 결정, 담당자, 기한을 추출하는 절차를 적는다. 정보가 없으면 미정으로 표시한다.",
+        "완료 기준: 재사용 지침과 예외 규칙을 설명하고 원문에 없는 사실을 추가하지 않는지 점검한다."
+      ],
+      "technologyIds": [
+        "CMP-009",
+        "REP-009",
+        "CMP-017"
+      ],
+      "relatedIds": [
+        "PUB-N001",
+        "PUB-N002",
+        "PUB-E002"
+      ],
+      "sources": [
+        {
+          "title": "Equipping agents for the real world with Agent Skills",
+          "url": "https://www.anthropic.com/research/equipping-agents-for-the-real-world-with-agent-skills",
+          "publishedAt": "2025-10-16",
+          "checkedAt": "2026-11-26",
+          "claim": "Agent Skills의 배경과 구성"
+        }
+      ],
+      "version": "1.0",
+      "language": "ko",
+      "publishedAt": "2026-11-26",
+      "review": {
+        "status": "approved",
+        "basis": "비의료 발행 위임 범위에서 원자료 대조 및 편집 검수",
+        "medical": false,
+        "privacy": "safe",
+        "verification": "source-checked"
+      },
+      "access": "public",
+      "status": "published",
+      "guideHref": "/technology/skills-guide/",
+      "level": "beginner"
+    },
+    {
+      "id": "PUB-E002",
+      "kind": "education",
+      "title": "Zero-shot과 Few-shot 비교 실습",
+      "summary": "지시만 제공하는 방식과 예시를 추가하는 방식을 구분한다.",
+      "details": [
+        "읽기: Zero-shot·Few-shot 가이드를 읽는다.",
+        "실습: 합성 입력 '교육 자료 갱신, 담당 미정, 기한 미정'을 두 조건에서 같은 형식으로 정리한다.",
+        "완료 기준: 기대 출력과 실제 실행을 구별하고 근거 없는 정보가 추가됐는지 확인한다."
+      ],
+      "technologyIds": [
+        "ENG-001-T01",
+        "ENG-001-T02",
+        "ENG-017"
+      ],
+      "relatedIds": [
+        "PUB-R001",
+        "PUB-E001"
+      ],
+      "sources": [
+        {
+          "title": "Language Models are Few-Shot Learners",
+          "url": "https://arxiv.org/abs/2005.14165",
+          "publishedAt": "2020-05-28",
+          "checkedAt": "2026-11-26",
+          "claim": "문맥 내 학습의 연구 배경"
+        }
+      ],
+      "version": "1.0",
+      "language": "ko",
+      "publishedAt": "2026-11-26",
+      "review": {
+        "status": "approved",
+        "basis": "비의료 발행 위임 범위에서 원자료 대조 및 편집 검수",
+        "medical": false,
+        "privacy": "safe",
+        "verification": "source-checked"
+      },
+      "access": "public",
+      "status": "published",
+      "guideHref": "/technology/prompt-examples/",
+      "level": "beginner"
+    }
+  ]
+}
