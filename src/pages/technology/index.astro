@@ -4,6 +4,8 @@ import { getCollection } from 'astro:content';
 import { cellOf, formatOf, topicHref } from '../../data/taxonomy';
 import registry from '../../data/technology-registry.json';
 import exactRules from '../../data/technology-links.json';
+import depthRecords from '../../data/technology-depth.json';
+const depthById = new Map(depthRecords.map(record=>[record.id,record]));
 const posts = (await getCollection('blog', ({data}) => !data.draft)).sort((a,b)=>+b.data.date-+a.data.date);
 const mapped = new Map<string, typeof posts>();
 for (const post of posts) {
@@ -43,6 +45,7 @@ const groupOf = (id:string)=>registry.groups.find(group=>id.startsWith(group.id+
         <select id="kp-group"><option value="">전체</option>{registry.groups.map(g=><option value={g.id}>{g.label}</option>)}</select>
         <button id="kp-reset" type="button">초기화</button>
       </div>
+      <p class="kp-note">심화 설명 {depthRecords.length}개 / {entries.length}개 · 원자료 확인: 2026-11-26</p>
       <p class="kp-note" id="kp-count" aria-live="polite">{entries.length}개 기술</p>
       {registry.groups.map(group=><section class="kp-group" data-kp-group={group.id} aria-label={group.label}>
         <h3>{group.label} <small>{entries.filter(e=>e.id.startsWith(group.id+'-')).length}개</small></h3>
@@ -51,6 +54,15 @@ const groupOf = (id:string)=>registry.groups.find(group=>id.startsWith(group.id+
           <li id={e.id} data-kp-entry data-group={group.id} data-search={`${e.id} ${e.name} ${e.definition} ${groupOf(e.id)}`.toLowerCase()} class:list={['kp-entry',{'kp-detail':'parent' in e}]}>
             <div><h4><a href={`#${e.id}`}>{e.name}</a></h4><span class="kp-id">{e.id}</span></div>
             <p>{e.definition}</p>
+            {depthById.has(e.id) && <details class="kp-depth" data-depth-id={e.id}><summary>심화 설명 · 사례 · 검증</summary>
+              {depthRecords.filter(record=>record.id===e.id).map(record=><div>
+                <p><strong>작동 원리:</strong> {record.principle}</p>
+                <p><strong>비의료 실습 예시:</strong> {record.example}</p>
+                <p><strong>검증 방법:</strong> {record.verify}</p>
+                <p><strong>관련 기술:</strong> {record.related.map(id=><span><a href={`#${id}`}>{entries.find(item=>item.id===id)?.name ?? id}</a> · </span>)}</p>
+                <p><strong>원자료:</strong> <a href={record.source}>{record.sourceTitle}</a></p>
+              </div>)}
+            </details>}
             {'parent' in e && <p class="kp-note">상위 개념: <a href={`#${e.parent}`}>{entries.find(x=>x.id===e.parent)?.name ?? e.parent}</a></p>}
             {guides.filter(g=>g.id===e.id).map(g=><p><a href={g.href}>대표 학습 글</a></p>)}
             {mapped.has(e.id) && <ul class="kp-links">{mapped.get(e.id)?.map(post=><li><a href={`/blog/${post.id}/`}>{post.data.title}</a></li>)}</ul>}
@@ -106,6 +118,7 @@ const groupOf = (id:string)=>registry.groups.find(group=>id.startsWith(group.id+
   .kp-entry>div{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;}
   .kp-detail{padding-left:16px;}.kp-links li{padding:3px 0;}.kp-id{white-space:nowrap;}
   section[id]{scroll-margin-top:calc(var(--site-header-height,80px) + 12px);}
+  .kp-depth{margin:8px 0;padding:8px 12px;border:1px solid var(--site-border);background:var(--site-surface);color:var(--site-text);border-radius:4px;}.kp-depth summary{cursor:pointer;font-weight:600;color:var(--site-mint-text);}.kp-depth summary:focus-visible{outline:2px solid var(--site-mint-text);outline-offset:3px;}.kp-depth p{margin:8px 0;}
   [hidden]{display:none!important;}
   @media(max-width:520px){.knowledge-portal{padding:16px 10px 32px;}.kp-controls{grid-template-columns:minmax(0,1fr);}.kp-controls label,.kp-controls label[for="kp-group"],button{grid-row:auto;grid-column:1;}.kp-detail{padding-left:10px;}}
 </style>
