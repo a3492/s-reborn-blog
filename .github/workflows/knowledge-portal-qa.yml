@@ -1,0 +1,80 @@
+name: Knowledge portal release QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/pages/clinic/**'
+      - 'src/pages/technology/**'
+      - 'src/pages/lecture-materials/index.astro'
+      - 'src/data/technology-*.json'
+      - 'src/data/publication*'
+      - 'src/data/site-nav.ts'
+      - 'src/data/breadcrumbs.ts'
+      - 'scripts/qa-*.mjs'
+      - '.github/workflows/knowledge-portal-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'src/pages/clinic/**'
+      - 'src/pages/technology/**'
+      - 'src/pages/lecture-materials/index.astro'
+      - 'src/data/technology-*.json'
+      - 'src/data/publication*'
+      - 'src/data/site-nav.ts'
+      - 'src/data/breadcrumbs.ts'
+      - 'scripts/qa-*.mjs'
+      - '.github/workflows/knowledge-portal-qa.yml'
+permissions:
+  contents: read
+jobs:
+  release-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Taxonomy and public publishing gates
+        run: |
+          npm run qa:taxonomy
+          node scripts/qa-knowledge-portal.mjs
+          node scripts/qa-publications.mjs
+      - name: Theme and CRM
+        run: |
+          npm run qa:site-theme
+          npm run qa:crm
+      - name: Build
+        run: npm run build
+      - name: Browser install
+        run: npx playwright install --with-deps chromium
+      - name: Browser QA and regression
+        if: github.event_name == 'pull_request'
+        run: npm run qa:home-browser
+      - name: Actual preview or production browser smoke
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PREVIEW_BRANCH: ${{ github.head_ref }}
+        run: |
+          if [ "$EVENT_NAME" = "push" ]; then
+            BASE_URL=https://sreborn.net
+          else
+            SLUG=$(printf '%s' "$PREVIEW_BRANCH" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g;s/^-+//;s/-+$//')
+            SLUG=$(printf '%s' "$SLUG" | cut -c1-28 | sed -E 's/-+$//')
+            BASE_URL="https://$SLUG.s-reborn-blog.pages.dev"
+          fi
+          for i in $(seq 1 72); do
+            if curl -fsS --max-time 15 "$BASE_URL/technology/publications/" -o /tmp/publications.html && grep -q 'data-publication-version="1.0"' /tmp/publications.html; then break; fi
+            sleep 10
+          done
+          curl -fsS --max-time 20 "$BASE_URL/technology/publications/" -o /tmp/publications.html
+          grep -q 'data-publication-version="1.0"' /tmp/publications.html
+          QA_BASE_URL="$BASE_URL" npm run qa:home-browser
+          curl -fsS "$BASE_URL/clinic/first-visit-questions/" -o /tmp/editorial.html
+          grep -Fq '아래 사례는 설명을 위한 가상의 상황입니다.' /tmp/editorial.html
+          ! grep -Eq '검수 대기|<meta name="robots" content="noindex' /tmp/editorial.html
+          test "$(curl -s -o /dev/null -w '%{http_code}' "$BASE_URL/preview/clinic/first-visit-questions/")" = 404

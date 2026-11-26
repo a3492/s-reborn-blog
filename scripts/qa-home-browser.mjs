@@ -454,7 +454,7 @@ async function checkTopics(page, base, mobile, name, preference, scheme) {
 		await menu.waitFor();
 		const links = await menu.getByRole('link').evaluateAll((nodes) =>
 			nodes.map((link) => [link.textContent.trim(), link.getAttribute('href')]));
-		check(JSON.stringify(links) === JSON.stringify(topicSlots.map(([slug, name]) => [name, `/blog/topics/${slug}/`])),
+		check(JSON.stringify(links) === JSON.stringify([['AI 기술 백과','/technology/'],['AI 뉴스','/technology/#news'],['연구·실험','/technology/#research'],['실전 활용','/technology/#practice'],['AI 칼럼','/technology/#columns'],...topicSlots.map(([slug, name]) => [name, `/blog/topics/${slug}/`])]),
 			`${name}: unexpected LAB topic menu links`);
 		await menu.getByRole('link', { name: label, exact: true }).click();
 		await page.waitForURL(new URL(href, base).href);
@@ -882,6 +882,59 @@ async function checkResources(page, base) {
 	return { lectureRoutes: lectureRoutes.length, scenarios: crm.ids.length, groups: crm.groups.length, downloads: downloads.size };
 }
 
+async function checkKnowledgePortal(page, base, name, preference, scheme, mobile) {
+  await openPage(page, base + '/');
+  await ensureDrawer(page, mobile);
+  await page.locator('#site-nav').getByRole('button',{name:'AI LAB 하위메뉴'}).click();
+  await page.locator('#site-sub-research').getByRole('link',{name:'AI 기술 백과',exact:true}).click();
+  await page.waitForURL(base + '/technology/');
+  await checkTheme(page, preference, scheme, name + ' technology');
+  const portal=page.locator('[data-knowledge-portal]');
+  check(await portal.locator('[data-kp-entry]').count()===288,name+': registry count');
+  check(await portal.locator('[data-kp-group]:visible').count()===5,name+': group count');
+  await portal.locator('#kp-search').fill('SKILL.md');
+  check(await portal.locator('[data-kp-entry]:visible').count()>=1 && await portal.locator('#REP-009').isVisible(),name+': skill search');
+  await portal.locator('#kp-group').selectOption('ENG');
+  check(await portal.locator('#kp-empty').isVisible(),name+': group intersection');
+  await portal.locator('#kp-reset').click();
+  check(await portal.locator('[data-kp-entry]:visible').count()===288,name+': reset');
+  check(await portal.evaluate(el=>el.scrollWidth<=el.clientWidth+1 && document.documentElement.scrollWidth<=innerWidth+1),name+': registry overflow');
+  await portal.getByRole('link',{name:'AI Skills — 매번 같은 설명을 하지 않아도 되는 방법',exact:true}).click();
+  await page.waitForURL(base+'/technology/skills-guide/');
+  await checkTheme(page,preference,scheme,name+' skills');
+  check(await page.getByRole('heading',{level:1}).isVisible(),name+': skills guide');
+  await openPage(page,base+'/technology/prompt-examples/');
+  await checkTheme(page,preference,scheme,name+' prompts');
+  check(await page.getByRole('heading',{level:1}).isVisible(),name+': prompt guide');
+}
+
+async function checkPublications(page,base,name,preference,scheme){
+ await openPage(page,base+'/technology/');
+ await page.getByRole('link',{name:'뉴스·연구·교육 발행 원장',exact:true}).click();
+ await page.waitForURL(base+'/technology/publications/');
+ await checkTheme(page,preference,scheme,name+' publications');
+ const pub=page.locator('[data-publication-archive]');
+ check(await pub.getAttribute('data-publication-version')==='1.0',name+': publication version');
+ check(await pub.locator('[data-publication-record]').count()===5,name+': public records');
+ check(await pub.locator('[data-kind="news"]').count()===2,name+': news');
+ check(await pub.locator('[data-kind="education"]').count()===2,name+': education');
+ check(await pub.locator('[data-protocol-status]').innerText()==='실험 계획 · 미실행 · 결과 미발행',name+': protocol');
+ check(await pub.evaluate(el=>el.scrollWidth<=el.clientWidth+1 && document.documentElement.scrollWidth<=innerWidth+1),name+': overflow');
+ const links=await pub.locator('a[href^="#"]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('href')));
+ for(const href of links)check(await page.locator(href).count()===1,name+': anchor '+href);
+ const response=await page.request.get(base+'/technology/publications.json');
+ check(response.ok(),name+': feed');
+ const payload=await response.json();
+ check(payload.version==='1.0'&&payload.records.length===5&&payload.records.every(r=>r.status==='published'&&r.review.medical===false&&r.review.privacy==='safe'),name+': feed gate');
+ check(!/(?:notion\.(?:so|site|com)|docs\.google\.com|drive\.google\.com)/i.test(JSON.stringify(payload)),name+': private locator feed');
+ await response.dispose();
+ await pub.locator('#PUB-E001').getByRole('link',{name:'가이드 및 실습 열기'}).click();
+ await page.waitForURL(base+'/technology/skills-guide/');
+ await openPage(page,base+'/lecture-materials/');
+ await page.getByRole('link',{name:'기술 백과 연계 교육·실습',exact:true}).click();
+ await page.waitForURL(base+'/technology/publications/#education');
+}
+
 async function checkThemeChanges(page, context, base) {
 	await openPage(page, base + '/');
 	const other = await context.newPage();
@@ -948,6 +1001,8 @@ async function run() {
 				await checkLectureNavigation(page, base, mobile, name, mobile ? null : screenshot);
 				await checkTheme(page, preference, scheme, name);
 				await checkTopics(page, base, mobile, name, preference, scheme);
+				await checkKnowledgePortal(page, base, name, preference, scheme, mobile);
+				await checkPublications(page,base,name,preference,scheme);
 
 				if (mobile) {
 					await openPage(page, base + articlePath);
@@ -984,6 +1039,7 @@ async function run() {
 	console.log(JSON.stringify({
 		ok: failures.length === 0,
 		matrix: results.length,
+		publicationCases: results.length,
 		homeRows: results[0]?.posts,
 		starterRows: results[0]?.starters,
 		starterAnchorCases: results.length,

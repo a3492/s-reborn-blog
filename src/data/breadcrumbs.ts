@@ -86,6 +86,9 @@ export function buildCrumbs(
 	} else if (academy || lecture) {
 		sectionId = 'lectures';
 		childId = academy ?? lecture?.[1];
+	} else if (path.startsWith('/technology/')) {
+		sectionId = 'research';
+		childId = 'technology';
 	} else if (path.startsWith('/blog/')) {
 		sectionId = 'research';
 		if (isTopic(cell)) childId = `topic-${cell}`;

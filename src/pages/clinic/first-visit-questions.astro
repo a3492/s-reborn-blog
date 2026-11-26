@@ -1,13 +1,13 @@
 ---
-import Layout from '../../../layouts/Layout.astro';
+import Layout from '../../layouts/Layout.astro';
 const title = '피부 상담을 앞두고, 휴대폰에 세 줄만 적어 보세요';
 ---
 
-<Layout title={title} noindex>
+<Layout title={title} description="피부 상담 전에 고민과 변화 시점, 질문을 정리하는 일반 안내.">
 	<article class="editorial">
 		<a href="/clinic/">클리닉</a>
 		<h1>{title}</h1>
-		<p class="review">편집 미리보기 · 검수 대기</p>
+
 		<p>아래 사례는 설명을 위한 가상의 상황입니다.</p>
 		<p>접수대 앞에서 휴대폰 메모를 열었습니다. 집에서 나올 때는 몇 가지나 물어볼 게 있었는데, 막상 화면에는 ‘피부가 신경 쓰여요’ 한 줄뿐입니다. 뭐부터 말해야 할지 몰라 사진 앱만 한참 넘깁니다.</p>
 		<h2>말을 잘하는 것보다, 궁금한 걸 남기는 것</h2>
@@ -35,6 +35,6 @@ const title = '피부 상담을 앞두고, 휴대폰에 세 줄만 적어 보세
 	h2 { margin-block: 1.75rem 0.4rem; font-size: 1.35rem; }
 	h3 { margin-block: 0.85rem 0.15rem; font-size: 1.05rem; }
 	p { margin-block: 0.4rem 1rem; }
-	.review { border-block: 1px solid var(--site-border); padding-block: 0.4rem; color: var(--site-text-secondary); }
+
 	a { color: var(--site-mint-text); text-decoration: underline; }
 </style>
