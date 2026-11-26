@@ -3,6 +3,7 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - 'src/pages/clinic/**'
       - 'src/pages/technology/**'
       - 'src/pages/lecture-materials/index.astro'
       - 'src/data/technology-*.json'
@@ -14,6 +15,7 @@ on:
   push:
     branches: [main]
     paths:
+      - 'src/pages/clinic/**'
       - 'src/pages/technology/**'
       - 'src/pages/lecture-materials/index.astro'
       - 'src/data/technology-*.json'
@@ -62,7 +64,7 @@ jobs:
             BASE_URL=https://sreborn.net
           else
             SLUG=$(printf '%s' "$PREVIEW_BRANCH" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g;s/^-+//;s/-+$//')
-            test "${#SLUG}" -le 24
+            SLUG=$(printf '%s' "$SLUG" | cut -c1-28 | sed -E 's/-+$//')
             BASE_URL="https://$SLUG.s-reborn-blog.pages.dev"
           fi
           for i in $(seq 1 72); do
@@ -72,3 +74,7 @@ jobs:
           curl -fsS --max-time 20 "$BASE_URL/technology/publications/" -o /tmp/publications.html
           grep -q 'data-publication-version="1.0"' /tmp/publications.html
           QA_BASE_URL="$BASE_URL" npm run qa:home-browser
+          curl -fsS "$BASE_URL/clinic/first-visit-questions/" -o /tmp/editorial.html
+          grep -Fq '아래 사례는 설명을 위한 가상의 상황입니다.' /tmp/editorial.html
+          ! grep -Eq '검수 대기|<meta name="robots" content="noindex' /tmp/editorial.html
+          test "$(curl -s -o /dev/null -w '%{http_code}' "$BASE_URL/preview/clinic/first-visit-questions/")" = 404
