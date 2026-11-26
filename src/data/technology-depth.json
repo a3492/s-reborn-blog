@@ -83,5 +83,83 @@
     ],
     "source": "https://agents.md/",
     "sourceTitle": "AGENTS.md — Project instructions"
+  },
+  {
+    "id": "ENG-010",
+    "principle": "모델이 도구 결과를 읽고 다음 행동을 선택하도록 설계한다. 고정 순서의 워크플로와 달리 실행 경로가 달라질 수 있다.",
+    "example": "가상 제품 문의를 분류한 뒤 매뉴얼 검색 도구를 사용하고 필요한 근거가 없으면 사람에게 전달한다.",
+    "verify": "정상 문의·검색 실패·권한 밖 요청에서 행동 기록과 종료 여부를 확인한다.",
+    "related": [
+      "CMP-010",
+      "ENG-009",
+      "ENG-027"
+    ],
+    "source": "https://www.anthropic.com/research/building-effective-agents",
+    "sourceTitle": "Anthropic — Building effective agents"
+  },
+  {
+    "id": "ENG-011",
+    "principle": "업무를 명시적인 단계와 의존 관계로 나누고 각 단계의 입력·출력 및 실패 조건을 정한다.",
+    "example": "제품 소개 문서의 초안→근거 확인→교정→승인 단계를 분리한다.",
+    "verify": "입력 누락·단계 실패·승인 거부를 주입해 다음 단계가 잘못 실행되지 않는지 확인한다.",
+    "related": [
+      "ENG-012",
+      "PAT-002",
+      "PAT-016"
+    ],
+    "source": "https://www.anthropic.com/research/building-effective-agents",
+    "sourceTitle": "Anthropic — Building effective agents"
+  },
+  {
+    "id": "ENG-012",
+    "principle": "여러 모델·도구·작업의 순서와 결과 합류를 조율한다. 문제에 따라 고정 분기나 동적 작업 분해를 선택한다.",
+    "example": "소프트웨어 변경 요청을 문서·테스트·코드 검토로 분배하고 검토 결과를 통합한다.",
+    "verify": "분기 정확성·결과 누락·중복 실행·실패 시 중단을 기록해 비교한다.",
+    "related": [
+      "ENG-011",
+      "ENG-015",
+      "PAT-011"
+    ],
+    "source": "https://www.anthropic.com/research/building-effective-agents",
+    "sourceTitle": "Anthropic — Building effective agents"
+  },
+  {
+    "id": "PAT-001",
+    "principle": "앞 단계의 출력을 다음 단계 입력으로 사용한다. 단계 사이에서 형식과 근거를 검사할 수 있다.",
+    "example": "제품 소개문을 먼저 요약하고 용어 표준을 확인한 뒤 최종 문장을 작성한다.",
+    "verify": "각 단계의 출력 계약과 원문 충실성을 검증하고 오류가 다음 단계로 전파되는지 검사한다.",
+    "related": [
+      "ENG-001",
+      "ENG-011",
+      "CMP-007"
+    ],
+    "source": "https://www.anthropic.com/research/building-effective-agents",
+    "sourceTitle": "Anthropic — Building effective agents"
+  },
+  {
+    "id": "PAT-005",
+    "principle": "입력을 분류하고 조건에 맞는 모델 또는 전문 처리 흐름으로 보낸다. 분류 오류에 대한 대체 경로가 필요하다.",
+    "example": "가상 문서 요청을 단순 교정과 기술 검토로 구분해 각각의 처리기에 전달한다.",
+    "verify": "정답이 정해진 분류 사례, 경계 사례와 분류 불가 입력으로 라우팅 정확성과 대체 경로를 평가한다.",
+    "related": [
+      "CMP-028",
+      "ENG-012",
+      "PAT-004"
+    ],
+    "source": "https://www.anthropic.com/research/building-effective-agents",
+    "sourceTitle": "Anthropic — Building effective agents"
+  },
+  {
+    "id": "PAT-012",
+    "principle": "결과를 평가하고 평가 신호를 다음 개선 단계에 전달한다. 평가 기준과 종료 조건을 명시해야 한다.",
+    "example": "설치 가이드 초안을 체크리스트로 평가하고 빠진 전제 조건만 수정한다.",
+    "verify": "동일 평가 기준으로 이전 결과와 비교하고 반복 한도·개선 실패·평가자 불일치를 검사한다.",
+    "related": [
+      "ENG-017",
+      "ENG-019",
+      "ENG-013"
+    ],
+    "source": "https://www.anthropic.com/research/building-effective-agents",
+    "sourceTitle": "Anthropic — Building effective agents"
   }
 ]
