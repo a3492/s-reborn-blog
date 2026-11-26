@@ -6,6 +6,7 @@ import { CATEGORIES, MENU_GROUPS, SITE_DESCRIPTION } from '../../../consts';
 import { buildCrumbs } from '../../../data/breadcrumbs';
 import { cellOf, countTopics, taxonomyLinkForCell, topicOf } from '../../../data/taxonomy';
 import Layout from '../../../layouts/Layout.astro';
+import manifest from '../../../data/blog-translations-en.json';
 import { getPublicSiteSettings } from '../../../lib/site-settings';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
@@ -25,16 +26,17 @@ const legacy = {
 		{navigation && <BlogSidebar model={navigation} counts={counts} isEn />}
 		<section class="blog-content" aria-labelledby="blog-content-title">
 			<div class="blog-content-hd">
-				<h1 class="blog-content-title" id="blog-content-title">AI LAB</h1><p lang="en">Article bodies are in Korean. English translations are not yet available. <a href="/en/technology/">Browse the English technology encyclopedia.</a></p>
+				<h1 class="blog-content-title" id="blog-content-title">AI LAB</h1><p lang="en">Five articles have English translations; other articles remain in Korean. <a href="/en/technology/">Browse the English technology encyclopedia.</a></p>
 				<span class="blog-content-count" id="blog-content-count">{total}</span>
 			</div>
 			<div class="blog-card-grid">
 				{posts.map((post) => {
 					const label = taxonomyLinkForCell(cellOf(post), true)?.label;
-					const description = post.data.description_en ?? post.data.description;
+					const translated = Object.hasOwn(manifest,post.id) ? manifest[post.id as keyof typeof manifest] : undefined;
+					const description = translated?.description ?? post.data.description_en ?? post.data.description;
 					return (
 						<a href={`/en/blog/${post.id}/`} class="blog-card" data-category={post.data.category ?? ''} hidden={!topicOf(post)}>
-							<h2 class="blog-card-title">{post.data.title_en ?? post.data.title}</h2>
+							<h2 class="blog-card-title">{translated?.title ?? post.data.title_en ?? post.data.title} {translated && <span lang="en"> (EN)</span>}</h2>
 							<p class="blog-card-meta">
 								{label && <span class="blog-card-cat">{label}</span>}
 								{label && <span aria-hidden="true"> · </span>}

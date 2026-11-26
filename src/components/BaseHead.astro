@@ -1,5 +1,6 @@
 ---
 import { SITE_TITLE } from '../consts';
+import translatedArticles from '../data/blog-translations-en.json';
 
 
 interface Props {
@@ -15,13 +16,18 @@ interface Props {
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const translatedTechnology = path === '/technology' || path === '/en/technology';
 const isEnglish = path.startsWith('/en/');
-const untranslatedEnglish = isEnglish && !translatedTechnology;
+const koPath = path.replace(/^\/en(?=\/)/,'');
+const translatedArticle = koPath.startsWith('/blog/') && Object.hasOwn(translatedArticles,koPath.slice(6));
+const translatedPair = translatedTechnology || translatedArticle;
+const pairKo = translatedTechnology ? '/technology/' : `${koPath}/`;
+const pairEn = `/en${pairKo}`;
+const untranslatedEnglish = isEnglish && !translatedPair;
 const canonicalURL = new URL(untranslatedEnglish ? Astro.url.pathname.slice(3) : Astro.url.pathname, Astro.site);
 
 const { title, description, image, siteTitle = SITE_TITLE, ogType: ogTypeProp, noindex = false } = Astro.props;
 
 const pathNorm = Astro.url.pathname.replace(/\/$/, '') || '/';
-const afterBlog = pathNorm.startsWith('/blog/') ? pathNorm.slice(6) : '';
+const afterBlog = koPath.startsWith('/blog/') ? koPath.slice(6) : '';
 const inferredOgType = !afterBlog.startsWith('topics/') && afterBlog.includes('/') ? 'article' : 'website';
 const ogType = ogTypeProp ?? inferredOgType;
 
@@ -63,10 +69,10 @@ const ogImage = image
 <link rel="canonical" href={canonicalURL} />
 
 <!-- Only fully translated registry page pairs receive hreflang. -->
-{translatedTechnology && <>
-  <link rel="alternate" hreflang="ko" href={new URL('/technology/', Astro.site)} />
-  <link rel="alternate" hreflang="en" href={new URL('/en/technology/', Astro.site)} />
-  <link rel="alternate" hreflang="x-default" href={new URL('/technology/', Astro.site)} />
+{translatedPair && !noindex && <>
+  <link rel="alternate" hreflang="ko" href={new URL(pairKo, Astro.site)} />
+  <link rel="alternate" hreflang="en" href={new URL(pairEn, Astro.site)} />
+  <link rel="alternate" hreflang="x-default" href={new URL(pairKo, Astro.site)} />
 </>}
 
 <!-- Primary Meta Tags -->
@@ -80,7 +86,7 @@ const ogImage = image
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={ogImage} />
-<meta property="og:locale" content={translatedTechnology && isEnglish ? "en_US" : "ko_KR"} />
+<meta property="og:locale" content={translatedPair && isEnglish ? "en_US" : "ko_KR"} />
 <meta property="og:site_name" content={siteTitle} />
 
 <!-- Twitter -->

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "ENG-002",
+    "principle": "Design the instructions, materials, tool descriptions and conversation history the model reads. Retrieve or compress information when needed; reduce outdated or irrelevant material.",
+    "example": "For a product manual revision, first supply the current specification and relevant tests. Retrieve earlier versions only when needed.",
+    "verify": "Use fixed questions to compare evidence coverage, irrelevant context and outdated versions."
+  },
+  {
+    "id": "ENG-009",
+    "principle": "Design the execution environment, tools, permissions, tests and feedback outside the model. A harness describes the surrounding execution and verification structure, not a single standard.",
+    "example": "Give a documentation agent a separate branch, allowed write paths, linting, tests and stop conditions for failures. Do not grant production merge permission.",
+    "verify": "Test blocked writes, stopping merges on failed tests and reproducibility with identical input. Do not rely on instruction files alone."
+  },
+  {
+    "id": "CMP-009",
+    "principle": "Package procedures and references for repeated tasks. The Agent Skills specification uses SKILL.md for name, description and instructions, with optional resources or scripts.",
+    "example": "A meeting-notes skill specifies inputs, extraction of decisions, owners and deadlines, and examples. Mark owners absent from the source as undecided.",
+    "verify": "Test fictional meeting notes for consistent structure, handling missing information and not using the skill when irrelevant."
+  },
+  {
+    "id": "CMP-017",
+    "principle": "A handler responds to an execution event. Claude Code supports events and matchers such as PreToolUse and PostToolUse. Behavior and blocking depend on product and event.",
+    "example": "Check allowed paths before editing and run formatting checks afterward. Log failures for human investigation.",
+    "verify": "Test allowed and forbidden paths, matcher mismatches, error exits and timeouts. Do not treat hooks as the sole security boundary."
+  },
+  {
+    "id": "REP-001",
+    "principle": "A Markdown file providing project instructions to Claude Code sessions. Persistent instructions and automatic memory differ; check documentation for path-specific rule scope.",
+    "example": "At the repository root, specify build commands, edit scope and tests, linking detailed rules.",
+    "verify": "Check fresh-session recognition and enforce forbidden operations through permissions and CI. Never include secrets."
+  },
+  {
+    "id": "REP-002",
+    "principle": "Markdown instructions describing how supported coding agents work on a project. Unlike a human-facing README, discovery scope and priority vary by tool.",
+    "example": "Document install and test commands, conventions, validation criteria and related documents. Add subproject instructions where supported.",
+    "verify": "Check correct test commands and scope in new tasks. Check for mismatches between instructions and CI."
+  }
+]

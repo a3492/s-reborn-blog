@@ -7,6 +7,7 @@ import { defineConfig } from 'astro/config';
 
 /** @type {URL} */
 let builtSite;
+const translatedIds = new Set(Object.keys(JSON.parse(await readFile(new URL('./src/data/blog-translations-en.json', import.meta.url),'utf8'))));
 
 // Canonical public origin. The Pages project hostname
 // https://s-reborn-blog.pages.dev stays as the default *.pages.dev URL.
@@ -41,7 +42,7 @@ export default defineConfig({
 				}
 				if (path === '/admin' || path.startsWith('/admin/')) return false;
 				if (path === '/docs' || path.startsWith('/docs/')) return false;
-				if ((path === '/en' || path.startsWith('/en/')) && !/^\/en\/technology\/?$/.test(path)) return false;
+				if ((path === '/en' || path.startsWith('/en/')) && !/^\/en\/technology\/?$/.test(path) && !translatedIds.has(path.replace(/^\/en\/blog\//,'').replace(/\/$/,''))) return false;
 				if (path === '/404' || path === '/404.html') return false;
 				if (path === '/preview' || path.startsWith('/preview/')) return false;
 				if (path === '/coming-soon' || path.startsWith('/coming-soon/')) return false;

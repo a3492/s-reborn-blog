@@ -5,6 +5,10 @@ on:
     paths:
       - 'src/pages/en/**'
       - 'src/data/technology-en.json'
+      - 'src/data/technology-depth-en.json'
+      - 'src/data/blog-translations-en.json'
+      - 'src/translations/en/**'
+      - 'src/content/blog/**'
       - 'src/components/BaseHead.astro'
       - 'scripts/qa-english-technology.mjs'
       - '.github/workflows/english-technology-qa.yml'

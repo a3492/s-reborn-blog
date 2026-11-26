@@ -38,8 +38,11 @@ jobs:
           if [ "$EVENT_NAME" = "push" ]; then
             BASE_URL=https://sreborn.net
           else
-            BASE_URL="https://$PREVIEW_BRANCH.s-reborn-blog.pages.dev"
+            SLUG=$(printf '%s' "$PREVIEW_BRANCH" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g;s/^-+//;s/-+$//')
+            SLUG=$(printf '%s' "$SLUG" | cut -c1-28 | sed -E 's/-+$//')
+            BASE_URL="https://$SLUG.s-reborn-blog.pages.dev"
           fi
+          printf 'Smoke target: %s\n' "$BASE_URL"
           for i in $(seq 1 72); do
             if curl -fsS --max-time 15 "$BASE_URL/blog/aerini/what-is-ai/" -o /tmp/article.html && grep -Fq '"mainEntityOfPage"' /tmp/article.html; then break; fi
             sleep 10

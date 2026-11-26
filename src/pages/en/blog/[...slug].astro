@@ -1,6 +1,13 @@
 ---
 import { type CollectionEntry, getCollection, render } from 'astro:content';
 import BlogPost from '../../../layouts/BlogPost.astro';
+import manifest from '../../../data/blog-translations-en.json';
+import { Content as Article0 } from '../../../translations/en/ai-tools-general/higgsfield-ai-creative-suite.md';
+import { Content as Article1 } from '../../../translations/en/aerini/what-is-ai.md';
+import { Content as Article2 } from '../../../translations/en/ai-tools-general/capcut-ai-captions-effects.md';
+import { Content as Article3 } from '../../../translations/en/faq/claude-code-when-to-use.md';
+import { Content as Article4 } from '../../../translations/en/ai-tools-general/notebooklm-source-grounded-notes.md';
+const translations = {"ai-tools-general/higgsfield-ai-creative-suite": Article0,"aerini/what-is-ai": Article1,"ai-tools-general/capcut-ai-captions-effects": Article2,"faq/claude-code-when-to-use": Article3,"ai-tools-general/notebooklm-source-grounded-notes": Article4};
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -13,8 +20,11 @@ type Props = CollectionEntry<'blog'>;
 
 const post = Astro.props;
 const { Content } = await render(post);
+const key = post.id as keyof typeof manifest;
+const meta = Object.hasOwn(manifest,key) ? manifest[key] : undefined;
+const English = meta ? translations[key] : undefined;
 ---
 
-<BlogPost {...post.data} postId={post.id} tags={post.data.tags ?? []} lang="en">
-	<Content />
+<BlogPost {...post.data} title_en={meta?.title ?? post.data.title_en} description_en={meta?.description ?? post.data.description_en} translated={Boolean(meta && English)} translatedTags={meta?.tags} postId={post.id} tags={post.data.tags ?? []} lang="en">
+	{English ? <English /> : <Content />}
 </BlogPost>

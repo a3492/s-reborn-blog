@@ -1,5 +1,6 @@
 ---
 import { SITE_TITLE } from '../consts';
+import manifest from '../data/blog-translations-en.json';
 import { buildCrumbs } from '../data/breadcrumbs';
 import type { TaxonomyPost } from '../data/taxonomy';
 import SiteBreadcrumb from './SiteBreadcrumb.astro';
@@ -29,7 +30,8 @@ const path = Astro.url.pathname;
 const isEn = lang ? lang === 'en' : path === '/en' || path.startsWith('/en/');
 const search = Astro.url.search;
 const koHref = `${toKoreanPath(path)}${search}`;
-const enPath = toKoreanPath(path).replace(/\/$/, '') === '/technology' ? '/en/technology/' : null;
+const normalizedKo = toKoreanPath(path).replace(/\/$/, '');
+const enPath = normalizedKo === '/technology' ? '/en/technology/' : normalizedKo.startsWith('/blog/') && Object.hasOwn(manifest,normalizedKo.slice(6)) ? `/en${normalizedKo}/` : null;
 const enReady = Boolean(enPath);
 const enHref = enPath ? `${enPath}${search}` : COMING_SOON_HREF;
 const mobileSearchLabel = portalCopy(isEn ? 'en' : 'ko').mobileSearch || portalCopy('ko').mobileSearch;

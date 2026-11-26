@@ -1,0 +1,60 @@
+{
+  "ai-tools-general/higgsfield-ai-creative-suite": {
+    "views": 15,
+    "sourceSha": "6f5e1d08890a5e37b8e5bb4ccc1bb6e569a8164c",
+    "title": "Comparing Ad Hook Variations with Higgsfield: Change Only the Camera Motion",
+    "description": "Compare opening shots by keeping product and brand conditions fixed while varying camera motion.",
+    "tags": [
+      "Higgsfield",
+      "Video",
+      "Advertising"
+    ]
+  },
+  "aerini/what-is-ai": {
+    "views": 14,
+    "sourceSha": "86dbe9900ad638e72decb8c924cef1e6b07108e1",
+    "title": "What Is AI?",
+    "description": "Learn AI through a booking notice and distinguish classification, prediction and generation.",
+    "tags": [
+      "AI",
+      "Beginner",
+      "Concept",
+      "Basics"
+    ]
+  },
+  "ai-tools-general/capcut-ai-captions-effects": {
+    "views": 9,
+    "sourceSha": "8d4d96e28a092e97ccb026edba461eea1e2b27a3",
+    "title": "Correcting Automatic Captions in CapCut: From Name Glossary to Final Playback",
+    "description": "Standardize names and brands using a correction table and check original audio and timing.",
+    "tags": [
+      "CapCut",
+      "Editing",
+      "Captions",
+      "Short-form video"
+    ]
+  },
+  "faq/claude-code-when-to-use": {
+    "views": 8,
+    "sourceSha": "753d384548f271c74e9332333128f1fb9db4525f",
+    "title": "When Should You Use Claude Code, and When Should You Choose Another Tool?",
+    "description": "Situations where Claude Code helps and when a simpler tool may be appropriate.",
+    "tags": [
+      "FAQ",
+      "Claude Code",
+      "Coding tools"
+    ]
+  },
+  "ai-tools-general/notebooklm-source-grounded-notes": {
+    "views": 7,
+    "sourceSha": "be39e0222bba26019aafb631fac419900cb2012c",
+    "title": "Comparing Three Research PDFs in NotebookLM: Verify Tables and Citations at the Source",
+    "description": "Specify PDF scope and compare numbers, units and citations with original documents.",
+    "tags": [
+      "NotebookLM",
+      "Google",
+      "Research",
+      "RAG"
+    ]
+  }
+}
