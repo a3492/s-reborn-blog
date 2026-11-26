@@ -754,8 +754,10 @@ async function checkCourseResources(page, base) {
 	check(JSON.stringify(parts.map((part) => part.length)) === '[10,5,5,5]', 'Wrong counts for four course parts');
 	const links = new Set(parts.flat());
 	check(links.size === 25, 'Expected 25 distinct lesson links');
-	check(await page.locator('[data-course-part] li [data-lecture-draft-badge]').count() === links.size,
-		'Expected a writing-in-progress badge on each listed lesson');
+	const approvedEditorialLesson = '/blog/doctor-ai/ai-hallucination-prevention/';
+	check(links.has(approvedEditorialLesson), 'Approved nonclinical editorial lesson is missing');
+	check(await page.locator('[data-course-part] li [data-lecture-draft-badge]').count() === links.size - 1,
+		'Expected a writing-in-progress badge on all 24 unapproved lessons');
 	const sitemap = await page.request.get(base + '/sitemap-0.xml');
 	const sitemapXml = await sitemap.text();
 	check(sitemap.ok(), 'Sitemap unavailable for draft lesson check');
@@ -764,10 +766,17 @@ async function checkCourseResources(page, base) {
 		const response = await page.request.get(new URL(href, base).href, { maxRedirects: 0 });
 		check(response.status() === 200 && href.startsWith('/blog/doctor-ai/'), `Lesson URL failed: ${href}`);
 		const html = await response.text();
-		check(html.includes('data-lecture-draft-badge') && html.includes('<meta name="robots" content="noindex"') &&
+		if (href === approvedEditorialLesson) {
+			check(!html.includes('data-lecture-draft-badge') && !html.includes('<meta name="robots" content="noindex"') &&
+				!html.includes('data-lecture-review-notice') && html.includes('아래 사례는 설명을 위한 가상의 상황입니다.') &&
+				html.includes('전체 좌석 120석') && sitemapXml.includes(`${href}</loc>`),
+				'Approved nonclinical editorial lesson must be indexed with the fictional example');
+		} else {
+			check(html.includes('data-lecture-draft-badge') && html.includes('<meta name="robots" content="noindex"') &&
 			html.includes('data-lecture-review-notice') && html.includes('참고문헌 정리 중')
 			&& !html.includes('주의사항 1') && !html.includes('https://example.com') && !sitemapXml.includes(`${href}</loc>`),
 			`Lesson draft badge, indexing or reference status is wrong: ${href}`);
+		}
 		await response.dispose();
 	}
 	await openPage(page, base + articlePath);
