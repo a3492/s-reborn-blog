@@ -1,0 +1,87 @@
+[
+  {
+    "id": "ENG-002",
+    "principle": "모델이 판단할 때 실제로 읽는 지침·자료·도구 설명·대화 기록을 선별하고 유지하는 설계다. 필요한 정보를 적시에 검색하거나 압축하며 오래된 정보와 불필요한 자료를 줄인다.",
+    "example": "제품 설명서 변경 작업에서 최신 명세와 해당 기능의 테스트만 먼저 전달하고, 이전 버전은 필요할 때 검색하도록 한다.",
+    "verify": "고정된 질문 세트로 필요한 근거 포함 여부, 불필요한 자료 유입, 잘못된 버전 사용을 비교한다.",
+    "related": [
+      "ENG-001",
+      "ENG-003",
+      "ENG-004",
+      "ENG-009"
+    ],
+    "source": "https://www.anthropic.com/research/effective-context-engineering-for-ai-agents",
+    "sourceTitle": "Anthropic — Effective context engineering for AI agents"
+  },
+  {
+    "id": "ENG-009",
+    "principle": "모델 외부에서 실행 환경·도구·권한·테스트·피드백을 설계한다. 하네스는 단일 표준 규격이 아니라 실행과 검증을 둘러싼 구조를 설명하는 용어다.",
+    "example": "문서 수정 에이전트에 별도 브랜치, 쓰기 허용 경로, 린터와 테스트, 실패 시 중단 규칙을 제공한다. 운영 병합 권한은 주지 않는다.",
+    "verify": "금지 경로 쓰기 시도 차단, 테스트 실패 시 병합 중단, 같은 입력의 재현성을 점검한다. 지침 파일만으로 강제하지 않는다.",
+    "related": [
+      "ENG-002",
+      "ENG-017",
+      "ENG-018",
+      "CMP-017",
+      "REP-002"
+    ],
+    "source": "https://openai.com/index/harness-engineering/",
+    "sourceTitle": "OpenAI — Harness engineering"
+  },
+  {
+    "id": "CMP-009",
+    "principle": "반복 작업에 필요한 절차와 참고 자료를 묶는다. Agent Skills 명세에서는 SKILL.md에 이름과 설명 및 실행 지침을 두고 추가 자료나 스크립트를 선택적으로 포함한다.",
+    "example": "회의록 정리 스킬에 입력 조건, 결정·담당·기한 추출 방식과 예시를 둔다. 원문에 없는 담당자는 미정으로 표시한다.",
+    "verify": "서로 다른 가상 회의록에서 동일한 출력 구조, 누락 정보 처리, 작업과 무관할 때 스킬 미사용을 확인한다.",
+    "related": [
+      "REP-009",
+      "ENG-002",
+      "CMP-010",
+      "REP-002"
+    ],
+    "source": "https://agentskills.io/specification",
+    "sourceTitle": "Agent Skills — Specification"
+  },
+  {
+    "id": "CMP-017",
+    "principle": "특정 실행 이벤트에 반응하는 처리기다. Claude Code에서는 PreToolUse, PostToolUse 등 이벤트와 매처에 따라 처리기를 설정한다. 동작과 차단 가능 여부는 이벤트 및 제품에 따라 다르다.",
+    "example": "파일 편집 전 허용 경로인지 확인하고 편집 후 포맷 검사를 실행한다. 실패 시 로그를 남기고 사람이 원인을 확인한다.",
+    "verify": "허용·금지 경로, 매처 불일치, 오류 종료, 시간 초과를 각각 시험한다. 훅을 유일한 보안 경계로 간주하지 않는다.",
+    "related": [
+      "ENG-009",
+      "ENG-018",
+      "CMP-010",
+      "REP-001"
+    ],
+    "source": "https://code.claude.com/docs/en/hooks",
+    "sourceTitle": "Claude Code Docs — Hooks reference"
+  },
+  {
+    "id": "REP-001",
+    "principle": "Claude Code에서 세션에 프로젝트 지침을 전달하는 Markdown 파일이다. 지속 지침과 자동 기억은 별개이며, 경로별 규칙의 적용 범위는 제품 문서를 확인해야 한다.",
+    "example": "저장소 루트에 빌드 명령, 문서 수정 범위, 테스트 기준을 짧게 작성하고 상세 규칙은 별도 문서로 연결한다.",
+    "verify": "새 세션에서 지침을 인식하는지 확인하고 실제 금지 작업은 권한·CI로 차단한다. 기밀 키는 파일에 넣지 않는다.",
+    "related": [
+      "REP-002",
+      "ENG-002",
+      "ENG-009",
+      "CMP-009"
+    ],
+    "source": "https://code.claude.com/docs/en/memory",
+    "sourceTitle": "Claude Code Docs — Project instructions and memory"
+  },
+  {
+    "id": "REP-002",
+    "principle": "지원하는 코딩 에이전트에게 프로젝트 작업 방법을 설명하는 Markdown 지침이다. 사람용 README와 목적이 다르며, 도구별 탐색 범위와 우선순위는 다를 수 있다.",
+    "example": "AGENTS.md에 설치·테스트 명령, 코드 규칙, 검증 기준과 관련 문서의 위치를 적는다. 하위 프로젝트는 해당 도구가 지원하는 범위에서 별도 지침을 둔다.",
+    "verify": "새 에이전트 작업에서 올바른 테스트 명령과 범위를 선택하는지 확인한다. 문서와 CI 규칙의 불일치도 검사한다.",
+    "related": [
+      "REP-001",
+      "ENG-002",
+      "ENG-009",
+      "CMP-009"
+    ],
+    "source": "https://agents.md/",
+    "sourceTitle": "AGENTS.md — Project instructions"
+  }
+]
