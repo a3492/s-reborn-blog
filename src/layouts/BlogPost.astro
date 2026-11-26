@@ -29,6 +29,7 @@ const articleSchema = {
 	headline: displayTitle,
 	description: displayDescription,
 	url: new URL(Astro.url.pathname, Astro.site).href,
+	mainEntityOfPage: { '@type': 'WebPage', '@id': new URL(Astro.url.pathname, Astro.site).href },
 	datePublished: date.toISOString(),
 	dateModified: updatedDate?.toISOString(),
 	timeRequired: Astro.props.read_time ? `PT${Astro.props.read_time}M` : undefined,

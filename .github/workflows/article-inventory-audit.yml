@@ -1,0 +1,49 @@
+name: Article inventory audit B1
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/qa-article-inventory.mjs'
+      - 'src/layouts/BlogPost.astro'
+      - '.github/workflows/article-inventory-audit.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/qa-article-inventory.mjs'
+      - 'src/layouts/BlogPost.astro'
+      - '.github/workflows/article-inventory-audit.yml'
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run qa:taxonomy
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - name: Audit all articles and published links
+        run: node scripts/qa-article-inventory.mjs
+      - name: Verify actual deployed structured data
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PREVIEW_BRANCH: ${{ github.head_ref }}
+        run: |
+          if [ "$EVENT_NAME" = "push" ]; then
+            BASE_URL=https://sreborn.net
+          else
+            BASE_URL="https://$PREVIEW_BRANCH.s-reborn-blog.pages.dev"
+          fi
+          for i in $(seq 1 72); do
+            if curl -fsS --max-time 15 "$BASE_URL/blog/aerini/what-is-ai/" -o /tmp/article.html && grep -Fq '"mainEntityOfPage"' /tmp/article.html; then break; fi
+            sleep 10
+          done
+          curl -fsS --max-time 20 "$BASE_URL/blog/aerini/what-is-ai/" -o /tmp/article.html
+          grep -Fq '"mainEntityOfPage"' /tmp/article.html
+          QA_BASE_URL="$BASE_URL" npm run qa:home-browser
