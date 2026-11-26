@@ -4,11 +4,23 @@ on:
     branches: [main]
     paths:
       - 'src/pages/technology/**'
+      - 'src/pages/lecture-materials/index.astro'
       - 'src/data/technology-*.json'
+      - 'src/data/publication*'
       - 'src/data/site-nav.ts'
       - 'src/data/breadcrumbs.ts'
-      - 'scripts/qa-knowledge-portal.mjs'
-      - 'scripts/qa-home-browser.mjs'
+      - 'scripts/qa-*.mjs'
+      - '.github/workflows/knowledge-portal-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'src/pages/technology/**'
+      - 'src/pages/lecture-materials/index.astro'
+      - 'src/data/technology-*.json'
+      - 'src/data/publication*'
+      - 'src/data/site-nav.ts'
+      - 'src/data/breadcrumbs.ts'
+      - 'scripts/qa-*.mjs'
       - '.github/workflows/knowledge-portal-qa.yml'
 permissions:
   contents: read
@@ -25,10 +37,11 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - name: Taxonomy and registry
+      - name: Taxonomy and public publishing gates
         run: |
           npm run qa:taxonomy
           node scripts/qa-knowledge-portal.mjs
+          node scripts/qa-publications.mjs
       - name: Theme and CRM
         run: |
           npm run qa:site-theme
@@ -38,14 +51,24 @@ jobs:
       - name: Browser install
         run: npx playwright install --with-deps chromium
       - name: Browser QA and regression
+        if: github.event_name == 'pull_request'
         run: npm run qa:home-browser
-      - name: Preview browser smoke
+      - name: Actual preview or production browser smoke
         env:
-          PREVIEW_URL: https://chatgpt-knowledge-portal-v08.s-reborn-blog.pages.dev
+          EVENT_NAME: ${{ github.event_name }}
+          PREVIEW_BRANCH: ${{ github.head_ref }}
         run: |
-          for i in $(seq 1 60); do
-            if curl -fsS "$PREVIEW_URL/technology/" | grep -q 'data-registry-version="0.8"'; then break; fi
+          if [ "$EVENT_NAME" = "push" ]; then
+            BASE_URL=https://sreborn.net
+          else
+            SLUG=$(printf '%s' "$PREVIEW_BRANCH" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g;s/^-+//;s/-+$//')
+            test "${#SLUG}" -le 24
+            BASE_URL="https://$SLUG.s-reborn-blog.pages.dev"
+          fi
+          for i in $(seq 1 72); do
+            if curl -fsS --max-time 15 "$BASE_URL/technology/publications/" -o /tmp/publications.html && grep -q 'data-publication-version="1.0"' /tmp/publications.html; then break; fi
             sleep 10
           done
-          curl -fsS "$PREVIEW_URL/technology/" | grep -q 'data-registry-version="0.8"'
-          QA_BASE_URL="$PREVIEW_URL" npm run qa:home-browser
+          curl -fsS --max-time 20 "$BASE_URL/technology/publications/" -o /tmp/publications.html
+          grep -q 'data-publication-version="1.0"' /tmp/publications.html
+          QA_BASE_URL="$BASE_URL" npm run qa:home-browser

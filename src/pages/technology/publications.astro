@@ -1,0 +1,30 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import registry from '../../data/technology-registry.json';
+import manifest from '../../data/publications.json';
+import {validatePublications,KIND_LABELS} from '../../data/publication-policy.mjs';
+const records=validatePublications(manifest,registry);
+const sections=[{id:'news',label:'뉴스 아카이브',kinds:['news']},{id:'research',label:'연구·실험',kinds:['research-protocol','research-result']},{id:'education',label:'교육·실습',kinds:['education']}];
+const events={announcement:'발표',release:'릴리스',availability:'사용 가능 확인'};
+---
+<Layout title="AI 발행 아카이브" description="뉴스, 연구 계획 및 교육 자료를 연결합니다.">
+<div class="pub" data-publication-archive data-publication-version={manifest.version}>
+<header><p class="muted"><a href="/technology/">AI 기술 백과</a> / 발행 아카이브</p><h1>AI 발행 아카이브</h1><p>기술을 뉴스로 읽고 연구 질문으로 발전시키며 교육과 실습으로 연결합니다.</p><p class="muted">발행 기록 {records.length}건. 원 발표일과 발행일을 구분합니다. 연구 계획은 실측 결과가 아닙니다.</p></header>
+<nav aria-label="발행 유형 바로가기">{sections.map(s=><a href={'#'+s.id}>{s.label}</a>)}<a href="/lecture-materials/">AI ACADEMY</a><a href="/technology/publications.json">공개 JSON</a></nav>
+{sections.map(s=><section id={s.id} aria-labelledby={s.id+'-title'}><h2 id={s.id+'-title'}>{s.label} <small>{records.filter(r=>s.kinds.includes(r.kind)).length}건</small></h2>
+{records.filter(r=>s.kinds.includes(r.kind)).sort((a,b)=>(b.eventDate??b.publishedAt).localeCompare(a.eventDate??a.publishedAt)).map(r=><article id={r.id} data-publication-record data-kind={r.kind}>
+<p class="muted">{KIND_LABELS[r.kind]} · {r.id} · v{r.version}</p><h3><a href={'#'+r.id}>{r.title}</a></h3><p>{r.summary}</p>
+{r.kind==='news'&&<p class="muted">원 발표일: <time datetime={r.eventDate}>{r.eventDate}</time> · {events[r.eventStatus]}</p>}
+{r.kind==='research-protocol'&&<p class="muted" data-protocol-status>실험 계획 · 미실행 · 결과 미발행</p>}
+{r.kind==='research-result'&&<><p>{r.method}</p><p>{r.result}</p><p>{r.limitations}</p></>}
+{r.details.map(d=><p>{d}</p>)}{r.guideHref&&<p><a href={r.guideHref}>가이드 및 실습 열기</a></p>}
+<p class="muted">발행일: <time datetime={r.publishedAt}>{r.publishedAt}</time> · 원자료 대조</p>
+<h4>원자료</h4><ul>{r.sources.map(src=><li><a href={src.url}>{src.title}</a> <span class="muted">({src.publishedAt}, 확인 {src.checkedAt}) — {src.claim}</span></li>)}</ul>
+<h4>연결 기술</h4><p>{r.technologyIds.map(id=><a class="related" href={'/technology/#'+id}>{registry.entries.find(e=>e.id===id)?.name??id}</a>)}</p>
+<h4>이어 읽기</h4><ul>{r.relatedIds.map(id=><li><a href={'#'+id}>{records.find(x=>x.id===id)?.title}</a></li>)}</ul>
+</article>)}</section>)}
+<footer><h2>편집 원칙</h2><p>뉴스는 발표·출시·사용 가능 상태를, 연구는 계획과 결과를 구분합니다. 교육은 읽기·실습·완료 기준을 갖춥니다.</p><a href="/technology/">기술 백과로 돌아가기</a></footer></div></Layout>
+<style>
+.pub{max-width:860px;margin:0 auto;padding:24px 16px 48px;line-height:1.7;color:var(--site-text);background:var(--site-bg);min-width:0;}
+header,nav,article,footer{border-bottom:1px solid var(--site-border);padding:10px 0 14px;}nav{display:flex;gap:8px 18px;flex-wrap:wrap;}h1{font-size:clamp(1.8rem,4vw,2.5rem);line-height:1.2;margin:8px 0 12px;}h2{font-size:1.35rem;margin:22px 0 10px;}h3{font-size:1.15rem;line-height:1.4;margin:6px 0;}h4{font-size:.95rem;margin:12px 0 2px;}p,li{overflow-wrap:anywhere;}p{margin:5px 0 9px;}ul{padding-inline-start:20px;margin:4px 0 8px;}a{color:var(--site-mint-text);text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;}a:focus-visible{outline:2px solid var(--site-mint-text);outline-offset:3px;}.muted,small{font-size:.875rem;color:var(--site-text-secondary);}.related{display:inline-block;margin-right:12px;}article,section{scroll-margin-top:calc(var(--site-header-height,80px) + 16px);}@media(max-width:520px){.pub{padding:16px 10px 32px;}}
+</style>
